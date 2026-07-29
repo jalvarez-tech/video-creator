@@ -1,0 +1,109 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/Users/nicecode/Work/jalvarez/video-creator/archivos/whisper/ggml-small.bin",
+		"language": "es",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:06,820"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 6820
+			},
+			"text": " Tu anuncio no está fallando. Lo que falla es lo que pasa después del click. Pagas la pauta,"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:06,820",
+				"to": "00:00:14,160"
+			},
+			"offsets": {
+				"from": 6820,
+				"to": 14160
+			},
+			"text": " entran 200 personas a ver el apartamento y a tu whatsapp llegan 3. Hola info. De estos 3,"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:14,160",
+				"to": "00:00:20,320"
+			},
+			"offsets": {
+				"from": 14160,
+				"to": 20320
+			},
+			"text": " ninguna agenda visitas. No es el algoritmo, no es la gente que no esté comprando. Es que estás"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:20,320",
+				"to": "00:00:26,360"
+			},
+			"offsets": {
+				"from": 20320,
+				"to": 26360
+			},
+			"text": " mandando tráfico caliente a un sitio frío y después no hay nadie detrás haciendo seguimiento. Un"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:26,360",
+				"to": "00:00:31,800"
+			},
+			"offsets": {
+				"from": 26360,
+				"to": 31800
+			},
+			"text": " leading mobiliario que no recibe respuesta en los primeros cinco minutos ya no es tuyo. Es de tu"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:31,800",
+				"to": "00:00:38,360"
+			},
+			"offsets": {
+				"from": 31800,
+				"to": 38360
+			},
+			"text": " competencia. En este perfil te voy a ir mostrando cómo se arma cada pieza. Así que si quieres aprender"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:38,360",
+				"to": "00:00:43,000"
+			},
+			"offsets": {
+				"from": 38360,
+				"to": 43000
+			},
+			"text": " cómo obtener list altamente calificados sigue este perfil."
+		}
+	]
+}

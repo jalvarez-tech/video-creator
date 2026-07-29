@@ -1,0 +1,34 @@
+# Secretos — nunca versionar
+.env
+
+# Sistema
+.DS_Store
+
+# Dependencias / builds
+**/node_modules/
+remotion/out/
+
+# Modelos de IA (pesados, se descargan aparte)
+archivos/whisper/*.bin
+
+# Material de vídeo pesado (se regenera / se guarda aparte)
+entrada/*
+proyectos/*/original.*
+proyectos/*/avatar/
+proyectos/*/finales/
+proyectos/*/pruebas-720p/
+proyectos/*/vistas-previas/
+
+# Clips fuente del avatar (~210 MB): son material, no código. Misma decisión que
+# proyectos/*/avatar/. Sin ellos las comps Avatar002/Avatar003 no renderizan en un
+# clon nuevo: copia los MP4 a remotion/public/ y a avatar/ desde tu disco.
+avatar/*.mp4
+remotion/public/*.mp4
+
+# Banco de sonidos completo (~846 MB, 1231 archivos). Es una librería comprada:
+# no se versiona ni se redistribuye. Lo que SÍ va al repo es el set de trabajo
+# ya calibrado en remotion/public/sfx/ (55 efectos, 25 MB), que es de lo que
+# dependen los renders. Para reponer el banco: manuales/diseno-sonoro/copiar-sfx.sh
+sonido/
+
+!**/.gitkeep

@@ -1,0 +1,209 @@
+---
+name: edicion-video
+description: >-
+  Manual operativo para crear y editar vídeo profesional en el sistema
+  "video-creator" que combina Remotion (motor de vídeo programático),
+  Auto-Editor (corte de silencios) y Seedance 2.0 (generación de clips con IA).
+  Úsalo siempre que se quiera montar una intro/animación/título, abrir Remotion
+  Studio, renderizar un vídeo o un frame de prueba, cortar silencios de una
+  grabación, exportar una timeline a DaVinci Resolve, o estructurar un proyecto
+  de vídeo nuevo. Triggers: "editar vídeo", "remotion", "auto-editor",
+  "cortar silencios", "render", "frame de prueba", "abrir studio",
+  "nuevo proyecto de vídeo", "davinci resolve", "seedance".
+user-invocable: true
+metadata:
+  type: reference
+---
+
+# 📖 Manual operativo — Edición de vídeo con IA
+
+Root del sistema: **`/Users/nicecode/Work/jalvarez/video-creator`**
+
+> 🎬 **Para montar un vídeo COMPLETO** coordinando todas las capas (cámara + motion graphics + sonido + subtítulos) con una sola instrucción, entra por el **[director-video](../director-video/SKILL.md)** (el orquestador). Este manual es el **motor y la pipeline** que el director usa por debajo.
+
+Pipeline en una sola dirección (archivos MP4):
+
+```
+HeyGen (avatar) / Seedance (b-roll) / grabación  →  [Auto-Editor opc.]  →  Remotion
+            generación de clips                       cortar silencios      ensamblar + titular + máster
+```
+
+| Motor | Etapa | Dónde |
+|---|---|---|
+| **HeyGen** | Avatar talking-head desde guion (fuente de "cámara") | script `scripts/heygen.py` · [heygen.md](heygen.md) |
+| **Seedance 2.0** | Generación de b-roll / clips con IA | assets en `archivos/` o `proyectos/NNN/` |
+| **Auto-Editor** | Cortar silencios (opc. con avatar) | CLI global `auto-editor` (v29.3.1) |
+| **Remotion** | Ensamblaje, títulos, animación, render | `remotion/` (Remotion 4.0.496) |
+
+📂 **Partes del manual:** [proceso-edicion.md](proceso-edicion.md) (Fase 3 · flujo bruto→publicación, 7 pasos) · [heygen.md](heygen.md) (avatar de IA) · [motion-graphics](../motion-graphics/SKILL.md) (dirección de animación: jerarquía, timing, muelles/tokens) · [camara-avatar](../camara-avatar/SKILL.md) (cámara virtual dinámica del avatar: zoom/reencuadre motivados) · [diseno-sonoro](../diseno-sonoro/SKILL.md) (SFX, mezcla, ducking) · [reglas.md](reglas.md) (reglas operativas R01–R07+) · [plantillas/](plantillas/README.md) (biblioteca de plantillas reutilizables).
+
+---
+
+## 🧭 Reglas de oro (no negociables)
+
+1. **Primero motor y estructura, luego vídeo.** No se edita nada real hasta que Studio abra y un render de prueba funcione.
+2. **Nunca editar desde Descargas ni desde un archivo suelto.** Cada vídeo vive en `proyectos/NNN/`.
+3. **Nunca sobrescribir `original.mp4`.** Todo corte crea archivos nuevos.
+4. **Lo que funciona se escribe.** Cortes, plantillas y decisiones que salieron bien → `aprendizajes.md` del proyecto, y lo general → este manual.
+5. **Instalar ≠ funcionar.** Si no abres Studio y no exportas nada, no sabes si el motor sirve.
+
+---
+
+## 🏗️ Los 7 pasos de un vídeo profesional
+
+1. **Crear carpeta** — el proyecto vive en `proyectos/NNN/` (copia de `001/`).
+2. **Motor Remotion** — instalación oficial, dejar el proyecto arrancando.
+3. **Abrir Studio** — la vista previa abre antes de editar.
+4. **Render de prueba** — un frame o clip corto que confirme que funciona.
+5. **Guardar pasos** — lo que funciona queda escrito aquí.
+6. **No editar aún** — primero motor y estructura.
+7. **Editar** — recién ahí se monta el vídeo real.
+
+---
+
+## 🎬 Remotion (motor de vídeo)
+
+Proyecto en `remotion/`. Composición de prueba registrada: **`Prueba`** (1920×1080 · 30fps · 90 frames = 3 s), en `remotion/src/Prueba.tsx` y `remotion/src/Root.tsx`.
+
+### Requisitos (ya cumplidos en este equipo)
+- **Node 16+** (aquí: Node 25). **FFmpeg va incluido** en Remotion v4 (no se instala aparte).
+- **Chromium (Chrome Headless Shell)** se descarga solo en el primer render (ya descargado). Para forzarlo: `npx remotion browser ensure`.
+
+### 1) Abrir Remotion Studio (la vista previa)
+```bash
+cd /Users/nicecode/Work/jalvarez/video-creator/remotion
+npm run dev
+```
+Abre en **http://localhost:3000**. Equivalente: `npx remotion studio`. Otro puerto: `npx remotion studio --port=3001`. Cerrar: `Ctrl + C`.
+
+### 2) Renderizar un vídeo
+Sintaxis: `npx remotion render <composition-id> <salida>` (el entry point `src/index.ts` se autodetecta).
+```bash
+cd /Users/nicecode/Work/jalvarez/video-creator/remotion
+
+# Composición completa a MP4 (H.264 por defecto)
+npx remotion render Prueba out/video.mp4
+
+# Solo un clip corto (frames 0 a 59 = primeros 2 s a 30fps)
+npx remotion render Prueba out/clip.mp4 --frames=0-59
+
+# Prueba barata en 720p (baja resolución con --scale)
+npx remotion render Prueba out/prueba-720p.mp4 --scale=0.6666667
+```
+Flags clave: `--codec=h264|h265|prores|vp9|gif…` · `--crf=18` (calidad, menor = mejor) · `--scale=N` (multiplica resolución) · `--concurrency=8`.
+
+### 3) Renderizar un frame (still / imagen)
+```bash
+cd /Users/nicecode/Work/jalvarez/video-creator/remotion
+npx remotion still Prueba out/frame.png --frame=45
+```
+Flags: `--frame=<n>` · `--image-format=png|jpeg` · `--jpeg-quality=0-100` · `--scale=N`.
+
+### 4) Estructura del proyecto Remotion
+- `src/index.ts` → `registerRoot(RemotionRoot)` (una sola vez).
+- `src/Root.tsx` → devuelve una o varias `<Composition>`.
+- `src/Prueba.tsx` → el componente React que se dibuja.
+- `remotion.config.ts` → defaults (Tailwind v4, jpeg, overwrite). Los flags de CLI **sobrescriben** el config.
+
+Props obligatorias de `<Composition>`: `id`, `component`, `durationInFrames`, `fps`, `width`, `height`. Duración en segundos = `durationInFrames / fps`.
+
+### 5) Reabrir el proyecto MAÑANA
+```bash
+cd /Users/nicecode/Work/jalvarez/video-creator/remotion
+npm install      # solo si faltan node_modules (equipo nuevo / tras borrar)
+npm run dev      # abre Studio en http://localhost:3000
+```
+
+---
+
+## ✂️ Auto-Editor (cortes de silencios)
+
+CLI global (instalado con pipx en `~/.local/bin/auto-editor`, ya en el PATH). Comprobar: `auto-editor --version` → `29.3.1`.
+Auto-Editor marca cada tramo como **"loud"** (se conserva) o **"silent"** (se corta). No toca el original: crea un archivo nuevo o exporta una timeline.
+
+### Comando base (el de este sistema)
+Guarda la salida dentro de `proyectos/NNN/corte-auto-editor`:
+```bash
+cd /Users/nicecode/Work/jalvarez/video-creator
+auto-editor "proyectos/001/original.mp4" \
+  --export resolve \
+  --margin 0sec \
+  --edit "audio:threshold=0.06" \
+  --output "proyectos/001/corte-auto-editor/001-resolve.fcpxml"
+```
+
+| Parte | Alias | Qué hace | Default |
+|---|---|---|---|
+| `--export resolve` | `-ex` | **No renderiza vídeo:** genera FCPXML para **DaVinci Resolve** (editable, referencia el clip original). | render MP4 |
+| `--margin 0sec` | `-m` | Colchón alrededor de cada tramo conservado. `0sec` = cortes pegados. | `0.2s` |
+| `--edit audio:threshold=0.06` | `-e` | Corta todo tramo cuyo pico esté < 6 % del máximo. | `audio:threshold=0.04` |
+| `--output` | `-o` | Nombre/ruta de salida (la extensión define el destino). | `<nombre>_ALTERED.<ext>` |
+
+### Targets de `--export`
+`resolve` → FCPXML (DaVinci) · `premiere` → XML · `final-cut-pro` → FCPXML · `shotcut` → `.mlt` · `kdenlive` · `clip-sequence` (clips sueltos) · `v1`/`v3` (JSON propio) · **sin flag = renderiza un MP4 ya cortado**.
+
+### 🧠 Cortes inteligentes (2 palancas: `--margin` = respiro, `threshold` = qué se corta)
+> *threshold decide **qué** se corta; margin decide **cuánto respiro** queda alrededor. Margen ↑ = menos cortes, más natural. threshold ↑ = más agresivo. threshold ↓ = conserva sonido bajo (respiraciones, colas de palabra).*
+
+| Problema | Objetivo | Flags recomendados |
+|---|---|---|
+| **Frase cortada** (salto raro) | Colchón —sobre todo por detrás— y umbral más bajo. **Nunca `--margin 0`.** | `--margin 0.2s,0.4s --edit audio:threshold=0.03` |
+| **Respiración útil** (no todo silencio sobra) | Subir margen para "puentear" pausas cortas entre frases. | `--margin 0.5s` · o asimétrico `--margin 0.3s,0.6s` |
+| **Cambio de tema** (pide transición visual) | El margen no crea transiciones: exportar a Resolve y poner disolvencias a mano. | `--export resolve -o corte.fcpxml` |
+| **Ritmo artificial** (traqueteo de micro-cortes) | Más margen para absorber silencios cortos y encadenar tramos. | `--margin 0.4s --edit audio:threshold=0.04` (o `0.5s,0.7s`) |
+
+### Previsualizar e inspeccionar ANTES de cortar
+```bash
+# Ver cuánto se cortaría, sin renderizar (se detiene)
+auto-editor "proyectos/001/original.mp4" --edit audio:threshold=0.06 --margin 0.3s --preview
+
+# Elegir bien el threshold: volcar la "loudness" por frame
+auto-editor levels "proyectos/001/original.mp4" --edit audio
+auto-editor info "proyectos/001/original.mp4"    # metadatos de streams/fps
+```
+
+### Round-trip a DaVinci Resolve
+1. Genera el FCPXML (comando base).
+2. En Resolve: **File ▸ Import ▸ Timeline** (`Shift+Cmd+I`) y elige el `.fcpxml`.
+3. Resolve reconstruye la timeline referenciando el clip original → ajustas cortes, transiciones y color sin pérdida.
+
+### Reporte estándar tras cada corte (anotar en `aprendizajes.md`)
+1. Duración original · 2. Duración cortada · 3. Archivo generado · 4. ¿XML/timeline para DaVinci? · 5. Qué cortes revisar a mano (frase cortada / respiración / cambio de tema / ritmo).
+
+---
+
+## 🌱 Seedance 2.0 (generación de clips)
+
+Modelo generativo de vídeo de ByteDance (text/image/video/audio → vídeo). En este entorno está el skill local **`seedance-20`** (mismo pack que el repo `Emily2040/seedance-2.0`): **no es el modelo**, es un pack de *prompt-directing*. Filosofía: **"dirige el modelo, no micro-gestiones el frame"** — una intención dramática por shot, no adjetivos apilados.
+
+**Cómo encaja:** Seedance genera los clips (MP4) → Auto-Editor los limpia → Remotion los compone y **titula** (el texto en pantalla se hace en Remotion, NO en el prompt de Seedance, porque el texto que genera el modelo es poco fiable).
+
+Estructura sugerida para un proyecto con Seedance:
+```
+proyectos/NNN/
+├── seedance/raw/        # MP4 crudos de Seedance
+├── seedance/trimmed/    # salida de Auto-Editor
+├── seedance/prompts/    # prompt + @-tags por clip (para regenerar)
+└── seedance/refs/       # imágenes/audio de referencia
+```
+En Remotion se importan con `<OffthreadVideo src={staticFile('clips/shot-01.mp4')} />` dentro de `<Sequence>`.
+Para redactar prompts, invocar el skill **`seedance-20`**.
+
+---
+
+## 🚫 Qué evitar
+
+- **Editar desde Descargas / archivo suelto** → cada vídeo a `proyectos/NNN/`.
+- **Instalar sin probar** → abrir Studio + exportar un frame/clip antes de dar por bueno el motor.
+- **No guardar decisiones** → cortes/plantillas/revisiones que funcionan se escriben en `aprendizajes.md` y aquí.
+- **Meter texto/subtítulos en el prompt de Seedance** → titular en Remotion.
+- **`--margin 0` en material hablado** → se come inicios/finales de palabra.
+
+---
+
+## ✅ Estado verificado del motor (2026-07-22)
+- Remotion 4.0.496 · composición `Prueba` + plantillas `TutorialYT` / `VerticalSocial` / `FeedCuadrado` renderizan y animan.
+- Render probado: `remotion/out/prueba-frame.png` (1920×1080) + `remotion/out/prueba-720p.mp4` (1280×720, 3 s) + frames de las 3 plantillas.
+- Auto-Editor 29.3.1 operativo.
+- Transcripción: whisper.cpp 1.9.1 + modelo `small` (`archivos/whisper/`) vía `scripts/transcribir.sh` — probado en español.
+- Studio abre en http://localhost:3000.

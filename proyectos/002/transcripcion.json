@@ -1,0 +1,98 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/Users/nicecode/Work/jalvarez/video-creator/archivos/whisper/ggml-small.bin",
+		"language": "es",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:06,240"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 6240
+			},
+			"text": " Tu anuncio no está fallando. Lo que falla es lo que pasa después del clic. Pagas la pauta, entran"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:06,240",
+				"to": "00:00:13,200"
+			},
+			"offsets": {
+				"from": 6240,
+				"to": 13200
+			},
+			"text": " 200 personas a ver el apartamento y a tu WhatsApp llegan 3 preguntando por el precio. Y a esos 3"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:13,200",
+				"to": "00:00:19,520"
+			},
+			"offsets": {
+				"from": 13200,
+				"to": 19520
+			},
+			"text": " ninguno agente a visita. No es el algoritmo, no es que la gente no esté comprando, es que estás"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:19,520",
+				"to": "00:00:25,580"
+			},
+			"offsets": {
+				"from": 19520,
+				"to": 25580
+			},
+			"text": " mandando tráfico caliente a un sitio frío y después no hay nadie detrás haciendo seguimiento. Una"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:25,580",
+				"to": "00:00:31,440"
+			},
+			"offsets": {
+				"from": 25580,
+				"to": 31440
+			},
+			"text": " pregunta honesta ¿cuántos lit calificados están llegando a tu WhatsApp después de una campaña?"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:31,440",
+				"to": "00:00:34,640"
+			},
+			"offsets": {
+				"from": 31440,
+				"to": 34640
+			},
+			"text": " Déjame el número real en los comentarios y hablemos."
+		}
+	]
+}
