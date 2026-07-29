@@ -25,10 +25,11 @@ proyectos/*/vistas-previas/
 avatar/*.mp4
 remotion/public/*.mp4
 
-# Banco de sonidos completo (~846 MB, 1231 archivos). Es una librería comprada:
-# no se versiona ni se redistribuye. Lo que SÍ va al repo es el set de trabajo
-# ya calibrado en remotion/public/sfx/ (55 efectos, 25 MB), que es de lo que
-# dependen los renders. Para reponer el banco: manuales/diseno-sonoro/copiar-sfx.sh
-sonido/
+# El BANCO DE SONIDOS SÍ se versiona (decisión del 2026-07-28): `sonido/` completo
+# (~846 MB, 1232 archivos, 37 categorías) va al repo porque el sistema depende de
+# él —`copiar-sfx.sh` saca de ahí el set calibrado de remotion/public/sfx/ y el
+# recetario de diseno-sonoro referencia sus categorías por nombre—. Un clon sin
+# banco no puede elegir un efecto nuevo. Repo privado: no hay redistribución.
+# Ningún archivo pasa de 23 MB, así que no toca el límite de 100 MB de GitHub.
 
 !**/.gitkeep
