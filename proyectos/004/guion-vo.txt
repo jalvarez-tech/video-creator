@@ -1,0 +1,17 @@
+n01-todos|Todo el mundo se quiere ir al Oriente antioqueño.
+n02-caida|Y este semestre las ventas de vivienda cayeron un veinticinco por ciento.
+n03-valle|El Valle de San Nicolás: nueve municipios a una hora de Medellín.
+n04-oferta|Aquí está el diecinueve por ciento de la oferta de vivienda de Antioquia.
+n05-transicion|La región dejó de ser tierra de fincas y se llenó de multifamiliares.
+n06-porque|¿Por qué se van? Aire limpio, el aeropuerto al lado, y trabajo remoto.
+n07-mecanismo|Pero lo que se frenó no fue el deseo de mudarse. Fue el crédito.
+n08-quiere-puede|Tasas altas e incertidumbre. La gente quiere, pero no puede pagar.
+n09-suelo|Y aun así, el suelo subió un seis coma siete por ciento.
+n10-valorizacion|El Retiro se valorizó once coma seis. Las Palmas, siete coma cinco.
+n11-negocios|Trece mil quinientos cuarenta negocios inmobiliarios. Cuatro por ciento más.
+n12-stock|Hay casi cuatro mil viviendas disponibles, en ciento quince proyectos.
+n13-preventa|El setenta y siete por ciento, todavía en preventa.
+n14-concentracion|Y el noventa y uno por ciento de las ventas está en cinco municipios.
+n15-territorio|El territorio no aguanta el ritmo: ordenamiento desactualizado y vías.
+n16-brecha|Además crece la brecha entre quien siempre vivió allí y quien acaba de llegar.
+n17-cierre|

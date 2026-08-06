@@ -7,7 +7,7 @@ Root de **todos** los proyectos de vídeo. Combina cuatro motores, dirigidos por
 | **Remotion** | Vídeo programático (intros, títulos, animaciones, gráficos, cámara virtual) | `remotion/` |
 | **Auto-Editor** | Cortar silencios de un vídeo grabado | CLI global (`auto-editor`) |
 | **HeyGen** | Avatar talking-head a partir de un guion | `manuales/edicion-video/scripts/heygen.py` |
-| **Seedance 2.0** | Generar b-roll con IA (texto/imagen → vídeo) | skill `seedance-20` |
+| **Grok Imagine** (API directa de xAI) | Generar b-roll con IA (texto/imagen → vídeo) | `manuales/edicion-video/scripts/grok.py` |
 
 > **Regla de oro:** primero el motor y la estructura, luego el vídeo. Nunca se edita desde Descargas ni desde un archivo suelto: cada vídeo tiene su sitio.
 
@@ -41,7 +41,7 @@ npx remotion still src/index.ts Catalogo out/ficha.png --frame=2140
 npm run lint
 ```
 
-Auto-Editor es global: `auto-editor --version` funciona desde cualquier carpeta.
+Auto-Editor es global: `auto-editor --version` funciona desde cualquier carpeta. El b-roll se genera con `python3 manuales/edicion-video/scripts/grok.py --help`.
 
 ---
 
@@ -124,6 +124,7 @@ Para que el repo sea manejable, el material pesado se queda fuera (ver [.gitigno
 | Renders (`finales/`, `pruebas-720p/`, `vistas-previas/`, `remotion/out/`) | se regeneran renderizando |
 | Modelo de whisper (`archivos/whisper/*.bin`, 465 MB) | descárgalo de [whisper.cpp](https://github.com/ggerganov/whisper.cpp) |
 | `.env` con las claves | `cp .env.example .env` y rellena `HEYGEN_API_KEY` |
+| Clave de xAI (b-roll con Grok) | va en el mismo `.env`, como `XAI_API_KEY` (empieza por `xai-`; se saca en https://console.x.ai). Comprueba con `python3 manuales/edicion-video/scripts/grok.py modelos` |
 | `node_modules/` | `cd remotion && npm install` |
 
 Consecuencia: tras clonar, el Studio abre y las composiciones de plantilla y `Catalogo` renderizan; **`Avatar002` y `Avatar003` no**, hasta que copies sus MP4 a `remotion/public/`.
@@ -137,6 +138,7 @@ El banco de sonidos **sí** está en el repo: los renders dependen de él.
 - Remotion **4.0.496** · Node **25.8** · Tailwind v4 · `@remotion/paths` y `@remotion/shapes`.
 - **11 composiciones** registradas en `remotion/src/Root.tsx` (plantillas, avatares 001-003, `Catalogo`, `GraficosDemo`).
 - Auto-Editor **29.3.1** (pipx) · whisper.cpp con `ggml-small.bin`.
+- B-roll con Grok Imagine vía `scripts/grok.py` (API directa de xAI): la clave autentica correctamente, pero **el equipo de xAI aún no tiene créditos** → hasta comprarlos en console.x.ai no genera nada.
 - `npm run lint` (eslint + tsc) en verde.
 
 📖 **Antes de editar un vídeo real, lee** [manuales/edicion-video/SKILL.md](manuales/edicion-video/SKILL.md) — o entra directamente por el [director](manuales/director-video/SKILL.md).

@@ -3,13 +3,14 @@ name: edicion-video
 description: >-
   Manual operativo para crear y editar vídeo profesional en el sistema
   "video-creator" que combina Remotion (motor de vídeo programático),
-  Auto-Editor (corte de silencios) y Seedance 2.0 (generación de clips con IA).
+  Auto-Editor (corte de silencios) y Grok Imagine por la API de xAI
+  (generación de b-roll con IA).
   Úsalo siempre que se quiera montar una intro/animación/título, abrir Remotion
   Studio, renderizar un vídeo o un frame de prueba, cortar silencios de una
   grabación, exportar una timeline a DaVinci Resolve, o estructurar un proyecto
   de vídeo nuevo. Triggers: "editar vídeo", "remotion", "auto-editor",
   "cortar silencios", "render", "frame de prueba", "abrir studio",
-  "nuevo proyecto de vídeo", "davinci resolve", "seedance".
+  "nuevo proyecto de vídeo", "davinci resolve", "b-roll", "grok imagine".
 user-invocable: true
 metadata:
   type: reference
@@ -24,18 +25,20 @@ Root del sistema: **`/Users/nicecode/Work/jalvarez/video-creator`**
 Pipeline en una sola dirección (archivos MP4):
 
 ```
-HeyGen (avatar) / Seedance (b-roll) / grabación  →  [Auto-Editor opc.]  →  Remotion
-            generación de clips                       cortar silencios      ensamblar + titular + máster
+HeyGen (avatar) / Grok Imagine (b-roll) / grabación  →  [Auto-Editor opc.]  →  Remotion
+              generación de clips                         cortar silencios      ensamblar + titular + máster
 ```
 
 | Motor | Etapa | Dónde |
 |---|---|---|
 | **HeyGen** | Avatar talking-head desde guion (fuente de "cámara") | script `scripts/heygen.py` · [heygen.md](heygen.md) |
-| **Seedance 2.0** | Generación de b-roll / clips con IA | assets en `archivos/` o `proyectos/NNN/` |
+| **Grok Imagine** (API directa de xAI) | Generación de b-roll / imágenes con IA | `scripts/grok.py` · clips en `proyectos/NNN/broll/grok/` |
 | **Auto-Editor** | Cortar silencios (opc. con avatar) | CLI global `auto-editor` (v29.3.1) |
 | **Remotion** | Ensamblaje, títulos, animación, render | `remotion/` (Remotion 4.0.496) |
 
-📂 **Partes del manual:** [proceso-edicion.md](proceso-edicion.md) (Fase 3 · flujo bruto→publicación, 7 pasos) · [heygen.md](heygen.md) (avatar de IA) · [motion-graphics](../motion-graphics/SKILL.md) (dirección de animación: jerarquía, timing, muelles/tokens) · [camara-avatar](../camara-avatar/SKILL.md) (cámara virtual dinámica del avatar: zoom/reencuadre motivados) · [diseno-sonoro](../diseno-sonoro/SKILL.md) (SFX, mezcla, ducking) · [reglas.md](reglas.md) (reglas operativas R01–R07+) · [plantillas/](plantillas/README.md) (biblioteca de plantillas reutilizables).
+> 📰 **Para montar un vídeo a partir de una NOTICIA** (formato editorial 9:16, voz en off sin avatar, papel beige + naranja), entra por **[video-noticias](../video-noticias/SKILL.md)**: trae su propio look, sus 7 beats y su capa declarativa (`TomaNoticia[]` → `<PistaNoticia>`) sobre este mismo motor.
+
+📂 **Partes del manual:** [proceso-edicion.md](proceso-edicion.md) (Fase 3 · flujo bruto→publicación, 7 pasos) · [heygen.md](heygen.md) (avatar de IA) · [video-noticias](../video-noticias/SKILL.md) (formato noticias completo) · [motion-graphics](../motion-graphics/SKILL.md) (dirección de animación: jerarquía, timing, muelles/tokens) · [camara-avatar](../camara-avatar/SKILL.md) (cámara virtual dinámica del avatar: zoom/reencuadre motivados) · [diseno-sonoro](../diseno-sonoro/SKILL.md) (SFX, mezcla, ducking) · [reglas.md](reglas.md) (reglas operativas R01–R07+) · [plantillas/](plantillas/README.md) (biblioteca de plantillas reutilizables).
 
 ---
 
@@ -172,22 +175,37 @@ auto-editor info "proyectos/001/original.mp4"    # metadatos de streams/fps
 
 ---
 
-## 🌱 Seedance 2.0 (generación de clips)
+## 🌱 Grok Imagine — generación de b-roll (API directa de xAI)
 
-Modelo generativo de vídeo de ByteDance (text/image/video/audio → vídeo). En este entorno está el skill local **`seedance-20`** (mismo pack que el repo `Emily2040/seedance-2.0`): **no es el modelo**, es un pack de *prompt-directing*. Filosofía: **"dirige el modelo, no micro-gestiones el frame"** — una intención dramática por shot, no adjetivos apilados.
+Motor generativo de vídeo e imagen de xAI. Se opera con **`scripts/grok.py`** (Python stdlib, hermano de `heygen.py`), que va **directo a `api.x.ai`**. Subcomandos: `modelos`, `imagen` (texto → imagen), `video` (texto → vídeo e imagen → vídeo).
 
-**Cómo encaja:** Seedance genera los clips (MP4) → Auto-Editor los limpia → Remotion los compone y **titula** (el texto en pantalla se hace en Remotion, NO en el prompt de Seedance, porque el texto que genera el modelo es poco fiable).
+Requiere **`XAI_API_KEY`** en el `.env` de la raíz — se saca en [console.x.ai](https://console.x.ai) y empieza por `xai-`. **No** es la de Groq (`gsk_`, Whisper) ni la de RunAPI: tres servicios de nombre parecido y cuentas distintas. Comprueba con:
 
-Estructura sugerida para un proyecto con Seedance:
+```bash
+python3 manuales/edicion-video/scripts/grok.py modelos
+```
+
+> **Se descartó RunAPI** (revendedor que también sirve Grok Imagine): obliga a una segunda cuenta y una segunda factura. Yendo directo se paga solo a xAI. El skill `grok-imagine` y el CLI `runapi` siguen instalados pero **no se usan**.
+
+**Cómo encaja:** Grok genera el b-roll (MP4) → `grok.py` lo descarga → Remotion lo compone y **titula** (el texto en pantalla se hace en Remotion, NO en el prompt, porque el texto que genera el modelo es poco fiable). El b-roll no lleva voz, así que **no** pasa por Auto-Editor.
+
+```bash
+python3 manuales/edicion-video/scripts/grok.py video "plano del hall al atardecer, cámara que retrocede" --duracion 6 --salida proyectos/NNN/broll/grok/raw/shot-01.mp4
+```
+
+Estructura de un proyecto con b-roll:
 ```
 proyectos/NNN/
-├── seedance/raw/        # MP4 crudos de Seedance
-├── seedance/trimmed/    # salida de Auto-Editor
-├── seedance/prompts/    # prompt + @-tags por clip (para regenerar)
-└── seedance/refs/       # imágenes/audio de referencia
+└── broll/grok/
+    ├── raw/         # MP4 tal cual salen de la API — grok.py los baja YA (la URL caduca)
+    ├── prompts/     # el JSON de cada llamada — lo escribe grok.py solo, para regenerar
+    └── refs/        # stills de partida para imagen → vídeo
 ```
 En Remotion se importan con `<OffthreadVideo src={staticFile('clips/shot-01.mp4')} />` dentro de `<Sequence>`.
-Para redactar prompts, invocar el skill **`seedance-20`**.
+
+**Los cuatro límites que gobiernan su uso** (resolución por confirmar, URLs que caducan, fps de la comp, texto en Remotion) y **cómo conseguir 9:16** están en el contrato del director: **[director-video §3h](../director-video/SKILL.md)**. No los dupliques aquí. El crítico: la resolución de salida **no está documentada** por xAI → mídela con `ffprobe` en el primer clip y, hasta saberlo, no pongas b-roll nítido a pantalla completa en una comp 1080p.
+
+> **`seedance-20` está descartado** — el skill sigue instalado, pero es un pack de *prompt-directing*, **no** el modelo, y no hay suscripción de Seedance (2026-08-05). No lo propongas como alternativa. Si se contrata, vuelve a entrar como respaldo para el caso del techo de 720p.
 
 ---
 
@@ -196,7 +214,8 @@ Para redactar prompts, invocar el skill **`seedance-20`**.
 - **Editar desde Descargas / archivo suelto** → cada vídeo a `proyectos/NNN/`.
 - **Instalar sin probar** → abrir Studio + exportar un frame/clip antes de dar por bueno el motor.
 - **No guardar decisiones** → cortes/plantillas/revisiones que funcionan se escriben en `aprendizajes.md` y aquí.
-- **Meter texto/subtítulos en el prompt de Seedance** → titular en Remotion.
+- **Meter texto/subtítulos en el prompt del generador** → titular en Remotion.
+- **Guardar la URL que devuelve la API** en vez del MP4 → caduca, y el proyecto deja de re-renderizar.
 - **`--margin 0` en material hablado** → se come inicios/finales de palabra.
 
 ---
