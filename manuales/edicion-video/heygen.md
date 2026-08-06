@@ -78,7 +78,7 @@ Opciones: `--formato {16:9,9:16,1:1,4:5,720p}` · `--velocidad 0.5-1.5` · `--fo
 
 **(b) PiP con fondo transparente sobre pantalla** — para demos: capa inferior = grabación de pantalla; capa superior = el avatar recortado en una esquina/burbuja. Requiere salida **WebM con alpha** (no `background`; solo avatares de estudio con *matting*, plan de pago; en Remotion `<OffthreadVideo>` + `borderRadius`). Es justo el layout de la plantilla `TutorialYT`.
 
-**(c) Avatar + b-roll de Seedance** — HeyGen pone la voz/cara; **Seedance** genera los planos de apoyo que se intercalan. Se ensamblan como capas/escenas en Remotion.
+**(c) Avatar + b-roll de Grok Imagine** — HeyGen pone la voz/cara; **Grok Imagine** (`scripts/grok.py`) genera los planos de apoyo que se intercalan. Se ensamblan como capas/escenas en Remotion. Mide la resolución del clip con `ffprobe` antes de colocarlo: si no llega al formato, va detrás del avatar o en plano escalado, nunca nítido a pantalla completa ([director-video §3h](../director-video/SKILL.md)).
 
 **Subtítulos y títulos → siempre en Remotion** (no los "quemes" en HeyGen). Como el guion ya es texto, los subtítulos salen de ahí con timing exacto, sin STT.
 

@@ -6,8 +6,9 @@ description: >-
   composición", "haz el vídeo con todos los recursos"), coordina TODAS las capas y
   motores del proyecto —motor Remotion + pipeline (edicion-video), cámara virtual
   del avatar (camara-avatar), motion graphics (motion-graphics), sonido/SFX
-  (diseno-sonoro), b-roll (seedance-20), avatar (heygen)— en una sola composición
-  coherente. Decide el orden de trabajo, reparte el espacio y la atención entre
+  (diseno-sonoro), b-roll IA (Grok Imagine por la API de xAI), avatar (heygen)—
+  en una sola composición coherente. Decide el
+  orden de trabajo, reparte el espacio y la atención entre
   capas (quién manda cuándo), fija el fps único y el z-order, y valida con frames
   antes de exportar. Abre SIEMPRE los artefactos del proyecto
   (proyectos/NNN/artefactos/: 01-plan, 02-layout, 03-timeline) antes de escribir
@@ -40,11 +41,20 @@ Root: **`/Users/nicecode/Work/jalvarez/video-creator`**. Este skill es la **capa
 | **Cámara** del avatar (zoom / reencuadre / hacer espacio) | [camara-avatar](../camara-avatar/SKILL.md) | `camara.ts` · `CamaraVirtual.tsx` · `camara-NNN.ts` |
 | **Motion graphics** (títulos, datos, transiciones, CTA) | [motion-graphics](../motion-graphics/SKILL.md) | `motion.ts` · `theme.ts` · **biblioteca `plantillas/graficos/`** ([catálogo](../motion-graphics/catalogo-graficos.md)) · `graficos-NNN.ts` + `PistaGraficos` |
 | **Sonido** (SFX, mezcla, ducking) | [diseno-sonoro](../diseno-sonoro/SKILL.md) | `sound/cues.ts` · `PistaSonido.tsx` · `cues-NNN.ts` |
-| **B-roll** generado con IA | `seedance-20` (skill) | clips en `proyectos/NNN/seedance/` |
+| **B-roll** generado con IA | **Grok Imagine**, API directa de xAI (único motor — ver §3h; `seedance-20` sin suscripción, no usar) | `scripts/grok.py` · clips en `proyectos/NNN/broll/grok/` |
 | **Avatar** talking-head (fuente) | [heygen](../edicion-video/heygen.md) | `scripts/heygen.py` |
+| **Noticias** (formato completo, sin avatar) | [video-noticias](../video-noticias/SKILL.md) · [recetario](../video-noticias/recetario-tomas.md) | `noticias/` (theme + `TomaNoticia` + `PistaNoticia`) · `noticia-NNN.ts` |
 | Subtítulos sincronizados | edicion-video | `SubtitulosSync.tsx` · `subtitulos-NNN.ts` |
 
 **No repitas** aquí lo que ya dice cada skill: cuando toca diseñar una capa, **abre su SKILL.md** y sigue sus tablas.
+
+> **Excepción — el formato NOTICIAS no es una capa, es una pieza entera.**
+> [video-noticias](../video-noticias/SKILL.md) trae su propio look (papel beige +
+> naranja, serif/sans), su propia estructura narrativa (7 beats) y su propia capa
+> declarativa (`TomaNoticia[]` → `<PistaNoticia>`), y **no lleva avatar**. Si la
+> instrucción es "monta esta noticia", entra directo por ahí y el director solo
+> interviene si además hay avatar, en cuyo caso este formato aporta el look de
+> las tomas de gráfico y el avatar sigue las reglas de §3.
 
 ---
 
@@ -64,6 +74,7 @@ Sigue [proceso-edicion.md](../edicion-video/proceso-edicion.md) (Fase 3, 7 pasos
 1. **Formato + comp** ([R03](../edicion-video/reglas.md)) — elige plantilla/preset y **fija `width`/`height`/`fps`** en la `<Composition>` ANTES de animar. Con avatar real: `ffprobe` da fps/resolución/duración ([R01](../edicion-video/reglas.md)).
 2. **Guion + subtítulos** ([R02](../edicion-video/reglas.md)) — transcribe si hace falta (`transcribir.sh`) → `subtitulos-NNN.ts`. *(Avatar HeyGen: habla limpia → se salta cortes y, si el guion es conocido, transcripción — ver proceso §variante.)*
 3. **Escenas / tramos** ([R04](../edicion-video/reglas.md)) — divide en bloques ~10 s; marca en el guion dónde va cada refuerzo visual y cada cambio.
+3·bis. **B-roll** (solo si alguna escena lo pide) → genera **ya**, no al final: tarda minutos y el resto del plan depende de su duración real. Motor (`scripts/grok.py`) y límites en **§3h**. El script ya descarga el MP4 a `proyectos/NNN/broll/grok/raw/` **en la misma llamada** (las URLs caducan); mide con `ffprobe` antes de contar frames.
 4. **Plan de CÁMARA** (si hay avatar) → `camara-NNN.ts` con [camara-avatar](../camara-avatar/SKILL.md). Movimientos motivados, en frames absolutos al fps de la comp.
 5. **Plan de MOTION GRAPHICS** → `graficos-NNN.ts` (`GraficoCue[]`) con la biblioteca de [motion-graphics](../motion-graphics/SKILL.md); lo único de la pieza, a mano. Franja superior ([R08](../edicion-video/reglas.md)) o toma a pantalla completa. **1 hero a la vez** — `revisaPlan()` lo comprueba.
 6. **Plan de SONIDO** → `cues-NNN.ts` con [diseno-sonoro](../diseno-sonoro/SKILL.md). La voz manda; SFX debajo + ducking.
@@ -103,6 +114,29 @@ Las **tres capas declarativas** del sistema son hermanas y se leen igual: `camar
 **f) Mezcla.** La **VOZ manda** siempre. SFX por debajo; **whooshes de cámara e impacts aún más bajos** + ducking (`DUCK_DIALOGUE_DB`). Un whoosh de cámara nunca cubre la voz.
 
 **g) Determinismo.** Todo desde `useCurrentFrame()`/`useVideoConfig()`. Prohibido `Math.random()` sin sembrar, timers, `Date.now()`, CSS `animation`/`transition` para el movimiento (rompen la coherencia entre renders).
+
+**h) B-roll generado por IA — motor y límites.** El b-roll es un **asset externo** que entra en la capa de **fondo** (z-order, §3·b), no una capa declarativa: no tiene plan `broll-NNN.ts`; se genera, se descarga y se referencia como `<OffthreadVideo>`.
+
+**Motor único: Grok Imagine por la API DIRECTA de xAI** (`api.x.ai`), con el script `manuales/edicion-video/scripts/grok.py` (stdlib, hermano de `heygen.py`). Clave **`XAI_API_KEY`** en el `.env` de la raíz. **No se usa RunAPI**: era un revendedor con cuenta y factura aparte; yendo directo se paga solo a xAI.
+
+> **`seedance-20` NO está disponible** — el usuario no tiene suscripción (2026-08-05). El skill sigue instalado, pero es un pack de *prompt-directing*, **no** el modelo: sin suscripción no genera nada. **No lo propongas como alternativa ni planifiques contando con él.** Si algún día se contrata, vuelve a entrar como motor de respaldo para el caso del punto 1.
+
+Llamada base (`--help` para el resto):
+
+```shell
+python3 manuales/edicion-video/scripts/grok.py video "plano del hall al atardecer, cámara que retrocede" --duracion 6 --salida proyectos/NNN/broll/grok/raw/shot-01.mp4
+```
+
+El script sondea hasta que termina, **descarga el MP4 él mismo** y guarda el JSON de la llamada en `broll/grok/prompts/` para poder regenerar.
+
+Cuatro límites que **solo el director** vigila, porque cruzan capas:
+
+1. **La resolución del b-roll está POR CONFIRMAR — mídela en el primer clip.** La doc pública de xAI no fija la resolución de salida, así que **no la des por supuesta**: en cuanto salga el primer MP4, `ffprobe` y anótalo en el plan. Hasta entonces trabaja asumiendo lo peor (≤720p frente a comps de 1080×1920 / 1920×1080): colócalo **detrás del avatar** (fondo), **desenfocado/oscurecido** como scrim, o en un **plano escalado o enmarcado** que no llegue al borde. Y como **no hay motor alternativo**, si una escena pide un plano **nítido a pantalla completa** y la medición confirma que no llega, el b-roll IA **no es la herramienta**: resuélvelo con la biblioteca de gráficos ([motion-graphics](../motion-graphics/SKILL.md)), con metraje real, o replanteando la escena. Nunca subas un 720p a 1080 esperando que no se note.
+2. **Las URLs caducan.** Las que devuelve la API son temporales: nunca guardes la URL en el código ni en un artefacto. `grok.py` ya descarga el MP4 en la misma llamada — no lo puentees. Copia a `remotion/public/` lo que use la comp. Un proyecto tiene que poder re-renderizar dentro de un año.
+3. **El fps de la comp manda (§3a).** El clip llega con el fps que le dé la gana al modelo. **Nunca** cambies el fps de la comp para encajar un b-roll: mide con `ffprobe` ([R01](../edicion-video/reglas.md)) y re-tiempa en Remotion.
+4. **El texto va en Remotion, nunca en el prompt.** Lo que cualquier modelo generativo escribe en pantalla es poco fiable. Los títulos son motion graphics (§1).
+
+**Cómo conseguir 9:16.** La doc de xAI **no documenta** un parámetro de aspect ratio para vídeo. Dos vías, en este orden: (1) **imagen → vídeo** — genera primero un still vertical (`grok.py imagen`), súbelo a una URL pública y pásalo con `--imagen`; el encuadre de partida manda, y es la vía que no depende de campos sin documentar. (2) Probar `--extra '{"aspect_ratio":"9:16"}'`, que inyecta el campo tal cual por si la API lo acepta aunque no esté escrito. Si ninguna funciona, genera en el ratio que dé y **recorta en Remotion** — asumiendo que recortar cuesta resolución, que es justo lo que vigila el punto 1.
 
 ---
 
@@ -159,6 +193,7 @@ Con **una instrucción simple**, el director **infiere** del proyecto y **declar
 6. ¿Cada movimiento/gráfico/sonido cae sobre una **frase importante** con `reason`?
 7. ¿El código es **determinista** y validaste con **frames reales**?
 7b. ¿Los tres **artefactos** están escritos y coinciden con lo que se renderizó? ¿Miraste el **catálogo** antes de escribir un gráfico nuevo?
+7c. Si hay **b-roll**: ¿está **descargado** en `proyectos/NNN/broll/` (ninguna URL de la API en el código), **medido con `ffprobe`** y colocado de forma que su resolución real aguante el formato (§3h)?
 8. **¿La escena mejora con todas las capas, o sería más clara quitando alguna?** Si dudas → **quita**.
 
 ---

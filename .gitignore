@@ -19,6 +19,16 @@ proyectos/*/finales/
 proyectos/*/pruebas-720p/
 proyectos/*/vistas-previas/
 
+# Voz en off: es MATERIAL, no código (misma decisión que proyectos/*/avatar/).
+# Y aquí ni siquiera hace falta guardarla: lo que la define es el guion, y ese SÍ
+# se versiona (proyectos/*/guion-vo.txt). Se regenera entera con
+#   python3 manuales/edicion-video/scripts/elevenlabs.py guion <guion> --salida <dir>
+#   bash  manuales/video-noticias/scripts/generar-vo.sh <guion> --motor elevenlabs --partes <dir>
+proyectos/*/vo/
+remotion/public/noticias/*.wav
+remotion/public/noticias/*.mp3
+remotion/public/noticias/*.mp4
+
 # Clips fuente del avatar (~210 MB): son material, no código. Misma decisión que
 # proyectos/*/avatar/. Sin ellos las comps Avatar002/Avatar003 no renderizan en un
 # clon nuevo: copia los MP4 a remotion/public/ y a avatar/ desde tu disco.
@@ -33,3 +43,20 @@ remotion/public/*.mp4
 # Ningún archivo pasa de 23 MB, así que no toca el límite de 100 MB de GitHub.
 
 !**/.gitkeep
+
+# Python (los scripts de manuales/)
+__pycache__/
+*.pyc
+
+# Skills instalados con `npx skills add` (se reinstalan; no versionamos copias)
+.agents/
+.claude/skills/agents
+.claude/skills/music
+.claude/skills/setup-api-key
+.claude/skills/sound-effects
+.claude/skills/speech-engine
+.claude/skills/speech-to-text
+.claude/skills/text-to-speech
+.claude/skills/update-skills-from-changelog
+.claude/skills/voice-changer
+.claude/skills/voice-isolator

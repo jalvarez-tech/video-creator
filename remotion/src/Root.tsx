@@ -10,6 +10,11 @@ import { CamaraDemo } from "./plantillas/CamaraDemo";
 import { Avatar002 } from "./plantillas/Avatar002";
 import { Avatar003 } from "./plantillas/Avatar003";
 import { GraficosDemo } from "./plantillas/GraficosDemo";
+import { NoticiaDemo } from "./plantillas/NoticiaDemo";
+import { noticiaDemo } from "./plantillas/noticia-demo";
+import { Noticia004 } from "./plantillas/Noticia004";
+import { noticia004 } from "./plantillas/noticia-004";
+import { duracionPlan } from "./plantillas/noticias";
 import { Catalogo, CATALOGO, PASO } from "./plantillas/graficos";
 import { tutorialYT, verticalSocial, feedCuadrado } from "./plantillas/presets";
 
@@ -134,6 +139,35 @@ export const RemotionRoot: React.FC = () => {
         component={GraficosDemo}
         durationInFrames={300}
         fps={25}
+        width={1080}
+        height={1920}
+      />
+
+      {/* ── Formato NOTICIAS (plantillas/noticias/) ──
+          El look editorial claro: papel beige + acento naranja, serif en
+          titulares y sans en subtítulos, sin avatar (voz en off + gráficos).
+          El plan es DATOS (noticia-demo.ts → TomaNoticia[]) y lo monta
+          <PistaNoticia>, igual que graficos-NNN.ts → <PistaGraficos>.
+          La duración sale del propio plan: en un proyecto real la fija la voz.
+          Manual: manuales/video-noticias/SKILL.md */}
+      <Composition
+        id="NoticiaDemo"
+        component={NoticiaDemo}
+        durationInFrames={duracionPlan(noticiaDemo)}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      {/* Proyecto 004 — «¿Por qué la gente se quiere ir al Valle de San Nicolás?»
+          El Colombiano · 2026-07-25. 16 tomas, todas gráficas (sin b-roll).
+          Duración PROVISIONAL: sale del guion estimado, no de la voz en off.
+          Cuando exista el audio, `ffprobe` manda y se re-cronometra el plan.
+          Artefacto: proyectos/004/artefactos/01-noticia.md */}
+      <Composition
+        id="Noticia004"
+        component={Noticia004}
+        durationInFrames={duracionPlan(noticia004)}
+        fps={30}
         width={1080}
         height={1920}
       />
