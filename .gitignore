@@ -36,13 +36,17 @@ avatar/*.mp4
 remotion/public/*.mp4
 
 # El BANCO DE SONIDOS SÍ se versiona (decisión del 2026-07-28): `sonido/` completo
-# (~846 MB, 1232 archivos, 37 categorías) va al repo porque el sistema depende de
+# (~846 MB, 1227 archivos, 37 categorías) va al repo porque el sistema depende de
 # él —`copiar-sfx.sh` saca de ahí el set calibrado de remotion/public/sfx/ y el
 # recetario de diseno-sonoro referencia sus categorías por nombre—. Un clon sin
 # banco no puede elegir un efecto nuevo. Repo privado: no hay redistribución.
 # Ningún archivo pasa de 23 MB, así que no toca el límite de 100 MB de GitHub.
 
 !**/.gitkeep
+
+# Papelera de Android: los `.trashed-*` son archivos YA BORRADOS que se colaron
+# al sincronizar el banco de sonidos desde el móvil. No son efectos: son basura.
+**/.trashed-*
 
 # Python (los scripts de manuales/)
 __pycache__/
