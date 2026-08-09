@@ -15,6 +15,7 @@ import { noticiaDemo } from "./plantillas/noticia-demo";
 import { Noticia004 } from "./plantillas/Noticia004";
 import { noticia004 } from "./plantillas/noticia-004";
 import { duracionPlan } from "./plantillas/noticias";
+import { framesDelMedio, framesDePlanYVoz } from "./plantillas/duracion";
 import { Catalogo, CATALOGO, PASO } from "./plantillas/graficos";
 import { tutorialYT, verticalSocial, feedCuadrado } from "./plantillas/presets";
 
@@ -64,8 +65,9 @@ export const RemotionRoot: React.FC = () => {
 
       {/* ── Avatar HeyGen sobre plantilla ──
           Composita remotion/public/avatar.mp4 (tu clip) + título + subtítulo.
-          durationInFrames debe = duración del clip * fps. El stand-in dura 3s→90.
-          Para tu clip real: ffprobe da la duración y ajustamos aquí. */}
+          La duración la LEE del propio clip (calculateMetadata + framesDelMedio):
+          cambia el MP4 y la comp se ajusta sola. El número escrito es solo el
+          respaldo para un clon sin material. */}
       <Composition
         id="Avatar16x9"
         component={AvatarClip}
@@ -73,6 +75,9 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar.mp4", 30, 90),
+        })}
       />
       {/* Avatar HeyGen 9:16 → public/avatar-9x16.mp4
           Clip real: 1080x1920 · 25 fps · 43.64s (1091 frames). */}
@@ -83,6 +88,9 @@ export const RemotionRoot: React.FC = () => {
         fps={25}
         width={1080}
         height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar-9x16.mp4", 25, 1091),
+        })}
       />
       {/* Demo del skill camara-avatar: mismo clip 9:16 dentro de <CamaraVirtual>
           con el plan camara-001.ts. Manual: manuales/camara-avatar/SKILL.md. */}
@@ -93,6 +101,9 @@ export const RemotionRoot: React.FC = () => {
         fps={25}
         width={1080}
         height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar-9x16.mp4", 25, 1091),
+        })}
       />
       {/* Proyecto 002 — avatar_1.mp4 + motion graphics estilo Apple + cámara + sonido.
           Ensamblado por director-video. Clip: 1080×1920 · 25 fps · 883 frames. */}
@@ -103,6 +114,9 @@ export const RemotionRoot: React.FC = () => {
         fps={25}
         width={1080}
         height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar-002.mp4", 25, 883),
+        })}
       />
       {/* Proyecto 003 — avatar_2.mp4 + mundo líquido ámbar (STYLE GUIDE del cliente).
           Reglas del sistema: el fps ORIGINAL del clip manda (R01 · avatar 9:16 =
@@ -115,6 +129,9 @@ export const RemotionRoot: React.FC = () => {
         fps={25}
         width={1080}
         height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar-003.mp4", 25, 1153),
+        })}
       />
 
       {/* ── Biblioteca de gráficos (plantillas/graficos/) ──
@@ -122,7 +139,7 @@ export const RemotionRoot: React.FC = () => {
           gráfico animándose de verdad. Se navega arrastrando la cabeza lectora.
           Antes de escribir un gráfico nuevo, míralo aquí: probablemente ya está.
           Doc equivalente fuera del Studio: manuales/motion-graphics/catalogo-graficos.md
-          (se regenera con `node manuales/motion-graphics/generar-catalogo.mjs`). */}
+          (se regenera con `node manuales/motion-graphics/scripts/generar-catalogo.mjs`). */}
       <Composition
         id="Catalogo"
         component={Catalogo}
@@ -159,9 +176,12 @@ export const RemotionRoot: React.FC = () => {
         height={1920}
       />
       {/* Proyecto 004 — «¿Por qué la gente se quiere ir al Valle de San Nicolás?»
-          El Colombiano · 2026-07-25. 16 tomas, todas gráficas (sin b-roll).
-          Duración PROVISIONAL: sale del guion estimado, no de la voz en off.
-          Cuando exista el audio, `ffprobe` manda y se re-cronometra el plan.
+          El Colombiano · 2026-07-25. 17 tomas, todas gráficas (sin b-roll).
+          Frames MEDIDOS con generar-vo.sh sobre la voz GUÍA (say · Paulina), no
+          estimados. La duración sale del plan y, si la voz es más larga, de la
+          voz — lo resuelve el `calculateMetadata` de justo aquí abajo, con
+          `framesDePlanYVoz` (plantillas/duracion.ts). Al relocutar con la voz
+          definitiva, vuelve a correr generar-vo.sh y pega la tabla.
           Artefacto: proyectos/004/artefactos/01-noticia.md */}
       <Composition
         id="Noticia004"
@@ -170,6 +190,9 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDePlanYVoz("noticias/004-vo.wav", 30, duracionPlan(noticia004)),
+        })}
       />
     </>
   );
