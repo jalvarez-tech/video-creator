@@ -14,7 +14,7 @@ whoosh/impact **−27**, ambiente **−30** dBFS. Todos por debajo de la voz. Al
 
 | Archivo | Variante | Origen (banco) |
 |---|---|---|
-| whoosh-light.mp3 | `light` | 37-OTROS/Short Whoosh.mp3 |
+| whoosh-light.wav | `light` | 37-OTROS/Short Whoosh.mp3 |
 | whoosh-whip.wav | `whip` | 37-OTROS/mixkit-arrow-whoosh-1491.wav |
 | whoosh-heavy.mp3 | `heavy` | 37-OTROS/swinging-staff-whoosh-strong-08-44658.mp3 |
 | whoosh-wind.wav | `wind` | 37-OTROS/mixkit-cinematic-wind-swoosh-1471.wav |
@@ -45,7 +45,7 @@ whoosh/impact **−27**, ambiente **−30** dBFS. Todos por debajo de la voz. Al
 | typing.mp3 | `typing` | escritura letra por letra (loop) | 37-OTROS/keyboard-typing-5997.mp3 |
 | tick.mp3 | `tick` | ritmo, palabra por palabra, reloj | 37-OTROS/Clock Tick.mp3 |
 | chime.mp3 | `chime` | ding de acierto / llegada limpia | 14-DING/Ding Sound Effect.mp3 |
-| success.mp3 | `success` | éxito / cambio positivo (ascendente) | 14-DING/quick-win.mp3 |
+| success.wav | `success` | éxito / cambio positivo (ascendente) | 14-DING/quick-win.mp3 |
 | error.mp3 | `error` | error / negativo / tachar | 37-OTROS/Wrong Answer.mp3 |
 | money.mp3 | `money` | dinero / ventas (kaching) | 37-OTROS/cash ting.mp3 |
 | coin.mp3 | `coin` | moneda / gamificación (8-bit) | 37-OTROS/Mario Coin… |
@@ -67,7 +67,7 @@ Para no repetir el mismo archivo en cortes consecutivos, estas familias traen 2 
 |---|---|---|
 | `pop` | pop.mp3 · pop-02.mp3 · pop-03.mp3 | 29-POP/pop-2, pop-3 |
 | `glitch` | glitch.wav · glitch-02.wav · glitch-03.wav | 22-GLITCH/glitch 2, glitch 3 |
-| `light` | whoosh-light.mp3 · whoosh-light-02.wav · whoosh-light-03.wav | 36-WHOOSH/1, 3 |
+| `light` | whoosh-light.wav · whoosh-light-02.wav · whoosh-light-03.wav | 36-WHOOSH/1, 3 |
 | `swoosh` | swoosh.mp3 · swoosh-02.wav · swoosh-03.wav | 32-SWOSH/5, 2 |
 | `metal` | metal.wav · metal-02.wav · metal-03.wav | 26-METAL SLICE/2, 3 |
 | `mouse` | click-mouse.mp3 · click-mouse-02.mp3 · click-mouse-03.mp3 | 10-CLICK/Mouse Click SFX, HD (1) |

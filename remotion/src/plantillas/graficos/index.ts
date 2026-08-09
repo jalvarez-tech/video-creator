@@ -4,7 +4,7 @@
  *   import { Titular, Contador, Subrayado, Particulas } from "./graficos";
  *
  * Qué hay dentro y por qué (mapa rápido; la ficha completa de cada pieza está
- * en `catalogo.ts` y se ve animada en la composición `Catalogo` del Studio):
+ * en `fichas.ts` y se ve animada en la composición `Catalogo` del Studio):
  *
  *   estilos.ts      tokens de FORMA (color, sombra, escalas tipográficas)
  *   Entradas.tsx    el CUÁNDO aparece: Escena/Aparece/Barrido/Latido/Ranura

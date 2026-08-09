@@ -69,7 +69,7 @@ Cambia el recorrido en tres puntos:
 3. El plan es uno solo — `noticia-NNN.ts` (`TomaNoticia[]` → `<PistaNoticia>`) — en vez de los cuatro de arriba, y se valida sin abrir el Studio:
 
 ```bash
-node manuales/video-noticias/scripts/revisar-plan.mjs src/plantillas/noticia-005.ts
+node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/plantillas/noticia-005.ts
 ```
 
 Referencia real montada de punta a punta: `proyectos/004/` (17 tomas, 73,5 s).
@@ -108,7 +108,7 @@ video-creator/
 │       ├── aprendizajes.md       # qué funcionó y qué evitar
 │       ├── avatar/ vo/ finales/ pruebas-720p/ vistas-previas/   # ⛔ fuera del repo
 │       └── corte-auto-editor/    # salida de Auto-Editor (FCPXML)
-├── sonido/                   # Banco completo: 1231 efectos en 37 categorías
+├── sonido/                   # Banco completo: 1227 efectos en 37 categorías
 │                             #   índice: sonido/MAPA-SONIDOS.md
 ├── archivos/                 # Biblioteca reutilizable (marca, música, capturas, whisper)
 ├── avatar/ · entrada/        # ⛔ material de vídeo, fuera del repo
@@ -156,7 +156,19 @@ Para que el repo sea manejable, el material pesado se queda fuera (ver [.gitigno
 | Skills de ElevenLabs (`.agents/`, con sus symlinks en `.claude/skills/`) | `npx skills experimental_install` — las repone desde `skills-lock.json`, que sí está versionado |
 | `node_modules/` | `cd remotion && npm install` |
 
-Consecuencia: tras clonar, el Studio abre y las composiciones de plantilla y `Catalogo` renderizan; **`Avatar002` y `Avatar003` no**, hasta que copies sus MP4 a `remotion/public/`.
+Consecuencia: tras clonar, el Studio abre y las composiciones de plantilla y `Catalogo` renderizan; **`Avatar002`, `Avatar003` y `Noticia004` no**, hasta que repongas su medio:
+
+| Composición | Qué le falta | Cómo reponerlo |
+|---|---|---|
+| `Avatar002`, `Avatar003` | los MP4 del avatar | copia tus clips a `remotion/public/` |
+| `Noticia004` | la voz en off `public/noticias/004-vo.wav` | relocuta el guion (ver más abajo) y copia el WAV que deja `generar-vo.sh` |
+
+`Noticia004` falla de forma **silenciosa**: `staticFile()` solo construye una URL, así que la imagen se ve y lo que falta es la voz, con un 404 en la consola del Studio. Para reponerla:
+
+```bash
+bash manuales/video-noticias/scripts/generar-vo.sh proyectos/004/guion-vo.txt --motor say --fps 30
+cp proyectos/004/vo/004-vo.wav remotion/public/noticias/
+```
 
 El banco de sonidos **sí** está en el repo: los renders dependen de él.
 
@@ -164,11 +176,12 @@ El banco de sonidos **sí** está en el repo: los renders dependen de él.
 
 ## ✅ Estado verificado
 
-- Remotion **4.0.496** · Node **25.8** · Tailwind v4 · `@remotion/paths` y `@remotion/shapes`.
+- Remotion **4.0.496** · Node **25.8** · `@remotion/paths`, `@remotion/shapes` y `@remotion/media-parser` (duraciones leídas del medio).
+- **Sin Tailwind**: no se usaba ni una clase (`grep -rc className src/` = 0). Lo único que aportaba era su *preflight*, que ahora está explícito como reset mínimo en `src/index.css` — verificado píxel a píxel en 4 composiciones.
 - **13 composiciones** registradas en `remotion/src/Root.tsx` (plantillas, avatares 001-003, `Catalogo`, `GraficosDemo`, `NoticiaDemo`, `Noticia004`).
 - Auto-Editor **29.3.1** (pipx) · whisper.cpp con `ggml-small.bin`.
 - B-roll con Grok Imagine vía `scripts/grok.py` (API directa de xAI): la clave autentica correctamente, pero **el equipo de xAI aún no tiene créditos** → hasta comprarlos en console.x.ai no genera nada.
-- Voz en off con ElevenLabs vía `scripts/elevenlabs.py`: probado de punta a punta en el 004 (17 tomas locutadas y cronometradas).
+- Voz en off: **el 004 está locutado con la voz GUÍA del sistema** (`generar-vo.sh --motor say`, Paulina es_MX), no con ElevenLabs — sus 17 tomas están cronometradas contra esa pista. `elevenlabs.py guion` genera los audios por toma (reanudable: reejecutarlo no vuelve a facturar lo que ya está en disco), y `generar-vo.sh --motor elevenlabs` los monta; ese camino **está probado con audios de prueba, no con una locución real de pago**. Para publicar hay que relocutar con tu voz clonada.
 - `npm run lint` (eslint + tsc) en verde.
 
 📖 **Antes de editar un vídeo real, lee** [manuales/edicion-video/SKILL.md](manuales/edicion-video/SKILL.md) — o entra directamente por el [director](manuales/director-video/SKILL.md). Si la pieza sale de una noticia, por [video-noticias](manuales/video-noticias/SKILL.md).

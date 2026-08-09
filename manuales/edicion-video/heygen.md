@@ -58,7 +58,13 @@ python3 manuales/edicion-video/scripts/heygen.py generar \
 ```
 El script: crea el vídeo → hace *polling* del estado → descarga el MP4. Cuando el payload te convenza, añade `--final` para la versión **sin marca de agua** (esa **sí consume créditos**).
 
-Opciones: `--formato {16:9,9:16,1:1,4:5,720p}` · `--velocidad 0.5-1.5` · `--fondo "#RRGGBB"` · `--titulo` · `--avatar`/`--voz` (si no usas los del `.env`).
+Opciones: `--formato {16:9,9:16,1:1,4:5,720p}` · `--velocidad 0.5-1.5` · `--fondo "#RRGGBB"` · `--titulo` · `--avatar`/`--voz` (si no usas los del `.env`) · `--intervalo`/`--timeout` (sondeo).
+
+**3. Si pierdes el proceso (timeout, Ctrl-C, corte de red), NO vuelvas a generar:** con `--final` esos créditos ya se gastaron. El render sigue en el servidor; retómalo con el `video_id` que imprimió `generar`:
+
+```bash
+python3 manuales/edicion-video/scripts/heygen.py descargar <video_id> --salida proyectos/001/avatar/heygen.mp4
+```
 
 ---
 

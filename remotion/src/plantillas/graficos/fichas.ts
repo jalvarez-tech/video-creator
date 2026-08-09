@@ -9,7 +9,7 @@
  *   1. La composición `Catalogo` (Catalogo.tsx) → un contact sheet VIVO en el
  *      Studio: cada gráfico animándose de verdad, con su nombre y su ficha.
  *      Se navega arrastrando la cabeza lectora.
- *   2. `node manuales/motion-graphics/generar-catalogo.mjs` → regenera
+ *   2. `node manuales/motion-graphics/scripts/generar-catalogo.mjs` → regenera
  *      manuales/motion-graphics/catalogo-graficos.md para leerlo fuera del Studio.
  *
  * Regla: añadir un gráfico a la biblioteca = añadir su ficha aquí. Si no está

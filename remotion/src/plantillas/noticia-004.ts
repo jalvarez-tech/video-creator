@@ -16,10 +16,16 @@ import { toma, type TomaNoticia } from "./noticias/plan";
  * COMP: 1080×1920 · 30 fps · 2205 f (73,5 s).
  *
  * ⚠️ FRAMES MEDIDOS, NO ESTIMADOS. Cada ventana sale de la duración REAL de su
- * línea de voz (SKILL §5.4: la voz manda sobre el plan). Los produjo
- *   bash manuales/video-noticias/scripts/generar-vo.sh proyectos/004/guion-vo.txt Paulina 178 0.38 30
+ * línea de voz (SKILL §5.4: la voz manda sobre el plan). Los produjo, con la voz
+ * GUÍA del sistema (no la definitiva):
+ *   bash manuales/video-noticias/scripts/generar-vo.sh proyectos/004/guion-vo.txt \
+ *        --motor say --voz Paulina --ppm 178 --pausa 0.38 --fps 30
  * Si cambias el guion o la voz, vuelve a correrlo y pega la tabla aquí: NO
  * ajustes estos números a mano o el corte dejará de caer donde cierra la frase.
+ *
+ * (El script solo acepta opciones con nombre. La forma posicional que había aquí
+ * dejaba GUION="30", y con eso borraba el vo/.partes del directorio actual antes
+ * de fallar; ahora valida el guion antes de tocar el disco.)
  */
 export const noticia004: TomaNoticia[] = [
   // ══ GANCHO ═════════════════════════════════════════════════════════════════

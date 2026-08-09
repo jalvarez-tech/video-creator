@@ -132,7 +132,7 @@ archivos reales en el objeto `SFX` de `cues.ts`. Elige la variante con el
 ```tsx
 import { Audio, Sequence, staticFile } from "remotion";
 <Sequence from={200}>
-  <Audio src={staticFile("sfx/whoosh-light.mp3")} volume={0.3} />
+  <Audio src={staticFile("sfx/whoosh-light.wav")} volume={0.3} />
 </Sequence>
 ```
 

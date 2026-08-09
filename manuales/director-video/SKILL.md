@@ -179,7 +179,7 @@ Con **una instrucción simple**, el director **infiere** del proyecto y **declar
 
 3. **Genera los artefactos:** `proyectos/NNN/artefactos/01-plan.md` · `02-layout.md` · `03-timeline.md` → y de ahí `camara-NNN.ts` · `graficos-NNN.ts` · `cues-NNN.ts` · el JSX propio de la pieza · `subtitulos-NNN.ts` · la comp ensamblada (z-order §3).
 4. **Puertas de control:** muestra **frames** clave ([R05](../edicion-video/reglas.md)) → **prueba 720p** ([R06](../edicion-video/reglas.md)) → espera OK → **final**.
-5. **Guarda lo que funcionó** en `proyectos/NNN/aprendizajes.md` y las reglas nuevas como R10+ ([R07](../edicion-video/reglas.md)).
+5. **Guarda lo que funcionó** en `proyectos/NNN/aprendizajes.md` y las reglas nuevas con la siguiente R libre de [reglas.md](../edicion-video/reglas.md) ([R07](../edicion-video/reglas.md)).
 
 ---
 

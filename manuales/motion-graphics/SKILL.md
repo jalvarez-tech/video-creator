@@ -29,7 +29,7 @@ metadata:
 > **Principio maestro.** El **DISEÑO** decide *qué* se ve · la **ANIMACIÓN** decide *cuándo y cómo* aparece · el **SONIDO** decide *qué se siente* · la **NARRATIVA** decide *por qué* existe cada elemento.
 > No añadas una animación porque hay un corte, un texto o un dato. Antes de añadir cualquier recurso responde: **¿qué función narrativa cumple? ¿cuál es el frame más importante? ¿la escena mejora de verdad con esto?** Si no hay respuesta clara, no lo pongas. **Ante la duda, simplifica.**
 
-Motor: `remotion/src/plantillas/` — tokens en [`motion.ts`](../../remotion/src/plantillas/motion.ts) · tema en [`theme.ts`](../../remotion/src/plantillas/theme.ts) · formatos en [`presets.ts`](../../remotion/src/plantillas/presets.ts) · ejemplos reales trabajados en [`MotionGraphics.tsx`](../../remotion/src/plantillas/MotionGraphics.tsx) y [`MotionGraphicsFull.tsx`](../../remotion/src/plantillas/MotionGraphicsFull.tsx).
+Motor: `remotion/src/plantillas/` — tokens en [`motion.ts`](../../remotion/src/plantillas/motion.ts) · tema en [`theme.ts`](../../remotion/src/plantillas/theme.ts) · formatos en [`presets.ts`](../../remotion/src/plantillas/presets.ts) · ejemplos reales trabajados en [`MotionGraphicsFull.tsx`](../../remotion/src/plantillas/MotionGraphicsFull.tsx) y [`MotionApple002.tsx`](../../remotion/src/plantillas/MotionApple002.tsx).
 
 📚 **Biblioteca de gráficos** — [`plantillas/graficos/`](../../remotion/src/plantillas/graficos/): 37 primitivas ya resueltas (tipografía, fondos, datos, **trazo dibujado**, **partículas**, **3D**, **glitch**) + el plan de gráficos **como datos** (`GraficoCue` → `<PistaGraficos>`).
 **Míralo ANTES de escribir un gráfico:** catálogo vivo en la composición `Catalogo` del Studio · lista en [catalogo-graficos.md](catalogo-graficos.md) (se regenera con `node manuales/motion-graphics/scripts/generar-catalogo.mjs`).
@@ -60,7 +60,7 @@ Motor: `remotion/src/plantillas/` — tokens en [`motion.ts`](../../remotion/src
 | **Supporting** | 40–60 % | Ayuda a comprender el hero. | Flecha que acompaña una cifra · ✓ de confirmación · etiqueta que explica |
 | **Ambient** | 10–25 % | Da vida sin pedir atención. | Gradiente lento · parallax mínimo · brillo suave |
 
-Si varios elementos compiten, **reduce el movimiento de todos menos del protagonista**. En este sistema el hero es literalmente **1 gráfico a la vez** en la franja superior ([R08](../edicion-video/reglas.md)); ver el patrón `Slot`/`Scene` en `MotionGraphics(Full).tsx`.
+Si varios elementos compiten, **reduce el movimiento de todos menos del protagonista**. En este sistema el hero es literalmente **1 gráfico a la vez** en la franja superior ([R08](../edicion-video/reglas.md)); ver el patrón `Scene` en `MotionGraphicsFull.tsx`.
 
 ---
 

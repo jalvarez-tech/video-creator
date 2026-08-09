@@ -22,7 +22,7 @@ Avatar HeyGen (talking-head) 9:16 · captación de leads inmobiliarios · 43.6 s
 ## Motion graphics (según el guion)
 - Diseñados con un **workflow** (1 concepto por beat en paralelo → director de arte los cura). Regla de oro del set: **1 solo gráfico a la vez**, en la franja SUPERIOR (la ventana, sobre la cara), nunca chocando con los subtítulos (y≈70%).
 - Set final: contador-héroe **200→3→0** (beats 1-3), WhatsApp **"Visto · Sin respuesta"** (b4), **timer 5:00→0:00 + flip TUYO→DE OTRO** (b5), contador **200** de la competencia (b6, bookend), **botón Seguir→Siguiendo** que se queda hasta el final (b7).
-- Un único componente `MotionGraphics.tsx`; timing por **frames absolutos @25fps**; `spring`/`interpolate`/`interpolateColors` + ring SVG.
+- Un único componente `MotionGraphics.tsx` (borrado en 2026-08-06 al quedar sin uso; su sucesor es `MotionGraphicsFull.tsx`); timing por **frames absolutos @25fps**; `spring`/`interpolate`/`interpolateColors` + ring SVG.
 - Excepción cromática: ámbar/rojo SOLO en el clímax del timer; el resto en teal/verde/cian.
 - Ajustes tras revisar frames (R05): subir el bloque del timer (el chip tapaba la frente) y dar fondo al chip "Visto" (contraste sobre la ventana).
 

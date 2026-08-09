@@ -13,7 +13,7 @@ import { Aspa, Check, Flecha, Rodea, Subrayado, Trazo } from "./Trazo";
 /**
  * CATÁLOGO VIVO — el escaparate de la biblioteca, dentro del Studio.
  *
- * Cada ficha de `catalogo.ts` ocupa `PASO` frames: se navega arrastrando la
+ * Cada ficha de `fichas.ts` ocupa `PASO` frames: se navega arrastrando la
  * cabeza lectora del Studio, y cada gráfico se ve ANIMÁNDOSE DE VERDAD, no en
  * una captura. Es la respuesta a "¿esto ya existe?" antes de escribir nada.
  *
@@ -21,7 +21,7 @@ import { Aspa, Check, Flecha, Rodea, Subrayado, Trazo } from "./Trazo";
  * repo de referencia) porque el Studio YA es el reproductor del sistema: montar
  * un segundo stack solo para navegar la biblioteca añade mantenimiento sin
  * añadir información. Para leer el catálogo fuera del Studio está el markdown
- * que genera `manuales/motion-graphics/generar-catalogo.mjs`.
+ * que genera `manuales/motion-graphics/scripts/generar-catalogo.mjs`.
  */
 
 /** Frames por ficha (a 30 fps = 3 s). */

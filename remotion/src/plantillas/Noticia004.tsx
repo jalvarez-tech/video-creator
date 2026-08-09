@@ -16,10 +16,15 @@ import { PistaSonido } from "./sound/PistaSonido";
  * La voz va a volumen 1 y los SFX ya vienen calibrados por pico (TARGET_DBFS)
  * más el ducking global: por eso aquí no hay ningún número de mezcla suelto.
  *
- * ⚠️ La pista de voz es una GUÍA generada con la voz de sistema (Paulina, es_MX)
- * porque la cuenta de HeyGen no tiene clave cargada. Para publicar, sustituye
- * `public/noticias/004-vo.wav` por la locución definitiva y vuelve a correr
- * `generar-vo.sh` con el mismo guion: los frames del plan se recalculan solos.
+ * ⚠️ La pista de voz es una GUÍA generada con la voz de sistema (Paulina, es_MX,
+ * `--motor say`). El motor de voz de este formato es ElevenLabs, no HeyGen
+ * (HeyGen solo genera vídeo de avatar; ver video-noticias/SKILL.md §8). Para
+ * publicar, relocuta con tu voz clonada y vuelve a correr `generar-vo.sh`, que
+ * regenera `public/noticias/004-vo.wav` y recalcula los frames del plan:
+ *   python3 manuales/edicion-video/scripts/elevenlabs.py guion \
+ *           proyectos/004/guion-vo.txt --salida proyectos/004/vo/partes
+ *   bash manuales/video-noticias/scripts/generar-vo.sh proyectos/004/guion-vo.txt \
+ *        --motor elevenlabs --partes proyectos/004/vo/partes --fps 30
  *
  * PENDIENTE: subtítulos sincronizados (`subtitulos-004.ts` + <SubtitulosSync
  * yPct={78}>). El guion ya está segmentado por toma en proyectos/004/guion-vo.txt.

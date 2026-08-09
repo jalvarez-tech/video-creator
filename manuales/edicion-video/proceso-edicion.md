@@ -3,7 +3,7 @@
 > **Principio rector:** primero **guion**, luego **formato**, después **bloques**.
 > Si la idea no está clara, ningún visual arregla el vídeo. Si te saltas una fase, pierdes control y aparecen errores difíciles de corregir.
 
-Este documento es el **procedimiento repetible**. Cada paso dice: qué hace Claude, qué **entrega como evidencia**, y **dónde se detiene** a esperar tu decisión. Se apoya en las [reglas R01–R07](reglas.md) y en las [plantillas](plantillas/README.md).
+Este documento es el **procedimiento repetible**. Cada paso dice: qué hace Claude, qué **entrega como evidencia**, y **dónde se detiene** a esperar tu decisión. Se apoya en las [reglas R01–R15](reglas.md) y en las [plantillas](plantillas/README.md).
 
 > **Variante con avatar HeyGen:** si el vídeo lo genera tu avatar (ver [heygen.md](heygen.md)), el habla ya es limpia y el guion es texto conocido → **sáltate el Paso 2 (silencios) y el Paso 3 (transcripción)** y ve directo a **Paso 4 (formato) → 5 → 6 → 7**.
 

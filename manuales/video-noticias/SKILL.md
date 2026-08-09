@@ -184,6 +184,10 @@ bash manuales/video-noticias/scripts/generar-vo.sh proyectos/NNN/guion-vo.txt \
   --motor elevenlabs --partes proyectos/NNN/vo/partes
 ```
 
+**Es REANUDABLE: si algo falla a mitad, vuelve a lanzar el MISMO comando.** Junto a cada audio queda un sidecar `.json` con la firma de lo que lo generó (texto, voz, modelo, preset, formato y los vecinos del stitching). Las tomas cuya firma no ha cambiado se saltan y **no se vuelven a facturar**; un 429 en la toma 15 ya no obliga a repagar las 14 anteriores. Al editar una línea del guion se regeneran esa toma **y sus dos vecinas**, porque el stitching hace que su audio dependa de ellas. Para regenerarlo todo a propósito (y volver a pagarlo): `--forzar`.
+
+⚠️ **`--partes` no puede ser `proyectos/NNN/vo/.partes`** (con punto) ni la carpeta que la contiene: ese es el temporal que `generar-vo.sh` borra al empezar. El script lo rechaza antes de tocar el disco, pero úsalo sin punto como en los ejemplos.
+
 **Un audio por toma, no uno por vídeo:** cada ventana del plan sale de la duración real de *su* línea. Con un único archivo habría que segmentarlo a oído después, que es el paso manual que este sistema existe para evitar.
 
 **Y por qué eso no suena a trozos pegados — tres ajustes que no son opcionales:**
