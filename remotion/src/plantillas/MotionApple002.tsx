@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { theme } from "./theme";
-import { EASE, SPRING } from "./motion";
+import { EASE, opacidadVentana, SPRING } from "./motion";
 
 /**
  * Motion graphics del proyecto 002 — dirección de arte estilo Apple.
@@ -52,10 +52,7 @@ const Statement: React.FC<{ from: number; to: number; glow?: string; children: R
   if (frame < from || frame >= to) return null;
   const f = frame - from;
   const len = to - from;
-  const op = interpolate(f, [0, 7, len - 8, len], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const op = opacidadVentana(f, len, 7, 8);
   const e = spring({ frame: f, fps, config: SPRING.contador });
   const scale = interpolate(e, [0, 1], [0.965, 1]);
   const blur = interpolate(f, [0, 9], [9, 0], { extrapolateRight: "clamp" });
@@ -125,18 +122,39 @@ const BottomScrim: React.FC<{ opacity: number; height?: number }> = ({ opacity, 
   />
 );
 
+/**
+ * LAS VENTANAS DE CADA ESCENA, en un solo sitio.
+ *
+ * Estaban como literales dentro de cada componente y repetidas otra vez en
+ * `TOMAS_A_PANTALLA_COMPLETA`, que es lo que <Avatar002> usa para desmontar el
+ * avatar. Dos copias del mismo número: mover una escena y olvidar la otra dejaba
+ * el avatar decodificándose bajo un fondo opaco (solo cuesta tiempo) o, peor,
+ * DESMONTADO cuando sí se ve (un hueco negro en el vídeo). Ahora hay una sola
+ * fuente y las dos cosas se derivan de ella.
+ */
+const V = {
+  hook: [12, 150],        // S1  · super sobre el avatar
+  n200: [158, 250],       // S2  · pantalla completa
+  n3: [250, 322],         // S3  · pantalla completa
+  n0: [322, 408],         // S4  · pantalla completa
+  mitos: [410, 486],      // S5  · super sobre el avatar
+  caliente: [492, 575],   // S6  · pantalla completa
+  noSiguen: [575, 640],   // S6b · pantalla completa
+  pregunta: [640, 786],   // S7  · pantalla completa
+  comentario: [790, 870], // S8  · tarjeta sobre el avatar
+} as const;
+
 // ── Escenas ──────────────────────────────────────────────────────────────────
 
 /* S1 · Hook — overline sobre el avatar (franja superior) 12–150 */
 const S1Hook: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const from = 12;
-  const to = 150;
+  const [from, to] = V.hook;
   if (frame < from || frame >= to) return null;
   const f = frame - from;
   const len = to - from;
-  const op = interpolate(f, [0, 10, len - 14, len], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const op = opacidadVentana(f, len, 10, 14);
   const ty = interpolate(spring({ frame: f, fps, config: SPRING.entrada }), [0, 1], [16, 0]);
   const rule = interpolate(f, [8, 30], [0, 260], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.outCubic });
   return (
@@ -155,10 +173,10 @@ const S1Hook: React.FC = () => {
 /* S2 · 200 (entran) 158–250 */
 const S2_200: React.FC = () => {
   const frame = useCurrentFrame();
-  const from = 158;
+  const [from, hasta] = V.n200;
   const n = Math.round(interpolate(frame, [from + 8, from + 42], [0, 200], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.outCubic }));
   return (
-    <Statement from={from} to={250} glow="rgba(94,234,212,0.12)">
+    <Statement from={from} to={hasta} glow="rgba(94,234,212,0.12)">
       <Col>
         <Kicker>Pagas la pauta</Kicker>
         <Huge>{n}</Huge>
@@ -170,7 +188,7 @@ const S2_200: React.FC = () => {
 
 /* S3 · 3 (escriben) 250–322 */
 const S3_3: React.FC = () => (
-  <Statement from={250} to={322} glow="rgba(94,234,212,0.10)">
+  <Statement from={V.n3[0]} to={V.n3[1]} glow="rgba(94,234,212,0.10)">
     <Col gap={22}>
       <span style={{ fontSize: 40, fontWeight: 600, color: AP.faint, textDecoration: "line-through" }}>200 entran</span>
       <Huge color={AP.mint}>3</Huge>
@@ -181,7 +199,7 @@ const S3_3: React.FC = () => (
 
 /* S4 · 0 (agendan) 322–408 — el golpe */
 const S4_0: React.FC = () => (
-  <Statement from={322} to={408} glow="rgba(255,69,58,0.16)">
+  <Statement from={V.n0[0]} to={V.n0[1]} glow="rgba(255,69,58,0.16)">
     <Col gap={22}>
       <Kicker color={AP.faint}>y de esos 3…</Kicker>
       <Huge color={AP.red}>0</Huge>
@@ -209,12 +227,11 @@ const Myth: React.FC<{ text: string; appear: number; strike: number }> = ({ text
 };
 const S5Myths: React.FC = () => {
   const frame = useCurrentFrame();
-  const from = 410;
-  const to = 486;
+  const [from, to] = V.mitos;
   if (frame < from || frame >= to) return null;
   const f = frame - from;
   const len = to - from;
-  const op = interpolate(f, [0, 8, len - 12, len], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const op = opacidadVentana(f, len, 8, 12);
   return (
     <>
       <BottomScrim opacity={op * 0.85} height={640} />
@@ -229,14 +246,13 @@ const S5Myths: React.FC = () => {
 /* S6a · Caliente → Frío 492–575 */
 const S6Hot: React.FC = () => {
   const frame = useCurrentFrame();
-  const from = 492;
-  const to = 575;
+  const [from, to] = V.caliente;
   if (frame < from || frame >= to) return null;
   const f = frame - from;
   const frio = interpolate(f, [26, 40], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const barW = interpolate(f, [10, 46], [0, 420], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.outCubic });
   const glow = interpolateColors(frio, [0, 1], ["rgba(255,159,10,0.16)", "rgba(100,210,255,0.16)"]);
-  const op = interpolate(f, [0, 7, to - from - 8, to - from], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const op = opacidadVentana(f, to - from, 7, 8);
   return (
     <AbsoluteFill style={{ background: AP.bg, fontFamily: FONT }}>
       <AbsoluteFill style={{ background: `radial-gradient(58% 44% at 50% 34%, ${glow}, transparent 62%)` }} />
@@ -256,7 +272,7 @@ const S6Hot: React.FC = () => {
 
 /* S6b · Sin seguimiento 575–640 */
 const S6NoFollow: React.FC = () => (
-  <Statement from={575} to={640} glow="rgba(255,69,58,0.12)">
+  <Statement from={V.noSiguen[0]} to={V.noSiguen[1]} glow="rgba(255,69,58,0.12)">
     <Col gap={24}>
       <span style={{ fontSize: 128, fontWeight: 800, letterSpacing: -3, color: AP.text, textShadow: "0 0 60px rgba(255,69,58,0.4)" }}>
         SIN SEGUIMIENTO
@@ -277,12 +293,11 @@ const ChatGlyph: React.FC<{ size?: number; color?: string }> = ({ size = 46, col
 const S7Question: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const from = 640;
-  const to = 786;
+  const [from, to] = V.pregunta;
   if (frame < from || frame >= to) return null;
   const f = frame - from;
   const len = to - from;
-  const op = interpolate(f, [0, 7, len - 8, len], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const op = opacidadVentana(f, len, 7, 8);
 
   // Reveal de la pregunta grande tras "una pregunta honesta" (frame 678 → f=38).
   const REVEAL = 38;
@@ -334,14 +349,13 @@ const S7Question: React.FC = () => {
 const S8Comment: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const from = 790;
-  const to = 870;
+  const [from, to] = V.comentario;
   if (frame < from || frame >= to) return null;
   const f = frame - from;
   const enter = spring({ frame: f, fps, config: SPRING.tarjeta });
   const ty = interpolate(enter, [0, 1], [26, 0]);
   const sc = interpolate(enter, [0, 1], [0.92, 1]);
-  const op = interpolate(f, [0, 9, to - from - 10, to - from], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const op = opacidadVentana(f, to - from, 9, 10);
   const caret = Math.floor(f / 9) % 2 === 0 ? 1 : 0; // parpadeo determinista
   const bump = f >= 30 && f < 44 ? interpolate(spring({ frame: f - 30, fps, config: SPRING.tap }), [0, 0.5, 1], [1, 0.94, 1]) : 1;
   return (
@@ -368,6 +382,29 @@ const S8Comment: React.FC = () => {
 };
 
 // ── Montaje ──────────────────────────────────────────────────────────────────
+
+/**
+ * Ventanas en las que este archivo TAPA la composición entera con fondo opaco
+ * (`AP.bg`): las escenas de "corte a pantalla completa", donde el avatar cede.
+ *
+ * Esto NO es documentación: <Avatar002> las lee para no montar el vídeo del
+ * avatar mientras no se ve, y ahorrarse decodificarlo. Si mueves una escena,
+ * mueve también su ventana — están juntas a propósito.
+ *
+ * La cobertura es TOTAL de `de` a `a`, sin margen: en estas escenas el fondo no
+ * se funde (la opacidad de entrada/salida se aplica solo al contenido, dentro
+ * del <AbsoluteFill> opaco), así que no hay ni un frame en que se traspare.
+ */
+export const TOMAS_A_PANTALLA_COMPLETA: ReadonlyArray<readonly [number, number]> = [
+  // Las tres primeras son contiguas (250 y 322 se tocan), igual que las tres
+  // siguientes: por eso son dos tramos y no seis.
+  [V.n200[0], V.n0[1]], //      200 entran → 3 escriben → 0 agendan
+  [V.caliente[0], V.pregunta[1]], // caliente→frío · no siguen · la pregunta
+];
+
+/** ¿El frame cae dentro de una toma a pantalla completa? */
+export const cubreLaPantalla = (frame: number): boolean =>
+  TOMAS_A_PANTALLA_COMPLETA.some(([de, a]) => frame >= de && frame < a);
 
 export const MotionApple002: React.FC = () => (
   <AbsoluteFill>
