@@ -8,7 +8,7 @@
  * "los primeros 5 minutos / es de tu competencia". Los subtítulos siguen lo que
  * realmente se dice.
  */
-import type { Segmento } from "./subtitulos-001";
+import type { Segmento } from "./segmentos";
 
 export const subtitulos002: Segmento[] = [
   // A · Hook (0–6.24 s)

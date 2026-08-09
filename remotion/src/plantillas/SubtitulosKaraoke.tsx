@@ -1,7 +1,7 @@
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { theme } from "./theme";
 import { EASE } from "./motion";
-import type { Segmento } from "./subtitulos-001";
+import type { Segmento } from "./segmentos";
 
 /**
  * Subtítulos KARAOKE: resalta la palabra que se está diciendo.

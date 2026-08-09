@@ -17,7 +17,7 @@
  * Texto CORREGIDO a mano donde whisper oyó mal (el clip dice "deshacerte LA
  * gente" y "nunca le volví a hablar"; en pantalla va la forma del guion).
  */
-import type { Segmento } from "./subtitulos-001";
+import type { Segmento } from "./segmentos";
 
 export const subtitulos003: Segmento[] = [
   // A · Hook (0–5.6 s)

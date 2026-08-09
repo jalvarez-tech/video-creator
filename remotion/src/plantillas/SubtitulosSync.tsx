@@ -1,6 +1,6 @@
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { theme } from "./theme";
-import type { Segmento } from "./subtitulos-001";
+import type { Segmento } from "./segmentos";
 
 /**
  * Subtítulos SINCRONIZADOS: muestra el segmento activo según el tiempo actual.

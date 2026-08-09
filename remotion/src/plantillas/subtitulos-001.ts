@@ -4,7 +4,7 @@
  * Timing: transcripción whisper.cpp repartida por palabra en cada frase.
  * Fuente: proyectos/001/transcripcion.json
  */
-export type Segmento = { from: number; to: number; text: string };
+import type { Segmento } from "./segmentos";
 
 export const subtitulos001: Segmento[] = [
   { from: 0.0, to: 1.82, text: "Tu anuncio no está" },
