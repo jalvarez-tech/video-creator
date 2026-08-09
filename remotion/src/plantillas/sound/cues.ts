@@ -99,7 +99,7 @@ export type SoundCue = {
  */
 export const SFX: Record<VarianteSonido, { file: string; vol: number; bucket: MixBucket; cat: string }> = {
   // whoosh / transición (bucket whoosh → más bajo)
-  light: { file: "whoosh-light.mp3", vol: 0.062, bucket: "whoosh", cat: "36-WHOOSH" },
+  light: { file: "whoosh-light.wav", vol: 0.062, bucket: "whoosh", cat: "36-WHOOSH" },
   whip: { file: "whoosh-whip.wav", vol: 0.05, bucket: "whoosh", cat: "36-WHOOSH" },
   heavy: { file: "whoosh-heavy.mp3", vol: 0.045, bucket: "whoosh", cat: "36-WHOOSH" },
   wind: { file: "whoosh-wind.wav", vol: 0.06, bucket: "whoosh", cat: "36-WHOOSH" },
@@ -135,7 +135,7 @@ export const SFX: Record<VarianteSonido, { file: string; vol: number; bucket: Mi
   tick: { file: "tick.mp3", vol: 0.151, bucket: "general", cat: "37-OTROS (reloj)" },
   // acierto / error / dinero
   chime: { file: "chime.mp3", vol: 0.164, bucket: "general", cat: "14-DING" },
-  success: { file: "success.mp3", vol: 0.093, bucket: "general", cat: "14-DING" },
+  success: { file: "success.wav", vol: 0.093, bucket: "general", cat: "14-DING" },
   error: { file: "error.mp3", vol: 0.248, bucket: "general", cat: "16-ERROR" },
   money: { file: "money.mp3", vol: 0.145, bucket: "general", cat: "13-DINERO" },
   coin: { file: "coin.mp3", vol: 0.089, bucket: "general", cat: "27-MONEDA" },
@@ -168,7 +168,7 @@ export const POOL: Partial<Record<VarianteSonido, { file: string; vol: number }[
     { file: "glitch-03.wav", vol: 0.184 },
   ],
   light: [
-    { file: "whoosh-light.mp3", vol: 0.062 },
+    { file: "whoosh-light.wav", vol: 0.062 },
     { file: "whoosh-light-02.wav", vol: 0.056 },
     { file: "whoosh-light-03.wav", vol: 0.048 },
   ],
@@ -239,9 +239,15 @@ export function cue(
   targetFrame: number,
   durationInFrames: number,
   reason: string,
-  opts: Partial<SoundCue> = {}
+  // `Omit` de lo que ya es posicional: antes era `Partial<SoundCue>` a secas y
+  // el `...opts` iba AL FINAL, así que `opts.id`/`opts.type`/`opts.targetFrame`
+  // pisaban en silencio al argumento con nombre. Y un `{volume: undefined}`
+  // explícito dejaba `volume` en undefined → `<Audio volume={NaN}>`.
+  opts: Partial<Omit<SoundCue, "id" | "type" | "variant" | "targetFrame" | "durationInFrames" | "reason">> = {}
 ): SoundCue {
   return {
+    // El spread PRIMERO: los campos de abajo (los del builder) siempre ganan.
+    ...opts,
     id,
     type,
     variant,
@@ -252,6 +258,5 @@ export function cue(
     volume: opts.volume ?? resolveSound(variant, opts.variantIndex).vol,
     priority: opts.priority ?? "medium",
     reason,
-    ...opts,
   };
 }

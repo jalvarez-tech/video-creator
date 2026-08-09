@@ -29,11 +29,29 @@ const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
 const remotionDir = path.join(root, "remotion");
 
 const rel = process.argv[2] ?? "src/plantillas/noticia-demo.ts";
-const fps = Number(process.argv[3] ?? 30);
-const planTs = path.isAbsolute(rel) ? rel : path.join(remotionDir, rel);
 
-if (!fs.existsSync(planTs)) {
-  console.error(`✖ No existe el plan: ${planTs}`);
+// Un fps no numérico daba FALSO VERDE: `Number("veinticinco")` es NaN, toda
+// comparación con NaN es false, y las dos comprobaciones de duración (< 0.8 s y
+// > 6 s) se saltaban en silencio mientras la cabecera imprimía "NaN s @ NaN fps".
+const fps = Number(process.argv[3] ?? 30);
+if (!Number.isFinite(fps) || fps <= 0) {
+  console.error(`✖ fps inválido: "${process.argv[3]}". Tiene que ser un número > 0 (p. ej. 30).`);
+  process.exit(1);
+}
+
+// El README dice que TODAS sus rutas son relativas a la raíz del repo, pero este
+// script las resolvía contra remotion/. Ahora acepta las dos formas, en el orden
+// que menos sorprende: absoluta → tal cual como la escribió el usuario → bajo
+// remotion/ (la forma histórica, que se sigue documentando en los SKILL).
+const candidatas = path.isAbsolute(rel)
+  ? [rel]
+  : [...new Set([path.resolve(process.cwd(), rel), path.join(remotionDir, rel), path.join(root, rel)])];
+const planTs = candidatas.find((c) => fs.existsSync(c));
+
+if (!planTs) {
+  console.error(`✖ No existe el plan: ${rel}`);
+  console.error("   Probé:");
+  for (const c of candidatas) console.error(`     · ${c}`);
   process.exit(1);
 }
 

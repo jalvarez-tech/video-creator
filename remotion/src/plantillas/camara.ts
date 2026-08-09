@@ -63,6 +63,12 @@ export const escalaDe = (shot: Shot): number => (SHOT[shot].min + SHOT[shot].max
 export type CameraCue = {
   id: string;
   startFrame: number;
+  /**
+   * ⚠️ Con `easing: "spring"` este valor NO se usa: la duración del movimiento
+   * la dicta el muelle, no la ventana (ver `progresoCamara`). Sigue marcando el
+   * final lógico del cue para leer el plan, pero si quieres controlar cuánto
+   * dura el movimiento, usa un easing de interpolación.
+   */
   endFrame: number;
   shot: Shot;
   startScale: number;

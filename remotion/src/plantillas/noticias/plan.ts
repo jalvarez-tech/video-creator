@@ -181,8 +181,9 @@ export const REGISTRO_POR_TIPO: Record<TipoToma, Registro> = {
 };
 
 /**
- * Revisa un plan y devuelve los avisos. NO se llama en el render: se usa al
- * ESCRIBIR el plan, porque su valor está en el momento de decidir.
+ * Revisa un plan y devuelve los avisos. Lo llama `<PistaNoticia>` (que los vuelca
+ * por consola con `avisaDelPlan`) y `revisar-plan.mjs` desde la CLI; su valor real
+ * está al ESCRIBIR el plan, que es cuando aún se puede decidir otra cosa.
  *
  * Comprueba lo que un humano con prisa se salta en este formato concreto:
  *   · toma < 0.8 s              → a este ritmo nadie lee un titular
@@ -211,6 +212,14 @@ export function revisaNoticia(tomas: TomaNoticia[], fps = 30): string[] {
       avisos.push(`[${t.id}] dura ${len} f (> 6 s): en un short, demasiado sin cambio visual`);
     if ((t.tipo === "retrato" || t.tipo === "escenario") && !t.media)
       avisos.push(`[${t.id}] toma ${t.tipo} sin media: montará el marco vacío`);
+    // El rotulador se posiciona con indexOf sobre el titular: si el fragmento no
+    // aparece LITERAL (una tilde, un guion tipográfico, un espacio de más), da
+    // -1 y no se dibuja nada. Sin este aviso, el fallo es invisible.
+    // Compara EN MINÚSCULAS porque así busca `RecortePrensa` (Editorial.tsx:228,
+    // con toLowerCase().indexOf). Con `includes` a secas, un titular con distinta
+    // capitalización daba un falso positivo: avisaba de algo que sí se dibuja.
+    if (t.resaltar && !(t.titular ?? "").toLowerCase().includes(t.resaltar.toLowerCase()))
+      avisos.push(`[${t.id}] "resaltar" no aparece en el titular: el rotulador no se dibujará`);
   }
 
   for (let i = 1; i < orden.length; i++) {

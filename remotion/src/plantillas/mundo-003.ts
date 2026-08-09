@@ -53,10 +53,11 @@ export const SIM = {
 export type ColorSim = (typeof SIM)[keyof typeof SIM];
 
 /** `#RRGGBB` + alfa → `rgba()`. Para glows, bordes y estados apagados. */
-export const alfa = (hex: string, a: number): string => {
-  const n = parseInt(hex.slice(1), 16);
-  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
-};
+/**
+ * Reexportada de `formato.ts`. La copia que había aquí NO expandía el atajo de
+ * tres dígitos: `alfa("#FFF", .5)` daba azul en vez de blanco.
+ */
+export { alfa } from "./formato";
 
 /**
  * Sans geométrica bold. Futura es la geométrica de referencia; se carga por

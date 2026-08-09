@@ -23,12 +23,8 @@ export const FONT = theme.fontFamily;
  * alfa. Sin este helper acabas escribiendo el rgba a mano y el color deja de
  * salir de theme.ts — que es justo lo que rompe la coherencia.
  */
-export const alfa = (hex: string, a: number): string => {
-  let h = hex.replace("#", "");
-  if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
-  const n = parseInt(h, 16);
-  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
-};
+/** Reexportada de `formato.ts`, que es donde vive la única copia. */
+export { alfa } from "../formato";
 
 /**
  * Paleta de gráficos = la de marca (`MG`) + los neutros de capa.

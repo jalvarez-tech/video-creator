@@ -393,12 +393,9 @@ export const GLIFO = {
 // ── Cifras ───────────────────────────────────────────────────────────────────
 
 /** Separador de miles sin depender del locale del render (determinista). */
-export const formateaN = (n: number, decimales = 0, separador = "."): string => {
-  const fijo = Math.abs(n).toFixed(decimales);
-  const [ent, dec] = fijo.split(".");
-  const conSep = ent.replace(/\B(?=(\d{3})+(?!\d))/g, separador);
-  return `${n < 0 ? "-" : ""}${conSep}${dec ? "," + dec : ""}`;
-};
+/** Reexportada de `formato.ts` (era idéntica a `formatea` salvo el nombre). */
+import { formatea as formateaN } from "../formato";
+export { formateaN };
 
 /**
  * El dato como argumento, en clave editorial.

@@ -1,6 +1,7 @@
 import { AbsoluteFill } from "remotion";
 import { graficosDemo } from "./graficos-demo";
 import { PistaGraficos, Puntos, Resplandor, Vineta } from "./graficos";
+import { MG } from "./motion";
 
 /**
  * DEMO de la coreografía por datos: el plan `graficos-demo.ts` montado por el
@@ -21,8 +22,8 @@ import { PistaGraficos, Puntos, Resplandor, Vineta } from "./graficos";
  */
 export const GraficosDemo: React.FC = () => (
   <AbsoluteFill style={{ background: "#0B0F1A" }}>
-    <Resplandor color="#0F766E" cx={50} cy={34} intensidad={0.3} pulso={0.04} />
-    <Resplandor color="#f59e0b" cx={28} cy={72} intensidad={0.16} />
+    <Resplandor color={MG.teal} cx={50} cy={34} intensidad={0.3} pulso={0.04} />
+    <Resplandor color={MG.amber} cx={28} cy={72} intensidad={0.16} />
     <Puntos opacidad={0.05} />
     <PistaGraficos cues={graficosDemo} />
     <Vineta intensidad={0.5} />

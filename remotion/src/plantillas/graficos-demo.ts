@@ -1,6 +1,7 @@
 // Importa SOLO los datos (`coreografia`), no el barril: un plan es una lista de
 // decisiones y no debe arrastrar ni un componente. Así se puede validar con
 // Node sin montar React (ver `revisaPlan` más abajo).
+import { MG } from "./motion";
 import { gfx, GraficoCue } from "./graficos/coreografia";
 
 /**
@@ -44,7 +45,7 @@ export const graficosDemo: GraficoCue[] = [
     "g-dato",
     "contador",
     [78, 150],
-    { de: 0, valor: 87, sufijo: "%", texto: "de leads sin respuesta", zona: "superior", color: "#f59e0b", soundCueId: "sfx-data" },
+    { de: 0, valor: 87, sufijo: "%", texto: "de leads sin respuesta", zona: "superior", color: MG.amber, soundCueId: "sfx-data" },
     "hero",
     "La magnitud ES el argumento: verla subir de 0 comunica el tamaño del problema mejor que decirlo"
   ),
@@ -54,7 +55,7 @@ export const graficosDemo: GraficoCue[] = [
     [120, 150],
     // dy = 310 → cuelga el trazo por debajo del bloque cifra+etiqueta: dos cues
     // en la misma zona comparten banda, y `dy` es lo que los ordena.
-    { ancho: 520, zona: "superior", color: "#f59e0b", dur: 16, dy: 310 },
+    { ancho: 520, zona: "superior", color: MG.amber, dur: 16, dy: 310 },
     "apoyo",
     "Remata la cifra con un gesto de mano para que el ojo cierre ahí antes del corte"
   ),

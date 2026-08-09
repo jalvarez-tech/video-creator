@@ -137,9 +137,9 @@ export function gfx(
 }
 
 /**
- * Revisa un plan y devuelve los avisos. NO se llama en el render: úsalo al
- * escribir el plan (o desde la composición `Catalogo`), porque su valor está en
- * el momento de decidir, no en el de dibujar.
+ * Revisa un plan y devuelve los avisos. Lo llama `<PistaGraficos>` (que los
+ * vuelca por consola con `avisaDelPlan`), pero su valor real está al ESCRIBIR el
+ * plan: por eso también se puede invocar a mano o desde un script.
  *
  * Comprueba las reglas del sistema que un humano se salta cuando va con prisa:
  *   · dos `hero` solapados         → SKILL: un solo protagonista a la vez

@@ -16,12 +16,9 @@ import { Cifra, Etiqueta } from "./Texto";
  */
 
 /** Formatea con separador de miles (es-ES por defecto) sin depender de Intl/locale del render. */
-export const formatea = (n: number, decimales = 0, separador = "."): string => {
-  const fijo = Math.abs(n).toFixed(decimales);
-  const partes = fijo.split(".");
-  const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, separador);
-  return `${n < 0 ? "-" : ""}${entero}${partes[1] ? "," + partes[1] : ""}`;
-};
+/** Reexportada de `formato.ts`, compartida con el theme de noticias. */
+import { formatea } from "../formato";
+export { formatea };
 
 /**
  * Contador que sube (o baja) de `de` a `a` en `dur` frames desde `at`.
