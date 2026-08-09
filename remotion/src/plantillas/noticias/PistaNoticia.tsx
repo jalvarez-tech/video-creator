@@ -1,8 +1,10 @@
+import { useMemo } from "react";
 import { AbsoluteFill, Img, OffthreadVideo, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { EASE, SPRING } from "../motion";
+import { durSegura, EASE, SPRING } from "../motion";
 import { ChipIcono, CifraContada, Cronologia, FondoCine, FondoPapel, GLIFO, Medidor, RecortePrensa, Sello, TarjetaFoto, formateaN } from "./Editorial";
 import { LAYOUT, N, T } from "./theme-noticias";
-import { REGISTRO_POR_TIPO, type TomaNoticia } from "./plan";
+import { REGISTRO_POR_TIPO, revisaNoticia, type TomaNoticia } from "./plan";
+import { avisaDelPlan } from "../avisos";
 
 /**
  * EL INTÉRPRETE del plan de noticia — hermano de <PistaGraficos> y <PistaSonido>.
@@ -157,7 +159,7 @@ const Toma: React.FC<{ t: TomaNoticia; len: number }> = ({ t, len }) => {
                 <span style={{ ...T.kicker }}>{t.kicker}</span>
               </Entra>
             ) : null}
-            <Cronologia hitos={t.hitos ?? []} at={4} dur={t.dur ?? Math.min(40, len - 10)} />
+            <Cronologia hitos={t.hitos ?? []} at={4} dur={durSegura(t.dur, Math.min(40, len - 10))} />
           </Centro>
         );
 
@@ -175,7 +177,7 @@ const Toma: React.FC<{ t: TomaNoticia; len: number }> = ({ t, len }) => {
                 de={t.de ?? 0}
                 a={t.valor ?? 0}
                 at={4}
-                dur={t.dur ?? Math.min(34, len - 12)}
+                dur={durSegura(t.dur, Math.min(34, len - 12))}
                 prefijo={t.prefijo}
                 sufijo={t.sufijo}
                 color={color}
@@ -207,7 +209,7 @@ const Toma: React.FC<{ t: TomaNoticia; len: number }> = ({ t, len }) => {
                   a={m.a}
                   max={m.max}
                   at={(t.titular ? 8 : 2) + i * 8}
-                  dur={t.dur ?? 34}
+                  dur={durSegura(t.dur, 34)}
                   color={i === 0 ? color : N.tinta}
                   formato={(v) => `${m.prefijo ?? ""}${formateaN(v, m.decimales ?? 0)}${m.sufijo ?? ""}`}
                 />
@@ -308,15 +310,23 @@ const Toma: React.FC<{ t: TomaNoticia; len: number }> = ({ t, len }) => {
  * Monta el plan completo. Cada toma es una <Sequence>, así que dentro de ella
  * `useCurrentFrame()` empieza en 0 y mover una toma es cambiar un número.
  */
-export const PistaNoticia: React.FC<{ tomas: TomaNoticia[] }> = ({ tomas }) => (
-  <AbsoluteFill>
-    {tomas.map((t) => {
-      const len = Math.max(1, t.endFrame - t.startFrame);
-      return (
-        <Sequence key={t.id} from={t.startFrame} durationInFrames={len} name={`${t.beat}:${t.id}`} layout="none">
-          <Toma t={t} len={len} />
-        </Sequence>
-      );
-    })}
-  </AbsoluteFill>
-);
+export const PistaNoticia: React.FC<{ tomas: TomaNoticia[] }> = ({ tomas }) => {
+  const { fps } = useVideoConfig();
+  // El validador que el README prometía y nadie llamaba: huecos, solapes, tomas
+  // demasiado cortas o largas, `reason` vacíos… En useMemo porque esto se
+  // re-renderiza en cada uno de los 2.205 frames y el plan no cambia.
+  const avisos = useMemo(() => revisaNoticia(tomas, fps), [tomas, fps]);
+  avisaDelPlan("noticia", avisos);
+  return (
+    <AbsoluteFill>
+      {tomas.map((t) => {
+        const len = Math.max(1, t.endFrame - t.startFrame);
+        return (
+          <Sequence key={t.id} from={t.startFrame} durationInFrames={len} name={`${t.beat}:${t.id}`} layout="none">
+            <Toma t={t} len={len} />
+          </Sequence>
+        );
+      })}
+    </AbsoluteFill>
+  );
+};

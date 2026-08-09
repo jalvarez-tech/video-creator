@@ -54,6 +54,46 @@ export const EASE = {
 export const seg = (fps: number, s: number): number => Math.round(s * fps);
 
 /**
+ * Duración de animación SEGURA, en frames (≥ 1).
+ *
+ * Por qué hace falta: los intérpretes derivan la duración de la animación de la
+ * VENTANA del cue (`Math.min(45, len - 10)`), y en una ventana corta eso sale 0
+ * o negativo. Con eso `interpolate` recibe un inputRange no estrictamente
+ * creciente y **lanza** ("inputRange must be strictly monotonically
+ * increasing"): un cue mal cronometrado no degradaba el gráfico, tumbaba el
+ * render entero. Aquí el peor caso es una animación de 1 frame — un corte.
+ *
+ *   dur={durSegura(cue.dur, Math.min(45, len - 10))}
+ */
+export const durSegura = (pedida: number | undefined, porDefecto: number, min = 1): number =>
+  Math.max(min, Math.round(pedida ?? porDefecto));
+
+/**
+ * Opacidad 0→1→0 sobre una ventana de `len` frames, con rampa de entrada y de
+ * salida — el `interpolate(f, [0, 7, len - 8, len], [0, 1, 1, 0])` que estaba
+ * copiado en cinco archivos, aquí una sola vez y a prueba de ventanas cortas.
+ *
+ * El inputRange exige `0 < entra < len-sale < len`. Con rampas fijas, una escena
+ * más corta que las dos rampas juntas daba un rango no creciente e `interpolate`
+ * LANZABA (tumbando el render, no solo esa escena). Aquí las rampas se recortan
+ * a lo que quepa y, si no cabe ninguna, la escena se monta a opacidad plena: un
+ * corte seco. En las escenas reales (de 65 a 146 frames) devuelve exactamente lo
+ * mismo que la versión copiada — comprobado frame a frame.
+ *
+ * Las rampas también se suben a ≥1: un `entra` o `sale` de 0 (o negativo) daba
+ * `[0, 0, …]`, que es justo el rango no creciente que esto viene a impedir.
+ */
+export const opacidadVentana = (f: number, len: number, entra = 7, sale = 8): number => {
+  const e = Math.min(Math.max(1, Math.round(entra)), Math.max(1, Math.ceil(len / 2) - 1));
+  const s = Math.min(Math.max(1, Math.round(sale)), Math.max(1, len - e - 1));
+  if (len <= e + s) return 1;
+  return interpolate(f, [0, e, len - s, len], [0, 1, 1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+};
+
+/**
  * Duraciones de referencia EN SEGUNDOS (conviértelas con seg(fps, …)).
  * Puntos de partida; ajústalas al ritmo de la voz y la música (skill §Timing).
  */

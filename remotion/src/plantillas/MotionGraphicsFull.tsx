@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { theme } from "./theme";
-import { EASE, MG, SPRING } from "./motion";
+import { EASE, MG, opacidadVentana, SPRING } from "./motion";
 
 /**
  * Motion graphics como CORTES A PANTALLA COMPLETA (fondo plano de marca +
@@ -28,7 +28,7 @@ const Scene: React.FC<{ from: number; to: number; children: React.ReactNode }> =
   if (frame < from || frame >= to) return null;
   const f = frame - from;
   const len = to - from;
-  const op = interpolate(f, [0, 5, len - 6, len], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const op = opacidadVentana(f, len, 5, 6);
   const glow = 0.06 + 0.05 * Math.sin(frame / 12);
   return (
     <AbsoluteFill style={{ background: C.ink, fontFamily: FONT }}>

@@ -1,5 +1,5 @@
 import { AbsoluteFill, interpolate, Sequence, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { EASE, Muelle, SPRING } from "../motion";
+import { EASE, Muelle, opacidadVentana, SPRING } from "../motion";
 import { FONT } from "./estilos";
 
 /**
@@ -38,14 +38,16 @@ export const Escena: React.FC<{
   </Sequence>
 );
 
-/** Opacidad de entrada y salida sobre una ventana de `len` frames. */
+/**
+ * Opacidad de entrada y salida sobre una ventana de `len` frames.
+ * El recorte de las rampas (y el corte seco cuando no caben) vive en
+ * `opacidadVentana`, compartido con los motion graphics escritos a mano.
+ */
 const Fundido: React.FC<{ len: number; dur: number; children: React.ReactNode }> = ({ len, dur, children }) => {
   const f = useCurrentFrame();
-  const op = interpolate(f, [0, dur, len - dur, len], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  return <AbsoluteFill style={{ opacity: op, fontFamily: FONT }}>{children}</AbsoluteFill>;
+  return (
+    <AbsoluteFill style={{ opacity: opacidadVentana(f, len, dur, dur), fontFamily: FONT }}>{children}</AbsoluteFill>
+  );
 };
 
 /**

@@ -1,11 +1,13 @@
+import { useMemo } from "react";
 import { AbsoluteFill, useVideoConfig } from "remotion";
-import { STAGGER } from "../motion";
+import { avisaDelPlan } from "../avisos";
+import { durSegura, STAGGER } from "../motion";
 import { Barras, BarraProgreso, Contador, ItemLista } from "./Datos";
 import { Aparece, Barrido, Escena, Ranura } from "./Entradas";
 import { G } from "./estilos";
 import { Scrim } from "./Fondos";
 import { Glitch } from "./Glitch";
-import { GraficoCue, ZonaGrafico } from "./coreografia";
+import { GraficoCue, revisaPlan, ZonaGrafico } from "./coreografia";
 import { Particulas } from "./Particulas";
 import { Panel3D, Escena3D } from "./Tarjeta3D";
 import { Aspa, Check, Flecha, Rodea, Subrayado } from "./Trazo";
@@ -50,7 +52,7 @@ const Entrada: React.FC<{ cue: GraficoCue; children: React.ReactNode }> = ({ cue
   if (cue.entrada === "corte") return <>{children}</>;
   if (cue.entrada === "barrido")
     return (
-      <Barrido at={0} dur={cue.dur ?? 4} barra={cue.color ?? G.teal}>
+      <Barrido at={0} dur={durSegura(cue.dur, 4)} barra={cue.color ?? G.teal}>
         {children}
       </Barrido>
     );
@@ -63,7 +65,13 @@ const Entrada: React.FC<{ cue: GraficoCue; children: React.ReactNode }> = ({ cue
 
 /** Un cue → su primitiva. Aquí solo hay traducción, ninguna decisión de diseño. */
 const Grafico: React.FC<{ cue: GraficoCue }> = ({ cue }) => {
-  const len = cue.endFrame - cue.startFrame;
+  // ≥1 igual que la <Escena> que lo envuelve: todas las duraciones derivadas de
+  // abajo salen de aquí, y un plan con endFrame ≤ startFrame no debe reventar.
+  const len = Math.max(1, cue.endFrame - cue.startFrame);
+  // Referencia ESTABLE entre frames. Como literal en el JSX era un array nuevo
+  // cada vez, así que el useMemo de <Particulas> nunca acertaba y resembraba
+  // sus partículas en todos los frames del cue.
+  const colores = useMemo(() => (cue.color ? [cue.color] : undefined), [cue.color]);
   switch (cue.tipo) {
     case "kicker":
       return <Kicker color={cue.color} px={cue.px}>{cue.texto}</Kicker>;
@@ -87,7 +95,7 @@ const Grafico: React.FC<{ cue: GraficoCue }> = ({ cue }) => {
           <Contador
             de={cue.de ?? 0}
             a={cue.valor ?? 0}
-            dur={cue.dur ?? Math.min(45, len - 10)}
+            dur={durSegura(cue.dur, Math.min(45, len - 10))}
             prefijo={cue.prefijo}
             sufijo={cue.sufijo}
             color={cue.color}
@@ -108,51 +116,51 @@ const Grafico: React.FC<{ cue: GraficoCue }> = ({ cue }) => {
       return (
         <Columna gap={22} estilo={{ alignItems: "flex-start" }}>
           {(cue.lineas ?? []).map((l, i) => (
-            <ItemLista key={l} indice={i} paso={cue.dur ?? STAGGER.lista} color={cue.color} px={cue.px}>
+            <ItemLista key={l} indice={i} paso={durSegura(cue.dur, STAGGER.lista)} color={cue.color} px={cue.px}>
               {l}
             </ItemLista>
           ))}
         </Columna>
       );
     case "barras":
-      return <Barras datos={cue.datos ?? []} dur={cue.dur ?? 24} color={cue.color} alto={cue.alto ?? 420} />;
+      return <Barras datos={cue.datos ?? []} dur={durSegura(cue.dur, 24)} color={cue.color} alto={cue.alto ?? 420} />;
     case "barra":
       return (
         <Columna gap={16}>
           {cue.texto ? <Etiqueta>{cue.texto}</Etiqueta> : null}
-          <BarraProgreso valor={cue.valor ?? 0} dur={cue.dur ?? 30} ancho={cue.ancho ?? 720} color={cue.color} />
+          <BarraProgreso valor={cue.valor ?? 0} dur={durSegura(cue.dur, 30)} ancho={cue.ancho ?? 720} color={cue.color} />
         </Columna>
       );
     case "subrayado":
-      return <Subrayado ancho={cue.ancho ?? 520} dur={cue.dur ?? 18} color={cue.color} />;
+      return <Subrayado ancho={cue.ancho ?? 520} dur={durSegura(cue.dur, 18)} color={cue.color} />;
     case "rodea":
-      return <Rodea ancho={cue.ancho ?? 520} alto={cue.alto ?? 180} dur={cue.dur ?? 26} color={cue.color} />;
+      return <Rodea ancho={cue.ancho ?? 520} alto={cue.alto ?? 180} dur={durSegura(cue.dur, 26)} color={cue.color} />;
     case "flecha":
       return (
         <Flecha
           de={cue.desde ?? [0, 0]}
           a={cue.hasta ?? [400, 200]}
-          dur={cue.dur ?? 20}
+          dur={durSegura(cue.dur, 20)}
           color={cue.color}
         />
       );
     case "check":
-      return <Check tam={cue.px ?? 120} dur={cue.dur ?? 14} color={cue.color} />;
+      return <Check tam={cue.px ?? 120} dur={durSegura(cue.dur, 14)} color={cue.color} />;
     case "aspa":
-      return <Aspa tam={cue.px ?? 120} dur={cue.dur ?? 10} color={cue.color} />;
+      return <Aspa tam={cue.px ?? 120} dur={durSegura(cue.dur, 10)} color={cue.color} />;
     case "particulas":
       return (
         <Particulas
           n={cue.valor ?? 48}
           modo={cue.modo ?? "estallido"}
-          dur={cue.dur ?? len}
+          dur={durSegura(cue.dur, len)}
           semilla={cue.id}
-          colores={cue.color ? [cue.color] : undefined}
+          colores={colores}
         />
       );
     case "glitch":
       return (
-        <Glitch at={0} dur={cue.dur ?? len} semilla={cue.id}>
+        <Glitch at={0} dur={durSegura(cue.dur, len)} semilla={cue.id}>
           <Titular color={cue.color} px={cue.px}>{cue.texto}</Titular>
         </Glitch>
       );
@@ -175,7 +183,14 @@ const Grafico: React.FC<{ cue: GraficoCue }> = ({ cue }) => {
  * igual que en el resto del sistema: si un gráfico debe ir por debajo de otro,
  * muévelo en el plan, no le pongas zIndex.
  */
-export const PistaGraficos: React.FC<{ cues: GraficoCue[] }> = ({ cues }) => (
+export const PistaGraficos: React.FC<{ cues: GraficoCue[] }> = ({ cues }) => {
+  const { fps } = useVideoConfig();
+  // El validador que el README prometía y nadie llamaba. En useMemo porque esto
+  // se re-renderiza en cada frame y la comprobación de heroes solapados es
+  // cuadrática; el plan no cambia dentro de un render.
+  const avisos = useMemo(() => revisaPlan(cues, fps), [cues, fps]);
+  avisaDelPlan("gfx", avisos);
+  return (
   <>
     {cues.map((cue) => (
       <Escena key={cue.id} from={cue.startFrame} to={cue.endFrame} nombre={`gfx:${cue.id}`}>
@@ -196,4 +211,5 @@ export const PistaGraficos: React.FC<{ cues: GraficoCue[] }> = ({ cues }) => (
       </Escena>
     ))}
   </>
-);
+  );
+};
