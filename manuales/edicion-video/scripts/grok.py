@@ -22,34 +22,12 @@ import json
 import os
 import sys
 import time
-import urllib.error
-import urllib.request
+
+from _comun import ErrorHTTP, cargar_env, descarga, escribe_atomico, pide
 
 BASE = "https://api.x.ai/v1"
 
-
-def cargar_env():
-    """Lee .env de la raiz del proyecto (scripts/ -> edicion-video/ -> manuales/ -> root)."""
-    here = os.path.dirname(os.path.abspath(__file__))
-    root = os.path.abspath(os.path.join(here, "..", "..", ".."))
-    env_path = os.path.join(root, ".env")
-    valores = {}
-    if os.path.isfile(env_path):
-        with open(env_path) as f:
-            for line in f:
-                line = line.strip()
-                if not line or line.startswith("#") or "=" not in line:
-                    continue
-                k, v = line.split("=", 1)
-                valores[k.strip()] = v.strip().strip('"').strip("'")
-    # Las variables de entorno tienen prioridad sobre el .env
-    for k, v in os.environ.items():
-        if k.startswith("XAI_"):
-            valores[k] = v
-    return valores
-
-
-ENV = cargar_env()
+ENV = cargar_env("XAI_")
 
 
 def api_key():
@@ -65,50 +43,59 @@ def api_key():
 
 
 def pedir(method, path, body=None, timeout=120):
-    url = BASE + path
-    data = json.dumps(body).encode() if body is not None else None
-    req = urllib.request.Request(url, data=data, method=method)
-    req.add_header("Authorization", "Bearer " + api_key())
-    req.add_header("Accept", "application/json")
-    if data is not None:
-        req.add_header("Content-Type", "application/json")
+    """
+    Llamada a la API. `_comun.pide` reintenta los fallos transitorios (5xx, 429,
+    cortes de red) — importante porque esto se llama dentro de un bucle de
+    sondeo de hasta 15 minutos sobre un render que YA se esta pagando.
+    """
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return json.loads(r.read().decode())
-    except urllib.error.HTTPError as e:
-        cuerpo = e.read().decode(errors="replace")
-        if e.code == 401:
+        datos, _ = pide(
+            BASE + path,
+            metodo=method,
+            cabeceras={"Authorization": "Bearer " + api_key(), "Accept": "application/json"},
+            cuerpo=body,
+            timeout=timeout,
+        )
+        return datos
+    except ErrorHTTP as e:
+        cuerpo = e.cuerpo
+        if e.codigo == 401:
             sys.exit("ERROR 401: la clave no es valida. Revisa XAI_API_KEY (console.x.ai).")
-        if e.code == 403 and "credit" in cuerpo.lower():
+        if e.codigo == 403 and "credit" in cuerpo.lower():
             sys.exit(
                 "ERROR 403: la clave es valida pero tu equipo de xAI NO TIENE CREDITOS.\n"
                 "  Compralos en https://console.x.ai  ->  Billing.\n"
                 f"  Respuesta: {cuerpo[:200]}"
             )
-        if e.code == 429:
-            sys.exit("ERROR 429 (rate limit). Espera y reintenta.")
-        sys.exit(f"ERROR HTTP {e.code}: {cuerpo}")
-    except urllib.error.URLError as e:
-        sys.exit(f"ERROR de red: {e}")
+        if e.codigo == 429:
+            sys.exit("ERROR 429 (rate limit) tras varios reintentos. Espera y vuelve a lanzarlo.")
+        if e.codigo == 0:
+            sys.exit(f"ERROR de red (tras reintentos): {cuerpo}")
+        sys.exit(f"ERROR HTTP {e.codigo}: {cuerpo}")
 
 
 def descargar(url, salida):
-    """Descarga a disco AHORA. Las URLs de la API caducan."""
-    os.makedirs(os.path.dirname(os.path.abspath(salida)), exist_ok=True)
-    urllib.request.urlretrieve(url, salida)
-    tam = os.path.getsize(salida)
+    """Descarga a disco AHORA (atomica y con timeout). Las URLs de la API caducan."""
+    tam = descarga(url, salida)
     print(f"Guardado: {salida}  ({tam/1_000_000:.1f} MB)")
 
 
 def guardar_prompt(salida, payload):
-    """Deja el JSON de la llamada junto al material, para poder regenerar."""
+    """
+    Deja el JSON de la llamada junto al material, para poder regenerar.
+
+    Sube un nivel SOLO cuando el archivo esta en una carpeta `raw/` (la
+    convencion de broll/grok/raw/). En cualquier otro caso se queda al lado: con
+    un --salida relativo de un nivel, subir a ciegas creaba un `prompts/` FUERA
+    del repositorio.
+    """
     carpeta = os.path.dirname(os.path.abspath(salida))
-    prompts = os.path.join(os.path.dirname(carpeta), "prompts")
+    base_carpeta = os.path.basename(carpeta)
+    prompts = os.path.join(os.path.dirname(carpeta) if base_carpeta == "raw" else carpeta, "prompts")
     os.makedirs(prompts, exist_ok=True)
     base = os.path.splitext(os.path.basename(salida))[0]
     ruta = os.path.join(prompts, base + ".json")
-    with open(ruta, "w") as f:
-        json.dump(payload, f, indent=2, ensure_ascii=False)
+    escribe_atomico(ruta, json.dumps(payload, indent=2, ensure_ascii=False).encode("utf-8"))
     print(f"Prompt guardado: {ruta}")
 
 
@@ -153,9 +140,7 @@ def cmd_imagen(args):
         descargar(item["url"], args.salida)
     elif item.get("b64_json"):
         import base64
-        os.makedirs(os.path.dirname(os.path.abspath(args.salida)), exist_ok=True)
-        with open(args.salida, "wb") as f:
-            f.write(base64.b64decode(item["b64_json"]))
+        escribe_atomico(args.salida, base64.b64decode(item["b64_json"]))
         print(f"Guardado: {args.salida}")
     else:
         sys.exit(f"ERROR: sin 'url' ni 'b64_json': {json.dumps(item)[:400]}")
@@ -194,7 +179,15 @@ def cmd_video(args):
     if not rid:
         sys.exit(f"ERROR: sin request_id en la respuesta: {json.dumps(resp)[:400]}")
     print(f"request_id: {rid} — esperando render (polling cada {args.intervalo}s)...")
+    esperar_y_descargar(rid, args, payload)
 
+
+def esperar_y_descargar(rid, args, payload=None):
+    """
+    Sondea hasta que el render este y lo baja. Separado de `cmd_video` para que
+    `recuperar` pueda retomar un request_id ya generado: el video esta pagado
+    desde que se lanza, asi que perder el proceso no debe costar otro render.
+    """
     t0 = time.time()
     while True:
         est = pedir("GET", f"/videos/{rid}")
@@ -205,15 +198,26 @@ def cmd_video(args):
                 sys.exit(f"ERROR: status=done pero no encuentro la URL: {json.dumps(est)[:400]}")
             print("OK, listo. Descargando (la URL caduca, por eso se baja ya)...")
             descargar(url, args.salida)
-            guardar_prompt(args.salida, payload)
+            if payload is not None:
+                guardar_prompt(args.salida, payload)
             print("Siguiente: mide con ffprobe y colocalo segun el contrato (director-video §3h).")
             return
         if status in ("failed", "expired"):
             sys.exit(f"ERROR: la generacion termino en '{status}': {json.dumps(est)[:400]}")
         if time.time() - t0 > args.timeout:
-            sys.exit(f"ERROR: timeout (>{args.timeout}s). Ultimo status: {status}. request_id={rid}")
+            sys.exit(
+                f"ERROR: timeout (>{args.timeout}s). Ultimo status: {status}.\n"
+                f"  El render sigue en curso y YA esta pagado. Retomalo con:\n"
+                f"    python3 manuales/edicion-video/scripts/grok.py recuperar {rid} --salida {args.salida}"
+            )
         print(f"   ... {status or 'en curso'}")
         time.sleep(args.intervalo)
+
+
+def cmd_recuperar(args):
+    """Retoma un request_id que ya existe (timeout, Ctrl-C, corte de red)."""
+    print(f"Retomando request_id {args.request_id} (polling cada {args.intervalo}s)...")
+    esperar_y_descargar(args.request_id, args)
 
 
 def main():
@@ -238,8 +242,14 @@ def main():
     v.add_argument("--timeout", type=int, default=900, help="Segundos maximos de espera (def. 900)")
     v.add_argument("--extra", help='JSON con campos extra, p. ej. \'{"aspect_ratio":"9:16"}\'')
 
+    r = sub.add_parser("recuperar", help="Retoma un request_id ya lanzado (no vuelve a generar ni a pagar)")
+    r.add_argument("request_id", help="El request_id que imprimio `video`")
+    r.add_argument("--salida", default="proyectos/001/broll/grok/raw/shot-01.mp4", help="Ruta de salida MP4")
+    r.add_argument("--intervalo", type=int, default=5, help="Segundos entre sondeos (def. 5)")
+    r.add_argument("--timeout", type=int, default=900, help="Segundos maximos de espera (def. 900)")
+
     args = p.parse_args()
-    {"modelos": cmd_modelos, "imagen": cmd_imagen, "video": cmd_video}[args.cmd](args)
+    {"modelos": cmd_modelos, "imagen": cmd_imagen, "video": cmd_video, "recuperar": cmd_recuperar}[args.cmd](args)
 
 
 if __name__ == "__main__":

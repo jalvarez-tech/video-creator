@@ -22,7 +22,7 @@ copiar() { # <ruta-origen-relativa-a-sonido/> <nombre-destino>
 echo "Copiando SFX base a $DST ..."
 
 # ── Núcleo (4 funciones): whoosh · riser · impact · click ──────────────────────
-copiar "37-OTROS/Short Whoosh.mp3"                          "whoosh-light.mp3"
+copiar "37-OTROS/Short Whoosh.mp3"                          "whoosh-light.wav"
 copiar "37-OTROS/mixkit-arrow-whoosh-1491.wav"              "whoosh-whip.wav"
 copiar "37-OTROS/swinging-staff-whoosh-strong-08-44658.mp3" "whoosh-heavy.mp3"
 copiar "37-OTROS/mixkit-cinematic-wind-swoosh-1471.wav"     "whoosh-wind.wav"
@@ -56,7 +56,7 @@ copiar "37-OTROS/Clock Tick.mp3"                           "tick.mp3"
 
 # ── Acierto / error / dinero ───────────────────────────────────────────────────
 copiar "14-DING/Ding Sound Effect.mp3"                      "chime.mp3"
-copiar "14-DING/quick-win.mp3"                              "success.mp3"
+copiar "14-DING/quick-win.mp3"                              "success.wav"
 copiar "37-OTROS/Wrong Answer.mp3"                          "error.mp3"
 copiar "37-OTROS/cash ting.mp3"                            "money.mp3"
 copiar "37-OTROS/Mario Coin Sound - Sound Effect (HD).mp3"  "coin.mp3"
@@ -100,6 +100,15 @@ copiar "14-DING/Ting.mp3"                                   "chime-02.mp3"
 copiar "14-DING/Bells Sound Effect 2 ( By Ashish Editz )_01.mp3" "chime-03.mp3"
 
 echo "Copiados: $ok  ·  Faltantes: $miss"
+# Antes esto imprimía los faltantes y salía 0 igualmente: quien lo llamara desde
+# otro script daba por bueno un set de SFX incompleto, y el fallo aparecía
+# mucho después como un <Audio> con 404 en mitad de un render.
+if [ "$miss" -gt 0 ]; then
+  echo "" >&2
+  echo "✖ Faltan $miss archivos en el banco (sonido/). El set de remotion/public/sfx/ está incompleto." >&2
+  echo "  Repón el banco o corrige las rutas de arriba antes de usarlo." >&2
+  exit 1
+fi
 
 # ── Calibración de volúmenes (SKILL §10) ───────────────────────────────────────
 # Objetivo de PICO por familia de mezcla (punto medio de los rangos pedidos):
@@ -117,8 +126,11 @@ if command -v ffmpeg >/dev/null 2>&1; then
   for f in "$DST"/*.mp3 "$DST"/*.wav; do
     [ -f "$f" ] || continue
     n=$(basename "$f")
-    peak=$(ffmpeg -hide_banner -nostats -i "$f" -af volumedetect -f null /dev/null 2>&1 \
-           | grep max_volume | grep -oE '\-?[0-9.]+ dB' | head -1 | sed 's/ dB//')
+    # `|| true`: con pipefail, un grep sin coincidencia (archivo ilegible, o un
+    # ffmpeg que no imprime max_volume) mataba el script aquí y dejaba muerta la
+    # comprobación de la línea siguiente.
+    peak=$(ffmpeg -nostdin -hide_banner -nostats -i "$f" -af volumedetect -f null /dev/null 2>&1 \
+           | grep max_volume | grep -oE '\-?[0-9.]+ dB' | head -1 | sed 's/ dB//') || true
     [ -n "$peak" ] || { printf "  %-24s %-8s %7s %6s\n" "$n" "?" "?" "?"; continue; }
     b=$(bucket "$n"); t=$(target "$b")
     vol=$(awk -v p="$peak" -v t="$t" 'BEGIN{g=t-p; v=10^(g/20); if(v>1)v=1; if(v<0.03)v=0.03; printf "%.3f", v}')
