@@ -1,7 +1,7 @@
 // Importa de `noticias/plan` y NO de `noticias`: un archivo de DATOS no debe
 // arrastrar los componentes React del intérprete. Así el plan se puede validar
 // desde node (revisaNoticia) sin montar Remotion.
-import { toma, type TomaNoticia } from "./noticias/plan";
+import { toma, type TomaNoticia } from "../noticias/plan";
 
 /**
  * PLAN DE DEMO — la noticia de referencia montada con el formato.

@@ -1,8 +1,8 @@
 import { AbsoluteFill, Audio, staticFile } from "remotion";
-import { PistaNoticia } from "./noticias";
+import { PistaNoticia } from "../../motor/noticias";
 import { noticia004 } from "./noticia-004";
 import { cues004 } from "./cues-004";
-import { PistaSonido } from "./sound/PistaSonido";
+import { PistaSonido } from "../../motor/sound/PistaSonido";
 
 /**
  * PROYECTO 004 — Valle de San Nicolás (El Colombiano, 2026-07-25).

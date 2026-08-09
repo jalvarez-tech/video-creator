@@ -1,8 +1,8 @@
 import { AbsoluteFill, Audio, OffthreadVideo, staticFile, useCurrentFrame } from "remotion";
-import { CamaraVirtual } from "./CamaraVirtual";
+import { CamaraVirtual } from "../../motor/CamaraVirtual";
 import { camara002 } from "./camara-002";
 import { cubreLaPantalla, MotionApple002 } from "./MotionApple002";
-import { PistaSonido } from "./sound/PistaSonido";
+import { PistaSonido } from "../../motor/sound/PistaSonido";
 import { cues002 } from "./cues-002";
 
 /**

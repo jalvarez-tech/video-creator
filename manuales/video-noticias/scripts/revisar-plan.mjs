@@ -5,8 +5,8 @@
  *
  * Uso (desde cualquier sitio):
  *   node manuales/video-noticias/scripts/revisar-plan.mjs                       # el plan de demo
- *   node manuales/video-noticias/scripts/revisar-plan.mjs src/plantillas/noticia-004.ts
- *   node manuales/video-noticias/scripts/revisar-plan.mjs src/plantillas/noticia-004.ts 25   # otro fps
+ *   node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/proyectos/004/noticia-004.ts
+ *   node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/proyectos/004/noticia-004.ts 25   # otro fps
  *
  * Por qué existe: el validador vive en el motor, pero se necesita en el momento
  * de ESCRIBIR el plan — antes de que exista una composición que renderizar.
@@ -28,7 +28,7 @@ const aqui = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
 const remotionDir = path.join(root, "remotion");
 
-const rel = process.argv[2] ?? "src/plantillas/noticia-demo.ts";
+const rel = process.argv[2] ?? "src/motor/demos/noticia-demo.ts";
 
 // Un fps no numérico daba FALSO VERDE: `Number("veinticinco")` es NaN, toda
 // comparación con NaN es false, y las dos comprobaciones de duración (< 0.8 s y
@@ -63,7 +63,7 @@ const esbuild = require("esbuild");
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "noticia-"));
 const entry = path.join(tmp, "entry.ts");
 const planUrl = JSON.stringify(planTs);
-const validadorUrl = JSON.stringify(path.join(remotionDir, "src", "plantillas", "noticias", "plan.ts"));
+const validadorUrl = JSON.stringify(path.join(remotionDir, "src", "motor", "noticias", "plan.ts"));
 fs.writeFileSync(
   entry,
   `export * as plan from ${planUrl};\nexport { revisaNoticia, duracionPlan } from ${validadorUrl};\n`

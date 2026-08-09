@@ -19,7 +19,7 @@
  * eso sigue ayudando: al bajar la imagen, a esa altura de pantalla queda el torso
  * en vez de las manos, así que el texto cae sobre una zona más quieta.
  */
-import { cam, CameraCue } from "./camara";
+import { cam, CameraCue } from "../../motor/camara";
 
 export const camara003: CameraCue[] = [
   // ── HOOK 0–198 · "Tu embudo no está hecho para venderle a la gente…" ──

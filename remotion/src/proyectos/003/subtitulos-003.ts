@@ -9,7 +9,7 @@
  * gráficos. Se dejan listos por si se quiere una versión con captions para
  * autoplay sin sonido — activarlos es UNA línea en `Avatar003.tsx`:
  *
- *   import { SubtitulosSync } from "./SubtitulosSync";
+ *   import { SubtitulosSync } from "../../motor/SubtitulosSync";
  *   import { subtitulos003 } from "./subtitulos-003";
  *   …
  *   <SubtitulosSync segmentos={subtitulos003} yPct={72} tamanoPx={50} />
@@ -17,7 +17,7 @@
  * Texto CORREGIDO a mano donde whisper oyó mal (el clip dice "deshacerte LA
  * gente" y "nunca le volví a hablar"; en pantalla va la forma del guion).
  */
-import type { Segmento } from "./segmentos";
+import type { Segmento } from "../../motor/segmentos";
 
 export const subtitulos003: Segmento[] = [
   // A · Hook (0–5.6 s)

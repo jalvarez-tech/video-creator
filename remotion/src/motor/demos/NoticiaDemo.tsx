@@ -1,5 +1,5 @@
 import { AbsoluteFill } from "remotion";
-import { PistaNoticia } from "./noticias";
+import { PistaNoticia } from "../noticias";
 import { noticiaDemo } from "./noticia-demo";
 
 /**

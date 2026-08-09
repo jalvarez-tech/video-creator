@@ -16,7 +16,7 @@
  * MEZCLA: narración continua → `<PistaSonido duckDb={-5}>` + `underDialogue` en
  * TODOS los cues. Los efectos se sienten, no se escuchan: la voz manda siempre.
  */
-import { cue, SoundCue } from "./sound/cues";
+import { cue, SoundCue } from "../../motor/sound/cues";
 
 export const cues003: SoundCue[] = [
   // ── Cámara (los más bajos de toda la mezcla) ──

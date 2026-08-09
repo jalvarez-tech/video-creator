@@ -1,8 +1,8 @@
 // Importa SOLO los datos (`coreografia`), no el barril: un plan es una lista de
 // decisiones y no debe arrastrar ni un componente. Así se puede validar con
 // Node sin montar React (ver `revisaPlan` más abajo).
-import { MG } from "./motion";
-import { gfx, GraficoCue } from "./graficos/coreografia";
+import { MG } from "../motion";
+import { gfx, GraficoCue } from "../graficos/coreografia";
 
 /**
  * PLAN DE GRÁFICOS de ejemplo — la plantilla a copiar para un proyecto real

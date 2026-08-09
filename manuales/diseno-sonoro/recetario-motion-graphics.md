@@ -2,7 +2,7 @@
 
 Catálogo de consulta del skill [`SKILL.md`](SKILL.md). Para CADA motion graphic
 indica el movimiento, las familias sonoras recomendadas y la **variante concreta del
-sistema** (columna `variante` → mapa `SFX` de `remotion/src/plantillas/sound/cues.ts`).
+sistema** (columna `variante` → mapa `SFX` de `remotion/src/motor/sound/cues.ts`).
 
 **Cómo leerlo:** localiza el elemento → su animación → aplica la variante más específica
 (§3.6/§4 del SKILL). Whoosh/riser/impact/click son el complemento, no la primera opción.

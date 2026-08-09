@@ -25,7 +25,7 @@ metadata:
 > **Regla maestra.** La cámara cambia para **recuperar la atención**, **reforzar una idea** o **liberar espacio** — nunca solo "para que no parezca estático". Cada **acercamiento comunica importancia**; cada **alejamiento, contexto**; cada **desplazamiento crea espacio**; cada **pausa permite comprender**. El avatar es la BASE estable; la cámara la reencuadra con intención.
 > Antes de cada movimiento responde: **¿coincide con una frase importante? ¿aporta variedad sin distraer? ¿la cara sigue bien encuadrada? ¿no hay ya otro cambio visual fuerte?** Si dudas → **cámara quieta**.
 
-Motor: [`camara.ts`](../../remotion/src/plantillas/camara.ts) (tipo `CameraCue` · tokens `SHOT`/`LIMITS` · hook `useCamara` · `clampOffset`) · wrapper [`CamaraVirtual.tsx`](../../remotion/src/plantillas/CamaraVirtual.tsx) · plan de ejemplo [`camara-001.ts`](../../remotion/src/plantillas/camara-001.ts) · demo viva [`CamaraDemo.tsx`](../../remotion/src/plantillas/CamaraDemo.tsx) (comp `CamaraDemo`).
+Motor: [`camara.ts`](../../remotion/src/motor/camara.ts) (tipo `CameraCue` · tokens `SHOT`/`LIMITS` · hook `useCamara` · `clampOffset`) · wrapper [`CamaraVirtual.tsx`](../../remotion/src/motor/CamaraVirtual.tsx) · plan de ejemplo [`camara-001.ts`](../../remotion/src/proyectos/001/camara-001.ts) · demo viva [`CamaraDemo.tsx`](../../remotion/src/proyectos/001/CamaraDemo.tsx) (comp `CamaraDemo`).
 🔗 **Gráficos:** [motion-graphics](../motion-graphics/SKILL.md) ([R08](../edicion-video/reglas.md) fuera de la cara). · **Sonido:** [diseno-sonoro](../diseno-sonoro/SKILL.md) (whooshes de cámara al mínimo). · **Motor y flujo:** [edicion-video](../edicion-video/SKILL.md).
 
 ---
@@ -66,7 +66,7 @@ El avatar es un `<OffthreadVideo … objectFit:"cover">` que a **`scale` 1.0 ya 
 | Zoom in hook fuerte | 1.00 → 1.22 | 0.5–1.0 | 13–25 | 15–30 | `ease-out` |
 | Zoom out | 1.15 → 1.00 | 0.8–1.5 | 20–38 | 24–45 | `ease-in-out` |
 
-Duración en frames = `Math.round(s · fps)` (helper `seg` de [`motion.ts`](../../remotion/src/plantillas/motion.ts)). **No** encadenes primeros planos fuertes sin reposo entre ellos.
+Duración en frames = `Math.round(s · fps)` (helper `seg` de [`motion.ts`](../../remotion/src/motor/motion.ts)). **No** encadenes primeros planos fuertes sin reposo entre ellos.
 
 ---
 
@@ -140,7 +140,7 @@ Entre cues la cámara **se queda donde aterrizó** el último (lo hace `useCamar
 
 ## 8. Sonido de cámara (delegado a `diseno-sonoro`)
 
-Los movimientos se acompañan de SFX **sutiles, más sentidos que escuchados**, y **siempre por debajo de la voz**. Enlaza cada `CameraCue.soundCueId` con un `SoundCue` de [`cues.ts`](../../remotion/src/plantillas/sound/cues.ts) (lo reproduce `PistaSonido`).
+Los movimientos se acompañan de SFX **sutiles, más sentidos que escuchados**, y **siempre por debajo de la voz**. Enlaza cada `CameraCue.soundCueId` con un `SoundCue` de [`cues.ts`](../../remotion/src/motor/sound/cues.ts) (lo reproduce `PistaSonido`).
 
 | Movimiento de cámara | `type` / `variant` | Bucket (mezcla) |
 |---|---|---|
@@ -162,7 +162,7 @@ Whooshes e impacts de cámara van **aún más bajos** que el resto de SFX y con 
 
 ## 10. `CameraCue` e implementación (determinista)
 
-Tipo real en [`camara.ts`](../../remotion/src/plantillas/camara.ts) (`reason` **obligatorio**; si no lo justificas, no lo pongas):
+Tipo real en [`camara.ts`](../../remotion/src/motor/camara.ts) (`reason` **obligatorio**; si no lo justificas, no lo pongas):
 
 ```ts
 type CameraCue = {

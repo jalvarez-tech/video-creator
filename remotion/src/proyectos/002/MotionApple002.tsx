@@ -6,8 +6,8 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { theme } from "./theme";
-import { EASE, opacidadVentana, SPRING } from "./motion";
+import { theme } from "../../motor/theme";
+import { EASE, opacidadVentana, SPRING } from "../../motor/motion";
 
 /**
  * Motion graphics del proyecto 002 — dirección de arte estilo Apple.

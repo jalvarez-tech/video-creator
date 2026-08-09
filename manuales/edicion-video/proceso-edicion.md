@@ -138,7 +138,7 @@ bash manuales/edicion-video/scripts/transcribir.sh \
 - **Visuales:** capturas · diagramas · pantalla · iconos · zooms · transiciones · ejemplos.
 - **Errores a vigilar:** texto que tapa la cara · márgenes rotos · baja calidad · cortes raros · ritmo lento.
 
-*(Estos valores viven en `remotion/src/plantillas/presets.ts` y `theme.ts` — se cambian una vez y se repiten.)*
+*(Estos valores viven en `remotion/src/motor/presets.ts` y `theme.ts` — se cambian una vez y se repiten.)*
 
 ---
 

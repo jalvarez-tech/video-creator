@@ -6,8 +6,8 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { theme } from "./theme";
-import { EASE, MG, opacidadVentana, SPRING } from "./motion";
+import { theme } from "../../motor/theme";
+import { EASE, MG, opacidadVentana, SPRING } from "../../motor/motion";
 
 /**
  * Motion graphics como CORTES A PANTALLA COMPLETA (fondo plano de marca +

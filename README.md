@@ -60,7 +60,7 @@ Eso genera `proyectos/005/artefactos/` con `01-plan.md` → `02-layout.md` → `
 
 ### 📰 Si el vídeo sale de una noticia
 
-Ese es otro formato y tiene su propia puerta: la skill **`video-noticias`** (*"monta esta noticia"*). Short vertical 9:16 de explicación periodística, **sin avatar en pantalla**: papel beige + acento naranja, voz en off y motion graphics. Trae su propio theme (`plantillas/noticias/`), porque el del sistema asume vídeo oscuro con texto blanco.
+Ese es otro formato y tiene su propia puerta: la skill **`video-noticias`** (*"monta esta noticia"*). Short vertical 9:16 de explicación periodística, **sin avatar en pantalla**: papel beige + acento naranja, voz en off y motion graphics. Trae su propio theme (`motor/noticias/`), porque el del sistema asume vídeo oscuro con texto blanco.
 
 Cambia el recorrido en tres puntos:
 
@@ -69,7 +69,7 @@ Cambia el recorrido en tres puntos:
 3. El plan es uno solo — `noticia-NNN.ts` (`TomaNoticia[]` → `<PistaNoticia>`) — en vez de los cuatro de arriba, y se valida sin abrir el Studio:
 
 ```bash
-node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/plantillas/noticia-005.ts
+node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/proyectos/005/noticia-005.ts
 ```
 
 Referencia real montada de punta a punta: `proyectos/004/` (17 tomas, 73,5 s).
@@ -95,9 +95,14 @@ video-creator/
 │   └── diseno-sonoro/        #   SFX, mezcla, ducking + recetario
 ├── remotion/                 # MOTOR (proyecto npm)
 │   ├── public/sfx/           #   55 efectos calibrados (de los que dependen los renders)
-│   └── src/plantillas/       #   presets, theme, motion, camara, sound, subtítulos
-│       ├── graficos/         #   biblioteca de 37 gráficos + catálogo + PistaGraficos
-│       └── noticias/         #   formato noticias: theme CLARO + TomaNoticia + PistaNoticia
+│   └── src/
+│       ├── motor/            #   LO REUTILIZABLE — un proyecto lo usa, él no usa proyectos
+│       │   ├── graficos/     #     biblioteca de 37 gráficos + catálogo + PistaGraficos
+│       │   ├── noticias/     #     formato noticias: theme CLARO + TomaNoticia + PistaNoticia
+│       │   ├── sound/        #     SoundCue + PistaSonido
+│       │   └── demos/        #     los planes de ejemplo que se copian para empezar
+│       └── proyectos/00N/    #   UN VÍDEO: sus planes como datos + su JSX propio
+│                             #   (el límite lo vigila eslint.config.mjs, no la buena fe)
 ├── proyectos/                # UN proyecto por carpeta numerada
 │   └── 00N/
 │       ├── artefactos/           # 01-plan · 02-layout · 03-timeline (se escriben primero)
@@ -136,7 +141,7 @@ import { Titular, Contador, Subrayado, Particulas } from "./graficos";
 
 Lo repetitivo (títulos, cifras, listas, remates, CTA) no se escribe en JSX: se declara como datos en `graficos-NNN.ts` y lo monta `<PistaGraficos>`, con `revisaPlan()` validando las reglas del sistema antes de renderizar.
 
-> **El formato noticias tiene su propia biblioteca**, aparte y fuera de este catálogo: `plantillas/noticias/Editorial.tsx` (`FondoPapel`, `RecortePrensa`, `ChipIcono`, `Cronologia`, `Medidor`…). Está separada a propósito — estos tokens son para fondo **claro** y los de arriba asumen vídeo oscuro con texto blanco, así que mezclarlos da blanco sobre beige. Las primitivas neutras (`Subrayado`, `Aspa`, `Check`, `Flecha`, `Particulas`) sí se reusan en ambos. Su ficha está en [recetario-tomas.md](manuales/video-noticias/recetario-tomas.md), no en el catálogo generado.
+> **El formato noticias tiene su propia biblioteca**, aparte y fuera de este catálogo: `motor/noticias/Editorial.tsx` (`FondoPapel`, `RecortePrensa`, `ChipIcono`, `Cronologia`, `Medidor`…). Está separada a propósito — estos tokens son para fondo **claro** y los de arriba asumen vídeo oscuro con texto blanco, así que mezclarlos da blanco sobre beige. Las primitivas neutras (`Subrayado`, `Aspa`, `Check`, `Flecha`, `Particulas`) sí se reusan en ambos. Su ficha está en [recetario-tomas.md](manuales/video-noticias/recetario-tomas.md), no en el catálogo generado.
 
 ---
 

@@ -98,7 +98,7 @@ Cada toma es un tipo de `TomaNoticia`. Detalle completo, props y sonido en [rece
 
 ## 4. La ficha de estilo (tokens, no números sueltos)
 
-Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/plantillas/noticias/theme-noticias.ts). **No escribas colores ni tamaños a mano en una toma** — si hace falta un valor nuevo, se añade al theme.
+Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/motor/noticias/theme-noticias.ts). **No escribas colores ni tamaños a mano en una toma** — si hace falta un valor nuevo, se añade al theme.
 
 | Rol | Token | Valor |
 |---|---|---|
@@ -129,7 +129,7 @@ Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/plantillas/notici
 4. **Generar la voz** y **medir su duración real** con `ffprobe` ([R01](../edicion-video/reglas.md)). **La voz manda sobre el plan**, nunca al revés: la comp dura lo que dura la voz.
 5. **Repartir los 7 beats** sobre esa duración → tabla de tomas con frames absolutos **a 30 fps**.
 6. **B-roll y metraje** (solo si alguna toma lo pide) → **genera ya**, antes de escribir el plan: tarda minutos y su duración real condiciona el resto. Motor y los 4 límites en [director §3h](../director-video/SKILL.md). Recuerda que aquí el b-roll casi siempre va **enmarcado** (toma `retrato`), lo que perdona resolución baja.
-7. **Escribir `noticia-NNN.ts`** (`TomaNoticia[]`) copiando [`noticia-demo.ts`](../../remotion/src/plantillas/noticia-demo.ts). **Valida con `revisaNoticia(tomas, 30)`** antes de renderizar.
+7. **Escribir `noticia-NNN.ts`** (`TomaNoticia[]`) copiando [`noticia-demo.ts`](../../remotion/src/motor/demos/noticia-demo.ts). **Valida con `revisaNoticia(tomas, 30)`** antes de renderizar.
 8. **Subtítulos** (`subtitulos-NNN.ts` + `<SubtitulosSync yPct={78}>`) y **sonido** (`cues-NNN.ts` + `<PistaSonido>`, ver §7).
 9. **Validar**: frames reales ([R05](../edicion-video/reglas.md)) → prueba 720p ([R06](../edicion-video/reglas.md)) → **esperar OK** → final.
 

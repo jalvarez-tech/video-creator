@@ -8,7 +8,7 @@
  * (sin cues): mover la cámara cuando ya hay un cambio visual fuerte es esfuerzo
  * perdido (SKILL §7). Estilo Apple → movimientos lentos, sutiles, sin rebote.
  */
-import { cam, CameraCue } from "./camara";
+import { cam, CameraCue } from "../../motor/camara";
 
 export const camara002: CameraCue[] = [
   // Hook: acercamiento corto en la primera frase.

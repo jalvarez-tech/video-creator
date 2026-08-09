@@ -15,7 +15,7 @@
  * sobre una frase importante, no en medio de una palabra. Acople zoom↔desplazamiento
  * (camara.ts): un x grande exige más scale — estos cues se mantienen conservadores.
  */
-import { cam, CameraCue } from "./camara";
+import { cam, CameraCue } from "../../motor/camara";
 
 export const camara001: CameraCue[] = [
   // ── Ventana avatar visible 0–200 ──

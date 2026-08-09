@@ -43,4 +43,4 @@ línea de markdown y no un render.
 Cuando el vídeo esté cerrado, `proyectos/NNN/aprendizajes.md` recoge lo que
 funcionó y lo que no. Si algo se repite en dos proyectos, sube a regla
 (`manuales/edicion-video/reglas.md`, con la siguiente R libre) o a la biblioteca
-(`remotion/src/plantillas/graficos/`).
+(`remotion/src/motor/graficos/`).

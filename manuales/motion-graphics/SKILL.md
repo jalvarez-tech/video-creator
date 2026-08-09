@@ -7,7 +7,7 @@ description: >-
   timing/easing en frames, stagger y coreografía, continuidad causal,
   tipografía cinética, composición por formato, color de marca y la
   implementación determinista con tokens (`motion.ts`) + `Sequence`. Incluye la
-  BIBLIOTECA de gráficos ya resueltos (`plantillas/graficos/`: tipografía,
+  BIBLIOTECA de gráficos ya resueltos (`motor/graficos/`: tipografía,
   fondos, datos, trazo dibujado, partículas, 3D, glitch), su CATÁLOGO (comp
   `Catalogo` del Studio + catalogo-graficos.md) y el plan de gráficos COMO DATOS
   (`GraficoCue` → `PistaGraficos`) con validador `revisaPlan()`. Mira el catálogo
@@ -29,9 +29,9 @@ metadata:
 > **Principio maestro.** El **DISEÑO** decide *qué* se ve · la **ANIMACIÓN** decide *cuándo y cómo* aparece · el **SONIDO** decide *qué se siente* · la **NARRATIVA** decide *por qué* existe cada elemento.
 > No añadas una animación porque hay un corte, un texto o un dato. Antes de añadir cualquier recurso responde: **¿qué función narrativa cumple? ¿cuál es el frame más importante? ¿la escena mejora de verdad con esto?** Si no hay respuesta clara, no lo pongas. **Ante la duda, simplifica.**
 
-Motor: `remotion/src/plantillas/` — tokens en [`motion.ts`](../../remotion/src/plantillas/motion.ts) · tema en [`theme.ts`](../../remotion/src/plantillas/theme.ts) · formatos en [`presets.ts`](../../remotion/src/plantillas/presets.ts) · ejemplos reales trabajados en [`MotionGraphicsFull.tsx`](../../remotion/src/plantillas/MotionGraphicsFull.tsx) y [`MotionApple002.tsx`](../../remotion/src/plantillas/MotionApple002.tsx).
+Motor: `remotion/src/motor/` — tokens en [`motion.ts`](../../remotion/src/motor/motion.ts) · tema en [`theme.ts`](../../remotion/src/motor/theme.ts) · formatos en [`presets.ts`](../../remotion/src/motor/presets.ts) · ejemplos reales trabajados en [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx) y [`MotionApple002.tsx`](../../remotion/src/proyectos/002/MotionApple002.tsx).
 
-📚 **Biblioteca de gráficos** — [`plantillas/graficos/`](../../remotion/src/plantillas/graficos/): 37 primitivas ya resueltas (tipografía, fondos, datos, **trazo dibujado**, **partículas**, **3D**, **glitch**) + el plan de gráficos **como datos** (`GraficoCue` → `<PistaGraficos>`).
+📚 **Biblioteca de gráficos** — [`motor/graficos/`](../../remotion/src/motor/graficos/): 37 primitivas ya resueltas (tipografía, fondos, datos, **trazo dibujado**, **partículas**, **3D**, **glitch**) + el plan de gráficos **como datos** (`GraficoCue` → `<PistaGraficos>`).
 **Míralo ANTES de escribir un gráfico:** catálogo vivo en la composición `Catalogo` del Studio · lista en [catalogo-graficos.md](catalogo-graficos.md) (se regenera con `node manuales/motion-graphics/scripts/generar-catalogo.mjs`).
 🔗 **Sonido:** [`diseno-sonoro/SKILL.md`](../diseno-sonoro/SKILL.md) + [recetario por motion graphic](../diseno-sonoro/recetario-motion-graphics.md). · **Reglas operativas:** [reglas.md](../edicion-video/reglas.md) (R03 formato, R05 frames, **R08 fuera de la cara**). · **Teoría completa:** [referencia.md](referencia.md).
 
@@ -48,7 +48,7 @@ Motor: `remotion/src/plantillas/` — tokens en [`motion.ts`](../../remotion/src
 > **(a)** ¿Existe ya en la biblioteca? → [catálogo](catalogo-graficos.md). Si existe parecido, añade una prop; no dupliques el componente.
 > **(b)** ¿Es un gráfico repetitivo (título, cifra, lista, subrayado, remate)? → declara un `GraficoCue` en `graficos-NNN.ts` y móntalo con `<PistaGraficos>`; valida con `revisaPlan(cues, fps)`.
 > **(c)** ¿Es la idea visual PROPIA de esta pieza? → JSX a mano, con las primitivas de la biblioteca como material.
-> Si escribes algo reutilizable, súbelo a `plantillas/graficos/`, añade su ficha en `fichas.ts` y su demo en `Catalogo.tsx`, y regenera el catálogo.
+> Si escribes algo reutilizable, súbelo a `motor/graficos/`, añade su ficha en `fichas.ts` y su demo en `Catalogo.tsx`, y regenera el catálogo.
 
 ---
 

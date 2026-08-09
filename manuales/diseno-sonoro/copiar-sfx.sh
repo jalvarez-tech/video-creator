@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copia los SFX base + pools de variantes del banco (sonido/) a remotion/public/sfx/
-# con nombres estándar que usa el motor de cues (src/plantillas/sound/cues.ts).
+# con nombres estándar que usa el motor de cues (src/motor/sound/cues.ts).
 # Reejecutable: sobrescribe. El origen es una ruta RELATIVA a sonido/.
 #
 # Al final, si hay ffmpeg, mide el PICO (dBFS) de cada archivo y sugiere el `vol`

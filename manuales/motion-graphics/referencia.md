@@ -301,7 +301,7 @@ Organiza cada elemento en su `<Sequence from={startFrame} durationInFrames={dur}
 
 ### 17.1 Cue track listo para `MotionGraphicsFull.tsx` (avatar 9:16 · 25 fps)
 
-`targetFrame` = frames absolutos reales de los beats de [`MotionGraphicsFull.tsx`](../../remotion/src/plantillas/MotionGraphicsFull.tsx). Pégalo, previsualiza y ajusta; va **por encima** del vídeo (la voz manda). Variantes → mapa `SFX`; elige matices con el [recetario](../diseno-sonoro/recetario-motion-graphics.md).
+`targetFrame` = frames absolutos reales de los beats de [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx). Pégalo, previsualiza y ajusta; va **por encima** del vídeo (la voz manda). Variantes → mapa `SFX`; elige matices con el [recetario](../diseno-sonoro/recetario-motion-graphics.md).
 
 ```tsx
 import { PistaSonido } from "./sound/PistaSonido";
@@ -326,7 +326,7 @@ const cuesMG = [
 // <PistaSonido cues={cuesMG} />
 ```
 
-> [`MotionGraphicsFull.tsx`](../../remotion/src/plantillas/MotionGraphicsFull.tsx) (cortes a pantalla completa) usa otras ventanas: SceneFunnel 200–330 · ScenePhone 330–395 · SceneZero 395–468 · SceneWhats 520–660 · SceneTimer 660–800 · SceneCompetencia 800–905 · SceneFollow 965+. Reetiqueta los `targetFrame` a esas escenas si usas esa versión.
+> [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx) (cortes a pantalla completa) usa otras ventanas: SceneFunnel 200–330 · ScenePhone 330–395 · SceneZero 395–468 · SceneWhats 520–660 · SceneTimer 660–800 · SceneCompetencia 800–905 · SceneFollow 965+. Reetiqueta los `targetFrame` a esas escenas si usas esa versión.
 
 ---
 

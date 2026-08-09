@@ -1,7 +1,7 @@
 # Plantilla · Vertical Social 9:16 — `vertical-social-9x16`
 
 **Uso:** clips cortos y talking-head verticales para Reels / TikTok / Shorts.
-**Composición Remotion:** `VerticalSocial` · **Preset:** `remotion/src/plantillas/presets.ts → verticalSocial`
+**Composición Remotion:** `VerticalSocial` · **Preset:** `remotion/src/motor/presets.ts → verticalSocial`
 **Frame de referencia:** `remotion/out/plantilla-9x16.png`
 
 ## Las 5 decisiones
@@ -14,5 +14,5 @@
 ## Cómo usarla
 - Previsualiza: `npm run dev` → composición **VerticalSocial**.
 - Frame de prueba: `npx remotion still VerticalSocial out/check.png --frame=60`.
-- Cambiar textos: hoy en `remotion/src/plantillas/VerticalSocial.tsx`.
-- Cambiar color de marca: `remotion/src/plantillas/theme.ts → accent`.
+- Cambiar textos: hoy en `remotion/src/motor/VerticalSocial.tsx`.
+- Cambiar color de marca: `remotion/src/motor/theme.ts → accent`.

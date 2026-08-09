@@ -1,4 +1,4 @@
-import { cue, SoundCue } from "./sound/cues";
+import { cue, SoundCue } from "../../motor/sound/cues";
 
 /**
  * Diseño sonoro del proyecto 001 (avatar 9:16). Cada cue tiene función narrativa.

@@ -1,8 +1,8 @@
 import { AbsoluteFill, OffthreadVideo, staticFile } from "remotion";
-import { SubtitulosSync } from "./SubtitulosSync";
+import { SubtitulosSync } from "../../motor/SubtitulosSync";
 import { subtitulos001 } from "./subtitulos-001";
 import { MotionGraphicsFull } from "./MotionGraphicsFull";
-import { PistaSonido } from "./sound/PistaSonido";
+import { PistaSonido } from "../../motor/sound/PistaSonido";
 import { cues001 } from "./cues-001";
 
 /**

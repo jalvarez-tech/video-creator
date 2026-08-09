@@ -1,7 +1,7 @@
 import { AbsoluteFill } from "remotion";
 import { graficosDemo } from "./graficos-demo";
-import { PistaGraficos, Puntos, Resplandor, Vineta } from "./graficos";
-import { MG } from "./motion";
+import { PistaGraficos, Puntos, Resplandor, Vineta } from "../graficos";
+import { MG } from "../motion";
 
 /**
  * DEMO de la coreografía por datos: el plan `graficos-demo.ts` montado por el

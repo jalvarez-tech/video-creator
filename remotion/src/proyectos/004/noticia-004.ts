@@ -1,4 +1,4 @@
-import { toma, type TomaNoticia } from "./noticias/plan";
+import { toma, type TomaNoticia } from "../../motor/noticias/plan";
 
 /**
  * PROYECTO 004 — «¿Por qué la gente se quiere ir al Valle de San Nicolás?»

@@ -4,10 +4,10 @@
 > sirve, cuándo NO usarla, sus props en `TomaNoticia` y el sonido de partida.
 > El sonido definitivo se declara en `cues-NNN.ts` ([diseno-sonoro](../diseno-sonoro/SKILL.md)).
 
-Código: [`noticias/plan.ts`](../../remotion/src/plantillas/noticias/plan.ts) (el tipo) ·
-[`noticias/PistaNoticia.tsx`](../../remotion/src/plantillas/noticias/PistaNoticia.tsx) (el intérprete) ·
-[`noticias/Editorial.tsx`](../../remotion/src/plantillas/noticias/Editorial.tsx) (las primitivas).
-Ejemplo completo: [`noticia-demo.ts`](../../remotion/src/plantillas/noticia-demo.ts) (comp `NoticiaDemo` del Studio).
+Código: [`noticias/plan.ts`](../../remotion/src/motor/noticias/plan.ts) (el tipo) ·
+[`noticias/PistaNoticia.tsx`](../../remotion/src/motor/noticias/PistaNoticia.tsx) (el intérprete) ·
+[`noticias/Editorial.tsx`](../../remotion/src/motor/noticias/Editorial.tsx) (las primitivas).
+Ejemplo completo: [`noticia-demo.ts`](../../remotion/src/motor/demos/noticia-demo.ts) (comp `NoticiaDemo` del Studio).
 
 ---
 

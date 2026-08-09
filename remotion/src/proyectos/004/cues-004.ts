@@ -31,7 +31,7 @@
  * escuchan: si en la mezcla final identificas el efecto antes que la palabra,
  * está alto.
  */
-import { cue, SoundCue } from "./sound/cues";
+import { cue, SoundCue } from "../../motor/sound/cues";
 
 export const cues004: SoundCue[] = [
   // ── GANCHO ────────────────────────────────────────────────────────────────

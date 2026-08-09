@@ -29,7 +29,7 @@ metadata:
 >
 > **Regla de especificidad (nueva):** *no uses un whoosh para todo.* Primero busca el efecto que representa DIRECTAMENTE el motion graphic, su material o su comportamiento (un botón → **click UI**; una línea dibujándose → **scribble**; un líquido → **liquid**; una foto → **camera**). El whoosh/riser/impact/click son el **complemento** para reforzar movimiento, anticipación, llegada o ritmo.
 
-Banco: [`sonido/MAPA-SONIDOS.md`](../../sonido/MAPA-SONIDOS.md) · Catálogo por motion graphic: [`recetario-motion-graphics.md`](recetario-motion-graphics.md) · Motor: `remotion/src/plantillas/sound/` · SFX listos: `remotion/public/sfx/`.
+Banco: [`sonido/MAPA-SONIDOS.md`](../../sonido/MAPA-SONIDOS.md) · Catálogo por motion graphic: [`recetario-motion-graphics.md`](recetario-motion-graphics.md) · Motor: `remotion/src/motor/sound/` · SFX listos: `remotion/public/sfx/`.
 
 ---
 
@@ -244,7 +244,7 @@ En el motor `volume` es ganancia **lineal 0–1**: `lineal = 10^(dBFS/20)` (help
 
 ## 11. Implementación en este sistema
 
-**Tipo `SoundCue`** (`remotion/src/plantillas/sound/cues.ts`) — `reason` **obligatorio**. `type` = clase de sincronización (whoosh/riser/impact/click/**texture**), `variant` = timbre (39 variantes mapeadas a `public/sfx/` en el objeto `SFX`; 38 archivos distintos porque `deep` y `boom` comparten `impact-deep.mp3`).
+**Tipo `SoundCue`** (`remotion/src/motor/sound/cues.ts`) — `reason` **obligatorio**. `type` = clase de sincronización (whoosh/riser/impact/click/**texture**), `variant` = timbre (39 variantes mapeadas a `public/sfx/` en el objeto `SFX`; 38 archivos distintos porque `deep` y `boom` comparten `impact-deep.mp3`).
 
 ```tsx
 import { PistaSonido } from "./sound/PistaSonido";

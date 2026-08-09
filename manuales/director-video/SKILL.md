@@ -12,7 +12,7 @@ description: >-
   capas (quién manda cuándo), fija el fps único y el z-order, y valida con frames
   antes de exportar. Abre SIEMPRE los artefactos del proyecto
   (proyectos/NNN/artefactos/: 01-plan, 02-layout, 03-timeline) antes de escribir
-  código, y usa la biblioteca de gráficos ya existente (plantillas/graficos/ +
+  código, y usa la biblioteca de gráficos ya existente (motor/graficos/ +
   su catálogo) en vez de reinventar cada gráfico. Úsalo SIEMPRE que se pida
   montar/ensamblar/producir un vídeo completo, empezar un vídeo o proyecto nuevo,
   o "usar todo lo del proyecto"; delega el detalle de cada capa en su skill.
@@ -39,7 +39,7 @@ Root: **`/Users/nicecode/Work/jalvarez/video-creator`**. Este skill es la **capa
 |---|---|---|
 | Motor, estructura, formato, cortes, transcripción, render, publicación | [edicion-video](../edicion-video/SKILL.md) · [proceso](../edicion-video/proceso-edicion.md) · [reglas](../edicion-video/reglas.md) | `remotion/`, `presets.ts`, `plantillas/`, `auto-editor`, `transcribir.sh` |
 | **Cámara** del avatar (zoom / reencuadre / hacer espacio) | [camara-avatar](../camara-avatar/SKILL.md) | `camara.ts` · `CamaraVirtual.tsx` · `camara-NNN.ts` |
-| **Motion graphics** (títulos, datos, transiciones, CTA) | [motion-graphics](../motion-graphics/SKILL.md) | `motion.ts` · `theme.ts` · **biblioteca `plantillas/graficos/`** ([catálogo](../motion-graphics/catalogo-graficos.md)) · `graficos-NNN.ts` + `PistaGraficos` |
+| **Motion graphics** (títulos, datos, transiciones, CTA) | [motion-graphics](../motion-graphics/SKILL.md) | `motion.ts` · `theme.ts` · **biblioteca `motor/graficos/`** ([catálogo](../motion-graphics/catalogo-graficos.md)) · `graficos-NNN.ts` + `PistaGraficos` |
 | **Sonido** (SFX, mezcla, ducking) | [diseno-sonoro](../diseno-sonoro/SKILL.md) | `sound/cues.ts` · `PistaSonido.tsx` · `cues-NNN.ts` |
 | **B-roll** generado con IA | **Grok Imagine**, API directa de xAI (único motor — ver §3h; `seedance-20` sin suscripción, no usar) | `scripts/grok.py` · clips en `proyectos/NNN/broll/grok/` |
 | **Avatar** talking-head (fuente) | [heygen](../edicion-video/heygen.md) | `scripts/heygen.py` |

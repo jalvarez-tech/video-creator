@@ -1,11 +1,11 @@
 import { AbsoluteFill, Audio, OffthreadVideo, staticFile, useCurrentFrame } from "remotion";
-import { CamaraVirtual } from "./CamaraVirtual";
+import { CamaraVirtual } from "../../motor/CamaraVirtual";
 import { camara003 } from "./camara-003";
 import { cues003 } from "./cues-003";
 import { Fondo } from "./Fondo003";
 import { Motion003 } from "./Motion003";
 import { colorDeToma, luzDeToma, W } from "./mundo-003";
-import { PistaSonido } from "./sound/PistaSonido";
+import { PistaSonido } from "../../motor/sound/PistaSonido";
 
 /**
  * Proyecto 003 — "Tu embudo no vende. Descarta.".

@@ -1,24 +1,36 @@
 import "./index.css";
 import { Composition } from "remotion";
 import { Prueba } from "./Prueba";
-import { TutorialYT } from "./plantillas/TutorialYT";
-import { VerticalSocial } from "./plantillas/VerticalSocial";
-import { FeedCuadrado } from "./plantillas/FeedCuadrado";
-import { AvatarClip } from "./plantillas/AvatarClip";
-import { AvatarVertical } from "./plantillas/AvatarVertical";
-import { CamaraDemo } from "./plantillas/CamaraDemo";
-import { Avatar002 } from "./plantillas/Avatar002";
-import { Avatar003 } from "./plantillas/Avatar003";
-import { GraficosDemo } from "./plantillas/GraficosDemo";
-import { NoticiaDemo } from "./plantillas/NoticiaDemo";
-import { noticiaDemo } from "./plantillas/noticia-demo";
-import { Noticia004 } from "./plantillas/Noticia004";
-import { noticia004 } from "./plantillas/noticia-004";
-import { duracionPlan } from "./plantillas/noticias";
-import { framesDelMedio, framesDePlanYVoz } from "./plantillas/duracion";
-import { Catalogo, CATALOGO, PASO } from "./plantillas/graficos";
-import { tutorialYT, verticalSocial, feedCuadrado } from "./plantillas/presets";
+import { TutorialYT } from "./motor/TutorialYT";
+import { VerticalSocial } from "./motor/VerticalSocial";
+import { FeedCuadrado } from "./motor/FeedCuadrado";
+import { AvatarClip } from "./motor/AvatarClip";
+import { AvatarVertical } from "./proyectos/001/AvatarVertical";
+import { CamaraDemo } from "./proyectos/001/CamaraDemo";
+import { Avatar002 } from "./proyectos/002/Avatar002";
+import { Avatar003 } from "./proyectos/003/Avatar003";
+import { GraficosDemo } from "./motor/demos/GraficosDemo";
+import { NoticiaDemo } from "./motor/demos/NoticiaDemo";
+import { noticiaDemo } from "./motor/demos/noticia-demo";
+import { Noticia004 } from "./proyectos/004/Noticia004";
+import { noticia004 } from "./proyectos/004/noticia-004";
+import { duracionPlan } from "./motor/noticias";
+import { framesDelMedio, framesDePlanYVoz } from "./motor/duracion";
+import { Catalogo, CATALOGO, PASO } from "./motor/graficos";
+import { tutorialYT, verticalSocial, feedCuadrado } from "./motor/presets";
 
+/**
+ * EL REGISTRO DE COMPOSICIONES — y el único sitio donde motor y proyectos se
+ * tocan.
+ *
+ *   src/motor/          lo reutilizable: contratos, intérpretes, biblioteca de
+ *                       gráficos, formato noticias, sonido, plantillas y demos.
+ *   src/proyectos/00N/  un vídeo concreto: sus planes como datos y su JSX propio.
+ *
+ * La dependencia va en UNA dirección (proyecto → motor) y lo vigila el linter
+ * (eslint.config.mjs), no la buena voluntad. Para arrancar el 005 se crea
+ * `src/proyectos/005/` y se registra aquí abajo; no hay que tocar el motor.
+ */
 export const RemotionRoot: React.FC = () => {
   return (
     <>
@@ -35,8 +47,8 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
 
-      {/* ── Plantillas (biblioteca reusable) ──
-          Dimensiones y fps salen del preset de cada plantilla.
+      {/* ── PLANTILLAS del motor (src/motor/) ── las de verdad: no traen datos
+          de ningún vídeo. Dimensiones y fps salen del preset de cada una.
           La duración real la fija cada proyecto; 150 = 5 s de demo. */}
       <Composition
         id="TutorialYT"
@@ -79,8 +91,12 @@ export const RemotionRoot: React.FC = () => {
           durationInFrames: await framesDelMedio("avatar.mp4", 30, 90),
         })}
       />
-      {/* Avatar HeyGen 9:16 → public/avatar-9x16.mp4
-          Clip real: 1080x1920 · 25 fps · 43.64s (1091 frames). */}
+      {/* ── PROYECTO 001 ── (src/proyectos/001/)
+          OJO: `Avatar9x16` y `CamaraDemo` NO son plantillas reutilizables, por
+          mucho que el nombre lo sugiera: hardcodean subtitulos-001, cues-001 y
+          camara-001. Son el proyecto 001 con dos montajes distintos. Para un
+          vídeo nuevo, copia la ESTRUCTURA, no el archivo.
+          Clip: 1080x1920 · 25 fps · 43.64 s (1091 frames). */}
       <Composition
         id="Avatar9x16"
         component={AvatarVertical}
@@ -92,8 +108,8 @@ export const RemotionRoot: React.FC = () => {
           durationInFrames: await framesDelMedio("avatar-9x16.mp4", 25, 1091),
         })}
       />
-      {/* Demo del skill camara-avatar: mismo clip 9:16 dentro de <CamaraVirtual>
-          con el plan camara-001.ts. Manual: manuales/camara-avatar/SKILL.md. */}
+      {/* Mismo clip del 001 dentro de <CamaraVirtual> con su plan de cámara:
+          sirve de demo del skill camara-avatar. Manual: manuales/camara-avatar/SKILL.md. */}
       <Composition
         id="CamaraDemo"
         component={CamaraDemo}
@@ -105,7 +121,8 @@ export const RemotionRoot: React.FC = () => {
           durationInFrames: await framesDelMedio("avatar-9x16.mp4", 25, 1091),
         })}
       />
-      {/* Proyecto 002 — avatar_1.mp4 + motion graphics estilo Apple + cámara + sonido.
+      {/* ── PROYECTO 002 ── (src/proyectos/002/)
+           avatar_1.mp4 + motion graphics estilo Apple + cámara + sonido.
           Ensamblado por director-video. Clip: 1080×1920 · 25 fps · 883 frames. */}
       <Composition
         id="Avatar002"
@@ -118,7 +135,8 @@ export const RemotionRoot: React.FC = () => {
           durationInFrames: await framesDelMedio("avatar-002.mp4", 25, 883),
         })}
       />
-      {/* Proyecto 003 — avatar_2.mp4 + mundo líquido ámbar (STYLE GUIDE del cliente).
+      {/* ── PROYECTO 003 ── (src/proyectos/003/)
+           avatar_2.mp4 + mundo líquido ámbar (STYLE GUIDE del cliente).
           Reglas del sistema: el fps ORIGINAL del clip manda (R01 · avatar 9:16 =
           25 fps) y la comp dura lo que dura el clip (director §5).
           Clip: 1080×1920 · 25 fps · 1153 f (46.12 s). */}
@@ -175,7 +193,8 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
-      {/* Proyecto 004 — «¿Por qué la gente se quiere ir al Valle de San Nicolás?»
+      {/* ── PROYECTO 004 ── (src/proyectos/004/)
+           «¿Por qué la gente se quiere ir al Valle de San Nicolás?»
           El Colombiano · 2026-07-25. 17 tomas, todas gráficas (sin b-roll).
           Frames MEDIDOS con generar-vo.sh sobre la voz GUÍA (say · Paulina), no
           estimados. La duración sale del plan y, si la voz es más larga, de la

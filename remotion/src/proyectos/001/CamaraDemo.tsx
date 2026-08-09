@@ -1,7 +1,7 @@
 import { AbsoluteFill, OffthreadVideo, staticFile } from "remotion";
-import { CamaraVirtual } from "./CamaraVirtual";
+import { CamaraVirtual } from "../../motor/CamaraVirtual";
 import { camara001 } from "./camara-001";
-import { SubtitulosSync } from "./SubtitulosSync";
+import { SubtitulosSync } from "../../motor/SubtitulosSync";
 import { subtitulos001 } from "./subtitulos-001";
 import { MotionGraphicsFull } from "./MotionGraphicsFull";
 

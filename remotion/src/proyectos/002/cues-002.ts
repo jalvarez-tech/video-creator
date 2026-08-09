@@ -7,7 +7,7 @@
  * cue va con `underDialogue` (reducción extra). Whooshes de cámara e impacts, los
  * más bajos. Frames absolutos @25 fps (comp 883 frames).
  */
-import { cue, SoundCue } from "./sound/cues";
+import { cue, SoundCue } from "../../motor/sound/cues";
 
 export const cues002: SoundCue[] = [
   // ── Cámara (los más bajos) ──

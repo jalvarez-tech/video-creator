@@ -4,10 +4,10 @@
 > No se copian plantillas ajenas — se construye **tu biblioteca**, la que convierte *tu* forma de grabar en algo repetible.
 
 ## Cómo funciona
-- **Datos canónicos (para no re-preguntar):** `remotion/src/plantillas/presets.ts` — presets tipados que el componente lee.
+- **Datos canónicos (para no re-preguntar):** `remotion/src/motor/presets.ts` — presets tipados que el componente lee.
 - **Doc humana de cada plantilla:** `plantillas/<slug>.md` (la decisión explicada + frame de referencia).
-- **Componente reutilizable:** `remotion/src/plantillas/<Nombre>.tsx` (lee su preset).
-- **Tema compartido:** `remotion/src/plantillas/theme.ts` (color de marca en un solo sitio).
+- **Componente reutilizable:** `remotion/src/motor/<Nombre>.tsx` (lee su preset).
+- **Tema compartido:** `remotion/src/motor/theme.ts` (color de marca en un solo sitio).
 - Un proyecto no reescribe el diseño: **lo llama** (usa la composición + su preset).
 
 ## Biblioteca actual (3 plantillas)
