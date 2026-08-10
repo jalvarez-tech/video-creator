@@ -54,7 +54,7 @@ composición `Catalogo` del Studio.
 | 5 | CTA | `Sello` + `Particulas` (estallido) | inferior | no |
 
 > Si una fila dice **"nuevo componente: sí"**, decide ya si es específico de esta
-> pieza (vive en el proyecto) o reutilizable (sube a `plantillas/graficos/` con
+> pieza (vive en el proyecto) o reutilizable (sube a `motor/graficos/` con
 > su ficha en `fichas.ts` y su demo en `Catalogo.tsx`).
 
 ## Encuadre de cámara por escena

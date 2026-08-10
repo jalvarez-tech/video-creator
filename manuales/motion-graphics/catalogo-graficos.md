@@ -1,7 +1,7 @@
 # Catálogo de gráficos
 
 > ⚠️ **Archivo generado.** No lo edites a mano: sale de
-> `remotion/src/plantillas/graficos/fichas.ts`. Para actualizarlo:
+> `remotion/src/motor/graficos/fichas.ts`. Para actualizarlo:
 > `node manuales/motion-graphics/scripts/generar-catalogo.mjs`
 
 La versión VIVA de este catálogo es la composición **`Catalogo`** del Remotion
@@ -100,7 +100,7 @@ Uso: `import { Titular, Contador, Subrayado } from "./graficos";`
    `<PistaGraficos>`. Valida el plan con `revisaPlan(cues, fps)` antes de renderizar.
 3. **Lo único de la pieza se sigue escribiendo a mano.** La biblioteca cubre el
    80 % repetido para dejar tiempo al 20 % que hace que la pieza sea suya.
-4. **Si escribes un gráfico reutilizable, súbelo** a `plantillas/graficos/`,
+4. **Si escribes un gráfico reutilizable, súbelo** a `motor/graficos/`,
    añade su ficha en `fichas.ts`, su demo en `Catalogo.tsx` y regenera este archivo.
 
 El sonido de cada gráfico se declara aparte, en `cues-00X.ts`

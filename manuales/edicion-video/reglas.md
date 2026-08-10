@@ -2,7 +2,8 @@
 
 > **Cada corrección se convierte en regla.** Lo que se corrige una vez no se repite: entra aquí para que el próximo vídeo salga mejor.
 > Antes de editar cualquier vídeo se aplican TODAS. Formato de cada regla: **Regla · Por qué · Cómo aplicarla**.
-> Las reglas nuevas (aprendidas al corregir) se añaden al final como R08, R09…
+> Las reglas nuevas (aprendidas al corregir) se añaden **al final, con el siguiente número libre**.
+> **Última regla: R15.** Actualiza este número al añadir una (es el único sitio donde hay que tocarlo).
 
 ---
 
@@ -46,7 +47,7 @@
 
 ### R07 — Guardar cada corrección útil como regla nueva
 - **Por qué:** una corrección perdida en el chat se repite en el próximo vídeo.
-- **Cómo aplicarla:** cuando algo se corrige y funciona, añádelo aquí como **R08+** (Regla · Por qué · Cómo). Si es específico de un vídeo, anótalo también en el `aprendizajes.md` de ese proyecto.
+- **Cómo aplicarla:** cuando algo se corrige y funciona, añádelo aquí con **la siguiente R libre** (la cabecera de este archivo dice cuál es la última) en formato Regla · Por qué · Cómo. Si es específico de un vídeo, anótalo también en el `aprendizajes.md` de ese proyecto.
 
 ---
 

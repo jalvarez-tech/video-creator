@@ -14,39 +14,15 @@ en la raiz de video-creator. Nunca se imprime.
 Doc: manuales/edicion-video/heygen.md
 """
 import argparse
-import json
-import os
 import sys
 import time
-import urllib.error
 import urllib.parse
-import urllib.request
+
+from _comun import ErrorHTTP, cargar_env, descarga, pide
 
 BASE = "https://api.heygen.com"
 
-
-def cargar_env():
-    """Lee .env de la raiz del proyecto (scripts/ -> edicion-video/ -> manuales/ -> root)."""
-    here = os.path.dirname(os.path.abspath(__file__))
-    root = os.path.abspath(os.path.join(here, "..", "..", ".."))
-    env_path = os.path.join(root, ".env")
-    valores = {}
-    if os.path.isfile(env_path):
-        with open(env_path) as f:
-            for line in f:
-                line = line.strip()
-                if not line or line.startswith("#") or "=" not in line:
-                    continue
-                k, v = line.split("=", 1)
-                valores[k.strip()] = v.strip().strip('"').strip("'")
-    # Las variables de entorno tienen prioridad sobre el .env
-    for k, v in os.environ.items():
-        if k.startswith("HEYGEN_"):
-            valores[k] = v
-    return valores
-
-
-ENV = cargar_env()
+ENV = cargar_env("HEYGEN_")
 
 
 def api_key():
@@ -61,26 +37,31 @@ def api_key():
 
 
 def pedir(method, path, body=None, query=None):
+    """
+    Llamada a la API. `_comun.pide` reintenta los transitorios respetando
+    `Retry-After` — antes se leia esa cabecera solo para imprimirla y morir, en
+    mitad de un sondeo de 15 minutos sobre un render que ya consume creditos.
+    """
     url = BASE + path
     if query:
         url += "?" + urllib.parse.urlencode(query)
-    data = json.dumps(body).encode() if body is not None else None
-    req = urllib.request.Request(url, data=data, method=method)
-    req.add_header("X-Api-Key", api_key())
-    req.add_header("Accept", "application/json")
-    if data is not None:
-        req.add_header("Content-Type", "application/json")
     try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            return json.loads(r.read().decode())
-    except urllib.error.HTTPError as e:
-        cuerpo = e.read().decode(errors="replace")
-        if e.code == 429:
-            retry = e.headers.get("Retry-After", "?")
-            sys.exit(f"ERROR 429 (rate limit). Reintenta en {retry}s.")
-        sys.exit(f"ERROR HTTP {e.code}: {cuerpo}")
-    except urllib.error.URLError as e:
-        sys.exit(f"ERROR de red: {e}")
+        datos, _ = pide(
+            url,
+            metodo=method,
+            cabeceras={"X-Api-Key": api_key(), "Accept": "application/json"},
+            cuerpo=body,
+            timeout=60,
+        )
+        return datos
+    except ErrorHTTP as e:
+        if e.codigo == 401:
+            sys.exit("ERROR 401: clave invalida. Revisa HEYGEN_API_KEY en .env (app.heygen.com -> Settings -> API).")
+        if e.codigo == 429:
+            sys.exit(f"ERROR 429 (rate limit) tras varios reintentos. Detalle: {e.cuerpo[:200]}")
+        if e.codigo == 0:
+            sys.exit(f"ERROR de red (tras reintentos): {e.cuerpo}")
+        sys.exit(f"ERROR HTTP {e.codigo}: {e.cuerpo}")
 
 
 def cmd_avatares(args):
@@ -157,28 +138,46 @@ def cmd_generar(args):
     vid = (resp.get("data") or {}).get("video_id")
     if not vid:
         sys.exit(f"ERROR: sin video_id en la respuesta: {resp}")
-    print(f"video_id: {vid} — esperando render (polling cada 8s)...")
+    print(f"video_id: {vid} — esperando render (polling cada {args.intervalo}s)...")
+    esperar_y_descargar(vid, args)
 
+
+def esperar_y_descargar(vid, args):
+    """
+    Sondea hasta que el render este y lo baja. Separado de `cmd_generar` para que
+    `descargar` pueda retomar un video_id ya generado: con `--final` esos
+    creditos ya se gastaron, y perder el proceso no debe costar otro render.
+    """
     t0 = time.time()
-    timeout = 15 * 60
     while True:
         st = (pedir("GET", "/v1/video_status.get", query={"video_id": vid}).get("data", {})) or {}
         estado = st.get("status")
         if estado == "completed":
             url = st.get("video_url")
+            if not url:
+                sys.exit(f"ERROR: estado=completed pero la respuesta no trae video_url: {st}")
             dur = st.get("duration")
             print(f"OK, listo ({dur}s). Descargando...")
-            os.makedirs(os.path.dirname(os.path.abspath(args.salida)), exist_ok=True)
-            urllib.request.urlretrieve(url, args.salida)
-            print(f"Guardado: {args.salida}")
+            tam = descarga(url, args.salida)
+            print(f"Guardado: {args.salida}  ({tam/1_000_000:.1f} MB)")
             print("Siguiente: usalo como talking-head en Remotion (ver manuales/edicion-video/heygen.md).")
             return
         if estado == "failed":
             sys.exit(f"ERROR: la generacion fallo: {st.get('error')}")
-        if time.time() - t0 > timeout:
-            sys.exit(f"ERROR: timeout (>15 min). Ultimo estado: {estado}. video_id={vid}")
+        if time.time() - t0 > args.timeout:
+            sys.exit(
+                f"ERROR: timeout (>{args.timeout}s). Ultimo estado: {estado}.\n"
+                f"  El render sigue en curso y los creditos ya se gastaron. Retomalo con:\n"
+                f"    python3 manuales/edicion-video/scripts/heygen.py descargar {vid} --salida {args.salida}"
+            )
         print(f"   ... {estado}")
-        time.sleep(8)
+        time.sleep(args.intervalo)
+
+
+def cmd_descargar(args):
+    """Retoma un video_id que ya existe (timeout, Ctrl-C, corte de red)."""
+    print(f"Retomando video_id {args.video_id} (polling cada {args.intervalo}s)...")
+    esperar_y_descargar(args.video_id, args)
 
 
 def main():
@@ -201,9 +200,17 @@ def main():
     g.add_argument("--velocidad", type=float, default=1.0, help="Velocidad de voz 0.5-1.5")
     g.add_argument("--final", action="store_true", help="Salida FINAL (consume creditos, sin marca de agua)")
     g.add_argument("--salida", default="proyectos/001/avatar/heygen.mp4", help="Ruta de salida MP4")
+    g.add_argument("--intervalo", type=int, default=8, help="Segundos entre sondeos (def. 8)")
+    g.add_argument("--timeout", type=int, default=900, help="Segundos maximos de espera (def. 900)")
+
+    d = sub.add_parser("descargar", help="Retoma un video_id ya generado (no vuelve a generar ni a gastar creditos)")
+    d.add_argument("video_id", help="El video_id que imprimio `generar`")
+    d.add_argument("--salida", default="proyectos/001/avatar/heygen.mp4", help="Ruta de salida MP4")
+    d.add_argument("--intervalo", type=int, default=8, help="Segundos entre sondeos (def. 8)")
+    d.add_argument("--timeout", type=int, default=900, help="Segundos maximos de espera (def. 900)")
 
     args = p.parse_args()
-    {"avatares": cmd_avatares, "voces": cmd_voces, "generar": cmd_generar}[args.cmd](args)
+    {"avatares": cmd_avatares, "voces": cmd_voces, "generar": cmd_generar, "descargar": cmd_descargar}[args.cmd](args)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 # Plantilla · Tutorial YouTube 16:9 — `tutorial-yt-16x9`
 
 **Uso:** tutoriales y demos horizontales para YouTube, alternando pantalla y cámara.
-**Composición Remotion:** `TutorialYT` · **Preset:** `remotion/src/plantillas/presets.ts → tutorialYT`
+**Composición Remotion:** `TutorialYT` · **Preset:** `remotion/src/motor/presets.ts → tutorialYT`
 **Frame de referencia:** `remotion/out/plantilla-16x9.png`
 
 ## Las 5 decisiones
@@ -14,5 +14,5 @@
 ## Cómo usarla
 - Previsualiza: `npm run dev` → composición **TutorialYT** en http://localhost:3000.
 - Frame de prueba: `npx remotion still TutorialYT out/check.png --frame=60`.
-- Cambiar textos: hoy en `remotion/src/plantillas/TutorialYT.tsx`. Siguiente paso del sistema: pasarlos como props por proyecto + subtítulos desde `transcripcion.json`.
-- Cambiar color de marca: `remotion/src/plantillas/theme.ts → accent` (afecta a las 3 plantillas).
+- Cambiar textos: hoy en `remotion/src/motor/TutorialYT.tsx`. Siguiente paso del sistema: pasarlos como props por proyecto + subtítulos desde `transcripcion.json`.
+- Cambiar color de marca: `remotion/src/motor/theme.ts → accent` (afecta a las 3 plantillas).

@@ -3,7 +3,7 @@ name: video-noticias
 description: >-
   Convierte una NOTICIA (un enlace, un titular, un texto pegado) en un short
   vertical 9:16 de explicación periodística con el look editorial del sistema:
-  fondo papel beige + acento naranja, titulares en serif y subtítulos en sans,
+  fondo papel beige + acento naranja, tipografía geométrica de sistema (San Francisco),
   sin avatar en pantalla (voz en off + motion graphics + metraje enmarcado),
   corte rápido de 1-4 s por toma y watermark de marca. Cubre la estructura
   narrativa de 7 beats (gancho · contexto · conflicto · explicación · datos ·
@@ -40,8 +40,8 @@ El formato alterna **dos mundos** y esa alternancia *es* el look. No es decoraci
 
 | Registro | Fondo | Significa | Tipografía | Se usa en |
 |---|---|---|---|---|
-| **Papel** | beige `#ECE8DF` + grano | «esto **significa**» | serif en titulares, sans en apoyos, tinta `#111` | gráficos, cifras, comparaciones, prensa, cronologías |
-| **Cine** | negro `#000` + foco cenital | «esto **pasó**» | serif blanco | metraje, retratos, reconstrucciones, el cierre |
+| **Papel** | beige `#ECE8DF` + grano | «esto **significa**» | display en titulares, texto en apoyos, tinta `#111` | gráficos, cifras, comparaciones, prensa, cronologías |
+| **Cine** | negro `#000` + foco cenital | «esto **pasó**» | display blanca | metraje, retratos, reconstrucciones, el cierre |
 
 **Nunca mezcles los dos registros dentro de una toma.** Un gráfico vectorial sobre metraje real, o una foto a sangre sobre papel, es lo que hace que una pieza de este formato se lea como "plantilla mal usada".
 
@@ -82,7 +82,7 @@ Cada toma es un tipo de `TomaNoticia`. Detalle completo, props y sonido en [rece
 
 | Toma | Registro | Para qué | Dura | Sonido de partida |
 |---|---|---|---|---|
-| `titular` | papel · cine | El mensaje de la escena, en serif. La más frecuente | 2-3.5 s | `impact deep` en la palabra clave |
+| `titular` | papel · cine | El mensaje de la escena, en display. La más frecuente | 2-3.5 s | `impact deep` en la palabra clave |
 | `prensa` | papel | La **prueba**: recorte real + rotulador amarillo | 3-4 s | `paper` + `pen` al subrayar |
 | `comparador` | papel | A vs B en chips naranjas (esto sí / esto no) | 3-4 s | `pop` por chip (alterna variantIndex) |
 | `cronologia` | papel | El viaje entre dos fechas. El orden = la dirección | 3-4 s | `whoosh light` + `tick` por hito |
@@ -98,7 +98,7 @@ Cada toma es un tipo de `TomaNoticia`. Detalle completo, props y sonido en [rece
 
 ## 4. La ficha de estilo (tokens, no números sueltos)
 
-Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/plantillas/noticias/theme-noticias.ts). **No escribas colores ni tamaños a mano en una toma** — si hace falta un valor nuevo, se añade al theme.
+Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/motor/noticias/theme-noticias.ts). **No escribas colores ni tamaños a mano en una toma** — si hace falta un valor nuevo, se añade al theme.
 
 | Rol | Token | Valor |
 |---|---|---|
@@ -111,7 +111,11 @@ Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/plantillas/notici
 | Chips isométricos | `N.naranjaChip` | `#E8863A` |
 | Rotulador | `N.resalte` | `#FFE24A` |
 
-**Tipografía — la decisión de firma:** **serif** (`Georgia`) para lo que **afirma** (titulares, cifras, años, cierre) · **sans** (`Inter`) para lo que **acompaña** (kickers, etiquetas, labels, chips, subtítulos). Esa mezcla es lo que separa este look de un TikTok genérico: el serif da voz editorial, y el sans mantiene legible lo que se lee a velocidad de habla.
+**Tipografía — la voz del canal:** **San Francisco** (la geométrica del sistema, vía `-apple-system`) en los dos roles: `display` para lo que **afirma** (titulares, cifras, años, cierre) y `texto` para lo que **acompaña** (kickers, etiquetas, labels, chips, subtítulos). Lo que separa este look de un TikTok genérico ya no es la mezcla serif/sans sino el **tracking negativo** de los titulares (−2,6 a 96 px) y de las cifras (−9 a 220 px): es el registro de apple.com, elegante por contención.
+
+> Hasta 2026-08-09 el formato firmaba con un serif pesado (`Georgia`). Se cambió por decisión de marca de *Propiedades Luxur*. Si vuelve el serif, se toca **solo** `FUENTE` en `theme-noticias.ts` y el tracking de `T.titular`/`T.cifra`.
+>
+> ⚠️ `-apple-system` resuelve a San Francisco **en macOS**; en Linux cae a otra cosa. El render de este sistema es local en Mac, así que es estable — pero para renderizar en CI habría que empaquetar la fuente con `@remotion/fonts`.
 
 **Marca:** `MARCA.sello` en el mismo archivo. `null` = sin watermark (y sin hueco en la maqueta). Ponle el nombre del canal y aparece la píldora inferior en **todos** los frames, invirtiendo color según el registro.
 
@@ -129,7 +133,7 @@ Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/plantillas/notici
 4. **Generar la voz** y **medir su duración real** con `ffprobe` ([R01](../edicion-video/reglas.md)). **La voz manda sobre el plan**, nunca al revés: la comp dura lo que dura la voz.
 5. **Repartir los 7 beats** sobre esa duración → tabla de tomas con frames absolutos **a 30 fps**.
 6. **B-roll y metraje** (solo si alguna toma lo pide) → **genera ya**, antes de escribir el plan: tarda minutos y su duración real condiciona el resto. Motor y los 4 límites en [director §3h](../director-video/SKILL.md). Recuerda que aquí el b-roll casi siempre va **enmarcado** (toma `retrato`), lo que perdona resolución baja.
-7. **Escribir `noticia-NNN.ts`** (`TomaNoticia[]`) copiando [`noticia-demo.ts`](../../remotion/src/plantillas/noticia-demo.ts). **Valida con `revisaNoticia(tomas, 30)`** antes de renderizar.
+7. **Escribir `noticia-NNN.ts`** (`TomaNoticia[]`) copiando [`noticia-demo.ts`](../../remotion/src/motor/demos/noticia-demo.ts). **Valida con `revisaNoticia(tomas, 30)`** antes de renderizar.
 8. **Subtítulos** (`subtitulos-NNN.ts` + `<SubtitulosSync yPct={78}>`) y **sonido** (`cues-NNN.ts` + `<PistaSonido>`, ver §7).
 9. **Validar**: frames reales ([R05](../edicion-video/reglas.md)) → prueba 720p ([R06](../edicion-video/reglas.md)) → **esperar OK** → final.
 
@@ -183,6 +187,10 @@ python3 manuales/edicion-video/scripts/elevenlabs.py guion proyectos/NNN/guion-v
 bash manuales/video-noticias/scripts/generar-vo.sh proyectos/NNN/guion-vo.txt \
   --motor elevenlabs --partes proyectos/NNN/vo/partes
 ```
+
+**Es REANUDABLE: si algo falla a mitad, vuelve a lanzar el MISMO comando.** Junto a cada audio queda un sidecar `.json` con la firma de lo que lo generó (texto, voz, modelo, preset, formato y los vecinos del stitching). Las tomas cuya firma no ha cambiado se saltan y **no se vuelven a facturar**; un 429 en la toma 15 ya no obliga a repagar las 14 anteriores. Al editar una línea del guion se regeneran esa toma **y sus dos vecinas**, porque el stitching hace que su audio dependa de ellas. Para regenerarlo todo a propósito (y volver a pagarlo): `--forzar`.
+
+⚠️ **`--partes` no puede ser `proyectos/NNN/vo/.partes`** (con punto) ni la carpeta que la contiene: ese es el temporal que `generar-vo.sh` borra al empezar. El script lo rechaza antes de tocar el disco, pero úsalo sin punto como en los ejemplos.
 
 **Un audio por toma, no uno por vídeo:** cada ventana del plan sale de la duración real de *su* línea. Con un único archivo habría que segmentarlo a oído después, que es el paso manual que este sistema existe para evitar.
 

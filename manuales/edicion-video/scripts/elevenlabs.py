@@ -33,12 +33,13 @@ imprime, ni entera ni truncada.
 Doc: manuales/video-noticias/SKILL.md §8 · skill oficial: .agents/skills/text-to-speech/
 """
 import argparse
+import hashlib
 import json
 import os
 import sys
-import urllib.error
 import urllib.parse
-import urllib.request
+
+from _comun import ErrorHTTP, cargar_env, descarga, escribe_atomico, pide  # noqa: F401
 
 BASE = "https://api.elevenlabs.io"
 
@@ -69,28 +70,7 @@ PRESETS = {
 PRESET_DEF = "noticias"
 
 
-def cargar_env():
-    """Lee .env de la raiz del proyecto (scripts/ -> edicion-video/ -> manuales/ -> root)."""
-    here = os.path.dirname(os.path.abspath(__file__))
-    root = os.path.abspath(os.path.join(here, "..", "..", ".."))
-    env_path = os.path.join(root, ".env")
-    valores = {}
-    if os.path.isfile(env_path):
-        with open(env_path) as f:
-            for line in f:
-                line = line.strip()
-                if not line or line.startswith("#") or "=" not in line:
-                    continue
-                k, v = line.split("=", 1)
-                valores[k.strip()] = v.strip().strip('"').strip("'")
-    # Las variables de entorno tienen prioridad sobre el .env
-    for k, v in os.environ.items():
-        if k.startswith("ELEVENLABS_"):
-            valores[k] = v
-    return valores
-
-
-ENV = cargar_env()
+ENV = cargar_env("ELEVENLABS_")
 
 # Contador de caracteres facturados en esta ejecucion (cabecera x-character-count).
 GASTO = {"caracteres": 0}
@@ -109,46 +89,53 @@ def api_key():
 
 
 def pedir(method, path, body=None, query=None, binario=False):
+    """
+    Llamada a la API. Los 5xx/429/timeout los reintenta `_comun.pide` con espera
+    creciente; aqui solo se traducen los fallos DEFINITIVOS a un mensaje util.
+    """
     url = BASE + path
     if query:
         url += "?" + urllib.parse.urlencode(query)
-    data = json.dumps(body).encode() if body is not None else None
-    req = urllib.request.Request(url, data=data, method=method)
-    req.add_header("xi-api-key", api_key())
-    req.add_header("Accept", "audio/mpeg" if binario else "application/json")
-    if data is not None:
-        req.add_header("Content-Type", "application/json")
     try:
-        with urllib.request.urlopen(req, timeout=180) as r:
-            # Coste real de la llamada, segun la propia API (no una estimacion).
-            n = r.headers.get("x-character-count")
-            if n:
-                try:
-                    GASTO["caracteres"] += int(n)
-                except ValueError:
-                    pass
-            raw = r.read()
-            return raw if binario else json.loads(raw.decode())
-    except urllib.error.HTTPError as e:
-        cuerpo = e.read().decode(errors="replace")
-        if e.code == 401:
+        datos, cab = pide(
+            url,
+            metodo=method,
+            cabeceras={
+                "xi-api-key": api_key(),
+                "Accept": "audio/mpeg" if binario else "application/json",
+            },
+            cuerpo=body,
+            timeout=180,
+            binario=binario,
+        )
+    except ErrorHTTP as e:
+        cuerpo = e.cuerpo
+        if e.codigo == 401:
             sys.exit("ERROR 401: clave invalida o sin permisos. Revisa ELEVENLABS_API_KEY en .env.")
-        if e.code == 403 and "output_format" in cuerpo:
+        if e.codigo == 403 and "output_format" in cuerpo:
             sys.exit(
                 f"ERROR 403: tu plan no permite ese --formato.\n"
                 f"  Los formatos sin perdida (wav_*, pcm_*) exigen plan Pro o superior.\n"
                 f"  Usa --formato mp3_44100_128 (todos los planes) o mp3_44100_192 (Creator+).\n"
                 f"  Detalle: {cuerpo}"
             )
-        if e.code == 403:
+        if e.codigo == 403:
             sys.exit(f"ERROR 403 (permiso o plan insuficiente): {cuerpo}")
-        if e.code == 422:
+        if e.codigo == 422:
             sys.exit(f"ERROR 422 (parametros invalidos — revisa voice_id y model_id): {cuerpo}")
-        if e.code == 429:
+        if e.codigo == 429:
             sys.exit(f"ERROR 429 (rate limit o cuota agotada). Detalle: {cuerpo}")
-        sys.exit(f"ERROR HTTP {e.code}: {cuerpo}")
-    except urllib.error.URLError as e:
-        sys.exit(f"ERROR de red: {e}")
+        if e.codigo == 0:
+            sys.exit(f"ERROR de red: {cuerpo}")
+        sys.exit(f"ERROR HTTP {e.codigo}: {cuerpo}")
+    # Coste real de la llamada, segun la propia API (no una estimacion).
+    n = cab.get("x-character-count") or cab.get("X-Character-Count")
+    if n:
+        try:
+            GASTO["caracteres"] += int(n)
+        except ValueError:
+            pass
+    return datos
 
 
 def cmd_voces(args):
@@ -250,7 +237,7 @@ def ext_de(formato):
 def cmd_hablar(args):
     texto = args.texto
     if args.texto_archivo:
-        with open(args.texto_archivo) as f:
+        with open(args.texto_archivo, encoding="utf-8") as f:
             texto = f.read().strip()
     if not texto:
         sys.exit('ERROR: da el texto con --texto "..." o --texto-archivo <ruta>')
@@ -258,17 +245,68 @@ def cmd_hablar(args):
     voz = resuelve_voz(args)
     print(f"Sintetizando {len(texto)} caracteres · voz {voz[:8]}… · {args.modelo} · preset {args.preset}")
     audio = sintetiza(texto, voz, args)
-    os.makedirs(os.path.dirname(os.path.abspath(args.salida)) or ".", exist_ok=True)
-    with open(args.salida, "wb") as f:
-        f.write(audio)
+    escribe_atomico(args.salida, audio)
     print(f"Guardado: {args.salida}  ({len(audio):,} bytes)")
     if GASTO["caracteres"]:
         print(f"Facturado: {GASTO['caracteres']:,} caracteres")
 
 
+def huella(texto, voz, args, previo, siguiente):
+    """
+    Firma de TODO lo que determina el audio de una toma. Si no cambia, el archivo
+    que ya esta en disco sirve y no hay que volver a pedirlo (ni a pagarlo).
+
+    Los vecinos entran en la firma a proposito: son `previous_text`/`next_text`
+    (request stitching), asi que tocar una linea cambia de verdad el audio de sus
+    dos vecinas. Regenerar tres tomas es lo correcto; dar por buenas las vecinas
+    dejaria una juntura con la entonacion vieja.
+    """
+    firma = {
+        "texto": texto,
+        "voz": voz,
+        "modelo": args.modelo,
+        "ajustes": ajustes(args),
+        "formato": args.formato,
+        "idioma": args.idioma,
+        "normalizar": args.normalizar,
+        "previo": previo,
+        "siguiente": siguiente,
+    }
+    bruto = json.dumps(firma, sort_keys=True, ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(bruto).hexdigest()
+
+
+def limpia_otras_extensiones(destino):
+    """
+    Borra la MISMA toma con otra extension. Al cambiar `--formato` (mp3 -> wav)
+    la version anterior se quedaba en la carpeta, y `generar-vo.sh` monta TODO lo
+    que encuentra ordenado por nombre: la pista salia con cada toma duplicada y
+    el cronometraje entero mal, sin un solo aviso.
+    """
+    carpeta = os.path.dirname(destino)
+    base = os.path.splitext(os.path.basename(destino))[0]
+    for otro in os.listdir(carpeta):
+        raiz, ext = os.path.splitext(otro)
+        if raiz == base and ext.lower() in (".mp3", ".wav", ".m4a", ".aiff") and otro != os.path.basename(destino):
+            os.remove(os.path.join(carpeta, otro))
+            print(f"       (borrado {otro}: misma toma en otro formato)")
+
+
+def ya_locutada(destino, h):
+    """¿El audio de disco corresponde EXACTAMENTE a esta firma?"""
+    sidecar = destino + ".json"
+    if not (os.path.isfile(destino) and os.path.getsize(destino) > 0 and os.path.isfile(sidecar)):
+        return False
+    try:
+        with open(sidecar, encoding="utf-8") as f:
+            return json.load(f).get("huella") == h
+    except (json.JSONDecodeError, OSError):
+        return False
+
+
 def lee_guion(ruta):
     lineas = []
-    with open(ruta) as f:
+    with open(ruta, encoding="utf-8") as f:
         for raw in f:
             raw = raw.strip()
             if not raw or raw.startswith("#"):
@@ -290,6 +328,12 @@ def cmd_guion(args):
     Y por que eso no suena a trozos pegados: cada llamada lleva el texto anterior
     y el siguiente (request stitching), asi que el modelo mantiene la entonacion
     a traves de los cortes aunque genere cada frase por separado.
+
+    REANUDABLE: junto a cada audio se deja un sidecar `.json` con la firma de lo
+    que lo genero. Al reejecutar, las tomas cuya firma no ha cambiado se saltan.
+    Antes, un 429 en la toma 15 obligaba a repagar las 14 anteriores; ahora
+    reejecutar el mismo comando sigue por donde iba. `--forzar` lo ignora todo y
+    regenera (y vuelve a facturar) el guion entero.
     """
     voz = resuelve_voz(args)
     os.makedirs(args.salida, exist_ok=True)
@@ -301,28 +345,46 @@ def cmd_guion(args):
     print(f"voz {voz[:8]}… · {args.modelo} · preset {args.preset} · {args.formato} · stitching ON")
     if args.simular:
         print("(--simular: no se llama a la API, no se gasta cuota)")
+    if args.forzar:
+        print("(--forzar: se regenera TODO, tambien lo que ya estaba en disco)")
     print("")
 
     ext = ext_de(args.formato)
+    nuevas = reutilizadas = 0
     for pos, (i, idl, texto) in enumerate(con_voz, 1):
         destino = os.path.join(args.salida, f"{i + 1:03d}-{idl}.{ext}")
         # Vecinos REALES del guion: dan continuidad de entonacion entre tomas.
         previo = con_voz[pos - 2][2] if pos >= 2 else None
         siguiente = con_voz[pos][2] if pos < len(con_voz) else None
-        if args.simular:
-            print(f"  {i+1:3}. {idl:22} {len(texto):4} car.  -> {os.path.basename(destino)}")
+        h = huella(texto, voz, args, previo, siguiente)
+        etiqueta = f"  {i+1:3}. {idl:22} {len(texto):4} car."
+
+        if not args.forzar and ya_locutada(destino, h):
+            reutilizadas += 1
+            print(f"{etiqueta}  = {os.path.basename(destino)} (ya estaba)")
             continue
+        if args.simular:
+            nuevas += 1
+            print(f"{etiqueta}  -> {os.path.basename(destino)}")
+            continue
+
         audio = sintetiza(texto, voz, args, previo=previo, siguiente=siguiente)
-        with open(destino, "wb") as fh:
-            fh.write(audio)
-        print(f"  {i+1:3}. {idl:22} {len(texto):4} car.  -> {os.path.basename(destino)}")
+        # Primero el audio (atomico), luego su firma: si algo se corta en medio,
+        # el sidecar no llega a escribirse y la toma se regenera en la siguiente
+        # pasada. Al reves, un audio truncado se daria por bueno para siempre.
+        escribe_atomico(destino, audio)
+        with open(destino + ".json", "w", encoding="utf-8") as fh:
+            json.dump({"huella": h, "id": idl, "caracteres": len(texto)}, fh, ensure_ascii=False, indent=2)
+        limpia_otras_extensiones(destino)
+        nuevas += 1
+        print(f"{etiqueta}  -> {os.path.basename(destino)}")
 
     for i, (idl, texto) in enumerate(lineas):
         if not texto:
             print(f"  {i+1:3}. {idl:22} (silencio — lo genera generar-vo.sh)")
 
     if not args.simular:
-        print(f"\nOK: {args.salida}")
+        print(f"\nOK: {args.salida}  ({nuevas} generadas, {reutilizadas} reutilizadas)")
         if GASTO["caracteres"]:
             print(f"Facturado: {GASTO['caracteres']:,} caracteres")
         print("\nSiguiente — montar la pista y cronometrar el plan:")
@@ -367,6 +429,8 @@ def main():
     pg.add_argument("guion", help="Archivo `id|texto`, una linea por toma")
     pg.add_argument("--salida", required=True, help="Carpeta donde dejar los audios")
     pg.add_argument("--simular", action="store_true", help="Muestra que haria SIN llamar a la API")
+    pg.add_argument("--forzar", action="store_true",
+                    help="Regenera (y refactura) tambien las tomas que ya estan en disco")
 
     args = p.parse_args()
     {"voces": cmd_voces, "modelos": cmd_modelos, "cuota": cmd_cuota, "hablar": cmd_hablar, "guion": cmd_guion}[

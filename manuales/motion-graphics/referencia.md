@@ -93,7 +93,7 @@ type MotionScenePlan = {
 - **Supporting** (40–60 %) — ayuda a comprender el hero: flecha que acompaña un dato, ✓ de confirmación, línea que señala, etiqueta que explica una cifra.
 - **Ambient** (10–25 %) — vida sin pedir atención: partículas lentas, gradiente en movimiento, reflejo suave, parallax mínimo, textura orgánica.
 
-Si varios elementos compiten, **reduce el movimiento de todos menos del protagonista**. En este sistema, la [R08](../edicion-video/reglas.md) lo hace literal en vertical: **1 gráfico a la vez** en la franja superior (`y < 340 px` en 1080×1920), con entradas/salidas limpias. El patrón `Slot` (en `MotionGraphics.tsx`) y `Scene` (en `MotionGraphicsFull.tsx`) encapsulan ese hero único.
+Si varios elementos compiten, **reduce el movimiento de todos menos del protagonista**. En este sistema, la [R08](../edicion-video/reglas.md) lo hace literal en vertical: **1 gráfico a la vez** en la franja superior (`y < 340 px` en 1080×1920), con entradas/salidas limpias. El patrón `Scene` (en `MotionGraphicsFull.tsx`) y `Statement` (en `MotionApple002.tsx`) encapsulan ese hero único.
 
 ---
 
@@ -146,7 +146,7 @@ Tarjeta de UI     → overshoot sutil         Elemento cómico → overshoot alt
 Logo de lujo      → sin rebote visible
 ```
 
-Muelles nombrados por intención (`SPRING` en `motion.ts`) — mapeados 1:1 a los usados en `MotionGraphics(Full).tsx`:
+Muelles nombrados por intención (`SPRING` en `motion.ts`) — mapeados 1:1 a los usados en `MotionGraphicsFull.tsx`:
 
 | Token | `config` | Intención |
 |---|---|---|
@@ -204,7 +204,7 @@ Direcciones     izquierda = anterior · derecha = siguiente · arriba = crecimie
 
 Unidad de animación por contenido: emocional → **frase** · educativo → **palabra/concepto** · titular comercial → **bloques de 2–4 palabras** · dato → **número y unidad por separado** · técnico → **líneas/grupos semánticos**.
 
-Reglas: máx. **2 familias**, **3 pesos** (una para titulares, una para cuerpo, una opcional para cifras/acentos) · **no** animes letra a letra un texto largo · **no** muevas párrafos durante la lectura · **no** mezcles estilos de animación en la misma frase · destaca **una sola** palabra por bloque. Números con `font-variant-numeric: tabular-nums` (evita saltos de ancho; ya se aplica en los contadores de `MotionGraphics.tsx`). Texto que no cabe: (1) reduce contenido, (2) mejora saltos de línea, (3) agranda contenedor, (4) baja tamaño moderadamente, (5) **nunca** cortes ni permitas overflow. Mide el texto antes de renderizar.
+Reglas: máx. **2 familias**, **3 pesos** (una para titulares, una para cuerpo, una opcional para cifras/acentos) · **no** animes letra a letra un texto largo · **no** muevas párrafos durante la lectura · **no** mezcles estilos de animación en la misma frase · destaca **una sola** palabra por bloque. Números con `font-variant-numeric: tabular-nums` (evita saltos de ancho; ya se aplica en los contadores de `MotionGraphicsFull.tsx`). Texto que no cabe: (1) reduce contenido, (2) mejora saltos de línea, (3) agranda contenedor, (4) baja tamaño moderadamente, (5) **nunca** cortes ni permitas overflow. Mide el texto antes de renderizar.
 
 ---
 
@@ -299,9 +299,9 @@ Prefiere transformar `translate · scale · rotate · opacity · clip-path · ma
 
 Organiza cada elemento en su `<Sequence from={startFrame} durationInFrames={dur}>`. Cada cue de sonido produce un `SoundCue` (con `reason` obligatorio) reproducido por `<PistaSonido cues={cues} />` **por encima** del vídeo/voz.
 
-### 17.1 Cue track listo para `MotionGraphics.tsx` (avatar 9:16 · 25 fps)
+### 17.1 Cue track listo para `MotionGraphicsFull.tsx` (avatar 9:16 · 25 fps)
 
-`targetFrame` = frames absolutos reales de los beats de [`MotionGraphics.tsx`](../../remotion/src/plantillas/MotionGraphics.tsx). Pégalo, previsualiza y ajusta; va **por encima** del vídeo (la voz manda). Variantes → mapa `SFX`; elige matices con el [recetario](../diseno-sonoro/recetario-motion-graphics.md).
+`targetFrame` = frames absolutos reales de los beats de [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx). Pégalo, previsualiza y ajusta; va **por encima** del vídeo (la voz manda). Variantes → mapa `SFX`; elige matices con el [recetario](../diseno-sonoro/recetario-motion-graphics.md).
 
 ```tsx
 import { PistaSonido } from "./sound/PistaSonido";
@@ -326,7 +326,7 @@ const cuesMG = [
 // <PistaSonido cues={cuesMG} />
 ```
 
-> [`MotionGraphicsFull.tsx`](../../remotion/src/plantillas/MotionGraphicsFull.tsx) (cortes a pantalla completa) usa otras ventanas: SceneFunnel 200–330 · ScenePhone 330–395 · SceneZero 395–468 · SceneWhats 520–660 · SceneTimer 660–800 · SceneCompetencia 800–905 · SceneFollow 965+. Reetiqueta los `targetFrame` a esas escenas si usas esa versión.
+> [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx) (cortes a pantalla completa) usa otras ventanas: SceneFunnel 200–330 · ScenePhone 330–395 · SceneZero 395–468 · SceneWhats 520–660 · SceneTimer 660–800 · SceneCompetencia 800–905 · SceneFollow 965+. Reetiqueta los `targetFrame` a esas escenas si usas esa versión.
 
 ---
 

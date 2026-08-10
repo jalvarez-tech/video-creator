@@ -38,7 +38,7 @@ HeyGen (avatar) / Grok Imagine (b-roll) / grabación  →  [Auto-Editor opc.]  �
 
 > 📰 **Para montar un vídeo a partir de una NOTICIA** (formato editorial 9:16, voz en off sin avatar, papel beige + naranja), entra por **[video-noticias](../video-noticias/SKILL.md)**: trae su propio look, sus 7 beats y su capa declarativa (`TomaNoticia[]` → `<PistaNoticia>`) sobre este mismo motor.
 
-📂 **Partes del manual:** [proceso-edicion.md](proceso-edicion.md) (Fase 3 · flujo bruto→publicación, 7 pasos) · [heygen.md](heygen.md) (avatar de IA) · [video-noticias](../video-noticias/SKILL.md) (formato noticias completo) · [motion-graphics](../motion-graphics/SKILL.md) (dirección de animación: jerarquía, timing, muelles/tokens) · [camara-avatar](../camara-avatar/SKILL.md) (cámara virtual dinámica del avatar: zoom/reencuadre motivados) · [diseno-sonoro](../diseno-sonoro/SKILL.md) (SFX, mezcla, ducking) · [reglas.md](reglas.md) (reglas operativas R01–R07+) · [plantillas/](plantillas/README.md) (biblioteca de plantillas reutilizables).
+📂 **Partes del manual:** [proceso-edicion.md](proceso-edicion.md) (Fase 3 · flujo bruto→publicación, 7 pasos) · [heygen.md](heygen.md) (avatar de IA) · [video-noticias](../video-noticias/SKILL.md) (formato noticias completo) · [motion-graphics](../motion-graphics/SKILL.md) (dirección de animación: jerarquía, timing, muelles/tokens) · [camara-avatar](../camara-avatar/SKILL.md) (cámara virtual dinámica del avatar: zoom/reencuadre motivados) · [diseno-sonoro](../diseno-sonoro/SKILL.md) (SFX, mezcla, ducking) · [reglas.md](reglas.md) (reglas operativas R01–R15) · [plantillas/](plantillas/README.md) (biblioteca de plantillas reutilizables).
 
 ---
 
@@ -106,7 +106,7 @@ Flags: `--frame=<n>` · `--image-format=png|jpeg` · `--jpeg-quality=0-100` · `
 - `src/index.ts` → `registerRoot(RemotionRoot)` (una sola vez).
 - `src/Root.tsx` → devuelve una o varias `<Composition>`.
 - `src/Prueba.tsx` → el componente React que se dibuja.
-- `remotion.config.ts` → defaults (Tailwind v4, jpeg, overwrite). Los flags de CLI **sobrescriben** el config.
+- `remotion.config.ts` → defaults (jpeg, overwrite). Los flags de CLI **sobrescriben** el config. El reset de CSS vive en `src/index.css` (no hay Tailwind).
 
 Props obligatorias de `<Composition>`: `id`, `component`, `durationInFrames`, `fps`, `width`, `height`. Duración en segundos = `durationInFrames / fps`.
 
@@ -191,6 +191,12 @@ python3 manuales/edicion-video/scripts/grok.py modelos
 
 ```bash
 python3 manuales/edicion-video/scripts/grok.py video "plano del hall al atardecer, cámara que retrocede" --duracion 6 --salida proyectos/NNN/broll/grok/raw/shot-01.mp4
+```
+
+Si se corta la espera (timeout, Ctrl-C, red), **el render ya está pagado**: no lo relances, retómalo con el `request_id` que imprimió el comando.
+
+```bash
+python3 manuales/edicion-video/scripts/grok.py recuperar <request_id> --salida proyectos/NNN/broll/grok/raw/shot-01.mp4
 ```
 
 Estructura de un proyecto con b-roll:

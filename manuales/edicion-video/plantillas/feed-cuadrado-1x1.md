@@ -1,7 +1,7 @@
 # Plantilla · Feed Cuadrado 1:1 — `feed-cuadrado-1x1`
 
 **Uso:** repurpose de un clip/talking-head para feed de Instagram / LinkedIn.
-**Composición Remotion:** `FeedCuadrado` · **Preset:** `remotion/src/plantillas/presets.ts → feedCuadrado`
+**Composición Remotion:** `FeedCuadrado` · **Preset:** `remotion/src/motor/presets.ts → feedCuadrado`
 **Frame de referencia:** `remotion/out/plantilla-1x1.png`
 
 ## Las 5 decisiones
@@ -14,5 +14,5 @@
 ## Cómo usarla
 - Previsualiza: `npm run dev` → composición **FeedCuadrado**.
 - Frame de prueba: `npx remotion still FeedCuadrado out/check.png --frame=60`.
-- Cambiar textos: hoy en `remotion/src/plantillas/FeedCuadrado.tsx`.
-- Cambiar color de marca: `remotion/src/plantillas/theme.ts → accent`.
+- Cambiar textos: hoy en `remotion/src/motor/FeedCuadrado.tsx`.
+- Cambiar color de marca: `remotion/src/motor/theme.ts → accent`.

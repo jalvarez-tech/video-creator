@@ -9,7 +9,7 @@
  * Por qué un generador y no un markdown a mano: un catálogo escrito a mano se
  * desincroniza en la tercera animación que añades, y entonces deja de servir
  * para lo único que sirve un catálogo — saber qué existe ya sin abrir el código.
- * La ÚNICA fuente de verdad es `remotion/src/plantillas/graficos/fichas.ts`.
+ * La ÚNICA fuente de verdad es `remotion/src/motor/graficos/fichas.ts`.
  *
  * Cómo lee TypeScript sin dependencias nuevas: transpila `fichas.ts` con el
  * esbuild que Remotion ya trae instalado y lo importa. `fichas.ts` es datos
@@ -23,7 +23,7 @@ import path from "node:path";
 
 const aqui = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
-const fichasTs = path.join(root, "remotion", "src", "plantillas", "graficos", "fichas.ts");
+const fichasTs = path.join(root, "remotion", "src", "motor", "graficos", "fichas.ts");
 const salidaMd = path.join(root, "manuales", "motion-graphics", "catalogo-graficos.md");
 
 // esbuild vive en remotion/node_modules → resolvemos desde allí, no desde aquí.
@@ -50,7 +50,7 @@ const escapa = (s) => String(s).replace(/\|/g, "\\|");
 let md = `# Catálogo de gráficos
 
 > ⚠️ **Archivo generado.** No lo edites a mano: sale de
-> \`remotion/src/plantillas/graficos/fichas.ts\`. Para actualizarlo:
+> \`remotion/src/motor/graficos/fichas.ts\`. Para actualizarlo:
 > \`node manuales/motion-graphics/scripts/generar-catalogo.mjs\`
 
 La versión VIVA de este catálogo es la composición **\`Catalogo\`** del Remotion
@@ -88,7 +88,7 @@ md += `---
    \`<PistaGraficos>\`. Valida el plan con \`revisaPlan(cues, fps)\` antes de renderizar.
 3. **Lo único de la pieza se sigue escribiendo a mano.** La biblioteca cubre el
    80 % repetido para dejar tiempo al 20 % que hace que la pieza sea suya.
-4. **Si escribes un gráfico reutilizable, súbelo** a \`plantillas/graficos/\`,
+4. **Si escribes un gráfico reutilizable, súbelo** a \`motor/graficos/\`,
    añade su ficha en \`fichas.ts\`, su demo en \`Catalogo.tsx\` y regenera este archivo.
 
 El sonido de cada gráfico se declara aparte, en \`cues-00X.ts\`

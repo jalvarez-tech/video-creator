@@ -60,7 +60,7 @@ Eso genera `proyectos/005/artefactos/` con `01-plan.md` → `02-layout.md` → `
 
 ### 📰 Si el vídeo sale de una noticia
 
-Ese es otro formato y tiene su propia puerta: la skill **`video-noticias`** (*"monta esta noticia"*). Short vertical 9:16 de explicación periodística, **sin avatar en pantalla**: papel beige + acento naranja, voz en off y motion graphics. Trae su propio theme (`plantillas/noticias/`), porque el del sistema asume vídeo oscuro con texto blanco.
+Ese es otro formato y tiene su propia puerta: la skill **`video-noticias`** (*"monta esta noticia"*). Short vertical 9:16 de explicación periodística, **sin avatar en pantalla**: papel beige + acento naranja, voz en off y motion graphics. Trae su propio theme (`motor/noticias/`), porque el del sistema asume vídeo oscuro con texto blanco.
 
 Cambia el recorrido en tres puntos:
 
@@ -69,7 +69,7 @@ Cambia el recorrido en tres puntos:
 3. El plan es uno solo — `noticia-NNN.ts` (`TomaNoticia[]` → `<PistaNoticia>`) — en vez de los cuatro de arriba, y se valida sin abrir el Studio:
 
 ```bash
-node manuales/video-noticias/scripts/revisar-plan.mjs src/plantillas/noticia-005.ts
+node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/proyectos/005/noticia-005.ts
 ```
 
 Referencia real montada de punta a punta: `proyectos/004/` (17 tomas, 73,5 s).
@@ -95,9 +95,14 @@ video-creator/
 │   └── diseno-sonoro/        #   SFX, mezcla, ducking + recetario
 ├── remotion/                 # MOTOR (proyecto npm)
 │   ├── public/sfx/           #   55 efectos calibrados (de los que dependen los renders)
-│   └── src/plantillas/       #   presets, theme, motion, camara, sound, subtítulos
-│       ├── graficos/         #   biblioteca de 37 gráficos + catálogo + PistaGraficos
-│       └── noticias/         #   formato noticias: theme CLARO + TomaNoticia + PistaNoticia
+│   └── src/
+│       ├── motor/            #   LO REUTILIZABLE — un proyecto lo usa, él no usa proyectos
+│       │   ├── graficos/     #     biblioteca de 37 gráficos + catálogo + PistaGraficos
+│       │   ├── noticias/     #     formato noticias: theme CLARO + TomaNoticia + PistaNoticia
+│       │   ├── sound/        #     SoundCue + PistaSonido
+│       │   └── demos/        #     los planes de ejemplo que se copian para empezar
+│       └── proyectos/00N/    #   UN VÍDEO: sus planes como datos + su JSX propio
+│                             #   (el límite lo vigila eslint.config.mjs, no la buena fe)
 ├── proyectos/                # UN proyecto por carpeta numerada
 │   └── 00N/
 │       ├── artefactos/           # 01-plan · 02-layout · 03-timeline (se escriben primero)
@@ -108,7 +113,7 @@ video-creator/
 │       ├── aprendizajes.md       # qué funcionó y qué evitar
 │       ├── avatar/ vo/ finales/ pruebas-720p/ vistas-previas/   # ⛔ fuera del repo
 │       └── corte-auto-editor/    # salida de Auto-Editor (FCPXML)
-├── sonido/                   # Banco completo: 1231 efectos en 37 categorías
+├── sonido/                   # Banco completo: 1227 efectos en 37 categorías
 │                             #   índice: sonido/MAPA-SONIDOS.md
 ├── archivos/                 # Biblioteca reutilizable (marca, música, capturas, whisper)
 ├── avatar/ · entrada/        # ⛔ material de vídeo, fuera del repo
@@ -136,7 +141,7 @@ import { Titular, Contador, Subrayado, Particulas } from "./graficos";
 
 Lo repetitivo (títulos, cifras, listas, remates, CTA) no se escribe en JSX: se declara como datos en `graficos-NNN.ts` y lo monta `<PistaGraficos>`, con `revisaPlan()` validando las reglas del sistema antes de renderizar.
 
-> **El formato noticias tiene su propia biblioteca**, aparte y fuera de este catálogo: `plantillas/noticias/Editorial.tsx` (`FondoPapel`, `RecortePrensa`, `ChipIcono`, `Cronologia`, `Medidor`…). Está separada a propósito — estos tokens son para fondo **claro** y los de arriba asumen vídeo oscuro con texto blanco, así que mezclarlos da blanco sobre beige. Las primitivas neutras (`Subrayado`, `Aspa`, `Check`, `Flecha`, `Particulas`) sí se reusan en ambos. Su ficha está en [recetario-tomas.md](manuales/video-noticias/recetario-tomas.md), no en el catálogo generado.
+> **El formato noticias tiene su propia biblioteca**, aparte y fuera de este catálogo: `motor/noticias/Editorial.tsx` (`FondoPapel`, `RecortePrensa`, `ChipIcono`, `Cronologia`, `Medidor`…). Está separada a propósito — estos tokens son para fondo **claro** y los de arriba asumen vídeo oscuro con texto blanco, así que mezclarlos da blanco sobre beige. Las primitivas neutras (`Subrayado`, `Aspa`, `Check`, `Flecha`, `Particulas`) sí se reusan en ambos. Su ficha está en [recetario-tomas.md](manuales/video-noticias/recetario-tomas.md), no en el catálogo generado.
 
 ---
 
@@ -156,7 +161,19 @@ Para que el repo sea manejable, el material pesado se queda fuera (ver [.gitigno
 | Skills de ElevenLabs (`.agents/`, con sus symlinks en `.claude/skills/`) | `npx skills experimental_install` — las repone desde `skills-lock.json`, que sí está versionado |
 | `node_modules/` | `cd remotion && npm install` |
 
-Consecuencia: tras clonar, el Studio abre y las composiciones de plantilla y `Catalogo` renderizan; **`Avatar002` y `Avatar003` no**, hasta que copies sus MP4 a `remotion/public/`.
+Consecuencia: tras clonar, el Studio abre y las composiciones de plantilla y `Catalogo` renderizan; **`Avatar002`, `Avatar003` y `Noticia004` no**, hasta que repongas su medio:
+
+| Composición | Qué le falta | Cómo reponerlo |
+|---|---|---|
+| `Avatar002`, `Avatar003` | los MP4 del avatar | copia tus clips a `remotion/public/` |
+| `Noticia004` | la voz en off `public/noticias/004-vo.wav` | relocuta el guion (ver más abajo) y copia el WAV que deja `generar-vo.sh` |
+
+`Noticia004` falla de forma **silenciosa**: `staticFile()` solo construye una URL, así que la imagen se ve y lo que falta es la voz, con un 404 en la consola del Studio. Para reponerla:
+
+```bash
+bash manuales/video-noticias/scripts/generar-vo.sh proyectos/004/guion-vo.txt --motor say --fps 30
+cp proyectos/004/vo/004-vo.wav remotion/public/noticias/
+```
 
 El banco de sonidos **sí** está en el repo: los renders dependen de él.
 
@@ -164,11 +181,12 @@ El banco de sonidos **sí** está en el repo: los renders dependen de él.
 
 ## ✅ Estado verificado
 
-- Remotion **4.0.496** · Node **25.8** · Tailwind v4 · `@remotion/paths` y `@remotion/shapes`.
+- Remotion **4.0.496** · Node **25.8** · `@remotion/paths`, `@remotion/shapes` y `@remotion/media-parser` (duraciones leídas del medio).
+- **Sin Tailwind**: no se usaba ni una clase (`grep -rc className src/` = 0). Lo único que aportaba era su *preflight*, que ahora está explícito como reset mínimo en `src/index.css` — verificado píxel a píxel en 4 composiciones.
 - **13 composiciones** registradas en `remotion/src/Root.tsx` (plantillas, avatares 001-003, `Catalogo`, `GraficosDemo`, `NoticiaDemo`, `Noticia004`).
 - Auto-Editor **29.3.1** (pipx) · whisper.cpp con `ggml-small.bin`.
 - B-roll con Grok Imagine vía `scripts/grok.py` (API directa de xAI): la clave autentica correctamente, pero **el equipo de xAI aún no tiene créditos** → hasta comprarlos en console.x.ai no genera nada.
-- Voz en off con ElevenLabs vía `scripts/elevenlabs.py`: probado de punta a punta en el 004 (17 tomas locutadas y cronometradas).
+- Voz en off: **el 005 está locutado de punta a punta con la voz clonada del canal** (`John Stevans v 0.1`, ElevenLabs) — 16 tomas, cronometradas con `generar-vo.sh --motor elevenlabs`. El **004** sigue con la voz GUÍA del sistema (`--motor say`, Paulina es_MX): sus 17 tomas están cronometradas contra esa pista, así que para publicarlo hay que relocutarlo. `elevenlabs.py guion` es reanudable: reejecutarlo no vuelve a facturar lo que ya está en disco (comprobado en el 005 — al acortar una frase refacturó 3 tomas de 16, esa y sus dos vecinas del stitching).
 - `npm run lint` (eslint + tsc) en verde.
 
 📖 **Antes de editar un vídeo real, lee** [manuales/edicion-video/SKILL.md](manuales/edicion-video/SKILL.md) — o entra directamente por el [director](manuales/director-video/SKILL.md). Si la pieza sale de una noticia, por [video-noticias](manuales/video-noticias/SKILL.md).
