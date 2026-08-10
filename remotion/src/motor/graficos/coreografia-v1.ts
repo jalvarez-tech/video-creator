@@ -1,3 +1,32 @@
+/**
+ * @deprecated CAPA V1 — CONGELADA. No escribas planes nuevos contra esto.
+ *
+ * QUÉ LO SUSTITUYE
+ *   `motor/plan/nucleo.ts` (el sustrato: Toma, Nodo, Molde, Ley, validador) más
+ *   el dialecto de gráficos que ahora ocupa `graficos/coreografia.ts`. La unidad
+ *   dejó de ser «un gráfico» (`GraficoCue`) y pasó a ser la TOMA: un molde con
+ *   un árbol de hijos coreografiados entre sí. Ahí desaparecen los tres parches
+ *   que este archivo hizo inevitables — `dy` para descolgar un cue debajo de
+ *   otro, `zona` como banda compartida donde dos cues se pisan, y una `Jerarquia`
+ *   que hacía de etiqueta de validación y de decisión estética a la vez.
+ *
+ * POR QUÉ SIGUE AQUÍ
+ *   Le queda UN consumidor: `motor/demos/graficos-demo.ts`, que alimenta la
+ *   composición `GraficosDemo` del Studio a través de `<PistaGraficos>`. Ese demo
+ *   es red de seguridad mientras se monta el camino nuevo: si lo migrásemos a la
+ *   vez que escribimos el intérprete, perderíamos la única referencia renderizada
+ *   contra la que comparar píxeles. Se migra en el PASO 11.
+ *
+ * CUÁNDO SE BORRA
+ *   En cuanto `graficos-demo.ts` esté escrito con el dialecto nuevo (PASO 11), se
+ *   borran de un tirón este archivo, `PistaGraficos.tsx` y las tres exportaciones
+ *   nominales `gfxV1` / `revisaPlanV1` / `GraficoCue` del barril. Si estás leyendo
+ *   esto y `graficos-demo.ts` ya no importa de aquí, el borrado está pendiente:
+ *   hazlo.
+ *
+ * Mientras tanto: NI UNA LÍNEA de este archivo se toca. Es la base de comparación.
+ */
+
 import { Barra } from "./Datos";
 
 /**

@@ -1,0 +1,150 @@
+/**
+ * EL PLAN COMO DATOS, versión núcleo — la referencia del camino nuevo.
+ *
+ * Hermano de `graficos-demo.ts` (que es la capa V1, congelada) y su sustituto:
+ * lo mismo contado con `Plan` de `motor/plan/nucleo` y el dialecto de
+ * `graficos/coreografia`. Se monta con:
+ *
+ *   <PistaGraficos plan={planDemo} montadores={MONTADORES_BASE} />
+ *
+ * Existe por dos razones, y las dos son de seguridad:
+ *   1. El intérprete nuevo no tiene todavía ningún proyecto detrás. Sin un plan
+ *      que lo monte de verdad, podría compilar y salir en negro sin que nadie se
+ *      entere hasta el primer vídeo real.
+ *   2. Es la plantilla a copiar para el `graficos-00N.ts` de un proyecto: cuatro
+ *      tomas que recorren los cuatro moldes, los tres ejes de grupo, una piel,
+ *      dos envolturas y `tras()`.
+ *
+ * DATOS PUROS: importa del dialecto, nunca de un componente. Por eso se puede
+ * validar con `node` sin montar React.
+ */
+import { capa, GRAFICOS } from "../graficos/coreografia";
+
+const { pon, col, fila, gfx, plan, tras } = capa(GRAFICOS, "gfx");
+
+export const planDemo = plan({ ancho: 1080, alto: 1920, fps: 25, duracion: 300 }, [
+  gfx(
+    "d01-gancho",
+    "franja",
+    "gancho",
+    [0, 78],
+    "apoyo",
+    "Abre con la promesa por encima de la cara: el molde franja es el único sitio donde un bloque no invade al avatar.",
+    [
+      col(
+        [
+          pon("kicker", { texto: "PROPIEDADES LUXUR" }),
+          pon("titular", {
+            id: "titular",
+            rol: "hero",
+            px: 60,
+            lineas: ["Firmaste la escritura.", ["Todavía ", { t: "no", tinta: "perdida", enfasis: true }, " eres el dueño."]],
+          }),
+          // `estira` toma el ancho del bloque: sin él habría que medir a ojo el
+          // ancho del titular y volver a medirlo al cambiar una palabra.
+          pon("regla", { estira: true, dur: 10, color: "marca", en: tras("titular", 2) }),
+        ],
+        { gap: 18 }
+      ),
+    ]
+  ),
+
+  gfx(
+    "d02-dato",
+    "pantalla",
+    "prueba",
+    [78, 168],
+    "hero",
+    "El dato es el argumento entero, así que se lleva la pantalla: el avatar se desmonta y no compite con la cifra.",
+    [
+      col(
+        [
+          pon("kicker", { texto: "EN COLOMBIA" }),
+          pon("contador", {
+            id: "cifra",
+            rol: "hero",
+            color: "dato",
+            de: 0,
+            a: 87,
+            sufijo: " %",
+            dur: 40,
+            golpe: true,
+            envolturas: [{ env: "halo", tinta: "dato", radio: 560, intensidad: 0.3 }],
+          }),
+          // `tras(id)` = cuando el otro ATERRIZA. El número exacto (entrada +
+          // rampa) deja de estar copiado en el plan y se recalcula solo si la
+          // cifra cambia de ley.
+          pon("etiqueta", { texto: "de los compradores cree que ya es dueño", en: tras("cifra", 6) }),
+          pon("barras", {
+            en: tras("cifra", 14),
+            max: 100,
+            alto: 300,
+            datos: [
+              { etiqueta: "2023", valor: 62, tinta: "neutro" },
+              { etiqueta: "2024", valor: 74, tinta: "neutro" },
+              { etiqueta: "2025", valor: 87, tinta: "dato" },
+            ],
+          }),
+        ],
+        { gap: [10, 26, 44] }
+      ),
+    ],
+    {
+      ambiente: {
+        foco: { cx: 50, cy: 34, tinta: "dato", fuerza: 0.18, pulso: 0.03 },
+        trama: { tipo: "rejilla", tinta: "neutro", opacidad: 0.05, paso: 90 },
+      },
+    }
+  ),
+
+  gfx(
+    "d03-mecanismo",
+    "sello",
+    "mecanismo",
+    [168, 246],
+    "apoyo",
+    "Los tres pasos de la norma cuelgan de la banda de subtítulos: es apoyo de lo que dice la voz, no el mensaje.",
+    [
+      col(
+        [
+          fila([pon("glifo", { nombre: "balanza", px: 54, color: "marca" }), pon("etiqueta", { texto: "Lo que exige la norma" })], {
+            gap: 20,
+          }),
+          pon("lista", {
+            marca: "numero",
+            paso: 6,
+            items: [{ texto: "Escritura pública" }, { texto: "Registro en la ORIP" }, { texto: "Folio de matrícula" }],
+          }),
+          pon("serie", { n: 3, activo: 2, color: "marca" }),
+        ],
+        { gap: 26 }
+      ),
+    ]
+  ),
+
+  gfx(
+    "d04-cta",
+    "cta",
+    "cta",
+    [246, 300],
+    "apoyo",
+    "Cierra con la acción concreta: el campo con caret se lee como algo que se escribe, no como un cartel.",
+    [
+      col(
+        [
+          pon("titular", { rol: "hero", px: 56, texto: "Escríbenos" }),
+          fila(
+            [
+              pon("etiqueta", { texto: "WhatsApp", color: "logro" }),
+              // El caret es tiempo CÍCLICO (9 f encendido, 9 apagado): como cues
+              // serían diez cues de nueve frames. Por eso es una envoltura.
+              pon("caret", { color: "logro", envolturas: [{ env: "parpadeo", ciclo: 9, a: 0.9 }] }),
+            ],
+            { gap: 16, piel: { caja: "campo", tinta: "logro", ancho: 620 } }
+          ),
+        ],
+        { gap: 24 }
+      ),
+    ]
+  ),
+]);

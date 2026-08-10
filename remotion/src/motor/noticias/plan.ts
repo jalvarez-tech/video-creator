@@ -71,7 +71,7 @@ export type Registro = "papel" | "cine";
 /** Un ítem de comparación (chip con glifo + label). */
 export type ItemComparador = {
   label: string;
-  /** Clave de `GLIFO` en Editorial.tsx. */
+  /** Clave de `GLIFO` en graficos/Glifos.tsx. */
   glifo: "manos" | "caja" | "balanza" | "rayo" | "casa" | "edificio" | "avion" | "hoja" | "moneda";
   /** false = opción descartada (se apaga a gris). */
   activo?: boolean;
@@ -212,14 +212,14 @@ export function revisaNoticia(tomas: TomaNoticia[], fps = 30): string[] {
       avisos.push(`[${t.id}] dura ${len} f (> 6 s): en un short, demasiado sin cambio visual`);
     if ((t.tipo === "retrato" || t.tipo === "escenario") && !t.media)
       avisos.push(`[${t.id}] toma ${t.tipo} sin media: montará el marco vacío`);
-    // El rotulador se posiciona con indexOf sobre el titular: si el fragmento no
-    // aparece LITERAL (una tilde, un guion tipográfico, un espacio de más), da
-    // -1 y no se dibuja nada. Sin este aviso, el fallo es invisible.
-    // Compara EN MINÚSCULAS porque así busca `RecortePrensa` (Editorial.tsx:228,
-    // con toLowerCase().indexOf). Con `includes` a secas, un titular con distinta
-    // capitalización daba un falso positivo: avisaba de algo que sí se dibuja.
-    if (t.resaltar && !(t.titular ?? "").toLowerCase().includes(t.resaltar.toLowerCase()))
-      avisos.push(`[${t.id}] "resaltar" no aparece en el titular: el rotulador no se dibujará`);
+    // AQUÍ HABÍA una regla sobre `resaltar`: avisaba de que el fragmento no
+    // aparecía LITERAL en el titular, porque el rotulador se posicionaba con un
+    // `indexOf` que devolvía −1 y no dibujaba nada, en silencio. Se borra porque
+    // el fallo ya no puede existir: `compilaNoticia` convierte el `resaltar` en
+    // un TROZO dentro del propio titular (`{t: "…", rotulador: true}`) y el
+    // texto que se le pasa a `RecortePrensa` sale de ese mismo trozo. La
+    // relación pasó de ser una búsqueda a ser estructural, y una regla que
+    // vigila un fallo imposible solo enseña a ignorar el validador.
   }
 
   for (let i = 1; i < orden.length; i++) {

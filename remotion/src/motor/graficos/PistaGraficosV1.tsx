@@ -1,3 +1,27 @@
+/**
+ * @deprecated INTÉRPRETE V1 — CONGELADO. Hermano de `coreografia-v1.ts` (lee su
+ * cabecera: ahí está el porqué largo). No montes planes nuevos con esto.
+ *
+ * QUÉ LO SUSTITUYE
+ *   `PistaGraficos.tsx`, que consume `Plan` del núcleo (`../plan/nucleo`) y los
+ *   montadores del dialecto. La diferencia no es de estilo: allí la unidad es la
+ *   TOMA (un molde con un árbol de hijos coreografiados entre sí) y aquí es «un
+ *   gráfico» suelto que se coloca en una `zona` y se descuelga con `dy`. Los tres
+ *   parches que este archivo hizo inevitables —`dy`, `zona` como banda
+ *   compartida donde dos cues se pisan, y `jerarquia` haciendo de etiqueta de
+ *   validación y de decisión estética a la vez (`punch={jerarquia === "hero"}`,
+ *   línea 106)— mueren con él.
+ *
+ * POR QUÉ SIGUE AQUÍ
+ *   Le queda UN consumidor: `motor/demos/GraficosDemo.tsx` (con el plan
+ *   `graficos-demo.ts`), que es la única referencia RENDERIZADA de la capa
+ *   vieja. Mientras se monta el camino nuevo es red de seguridad: si se migrara
+ *   a la vez que se escribe el intérprete, no habría contra qué comparar.
+ *
+ * CUÁNDO SE BORRA
+ *   En el PASO 11, de un tirón con `coreografia-v1.ts` y las nominales del
+ *   barril, cuando `GraficosDemo` pase a montar un `Plan`.
+ */
 import { useMemo } from "react";
 import { AbsoluteFill, useVideoConfig } from "remotion";
 import { avisaDelPlan } from "../avisos";
@@ -7,7 +31,10 @@ import { Aparece, Barrido, Escena, Ranura } from "./Entradas";
 import { G } from "./estilos";
 import { Scrim } from "./Fondos";
 import { Glitch } from "./Glitch";
-import { GraficoCue, revisaPlan, ZonaGrafico } from "./coreografia";
+// Intérprete de la capa V1, congelada: importa del archivo v1 por su nombre
+// nuevo. No pasa por el barril a propósito — `revisaPlan` ahí es ya el del
+// núcleo, y `revisaPlanV1` es este otro. Ambos mueren juntos en el PASO 11.
+import { GraficoCue, revisaPlan, ZonaGrafico } from "./coreografia-v1";
 import { Particulas } from "./Particulas";
 import { Panel3D, Escena3D } from "./Tarjeta3D";
 import { Aspa, Check, Flecha, Rodea, Subrayado } from "./Trazo";

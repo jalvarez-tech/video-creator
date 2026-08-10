@@ -1,8 +1,12 @@
-// Importa SOLO los datos (`coreografia`), no el barril: un plan es una lista de
-// decisiones y no debe arrastrar ni un componente. Así se puede validar con
+// Importa SOLO los datos (`coreografia-v1`), no el barril: un plan es una lista
+// de decisiones y no debe arrastrar ni un componente. Así se puede validar con
 // Node sin montar React (ver `revisaPlan` más abajo).
+//
+// El `-v1` no es cosmético: este demo es el ÚLTIMO consumidor de la capa vieja y
+// se queda ahí a posta hasta el PASO 11, para tener una referencia renderizada
+// contra la que comparar píxeles mientras se monta el camino nuevo.
 import { MG } from "../motion";
-import { gfx, GraficoCue } from "../graficos/coreografia";
+import { gfx, GraficoCue } from "../graficos/coreografia-v1";
 
 /**
  * PLAN DE GRÁFICOS de ejemplo — la plantilla a copiar para un proyecto real

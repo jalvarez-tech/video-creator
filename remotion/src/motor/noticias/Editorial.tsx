@@ -328,67 +328,14 @@ export const ChipIcono: React.FC<{
   );
 };
 
-/** Glifos mínimos para los chips, sin dependencias de icon set. */
-export const GLIFO = {
-  /** Manos abiertas que sostienen algo: dar sin quedarse. El "non profit". */
-  manos: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <circle cx="12" cy="6.4" r="2.6" fill="currentColor" stroke="none" />
-      <path d="M11.4 13.5 7.2 11.2a1.7 1.7 0 0 0-2.4.8L2.6 17.4l6 3.4" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M12.6 13.5l4.2-2.3a1.7 1.7 0 0 1 2.4.8l2.2 5.4-6 3.4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
-  caja: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
-      <path d="M3 8l9-4 9 4v8l-9 4-9-4V8z" strokeLinejoin="round" />
-      <path d="M3 8l9 4 9-4M12 12v8" />
-    </svg>
-  ),
-  balanza: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
-      <path d="M12 3v18M5 21h14M4 8h16M4 8l-2 6h4l-2-6zM20 8l-2 6h4l-2-6z" strokeLinejoin="round" />
-    </svg>
-  ),
-  rayo: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" />
-    </svg>
-  ),
-  /** Vivienda unifamiliar / casa / finca. */
-  casa: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
-      <path d="M3 10.4 12 3.5l9 6.9V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.6z" strokeLinejoin="round" />
-      <path d="M9.5 21v-6h5v6" strokeLinejoin="round" />
-    </svg>
-  ),
-  /** Multifamiliar / desarrollo en altura / ciudad. */
-  edificio: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
-      <path d="M4 21V6.5L12 3v18M12 21V9l8 3v9M4 21h16" strokeLinejoin="round" />
-      <path d="M7 10h2M7 14h2M15.5 14h1.5M15.5 17.5h1.5" strokeLinecap="round" />
-    </svg>
-  ),
-  /** Aeropuerto / conectividad aérea. */
-  avion: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M21 15.5 13.6 11V4.8a1.6 1.6 0 1 0-3.2 0V11L3 15.5v2.1l7.4-2.3v4.2l-2.2 1.5v1.4l3.8-1 3.8 1v-1.4l-2.2-1.5v-4.2l7.4 2.3v-2.1z" />
-    </svg>
-  ),
-  /** Naturaleza / aire limpio / calidad de vida. */
-  hoja: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
-      <path d="M20 4c0 9-5.5 14-11.5 14A5.5 5.5 0 0 1 3 12.5C3 7 9 4 20 4z" strokeLinejoin="round" />
-      <path d="M4.5 21C7 15 12 11 18 8.5" strokeLinecap="round" />
-    </svg>
-  ),
-  /** Dinero / crédito / capacidad de pago. */
-  moneda: (
-    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
-      <circle cx="12" cy="12" r="8.6" />
-      <path d="M12 6.6v10.8M14.9 9.2c-.7-.8-1.8-1.1-2.9-1.1-1.6 0-2.9.8-2.9 2.1 0 3 5.8 1.6 5.8 4.5 0 1.4-1.3 2.2-2.9 2.2-1.2 0-2.3-.4-3-1.2" strokeLinecap="round" />
-    </svg>
-  ),
-} as const;
+/**
+ * Los glifos de los chips ya NO viven aquí: son vocabulario general (casa,
+ * avión, moneda…), no del formato noticias, así que su sitio es la biblioteca
+ * de gráficos. Se re-exportan para no romper a quien los importa de aquí
+ * (`PistaNoticia.tsx`) ni obligar a los proyectos a cambiar de ruta.
+ */
+import { GLIFO } from "../graficos/Glifos";
+export { GLIFO };
 
 // ── Cifras ───────────────────────────────────────────────────────────────────
 

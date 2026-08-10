@@ -10,6 +10,7 @@ import { CamaraDemo } from "./proyectos/001/CamaraDemo";
 import { Avatar002 } from "./proyectos/002/Avatar002";
 import { Avatar003 } from "./proyectos/003/Avatar003";
 import { GraficosDemo } from "./motor/demos/GraficosDemo";
+import { PlanDemo } from "./motor/demos/PlanDemo";
 import { NoticiaDemo } from "./motor/demos/NoticiaDemo";
 import { noticiaDemo } from "./motor/demos/noticia-demo";
 import { Noticia004 } from "./proyectos/004/Noticia004";
@@ -174,6 +175,19 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="GraficosDemo"
         component={GraficosDemo}
+        durationInFrames={300}
+        fps={25}
+        width={1080}
+        height={1920}
+      />
+      {/* PlanDemo — lo mismo con el camino NUEVO: `plan-demo.ts` es un `Plan` del
+          núcleo (motor/plan/nucleo.ts) montado por el intérprete que consume
+          tomas, no cues. Mientras GraficosDemo siga en la capa V1 (se migra en
+          el PASO 11), ésta es la única composición que RENDERIZA el camino
+          nuevo: un intérprete sin consumidor compila y sale en negro. */}
+      <Composition
+        id="PlanDemo"
+        component={PlanDemo}
         durationInFrames={300}
         fps={25}
         width={1080}

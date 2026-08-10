@@ -1,6 +1,11 @@
 import { AbsoluteFill } from "remotion";
 import { graficosDemo } from "./graficos-demo";
-import { PistaGraficos, Puntos, Resplandor, Vineta } from "../graficos";
+import { Puntos, Resplandor, Vineta } from "../graficos";
+// El intérprete V1, congelado: por ruta directa a su nombre nuevo y no por el
+// barril, igual que `graficos-demo.ts` con `coreografia-v1`. En el barril
+// `PistaGraficos` es ya el intérprete del núcleo, que monta `Plan`, no `cues`.
+// Los dos mueren juntos en el PASO 11.
+import { PistaGraficos } from "../graficos/PistaGraficosV1";
 import { MG } from "../motion";
 
 /**
