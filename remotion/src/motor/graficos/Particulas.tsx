@@ -22,6 +22,26 @@ import { alfa, G } from "./estilos";
  * COSTE: cada partícula es un <div>. 40-80 van sobradas para vender el efecto;
  * 500 tumban el render y no se ven mejor. Si necesitas cientos, es que el efecto
  * debería ser una textura, no partículas.
+ *
+ * NO DETERMINISMO DE RASTERIZADO (arreglado, ver `overflow: hidden` más abajo).
+ * Aritmética determinista NO BASTA: también hay que fijar dónde se RECORTA lo
+ * que se pinta. Este componente daba dos imágenes distintas para el MISMO frame
+ * de la MISMA comp, alternando ~50 % entre dos renders:
+ *   npx remotion still GraficosDemo /tmp/d.png --frame=80
+ *   → 949a38cfb1dc5337a8e386dbea906e9d  ó  12d3c6240a7d3bb5be294538df5be6e1
+ * La diferencia eran 9 PÍXELES, en x 550..564 · y 1915..1919 (la última fila del
+ * lienzo 1080x1920), delta máximo 13 por canal: el halo de una partícula del
+ * cue `g-ambiente` cortado por el canto inferior.
+ *
+ * DESCARTADO — redondear `left`/`top` a enteros con Math.round: da una imagen
+ * BYTE A BYTE IDÉNTICA, porque Chrome ya ajusta al píxel la caja al pintarla.
+ * No era un problema de posición sub-píxel. No repitas ese camino.
+ * DESCARTADO — `isolation: isolate` en el contenedor: sigue alternando. El
+ * stacking context no es lo que gobierna esto.
+ * DESCARTADO — `willChange: transform` / `transform: translateZ(0)`: estabilizan,
+ * pero fuerzan una capa compositada y cambian 413.624 píxeles de TODO el lienzo
+ * (otro redondeo de color al mezclar). Estabilizar alterando la imagen entera no
+ * es un arreglo.
  */
 
 export type ModoParticulas = "estallido" | "ambiente" | "lluvia";
@@ -106,7 +126,25 @@ export const Particulas: React.FC<{
   const ps = useMemo(() => sembrar(n, semilla, paleta, modo), [n, semilla, paleta, modo]);
 
   return (
-    <AbsoluteFill style={{ pointerEvents: "none", opacity: opacidad }}>
+    // `overflow: hidden` NO ES COSMÉTICO: es lo que hace el render determinista.
+    // El `AbsoluteFill` de Remotion no pone `overflow`, así que sin esto el
+    // `boxShadow` (blur = p.tam, hasta 18 px) de las partículas que rozan el
+    // canto se sale del contenedor y el recorte lo acaba haciendo la capa raíz,
+    // por un camino de rasterizado que NO es estable entre procesos → los 9 px
+    // que alternaban en y=1915..1919 (ver cabecera). Recortando AQUÍ, el corte
+    // ocurre en la caja exacta del lienzo y solo hay un resultado posible.
+    // Medido: 10/10 renders del frame 80 idénticos, frente a un control que
+    // alternaba 3 y 3. `contain: paint` da el MISMO píxel, pero además crea
+    // stacking context y containing block: `overflow` es lo mínimo necesario.
+    //
+    // REGLA GENERAL PARA LA BIBLIOTECA: cualquier gráfico con blur, boxShadow o
+    // filter cuya caja difuminada sobresalga del lienzo debe recortar en su
+    // propio contenedor, o volverá a haber dos hashes para el mismo frame.
+    // OJO AL MONTARLO: hoy <Particulas> siempre cuelga de un contenedor a lienzo
+    // completo (PistaGraficos, zona "pantalla"), así que este recorte cae justo
+    // en el borde y no se come nada visible. Dentro de una caja más pequeña sí
+    // recortaría las partículas al borde de esa caja.
+    <AbsoluteFill style={{ pointerEvents: "none", opacity: opacidad, overflow: "hidden" }}>
       {ps.map((p) => {
         const t = frame - at - p.retardo;
         if (t < 0) return null;
