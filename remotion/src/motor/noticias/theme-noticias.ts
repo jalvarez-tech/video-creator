@@ -136,6 +136,15 @@ export const T = {
     letterSpacing: -2.6,
     lineHeight: 1.07,
     color: N.tinta,
+    /**
+     * El `\n` de un titular ES una decisión de maqueta: dónde parte la frase
+     * decide qué palabra queda al final de la línea. Sin esto, HTML lo colapsa
+     * a un espacio y la decisión se pierde EN SILENCIO — el 005 se renderizó
+     * así: `noticia-005.ts` n16-cierre pide dos líneas y salió una corrida.
+     * `pre-line` (no `pre`) porque sigue colapsando la sangría del archivo:
+     * solo respeta los saltos escritos a propósito.
+     */
+    whiteSpace: "pre-line" as const,
   },
   cifra: {
     fontFamily: FUENTE.display,
