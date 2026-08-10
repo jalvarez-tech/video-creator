@@ -74,23 +74,38 @@ export const N = {
 } as const;
 
 /**
- * Tipografías. La decisión de firma del formato: SERIF para lo que afirma,
- * SANS para lo que se lee de pasada.
+ * Tipografías — la VOZ del canal (decisión de `Propiedades Luxur`, 2026-08-09).
  *
- * El serif pesado es lo que separa este look de un TikTok genérico: da voz
- * editorial ("un periódico habla") a titulares y cifras. Los subtítulos van en
- * sans porque se leen a velocidad de habla y el serif a 4 palabras/segundo
- * cansa.
+ * Antes el formato firmaba con un SERIF pesado (Georgia): voz de periódico. Se
+ * cambió a la geométrica del sistema —San Francisco— buscando el registro de
+ * apple.com: elegante por contención, no por adorno. Es coherente con una marca
+ * de inmuebles de gama alta, y sigue leyéndose a velocidad de habla.
  *
- * Sin @remotion/google-fonts instalado, las familias son stacks de sistema:
- * Georgia está en macOS y en el Chrome Headless Shell que usa Remotion. Si un
- * día se instala el paquete, cambia SOLO estas dos constantes.
+ * ⚠️ ESTO CAMBIA TAMBIÉN EL 004 si se vuelve a renderizar: el theme es del
+ * formato, no del proyecto. Es deliberado (es la voz del canal, y el canal es el
+ * mismo), pero si algún día el 004 tiene que conservar el serif, la salida es
+ * mover estas dos constantes a `MARCA` y que cada proyecto elija.
+ *
+ * POR QUÉ `-apple-system` Y NO "SF Pro Display": la SF Pro descargable de Apple
+ * NO está instalada; lo que sí hay es `/System/Library/Fonts/SFNS.ttf`, y Chrome
+ * solo llega a ella por las palabras clave `-apple-system`/`BlinkMacSystemFont`.
+ * Nombrar la familia a pelo caería al genérico sin avisar.
+ *
+ * ⚠️ DETERMINISMO ENTRE MÁQUINAS: estas palabras clave resuelven a San Francisco
+ * en macOS y a otra cosa en Linux. Mientras el render sea local en Mac (que es el
+ * caso), la salida es estable. Para renderizar en CI habría que empaquetar la
+ * fuente con @remotion/fonts, no confiar en el sistema.
+ *
+ * Los dos roles siguen la propia división de Apple (Display para lo grande,
+ * Text para lo pequeño), que no es cosmética: cambia el tracking óptico.
  */
+const SF = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+
 export const FUENTE = {
-  /** Titulares, cifras, palabra de cierre. La voz que afirma. */
-  serif: "Georgia, 'Times New Roman', 'Playfair Display', serif",
-  /** Subtítulos, kickers, labels, chips. La voz que acompaña. */
-  sans: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif",
+  /** Titulares, cifras, palabra de cierre. Lo que se lee de un vistazo. */
+  display: SF,
+  /** Subtítulos, kickers, labels, chips. Lo que acompaña. */
+  texto: SF,
 } as const;
 
 /**
@@ -100,58 +115,58 @@ export const FUENTE = {
  * escena tiene dos protagonistas.
  *
  *   kicker   → antetítulo / sección / fuente de la noticia. Nunca el mensaje.
- *   titular  → el mensaje de la escena. Uno por escena. SERIF.
- *   cifra    → el dato como protagonista. SERIF, tabular-nums.
+ *   titular  → el mensaje de la escena. Uno por escena. DISPLAY, tracking negativo.
+ *   cifra    → el dato como protagonista. DISPLAY, tabular-nums, muy apretada.
  *   etiqueta → la frase de apoyo que explica el titular o la cifra.
  *   pie      → label pequeño bajo un icono o una foto.
  */
 export const T = {
   kicker: {
-    fontFamily: FUENTE.sans,
+    fontFamily: FUENTE.texto,
     fontSize: 28,
-    fontWeight: 700,
-    letterSpacing: 5,
+    fontWeight: 600,
+    letterSpacing: 4,
     textTransform: "uppercase" as const,
     color: N.tintaSuave,
   },
   titular: {
-    fontFamily: FUENTE.serif,
+    fontFamily: FUENTE.display,
     fontSize: 96,
     fontWeight: 700,
-    letterSpacing: -1.5,
-    lineHeight: 1.04,
+    letterSpacing: -2.6,
+    lineHeight: 1.07,
     color: N.tinta,
   },
   cifra: {
-    fontFamily: FUENTE.serif,
+    fontFamily: FUENTE.display,
     fontSize: 220,
     fontWeight: 700,
-    letterSpacing: -4,
+    letterSpacing: -9,
     lineHeight: 1,
     color: N.tinta,
     fontVariantNumeric: "tabular-nums" as const,
   },
   etiqueta: {
-    fontFamily: FUENTE.sans,
+    fontFamily: FUENTE.texto,
     fontSize: 44,
-    fontWeight: 600,
-    letterSpacing: 0,
+    fontWeight: 500,
+    letterSpacing: -0.2,
     lineHeight: 1.25,
     color: N.tintaSuave,
   },
   pie: {
-    fontFamily: FUENTE.sans,
+    fontFamily: FUENTE.texto,
     fontSize: 26,
-    fontWeight: 700,
-    letterSpacing: 0.4,
+    fontWeight: 600,
+    letterSpacing: 0.2,
     color: N.tinta,
   },
   /** Subtítulo sincronizado: sans pesada, la línea que sigue a la voz. */
   subtitulo: {
-    fontFamily: FUENTE.sans,
+    fontFamily: FUENTE.texto,
     fontSize: 58,
-    fontWeight: 800,
-    letterSpacing: -0.5,
+    fontWeight: 700,
+    letterSpacing: -1,
     lineHeight: 1.15,
   },
 } as const;

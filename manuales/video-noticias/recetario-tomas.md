@@ -181,7 +181,7 @@ toma("t10", "escenario", "climax", [954, 1050], {
 
 ## `cierre` — el remate
 
-**Para qué:** negro, una palabra en serif, y el gancho a la parte 2. El formato vive de que la historia no cierre del todo.
+**Para qué:** negro, una palabra en display, y el gancho a la parte 2. El formato vive de que la historia no cierre del todo.
 **Cuándo NO:** si no hay parte 2 ni CTA real. Un «Parte 2» que nunca llega quema la confianza del canal.
 
 ```ts

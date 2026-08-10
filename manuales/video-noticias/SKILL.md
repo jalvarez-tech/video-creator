@@ -3,7 +3,7 @@ name: video-noticias
 description: >-
   Convierte una NOTICIA (un enlace, un titular, un texto pegado) en un short
   vertical 9:16 de explicación periodística con el look editorial del sistema:
-  fondo papel beige + acento naranja, titulares en serif y subtítulos en sans,
+  fondo papel beige + acento naranja, tipografía geométrica de sistema (San Francisco),
   sin avatar en pantalla (voz en off + motion graphics + metraje enmarcado),
   corte rápido de 1-4 s por toma y watermark de marca. Cubre la estructura
   narrativa de 7 beats (gancho · contexto · conflicto · explicación · datos ·
@@ -40,8 +40,8 @@ El formato alterna **dos mundos** y esa alternancia *es* el look. No es decoraci
 
 | Registro | Fondo | Significa | Tipografía | Se usa en |
 |---|---|---|---|---|
-| **Papel** | beige `#ECE8DF` + grano | «esto **significa**» | serif en titulares, sans en apoyos, tinta `#111` | gráficos, cifras, comparaciones, prensa, cronologías |
-| **Cine** | negro `#000` + foco cenital | «esto **pasó**» | serif blanco | metraje, retratos, reconstrucciones, el cierre |
+| **Papel** | beige `#ECE8DF` + grano | «esto **significa**» | display en titulares, texto en apoyos, tinta `#111` | gráficos, cifras, comparaciones, prensa, cronologías |
+| **Cine** | negro `#000` + foco cenital | «esto **pasó**» | display blanca | metraje, retratos, reconstrucciones, el cierre |
 
 **Nunca mezcles los dos registros dentro de una toma.** Un gráfico vectorial sobre metraje real, o una foto a sangre sobre papel, es lo que hace que una pieza de este formato se lea como "plantilla mal usada".
 
@@ -82,7 +82,7 @@ Cada toma es un tipo de `TomaNoticia`. Detalle completo, props y sonido en [rece
 
 | Toma | Registro | Para qué | Dura | Sonido de partida |
 |---|---|---|---|---|
-| `titular` | papel · cine | El mensaje de la escena, en serif. La más frecuente | 2-3.5 s | `impact deep` en la palabra clave |
+| `titular` | papel · cine | El mensaje de la escena, en display. La más frecuente | 2-3.5 s | `impact deep` en la palabra clave |
 | `prensa` | papel | La **prueba**: recorte real + rotulador amarillo | 3-4 s | `paper` + `pen` al subrayar |
 | `comparador` | papel | A vs B en chips naranjas (esto sí / esto no) | 3-4 s | `pop` por chip (alterna variantIndex) |
 | `cronologia` | papel | El viaje entre dos fechas. El orden = la dirección | 3-4 s | `whoosh light` + `tick` por hito |
@@ -111,7 +111,11 @@ Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/motor/noticias/th
 | Chips isométricos | `N.naranjaChip` | `#E8863A` |
 | Rotulador | `N.resalte` | `#FFE24A` |
 
-**Tipografía — la decisión de firma:** **serif** (`Georgia`) para lo que **afirma** (titulares, cifras, años, cierre) · **sans** (`Inter`) para lo que **acompaña** (kickers, etiquetas, labels, chips, subtítulos). Esa mezcla es lo que separa este look de un TikTok genérico: el serif da voz editorial, y el sans mantiene legible lo que se lee a velocidad de habla.
+**Tipografía — la voz del canal:** **San Francisco** (la geométrica del sistema, vía `-apple-system`) en los dos roles: `display` para lo que **afirma** (titulares, cifras, años, cierre) y `texto` para lo que **acompaña** (kickers, etiquetas, labels, chips, subtítulos). Lo que separa este look de un TikTok genérico ya no es la mezcla serif/sans sino el **tracking negativo** de los titulares (−2,6 a 96 px) y de las cifras (−9 a 220 px): es el registro de apple.com, elegante por contención.
+
+> Hasta 2026-08-09 el formato firmaba con un serif pesado (`Georgia`). Se cambió por decisión de marca de *Propiedades Luxur*. Si vuelve el serif, se toca **solo** `FUENTE` en `theme-noticias.ts` y el tracking de `T.titular`/`T.cifra`.
+>
+> ⚠️ `-apple-system` resuelve a San Francisco **en macOS**; en Linux cae a otra cosa. El render de este sistema es local en Mac, así que es estable — pero para renderizar en CI habría que empaquetar la fuente con `@remotion/fonts`.
 
 **Marca:** `MARCA.sello` en el mismo archivo. `null` = sin watermark (y sin hueco en la maqueta). Ponle el nombre del canal y aparece la píldora inferior en **todos** los frames, invirtiendo color según el registro.
 

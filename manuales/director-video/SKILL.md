@@ -50,7 +50,7 @@ Root: **`/Users/nicecode/Work/jalvarez/video-creator`**. Este skill es la **capa
 
 > **Excepción — el formato NOTICIAS no es una capa, es una pieza entera.**
 > [video-noticias](../video-noticias/SKILL.md) trae su propio look (papel beige +
-> naranja, serif/sans), su propia estructura narrativa (7 beats) y su propia capa
+> naranja, geométrica de sistema), su propia estructura narrativa (7 beats) y su propia capa
 > declarativa (`TomaNoticia[]` → `<PistaNoticia>`), y **no lleva avatar**. Si la
 > instrucción es "monta esta noticia", entra directo por ahí y el director solo
 > interviene si además hay avatar, en cuyo caso este formato aporta el look de
