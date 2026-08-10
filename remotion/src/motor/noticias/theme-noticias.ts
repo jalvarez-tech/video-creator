@@ -29,7 +29,7 @@
  * monta, sin huecos ni ajustes de layout.
  */
 export const MARCA = {
-  sello: null as string | null, // p.ej. "TUMARCA.COM" — null = sin watermark
+  sello: "PROPIEDADES LUXUR" as string | null, // null = sin watermark
   acento: "#FF5500", // naranja editorial: el ÚNICO color vivo de la pieza
 } as const;
 

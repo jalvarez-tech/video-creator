@@ -14,6 +14,8 @@ import { NoticiaDemo } from "./motor/demos/NoticiaDemo";
 import { noticiaDemo } from "./motor/demos/noticia-demo";
 import { Noticia004 } from "./proyectos/004/Noticia004";
 import { noticia004 } from "./proyectos/004/noticia-004";
+import { Noticia005 } from "./proyectos/005/Noticia005";
+import { noticia005 } from "./proyectos/005/noticia-005";
 import { duracionPlan } from "./motor/noticias";
 import { framesDelMedio, framesDePlanYVoz } from "./motor/duracion";
 import { Catalogo, CATALOGO, PASO } from "./motor/graficos";
@@ -211,6 +213,24 @@ export const RemotionRoot: React.FC = () => {
         height={1920}
         calculateMetadata={async () => ({
           durationInFrames: await framesDePlanYVoz("noticias/004-vo.wav", 30, duracionPlan(noticia004)),
+        })}
+      />
+
+      {/* ── PROYECTO 005 ── (src/proyectos/005/)
+          «Firmaste la escritura. Todavía no eres el dueño.»
+          Disparador: Ciencuadras · 2026-07-14. 16 tomas, todas gráficas.
+          Frames MEDIDOS sobre la voz DEFINITIVA (voz clonada del canal), no una
+          guía: la duración sale del plan y del audio, lo mayor de los dos.
+          Sello: PROPIEDADES LUXUR. Artefacto: proyectos/005/artefactos/01-noticia.md */}
+      <Composition
+        id="Noticia005"
+        component={Noticia005}
+        durationInFrames={duracionPlan(noticia005)}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDePlanYVoz("noticias/005-vo.wav", 30, duracionPlan(noticia005)),
         })}
       />
     </>

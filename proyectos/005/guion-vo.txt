@@ -1,0 +1,16 @@
+n01-firmaste|Firmaste la escritura en la notaría. Todavía no eres el dueño.
+n02-notaria|La notaría da fe de que firmaste.
+n03-no-basta|Pero la propiedad no la transfiere una firma.
+n04-registro|La transfiere el registro.
+n05-articulo|Lo dice el artículo setecientos cincuenta y seis del Código Civil.
+n06-tradicion|La propiedad se traspasa inscribiendo el título en la Oficina de Registro.
+n07-dos-oficinas|Dos oficinas distintas. En una firmas. En la otra te vuelves propietario.
+n08-sigue-siendo|Mientras no registres, ante terceros el dueño sigue siendo quien te vendió.
+n09-puede-vender|Y puede volver a vender el mismo inmueble.
+n10-dos-meses|Tienes dos meses para registrar si la escritura se otorgó en Colombia.
+n11-exterior|Tres, si se otorgó en el exterior.
+n12-cuanto|El impuesto de registro va del cero coma cinco al uno por ciento, según el departamento.
+n13-mora|Pasado el plazo la escritura se sigue pudiendo registrar.
+n14-intereses|Pero con intereses de mora por cada mes de retraso.
+n15-pide|Antes de vender, pide tu certificado de tradición y libertad.
+n16-cierre|Si tu escritura no está ahí, no has vendido nada todavía.
