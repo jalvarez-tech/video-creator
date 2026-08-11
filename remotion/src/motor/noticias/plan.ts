@@ -4,16 +4,24 @@
  *
  * El sistema ya declara tres capas en datos y las ejecuta con un intérprete:
  *   cámara   → CameraCue[]   (camara-NNN.ts)   → <CamaraVirtual>
- *   gráficos → GraficoCue[]  (graficos-NNN.ts) → <PistaGraficos>
+ *   gráficos → Plan          (graficos-NNN.ts) → <PistaGraficos>
  *   sonido   → SoundCue[]    (cues-NNN.ts)     → <PistaSonido>
  * Esta es la cuarta:
  *   noticia  → TomaNoticia[] (noticia-NNN.ts)  → <PistaNoticia>
  *
- * Por qué una capa propia y no `GraficoCue`: en el formato noticias el gráfico
- * NO es un overlay sobre un avatar — es la escena entera, y trae consigo su
- * fondo. `GraficoCue` asume una `zona` dentro de un vídeo que ya existe; aquí
- * lo que se declara es la sucesión de TOMAS que forman la pieza completa,
- * incluido de qué color es el mundo en cada una.
+ * Por qué una capa propia. Cuando esto se escribió, la capa de gráficos era un
+ * `GraficoCue[]` con una `zona` («superior»/«inferior») dentro de un vídeo que
+ * ya existía, y el argumento era que en noticias el gráfico NO es un overlay
+ * sobre un avatar: es la escena entera, y trae consigo su fondo. Ese cue ya no
+ * existe —hoy la capa de gráficos es un `Plan` del núcleo (`plan/nucleo.ts`) con
+ * dialecto en `graficos/coreografia.ts`— y con él desapareció la `zona`: un
+ * `Molde` declara ancla, caja útil y scrim, así que ya sabe describir una toma
+ * que ocupa la pantalla. Lo que sigue justificando esta capa NO es la geometría
+ * sino el VOCABULARIO: `TomaNoticia` habla de beats periodísticos, hitos,
+ * fuentes y registro papel/cine, y compila a ese mismo sustrato
+ * (`compilaNoticia` en `dialecto.ts`). La prueba de que ya no es una capa
+ * paralela sino un dialecto es el 006: escribe un `Plan` directamente y lo monta
+ * con `<PistaGraficos>`, sin perder nada del formato.
  *
  * `reason` es OBLIGATORIO, igual que en las otras tres capas: si no puedes
  * escribir qué hace esa toma por la noticia, la respuesta es quitarla.

@@ -66,11 +66,13 @@ Cambia el recorrido en tres puntos:
 
 1. El artefacto es [01-noticia.md](manuales/video-noticias/artefactos/01-noticia.md), y **exige tabla de fuentes verificadas** antes de renderizar: cada cifra y cada titular con medio y fecha.
 2. **La voz se genera antes que el plan y manda sobre él.** Se locuta una pista por toma y se cronometra; de esa medición salen los frames, nunca al revés.
-3. El plan es uno solo — `noticia-NNN.ts` (`TomaNoticia[]` → `<PistaNoticia>`) — en vez de los cuatro de arriba, y se valida sin abrir el Studio:
+3. El plan es uno solo — `noticia-NNN.ts` (`TomaNoticia[]` → `<PistaNoticia>`, o directamente un `Plan` del núcleo como en el 006) — en vez de los cuatro de arriba, y se valida sin abrir el Studio:
 
 ```bash
 node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/proyectos/005/noticia-005.ts
 ```
+
+Pasa los **dos** validadores y **sale con 1 si hay avisos**, para que sirva de puerta y no de informe: `revisaNoticia()` sobre las tomas (huecos, solapes, duraciones, `reason`, beat de gancho) y `revisaPlan()` sobre el plan compilado con la misma `compilaNoticia()` que usa `<PistaNoticia>` (R08 alto, R09 ancho, tintas de marca, reglas de cada pieza). Corría solo el primero, y eso firmaba «✅ Plan limpio» sobre planes que el motor sí marcaba.
 
 Referencia real montada de punta a punta: `proyectos/004/` (17 tomas, 73,5 s).
 
@@ -97,7 +99,7 @@ video-creator/
 │   ├── public/sfx/           #   55 efectos calibrados (de los que dependen los renders)
 │   └── src/
 │       ├── motor/            #   LO REUTILIZABLE — un proyecto lo usa, él no usa proyectos
-│       │   ├── graficos/     #     biblioteca de 37 gráficos + catálogo + PistaGraficos
+│       │   ├── graficos/     #     biblioteca de gráficos + catálogo DERIVADO + PistaGraficos
 │       │   ├── noticias/     #     formato noticias: theme CLARO + TomaNoticia + PistaNoticia
 │       │   ├── sound/        #     SoundCue + PistaSonido
 │       │   └── demos/        #     los planes de ejemplo que se copian para empezar
@@ -126,14 +128,15 @@ video-creator/
 
 Antes de escribir un gráfico nuevo, mira si ya existe:
 
-- **Catálogo vivo:** composición `Catalogo` en el Studio — cada gráfico animándose de verdad, con su ficha.
+- **Catálogo vivo:** composición `Catalogo` en el Studio — cada cosa animándose de verdad, con su ficha y la RUTA que se escribe en el plan.
 - **Lista:** [manuales/motion-graphics/catalogo-graficos.md](manuales/motion-graphics/catalogo-graficos.md) (generado; no editar a mano).
 
 ```bash
-node manuales/motion-graphics/scripts/generar-catalogo.mjs
+node manuales/motion-graphics/scripts/generar-catalogo.mjs   # regenera el markdown
+node manuales/motion-graphics/scripts/revisar-catalogo.mjs   # test: toda ficha tiene ruta y toda ruta tiene ficha
 ```
 
-37 primitivas en 8 familias: tipografía, fondos, datos, trazo dibujado (`@remotion/paths`), partículas deterministas, 3D CSS y glitch. Se importan de una sola pieza:
+El catálogo se DERIVA del código (registro `PIEZAS`, `MOLDES_GRAFICOS` y los tipos del núcleo), así que no puede anunciar algo que el plan no sepa escribir — que es exactamente el fallo que tenía: anunciaba 37 gráficos y el plan servía 16. Hoy son **52 entradas** agrupadas por cómo se alcanzan: moldes, gramática, piezas, entradas, envolturas y ambiente. Los componentes se importan de una sola pieza:
 
 ```ts
 import { Titular, Contador, Subrayado, Particulas } from "./graficos";

@@ -9,7 +9,7 @@
  * borrar el 001 sin romper el motor, y quien fuera a escribir `subtitulos-005`
  * tenía que saber que el tipo estaba escondido en el 001.
  *
- * Hermano de `camara.ts` (CameraCue), `graficos/coreografia.ts` (GraficoCue),
+ * Hermano de `camara.ts` (CameraCue), `plan/nucleo.ts` (Plan/Toma),
  * `sound/cues.ts` (SoundCue) y `noticias/plan.ts` (TomaNoticia): el motor define
  * el CONTRATO, cada proyecto aporta los DATOS.
  */

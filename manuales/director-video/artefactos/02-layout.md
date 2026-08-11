@@ -29,11 +29,15 @@ Lista aquí las tomas de gráfico, que son las que cambian el montaje:
 ## Z-order de la composición
 
 ```tsx
+import { MONTADORES_BASE, PistaGraficos } from "../../motor/graficos/PistaGraficos";
+
 <AbsoluteFill>                        {/* fondo */}
   <CamaraVirtual cues={camaraNNN}>    {/* SOLO el avatar */}
     <OffthreadVideo … />
   </CamaraVirtual>
-  <PistaGraficos cues={graficosNNN} />          {/* overlay fijo */}
+  <PistaGraficos plan={graficosNNN} montadores={MONTADORES_BASE} />
+                                                {/* overlay fijo — `montadores` es
+                                                    OBLIGATORIO y no tiene defecto */}
   <SubtitulosSync segmentos={subtitulosNNN} />  {/* overlay fijo */}
   <Audio src={…} />                             {/* la voz, siempre montada */}
   <PistaSonido cues={cuesNNN} duckDb={-5} />
@@ -54,8 +58,9 @@ composición `Catalogo` del Studio.
 | 5 | CTA | `Sello` + `Particulas` (estallido) | inferior | no |
 
 > Si una fila dice **"nuevo componente: sí"**, decide ya si es específico de esta
-> pieza (vive en el proyecto) o reutilizable (sube a `motor/graficos/` con
-> su ficha en `fichas.ts` y su demo en `Catalogo.tsx`).
+> pieza (vive en el proyecto) o reutilizable (sube a `motor/graficos/`, con su
+> ficha en el registro `PIEZAS` de `coreografia.ts`, su montador en
+> `PistaGraficos.tsx` y su demo en `Catalogo.tsx`).
 
 ## Encuadre de cámara por escena
 

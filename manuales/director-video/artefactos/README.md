@@ -35,8 +35,11 @@ entonces el timing lo decide el layout en vez de la voz.
 
 Si al escribir una fila de `03-timeline.md` no sabes poner el `reason`, ese
 elemento **no va**. Es la misma regla que ya imponen `CameraCue`, `SoundCue` y
-`GraficoCue` en el código — aquí se aplica antes, cuando corregir cuesta una
-línea de markdown y no un render.
+`Toma` en el código — y en el plan de gráficos es aún más fuerte que un campo
+obligatorio: el builder `gfx()` pide el `reason` **antes** que los `hijos`
+(`motor/plan/nucleo.ts`), así que el compilador no te deja escribir el cuerpo de
+una toma sin haber dicho para qué existe. Aquí se aplica antes todavía, cuando
+corregir cuesta una línea de markdown y no un render.
 
 ## Después
 

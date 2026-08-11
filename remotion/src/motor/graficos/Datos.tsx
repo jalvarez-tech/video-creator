@@ -147,9 +147,36 @@ export const Regla: React.FC<{ at?: number; ancho: number; color?: string; dur?:
 };
 
 /**
+ * Estado de UN ítem, frente a la marca de la lista entera.
+ *
+ * Vive en la primitiva y no en cada dialecto para que "no" signifique lo mismo
+ * en los dos: si cada capa se inventara su glifo y su color, la misma lista
+ * saldría con ✗ roja en una pieza y con — gris en la de al lado.
+ */
+export type EstadoItem = "si" | "no" | "neutro";
+
+const ESTADO: Record<EstadoItem, { marca: string; color: string }> = {
+  si: { marca: "✓", color: G.green },
+  no: { marca: "✗", color: G.red },
+  // Gris y punto: "esto está, pero no puntúa". Con ✓ apagada seguiría leyéndose
+  // como un sí flojo, que es otra cosa.
+  neutro: { marca: "•", color: G.gris },
+};
+
+/**
  * Ítem de lista con marca. El stagger va DENTRO (`indice`), no en quien lo usa:
  * así una lista entera se escribe sin sumar frames a mano y el ritmo entre
  * ítems queda fijado por STAGGER.lista (motion.ts), igual en toda la pieza.
+ *
+ * `estado` es del ÍTEM; `marca` y `color`, de la LISTA. Antes solo existían los
+ * segundos, así que una lista era homogénea por construcción: no había forma de
+ * decir «estos dos sí y este no» sin escribir la lista a mano fuera del plan —
+ * que es justo el caso para el que sirve una lista con marcas.
+ *
+ * PRECEDENCIA: lo explícito gana. `marca`/`color` pisan al `estado` porque quien
+ * los pasa está decidiendo a mano; el `estado` es el DEFECTO de ese ítem. El
+ * montador aprovecha esto para no pasar la marca de la lista a un ítem que ya
+ * declara estado.
  */
 export const ItemLista: React.FC<{
   children: React.ReactNode;
@@ -159,12 +186,18 @@ export const ItemLista: React.FC<{
   marca?: string;
   color?: string;
   px?: number;
-}> = ({ children, indice = 0, at = 0, paso = STAGGER.lista, marca = "✓", color = G.green, px }) => {
+  estado?: EstadoItem;
+}> = ({ children, indice = 0, at = 0, paso = STAGGER.lista, marca, color, px, estado }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = frame - at - indice * paso;
   const e = spring({ frame: f, fps, config: SPRING.entrada });
   const op = interpolate(f, [0, 8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  // Sin `estado` los defectos son los de siempre (✓ verde): un ítem que no dice
+  // nada se ve exactamente igual que antes de que el estado existiera.
+  const est = estado ? ESTADO[estado] : undefined;
+  const m = marca ?? (est ? est.marca : "✓");
+  const col = color ?? (est ? est.color : G.green);
   return (
     <div
       style={{
@@ -176,7 +209,7 @@ export const ItemLista: React.FC<{
         transform: `translateX(${interpolate(e, [0, 1], [-28, 0])}px)`,
       }}
     >
-      <span style={{ fontSize: (px ?? TXT.etiqueta.fontSize) * 0.9, color, textShadow: SOMBRA.texto }}>{marca}</span>
+      <span style={{ fontSize: (px ?? TXT.etiqueta.fontSize) * 0.9, color: col, textShadow: SOMBRA.texto }}>{m}</span>
       <Etiqueta px={px}>{children}</Etiqueta>
     </div>
   );

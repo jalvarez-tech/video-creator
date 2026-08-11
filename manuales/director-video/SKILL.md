@@ -76,7 +76,7 @@ Sigue [proceso-edicion.md](../edicion-video/proceso-edicion.md) (Fase 3, 7 pasos
 3. **Escenas / tramos** ([R04](../edicion-video/reglas.md)) — divide en bloques ~10 s; marca en el guion dónde va cada refuerzo visual y cada cambio.
 3·bis. **B-roll** (solo si alguna escena lo pide) → genera **ya**, no al final: tarda minutos y el resto del plan depende de su duración real. Motor (`scripts/grok.py`) y límites en **§3h**. El script ya descarga el MP4 a `proyectos/NNN/broll/grok/raw/` **en la misma llamada** (las URLs caducan); mide con `ffprobe` antes de contar frames.
 4. **Plan de CÁMARA** (si hay avatar) → `camara-NNN.ts` con [camara-avatar](../camara-avatar/SKILL.md). Movimientos motivados, en frames absolutos al fps de la comp.
-5. **Plan de MOTION GRAPHICS** → `graficos-NNN.ts` (`GraficoCue[]`) con la biblioteca de [motion-graphics](../motion-graphics/SKILL.md); lo único de la pieza, a mano. Franja superior ([R08](../edicion-video/reglas.md)) o toma a pantalla completa. **1 hero a la vez** — `revisaPlan()` lo comprueba.
+5. **Plan de MOTION GRAPHICS** → `graficos-NNN.ts` (un **`Plan`** del núcleo: `motor/plan/nucleo.ts`, dialecto en `motor/graficos/coreografia.ts`) con la biblioteca de [motion-graphics](../motion-graphics/SKILL.md); lo único de la pieza, a mano. Franja superior ([R08](../edicion-video/reglas.md)) o toma a pantalla completa. **1 hero a la vez** — `revisaPlan(plan)` lo comprueba (un solo argumento). Plantilla real de la que copiar: `motor/demos/graficos-demo.ts`.
 6. **Plan de SONIDO** → `cues-NNN.ts` con [diseno-sonoro](../diseno-sonoro/SKILL.md). La voz manda; SFX debajo + ducking.
 7. **Ensamblar** la comp (z-order §3) y **validar**: frames reales ([R05](../edicion-video/reglas.md)) → prueba 720p ([R06](../edicion-video/reglas.md)) → final.
 
@@ -90,12 +90,19 @@ Esto es lo que **solo el director** posee — la coordinación transversal que n
 
 **b) Z-order (capas, de atrás a delante).** El orden NO es negociable:
 ```tsx
+import { MONTADORES_BASE, PistaGraficos } from "../../motor/graficos/PistaGraficos";
+
 <AbsoluteFill>                              {/* fondo (negro / B-roll) */}
   <CamaraVirtual cues={camaraNNN}>          {/* SOLO el avatar se reencuadra */}
     <OffthreadVideo src={staticFile("avatar-9x16.mp4")}
       style={{ width:"100%", height:"100%", objectFit:"cover" }} />
   </CamaraVirtual>
-  <PistaGraficos cues={graficos001} />       {/* overlay FIJO — el plan de gráficos */}
+  <PistaGraficos plan={graficos001} montadores={MONTADORES_BASE} />
+                                             {/* overlay FIJO — el plan de gráficos.
+                                                 `montadores` es OBLIGATORIO y sin defecto:
+                                                 el plan dice QUÉ pieza, el mapa con qué
+                                                 componente se dibuja. Con piezas propias,
+                                                 pasa tu mapa en vez de MONTADORES_BASE. */}
   <MotionPropio001 />                        {/* + lo ÚNICO de esta pieza, a mano */}
   <SubtitulosSync segmentos={subtitulos001} yPct={70} />   {/* overlay FIJO */}
   <PistaSonido cues={cues001} duckDb={-4.5} />             {/* voz manda + ducking */}
@@ -103,7 +110,7 @@ Esto es lo que **solo el director** posee — la coordinación transversal que n
 ```
 Regla: **solo el avatar va dentro de `<CamaraVirtual>`**; MG y subtítulos son overlays fijos ([R09](../edicion-video/reglas.md)).
 
-Las **tres capas declarativas** del sistema son hermanas y se leen igual: `camara-NNN.ts` → `<CamaraVirtual>` · `graficos-NNN.ts` → `<PistaGraficos>` · `cues-NNN.ts` → `<PistaSonido>`. Lo repetitivo (títulos, cifras, listas, remates, CTA) va en el plan de datos; el JSX a mano queda para la idea visual propia de la pieza (como el mundo líquido del 003).
+Las **cuatro capas declarativas** del sistema son hermanas y se leen igual: `camara-NNN.ts` → `<CamaraVirtual>` · `graficos-NNN.ts` (un `Plan`) → `<PistaGraficos>` · `cues-NNN.ts` → `<PistaSonido>` · `noticia-NNN.ts` → `<PistaNoticia>` (formato noticias, sin avatar; el 006 escribe ya un `Plan` y monta `<PistaGraficos>` directamente). Lo repetitivo (títulos, cifras, listas, remates, CTA) va en el plan de datos; el JSX a mano queda para la idea visual propia de la pieza (como el mundo líquido del 003).
 
 **c) Reparto del espacio (9:16).** Cara al centro · MG en franja superior `y < 340px` ([R08](../edicion-video/reglas.md)) · subtítulos `y ≈ 70%` · la cámara **abre headroom** (baja el avatar) cuando un overlay superior lo necesita. Nada tapa la cara ni el subtítulo.
 

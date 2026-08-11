@@ -8,10 +8,11 @@ import { MG } from "../motion";
  * DEMO del intérprete NUEVO: el plan `plan-demo.ts` (`Plan` del núcleo) montado
  * por <PistaGraficos>, sin una sola línea de JSX por gráfico.
  *
- * Es el sustituto de `GraficosDemo`, que sigue montando la capa V1 hasta el
- * PASO 11. Mientras los dos convivan, esta composición es la única prueba
- * RENDERIZADA de que el camino nuevo dibuja algo: un intérprete sin consumidor
- * compila perfectamente y sale en negro.
+ * Hermana de `GraficosDemo`, que monta el mismo intérprete y el mismo dialecto:
+ * aquélla es el repertorio CORTO (el overlay típico sobre un avatar) y ésta el
+ * recorrido LARGO de la gramática — los cuatro moldes, los tres ejes de grupo,
+ * una piel, dos envolturas y `tras()` — que es lo que se copia al empezar un
+ * `graficos-00N.ts`.
  *
  * En un proyecto real esta composición sería el `Avatar004.tsx`, con el avatar
  * en su sitio y el mismo z-order:

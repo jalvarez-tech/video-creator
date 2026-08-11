@@ -4,13 +4,13 @@
 // Sigue siendo DATOS: ni un import de React ni de Remotion en tiempo de
 // ejecución, para que un plan se valide con `node` sin montar el motor.
 //
-// Sustituye a `coreografia-v1.ts` (congelado, ver su cabecera). El sustrato
-// común vive en `../plan/nucleo`; aquí solo está lo que es PROPIO de esta capa:
+// El sustrato común vive en `../plan/nucleo`; aquí solo está lo PROPIO de esta capa:
 // qué colores significan qué, cómo entra el movimiento, dónde se puede poner un
 // bloque, qué piezas existen y qué se considera un plan mal escrito.
 // ═══════════════════════════════════════════════════════════════════════════
 
 import type { Ficha, Ley, Molde, Nodo, Plan, Regla, Rol, TextoRico } from "../plan/nucleo";
+import { anchoPalabraMasLarga, anchoTexto } from "../plan/nucleo";
 import { alturaEstimada, capa, gapEntre, registro, solapan, textoPlano, ventanaAbs } from "../plan/nucleo";
 // `import type` de un .tsx: se borra al compilar, así que no entra ni React ni
 // JSX en el bundle de datos. Deriva la clave del banco REAL (`Glifos.tsx`) en
@@ -65,7 +65,17 @@ export const LEY_SECA: Ley = {
 
 export type MoldeGrafico = "sello" | "cta" | "franja" | "pantalla" | "capa";
 
-export const MOLDES_GRAFICOS: Record<MoldeGrafico, Molde> = {
+/**
+ * `tinta` es OBLIGATORIA en `Molde` desde que un fondo sin su tinta dejó texto
+ * invisible en el 006. En esta capa las cinco valen lo mismo —"texto", el blanco
+ * de la paleta— porque los cinco moldes se leen sobre vídeo oscuro o sobre el
+ * fondo de la propia capa; declararlo no mueve un píxel (es lo que ya daba
+ * `dialecto.tintaBase`) y deja escrito por qué.
+ *
+ * `anchoMax` = 1080 − 2×118 (`margenSeguro`, 11 %): el ancho ÚTIL de la caja del
+ * molde, que es entre lo que el intérprete monta el bloque.
+ */
+export const MOLDES_GRAFICOS: Record<MoldeGrafico, Molde<Tinta>> = {
   sello: {
     cubre: false,
     ancla: { desde: "arriba", pct: 0.698 }, // 1340/1920 = la banda de subtítulos del 003
@@ -73,8 +83,10 @@ export const MOLDES_GRAFICOS: Record<MoldeGrafico, Molde> = {
     gap: 14,
     scrim: { alto: 830, desde: "abajo" },
     fondo: false,
+    tinta: "texto",
     vineta: false,
     altoMax: 500, // 1920 − 1340 menos aire: pasarse saca el texto de cuadro
+    anchoMax: 844,
     porque: "toma sobre el avatar: el bloque cuelga de la banda de subtítulos y crece hacia abajo",
   },
   cta: {
@@ -86,8 +98,10 @@ export const MOLDES_GRAFICOS: Record<MoldeGrafico, Molde> = {
     // y se veía flotando sobre la ropa del avatar.
     scrim: { alto: 880, desde: "abajo" },
     fondo: false,
+    tinta: "texto",
     vineta: false,
     altoMax: 500,
+    anchoMax: 844,
     porque: "igual que sello pero con más scrim: el CTA es más alto que un titular",
   },
   franja: {
@@ -97,8 +111,10 @@ export const MOLDES_GRAFICOS: Record<MoldeGrafico, Molde> = {
     gap: 16,
     scrim: false,
     fondo: false,
+    tinta: "texto",
     vineta: false,
     altoMax: 340, // R08: más y el bloque se come la cara
+    anchoMax: 844,
     porque: "R08: por encima de la cara. Más de 340 px y el gráfico invade al avatar",
   },
   pantalla: {
@@ -108,8 +124,10 @@ export const MOLDES_GRAFICOS: Record<MoldeGrafico, Molde> = {
     gap: 40,
     scrim: false,
     fondo: "toma",
+    tinta: "texto",
     vineta: true,
     altoMax: 1500,
+    anchoMax: 844,
     porque: "toma de gráfico: el avatar se DESMONTA y el gráfico es la escena entera",
   },
   capa: {
@@ -119,7 +137,12 @@ export const MOLDES_GRAFICOS: Record<MoldeGrafico, Molde> = {
     gap: 0,
     scrim: false,
     fondo: false,
+    tinta: "texto",
     vineta: false,
+    // El ancho SÍ es el normal, y el alto no: son dos preguntas distintas. Un
+    // bloque ancho no invade nada (la caja del molde es la misma para los cinco);
+    // un bloque ALTO anclado al centro cae justo sobre la cara.
+    anchoMax: 844,
     // Presupuesto CERO, y no `undefined`. `revisaPlan` solo mide el bulto cuando
     // el molde declara `altoMax`, así que dejarlo sin poner convertía a `capa` en
     // el único molde por el que se colaba un bloque de cualquier tamaño encima de
@@ -159,30 +182,65 @@ const f = <P>(
 
 const altoTexto = (px: number, lineas = 1): number => Math.round(px * 1.15 * lineas);
 
+/* ── Ancho de las piezas (R09) ─────────────────────────────────────────────
+ *
+ * Mismo reparto que en el dialecto editorial y por el mismo motivo: se mide la
+ * LÍNEA ENTERA donde el intérprete pone `nowrap` (un `titular` con `lineas`,
+ * que es donde un texto que no cabe se CORTA) y la PALABRA MÁS LARGA donde el
+ * texto puede maquetarse libre (ahí no cabe = baja de línea, y eso es R08).
+ *
+ * Los trackings van COPIADOS de `TXT` (estilos.ts) y no importados: este archivo
+ * es datos puros y `estilos.ts` arrastra `motion.ts`, que sí toca Remotion — un
+ * plan tiene que poder validarse con `node`. Es la misma servidumbre que ya
+ * tienen los cuerpos (`?? 92`, `?? 46`, `?? 210`), escritos a mano aquí desde el
+ * principio: si allí cambian, aquí también. Las piezas de trazo, dato y diagrama ya declaran su
+ * ancho como prop (`ancho`, `largo`, `radio`), así que ahí no hay nada que
+ * estimar: se lee. Las que no declaran ancho ni son texto no traen `ancho` y
+ * miden 0, igual que hace `alto` — mientras nadie las corte, no hay regla.
+ */
+const anchoLineas = (lineas: readonly TextoG[], px: number, tracking: number): number =>
+  lineas.reduce((m, l) => Math.max(m, anchoTexto(textoPlano(l), px, tracking)), 0);
+
+
 /**
  * EL REGISTRO. La unión de claves se DERIVA (`ClaveDe<typeof PIEZAS>`): nadie
  * escribe `type TipoGrafico = "kicker" | …`. Y `Montadores<R>` es un mapeado
  * TOTAL, así que añadir una entrada aquí ROMPE la compilación del intérprete
  * hasta que se escriba su rama: el catálogo no puede volver a mentir.
  *
- * Las 37 fichas de `fichas.ts` NO son 37 tipos de cue — ese fue el error de v1:
- *   20 son PIEZAS (esto) · 8 son ENVOLTURAS (`Envoltura`) · 5 son leyes de
- *   entrada (`Entrada`) · 7 son AMBIENTE (`Ambiente`) · Escena/Ranura/Columna/
- *   Fila son gramática que ya no se declara porque la garantiza el tipo · y
- *   `Trazo` con `d` libre se queda fuera A PROPÓSITO (un path a mano es dibujo,
- *   no dato: entra por una pieza propia del proyecto).
+ * Las 37 fichas del catálogo de v1 NO eran 37 tipos de cue — ése fue su error:
+ *   son PIEZAS (esto) · ENVOLTURAS (`Envoltura`) · leyes de entrada (`Entrada`)
+ *   · AMBIENTE (`Ambiente`) · y gramática (los ejes de grupo y las pieles), que
+ *   ya no se declara como cue porque la garantiza el tipo. `Trazo` con `d` libre
+ *   se queda fuera A PROPÓSITO (un path a mano es dibujo, no dato: entra por una
+ *   pieza propia del proyecto).
+ *
+ * `fichas.ts` ya no repite nada de esto: DERIVA su catálogo de este registro y
+ * de esas cuatro tablas del núcleo. Lo que se escribe aquí —`nombre`, `que`,
+ * `cuando`, `sonido`— es lo que sale publicado en el contact sheet y en el
+ * markdown, así que se escribe para leerse, no para el compilador.
  */
 export const PIEZAS = registro({
   // ── Texto ────────────────────────────────────────────────────────────────
   kicker: f<{ texto: TextoG; px?: number }>("Kicker", "texto", "Texto.tsx",
     "Antetítulo en versalitas.", "Contexto o sección. NUNCA lleva el mensaje.",
-    { alto: (p) => altoTexto(p.px ?? 32) }),
+    {
+      alto: (p) => altoTexto(p.px ?? 32),
+      // Versalitas y tracking +6: la mayúscula ocupa un 25 % más que su
+      // minúscula, así que medir el texto tal cual está escrito subestimaría.
+      ancho: (p) => anchoPalabraMasLarga(textoPlano(p.texto), p.px ?? 32, 6, true),
+    }),
   titular: f<{ texto?: TextoG; lineas?: readonly TextoG[]; px?: number; encaje?: Encaje }>(
     "Titular", "texto", "Texto.tsx",
     "El mensaje de la toma. `lineas` = saltos EXPLÍCITOS.",
     "Uno por toma. Un trozo con `tinta` colorea una palabra dentro de la frase.",
     {
+      sonido: "impact deep (en la palabra clave)",
       alto: (p) => altoTexto(p.px ?? 92, p.lineas ? p.lineas.length : 1),
+      ancho: (p) =>
+        p.lineas
+          ? anchoLineas(p.lineas, p.px ?? 92, -1)
+          : anchoPalabraMasLarga(textoPlano(p.texto ?? ""), p.px ?? 92, -1),
       // El `\n` del plan del 005 no se honra (T.titular no lleva pre-line) y la
       // intención se pierde en silencio. Aquí el salto es estructura.
       revisa: (p) => {
@@ -196,32 +254,63 @@ export const PIEZAS = registro({
   etiqueta: f<{ texto: TextoG; px?: number }>("Etiqueta", "texto", "Texto.tsx",
     "La frase de apoyo que explica el titular o la cifra.",
     "Debajo del hero. Con rol 'apoyo' hereda el color del hero rebajado, no gris.",
-    { alto: (p) => altoTexto(p.px ?? 46) }),
+    {
+      alto: (p) => altoTexto(p.px ?? 46),
+      ancho: (p) => anchoPalabraMasLarga(textoPlano(p.texto), p.px ?? 46, 0.2),
+    }),
   cifra: f<{ texto?: string; valor?: number; px?: number; prefijo?: string; sufijo?: string; decimales?: number; resplandor?: number }>(
     "Cifra", "texto", "Texto.tsx", "El dato como protagonista, con tabular-nums.",
     "Cuando la magnitud ES el argumento y no hace falta verla subir.",
     {
+      sonido: "data / money",
       alto: (p) => altoTexto(p.px ?? 210),
+      // Lo que monta el intérprete: `texto` si lo hay, y si no el número con su
+      // prefijo y su sufijo. A 210 px de cuerpo, cinco dígitos ya no caben.
+      ancho: (p) =>
+        anchoTexto(
+          p.texto ?? `${p.prefijo ?? ""}${p.valor ?? 0}${p.sufijo ?? ""}`,
+          p.px ?? 210,
+          -3
+        ),
       revisa: (p) => (p.texto === undefined && p.valor === undefined ? ["cifra sin `texto` ni `valor`: no dibuja nada"] : []),
     }),
   chip: f<{ texto: TextoG; px?: number; activo?: boolean }>("Chip", "texto", "Texto.tsx",
     "Píldora de estado: fondo y borde derivados del color.",
-    "Etiquetar (activo/inactivo, antes/después). Inalcanzable en v1.",
-    { alto: (p) => altoTexto(p.px ?? 30) + 24 }),
+    "Etiquetar (activo/inactivo, antes/después). Inalcanzable en v1. `activo: false` lo apaga a gris, que es como se descarta una opción de una comparación.",
+    {
+      alto: (p) => altoTexto(p.px ?? 30) + 24,
+      // El chip es una píldora que se ajusta a su texto: mide el texto ENTERO
+      // (no cabe = se sale, no baja de línea) más el padding lateral de <Chip>.
+      ancho: (p) => anchoTexto(textoPlano(p.texto), p.px ?? 30, 0.2) + 44, // padding "8px 22px"
+    }),
+  // El glifo es CUADRADO: `cloneElement(GLIFO[…], { width: t, height: t })`.
   glifo: f<{ nombre: ClaveGlifo; px?: number }>("Glifo", "texto", "Glifos.tsx",
     "SVG inline del banco, por NOMBRE.", "Dentro de una fila con una etiqueta. El plan nunca lleva el `path`.",
-    { alto: (p) => p.px ?? 46 }),
+    { alto: (p) => p.px ?? 46, ancho: (p) => p.px ?? 46 }),
   caret: f<{ ancho?: number; alto?: number }>("Caret", "texto", "Texto.tsx",
     "Barra de cursor de un campo de texto.",
     "Con la envoltura `parpadeo`: es tiempo cíclico, no una ventana. Escrito a mano en 001, 002 y 003.",
-    { alto: (p) => p.alto ?? 56 }),
+    { alto: (p) => p.alto ?? 56, ancho: (p) => p.ancho ?? 4 }),
 
   // ── Dato ─────────────────────────────────────────────────────────────────
   contador: f<{ de?: number; a?: number; tramos?: readonly TramoContador[]; dur?: number; decimales?: number; prefijo?: string; sufijo?: string; px?: number; golpe?: boolean }>(
     "Contador", "dato", "Datos.tsx", "Número que SE FORMA, con golpe opcional al aterrizar.",
     "Cuando ver crecer el número es el argumento. `tramos` para fugas (0→200→meseta→3).",
     {
+      sonido: "data (textura) + tick / chime al aterrizar",
       alto: (p) => altoTexto(p.px ?? 210),
+      // Se mide el número MÁS ANCHO que llega a pintarse, no el de destino: un
+      // contador que baja (0→200→3, los `tramos` del 001) enseña «200» a mitad
+      // de camino, y si «200» no cabe da igual que el final sea «3». Con
+      // `tramos` el máximo sale de recorrerlos; sin ellos, de `de` y `a`.
+      ancho: (p) => {
+        const picos = [p.de ?? 0, p.a ?? 0];
+        for (const tr of p.tramos ?? []) if ("a" in tr) picos.push(tr.a);
+        let max = 0;
+        for (const v of picos) max = Math.max(max, Math.abs(v));
+        const cuerpo = max.toFixed(Math.min(2, p.decimales ?? 0));
+        return anchoTexto(`${p.prefijo ?? ""}${cuerpo}${p.sufijo ?? ""}`, p.px ?? 210, -3);
+      },
       revisa: (p) => {
         const av: string[] = [];
         if (p.a === undefined && !p.tramos) av.push("contador sin `a` ni `tramos`");
@@ -232,23 +321,46 @@ export const PIEZAS = registro({
   barra: f<{ valor: number; dur?: number; ancho?: number; alto?: number; pico?: number }>(
     "BarraProgreso", "dato", "Datos.tsx", "Proporción que crece LINEAL, con umbral opcional.",
     "Lineal a propósito: con easing mentiría sobre la velocidad del proceso.",
-    { alto: (p) => (p.alto ?? 18) + 40 }),
+    { sonido: "whoosh light + chime al llegar", alto: (p) => (p.alto ?? 18) + 40, ancho: (p) => p.ancho ?? 720 }),
   regla: f<{ ancho?: number; alto?: number; dur?: number; gira?: number }>(
     "Regla", "dato", "Datos.tsx", "Línea recta que se extiende mecánicamente.",
     "Subrayado MECÁNICO. Con `estira` toma el ancho del bloque y desaparece el número a ojo. `gira` la convierte en tachón.",
-    { alto: (p) => p.alto ?? 4 }),
+    // `estira` NO se puede consultar aquí (la ficha solo ve las props de la
+    // pieza, y `estira` es del NODO). No hace falta: cuando el plan escribe
+    // `estira: true` no escribe `ancho`, así que se mide el defecto de 430 —
+    // que cabe en cualquier molde y por tanto no inventa un aviso. Y un nodo
+    // estirado es `width: 100%` del bloque: por construcción no puede salirse.
+    { alto: (p) => p.alto ?? 4, ancho: (p) => p.ancho ?? 430 }),
   lista: f<{ items: readonly ItemDeLista[]; marca?: Marca; paso?: number; px?: number }>(
     "ItemLista", "dato", "Datos.tsx", "Lista con marca y stagger por índice.",
-    "Tres puntos como mucho. `marca` ya no está fija a ✓: una lista de errores va con ✗.",
+    "Tres puntos como mucho. `marca` es de la LISTA (ya no está fija a ✓: una lista de errores va con ✗) y `items[].estado` es de UN ítem, que es como se dice «estos dos sí y este no» sin salirse del plan.",
     {
+      sonido: "pop por ítem (alterna variantIndex)",
       alto: (p) => altoTexto(p.px ?? 46, p.items.length) + Math.max(0, p.items.length - 1) * 22,
+      // Cada ítem es una FILA: marca (un carácter a px×0.9) + gap 20 + etiqueta.
+      // Se mide la palabra más larga y no la frase entera porque la etiqueta sí
+      // puede bajar de línea; lo que no puede partirse es la palabra.
+      ancho: (p) => {
+        const px = p.px ?? 46;
+        let max = 0;
+        for (const it of p.items) max = Math.max(max, anchoPalabraMasLarga(textoPlano(it.texto), px, 0.2));
+        return p.items.length === 0 ? 0 : px * 0.9 + 20 + max;
+      },
       revisa: (p) => (p.items.length === 0 ? ["lista sin items: ocupa tiempo y no dibuja nada"] : []),
     }),
   barras: f<{ datos: readonly SerieBarra[]; max?: number; dur?: number; paso?: number; alto?: number; ancho?: number; hueco?: number }>(
     "Barras", "dato", "Datos.tsx", "Barras que crecen desde la base con stagger.",
     "Comparar 3-6 valores. `max` COMPARTIDO entre tomas o la comparación miente.",
     {
+      sonido: "data por barra",
       alto: (p) => (p.alto ?? 420) + 90,
+      // `<Barras>` es una fila: N columnas de `ancho` con `hueco` entre ellas.
+      // Los defectos son los del componente (120 y 36), no los del montador:
+      // el montador pasa `p.ancho` y `p.hueco` tal cual, sin sustituirlos.
+      ancho: (p) =>
+        p.datos.length === 0
+          ? 0
+          : p.datos.length * (p.ancho ?? 120) + (p.datos.length - 1) * (p.hueco ?? 36),
       revisa: (p) => (p.datos.length === 0 ? ["barras sin datos: montará el marco vacío"] : []),
     }),
   serie: f<{ n: number; activo: number; ancho?: number; alto?: number; hueco?: number; tintas?: readonly Tinta[] }>(
@@ -256,6 +368,9 @@ export const PIEZAS = registro({
     "Cuando la pieza promete N cosas: planta la tríada antes y repítela en cada paso. Aparece en 4 de las 11 escenas del 003.",
     {
       alto: (p) => p.alto ?? 6,
+      // Fila de N segmentos: el montador los dibuja con `gap: p.hueco ?? 16` y
+      // `width: p.ancho ?? 72`. Con n = 12 ya no cabe en los 844 de un molde.
+      ancho: (p) => (p.n <= 0 ? 0 : p.n * (p.ancho ?? 72) + (p.n - 1) * (p.hueco ?? 16)),
       revisa: (p) => (p.activo >= p.n ? ["`activo` cae fuera de la serie: no se marcará ninguno"] : []),
     }),
 
@@ -263,31 +378,41 @@ export const PIEZAS = registro({
   subrayado: f<{ ancho?: number; dur?: number; semilla?: string; grosor?: number; amplitud?: number }>(
     "Subrayado", "trazo", "Trazo.tsx", "Línea a mano alzada bajo una palabra.",
     "`semilla` distinta = otro trazo con el mismo gesto (en v1 dos subrayados salían IDÉNTICOS).",
-    { alto: (p) => (p.grosor ?? 8) + 12 }),
+    // `<Subrayado>` monta un SVG de ancho FIJO: no honra `estira` (solo `regla`
+    // lo hace). Por eso el ancho está siempre en las props y R09 puede leerlo.
+    { sonido: "scribble", alto: (p) => (p.grosor ?? 8) + 12, ancho: (p) => p.ancho ?? 520 }),
   rodea: f<{ ancho?: number; alto?: number; dur?: number; semilla?: string; vueltas?: number; grosor?: number }>(
     "Rodea", "trazo", "Trazo.tsx", "Óvalo de rotulador con exceso al cerrar.",
     "Señalar UNA cosa. Más de una por pieza y deja de señalar.",
-    { alto: (p) => p.alto ?? 180 }),
+    { sonido: "scribble / pen", alto: (p) => p.alto ?? 180, ancho: (p) => p.ancho ?? 520 }),
   flecha: f<{ de: Punto; a: Punto; curvatura?: number; cabeza?: boolean; dur?: number; grosor?: number }>(
     "Flecha", "trazo", "Trazo.tsx", "Arco de A a B con punta orientada por la tangente.",
     "`curvatura` 0 = causa directa; curva = rodeo. Significan distinto.",
-    { alto: (p) => Math.abs(p.a[1] - p.de[1]) + (p.grosor ?? 8) }),
+    {
+      sonido: "swoosh",
+      alto: (p) => Math.abs(p.a[1] - p.de[1]) + (p.grosor ?? 8),
+      // Espejo exacto del alto sobre el otro eje: la flecha ocupa el rectángulo
+      // que va de `de` a `a`, engordado por el grosor del trazo.
+      ancho: (p) => Math.abs(p.a[0] - p.de[0]) + (p.grosor ?? 8),
+    }),
   check: f<{ px?: number; dur?: number; grosor?: number }>("Check", "trazo", "Trazo.tsx",
     "Marca de confirmación en dos tiempos naturales.", "Confirmación. Verde por defecto: el color es información.",
-    { alto: (p) => p.px ?? 120 }),
+    { sonido: "success / chime", alto: (p) => p.px ?? 120, ancho: (p) => p.px ?? 120 }),
   aspa: f<{ px?: number; dur?: number; grosor?: number; retardo?: number }>("Aspa", "trazo", "Trazo.tsx",
     "Dos trazos cruzados EN SECUENCIA.", "Descarte. El `retardo` es lo que la hace gesto y no icono.",
-    { alto: (p) => p.px ?? 120 }),
+    { sonido: "error / impact sharp", alto: (p) => p.px ?? 120, ancho: (p) => p.px ?? 120 }),
 
   // ── Diagrama (solo dentro de un grupo `diagrama`) ─────────────────────────
   nodo: f<{ radio: number; relleno?: boolean; grosor?: number }>("Nodo", "dato", "Datos.tsx",
     "Punto de un eje: hueco = «aquí no pasó nada», relleno = «aquí sí».",
     "En la línea de tiempo del 003. Con `ancla: 'centro'` se coloca por su centro.",
-    { alto: (p) => p.radio * 2 }),
+    { alto: (p) => p.radio * 2, ancho: (p) => p.radio * 2 }),
   enlace: f<{ largo: number; recorre?: number; guion?: readonly [number, number]; dur?: number; alto?: number }>(
     "Enlace", "dato", "Datos.tsx", "Línea punteada que recorre solo una fracción del camino.",
     "0.38 = «no llegó». El recorrido parcial ES el argumento.",
-    { alto: (p) => p.alto ?? 8 }),
+    // `largo` es el camino COMPLETO; `recorre` solo dice hasta dónde llega la
+    // animación. Se mide el completo: es el sitio que el enlace reserva.
+    { alto: (p) => p.alto ?? 8, ancho: (p) => p.largo }),
 });
 
 export type PiezasGraficos = typeof PIEZAS;

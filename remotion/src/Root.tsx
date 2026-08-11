@@ -157,12 +157,15 @@ export const RemotionRoot: React.FC = () => {
         })}
       />
 
-      {/* ── Biblioteca de gráficos (plantillas/graficos/) ──
-          Catalogo — el escaparate VIVO: una ficha cada PASO frames, con el
-          gráfico animándose de verdad. Se navega arrastrando la cabeza lectora.
-          Antes de escribir un gráfico nuevo, míralo aquí: probablemente ya está.
+      {/* ── Biblioteca de gráficos (motor/graficos/) ──
+          Catalogo — el escaparate VIVO: una ficha cada PASO frames, animándose de
+          verdad y con la RUTA que se escribe en el plan. Se navega arrastrando la
+          cabeza lectora. Antes de escribir un gráfico nuevo, míralo aquí.
+          El catálogo se DERIVA (registro PIEZAS + moldes + tipos del núcleo), así
+          que su duración cambia sola al añadir una pieza.
           Doc equivalente fuera del Studio: manuales/motion-graphics/catalogo-graficos.md
-          (se regenera con `node manuales/motion-graphics/scripts/generar-catalogo.mjs`). */}
+          (`node manuales/motion-graphics/scripts/generar-catalogo.mjs`, y
+           `revisar-catalogo.mjs` como test de que no miente). */}
       <Composition
         id="Catalogo"
         component={Catalogo}
@@ -173,7 +176,9 @@ export const RemotionRoot: React.FC = () => {
       />
       {/* GraficosDemo — la coreografía COMO DATOS: el plan graficos-demo.ts
           montado por <PistaGraficos>, sin JSX por gráfico. Plantilla a copiar
-          para el plan `graficos-004.ts` de un proyecto real. */}
+          para el plan `graficos-004.ts` de un proyecto real.
+          Enseña el repertorio corto de overlay sobre avatar: gancho en la
+          franja alta, cifra con remate, lista y CTA con piel de sello. */}
       <Composition
         id="GraficosDemo"
         component={GraficosDemo}
@@ -182,11 +187,11 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
-      {/* PlanDemo — lo mismo con el camino NUEVO: `plan-demo.ts` es un `Plan` del
-          núcleo (motor/plan/nucleo.ts) montado por el intérprete que consume
-          tomas, no cues. Mientras GraficosDemo siga en la capa V1 (se migra en
-          el PASO 11), ésta es la única composición que RENDERIZA el camino
-          nuevo: un intérprete sin consumidor compila y sale en negro. */}
+      {/* PlanDemo — el MISMO intérprete y el mismo dialecto que GraficosDemo,
+          con el plan de referencia largo: recorre los cuatro moldes, los tres
+          ejes de grupo, una piel, dos envolturas y `tras()`. GraficosDemo es el
+          repertorio corto; éste es el que se abre para ver qué sabe hacer la
+          gramática entera antes de escribir un `graficos-00N.ts`. */}
       <Composition
         id="PlanDemo"
         component={PlanDemo}

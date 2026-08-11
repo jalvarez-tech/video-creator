@@ -1,19 +1,16 @@
 /**
  * EL PLAN COMO DATOS, versión núcleo — la referencia del camino nuevo.
  *
- * Hermano de `graficos-demo.ts` (que es la capa V1, congelada) y su sustituto:
- * lo mismo contado con `Plan` de `motor/plan/nucleo` y el dialecto de
- * `graficos/coreografia`. Se monta con:
+ * Hermano de `graficos-demo.ts` —que es el repertorio corto de overlay sobre
+ * avatar— y su versión larga: recorre la gramática entera con `Plan` de
+ * `motor/plan/nucleo` y el dialecto de `graficos/coreografia`. Se monta con:
  *
  *   <PistaGraficos plan={planDemo} montadores={MONTADORES_BASE} />
  *
- * Existe por dos razones, y las dos son de seguridad:
- *   1. El intérprete nuevo no tiene todavía ningún proyecto detrás. Sin un plan
- *      que lo monte de verdad, podría compilar y salir en negro sin que nadie se
- *      entere hasta el primer vídeo real.
- *   2. Es la plantilla a copiar para el `graficos-00N.ts` de un proyecto: cuatro
- *      tomas que recorren los cuatro moldes, los tres ejes de grupo, una piel,
- *      dos envolturas y `tras()`.
+ * Es la plantilla a copiar para el `graficos-00N.ts` de un proyecto: cuatro
+ * tomas que recorren los cuatro moldes, los tres ejes de grupo, una piel, dos
+ * envolturas y `tras()`. Y es también la prueba RENDERIZADA de que la gramática
+ * completa dibuja algo: un intérprete sin consumidor compila y sale en negro.
  *
  * DATOS PUROS: importa del dialecto, nunca de un componente. Por eso se puede
  * validar con `node` sin montar React.

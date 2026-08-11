@@ -3,8 +3,9 @@
  *
  *   import { Titular, Contador, Subrayado, Particulas } from "./graficos";
  *
- * Qué hay dentro y por qué (mapa rápido; la ficha completa de cada pieza está
- * en `fichas.ts` y se ve animada en la composición `Catalogo` del Studio):
+ * Qué hay dentro y por qué (mapa rápido; la ficha de cada pieza vive AL LADO de
+ * la pieza —en el registro `PIEZAS` de `coreografia.ts`—, `fichas.ts` deriva de
+ * ahí el catálogo, y se ve animado en la composición `Catalogo` del Studio):
  *
  *   estilos.ts      tokens de FORMA (color, sombra, escalas tipográficas)
  *   Entradas.tsx    el CUÁNDO aparece: Escena/Aparece/Barrido/Latido/Ranura
@@ -18,9 +19,8 @@
  *   Glitch.tsx      corrupción de señal como recurso puntual
  *   coreografia.ts  el DIALECTO de gráficos sobre `../plan/nucleo`: paleta,
  *                   leyes, moldes, beats y el registro PIEZAS
+ *   fichas.ts       el CATÁLOGO, DERIVADO: no hay lista que mantener
  *   PistaGraficos   el INTÉRPRETE: `Plan` → JSX, con `MONTADORES_BASE`
- *   coreografia-v1  la capa vieja (`GraficoCue`), CONGELADA — ver su cabecera
- *   PistaGraficosV1 el intérprete de la capa vieja, CONGELADO
  *
  * Regla de la casa: si vas a escribir un gráfico, mira antes si ya está aquí.
  * Y si escribes uno nuevo que sirva para más de una pieza, súbelo a la
@@ -62,14 +62,3 @@ export { Catalogo, PASO } from "./Catalogo";
  */
 export { Regla } from "./Datos";
 export type { ModoParticulas } from "./Particulas";
-
-/**
- * LA CAPA V1, POR NOMBRE Y SOLO LO QUE SE USA (se borra en el PASO 11).
- *
- * `coreografia-v1.ts` no puede entrar por `export *`: choca con el núcleo en
- * `revisaPlan` y en `Jerarquia`. Y no se trata de un choque de nombres sin más —
- * son dos validadores distintos sobre dos formas de plan distintas, así que el
- * alias `V1` no es ruido, es la advertencia.
- */
-export { gfx as gfxV1, revisaPlan as revisaPlanV1, type GraficoCue, type ZonaGrafico } from "./coreografia-v1";
-export { PistaGraficos as PistaGraficosV1 } from "./PistaGraficosV1";

@@ -6,8 +6,9 @@ import { alfa } from "../formato";
 import { EASE, opacidadVentana, SPRING } from "../motion";
 import type { Muelle } from "../motion";
 import { Barras, BarraProgreso, Contador, ItemLista } from "./Datos";
+import type { EstadoItem } from "./Datos";
 import { Aparece, Barrido, Latido } from "./Entradas";
-import { escalaPorAncho, FONT, G, margenSeguro, SOMBRA } from "./estilos";
+import { CAJA, escalaPorAncho, FONT, G, margenSeguro } from "./estilos";
 import { Halo, Puntos, Rejilla, Resplandor, Scrim, Vineta } from "./Fondos";
 import { GLIFO } from "./Glifos";
 import { Aberracion, Glitch } from "./Glitch";
@@ -83,7 +84,8 @@ interface CtxToma<R extends RegistroPiezas, C extends string> {
   escalaRol: Record<Rol, number>;
   alfaRol: Record<Rol, number>;
   ley: Ley;
-  molde: Molde;
+  /** `Molde<C>` y no `Molde`: de aquí sale la tinta por defecto de los nodos. */
+  molde: Molde<C>;
   vista: Vista;
   momentos: Momentos<R, C>;
   len: number;
@@ -209,6 +211,12 @@ const MARCAS: Record<string, (i: number) => string> = {
   numero: (i) => `${i + 1}.`,
 };
 
+/** El estado de un ítem, traducido a la paleta SEMÁNTICA del plan. `<ItemLista>`
+ *  ya trae su color por defecto, pero es el verde y el rojo de la biblioteca:
+ *  aquí se pasa por `plan.paleta` para que una pieza que redefinió sus colores
+ *  no acabe con dos rojos distintos en la misma toma. */
+const TINTA_ESTADO: Record<EstadoItem, Tinta> = { si: "logro", no: "perdida", neutro: "neutro" };
+
 /**
  * Tamaño final de un texto: el que pida la pieza, o el del ROL, escalado al
  * ancho del formato. El `|| …` es el suelo para un `px: 0` en el plan.
@@ -259,8 +267,12 @@ export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
       {p.texto ?? `${p.prefijo ?? ""}${p.valor ?? 0}${p.sufijo ?? ""}`}
     </Cifra>
   ),
+  // `activo` estaba en la ficha desde el principio y no llegaba a ninguna parte:
+  // `<Chip>` no distinguía vivo de apagado, así que una comparación de tres
+  // opciones salía con las tres encendidas. `!== false` y no `?? true` por lo
+  // mismo que en la capa editorial: lo que apaga es decirlo, no omitirlo.
   chip: (p, c) => (
-    <Chip color={c.color} px={escalaTexto(c, p.px, "contexto")}>
+    <Chip color={c.color} px={escalaTexto(c, p.px, "contexto")} activo={p.activo !== false}>
       <Rico t={p.texto} paleta={PALETA_MARCA} />
     </Chip>
   ),
@@ -326,6 +338,18 @@ export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
       </div>
     );
   },
+  // `items[].estado` es lo que permite marcar UN ítem distinto del resto ("estos
+  // dos sí, este no"), que es el caso para el que sirve una lista con marcas y
+  // que hasta ahora había que escribir a mano fuera del plan.
+  //
+  // El color del estado sale de la PALETA de la pieza (`c.tinta`) y no del verde
+  // y el rojo de la biblioteca: la dirección de arte es del proyecto —el 002 se
+  // redefinió la paleta entera— y una lista que ignorara `plan.paleta` metería
+  // dos rojos distintos en la misma pieza.
+  //
+  // La marca de la lista solo se pasa al ítem que NO declara estado: en
+  // `<ItemLista>` lo explícito gana, así que pasársela siempre volvería a dejar
+  // el estado sin efecto, que es el fallo que esto viene a cerrar.
   lista: (p, c) => (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 22 }}>
       {p.items.map((it, i) => (
@@ -333,8 +357,9 @@ export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
           key={i}
           indice={i}
           paso={p.paso ?? 4}
-          marca={MARCAS[p.marca ?? "check"](i)}
-          color={c.color}
+          estado={it.estado}
+          marca={it.estado ? undefined : MARCAS[p.marca ?? "check"](i)}
+          color={it.estado ? c.tinta(TINTA_ESTADO[it.estado]) : c.color}
           px={escalaTexto(c, p.px, "apoyo")}
         >
           <Rico t={it.texto} paleta={PALETA_MARCA} />
@@ -490,7 +515,9 @@ const Envuelve: React.FC<{
 
 /* ── Entrada declarada ──────────────────────────────────────────────────── */
 
-const Entra: React.FC<{
+/** Exportada por lo mismo que `cajaPiel`: el catálogo enseña las cinco leyes de
+ *  entrada montándolas con el intérprete, no con cinco imitaciones. */
+export const Entra: React.FC<{
   ley: Ley;
   entra: EntradaLey | undefined;
   color: string;
@@ -550,7 +577,9 @@ const Entra: React.FC<{
 
 /* ── Pieles ─────────────────────────────────────────────────────────────── */
 
-const cajaPiel = (p: Piel<string>, paleta: Record<string, string>, base: string): React.CSSProperties => {
+/** Exportada para el CATÁLOGO: su demo de `piel` monta esta misma función, no
+ *  una copia con los mismos números. Una copia es lo que ya divergió una vez. */
+export const cajaPiel = (p: Piel<string>, paleta: Record<string, string>, base: string): React.CSSProperties => {
   // "marca" es el acento del dialecto de gráficos, que es de quien son también
   // `G.tinta`/`G.linea`/`SOMBRA.caja` de aquí abajo: las pieles siguen siendo
   // mobiliario de esa capa. Un dialecto sin "marca" cae a su tinta base en vez
@@ -578,17 +607,23 @@ const cajaPiel = (p: Piel<string>, paleta: Record<string, string>, base: string)
       border: `1px solid ${G.linea}`,
       gap: p.gap,
     };
-  // `sello` calca los tokens de <Sello> (Texto.tsx) en vez de montar el
-  // componente porque quien lleva la caja es el GRUPO, que ya es el flex con su
-  // alineación y su gap: meter otro flex dentro añadiría un nivel que se come
-  // el `gap` por hueco del plan. Si algún día divergen, lo que hay que hacer es
-  // sacar el objeto de estilo de Sello, no volver a escribirlo aquí.
+  // `sello` no MONTA <Sello> porque quien lleva la caja es el GRUPO, que ya es el
+  // flex con su alineación y su separación: meter otro flex dentro añadiría un
+  // nivel que se come el `gap` por hueco del plan. Lo que sí comparte con el
+  // componente son los TOKENS de CAJA (padding, radio, borde, fondo, sombra),
+  // que es lo que aquí estaba copiado a mano y ya había divergido.
+  //
+  // LA SEPARACIÓN ENTRE HERMANOS NO ES DE LA PIEL, ES DEL GRUPO — y por eso el
+  // `gap` del token NO se hereda aquí. `RenderGrupo` monta la separación como
+  // `marginTop`/`marginLeft` en cada hijo (`sepExtra`, del `gap` del plan o del
+  // molde), así que un `gap` CSS en el contenedor se SUMA en vez de sustituirlo:
+  // `col([...], { gap: 34, piel: { caja: "sello" } })` separaba 40 px, ni 34 ni
+  // 6, y el comentario que decía «el gap del plan pisa al del token» describía
+  // algo que no pasaba. Medido: piel `gap:6` → `gap:0` mueve 8.073 px.
+  // `p.gap` sigue siendo la salida de escape para pedir aire EXTRA a propósito.
+  // (`<Sello>` sí usa `CAJA.sello.gap`: allí no hay grupo debajo que separe.)
   return {
-    background: G.tinta,
-    border: `1px solid ${G.linea}`,
-    borderRadius: 30,
-    padding: "24px 40px",
-    boxShadow: SOMBRA.caja,
+    ...CAJA.sello,
     width: ancho,
     minHeight: p.alto,
     gap: p.gap,
@@ -685,7 +720,18 @@ function RenderNodo<R extends RegistroPiezas, C extends string>({
   const tope = Math.min(fin ?? ctx.len, hasta ?? ctx.len);
   const dura = Math.max(1, Math.round(tope) - desde);
   const rol: Rol = nodo.rol ?? "apoyo";
-  const color = tintaDe(ctx.paleta, nodo.color, ctx.base, (nodo.alfa ?? 1) * ctx.alfaRol[rol]);
+  // LA TINTA DEL MOLDE ES EL DEFECTO, y `dialecto.tintaBase` solo el suelo.
+  //
+  // Antes se iba directo a la tinta base, que es la del fondo DOMINANTE de la
+  // capa; en un molde con otro fondo (`cine`: negro) eso significaba texto
+  // carbón sobre negro, invisible, y sin un aviso —el color resolvía a un hex
+  // perfectamente válido—. El plan tenía que acordarse de poner `color:
+  // "blanco"` en CADA pieza de texto de la toma: el 006 lo escribe ONCE veces y
+  // dejó anotada la trampa en su propio fichero. `Molde.tinta` es obligatoria,
+  // así que aquí ya no hay nada que pueda faltar. La prueba está en
+  // `sonda-ANTES.png` vs `sonda-DESPUES.png`: la toma `cine` del 006 escrita a
+  // propósito SIN `color`, con y sin esta línea.
+  const color = tintaDe(ctx.paleta, nodo.color ?? ctx.molde.tinta, ctx.base, (nodo.alfa ?? 1) * ctx.alfaRol[rol]);
   // La separación va por MARGEN y no por el `gap` del flex porque el plan puede
   // pedir un hueco distinto por par (la S6 del 003 pide 160/420/250). Y va en el
   // eje del contenedor: en una fila, un `marginTop` no separa nada — deja el

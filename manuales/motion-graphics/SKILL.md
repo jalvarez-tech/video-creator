@@ -10,7 +10,7 @@ description: >-
   BIBLIOTECA de gráficos ya resueltos (`motor/graficos/`: tipografía,
   fondos, datos, trazo dibujado, partículas, 3D, glitch), su CATÁLOGO (comp
   `Catalogo` del Studio + catalogo-graficos.md) y el plan de gráficos COMO DATOS
-  (`GraficoCue` → `PistaGraficos`) con validador `revisaPlan()`. Mira el catálogo
+  (un `Plan` del núcleo → `PistaGraficos`) con validador `revisaPlan()`. Mira el catálogo
   ANTES de escribir un gráfico nuevo. El sonido se delega a `diseno-sonoro`.
   Úsalo siempre que haya que diseñar, animar o revisar un gráfico, título,
   contador, transición, lower-third, logo o CTA en vídeo. Triggers: "motion
@@ -31,8 +31,13 @@ metadata:
 
 Motor: `remotion/src/motor/` — tokens en [`motion.ts`](../../remotion/src/motor/motion.ts) · tema en [`theme.ts`](../../remotion/src/motor/theme.ts) · formatos en [`presets.ts`](../../remotion/src/motor/presets.ts) · ejemplos reales trabajados en [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx) y [`MotionApple002.tsx`](../../remotion/src/proyectos/002/MotionApple002.tsx).
 
-📚 **Biblioteca de gráficos** — [`motor/graficos/`](../../remotion/src/motor/graficos/): 37 primitivas ya resueltas (tipografía, fondos, datos, **trazo dibujado**, **partículas**, **3D**, **glitch**) + el plan de gráficos **como datos** (`GraficoCue` → `<PistaGraficos>`).
-**Míralo ANTES de escribir un gráfico:** catálogo vivo en la composición `Catalogo` del Studio · lista en [catalogo-graficos.md](catalogo-graficos.md) (se regenera con `node manuales/motion-graphics/scripts/generar-catalogo.mjs`).
+📚 **Biblioteca de gráficos** — [`motor/graficos/`](../../remotion/src/motor/graficos/): primitivas ya resueltas (tipografía, fondos, datos, **trazo dibujado**, **partículas**, **3D**, **glitch**) + el plan de gráficos **como datos** (un `Plan` del núcleo → `<PistaGraficos>`). **20 piezas** alcanzables desde el plan, dentro de un catálogo de **52 entradas** — no copies estas cifras a otro sitio: las cuenta `revisar-catalogo.mjs` y las imprime al ejecutarlo.
+**Míralo ANTES de escribir un gráfico:** catálogo vivo en la composición `Catalogo` del Studio · lista en [catalogo-graficos.md](catalogo-graficos.md).
+El catálogo **se deriva**, no se mantiene a mano: sale del registro `PIEZAS`, de `MOLDES_GRAFICOS` y de los tipos del núcleo, y cada entrada trae la RUTA que se escribe en el plan. Dos comandos:
+```bash
+node manuales/motion-graphics/scripts/generar-catalogo.mjs   # regenera el markdown
+node manuales/motion-graphics/scripts/revisar-catalogo.mjs   # test: toda ficha tiene ruta y toda ruta tiene ficha
+```
 🔗 **Sonido:** [`diseno-sonoro/SKILL.md`](../diseno-sonoro/SKILL.md) + [recetario por motion graphic](../diseno-sonoro/recetario-motion-graphics.md). · **Reglas operativas:** [reglas.md](../edicion-video/reglas.md) (R03 formato, R05 frames, **R08 fuera de la cara**). · **Teoría completa:** [referencia.md](referencia.md).
 
 ---
@@ -46,9 +51,9 @@ Motor: `remotion/src/motor/` — tokens en [`motion.ts`](../../remotion/src/moto
 
 > **Antes de escribir código, decide con qué lo montas:**
 > **(a)** ¿Existe ya en la biblioteca? → [catálogo](catalogo-graficos.md). Si existe parecido, añade una prop; no dupliques el componente.
-> **(b)** ¿Es un gráfico repetitivo (título, cifra, lista, subrayado, remate)? → declara un `GraficoCue` en `graficos-NNN.ts` y móntalo con `<PistaGraficos>`; valida con `revisaPlan(cues, fps)`.
+> **(b)** ¿Es un gráfico repetitivo (título, cifra, lista, subrayado, remate)? → declara un **`Plan`** en `graficos-NNN.ts` —`plan(formato, [...])` con tomas `gfx(id, molde, ventana, reason, hijos)`, ver [`motor/plan/nucleo.ts`](../../remotion/src/motor/plan/nucleo.ts) y el dialecto [`graficos/coreografia.ts`](../../remotion/src/motor/graficos/coreografia.ts)— y móntalo con `<PistaGraficos plan={…} montadores={MONTADORES_BASE} />` (`montadores` es obligatorio y no tiene defecto); valida con `revisaPlan(plan)`, **un solo argumento** — el fps sale del propio plan, y el intérprete ya lo llama solo al montar. Plantilla de la que copiar: [`motor/demos/graficos-demo.ts`](../../remotion/src/motor/demos/graficos-demo.ts), 5 tomas sin un solo píxel medido a ojo.
 > **(c)** ¿Es la idea visual PROPIA de esta pieza? → JSX a mano, con las primitivas de la biblioteca como material.
-> Si escribes algo reutilizable, súbelo a `motor/graficos/`, añade su ficha en `fichas.ts` y su demo en `Catalogo.tsx`, y regenera el catálogo.
+> Si escribes algo reutilizable, súbelo a `motor/graficos/`. Una PIEZA nueva se declara en el registro `PIEZAS` (`coreografia.ts`) con su ficha —nombre, qué es, cuándo usarla—, su montador en `PistaGraficos.tsx` y su demo en `Catalogo.tsx`: sin montador no compila, y sin demo falla `revisar-catalogo.mjs`. `fichas.ts` ya no se toca: deriva el catálogo solo.
 
 ---
 

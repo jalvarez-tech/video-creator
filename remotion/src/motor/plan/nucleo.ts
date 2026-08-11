@@ -158,6 +158,17 @@ const DUR_ENTRADA: Record<NombreLey, number> = {
   muelle: 8,
 };
 
+/**
+ * Enumeración EN TIEMPO DE EJECUCIÓN de las leyes de entrada.
+ *
+ * Sale de `DUR_ENTRADA` y no de una lista escrita a mano: ese `Record<NombreLey,
+ * number>` es TOTAL por construcción —una variante nueva de `Entrada` sin su
+ * duración no compila—, así que esta lista no puede quedarse corta. La consume
+ * el catálogo (`graficos/fichas.ts`), que necesita recorrer las entradas y no
+ * solo tipar contra ellas: un tipo no se puede iterar.
+ */
+export const NOMBRES_ENTRADA = Object.keys(DUR_ENTRADA) as readonly NombreLey[];
+
 export const duracionEntrada = (e: Entrada | undefined, ley: Ley): number => {
   const u = e ?? ley.entrada;
   if (u.como === "barrido") return Math.max(1, Math.round(u.dur ?? DUR_ENTRADA.barrido));
@@ -187,6 +198,9 @@ export type Envoltura<C extends string> =
   | { env: "temblor"; entre: readonly [number, number]; amplitud?: number }
   | { env: "atenua"; a: number; en: Momento };
 
+/** El discriminante, DERIVADO de la unión: el catálogo no reescribe la lista. */
+export type ClaveEnvoltura = Envoltura<string>["env"];
+
 /* ══════════════════════ 5 · TEXTO CON PARTES ═════════════════════════════ */
 
 /**
@@ -212,6 +226,36 @@ export type Linea<C extends string> = TextoRico<C> | { texto: TextoRico<C>; en: 
 export const textoPlano = <C extends string>(t: TextoRico<C>): string =>
   typeof t === "string" ? t : t.map((x) => (typeof x === "string" ? x : x.t)).join("");
 
+/**
+ * Los `Trozo` escondidos en las props de una pieza, vengan donde vengan
+ * (`texto`, `lineas`, `items[].texto`…).
+ *
+ * El núcleo NO sabe qué props de qué pieza llevan texto rico: las props son
+ * `never` aquí y el registro es del dialecto. Así que se busca por FORMA, y la
+ * forma de un trozo es inconfundible en este sustrato: un objeto con un campo
+ * `t` de tipo string. Ninguna otra estructura de props lo tiene (`SerieBarra`
+ * lleva `etiqueta`/`valor`/`tinta`, `TramoContador` lleva `a`/`dur`/`espera`,
+ * `Hito` lleva sus propios nombres), y el que sí lleva `tinta` sin `t` —una
+ * barra de una serie— es un color de RELLENO y no de texto, que es justo lo que
+ * esta búsqueda no debe tocar.
+ *
+ * Tope de hondura por seguridad: props → `lineas` → línea → trozo son cuatro
+ * niveles, y un plan no anida texto más que eso.
+ */
+export function recorreTrozos(valor: unknown, fn: (t: Trozo<string>) => void, hondura = 0): void {
+  if (hondura > 5 || valor === null || typeof valor !== "object") return;
+  if (Array.isArray(valor)) {
+    for (const x of valor) recorreTrozos(x, fn, hondura + 1);
+    return;
+  }
+  const o = valor as Record<string, unknown>;
+  if (typeof o.t === "string") {
+    fn(o as unknown as Trozo<string>);
+    return;
+  }
+  for (const k of Object.keys(o)) recorreTrozos(o[k], fn, hondura + 1);
+}
+
 /* ══════════════════════ 6 · REGISTRO DE PIEZAS ═══════════════════════════ */
 
 /**
@@ -234,6 +278,26 @@ export interface Ficha<P> {
   capa?: boolean;
   /** Alto APROXIMADO en px base 1080. Alarma de humo para R08, no cinta métrica. */
   alto?: (props: P) => number;
+  /**
+   * Ancho APROXIMADO en px base 1080 de lo MÁS ANCHO QUE NO PUEDE PARTIRSE
+   * (R09). Hermana de `alto`, y con la misma convención: sin `ancho` la pieza
+   * mide 0 y no dispara nada.
+   *
+   * «Que no puede partirse» es la parte importante y es lo que la distingue de
+   * `alto`. Un párrafo que no cabe a lo ancho NO se corta: baja de línea, y eso
+   * es un problema de ALTO que ya vigila R08. Lo que sí se corta es lo que el
+   * navegador no puede romper: una línea de un titular con `lineas` (el
+   * intérprete le pone `white-space: nowrap` para que el salto declarado
+   * signifique algo), una palabra más ancha que su caja, una fila de chips, una
+   * caja de ancho fijo. Así que aquí se declara ESO y no el texto entero: medir
+   * el párrafo completo llenaría el plan de avisos por algo que se ve bien.
+   *
+   * Es una ESTIMACIÓN por caracteres y no una medida —medir texto renderizado
+   * exige DOM y rompería el determinismo entre renders—, así que cada dialecto
+   * la calcula con la tipografía que él mismo monta. Ver `anchoTexto` en
+   * `noticias/dialecto.ts` para el margen de error medido.
+   */
+  ancho?: (props: P) => number;
   /**
    * Coherencia entre campos de la MISMA pieza — la generalización del mejor
    * hallazgo de noticias. Vive AL LADO de la pieza y no en un switch central,
@@ -293,6 +357,9 @@ export interface Piel<C extends string> {
   alto?: number;
   gap?: number;
 }
+
+/** Las cajas que sabe montar una piel, derivadas del propio tipo. */
+export type CajaPiel = Piel<string>["caja"];
 
 /** Lo que TODO nodo puede declarar, sea hoja o grupo. */
 export interface Comun<C extends string> {
@@ -393,6 +460,9 @@ export type Grupo<R extends RegistroPiezas, C extends string> = Comun<C> &
 
 export type Nodo<R extends RegistroPiezas, C extends string> = Hoja<R, C> | Grupo<R, C>;
 
+/** Los ejes de composición que existen, derivados del propio `Grupo`. */
+export type EjeGrupo = Grupo<RegistroPiezas, string>["eje"];
+
 /**
  * Nodo con coordenada. `ancla` evita las seis restas a mano de la S6 del 003
  * (830-20, 1080-20, 250-26…): un círculo se ancla por su CENTRO.
@@ -423,7 +493,12 @@ export interface Ancla {
   pct: number;
 }
 
-export interface Molde {
+/**
+ * Genérico en la tinta (`C`) SOLO por `tinta`, con `string` por defecto para que
+ * quien únicamente lee un molde (el intérprete, `scrimDe`) no tenga que arrastrar
+ * el parámetro.
+ */
+export interface Molde<C extends string = string> {
   /** ¿Tapa el vídeo? De aquí salen `tomasQueCubren()` y el desmontaje del avatar. */
   cubre: boolean;
   ancla: Ancla;
@@ -433,9 +508,38 @@ export interface Molde {
   scrim: false | { alto: number; desde: "abajo" | "arriba" };
   /** Nombre de fondo del dialecto ("papel", "cine", "toma"…). El JSX vive en el intérprete. */
   fondo: string | false;
+  /**
+   * LA TINTA DEL MOLDE: el color de un nodo de este molde que no pide ninguno.
+   *
+   * OBLIGATORIA, y esa es toda la regla. El molde ya traía el FONDO y no la
+   * tinta que se lee sobre él, así que en una toma de fondo negro el plan tenía
+   * que escribir `color: "blanco"` en CADA pieza de texto; al olvidarlo, el nodo
+   * caía a `dialecto.tintaBase` —que es la tinta del fondo dominante, carbón
+   * sobre papel— y el texto salía negro sobre negro. Invisible, y sin un solo
+   * aviso: el color resolvía a un hex perfectamente válido. En el 006 no llegó a
+   * verse porque su autor lo escribió las once veces que hacían falta y anotó la
+   * trampa en el propio fichero de datos; ésa es exactamente la clase de defecto
+   * que se paga con memoria hasta el día que falla.
+   *
+   * Requerida y no opcional a propósito: un molde nuevo NO COMPILA hasta decir
+   * sobre qué se lee. Un defecto silencioso es exactamente el fallo que esto
+   * viene a cerrar, así que no puede arreglarse con otro defecto silencioso.
+   */
+  tinta: C;
   vineta: boolean;
   /** Presupuesto de alto en px base 1080 (R08). TODOS los moldes deben tenerlo. */
   altoMax?: number;
+  /**
+   * Presupuesto de ANCHO en px base 1080 (R09): el ancho ÚTIL de la caja del
+   * molde, o sea el de la composición menos los dos márgenes de zona segura
+   * (`margenSeguro`, 11 % → 1080 − 2×118 = 844).
+   *
+   * Hermano de `altoMax` y hasta ahora inexistente: `revisaPlan` medía el bulto
+   * vertical contra el presupuesto del molde y NADIE miraba el horizontal, así
+   * que un titular a la escala hero se salía del lienzo por los dos lados con el
+   * plan diciendo LIMPIO. Es el fallo que destapó el 006 (`n01-sismo`).
+   */
+  anchoMax?: number;
   /** Punch-in de toma (1 → 1+punch). Es una decisión de FORMATO, no del plan. */
   punch?: number;
   /** Se lee en el aviso cuando algo no cabe. */
@@ -475,6 +579,9 @@ export interface Ambiente<C extends string> {
   };
 }
 
+/** Las capas de atmósfera que existen, derivadas del propio `Ambiente`. */
+export type ClaveAmbiente = keyof Ambiente<string>;
+
 /* ══════════════════════ 9 · DIALECTO, TOMA Y PLAN ════════════════════════ */
 
 export type Regla<R extends RegistroPiezas, B extends string, M extends string, C extends string> = (
@@ -489,8 +596,31 @@ export interface Dialecto<R extends RegistroPiezas, B extends string, M extends 
    *  del short informativo sobre una pieza de avatar solo consigue que el autor
    *  mienta para pasar el validador. */
   beats: readonly B[];
-  moldes: Record<M, Molde>;
+  moldes: Record<M, Molde<C>>;
   paleta: Record<C, string>;
+  /**
+   * Tintas que MARCAN sobre el texto pero no lo colorean: el amarillo de
+   * rotulador del formato editorial es una banda detrás de la palabra, y usado
+   * como color de letra sobre papel beige da el peor contraste de la paleta.
+   *
+   * Estaba escrito en el comentario de la paleta («marca sobre la prueba, no
+   * colorea texto») y un comentario no es una regla: en el 006 la frase más
+   * crítica de seguridad —«pueden fallar súbitamente sin dar previo aviso»—
+   * acabó en amarillo sobre beige, es decir la línea menos legible del cuadro
+   * siendo la más importante. Declarado aquí, `revisaPlan` lo hace cumplir en
+   * `color` de nodo y en `tinta` de trozo.
+   *
+   * POR QUÉ AQUÍ Y NO EN EL TIPO. Prohibirlo por construcción exigiría partir
+   * `C` en dos parámetros (tintas de texto y tintas de marca) y arrastrarlos por
+   * `Comun`, `Trozo`, `Nodo`, `Grupo`, `Toma`, `Plan`, `Dialecto`, `Molde`,
+   * `CtxPieza`, `Montadores`, el intérprete y los dos dialectos: cinco genéricos
+   * en cada firma del sustrato para vetar un valor en una capa. Y aun así no
+   * cubriría el caso real sin duplicar el corte también en `Trozo`, que es
+   * justo donde ocurrió. La regla se queda como DATO del dialecto —que es lo que
+   * es: una decisión de la paleta editorial, no del sustrato— y el que la hace
+   * cumplir es el validador.
+   */
+  tintasDeMarca?: readonly C[];
   /**
    * La tinta de un nodo que no pide color. El intérprete la necesita porque no
    * puede inventarse un nombre: tenía cableado `paleta["texto"]`, que existe en
@@ -697,10 +827,15 @@ export function resuelveMomentos<R extends RegistroPiezas, B extends string, M e
  * medirlo: el CTA con campo (lo que cierra el 002 y el 003) se salía del cuadro
  * con el plan LIMPIO.
  */
-const altoDePiel = <C extends string>(p: Piel<C>, interior: number): number => {
-  if (p.caja === "campo") return Math.max(interior, p.alto ?? 108); // height fija
-  if (p.caja === "panel") return Math.max(interior, p.alto ?? 460) + 80; // minHeight + padding 40×2
-  return interior + 48; // sello: padding "24px 40px"
+const altoDePiel = <C extends string>(p: Piel<C>, interior: number, hijos: number): number => {
+  // `piel.gap` es aire EXTRA sobre la separación que ya monta el grupo, y es lo
+  // ÚNICO que la piel añade entre hermanos: `cajaPiel` no emite el `gap` del
+  // token (ver su comentario — sumarlo al margen de cada hijo separaba de más).
+  // Como es un `gap` CSS de un flex en columna, ocupa (hijos − 1) veces.
+  const aire = p.gap ? p.gap * Math.max(0, hijos - 1) : 0;
+  if (p.caja === "campo") return Math.max(interior + aire, p.alto ?? 108); // height fija
+  if (p.caja === "panel") return Math.max(interior + aire, p.alto ?? 460) + 80; // minHeight + padding 40×2
+  return interior + aire + 48; // sello: padding "24px 40px"
 };
 
 /** Caja FIJA de <Tarjeta3D>, que es lo que monta el intérprete para una ranura
@@ -723,7 +858,8 @@ export function alturaEstimada<R extends RegistroPiezas, C extends string>(
 ): number {
   if (esGrupo(n)) {
     if (n.eje === "diagrama") return n.alto;
-    const conPiel = (x: number): number => ("piel" in n && n.piel ? altoDePiel(n.piel, x) : x);
+    const conPiel = (x: number): number =>
+      "piel" in n && n.piel ? altoDePiel(n.piel, x, n.hijos.length) : x;
     if (n.eje === "ranura" || n.eje === "pila" || n.eje === "capas" || n.eje === "fila") {
       const mayor = n.hijos.reduce((m, h) => Math.max(m, alturaEstimada(h, piezas, gapPorDefecto)), 0);
       return conPiel(n.eje === "ranura" && n.conmuta === "volteo" ? Math.max(mayor, ALTO_VOLTEO) : mayor);
@@ -753,6 +889,155 @@ export function alturaEstimada<R extends RegistroPiezas, C extends string>(
   return Math.max(propio, interior);
 }
 
+/* ══════════════════════ 11b · ANCHURA (R09) ══════════════════════════════ */
+
+/**
+ * ANCHO DE UN TEXTO, ESTIMADO POR CARACTERES. La pieza que le faltaba al
+ * validador: sin esto no había forma de saber que un titular se sale del cuadro.
+ *
+ * POR QUÉ ES UNA ESTIMACIÓN Y NO UNA MEDIDA. Medir texto renderizado exige DOM
+ * (`getBoundingClientRect`), y el validador corre también con `node` pelado,
+ * dentro de un `useMemo` en cada re-render y sobre un plan que tiene que dar el
+ * MISMO resultado en cualquier máquina. Una medida real ataría el aviso a la
+ * fuente que tenga instalada quien valide, que es justo lo que `theme-noticias`
+ * ya documenta como frágil (`-apple-system` resuelve a San Francisco en macOS y
+ * a otra cosa en Linux). Estimar es lo correcto aquí, no lo barato.
+ *
+ * CÓMO. Cinco cubos de anchura por clase de carácter, en fracción del cuerpo
+ * (em), más el `tracking` (que en CSS es px ABSOLUTOS y no escala con el cuerpo,
+ * así que se suma por carácter y no se multiplica).
+ *
+ * DE DÓNDE SALEN LOS NÚMEROS. De medir los avances reales de la geométrica del
+ * sistema (San Francisco, la voz del canal) a pesos 500/600/700, y quedarse con
+ * el peso 700 —el más ancho de los tres— redondeando hacia arriba dentro de cada
+ * cubo. O sea: sesgada a lo ancho por diseño.
+ *
+ * MARGEN DE ERROR, MEDIDO. Contra 17 líneas reales de las piezas 004, 005 y 006
+ * (titulares, cierres, kickers en versalitas y etiquetas) la estimación cae entre
+ * el +3 % y el +24 % sobre el ancho real, con la mayoría en torno al +10 %. NUNCA
+ * se quedó corta, y ése es el único sesgo aceptable: un aviso de más se ignora,
+ * uno de menos publica un titular cortado. El +24 % es el caso de los dígitos
+ * («123»), que son más estrechos de lo que este modelo supone; si algún día
+ * molesta, el arreglo es un cubo propio para dígitos, no bajar el resto.
+ *
+ * Lo que NO modela, y hay que saberlo al leer un aviso: kerning entre pares
+ * («Ta», «Vo»), ligaduras, y que un `fontWeight` menor aprieta ~5 %. Todo eso
+ * juega a favor —el texto real sale más estrecho que la estimación— salvo el
+ * kerning positivo, que no existe en esta familia.
+ */
+const EM_FINA = ".,;:·'ijlíIÍ!¡";
+const EM_FINA2 = "/tfr()-\"";
+const EM_ANCHA = "wmMW%—";
+const EM_ALTA = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÑ0123456789$€«»?¿";
+
+const emDe = (c: string): number => {
+  if (c === " ") return 0.2;
+  if (EM_FINA.indexOf(c) >= 0) return 0.32;
+  if (EM_FINA2.indexOf(c) >= 0) return 0.46;
+  if (EM_ANCHA.indexOf(c) >= 0) return 0.9;
+  if (EM_ALTA.indexOf(c) >= 0) return 0.7;
+  return 0.58;
+};
+
+export const anchoTexto = (
+  texto: string,
+  px: number,
+  /** `letterSpacing` en px ABSOLUTOS, tal cual lo declara el theme. */
+  tracking = 0,
+  /** La pieza monta `text-transform: uppercase` (el kicker): mide la MAYÚSCULA. */
+  versalitas = false
+): number => {
+  const t = versalitas ? texto.toUpperCase() : texto;
+  let w = 0;
+  for (let i = 0; i < t.length; i++) w += emDe(t.charAt(i)) * px + tracking;
+  return Math.max(0, Math.round(w));
+};
+
+/**
+ * La PALABRA más ancha de un texto que sí puede partirse por sus espacios. Es lo
+ * que de verdad no cabe cuando el navegador puede maquetar libre: una frase
+ * larga baja de línea (problema de ALTO, R08), pero una palabra más ancha que la
+ * caja se sale sí o sí, porque `overflow-wrap` por defecto no la rompe.
+ */
+export const anchoPalabraMasLarga = (texto: string, px: number, tracking = 0, versalitas = false): number => {
+  let max = 0;
+  for (const p of texto.split(/\s+/)) max = Math.max(max, anchoTexto(p, px, tracking, versalitas));
+  return max;
+};
+
+/**
+ * Ancho que IMPONE una piel. Mismos números que `cajaPiel` en el intérprete que
+ * `altoDePiel`, y por el mismo motivo anotados: si allí cambian, aquí también.
+ * `campo` y `sello` son cajas que se ajustan al contenido más su padding
+ * horizontal (28×2 y 40×2); `panel` tiene ancho FIJO de 820 si no se declara.
+ *
+ * `huecos` es (hijos − 1) SOLO cuando la piel viste una fila —en una columna el
+ * `gap` no ocupa ancho—, y multiplica al `piel.gap` por lo mismo que en
+ * `altoDePiel`: es el único aire que la piel añade entre hermanos.
+ */
+const anchoDePiel = <C extends string>(p: Piel<C>, interior: number, huecos: number): number => {
+  // `"seguro"` es `width: 100%`: se estira al bloque y por definición cabe.
+  const pedido = typeof p.ancho === "number" ? p.ancho : 0;
+  const aire = p.gap ? p.gap * huecos : 0;
+  if (p.caja === "campo") return Math.max(pedido, interior + aire + 56);
+  if (p.caja === "panel") return Math.max(pedido || 820, interior + aire + 80);
+  return Math.max(pedido, interior + aire + 80); // sello: padding "24px 40px"
+};
+
+/**
+ * Ancho aproximado en px base 1080 de lo que NO PUEDE PARTIRSE dentro del nodo.
+ * Hermana de `alturaEstimada` y con su misma naturaleza: tosca a propósito, y no
+ * ciega — lo que impone el INTÉRPRETE (una fila y sus gaps, la caja de una piel,
+ * un diagrama) se sabe exactamente aquí.
+ *
+ * La diferencia con el alto está en cómo se combinan los hijos, y es al revés:
+ *   · una FILA suma (sus hijos van uno al lado del otro, con sus gaps y `sep`)
+ *   · todo lo demás toma el MÁXIMO (columnas, pilas, capas, ranuras)
+ * En un `alto` la fila toma el máximo y la columna suma; por eso no se puede
+ * reutilizar la misma función con un parámetro y son dos.
+ *
+ * Lo que mide cada hoja lo decide su ficha (`Ficha.ancho`), porque el ancho de un
+ * texto depende de la tipografía que monta el DIALECTO. Sin `ancho`, mide 0:
+ * misma convención que `alto`, para que una pieza nueva no rompa nada mientras
+ * no se le calcule.
+ */
+export function anchuraEstimada<R extends RegistroPiezas, C extends string>(
+  n: Nodo<R, C>,
+  piezas: R,
+  gapPorDefecto: number
+): number {
+  if (esGrupo(n)) {
+    if (n.eje === "diagrama") return n.ancho;
+    // En una FILA el `gap` de la piel abre (hijos − 1) huecos horizontales; en
+    // cualquier otro eje los hijos se superponen o se apilan y no ocupa ancho.
+    const conPiel = (x: number): number =>
+      "piel" in n && n.piel
+        ? anchoDePiel(n.piel, x, n.eje === "fila" ? Math.max(0, n.hijos.length - 1) : 0)
+        : x;
+    if (n.eje === "fila") {
+      let total = 0;
+      n.hijos.forEach((h, i) => {
+        // En una fila el `sep` del plan se monta como `marginLeft`, así que
+        // ocupa ancho. En una columna es `marginTop` y no ocupa nada.
+        total += anchuraEstimada(h, piezas, gapPorDefecto) + (i === 0 ? 0 : h.sep ?? 0);
+        if (i < n.hijos.length - 1) total += gapEntre(n.gap, i, gapPorDefecto);
+      });
+      return conPiel(total);
+    }
+    return conPiel(n.hijos.reduce((m, h) => Math.max(m, anchuraEstimada(h, piezas, gapPorDefecto)), 0));
+  }
+  const ficha = piezas[n.pieza] as Ficha<never> | undefined;
+  if (!ficha || ficha.capa) return 0;
+  const propio = ficha.ancho ? ficha.ancho(n.props as never) : 0;
+  const dentro = n.dentro;
+  if (!dentro || dentro.length === 0) return propio;
+  // `RenderHoja` monta la pieza y su `dentro` en una FILA con gap 18: el
+  // contenedor mide la suma, no el máximo (que es lo que sí hace el alto).
+  let total = propio;
+  for (const h of dentro) total += anchuraEstimada(h, piezas, gapPorDefecto) + 18;
+  return total;
+}
+
 /* ══════════════════════ 12 · VALIDADOR ═══════════════════════════════════ */
 
 export const solapan = (a1: number, a2: number, b1: number, b2: number): boolean => a1 < b2 && b1 < a2;
@@ -772,6 +1057,17 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
   const fps = formato.fps;
   const vistos: Record<string, boolean> = {};
   let conPropia = 0;
+
+  // Tintas que marcan y no colorean (`Dialecto.tintasDeMarca`), en forma de
+  // consulta. `indexOf` sobre un array de seis daría igual; el mapa es para que
+  // la regla no se note en un plan de 40 tomas × 200 nodos.
+  const soloMarca: Record<string, true> = {};
+  for (const c of dialecto.tintasDeMarca ?? []) soloMarca[c] = true;
+  // Un molde no puede DECLARAR como tinta por defecto la que no colorea texto:
+  // sería pintar la toma entera con el peor contraste de la paleta.
+  for (const k of Object.keys(dialecto.moldes))
+    if (soloMarca[(dialecto.moldes as Record<string, Molde<C>>)[k].tinta])
+      avisos.push(`[molde ${k}] su tinta por defecto es una tinta de marca: marca sobre el texto, no lo colorea`);
 
   for (const t of tomas) {
     const [ini, fin] = ventanaAbs(t.ventana, formato.duracion);
@@ -840,6 +1136,11 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
         avisos.push(`[${v.ruta}] entrada "${n.entra.como}" prohibida por la ley de la pieza: rompe la firma de movimiento`);
       if (n.estira && v.hondura === 0)
         avisos.push(`[${v.ruta}] estira:true en la raíz de la toma: no hay bloque del que colgar`);
+      // El amarillo de rotulador como color de letra. Ver `tintasDeMarca`.
+      if (n.color !== undefined && soloMarca[n.color])
+        avisos.push(
+          `[${v.ruta}] color "${n.color}" marca sobre el texto, no lo colorea: usa \`rotulador: true\` en el trozo, o la tinta de máximo contraste`
+        );
 
       // `xy` fuera de un diagrama: el píxel a ojo entrando por la puerta grande.
       const conXY = n as { xy?: readonly [number, number] };
@@ -885,6 +1186,16 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
       }
       if (ficha.familia === "propia") usaPropia = true;
       if (ficha.revisa) for (const a of ficha.revisa(n.props as never)) avisos.push(`[${v.ruta}] ${a}`);
+      // La misma regla de la tinta de marca, un nivel más adentro: el 006 no la
+      // puso en `color` del nodo sino en `tinta` de un TROZO, que es donde de
+      // verdad se escribe «esta frase en amarillo».
+      if (dialecto.tintasDeMarca)
+        recorreTrozos(n.props, (x) => {
+          if (x.tinta !== undefined && soloMarca[x.tinta])
+            avisos.push(
+              `[${v.ruta}] el trozo "${x.t}" pide tinta "${x.tinta}", que marca sobre el texto y no lo colorea: usa \`rotulador: true\``
+            );
+        });
       const nHijos = n.dentro ? n.dentro.length : 0;
       if (ficha.hijos) {
         if (nHijos < (ficha.hijos.min ?? 0))
@@ -910,6 +1221,61 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
         avisos.push(
           `[${t.id}] el bloque mide ~${Math.round(bulto)} px y el molde "${t.molde}" presupuesta ${molde.altoMax} (${molde.porque})`
         );
+    }
+
+    // R09 por ANCHO. La hermana que faltaba: R08 medía el bulto vertical y nada
+    // miraba el horizontal, así que un titular a la escala hero se comía el
+    // margen de zona segura por los dos lados —y en un 9:16 el recorte de la
+    // plataforma es impredecible— mientras el plan salía limpio (006,
+    // `n01-sismo`).
+    //
+    // QUÉ MIDE Y QUÉ NO. `anchuraEstimada` es una ESTIMACIÓN por caracteres, y
+    // sesgada ALTO a propósito: contra 17 líneas reales de 004/005/006 cae entre
+    // +3 % y +24 % sobre el ancho medido en Chrome, y nunca por debajo. Por eso
+    // el aviso dice «estimados» y habla de MARGEN SEGURO, no de recorte: en el
+    // caso vivo del 006 (`n11-sin-formula`) la estimación da 961 px y la tinta
+    // real ocupa 882, que se pasa de los 844 útiles por ~19 px por lado pero
+    // sigue a 100 px del borde del lienzo. Prometer «texto cortado» y que el
+    // autor lo abra en Chrome y vea que no se corta es cómo se aprende a
+    // descontar un validador. El umbral no cambia; solo deja de prometer lo que
+    // no sabe.
+    //
+    // EL PUNCH DEL MOLDE NO SE DESCUENTA, y se probó al revés primero. El
+    // intérprete escala el contenido hasta 1+punch al final de la toma, así que
+    // la tentación es medir contra `anchoMax / (1 + punch)`. Con eso, los 840 px
+    // de `RecortePrensa` —que caben de sobra en los 844 y están PUBLICADOS en el
+    // 005— avisaban por 8 px, y con ellos cuatro tomas más. Un 1,5 % muerde el
+    // margen de zona segura, no el cuadro: 852 px siguen a 114 px del borde
+    // real. Avisar de eso es avisar del margen, y un validador que avisa de lo
+    // que está bien es un validador que se apaga.
+    if (molde.anchoMax !== undefined) {
+      const util = molde.anchoMax;
+      // Se culpa al nodo MÁS PEQUEÑO que no cabe: si el aviso lo diera cada
+      // ancestro, un titular largo sacaría un aviso por su columna, otro por la
+      // toma y otro por sí mismo, y tres mensajes del mismo fallo enseñan a
+      // ignorar los tres. Se recorre a mano (y no con `recorre`) porque hay que
+      // mirar a los hijos ANTES de decidir si el padre habla.
+      const culpa = (n: Nodo<R, C>, ruta: string): void => {
+        const w = anchuraEstimada(n, dialecto.piezas, molde.gap);
+        if (w <= util) return;
+        // Un `diagrama` declara su propio ancho y coloca a sus hijos por `xy`:
+        // el culpable es él, y bajar dentro señalaría a un hijo que está donde
+        // el plan quiere. Mismo trato que le da R08, que tampoco lo recorre.
+        const esDiagrama = esGrupo(n) && n.eje === "diagrama";
+        const hijos: readonly Nodo<R, C>[] = esDiagrama ? [] : esGrupo(n) ? n.hijos : n.dentro ?? [];
+        let algunHijoCulpable = false;
+        hijos.forEach((h, i) => {
+          if (anchuraEstimada(h, dialecto.piezas, molde.gap) > util) {
+            algunHijoCulpable = true;
+            culpa(h, `${ruta}/${i}`);
+          }
+        });
+        if (!algunHijoCulpable)
+          avisos.push(
+            `[${ruta}] mide ~${Math.round(w)} px ESTIMADOS de ancho (la estimación sesga alto, hasta +24 %) y el molde "${t.molde}" da ${util} útiles: se sale del margen seguro por los dos lados (${molde.porque})`
+          );
+      };
+      t.hijos.forEach((h, i) => culpa(h, `${t.id}/${i}`));
     }
 
     for (const p of t.ambiente && t.ambiente.particulas ? [t.ambiente.particulas] : [])

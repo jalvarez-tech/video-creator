@@ -33,7 +33,7 @@ import type {
   TextoRico,
   Toma,
 } from "../plan/nucleo";
-import { capa, registro, textoPlano, ventanaAbs } from "../plan/nucleo";
+import { anchoPalabraMasLarga, anchoTexto, capa, registro, textoPlano, ventanaAbs } from "../plan/nucleo";
 // `import type` de un .tsx: se borra al compilar, así que no entra ni React ni
 // JSX en el bundle de datos. La clave del glifo se DERIVA del banco real
 // (`Glifos.tsx`) en vez de repetirla a mano como hace `plan.ts` — esa lista
@@ -45,7 +45,7 @@ import type { ClaveGlifo } from "../graficos/Glifos";
 // aquí sería crear dos verdades sobre lo mismo el mismo día que se promete una.
 import type { BeatNoticia, Hito, TomaNoticia } from "./plan";
 import { REGISTRO_POR_TIPO } from "./plan";
-import { MARCA, N } from "./theme-noticias";
+import { LAYOUT, MARCA, N, T } from "./theme-noticias";
 
 /* ── Paleta semántica ─────────────────────────────────────────────────────
  * Seis tintas y ni una más. Los hex NO se inventan aquí: salen de
@@ -120,7 +120,15 @@ export const LEY_EDITORIAL: Ley = {
  */
 export type MoldeNoticia = "papel" | "cine";
 
-export const MOLDES_NOTICIA: Record<MoldeNoticia, Molde> = {
+/**
+ * `anchoMax` (R09) es el mismo en los dos: la caja del molde va de margen a
+ * margen (`LAYOUT.margen` = 118), o sea 1080 − 2×118 = 844 px útiles. No es una
+ * decisión de registro sino de zona segura, y por eso no cambia entre papel y
+ * cine — lo que cambia entre ellos es el ALTO que se puede ocupar, no el ancho.
+ */
+const ANCHO_UTIL = 1080 - 2 * LAYOUT.margen;
+
+export const MOLDES_NOTICIA: Record<MoldeNoticia, Molde<TintaNoticia>> = {
   papel: {
     // Los DOS moldes cubren. Es la diferencia de fondo con la capa de gráficos:
     // allí `cubre` es la excepción (el avatar manda) y aquí es la regla (no hay
@@ -132,6 +140,10 @@ export const MOLDES_NOTICIA: Record<MoldeNoticia, Molde> = {
     gap: 34, // el gap por defecto de `Centro` en PistaNoticia.tsx
     scrim: false, // sobre papel claro el texto es tinta: un degradado lo ensuciaría
     fondo: "papel",
+    // Sobre papel la tinta por defecto ES la del dialecto (carbón): declararlo
+    // no mueve un píxel de lo publicado y deja el par fondo↔tinta completo, que
+    // es lo que en `cine` faltaba.
+    tinta: "tinta",
     // FondoPapel YA trae su viñeta cálida dentro (radial al 58 %). Pedir otra
     // desde el molde la sumaría y hundiría las esquinas el doble.
     vineta: false,
@@ -139,6 +151,7 @@ export const MOLDES_NOTICIA: Record<MoldeNoticia, Molde> = {
     // (LAYOUT.subtituloY): con más de 1080 px de bulto, la mitad de abajo se
     // mete debajo de los subtítulos y la de arriba se sale por el techo.
     altoMax: 1080,
+    anchoMax: ANCHO_UTIL,
     // El punch-in vive AQUÍ y no en el intérprete. Estaba cableado en
     // `PistaNoticia.tsx` sin ninguna vía para apagarlo: una toma con un vídeo
     // dentro no puede escalar el vídeo otro 1,5 % encima del suyo, y hoy no
@@ -168,11 +181,28 @@ export const MOLDES_NOTICIA: Record<MoldeNoticia, Molde> = {
     // `ambiente.media`, el molde ya diga qué se busca.
     scrim: { alto: 1190, desde: "abajo" },
     fondo: "cine",
+    // EL ARREGLO. El molde traía el fondo NEGRO y no traía la tinta que se lee
+    // sobre él, así que cada pieza de texto de una toma `cine` tenía que escribir
+    // `color: "blanco"` y al olvidarlo caía a `tintaBase` —carbón— sobre negro:
+    // invisible, y con el plan diciendo LIMPIO porque el color resolvía a un hex
+    // válido. Que sea una trampa y no una teoría lo dice el propio 006: escribe
+    // `color: "blanco"` ONCE veces y su autor dejó el aviso a mano dentro del
+    // fichero («OBLIGATORIO en todo texto de una toma `cine`»). Acordarse once
+    // veces es el fallo esperando a la duodécima. La prueba de que esta línea
+    // arregla lo que dice está en `sonda-ANTES.png` vs `sonda-DESPUES.png`: una
+    // toma `cine` escrita a propósito SIN `color`, con y sin `tinta`.
+    //
+    // NO MUEVE NI UN PÍXEL DE LO PUBLICADO: `compilaNoticia` escribe `color`
+    // EXPLÍCITO en todos los nodos de texto que emite (004 y 005), así que el
+    // defecto no llega a usarse ahí; y los nodos que sí lo omiten —chips, grupos,
+    // media— tienen montadores que ni miran `ctx.color`.
+    tinta: "blanco",
     // FondoCine es un foco cenital sobre negro: la caída a los bordes ya está.
     vineta: false,
     // Sobre negro el texto compite con la imagen, no con el margen: si el
     // bloque pasa de 900 px ya no remata el metraje, lo tapa.
     altoMax: 900,
+    anchoMax: ANCHO_UTIL,
     punch: 0.015,
     porque: "toma de cine: metraje o remate sobre negro, el texto cuelga del tercio inferior",
   },
@@ -215,6 +245,29 @@ const f = <P>(
 
 const altoTexto = (px: number, lineas = 1): number => Math.round(px * 1.15 * lineas);
 
+/* ── Ancho de las piezas (R09) ─────────────────────────────────────────────
+ *
+ * `anchoTexto` (núcleo) estima por caracteres; lo que aporta el dialecto es la
+ * TIPOGRAFÍA con la que se monta cada pieza, que es lo único que el núcleo no
+ * puede saber. Los tres números de cada llamada —cuerpo, tracking, versalitas—
+ * salen literalmente de `T` en theme-noticias.ts, y el tracking va en px
+ * ABSOLUTOS porque el montador solo pisa `fontSize`: un titular a `px: 72`
+ * conserva el `letterSpacing: -2.6` de los 96.
+ *
+ * QUÉ SE MIDE Y QUÉ NO, que es la decisión de fondo de toda la regla:
+ *
+ *  · `titular` con `lineas` → LA LÍNEA ENTERA, la más ancha. El intérprete le
+ *    pone `white-space: nowrap` a cada línea para que el salto declarado
+ *    signifique algo, así que una línea que no cabe SE CORTA. Éste es el caso
+ *    que se coló en el 006.
+ *  · todo lo demás → LA PALABRA MÁS LARGA. Un texto que puede maquetarse libre
+ *    no se corta cuando no cabe: baja de línea, y eso ya lo vigila R08 por el
+ *    alto. Medir la frase entera aquí sacaría un aviso en cada etiqueta del
+ *    repo, y un validador que grita en todo es un validador apagado.
+ */
+const anchoLineas = <C extends string>(lineas: readonly TextoRico<C>[], px: number, tracking: number): number =>
+  lineas.reduce((m, l) => Math.max(m, anchoTexto(textoPlano(l), px, tracking)), 0);
+
 /** ¿El número tiene parte decimal que el formateo se va a comer? */
 const seRedondea = (v: number | undefined, decimales: number | undefined): boolean =>
   v !== undefined && (decimales ?? 0) === 0 && Math.round(v) !== v;
@@ -242,7 +295,13 @@ export const PIEZAS_NOTICIA = registro({
     "Editorial.tsx",
     "Antetítulo en versalitas con tracking abierto.",
     "Sección, medio o contexto. NUNCA lleva el mensaje: si se puede leer solo, es un titular.",
-    { alto: (p) => altoTexto(p.px ?? 28) }
+    {
+      alto: (p) => altoTexto(p.px ?? 28),
+      // Versalitas Y tracking de +4 px: es la pieza en la que la estimación por
+      // caracteres más se aleja de la ingenua, porque una mayúscula ocupa un
+      // 25 % más que su minúscula y el tracking pesa un 14 % del cuerpo.
+      ancho: (p) => anchoPalabraMasLarga(textoPlano(p.texto), p.px ?? 28, T.kicker.letterSpacing, true),
+    }
   ),
   titular: f<{ texto?: TextoN; lineas?: readonly TextoN[]; px?: number }>(
     "Titular",
@@ -252,6 +311,10 @@ export const PIEZAS_NOTICIA = registro({
     "Uno por toma. Un trozo con `rotulador` lo marca en amarillo; con `tinta`, lo colorea.",
     {
       alto: (p) => altoTexto(p.px ?? 96, p.lineas ? p.lineas.length : 1),
+      ancho: (p) =>
+        p.lineas
+          ? anchoLineas(p.lineas, p.px ?? 96, T.titular.letterSpacing)
+          : anchoPalabraMasLarga(textoPlano(p.texto ?? ""), p.px ?? 96, T.titular.letterSpacing),
       revisa: (p) => {
         const av: string[] = [];
         if (!p.texto && !p.lineas) av.push("titular sin `texto` ni `lineas`: la toma no dice nada");
@@ -272,7 +335,10 @@ export const PIEZAS_NOTICIA = registro({
     "Editorial.tsx",
     "La frase de apoyo que explica el titular o la cifra.",
     "Debajo del hero. Sobre papel va en `suave`; sobre cine, en `blanco` rebajado.",
-    { alto: (p) => altoTexto(p.px ?? 44) }
+    {
+      alto: (p) => altoTexto(p.px ?? 44),
+      ancho: (p) => anchoPalabraMasLarga(textoPlano(p.texto), p.px ?? 44, T.etiqueta.letterSpacing),
+    }
   ),
 
   // ── Prueba periodística ──────────────────────────────────────────────────
@@ -291,6 +357,9 @@ export const PIEZAS_NOTICIA = registro({
         74 +
         (p.fuente ? 42 : 0) +
         Math.max(1, Math.ceil(textoPlano(p.titular).length / 22)) * 61,
+      // Caja de ancho FIJO (el default de `RecortePrensa`): su titular parte
+      // dentro, así que lo que puede no caber es la tarjeta, no el texto.
+      ancho: (p) => p.ancho ?? 840,
       revisa: (p) =>
         textoPlano(p.titular).trim().length === 0
           ? ["recorte sin titular: montará una tarjeta en blanco"]
@@ -307,6 +376,11 @@ export const PIEZAS_NOTICIA = registro({
     "SIEMPRE en pareja o trío: un chip solo no compara nada y entonces lo que querías era una etiqueta. `activo:false` lo apaga a gris.",
     {
       alto: (p) => (p.tam ?? 150) + 18 + Math.round((p.tam ?? 150) * 0.19 * 1.15),
+      // El cuadrado, o su label si sobresale. `ficha.revisa` ya avisa del label
+      // de más de dos palabras; esto cubre el caso que se le escapa: UNA palabra
+      // larga («Documentación») bajo un chip de 150.
+      ancho: (p) =>
+        Math.max(p.tam ?? 150, anchoPalabraMasLarga(p.texto, Math.round((p.tam ?? 150) * 0.19), T.pie.letterSpacing)),
       revisa: (p) => {
         const av: string[] = [];
         if (p.texto.trim().length === 0) av.push("chip sin texto: un icono suelto no etiqueta nada");
@@ -340,6 +414,14 @@ export const PIEZAS_NOTICIA = registro({
     {
       // T.cifra tiene lineHeight 1: el alto es el cuerpo, sin interlínea.
       alto: (p) => p.px ?? 220,
+      // El número YA FORMADO (es lo que se ve al final del conteo), con su
+      // prefijo y su sufijo. A 220 px de cuerpo, cinco dígitos ya no caben.
+      ancho: (p) =>
+        anchoTexto(
+          `${p.prefijo ?? ""}${p.valor.toFixed(p.decimales ?? 0)}${p.sufijo ?? ""}`,
+          p.px ?? 220,
+          T.cifra.letterSpacing
+        ),
       revisa: (p) => {
         const av: string[] = [];
         // El fallo REAL del 004: `n09-suelo` declara `valor: 6.7` y el
@@ -373,6 +455,8 @@ export const PIEZAS_NOTICIA = registro({
       // Fila label/valor (70 px de cifra) + 16 de margen + el raíl con el puño
       // de 40 px centrado encima.
       alto: () => 70 + 16 + 40,
+      /** Ancho FIJO del componente (`Medidor`, Editorial.tsx). */
+      ancho: () => 760,
       revisa: (p) => {
         const av: string[] = [];
         // `Medidor` clampa la proporción a 1: con `a` por encima de `max`, la
@@ -399,6 +483,8 @@ export const PIEZAS_NOTICIA = registro({
     "El ORDEN del array es la dirección del viaje (arriba = de donde sales). Dos o tres hitos; con cinco no se lee ninguno.",
     {
       alto: (p) => p.alto ?? 560,
+      /** Ancho FIJO del componente (`Cronologia`, Editorial.tsx). */
+      ancho: () => 780,
       revisa: (p) => {
         const av: string[] = [];
         if (p.hitos.length === 0) av.push("cronología sin hitos: dibuja un raíl vacío");
@@ -423,6 +509,9 @@ export const PIEZAS_NOTICIA = registro({
       // compita por el alto. Contarlo en R08 dispararía el aviso en todas las
       // tomas de escenario, que es como se aprende a ignorar un validador.
       alto: (p) => (p.sangre ? 0 : p.alto ?? 820),
+      // A sangre mide el cuadro entero y va en `position: absolute`: ni ocupa
+      // maqueta ni puede salirse, igual que ya declara su `alto`.
+      ancho: (p) => (p.sangre ? 0 : p.ancho ?? 640),
       revisa: (p) => {
         const av: string[] = [];
         // Portada de `revisaNoticia`: una toma de retrato o escenario sin media
@@ -543,6 +632,18 @@ export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaN
   beats: BEATS_NOTICIA,
   moldes: MOLDES_NOTICIA,
   paleta: PALETA_NOTICIA,
+  // El amarillo de rotulador marca sobre la prueba y no colorea texto: eso lo
+  // dice la paleta desde el primer día, en un comentario, y un comentario no es
+  // una regla. En el 006 la frase más crítica de seguridad de la pieza —«pueden
+  // fallar súbitamente sin dar previo aviso»— acabó en `resalte` sobre papel
+  // beige: el peor contraste de las seis tintas puesto en la única línea que hay
+  // que leer sí o sí. Declarado aquí, `revisaPlan` lo persigue en el `color` de
+  // un nodo, en la `tinta` de un trozo y en la tinta por defecto de un molde.
+  //
+  // Sigue en la paleta, y debe seguir: es legítima donde SÍ marca (`Piel.tinta`,
+  // `Envoltura.halo`, una trama de ambiente) y como color que un montador pide
+  // por su cuenta. Lo que no puede ser es letra.
+  tintasDeMarca: ["resalte"],
   // Un nodo que no pide color se pinta en tinta: es el negro editorial sobre el
   // papel, que es el fondo de siete de las nueve tomas. Sobre `cine` el titular
   // pide `blanco` explícitamente — y lo pide `compilaNoticia`, no el autor.

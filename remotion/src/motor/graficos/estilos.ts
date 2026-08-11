@@ -40,6 +40,13 @@ export const G = {
   tenue: "rgba(255,255,255,0.32)",
   apagado: "rgba(255,255,255,0.60)",
   gris: "rgba(148,163,184,0.95)",
+  /**
+   * El mismo tono que `gris` (slate-400: 148,163,184 = #94A3B8) pero SÓLIDO,
+   * igual que `tintaSolida` lo es de `tinta`. Existen los dos porque `alfa()`
+   * solo sabe derivar de hex: un chip apagado necesita sacar su relleno y su
+   * borde del gris, y con el rgba de `gris` caería al blanco de respaldo.
+   */
+  grisSolido: "#94A3B8",
 } as const;
 
 /**
@@ -49,6 +56,41 @@ export const G = {
 export const SOMBRA = {
   texto: "0 2px 12px rgba(0,0,0,0.70)",
   caja: "0 12px 44px rgba(0,0,0,0.40)",
+} as const;
+
+/**
+ * CAJAS: los tokens de las cajas con fondo propio, y de momento solo el SELLO.
+ *
+ * Está aquí porque estaba escrito DOS VECES —el componente `<Sello>`
+ * (Texto.tsx) y la piel `sello` del intérprete (`cajaPiel`, PistaGraficos.tsx)—
+ * y las dos copias YA habían divergido. Una sola copia no puede volver a
+ * divergir; dos, ya se demostró que sí.
+ *
+ * `campo` y `panel` NO están aquí y no es un olvido: su borde sale de la tinta
+ * que pide el plan y su ancho de la caja del molde, o sea que son cálculo, no
+ * token. Lo que se comparte es lo que es CONSTANTE.
+ *
+ * QUÉ COMPARTEN EXACTAMENTE, que no es todo: fondo, borde, radio, padding y
+ * sombra. El `gap` solo lo consume `<Sello>`, y a propósito. `<Sello>` es un
+ * flex cuyos hijos no llevan margen, así que sin `gap` sale con las líneas
+ * pegadas. La piel, en cambio, se aplica sobre un GRUPO del plan, y ahí la
+ * separación entre hermanos ya la monta `RenderGrupo` como margen en cada hijo
+ * (`sepExtra`): un `gap` CSS encima se SUMARÍA en vez de sustituirlo, y
+ * `col([...], { gap: 34, piel: { caja: "sello" } })` acababa separando 40 px.
+ * Por eso `cajaPiel` emite `gap` solo si el plan lo pide (`piel.gap`), como aire
+ * EXTRA. Compartir el token no es lo mismo que dar el mismo resultado cuando lo
+ * que hay debajo es distinto — y decirlo aquí es lo que impide volver a
+ * «arreglarlo» copiando el gap otra vez.
+ */
+export const CAJA = {
+  sello: {
+    background: G.tinta,
+    border: `1px solid ${G.linea}`,
+    borderRadius: 30,
+    padding: "24px 40px",
+    boxShadow: SOMBRA.caja,
+    gap: 6,
+  },
 } as const;
 
 /**

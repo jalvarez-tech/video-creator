@@ -91,10 +91,13 @@ export const noticia006 = plan({ ancho: 1080, alto: 1920, fps: 30, duracion: 174
     [
       col(
         [
+          // 840 y no 860: el molde `papel` da 844 px útiles (1080 − 2×118 de
+          // margen) y el recorte del 005, ya publicado, usa 840. Escribir 860
+          // metía la tarjeta en la zona segura por los dos lados.
           pon("recorte", {
             titular: "¿Qué hacer si encuentra grietas en su vivienda luego de un temblor?",
             fuente: "El Colombiano · 10 de agosto de 2026",
-            ancho: 860,
+            ancho: 840,
             rotacion: -1.2,
           }),
         ],
@@ -293,10 +296,14 @@ export const noticia006 = plan({ ancho: 1080, alto: 1920, fps: 30, duracion: 174
       col(
         [
           pon("kicker", { texto: "LOS EXPERTOS ACLARAN" }),
+          // px 70: a 76 la tercera línea medía ~846 px y rozaba el margen seguro
+          // por 1 px. No se cortaba —lo comprobé por columnas de píxeles— pero un
+          // plan que avisa siempre enseña a ignorar los avisos, y este validador
+          // acaba de nacer. Lo cazó R09; a ojo no se veía.
           pon("titular", {
             id: "t11",
             rol: "hero",
-            px: 76,
+            px: 70,
             lineas: ["No hay fórmula exacta", "para saber a simple vista", "si una estructura es segura."],
           }),
           pon("etiqueta", {
