@@ -4,16 +4,24 @@
  *
  * El sistema ya declara tres capas en datos y las ejecuta con un intérprete:
  *   cámara   → CameraCue[]   (camara-NNN.ts)   → <CamaraVirtual>
- *   gráficos → GraficoCue[]  (graficos-NNN.ts) → <PistaGraficos>
+ *   gráficos → Plan          (graficos-NNN.ts) → <PistaGraficos>
  *   sonido   → SoundCue[]    (cues-NNN.ts)     → <PistaSonido>
  * Esta es la cuarta:
  *   noticia  → TomaNoticia[] (noticia-NNN.ts)  → <PistaNoticia>
  *
- * Por qué una capa propia y no `GraficoCue`: en el formato noticias el gráfico
- * NO es un overlay sobre un avatar — es la escena entera, y trae consigo su
- * fondo. `GraficoCue` asume una `zona` dentro de un vídeo que ya existe; aquí
- * lo que se declara es la sucesión de TOMAS que forman la pieza completa,
- * incluido de qué color es el mundo en cada una.
+ * Por qué una capa propia. Cuando esto se escribió, la capa de gráficos era un
+ * `GraficoCue[]` con una `zona` («superior»/«inferior») dentro de un vídeo que
+ * ya existía, y el argumento era que en noticias el gráfico NO es un overlay
+ * sobre un avatar: es la escena entera, y trae consigo su fondo. Ese cue ya no
+ * existe —hoy la capa de gráficos es un `Plan` del núcleo (`plan/nucleo.ts`) con
+ * dialecto en `graficos/coreografia.ts`— y con él desapareció la `zona`: un
+ * `Molde` declara ancla, caja útil y scrim, así que ya sabe describir una toma
+ * que ocupa la pantalla. Lo que sigue justificando esta capa NO es la geometría
+ * sino el VOCABULARIO: `TomaNoticia` habla de beats periodísticos, hitos,
+ * fuentes y registro papel/cine, y compila a ese mismo sustrato
+ * (`compilaNoticia` en `dialecto.ts`). La prueba de que ya no es una capa
+ * paralela sino un dialecto es el 006: escribe un `Plan` directamente y lo monta
+ * con `<PistaGraficos>`, sin perder nada del formato.
  *
  * `reason` es OBLIGATORIO, igual que en las otras tres capas: si no puedes
  * escribir qué hace esa toma por la noticia, la respuesta es quitarla.
@@ -71,7 +79,7 @@ export type Registro = "papel" | "cine";
 /** Un ítem de comparación (chip con glifo + label). */
 export type ItemComparador = {
   label: string;
-  /** Clave de `GLIFO` en Editorial.tsx. */
+  /** Clave de `GLIFO` en graficos/Glifos.tsx. */
   glifo: "manos" | "caja" | "balanza" | "rayo" | "casa" | "edificio" | "avion" | "hoja" | "moneda";
   /** false = opción descartada (se apaga a gris). */
   activo?: boolean;
@@ -212,14 +220,14 @@ export function revisaNoticia(tomas: TomaNoticia[], fps = 30): string[] {
       avisos.push(`[${t.id}] dura ${len} f (> 6 s): en un short, demasiado sin cambio visual`);
     if ((t.tipo === "retrato" || t.tipo === "escenario") && !t.media)
       avisos.push(`[${t.id}] toma ${t.tipo} sin media: montará el marco vacío`);
-    // El rotulador se posiciona con indexOf sobre el titular: si el fragmento no
-    // aparece LITERAL (una tilde, un guion tipográfico, un espacio de más), da
-    // -1 y no se dibuja nada. Sin este aviso, el fallo es invisible.
-    // Compara EN MINÚSCULAS porque así busca `RecortePrensa` (Editorial.tsx:228,
-    // con toLowerCase().indexOf). Con `includes` a secas, un titular con distinta
-    // capitalización daba un falso positivo: avisaba de algo que sí se dibuja.
-    if (t.resaltar && !(t.titular ?? "").toLowerCase().includes(t.resaltar.toLowerCase()))
-      avisos.push(`[${t.id}] "resaltar" no aparece en el titular: el rotulador no se dibujará`);
+    // AQUÍ HABÍA una regla sobre `resaltar`: avisaba de que el fragmento no
+    // aparecía LITERAL en el titular, porque el rotulador se posicionaba con un
+    // `indexOf` que devolvía −1 y no dibujaba nada, en silencio. Se borra porque
+    // el fallo ya no puede existir: `compilaNoticia` convierte el `resaltar` en
+    // un TROZO dentro del propio titular (`{t: "…", rotulador: true}`) y el
+    // texto que se le pasa a `RecortePrensa` sale de ese mismo trozo. La
+    // relación pasó de ser una búsqueda a ser estructural, y una regla que
+    // vigila un fallo imposible solo enseña a ignorar el validador.
   }
 
   for (let i = 1; i < orden.length; i++) {

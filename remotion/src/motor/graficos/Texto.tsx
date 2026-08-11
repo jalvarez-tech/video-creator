@@ -1,4 +1,4 @@
-import { FONT, G, SOMBRA, TXT, alfa } from "./estilos";
+import { CAJA, FONT, G, SOMBRA, TXT, alfa } from "./estilos";
 
 /**
  * TIPOGRAFÍA de los gráficos — los cuatro roles de `estilos.ts` hechos componente.
@@ -101,19 +101,21 @@ export const Cifra: React.FC<{ children: React.ReactNode; color?: string; px?: n
  * Tarjeta traslúcida para agrupar contenido sobre vídeo.
  * Traslúcida a propósito (ver `G.tinta`): una caja opaca sobre el avatar se lee
  * como parche pegado; una traslúcida se lee como capa de la misma imagen.
+ *
+ * Los tokens de la caja salen de `CAJA.sello` (estilos.ts) y no de aquí: el
+ * intérprete monta esta misma caja como PIEL de un grupo (`cajaPiel`) y las dos
+ * copias ya habían divergido en el `gap`. Lo que sí es de este componente es su
+ * maqueta —columna centrada—, porque ahí es donde se diferencia de la piel: en
+ * la piel el flex lo pone el grupo.
  */
 export const Sello: React.FC<{ children: React.ReactNode; estilo?: React.CSSProperties; gap?: number }> = ({
   children,
   estilo,
-  gap = 6,
+  gap = CAJA.sello.gap,
 }) => (
   <div
     style={{
-      background: G.tinta,
-      border: `1px solid ${G.linea}`,
-      borderRadius: 30,
-      padding: "24px 40px",
-      boxShadow: SOMBRA.caja,
+      ...CAJA.sello,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -129,29 +131,45 @@ export const Sello: React.FC<{ children: React.ReactNode; estilo?: React.CSSProp
 /**
  * Píldora de estado / categoría. El color es INFORMACIÓN (verde = va bien,
  * rojo = se pierde, ámbar = dato neutro): no elijas el color por estética.
+ *
+ * `activo: false` APAGA el chip a gris, que es como se dice «esta opción está
+ * descartada» en una comparación de dos o tres. Sin esto, el plan podía declarar
+ * `chip.activo` (la ficha lo lleva desde el principio) y el montador no tenía
+ * cómo expresarlo: los tres chips de una comparación salían igual de vivos y la
+ * comparación no comparaba nada. Se apaga cambiando el COLOR y nada más —relleno
+ * y borde se derivan de él, como en el chip vivo—, que es exactamente lo que
+ * hace `<ChipIcono>` en la capa editorial: un chip apagado sigue siendo el mismo
+ * objeto, no un objeto medio transparente.
  */
-export const Chip: React.FC<{ children: React.ReactNode; color?: string; px?: number }> = ({
+export const Chip: React.FC<{ children: React.ReactNode; color?: string; px?: number; activo?: boolean }> = ({
   children,
   color = G.teal,
   px = 30,
-}) => (
-  <span
-    style={{
-      fontFamily: FONT,
-      fontSize: px,
-      fontWeight: 700,
-      letterSpacing: 1,
-      color,
-      background: alfa(color.startsWith("#") ? color : "#FFFFFF", 0.12),
-      border: `1px solid ${alfa(color.startsWith("#") ? color : "#FFFFFF", 0.45)}`,
-      borderRadius: 999,
-      padding: "8px 22px",
-      textShadow: SOMBRA.texto,
-    }}
-  >
-    {children}
-  </span>
-);
+  activo = true,
+}) => {
+  const c = activo ? color : G.grisSolido;
+  // `alfa` solo sabe de hex; una tinta en rgba (la `neutro` de la paleta) cae al
+  // blanco, que es el respaldo que ya había aquí.
+  const base = c.startsWith("#") ? c : "#FFFFFF";
+  return (
+    <span
+      style={{
+        fontFamily: FONT,
+        fontSize: px,
+        fontWeight: 700,
+        letterSpacing: 1,
+        color: c,
+        background: alfa(base, 0.12),
+        border: `1px solid ${alfa(base, 0.45)}`,
+        borderRadius: 999,
+        padding: "8px 22px",
+        textShadow: SOMBRA.texto,
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 
 /**
  * Texto tachado: el "esto no" de una comparación. `progreso` 0→1 dibuja la

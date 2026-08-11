@@ -1,27 +1,61 @@
 /**
- * CATÁLOGO de la biblioteca de gráficos — la fuente de verdad de "qué existe ya".
+ * CATÁLOGO de la capa de gráficos — la fuente de verdad de "qué existe ya".
  *
  * Por qué existe: una biblioteca que no se ve, no se usa. Sin escaparate, dentro
  * de tres proyectos volverás a escribir un contador desde cero porque no
- * recordabas que había uno. Este archivo se consume de dos formas, y las dos
- * salen de aquí (nunca se escriben a mano en dos sitios):
+ * recordabas que había uno. Se consume de dos formas, y las dos salen de aquí:
  *
  *   1. La composición `Catalogo` (Catalogo.tsx) → un contact sheet VIVO en el
- *      Studio: cada gráfico animándose de verdad, con su nombre y su ficha.
- *      Se navega arrastrando la cabeza lectora.
+ *      Studio: cada cosa animándose de verdad, con su ficha y su RUTA al lado.
  *   2. `node manuales/motion-graphics/scripts/generar-catalogo.mjs` → regenera
  *      manuales/motion-graphics/catalogo-graficos.md para leerlo fuera del Studio.
  *
- * Regla: añadir un gráfico a la biblioteca = añadir su ficha aquí. Si no está
- * aquí, para el sistema no existe.
+ * ── POR QUÉ ESTE ARCHIVO YA NO ES UNA LISTA ────────────────────────────────
+ *
+ * El fallo original del sistema fue exactamente éste: el catálogo se mantenía A
+ * MANO, anunciaba 37 gráficos y el plan servía 16. Veintiuna fichas mentían en
+ * silencio, y quien las leía escribía contra algo que no existía.
+ *
+ * Ahora nada de lo que se alcanza desde un plan se escribe aquí dos veces:
+ *
+ *   · las PIEZAS salen de `Object.keys(PIEZAS)` — el registro del dialecto;
+ *   · los MOLDES, de `Object.keys(MOLDES_GRAFICOS)`;
+ *   · las ENTRADAS, de `NOMBRES_ENTRADA` (que a su vez sale de `DUR_ENTRADA`);
+ *   · las ENVOLTURAS, el AMBIENTE, los EJES de grupo y las PIELES, de tipos
+ *     DERIVADOS del núcleo (`ClaveEnvoltura`, `ClaveAmbiente`, `EjeGrupo`,
+ *     `CajaPiel`), consumidos aquí como `Record<K, Tarjeta>`, que es un mapeado
+ *     TOTAL: añadir una variante al núcleo sin su tarjeta NO COMPILA, y una
+ *     tarjeta de algo que no existe TAMPOCO.
+ *
+ * Lo único que se escribe a mano es la PROSA (qué es, cuándo usarlo) de lo que
+ * no es una pieza; los nombres, no. Y el test `revisar-catalogo.mjs` comprueba
+ * lo que el compilador no puede: que toda ficha tenga ruta, que toda ruta tenga
+ * ficha, que el archivo exista, que haya demo y que el markdown no esté viejo.
  */
 
-export type FamiliaGrafico = "texto" | "entrada" | "fondo" | "dato" | "trazo" | "particula" | "3d" | "efecto";
+import type { CajaPiel, ClaveAmbiente, ClaveEnvoltura, EjeGrupo, Ficha } from "../plan/nucleo";
+import { NOMBRES_ENTRADA } from "../plan/nucleo";
+import type { MoldeGrafico } from "./coreografia";
+import { MOLDES_GRAFICOS, PIEZAS } from "./coreografia";
 
-export type FichaGrafico = {
+/**
+ * CÓMO se alcanza una cosa desde el plan. Es el eje por el que se agrupa el
+ * contact sheet, porque es la pregunta que uno trae al catálogo: no "¿de qué
+ * familia es esto?" sino "¿dónde lo escribo".
+ */
+export type EjeCatalogo = "molde" | "gramatica" | "pieza" | "entrada" | "envoltura" | "ambiente";
+
+export interface FichaGrafico {
+  /** `eje:clave`. Único en el catálogo, y la clave de su demo en Catalogo.tsx. */
   id: string;
+  eje: EjeCatalogo;
+  /** El literal que se escribe en el plan (`"titular"`, `"franja"`, `"halo"`…). */
+  clave: string;
+  /** La ruta, escrita como se escribe: `pieza: "titular"`, `entra: {como:"muelle"}`. */
+  ruta: string;
   nombre: string;
-  familia: FamiliaGrafico;
+  /** Sub-agrupación dentro del eje. En las piezas sale del registro. */
+  familia: string;
   archivo: string;
   /** Qué es, en una frase. */
   que: string;
@@ -29,351 +63,418 @@ export type FichaGrafico = {
   cuando: string;
   /** Variante sugerida de sound/cues.ts (la decisión sonora sigue siendo del skill). */
   sonido?: string;
+}
+
+/** Lo que hay que escribir a mano de lo que NO es una pieza. El nombre no: ése es la clave. */
+interface Tarjeta {
+  nombre: string;
+  familia: string;
+  archivo: string;
+  que: string;
+  cuando: string;
+  sonido?: string;
+  /** Solo cuando la ruta no se deduce del eje (las pieles). */
+  ruta?: string;
+}
+
+/* ── Moldes ───────────────────────────────────────────────────────────────
+ * El `que` NO se escribe: sale del `porque` del propio molde más su geometría
+ * declarada. Un molde al que le muevan el ancla se describe solo. */
+
+const MOLDES: Record<MoldeGrafico, Pick<Tarjeta, "nombre" | "cuando">> = {
+  sello: {
+    nombre: "Sello",
+    cuando:
+      "Overlay sobre el avatar cuando el texto necesita fondo. El scrim va ACOPLADO al molde: nace con la toma y muere con el texto, así que nadie puede olvidarlo.",
+  },
+  cta: {
+    nombre: "CTA",
+    cuando:
+      "El cierre. Igual que `sello` pero con 50 px más de scrim: un CTA es más alto que un titular y con 830 el borde inferior del campo flotaba sobre la ropa del avatar.",
+  },
+  franja: {
+    nombre: "Franja alta",
+    cuando:
+      "El gancho, el rótulo de sección, el dato que acompaña a lo que se está diciendo. R08: por encima de la cara, y por eso su presupuesto de alto es el más estrecho.",
+  },
+  pantalla: {
+    nombre: "Pantalla",
+    cuando:
+      "Cuando el gráfico ES la escena: `cubre: true` desmonta el avatar. La única que trae fondo propio y viñeta, y la única donde cabe un `diagrama`.",
+  },
+  capa: {
+    nombre: "Capa de atmósfera",
+    cuando:
+      "Solo ambiente: partículas, foco, viñeta. Su `altoMax: 0` es a propósito — está anclada al centro y no cubre, así que cualquier bloque con alto ya está sobre la cara.",
+  },
 };
 
-export const CATALOGO: FichaGrafico[] = [
-  // ── Estructura y entradas ───────────────────────────────────────────────────
-  {
-    id: "Escena",
-    nombre: "Escena",
-    familia: "entrada",
-    archivo: "Entradas.tsx",
-    que: "Ventana temporal (Sequence) que da frames LOCALES a sus hijos.",
-    cuando: "Siempre que un bloque tenga principio y fin. Es lo que permite mover una escena entera cambiando un número.",
+/* ── Entradas ─────────────────────────────────────────────────────────── */
+
+const ENTRADAS: Record<(typeof NOMBRES_ENTRADA)[number], Tarjeta> = {
+  ninguna: {
+    nombre: "Sin entrada",
+    familia: "movimiento",
+    archivo: "PistaGraficos.tsx",
+    que: "El nodo está entero desde su primer frame.",
+    cuando:
+      "Lo que ya se anima POR DENTRO (contador, trazo, partículas): envolverlo en una entrada es animar dos veces y se ve como un rebote de más.",
   },
-  {
-    id: "Aparece",
-    nombre: "Aparece",
-    familia: "entrada",
-    archivo: "Entradas.tsx",
-    que: "Entrada estándar: muelle + rampa de opacidad + desenfoque opcional.",
-    cuando: "El gesto por defecto. `desenfoque` solo en el hero: hace que el texto 'llegue' en vez de 'aparecer'.",
-    sonido: "whoosh light / pop",
+  escalon: {
+    nombre: "Escalón",
+    archivo: "PistaGraficos.tsx",
+    familia: "movimiento",
+    que: "Corte duro: no está, y en su frame está. Sin rampa ni desplazamiento.",
+    cuando:
+      "Estados que se turnan dentro de una `ranura`. OJO bajo `ley.reserva`: no hay animación que lo esconda, así que se ve quieto desde el arranque del padre.",
+    sonido: "click ui",
   },
-  {
-    id: "Barrido",
+  barrido: {
     nombre: "Barrido",
-    familia: "entrada",
+    familia: "movimiento",
     archivo: "Entradas.tsx",
-    que: "Entrada por recorte duro de izquierda a derecha, con barra de color en el borde.",
-    cuando: "Piezas mecánicas y secas (ley de movimiento del 003). Alternativa al muelle cuando NO quieres materia blanda.",
+    que: "Recorte duro de izquierda a derecha, con barra de color viajando en el borde.",
+    cuando:
+      "Materia dura: la ley del 003 (`LEY_SECA`), 4 f, sin fade ni muelle. `barra` solo en el hero — la barra es un canal de jerarquía, no un adorno.",
     sonido: "swoosh / click ui",
   },
-  {
-    id: "Latido",
+  extiende: {
+    nombre: "Extiende",
+    familia: "movimiento",
+    archivo: "PistaGraficos.tsx",
+    que: "Crece desde su origen en vez de aparecer.",
+    cuando:
+      "Lo que se MIDE: la regla, el enlace, la barra. Una línea que aparece de golpe no dice que algo avanza; dice que ya estaba.",
+  },
+  muelle: {
+    nombre: "Muelle",
+    familia: "movimiento",
+    archivo: "Entradas.tsx",
+    que: "Muelle + rampa de opacidad + desenfoque opcional.",
+    cuando:
+      "El gesto por defecto del canal (`LEY_BLANDA`). El `desenfoque` solo en el hero: es lo que hace que el texto «llegue» en vez de «aparecer».",
+    sonido: "whoosh light / pop",
+  },
+};
+
+/* ── Envolturas ───────────────────────────────────────────────────────── */
+
+const ENVOLTURAS: Record<ClaveEnvoltura, Tarjeta> = {
+  latido: {
     nombre: "Latido",
-    familia: "entrada",
+    familia: "decorador",
     archivo: "Entradas.tsx",
-    que: "Oscilación de escala ±2 % mientras un dato se sostiene en pantalla.",
-    cuando: "Para que un elemento sostenido no se congele. Amplitudes mayores marean.",
+    que: "Oscilación de escala mientras el nodo se sostiene en pantalla.",
+    cuando: "Para que un dato sostenido no se congele. ±2 %: amplitudes mayores marean.",
   },
-  {
-    id: "Ranura",
-    nombre: "Ranura",
-    familia: "entrada",
-    archivo: "Entradas.tsx",
-    que: "Posiciona un bloque en una banda horizontal, centrado.",
-    cuando: "Encuadre de gráficos sobre el avatar. R08: banda alta o banda de subtítulos, nunca sobre la cara.",
-  },
-
-  // ── Tipografía ──────────────────────────────────────────────────────────────
-  {
-    id: "Kicker",
-    nombre: "Kicker",
-    familia: "texto",
-    archivo: "Texto.tsx",
-    que: "Antetítulo en versalitas con tracking amplio.",
-    cuando: "Dar contexto o nombrar la sección. Nunca lleva el mensaje.",
-  },
-  {
-    id: "Titular",
-    nombre: "Titular",
-    familia: "texto",
-    archivo: "Texto.tsx",
-    que: "El mensaje de la escena.",
-    cuando: "Uno por escena. Dos titulares = ningún titular.",
-    sonido: "impact deep (en la palabra clave)",
-  },
-  {
-    id: "Cifra",
-    nombre: "Cifra",
-    familia: "texto",
-    archivo: "Texto.tsx",
-    que: "El dato como protagonista, con tabular-nums y halo del propio color.",
-    cuando: "Cuando el número ES el argumento. Con fondo claro, baja el resplandor a 0.",
-    sonido: "data / money",
-  },
-  {
-    id: "Etiqueta",
-    nombre: "Etiqueta",
-    familia: "texto",
-    archivo: "Texto.tsx",
-    que: "Frase de apoyo que explica la cifra o remata el titular.",
-    cuando: "Siempre por debajo del hero en tamaño; si compite, ya hay dos protagonistas.",
-  },
-  {
-    id: "Sello",
-    nombre: "Sello",
-    familia: "texto",
-    archivo: "Texto.tsx",
-    que: "Tarjeta traslúcida para agrupar contenido sobre vídeo.",
-    cuando: "Sobre el avatar, cuando el texto necesita fondo. Traslúcida a propósito: una caja opaca se lee como parche.",
-  },
-  {
-    id: "Chip",
-    nombre: "Chip",
-    familia: "texto",
-    archivo: "Texto.tsx",
-    que: "Píldora de estado o categoría.",
-    cuando: "Etiquetar (antes/después, incluido/excluido). El color es información, no decoración.",
-  },
-  {
-    id: "Tachado",
-    nombre: "Tachado",
-    familia: "texto",
-    archivo: "Texto.tsx",
-    que: "Texto con línea que se dibuja encima.",
-    cuando: "El 'esto no' de una comparación. Que se dibuje (no que aparezca) es lo que lo convierte en gesto.",
-    sonido: "scribble",
-  },
-
-  // ── Fondos y atmósfera ──────────────────────────────────────────────────────
-  {
-    id: "Scrim",
-    nombre: "Scrim",
-    familia: "fondo",
-    archivo: "Fondos.tsx",
-    que: "Degradado que oscurece un extremo para que el texto se lea sobre el vídeo.",
-    cuando: "Obligatorio con texto en la banda de subtítulos. Entra en 3-4 f y sale de golpe CON el texto.",
-  },
-  {
-    id: "Vineta",
-    nombre: "Vineta",
-    familia: "fondo",
-    archivo: "Fondos.tsx",
-    que: "Oscurecimiento de bordes que empuja el ojo al centro.",
-    cuando: "Casi siempre, en tomas de gráfico. Se nota al quitarla, no al ponerla.",
-  },
-  {
-    id: "Rejilla",
-    nombre: "Rejilla",
-    familia: "fondo",
-    archivo: "Fondos.tsx",
-    que: "Trama técnica tipo blueprint hecha con gradientes (no con divs).",
-    cuando: "Sensación de sistema/plano/dato. A 0.04 es textura; a 0.15 ya roba atención.",
-  },
-  {
-    id: "Puntos",
-    nombre: "Puntos",
-    familia: "fondo",
-    archivo: "Fondos.tsx",
-    que: "Trama de puntos: la variante suave de la rejilla.",
-    cuando: "Cuando la rejilla se ve demasiado técnica para el tono de la pieza.",
-  },
-  {
-    id: "Resplandor",
-    nombre: "Resplandor",
-    familia: "fondo",
-    archivo: "Fondos.tsx",
-    que: "Foco de luz de color: 'la sala' donde ocurre la escena.",
-    cuando: "Continuidad entre tomas de gráfico: misma sala, distinto ángulo (mover cx/cy). Es la única capa que puede respirar sola.",
-  },
-  {
-    id: "Halo",
+  halo: {
     nombre: "Halo",
-    familia: "fondo",
+    familia: "decorador",
     archivo: "Fondos.tsx",
-    que: "Luz propia detrás de UN elemento (no de la pantalla).",
-    cuando: "Logos, cifras y nodos que deben emitir luz en vez de estar pegados encima.",
+    que: "Luz propia detrás de UN nodo (no de la pantalla).",
+    cuando: "Cifras, logos y nodos que deben emitir luz en vez de estar pegados encima del vídeo.",
   },
-
-  // ── Datos ───────────────────────────────────────────────────────────────────
-  {
-    id: "Contador",
-    nombre: "Contador",
-    familia: "dato",
-    archivo: "Datos.tsx",
-    que: "Número que se forma de A a B con outCubic y golpe opcional al aterrizar.",
-    cuando: "Siempre que la MAGNITUD sea el mensaje: el ojo mide el recorrido, no el resultado.",
-    sonido: "data (textura) + tick / chime al llegar",
-  },
-  {
-    id: "BarraProgreso",
-    nombre: "BarraProgreso",
-    familia: "dato",
-    archivo: "Datos.tsx",
-    que: "Proporción o avance, con umbral opcional.",
-    cuando: "Comparar una parte con el todo. Crece lineal: con easing mentiría sobre la velocidad del proceso.",
-    sonido: "whoosh light + chime al llegar",
-  },
-  {
-    id: "Barras",
-    nombre: "Barras",
-    familia: "dato",
-    archivo: "Datos.tsx",
-    que: "Gráfica de barras con crecimiento escalonado desde la base.",
-    cuando: "Comparar 2-5 magnitudes. El ORDEN del array es una decisión narrativa: dirige en qué orden se comparan.",
-    sonido: "data por barra",
-  },
-  {
-    id: "ItemLista",
-    nombre: "ItemLista",
-    familia: "dato",
-    archivo: "Datos.tsx",
-    que: "Ítem con marca y stagger incorporado por índice.",
-    cuando: "Listas de 3-5 puntos. El stagger va dentro: el ritmo entre ítems queda fijado por STAGGER.lista.",
-    sonido: "pop por ítem (alterna variantIndex)",
-  },
-  {
-    id: "Regla",
-    nombre: "Regla",
-    familia: "dato",
-    archivo: "Datos.tsx",
-    que: "Línea recta que se extiende mecánicamente.",
-    cuando: "Subrayado limpio, separador o 'medida'. Para subrayado a mano, usa Subrayado (Trazo).",
-  },
-
-  // ── Trazo dibujado ──────────────────────────────────────────────────────────
-  {
-    id: "Trazo",
-    nombre: "Trazo",
-    familia: "trazo",
-    archivo: "Trazo.tsx",
-    que: "Dibuja cualquier path SVG con evolvePath; punta de flecha opcional orientada por la tangente.",
-    cuando: "La primitiva de todo lo dibujado. Una línea que se dibuja se lee como alguien señalando.",
-    sonido: "scribble",
-  },
-  {
-    id: "Subrayado",
-    nombre: "Subrayado",
-    familia: "trazo",
-    archivo: "Trazo.tsx",
-    que: "Subrayado a mano alzada con ondulación determinista.",
-    cuando: "Marcar LA palabra de la frase. Uno por escena: subrayar dos cosas es no subrayar.",
-    sonido: "scribble",
-  },
-  {
-    id: "Rodea",
-    nombre: "Rodea",
-    familia: "trazo",
-    archivo: "Trazo.tsx",
-    que: "Óvalo de rotulador alrededor de una palabra, con exceso al cerrar.",
-    cuando: "Más enfático que el subrayado: 'esto de aquí'. Dale el tamaño de la palabra + margen.",
-    sonido: "scribble / pen",
-  },
-  {
-    id: "Flecha",
-    nombre: "Flecha",
-    familia: "trazo",
-    archivo: "Trazo.tsx",
-    que: "Flecha curva de A a B con la punta siguiendo el trazo.",
-    cuando: "Relación causal. Curva = 'esto lleva a esto'; recta = 'de aquí a aquí'.",
-    sonido: "swoosh",
-  },
-  {
-    id: "Check",
-    nombre: "Check",
-    familia: "trazo",
-    archivo: "Trazo.tsx",
-    que: "Marca de confirmación dibujada en dos tiempos naturales.",
-    cuando: "Cerrar una promesa o validar un ítem. El sonido va en el frame en que cierra.",
-    sonido: "success / chime",
-  },
-  {
-    id: "Aspa",
-    nombre: "Aspa",
-    familia: "trazo",
-    archivo: "Trazo.tsx",
-    que: "Dos trazos que se cruzan en secuencia.",
-    cuando: "Descartar. En secuencia (no a la vez) para que se lea como gesto y no como icono.",
-    sonido: "error / impact sharp",
-  },
-
-  // ── Partículas ──────────────────────────────────────────────────────────────
-  {
-    id: "Particulas",
-    nombre: "Partículas",
-    familia: "particula",
-    archivo: "Particulas.tsx",
-    que: "Sistema determinista con tres modos: estallido, ambiente y lluvia.",
-    cuando: "Estallido en el CTA o el dato clave; ambiente como atmósfera; lluvia para 'cae'. 40-80 bastan: 500 tumban el render.",
-    sonido: "sparkle (+ pop en el estallido)",
-  },
-
-  // ── 3D ──────────────────────────────────────────────────────────────────────
-  {
-    id: "Escena3D",
-    nombre: "Escena3D",
-    familia: "3d",
-    archivo: "Tarjeta3D.tsx",
-    que: "Contenedor con perspective + preserve-3d: la 'lente' de la escena.",
-    cuando: "Envuelve TODO lo 3D. Perspectiva baja = gran angular; alta = teleobjetivo.",
-  },
-  {
-    id: "Tarjeta3D",
-    nombre: "Tarjeta3D",
-    familia: "3d",
-    archivo: "Tarjeta3D.tsx",
-    que: "Tarjeta de dos caras que se voltea con SPRING.flip.",
-    cuando: "'Esto es lo que crees' → giro → 'esto es lo que pasa'. Lineal se leería como PowerPoint.",
-    sonido: "whip en el giro + impact al aterrizar",
-  },
-  {
-    id: "Panel3D",
-    nombre: "Panel3D",
-    familia: "3d",
-    archivo: "Tarjeta3D.tsx",
-    que: "Panel que llega desde el fondo girado y se endereza, con inclinación residual.",
-    cuando: "Presentar un dato con presencia física. El reposo de 3° evita que parezca una captura de pantalla.",
-    sonido: "whoosh heavy + impact deep",
-  },
-  {
-    id: "Capas3D",
-    nombre: "Capas3D",
-    familia: "3d",
-    archivo: "Tarjeta3D.tsx",
-    que: "Pila de capas separadas en Z con vaivén: paralaje real.",
-    cuando: "Diagramas con 'grosor'. 4-6° de giro bastan; más se convierte en carrusel.",
-  },
-
-  // ── Efectos ─────────────────────────────────────────────────────────────────
-  {
-    id: "Glitch",
+  glitch: {
     nombre: "Glitch",
-    familia: "efecto",
+    familia: "decorador",
     archivo: "Glitch.tsx",
-    que: "Corrupción de señal: canales RGB, troceado, temblor y scanlines, por ráfagas.",
-    cuando: "Hook, logo o la palabra que rompe la expectativa. 0.3-0.6 s. Continuo cansa en 3 segundos.",
+    que: "Corrupción de señal por ráfagas: canales RGB, troceado, temblor y scanlines.",
+    cuando: "El hook, el logo o la palabra que rompe la expectativa. 0,3-0,6 s: continuo cansa en tres segundos.",
     sonido: "glitch (alterna variantIndex entre ráfagas)",
   },
-  {
-    id: "Scanlines",
-    nombre: "Scanlines",
-    familia: "efecto",
-    archivo: "Glitch.tsx",
-    que: "Trama de líneas de barrido con desplazamiento continuo.",
-    cuando: "Textura de pantalla sobre una UI. A 0.5 de opacidad tapa el contenido.",
-  },
-  {
-    id: "Aberracion",
+  aberracion: {
     nombre: "Aberración",
-    familia: "efecto",
+    familia: "decorador",
     archivo: "Glitch.tsx",
     que: "Separación cromática constante y suave, sin troceado.",
-    cuando: "El 'glitch de reposo' de un título. Si se nota conscientemente, es demasiado.",
+    cuando: "El «glitch de reposo» de un título. Si se nota conscientemente, es demasiado.",
+  },
+  parpadeo: {
+    nombre: "Parpadeo",
+    familia: "decorador",
+    archivo: "PistaGraficos.tsx",
+    que: "Encendido/apagado cíclico: `ciclo` frames visible, `ciclo` frames a `a`.",
+    cuando:
+      "El caret del CTA. Es tiempo CÍCLICO, no una ventana: como ventanas serían diez nodos de nueve frames. `desde: \"toma\"` lo engancha al reloj de la toma en vez de al del nodo.",
+  },
+  pulso: {
+    nombre: "Pulso",
+    familia: "decorador",
+    archivo: "PistaGraficos.tsx",
+    que: "Escala senoidal ACOTADA entre dos frames.",
+    cuando: "«Esto está vivo justo aquí»: un latido con principio y fin, atado a un momento de la voz.",
+  },
+  temblor: {
+    nombre: "Temblor",
+    familia: "decorador",
+    archivo: "PistaGraficos.tsx",
+    que: "Desplazamiento horizontal senoidal acotado entre dos frames.",
+    cuando: "Tensión o error. La amplitud va en px: 4 ya se ve, 12 es una broma.",
+    sonido: "impact sharp",
+  },
+  atenua: {
+    nombre: "Atenúa",
+    familia: "decorador",
+    archivo: "PistaGraficos.tsx",
+    que: "Baja la opacidad a `a` en un momento que puede DISPARAR otro nodo.",
+    cuando:
+      "Lo que se apaga cuando entra su relevo (la etiqueta «Hoy» del 003). Con `en: {tras: \"otroNodo\"}` deja de ser un número y pasa a ser una relación: mueve el otro y esto se mueve solo.",
+  },
+};
+
+/* ── Ambiente ─────────────────────────────────────────────────────────── */
+
+const AMBIENTE: Record<ClaveAmbiente, Tarjeta> = {
+  scrim: {
+    nombre: "Scrim",
+    familia: "atmósfera",
+    archivo: "Fondos.tsx",
+    que: "Degradado que oscurece un extremo para que el texto se lea sobre el vídeo.",
+    cuando:
+      "Obligatorio con texto sobre el avatar — y por eso lo pone el MOLDE. Aquí solo se declara lo que se APARTA de él: otro alto, u `false` para quitarlo.",
+  },
+  vineta: {
+    nombre: "Viñeta",
+    familia: "atmósfera",
+    archivo: "Fondos.tsx",
+    que: "Oscurecimiento de bordes que empuja el ojo al centro.",
+    cuando: "Casi siempre en tomas que cubren. Se nota al quitarla, no al ponerla.",
+  },
+  trama: {
+    nombre: "Trama",
+    familia: "atmósfera",
+    archivo: "Fondos.tsx",
+    que: "Textura de fondo: `rejilla` (blueprint técnico) o `puntos` (su variante suave).",
+    cuando: "Sensación de sistema, plano o dato. A 0,04 es textura; a 0,15 ya roba atención al titular.",
+  },
+  foco: {
+    nombre: "Foco",
+    familia: "atmósfera",
+    archivo: "Fondos.tsx",
+    que: "Resplandor de color colocado en la escena: «la sala» donde ocurre la toma.",
+    cuando:
+      "Continuidad entre tomas: misma sala, otro ángulo (mueve `cx`/`cy`). `cambiaEn` es el cambio DURO de color, el ámbar→rojo del f258 del 003.",
+  },
+  particulas: {
+    nombre: "Partículas",
+    familia: "atmósfera",
+    archivo: "Particulas.tsx",
+    que: "Sistema determinista con tres modos: estallido, ambiente y lluvia.",
+    cuando:
+      "Estallido en el CTA o el dato clave; ambiente como atmósfera continua; lluvia para «cae». 40-80 bastan: 500 tumban el render. Varias `tintas` o sale confeti monocromo.",
+    sonido: "sparkle (+ pop en el estallido)",
+  },
+};
+
+/* ── Gramática: los ejes de grupo y las pieles ────────────────────────── */
+
+const EJES_GRUPO: Record<EjeGrupo, Tarjeta> = {
+  columna: {
+    nombre: "Columna",
+    familia: "composición",
+    archivo: "PistaGraficos.tsx",
+    que: "Apila los hijos en vertical con el gap del molde (o el que pida el grupo).",
+    cuando: "El eje por defecto y el 90 % de las tomas: kicker, titular, etiqueta. `gap` admite un valor POR HUECO.",
+  },
+  fila: {
+    nombre: "Fila",
+    familia: "composición",
+    archivo: "PistaGraficos.tsx",
+    que: "Pone los hijos en horizontal.",
+    cuando: "Glifo + etiqueta, chips de una comparación, una cifra con su unidad. Ojo al ancho: una fila SUMA (R09).",
+  },
+  pila: {
+    nombre: "Pila",
+    familia: "composición",
+    archivo: "PistaGraficos.tsx",
+    que: "Superpone a los hijos en el mismo hueco de una rejilla de una celda.",
+    cuando: "El tachón SOBRE su texto, una marca encima de una foto. `alinea` decide por dónde se cruzan.",
+  },
+  capas: {
+    nombre: "Capas",
+    familia: "composición",
+    archivo: "PistaGraficos.tsx",
+    que: "Superposición, exactamente igual que `pila`.",
+    cuando:
+      "Hoy el intérprete las monta IDÉNTICAS (`superpone` en RenderGrupo): `capas` existe como intención declarada —profundidad— y no como render distinto. Mientras eso siga así, escribe `pila`.",
+  },
+  ranura: {
+    nombre: "Ranura",
+    familia: "composición",
+    archivo: "PistaGraficos.tsx",
+    que: "Estados que SE TURNAN en el mismo hueco, conmutando en frames de la voz.",
+    cuando:
+      "La sustitución dura (f924 y f1037 del 003): cada estado muere cuando entra el siguiente. Con `conmuta: \"volteo\"` y DOS hijos es la tarjeta 3D.",
+    sonido: "whip en el volteo",
+  },
+  diagrama: {
+    nombre: "Diagrama",
+    familia: "composición",
+    archivo: "PistaGraficos.tsx",
+    que: "El ÚNICO sitio donde existe una coordenada: caja de ancho y alto fijos con hijos en `xy`.",
+    cuando:
+      "Ejes de tiempo y esquemas. Solo en moldes que cubren. `ancla`/`anclaY` evitan las seis restas a mano (830−20, 1080−20…) y R08 no baja aquí dentro.",
+  },
+};
+
+const PIELES: Record<CajaPiel, Tarjeta> = {
+  sello: {
+    nombre: "Piel de sello",
+    familia: "composición",
+    archivo: "estilos.ts",
+    que: "Tarjeta traslúcida bajo el grupo, con los tokens de `CAJA.sello`.",
+    cuando:
+      "Sobre el avatar, cuando el texto necesita fondo. Traslúcida a propósito: una caja opaca se lee como parche. La lleva el GRUPO, no un componente dentro.",
+  },
+  campo: {
+    nombre: "Piel de campo",
+    familia: "composición",
+    archivo: "PistaGraficos.tsx",
+    que: "Caja tipo input: alto fijo, borde del color pedido y sombra.",
+    cuando: "El campo de WhatsApp del CTA. Con un `caret` dentro y la envoltura `parpadeo`, es un cursor escribiendo.",
+    sonido: "typing",
+  },
+  panel: {
+    nombre: "Piel de panel",
+    familia: "composición",
+    archivo: "PistaGraficos.tsx",
+    que: "Panel sólido (820×460 por defecto) con borde tenue y esquinas grandes.",
+    cuando: "Agrupar varios datos en UNA superficie: una tabla, un antes/después, una ficha de inmueble.",
+  },
+};
+
+/* ── Derivación ───────────────────────────────────────────────────────── */
+
+const rutaPorDefecto = (eje: EjeCatalogo, clave: string): string => {
+  if (eje === "pieza") return `pieza: "${clave}"`;
+  if (eje === "molde") return `molde: "${clave}"`;
+  if (eje === "entrada") return `entra: { como: "${clave}" }`;
+  if (eje === "envoltura") return `envolturas: [{ env: "${clave}" }]`;
+  if (eje === "ambiente") return `ambiente: { ${clave}: … }`;
+  return `eje: "${clave}"`;
+};
+
+const desdeTabla = (eje: EjeCatalogo, tabla: Record<string, Tarjeta>): FichaGrafico[] =>
+  Object.keys(tabla).map((clave) => {
+    const t = tabla[clave];
+    return {
+      id: `${eje}:${clave}`,
+      eje,
+      clave,
+      ruta: t.ruta ?? rutaPorDefecto(eje, clave),
+      nombre: t.nombre,
+      familia: t.familia,
+      archivo: t.archivo,
+      que: t.que,
+      cuando: t.cuando,
+      sonido: t.sonido,
+    };
+  });
+
+/** Un molde se describe SOLO: su prosa es su `porque` y su geometría declarada. */
+const fichasDeMoldes = (): FichaGrafico[] =>
+  Object.keys(MOLDES_GRAFICOS).map((clave) => {
+    const m = MOLDES_GRAFICOS[clave as MoldeGrafico];
+    const t = MOLDES[clave as MoldeGrafico];
+    const pct = Math.round(m.ancla.pct * 100);
+    return {
+      id: `molde:${clave}`,
+      eje: "molde" as const,
+      clave,
+      ruta: rutaPorDefecto("molde", clave),
+      nombre: t.nombre,
+      familia: m.cubre ? "cubre el vídeo" : "sobre el vídeo",
+      archivo: "coreografia.ts",
+      que: `${m.porque.charAt(0).toUpperCase()}${m.porque.slice(1)}. Ancla ${pct} % desde ${m.ancla.desde}; caja de ${m.anchoMax ?? "?"}×${
+        m.altoMax ?? "?"
+      } px (base 1080); scrim ${m.scrim === false ? "no" : `${m.scrim.alto} px desde ${m.scrim.desde}`}.`,
+      cuando: t.cuando,
+    };
+  });
+
+/** Las piezas salen ENTERAS del registro: aquí no se escribe ni su nombre. */
+const fichasDePiezas = (): FichaGrafico[] =>
+  Object.keys(PIEZAS).map((clave) => {
+    const fi = (PIEZAS as Record<string, Ficha<never>>)[clave];
+    return {
+      id: `pieza:${clave}`,
+      eje: "pieza" as const,
+      clave,
+      ruta: rutaPorDefecto("pieza", clave),
+      nombre: fi.nombre,
+      familia: fi.familia,
+      archivo: fi.archivo,
+      que: fi.que,
+      cuando: fi.cuando,
+      sonido: fi.sonido,
+    };
+  });
+
+/**
+ * EL CATÁLOGO. En orden de cómo se escribe una toma: eliges el molde, compones
+ * el bloque, pones las piezas, decides cómo entran, las decoras y montas el
+ * ambiente. Ese orden es la razón de que el eje sea el eje y no la familia.
+ */
+export const CATALOGO: FichaGrafico[] = ([] as FichaGrafico[])
+  .concat(fichasDeMoldes())
+  .concat(desdeTabla("gramatica", EJES_GRUPO))
+  .concat(
+    // Las pieles se piden con `piel: {caja}`, no con `eje`: su ruta no se deduce.
+    desdeTabla(
+      "gramatica",
+      Object.keys(PIELES).reduce((acc: Record<string, Tarjeta>, k) => {
+        acc[k] = { ...PIELES[k as CajaPiel], ruta: `piel: { caja: "${k}" }` };
+        return acc;
+      }, {})
+    )
+  )
+  .concat(fichasDePiezas())
+  .concat(desdeTabla("entrada", ENTRADAS))
+  .concat(desdeTabla("envoltura", ENVOLTURAS))
+  .concat(desdeTabla("ambiente", AMBIENTE));
+
+/** Ejes en el orden en que se muestran en el catálogo y en la doc. */
+export const EJES: { id: EjeCatalogo; nombre: string; que: string }[] = [
+  { id: "molde", nombre: "Moldes", que: "Dónde va el bloque y qué trae puesto. Se pide por NOMBRE: `molde: \"franja\"`." },
+  { id: "gramatica", nombre: "Gramática", que: "Cómo se componen los nodos entre sí: ejes de grupo y pieles." },
+  { id: "pieza", nombre: "Piezas", que: "Lo que dibuja. Son las claves del registro `PIEZAS` del dialecto." },
+  { id: "entrada", nombre: "Entradas", que: "Cómo aparece un nodo. La pone la LEY de la pieza; el nodo solo se aparta." },
+  { id: "envoltura", nombre: "Envolturas", que: "Decoradores aplicables a CUALQUIER nodo, en `envolturas: [...]`." },
+  { id: "ambiente", nombre: "Ambiente", que: "La atmósfera de la toma. La pone el molde; la toma declara lo que cambia." },
+];
+
+export const porEje = (e: EjeCatalogo): FichaGrafico[] => CATALOGO.filter((c) => c.eje === e);
+
+/**
+ * COMPONENTES SIN RUTA. Están en la biblioteca y se pueden montar a mano en el
+ * JSX de una pieza, pero NINGÚN plan los alcanza. Se listan aparte a propósito:
+ * meterlos en el catálogo sería volver al fallo que este archivo cierra —
+ * anunciar como parte del lenguaje algo que el lenguaje no sabe decir.
+ *
+ * El test comprueba que ninguno de estos nombres tenga también ficha: el día que
+ * uno gane ruta, se cae de aquí.
+ */
+export const SIN_RUTA: { nombre: string; archivo: string; porque: string }[] = [
+  {
+    nombre: "Trazo",
+    archivo: "Trazo.tsx",
+    porque:
+      "Dibuja un path SVG libre. Fuera A PROPÓSITO: un path a mano es dibujo, no dato — entra como pieza propia del proyecto, no como vocabulario del canal.",
+  },
+  {
+    nombre: "Tachado",
+    archivo: "Texto.tsx",
+    porque: "Se compone: una `pila` con el texto y una `regla` con `gira` encima hace el mismo gesto sin pieza nueva.",
+  },
+  {
+    nombre: "Scanlines",
+    archivo: "Glitch.tsx",
+    porque: "Ninguna envoltura la monta. Vive dentro de `Glitch`, que sí tiene ruta.",
+  },
+  {
+    nombre: "Escena3D · Panel3D · Capas3D",
+    archivo: "Tarjeta3D.tsx",
+    porque:
+      "De la capa 3D solo tiene ruta `Tarjeta3D`, y por composición: `eje: \"ranura\"` con `conmuta: \"volteo\"` y dos hijos.",
   },
 ];
-
-/** Familias en el orden en que se muestran en el catálogo y en la doc. */
-export const FAMILIAS: { id: FamiliaGrafico; nombre: string }[] = [
-  { id: "entrada", nombre: "Estructura y entradas" },
-  { id: "texto", nombre: "Tipografía" },
-  { id: "fondo", nombre: "Fondos y atmósfera" },
-  { id: "dato", nombre: "Datos" },
-  { id: "trazo", nombre: "Trazo dibujado" },
-  { id: "particula", nombre: "Partículas" },
-  { id: "3d", nombre: "3D" },
-  { id: "efecto", nombre: "Efectos" },
-];
-
-export const porFamilia = (f: FamiliaGrafico): FichaGrafico[] => CATALOGO.filter((c) => c.familia === f);

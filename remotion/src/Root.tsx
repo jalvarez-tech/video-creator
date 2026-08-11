@@ -10,11 +10,14 @@ import { CamaraDemo } from "./proyectos/001/CamaraDemo";
 import { Avatar002 } from "./proyectos/002/Avatar002";
 import { Avatar003 } from "./proyectos/003/Avatar003";
 import { GraficosDemo } from "./motor/demos/GraficosDemo";
+import { PlanDemo } from "./motor/demos/PlanDemo";
 import { NoticiaDemo } from "./motor/demos/NoticiaDemo";
 import { noticiaDemo } from "./motor/demos/noticia-demo";
 import { Noticia004 } from "./proyectos/004/Noticia004";
 import { noticia004 } from "./proyectos/004/noticia-004";
 import { Noticia005 } from "./proyectos/005/Noticia005";
+import { Noticia006 } from "./proyectos/006/Noticia006";
+import { noticia006 } from "./proyectos/006/noticia-006";
 import { noticia005 } from "./proyectos/005/noticia-005";
 import { duracionPlan } from "./motor/noticias";
 import { framesDelMedio, framesDePlanYVoz } from "./motor/duracion";
@@ -154,12 +157,15 @@ export const RemotionRoot: React.FC = () => {
         })}
       />
 
-      {/* ── Biblioteca de gráficos (plantillas/graficos/) ──
-          Catalogo — el escaparate VIVO: una ficha cada PASO frames, con el
-          gráfico animándose de verdad. Se navega arrastrando la cabeza lectora.
-          Antes de escribir un gráfico nuevo, míralo aquí: probablemente ya está.
+      {/* ── Biblioteca de gráficos (motor/graficos/) ──
+          Catalogo — el escaparate VIVO: una ficha cada PASO frames, animándose de
+          verdad y con la RUTA que se escribe en el plan. Se navega arrastrando la
+          cabeza lectora. Antes de escribir un gráfico nuevo, míralo aquí.
+          El catálogo se DERIVA (registro PIEZAS + moldes + tipos del núcleo), así
+          que su duración cambia sola al añadir una pieza.
           Doc equivalente fuera del Studio: manuales/motion-graphics/catalogo-graficos.md
-          (se regenera con `node manuales/motion-graphics/scripts/generar-catalogo.mjs`). */}
+          (`node manuales/motion-graphics/scripts/generar-catalogo.mjs`, y
+           `revisar-catalogo.mjs` como test de que no miente). */}
       <Composition
         id="Catalogo"
         component={Catalogo}
@@ -170,10 +176,25 @@ export const RemotionRoot: React.FC = () => {
       />
       {/* GraficosDemo — la coreografía COMO DATOS: el plan graficos-demo.ts
           montado por <PistaGraficos>, sin JSX por gráfico. Plantilla a copiar
-          para el plan `graficos-004.ts` de un proyecto real. */}
+          para el plan `graficos-004.ts` de un proyecto real.
+          Enseña el repertorio corto de overlay sobre avatar: gancho en la
+          franja alta, cifra con remate, lista y CTA con piel de sello. */}
       <Composition
         id="GraficosDemo"
         component={GraficosDemo}
+        durationInFrames={300}
+        fps={25}
+        width={1080}
+        height={1920}
+      />
+      {/* PlanDemo — el MISMO intérprete y el mismo dialecto que GraficosDemo,
+          con el plan de referencia largo: recorre los cuatro moldes, los tres
+          ejes de grupo, una piel, dos envolturas y `tras()`. GraficosDemo es el
+          repertorio corto; éste es el que se abre para ver qué sabe hacer la
+          gramática entera antes de escribir un `graficos-00N.ts`. */}
+      <Composition
+        id="PlanDemo"
+        component={PlanDemo}
         durationInFrames={300}
         fps={25}
         width={1080}
@@ -232,6 +253,23 @@ export const RemotionRoot: React.FC = () => {
         calculateMetadata={async () => ({
           durationInFrames: await framesDePlanYVoz("noticias/005-vo.wav", 30, duracionPlan(noticia005)),
         })}
+      />
+
+      {/* Noticia006 — la PRIMERA pieza escrita nativamente en la gramática nueva:
+          un `Plan` del núcleo montado por <PistaGraficos>, sin pasar por
+          `compilaNoticia`. El 004 y el 005 siguen entrando por `TomaNoticia[]`.
+
+          Sin `calculateMetadata` a propósito: todavía no hay locución, así que la
+          duración sale del plan y es una ESTIMACIÓN. En cuanto exista el WAV hay
+          que añadir `framesDePlanYVoz` como en el 005 y recronometrar las tomas
+          — el clip manda (aprendizaje del 002). */}
+      <Composition
+        id="Noticia006"
+        component={Noticia006}
+        durationInFrames={noticia006.formato.duracion}
+        fps={noticia006.formato.fps}
+        width={noticia006.formato.ancho}
+        height={noticia006.formato.alto}
       />
     </>
   );

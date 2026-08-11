@@ -10,7 +10,7 @@ description: >-
   BIBLIOTECA de gráficos ya resueltos (`motor/graficos/`: tipografía,
   fondos, datos, trazo dibujado, partículas, 3D, glitch), su CATÁLOGO (comp
   `Catalogo` del Studio + catalogo-graficos.md) y el plan de gráficos COMO DATOS
-  (`GraficoCue` → `PistaGraficos`) con validador `revisaPlan()`. Mira el catálogo
+  (un `Plan` del núcleo → `PistaGraficos`) con validador `revisaPlan()`. Mira el catálogo
   ANTES de escribir un gráfico nuevo. El sonido se delega a `diseno-sonoro`.
   Úsalo siempre que haya que diseñar, animar o revisar un gráfico, título,
   contador, transición, lower-third, logo o CTA en vídeo. Triggers: "motion
@@ -31,8 +31,37 @@ metadata:
 
 Motor: `remotion/src/motor/` — tokens en [`motion.ts`](../../remotion/src/motor/motion.ts) · tema en [`theme.ts`](../../remotion/src/motor/theme.ts) · formatos en [`presets.ts`](../../remotion/src/motor/presets.ts) · ejemplos reales trabajados en [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx) y [`MotionApple002.tsx`](../../remotion/src/proyectos/002/MotionApple002.tsx).
 
-📚 **Biblioteca de gráficos** — [`motor/graficos/`](../../remotion/src/motor/graficos/): 37 primitivas ya resueltas (tipografía, fondos, datos, **trazo dibujado**, **partículas**, **3D**, **glitch**) + el plan de gráficos **como datos** (`GraficoCue` → `<PistaGraficos>`).
-**Míralo ANTES de escribir un gráfico:** catálogo vivo en la composición `Catalogo` del Studio · lista en [catalogo-graficos.md](catalogo-graficos.md) (se regenera con `node manuales/motion-graphics/scripts/generar-catalogo.mjs`).
+📚 **Biblioteca de gráficos** — [`motor/graficos/`](../../remotion/src/motor/graficos/): primitivas ya resueltas (tipografía, fondos, datos, **trazo dibujado**, **partículas**, **3D**, **glitch**) + el plan de gráficos **como datos** (un `Plan` del núcleo → `<PistaGraficos>`). **20 piezas** alcanzables desde el plan, dentro de un catálogo de **52 entradas** — no copies estas cifras a otro sitio: las cuenta `revisar-catalogo.mjs` y las imprime al ejecutarlo.
+**Míralo ANTES de escribir un gráfico:** catálogo vivo en la composición `Catalogo` del Studio · lista en [catalogo-graficos.md](catalogo-graficos.md).
+El catálogo **se deriva**, no se mantiene a mano: sale del registro `PIEZAS`, de `MOLDES_GRAFICOS` y de los tipos del núcleo, y cada entrada trae la RUTA que se escribe en el plan. Dos comandos:
+```bash
+node manuales/motion-graphics/scripts/generar-catalogo.mjs   # regenera el markdown
+node manuales/motion-graphics/scripts/revisar-catalogo.mjs   # test: toda ficha tiene ruta y toda ruta tiene ficha
+```
+
+📏 **La tabla de avances tipográficos (R09)** — [`motor/plan/avances.ts`](../../remotion/src/motor/plan/avances.ts). R09 avisa cuando una línea no cabe en su molde, y para eso necesita saber cuánto mide un texto **sin poder medirlo**: `revisaPlan()` corre con `node` pelado y tiene que dar el mismo número en cualquier máquina. La respuesta es una tabla de datos puros —cero imports— con el **avance en em de cada carácter**, medida una vez y versionada:
+```bash
+node manuales/motion-graphics/scripts/generar-avances.mjs          # reescribe la tabla
+node manuales/motion-graphics/scripts/generar-avances.mjs --check  # ¿sigue al día? sale 1 si no
+node manuales/motion-graphics/scripts/generar-avances.mjs --dry    # solo informa, no escribe
+```
+`--check` mide, compone el archivo y lo compara con el versionado sin tocarlo: es lo que se puede colgar de un hook o de CI para que una tabla desfasada se note antes de un PR y no en un render.
+**Se vuelve a ejecutar cuando cambie la tipografía del formato** (`FUENTE` en `noticias/theme-noticias.ts`, `theme.fontFamily`) **o aparezca un peso nuevo** en `T` o en `TXT`: la lista de combinaciones familia×peso está escrita a mano en el script, con el sitio del código que dibuja cada una. Mide con el Chrome de `@remotion/renderer`, que es el mismo binario que renderiza el vídeo.
+
+Quién la consulta: **el dialecto, no el núcleo**. `anchoTexto(texto, px, letra, tracking, monta)` recibe la tabla ya elegida (`AVANCES.sf700` para un titular editorial, `AVANCES.inter800` para uno de gráficos) porque la familia y el peso los sabe la ficha de la pieza y nadie más. Así el núcleo se queda sin ni un import en tiempo de ejecución y no hay ninguna combinación que pueda «faltar». `monta` son las dos propiedades CSS que cambian los glifos: `{ versalitas }` (el kicker monta `uppercase`) y `{ tabulares }` (`T.cifra`/`TXT.cifra` montan `tabular-nums`, **y el dígito tabular es más ancho que el proporcional** — hasta un +12,5 % en `7.4`).
+
+Cuatro cosas que hay que saber antes de tocarla, y las cuatro están medidas, no supuestas:
+- **San Francisco tiene eje óptico**: el avance NO es proporcional al cuerpo (+3,3 % a 28 px respecto de 96, +13 % a 12 px). Por eso cada carácter guarda un em por **ancla** (20, 28, 44, 96 px) y el consumidor interpola. Inter no lo tiene y guarda un solo valor.
+- **El kerning va en los dos sentidos, y los pares que ENSANCHAN están medidos.** «El kerning aprieta, así que no hace falta modelarlo» era falso y costó una subestimación: `rt` —cuarto, puerta, artículo— suma **+1,95 % del cuerpo cada vez que aparece**, y una línea densa en esos pares se estimaba un 1,9 % *por debajo* de lo que se dibuja (−3,5 % con `íT`). La tabla trae ahora un bloque `kerning` por combinación con los ~300-570 pares positivos. Lo que sigue sin modelar —el kerning que aprieta, las ligaduras, el punch-in del molde— juega a favor: el texto real sale más estrecho.
+- **El cuerpo lo pone el ROL, no la ficha.** El intérprete dibuja `p.px ?? escalaRol[nodo.rol ?? "apoyo"]`, así que la ficha lee `ESCALA[c.rol]` del mismo objeto (`NOTICIAS.escala` / `GRAFICOS.escala`). Mientras cada ficha escribía su propio `?? 28` la copia divergía en silencio: los once kickers del 006 se estiman a 28 px y se dibujan a 44, y un titular `hero` de gráficos sin `px` se estimaba a 92 y se dibuja a 104 — un 11,5 % corto, veinte veces el margen.
+- **El `enfasis` de un trozo pesa 800 y se mide a 800.** `anchoTramos` acepta una línea partida en tramos con su propia tabla cada uno; el kerning se suma dentro de cada tramo y no entre ellos, porque Chrome moldea cada `<span>` por separado.
+- **El margen es del 1 %** (`MARGEN_ANCHO`, en `nucleo.ts`) y se aplica solo al **texto**, nunca al bloque: los anchos declarados (los 840 px fijos de `RecortePrensa`) no tienen error de medida, e inflarlos inventaría un aviso. Con el kerning dentro, el modelo ya no se queda corto ni con margen 0 — el 1 % es holgura, no corrección, y el primer falso positivo aparece al 2 %.
+- **Los avances son los de ESTE Chrome en ESTA máquina.** `-apple-system` no resuelve; quien salva la pila editorial es `BlinkMacSystemFont`. Si algún día se renderiza en Linux o sin Inter instalada, la tabla miente: la salida es empaquetar la fuente con `@remotion/fonts` y volver a medir, no retocar números.
+
+La verdad contra la que se calibra la genera [`medir-anchos.mjs`](scripts/medir-anchos.mjs), que recorre los planes REALES del repo como datos y mide sus líneas en el mismo Chrome. **Es la regresión de R09**: vuelve a correrlo si tocas un theme, un peso o la tabla, y mira la línea `cortas` de su salida — tiene que seguir siendo **0**. Una estimación por debajo del ancho real es la única forma en que esta regla publica un titular cortado.
+
+Y para que `cortas: 0` signifique algo, el arnés **lee** `T` y `TXT` en vez de copiarlos, y resuelve el cuerpo como lo resuelve el intérprete. Antes copiaba a mano familia, peso, tracking y cuerpo: si mañana `T.titular.fontWeight` pasaba de 700 a 800, el arnés medía la verdad a 700, el error salía ~0 y `cortas` seguía diciendo 0 con el vídeo cortándose. Un arnés que no puede fallar no es un arnés.
+
 🔗 **Sonido:** [`diseno-sonoro/SKILL.md`](../diseno-sonoro/SKILL.md) + [recetario por motion graphic](../diseno-sonoro/recetario-motion-graphics.md). · **Reglas operativas:** [reglas.md](../edicion-video/reglas.md) (R03 formato, R05 frames, **R08 fuera de la cara**). · **Teoría completa:** [referencia.md](referencia.md).
 
 ---
@@ -46,9 +75,9 @@ Motor: `remotion/src/motor/` — tokens en [`motion.ts`](../../remotion/src/moto
 
 > **Antes de escribir código, decide con qué lo montas:**
 > **(a)** ¿Existe ya en la biblioteca? → [catálogo](catalogo-graficos.md). Si existe parecido, añade una prop; no dupliques el componente.
-> **(b)** ¿Es un gráfico repetitivo (título, cifra, lista, subrayado, remate)? → declara un `GraficoCue` en `graficos-NNN.ts` y móntalo con `<PistaGraficos>`; valida con `revisaPlan(cues, fps)`.
+> **(b)** ¿Es un gráfico repetitivo (título, cifra, lista, subrayado, remate)? → declara un **`Plan`** en `graficos-NNN.ts` —`plan(formato, [...])` con tomas `gfx(id, molde, ventana, reason, hijos)`, ver [`motor/plan/nucleo.ts`](../../remotion/src/motor/plan/nucleo.ts) y el dialecto [`graficos/coreografia.ts`](../../remotion/src/motor/graficos/coreografia.ts)— y móntalo con `<PistaGraficos plan={…} montadores={MONTADORES_BASE} />` (`montadores` es obligatorio y no tiene defecto); valida con `revisaPlan(plan)`, **un solo argumento** — el fps sale del propio plan, y el intérprete ya lo llama solo al montar. Plantilla de la que copiar: [`motor/demos/graficos-demo.ts`](../../remotion/src/motor/demos/graficos-demo.ts), 5 tomas sin un solo píxel medido a ojo.
 > **(c)** ¿Es la idea visual PROPIA de esta pieza? → JSX a mano, con las primitivas de la biblioteca como material.
-> Si escribes algo reutilizable, súbelo a `motor/graficos/`, añade su ficha en `fichas.ts` y su demo en `Catalogo.tsx`, y regenera el catálogo.
+> Si escribes algo reutilizable, súbelo a `motor/graficos/`. Una PIEZA nueva se declara en el registro `PIEZAS` (`coreografia.ts`) con su ficha —nombre, qué es, cuándo usarla—, su montador en `PistaGraficos.tsx` y su demo en `Catalogo.tsx`: sin montador no compila, y sin demo falla `revisar-catalogo.mjs`. `fichas.ts` ya no se toca: deriva el catálogo solo.
 
 ---
 

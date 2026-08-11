@@ -1,100 +1,172 @@
 #!/usr/bin/env node
 /**
  * generar-catalogo.mjs — regenera `manuales/motion-graphics/catalogo-graficos.md`
- * a partir de las fichas de la biblioteca.
+ * a partir del catálogo de la capa de gráficos.
  *
  * Uso (desde cualquier sitio):
- *   node manuales/motion-graphics/scripts/generar-catalogo.mjs
+ *   node manuales/motion-graphics/scripts/generar-catalogo.mjs           # escribe
+ *   node manuales/motion-graphics/scripts/generar-catalogo.mjs --check   # solo comprueba
  *
  * Por qué un generador y no un markdown a mano: un catálogo escrito a mano se
  * desincroniza en la tercera animación que añades, y entonces deja de servir
  * para lo único que sirve un catálogo — saber qué existe ya sin abrir el código.
- * La ÚNICA fuente de verdad es `remotion/src/motor/graficos/fichas.ts`.
+ * La fuente es `remotion/src/motor/graficos/fichas.ts`, que a su vez ya no
+ * escribe la lista: la DERIVA del registro `PIEZAS`, de `MOLDES_GRAFICOS` y de
+ * los tipos del núcleo. Aquí solo se le da formato.
  *
- * Cómo lee TypeScript sin dependencias nuevas: transpila `fichas.ts` con el
- * esbuild que Remotion ya trae instalado y lo importa. `fichas.ts` es datos
- * puros (sin React, sin imports), así que el bundle es trivial.
+ * Cómo lee TypeScript sin dependencias nuevas: transpila con el esbuild que
+ * Remotion ya trae instalado y lo importa. `fichas.ts` y lo que arrastra
+ * (`coreografia.ts`, `plan/nucleo.ts`) son datos puros —ni React ni Remotion—,
+ * así que el bundle es trivial.
+ *
+ * Exporta `cargaCatalogo()` y `construyeMd()` para que `revisar-catalogo.mjs`
+ * pueda comprobar que el markdown publicado no se ha quedado viejo sin tener
+ * que duplicar ni el bundle ni el formato.
  */
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
 const aqui = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
-const fichasTs = path.join(root, "remotion", "src", "motor", "graficos", "fichas.ts");
-const salidaMd = path.join(root, "manuales", "motion-graphics", "catalogo-graficos.md");
+export const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+export const fichasTs = path.join(root, "remotion", "src", "motor", "graficos", "fichas.ts");
+export const salidaMd = path.join(root, "manuales", "motion-graphics", "catalogo-graficos.md");
 
-// esbuild vive en remotion/node_modules → resolvemos desde allí, no desde aquí.
-const require = createRequire(path.join(root, "remotion", "package.json"));
-const esbuild = require("esbuild");
+/**
+ * Transpila un .ts (o un entry sintético que reexporte varios) y devuelve sus
+ * exports. Lo usa también `revisar-catalogo.mjs`, que necesita cargar además el
+ * dialecto y el núcleo para comprobar el catálogo contra sus fuentes.
+ */
+export async function transpilaYCarga(entrada) {
+  // esbuild vive en remotion/node_modules → resolvemos desde allí, no desde aquí.
+  const require = createRequire(path.join(root, "remotion", "package.json"));
+  const esbuild = require("esbuild");
 
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "catalogo-"));
-const bundle = path.join(tmp, "fichas.cjs");
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "catalogo-"));
+  const bundle = path.join(tmp, "out.cjs");
 
-await esbuild.build({
-  entryPoints: [fichasTs],
-  bundle: true,
-  platform: "node",
-  format: "cjs",
-  outfile: bundle,
-  logLevel: "error",
-});
+  await esbuild.build({
+    entryPoints: [entrada],
+    bundle: true,
+    platform: "node",
+    format: "cjs",
+    outfile: bundle,
+    logLevel: "error",
+  });
 
-const { CATALOGO, FAMILIAS } = require(bundle);
-fs.rmSync(tmp, { recursive: true, force: true });
+  const mod = require(bundle);
+  fs.rmSync(tmp, { recursive: true, force: true });
+  return mod;
+}
+
+/** Los exports de `fichas.ts`: CATALOGO, EJES, SIN_RUTA. */
+export const cargaCatalogo = () => transpilaYCarga(fichasTs);
 
 const escapa = (s) => String(s).replace(/\|/g, "\\|");
 
-let md = `# Catálogo de gráficos
+export function construyeMd({ CATALOGO, EJES, SIN_RUTA }) {
+  let md = `# Catálogo de gráficos
 
 > ⚠️ **Archivo generado.** No lo edites a mano: sale de
 > \`remotion/src/motor/graficos/fichas.ts\`. Para actualizarlo:
 > \`node manuales/motion-graphics/scripts/generar-catalogo.mjs\`
 
 La versión VIVA de este catálogo es la composición **\`Catalogo\`** del Remotion
-Studio (\`npm run dev\` en \`remotion/\`): ahí cada gráfico se ve animándose de
-verdad, con su ficha al lado. Este markdown es para consultarlo sin abrir el Studio.
+Studio (\`npm run dev\` en \`remotion/\`): ahí cada cosa se ve animándose de verdad,
+con su ficha y su ruta al lado. Este markdown es para consultarlo sin abrir el Studio.
 
-Uso: \`import { Titular, Contador, Subrayado } from "./graficos";\`
-
-**${CATALOGO.length} gráficos** en ${FAMILIAS.length} familias.
+**${CATALOGO.length} entradas**, agrupadas por CÓMO se alcanzan desde el plan.
+La columna **Ruta** es lo que se escribe: cópiala tal cual. Nada de lo que hay
+aquí se mantiene a mano — las piezas salen del registro \`PIEZAS\`, los moldes de
+\`MOLDES_GRAFICOS\` y el resto de tipos derivados del núcleo, así que el catálogo
+no puede anunciar algo que el plan no sepa escribir. El test que lo comprueba:
+\`node manuales/motion-graphics/scripts/revisar-catalogo.mjs\`.
 
 `;
 
-for (const fam of FAMILIAS) {
-  const fichas = CATALOGO.filter((c) => c.familia === fam.id);
-  if (fichas.length === 0) continue;
-  md += `## ${fam.nombre}\n\n`;
-  md += `| Gráfico | Qué es | Cuándo usarlo | Sonido | Archivo |\n`;
-  md += `|---|---|---|---|---|\n`;
-  for (const f of fichas) {
-    md += `| **${escapa(f.nombre)}** | ${escapa(f.que)} | ${escapa(f.cuando)} | ${
-      f.sonido ? escapa(f.sonido) : "—"
-    } | \`${f.archivo}\` |\n`;
+  for (const eje of EJES) {
+    const fichas = CATALOGO.filter((c) => c.eje === eje.id);
+    if (fichas.length === 0) continue;
+    md += `## ${eje.nombre}\n\n${eje.que}\n\n`;
+    md += `| Ruta | Nombre | Qué es | Cuándo usarlo | Sonido | Archivo |\n`;
+    md += `|---|---|---|---|---|---|\n`;
+    for (const f of fichas) {
+      md += `| \`${escapa(f.ruta)}\` | **${escapa(f.nombre)}** | ${escapa(f.que)} | ${escapa(f.cuando)} | ${
+        f.sonido ? escapa(f.sonido) : "—"
+      } | \`${f.archivo}\` |\n`;
+    }
+    md += `\n`;
   }
-  md += `\n`;
-}
 
-md += `---
+  md += `## Componentes sin ruta
+
+Están en la biblioteca y se pueden montar a mano en el JSX de una pieza, pero
+NINGÚN plan los alcanza. Se listan aparte a propósito: meterlos arriba sería
+volver al fallo que el catálogo derivado cierra — anunciar como parte del
+lenguaje algo que el lenguaje no sabe decir.
+
+No están aquí \`<Sello>\`, \`<Columna>\`, \`<Fila>\`, \`<Escena>\` ni \`<Ranura>\`
+(Texto.tsx, Entradas.tsx): son la versión JSX a mano de gestos que el plan SÍ
+alcanza —la piel de sello, los ejes de grupo, la ventana de la toma y el ancla
+del molde—, así que su ficha es la de arriba. En un plan los monta el intérprete.
+
+| Componente | Archivo | Por qué no tiene ruta |
+|---|---|---|
+`;
+  for (const c of SIN_RUTA) {
+    md += `| **${escapa(c.nombre)}** | \`${c.archivo}\` | ${escapa(c.porque)} |\n`;
+  }
+
+  md += `
+---
 
 ## Cómo se usa la biblioteca
 
 1. **Mira aquí antes de escribir un gráfico.** Si ya existe, úsalo; si existe
    parecido, añádele una prop en vez de duplicar el componente.
-2. **Escribe el plan, no el JSX.** Para lo repetitivo (títulos, cifras, listas,
-   remates) declara \`GraficoCue[]\` en \`graficos-00X.ts\` y móntalo con
-   \`<PistaGraficos>\`. Valida el plan con \`revisaPlan(cues, fps)\` antes de renderizar.
-3. **Lo único de la pieza se sigue escribiendo a mano.** La biblioteca cubre el
+2. **Escribe el plan, no el JSX.** Una toma es \`molde\` + un árbol de nodos, y se
+   monta con \`<PistaGraficos plan={…} montadores={MONTADORES_BASE} />\`. La
+   plantilla a copiar es \`motor/demos/graficos-demo.ts\`.
+3. **Valida antes de renderizar:** \`revisaPlan(plan)\` avisa de solapes, huecos,
+   bloques que no caben (R08/R09) y props incoherentes.
+4. **Lo único de la pieza se sigue escribiendo a mano.** La biblioteca cubre el
    80 % repetido para dejar tiempo al 20 % que hace que la pieza sea suya.
-4. **Si escribes un gráfico reutilizable, súbelo** a \`motor/graficos/\`,
-   añade su ficha en \`fichas.ts\`, su demo en \`Catalogo.tsx\` y regenera este archivo.
+5. **Si escribes algo reutilizable, súbelo** a \`motor/graficos/\`: una pieza
+   nueva se añade al registro \`PIEZAS\` (\`coreografia.ts\`) con su ficha, su
+   montador en \`PistaGraficos.tsx\` y su demo en \`Catalogo.tsx\`. El catálogo se
+   entera solo; el markdown se regenera con este script.
 
 El sonido de cada gráfico se declara aparte, en \`cues-00X.ts\`
-(ver \`manuales/diseno-sonoro/recetario-motion-graphics.md\`): la columna «Sonido»
+(ver \`manuales/diseno-sonoro/recetario-motion-graficos.md\`): la columna «Sonido»
 de estas tablas es solo la sugerencia de partida.
 `;
+  return md;
+}
 
-fs.writeFileSync(salidaMd, md, "utf8");
-console.log(`✅ ${path.relative(root, salidaMd)} — ${CATALOGO.length} fichas en ${FAMILIAS.length} familias`);
+/* ── main ─────────────────────────────────────────────────────────────────
+ * Solo escribe cuando se ejecuta directamente: importado (por
+ * revisar-catalogo.mjs) no toca el disco. */
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const mod = await cargaCatalogo();
+  const md = construyeMd(mod);
+  const soloComprobar = process.argv.indexOf("--check") >= 0;
+
+  if (soloComprobar) {
+    const actual = fs.existsSync(salidaMd) ? fs.readFileSync(salidaMd, "utf8") : "";
+    if (actual === md) {
+      console.log(`✅ ${path.relative(root, salidaMd)} está al día (${mod.CATALOGO.length} entradas).`);
+      process.exit(0);
+    }
+    console.error(`✖ ${path.relative(root, salidaMd)} está VIEJO. Regenéralo:`);
+    console.error(`    node manuales/motion-graphics/scripts/generar-catalogo.mjs`);
+    process.exit(1);
+  }
+
+  fs.writeFileSync(salidaMd, md, "utf8");
+  console.log(
+    `✅ ${path.relative(root, salidaMd)} — ${mod.CATALOGO.length} entradas en ${mod.EJES.length} ejes` +
+      ` (+${mod.SIN_RUTA.length} componentes sin ruta)`
+  );
+}

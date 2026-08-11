@@ -1,332 +1,69 @@
 import { useMemo } from "react";
-import { AbsoluteFill, Img, OffthreadVideo, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { durSegura, EASE, SPRING } from "../motion";
-import { ChipIcono, CifraContada, Cronologia, FondoCine, FondoPapel, GLIFO, Medidor, RecortePrensa, Sello, TarjetaFoto, formateaN } from "./Editorial";
-import { LAYOUT, N, T } from "./theme-noticias";
-import { REGISTRO_POR_TIPO, revisaNoticia, type TomaNoticia } from "./plan";
-import { avisaDelPlan } from "../avisos";
+import { AbsoluteFill, useVideoConfig } from "remotion";
+import { PistaGraficos } from "../graficos/PistaGraficos";
+import { compilaNoticia } from "./dialecto";
+import type { TomaEditorial } from "./dialecto";
+import { FONDOS_NOTICIA, MONTADORES_NOTICIA, SelloNoticia } from "./montadores";
+import type { TomaNoticia } from "./plan";
+import { N } from "./theme-noticias";
 
 /**
- * EL INTÉRPRETE del plan de noticia — hermano de <PistaGraficos> y <PistaSonido>.
- * Guía: manuales/video-noticias/SKILL.md
+ * EL INTÉRPRETE del plan de noticia — y ya no es un intérprete, es un
+ * ENVOLTORIO. Guía: manuales/video-noticias/SKILL.md
  *
- * Recibe `TomaNoticia[]` y monta la pieza entera: cada toma en su <Sequence>
- * (frames LOCALES para sus hijos), con su fondo, su contenido y el watermark
- * encima. El plan decide QUÉ y CUÁNDO; este archivo decide CÓMO se dibuja, y esa
- * separación es lo que permite recronometrar la pieza sin volver a maquetarla.
+ *   <PistaNoticia tomas={noticia005} />   ← la API no cambia: 004 y 005 igual
  *
- * Lo que este intérprete NO hace, a propósito:
+ * Este archivo eran 215 líneas: un `switch` de nueve casos que maquetaba a mano
+ * cada tipo de toma, con sus `<Entra at={…}>` repartidos y su propio validador.
+ * Hacía, peor, lo mismo que <PistaGraficos>: montar un plan declarativo. La
+ * duplicación no era teórica — el sistema tenía DOS gramáticas para "una escena
+ * con tres elementos coreografiados", y la que se usaba en producción era la que
+ * no podía crecer.
+ *
+ * Ahora hay una sola:
+ *   `compilaNoticia`  (dialecto.ts)     traduce el DSL de autor al sustrato
+ *   MONTADORES_NOTICIA (montadores.tsx) dice cómo se dibuja cada pieza
+ *   <PistaGraficos>   (graficos/)       monta el plan, sea de la capa que sea
+ *
+ * Lo que se gana y no se ve aquí: el validador del núcleo (tiempos RESUELTOS,
+ * altura del bloque contra el presupuesto del molde, coherencia dentro de cada
+ * pieza) más las reglas del formato, que antes vivían en `revisaNoticia` y ahora
+ * son `dialecto.reglas`. Lo llama <PistaGraficos>, con `plan.capa` = "noticia".
+ *
+ * Lo que este envoltorio SIGUE sin hacer, a propósito:
  *   · no pone sonido        → cues-NNN.ts + <PistaSonido> (diseno-sonoro)
  *   · no pone subtítulos    → subtitulos-NNN.ts + <SubtitulosSync>
  *   · no genera el b-roll   → grok.py (director §3h)
  * Se montan como hermanos suyos en la composición, en ese orden de z.
  */
-
-/** Contenedor centrado con los márgenes seguros del formato. */
-const Centro: React.FC<{ children: React.ReactNode; gap?: number }> = ({ children, gap = 34 }) => (
-  <AbsoluteFill
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      textAlign: "center",
-      paddingLeft: LAYOUT.margen,
-      paddingRight: LAYOUT.margen,
-      gap,
-    }}
-  >
-    {children}
-  </AbsoluteFill>
-);
-
-/** Entrada estándar de una toma de papel: sube y asienta, sin rebote. */
-const Entra: React.FC<{ children: React.ReactNode; at?: number; y?: number }> = ({ children, at = 0, y = 46 }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const f = frame - at;
-  const e = spring({ frame: f, fps, config: SPRING.contador });
-  const op = interpolate(f, [0, 9], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return (
-    <div style={{ opacity: op, transform: `translateY(${interpolate(e, [0, 1], [y, 0])}px)` }}>{children}</div>
-  );
-};
-
-/** Media de la toma: vídeo, imagen, o el marco vacío mientras no exista. */
-const Media: React.FC<{ src?: string; esVideo?: boolean }> = ({ src, esVideo }) => {
-  if (!src) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#DBD5C9",
-          fontFamily: T.kicker.fontFamily,
-          fontSize: 26,
-          letterSpacing: 3,
-          color: N.tintaSuave,
-          textTransform: "uppercase",
-        }}
-      >
-        pendiente
-      </div>
-    );
-  }
-  const estilo: React.CSSProperties = { width: "100%", height: "100%", objectFit: "cover" };
-  return esVideo ? <OffthreadVideo src={staticFile(src)} style={estilo} /> : <Img src={staticFile(src)} style={estilo} />;
-};
-
-/** El contenido de UNA toma, ya en frames locales. */
-const Toma: React.FC<{ t: TomaNoticia; len: number }> = ({ t, len }) => {
-  const frame = useCurrentFrame();
-  const registro = t.registro ?? REGISTRO_POR_TIPO[t.tipo];
-  const color = t.color ?? N.naranja;
-
-  const cuerpo = (() => {
-    switch (t.tipo) {
-      // El mensaje en serif. La toma más frecuente del formato.
-      case "titular":
-        return (
-          <Centro>
-            {t.kicker ? (
-              <Entra y={22}>
-                <span style={{ ...T.kicker }}>{t.kicker}</span>
-              </Entra>
-            ) : null}
-            <Entra at={t.kicker ? 4 : 0}>
-              <span style={{ ...T.titular, color: registro === "cine" ? N.blanco : N.tinta }}>{t.titular}</span>
-            </Entra>
-            {t.etiqueta ? (
-              <Entra at={10} y={26}>
-                <span style={{ ...T.etiqueta, color: registro === "cine" ? "rgba(255,255,255,0.75)" : N.tintaSuave }}>
-                  {t.etiqueta}
-                </span>
-              </Entra>
-            ) : null}
-          </Centro>
-        );
-
-      // La prueba periodística: recorte + rotulador amarillo.
-      case "prensa":
-        return (
-          <Centro gap={40}>
-            <RecortePrensa titular={t.titular ?? ""} fuente={t.kicker} resaltar={t.resaltar} at={2} />
-            {t.etiqueta ? (
-              <Entra at={26} y={22}>
-                <span style={{ ...T.etiqueta }}>{t.etiqueta}</span>
-              </Entra>
-            ) : null}
-          </Centro>
-        );
-
-      // A vs B. Los chips entran con stagger: se comparan en el orden del array.
-      case "comparador":
-        return (
-          <Centro gap={56}>
-            {t.titular ? (
-              <Entra y={24}>
-                <span style={{ ...T.titular, fontSize: 68 }}>{t.titular}</span>
-              </Entra>
-            ) : null}
-            <div style={{ display: "flex", gap: 90, alignItems: "flex-start", justifyContent: "center" }}>
-              {(t.items ?? []).map((it, i) => (
-                <ChipIcono
-                  key={it.label}
-                  glifo={GLIFO[it.glifo]}
-                  label={it.label}
-                  activo={it.activo !== false}
-                  at={(t.titular ? 8 : 2) + i * 6}
-                />
-              ))}
-            </div>
-            {t.etiqueta ? (
-              <Entra at={22} y={22}>
-                <span style={{ ...T.etiqueta }}>{t.etiqueta}</span>
-              </Entra>
-            ) : null}
-          </Centro>
-        );
-
-      // El viaje entre fechas. El orden del array es la dirección.
-      case "cronologia":
-        return (
-          <Centro gap={44}>
-            {t.kicker ? (
-              <Entra y={20}>
-                <span style={{ ...T.kicker }}>{t.kicker}</span>
-              </Entra>
-            ) : null}
-            <Cronologia hitos={t.hitos ?? []} at={4} dur={durSegura(t.dur, Math.min(40, len - 10))} />
-          </Centro>
-        );
-
-      // El dato como argumento: el recorrido del contador ES el mensaje.
-      case "cifra":
-        return (
-          <Centro gap={18}>
-            {t.kicker ? (
-              <Entra y={20}>
-                <span style={{ ...T.kicker }}>{t.kicker}</span>
-              </Entra>
-            ) : null}
-            <Entra at={3} y={30}>
-              <CifraContada
-                de={t.de ?? 0}
-                a={t.valor ?? 0}
-                at={4}
-                dur={durSegura(t.dur, Math.min(34, len - 12))}
-                prefijo={t.prefijo}
-                sufijo={t.sufijo}
-                color={color}
-              />
-            </Entra>
-            {t.etiqueta ? (
-              <Entra at={12} y={24}>
-                <span style={{ ...T.etiqueta }}>{t.etiqueta}</span>
-              </Entra>
-            ) : null}
-          </Centro>
-        );
-
-      // Lo que sube o baja mientras el espectador mira.
-      case "medidor":
-        return (
-          <Centro gap={64}>
-            {t.titular ? (
-              <Entra y={24}>
-                <span style={{ ...T.titular, fontSize: 64 }}>{t.titular}</span>
-              </Entra>
-            ) : null}
-            <div style={{ display: "flex", flexDirection: "column", gap: 60, width: "100%", alignItems: "center" }}>
-              {(t.medidas ?? []).map((m, i) => (
-                <Medidor
-                  key={m.label}
-                  label={m.label}
-                  de={m.de}
-                  a={m.a}
-                  max={m.max}
-                  at={(t.titular ? 8 : 2) + i * 8}
-                  dur={durSegura(t.dur, 34)}
-                  color={i === 0 ? color : N.tinta}
-                  formato={(v) => `${m.prefijo ?? ""}${formateaN(v, m.decimales ?? 0)}${m.sufijo ?? ""}`}
-                />
-              ))}
-            </div>
-          </Centro>
-        );
-
-      // Foto enmarcada sobre papel: metraje real DENTRO del artículo.
-      case "retrato":
-        return (
-          <Centro gap={38}>
-            <TarjetaFoto at={2} duracion={len} ancho={640} alto={820}>
-              <Media src={t.media} esVideo={t.esVideo} />
-            </TarjetaFoto>
-            {t.titular ? (
-              <Entra at={12} y={24}>
-                <span style={{ ...T.titular, fontSize: 62 }}>{t.titular}</span>
-              </Entra>
-            ) : null}
-          </Centro>
-        );
-
-      // Metraje a sangre sobre negro: el otro registro, "esto pasó".
-      case "escenario":
-        return (
-          <>
-            <AbsoluteFill>
-              <Media src={t.media} esVideo={t.esVideo} />
-            </AbsoluteFill>
-            {/* Scrim inferior: sin él, el titular blanco desaparece sobre metraje claro. */}
-            <AbsoluteFill
-              style={{
-                background: "linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 34%, transparent 62%)",
-              }}
-            />
-            {t.titular ? (
-              <AbsoluteFill
-                style={{
-                  display: "flex",
-                  alignItems: "flex-end",
-                  justifyContent: "center",
-                  paddingBottom: 560,
-                  paddingLeft: LAYOUT.margen,
-                  paddingRight: LAYOUT.margen,
-                  textAlign: "center",
-                }}
-              >
-                <Entra at={4} y={30}>
-                  <span style={{ ...T.titular, fontSize: 74, color: N.blanco, textShadow: N.sombraTexto }}>
-                    {t.titular}
-                  </span>
-                </Entra>
-              </AbsoluteFill>
-            ) : null}
-          </>
-        );
-
-      // El remate: negro y una sola palabra. El gancho a la parte 2.
-      case "cierre":
-        return (
-          <Centro gap={24}>
-            <Entra y={34}>
-              <span style={{ ...T.titular, fontSize: 104, color: N.blanco }}>{t.titular}</span>
-            </Entra>
-            {t.etiqueta ? (
-              <Entra at={10} y={22}>
-                <span style={{ ...T.etiqueta, color: "rgba(255,255,255,0.72)" }}>{t.etiqueta}</span>
-              </Entra>
-            ) : null}
-          </Centro>
-        );
-
-      default:
-        return null;
-    }
-  })();
-
-  // Punch-in de toma: escala muy leve durante toda la ventana. Es lo que impide
-  // que una toma de gráfico se lea como una diapositiva congelada. 1.5 % basta:
-  // por encima del 4 % se percibe como zoom y compite con el contenido.
-  const punch = interpolate(frame, [0, len], [1, 1.015], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: EASE.inOutCubic,
-  });
-
-  return (
-    <AbsoluteFill>
-      {registro === "papel" ? <FondoPapel /> : <FondoCine />}
-      <AbsoluteFill style={{ transform: `scale(${punch})` }}>{cuerpo}</AbsoluteFill>
-      <Sello sobre={registro} />
-    </AbsoluteFill>
-  );
-};
-
-/**
- * Monta el plan completo. Cada toma es una <Sequence>, así que dentro de ella
- * `useCurrentFrame()` empieza en 0 y mover una toma es cambiar un número.
- */
 export const PistaNoticia: React.FC<{ tomas: TomaNoticia[] }> = ({ tomas }) => {
-  const { fps } = useVideoConfig();
-  // El validador que el README prometía y nadie llamaba: huecos, solapes, tomas
-  // demasiado cortas o largas, `reason` vacíos… En useMemo porque esto se
-  // re-renderiza en cada uno de los 2.205 frames y el plan no cambia.
-  const avisos = useMemo(() => revisaNoticia(tomas, fps), [tomas, fps]);
-  avisaDelPlan("noticia", avisos);
+  const { width, height, fps, durationInFrames } = useVideoConfig();
+  // La compilación es pura y el plan no cambia entre frames: sin `useMemo` se
+  // reconstruiría el árbol entero en cada uno de los 2.205 frames y, peor, la
+  // identidad de los nodos cambiaría en cada render — y `resuelveMomentos`
+  // indexa los momentos POR IDENTIDAD de objeto.
+  const plan = useMemo(
+    () => compilaNoticia(tomas, { ancho: width, alto: height, fps, duracion: durationInFrames }),
+    [tomas, width, height, fps, durationInFrames]
+  );
+
   return (
     <AbsoluteFill>
-      {tomas.map((t) => {
-        const len = Math.max(1, t.endFrame - t.startFrame);
-        return (
-          <Sequence key={t.id} from={t.startFrame} durationInFrames={len} name={`${t.beat}:${t.id}`} layout="none">
-            <Toma t={t} len={len} />
-          </Sequence>
-        );
-      })}
+      <PistaGraficos
+        plan={plan}
+        montadores={MONTADORES_NOTICIA}
+        // Los dos registros del formato: el fondo viene con el molde y el plan
+        // no puede elegirlo aparte (una toma de papel con fondo de cine es lo
+        // que la gramática del formato prohíbe).
+        fondos={FONDOS_NOTICIA}
+        // El scrim del `escenario` es NEGRO puro, no el casi-negro azulado de la
+        // capa de gráficos: sobre `FondoCine` (#000) cualquier tinte se ve.
+        scrimColor={N.negro}
+        // El watermark va en TODOS los frames y fuera del punch-in. Que sea una
+        // capa del formato y no una pieza del plan es deliberado: un plan que
+        // pudiera olvidarlo es un plan que lo olvidará.
+        encima={(t: TomaEditorial) => <SelloNoticia molde={t.molde} />}
+      />
     </AbsoluteFill>
   );
 };
