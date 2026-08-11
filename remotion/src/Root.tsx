@@ -16,6 +16,8 @@ import { noticiaDemo } from "./motor/demos/noticia-demo";
 import { Noticia004 } from "./proyectos/004/Noticia004";
 import { noticia004 } from "./proyectos/004/noticia-004";
 import { Noticia005 } from "./proyectos/005/Noticia005";
+import { Noticia006 } from "./proyectos/006/Noticia006";
+import { noticia006 } from "./proyectos/006/noticia-006";
 import { noticia005 } from "./proyectos/005/noticia-005";
 import { duracionPlan } from "./motor/noticias";
 import { framesDelMedio, framesDePlanYVoz } from "./motor/duracion";
@@ -246,6 +248,23 @@ export const RemotionRoot: React.FC = () => {
         calculateMetadata={async () => ({
           durationInFrames: await framesDePlanYVoz("noticias/005-vo.wav", 30, duracionPlan(noticia005)),
         })}
+      />
+
+      {/* Noticia006 — la PRIMERA pieza escrita nativamente en la gramática nueva:
+          un `Plan` del núcleo montado por <PistaGraficos>, sin pasar por
+          `compilaNoticia`. El 004 y el 005 siguen entrando por `TomaNoticia[]`.
+
+          Sin `calculateMetadata` a propósito: todavía no hay locución, así que la
+          duración sale del plan y es una ESTIMACIÓN. En cuanto exista el WAV hay
+          que añadir `framesDePlanYVoz` como en el 005 y recronometrar las tomas
+          — el clip manda (aprendizaje del 002). */}
+      <Composition
+        id="Noticia006"
+        component={Noticia006}
+        durationInFrames={noticia006.formato.duracion}
+        fps={noticia006.formato.fps}
+        width={noticia006.formato.ancho}
+        height={noticia006.formato.alto}
       />
     </>
   );
