@@ -44,6 +44,13 @@
  * El validador comprueba los tres YA RESUELTOS, no los números declarados.
  */
 
+// El ÚNICO import del archivo, y es `import type`: TypeScript lo borra al
+// compilar, así que en tiempo de ejecución este módulo sigue sin depender de
+// nada. La TABLA de avances (`AVANCES`) NO se importa aquí: la elige el dialecto
+// —que es quien sabe con qué tipografía monta cada pieza— y la pasa a
+// `anchoTexto`. Ver §11b.
+import type { TablaAvances } from "./avances";
+
 /* ══════════════════════ 1 · TIEMPO ═══════════════════════════════════════ */
 
 /** Ventana en frames ABSOLUTOS. `"fin"` = hasta el final de la composición. */
@@ -259,6 +266,25 @@ export function recorreTrozos(valor: unknown, fn: (t: Trozo<string>) => void, ho
 /* ══════════════════════ 6 · REGISTRO DE PIEZAS ═══════════════════════════ */
 
 /**
+ * Lo que una ficha necesita del NODO, y no de las props, para estimar su bulto.
+ *
+ * Hoy es solo el rol, y no es un detalle: el intérprete saca el cuerpo por
+ * defecto de un texto de `ctx.escalaRol[nodo.rol ?? "apoyo"]` (`escalaTexto` en
+ * PistaGraficos, `pxTexto` en montadores.tsx), o sea del ROL DEL NODO. Mientras
+ * la ficha escribía ese defecto a mano (`p.px ?? 28`) estimaba un cuerpo que el
+ * vídeo no dibuja: los once kickers del 006 se estiman a 28 px y se pintan a 44,
+ * un 57 % más — y una estimación por debajo de lo que se dibuja es el único
+ * error que R09 no puede cometer. Ver `ESCALA` en cada dialecto.
+ *
+ * Ya RESUELTO (nunca `undefined`): el defecto `"apoyo"` lo pone el intérprete,
+ * así que ponerlo también aquí es lo que hace que ficha y montador no puedan
+ * discrepar.
+ */
+export interface CtxFicha {
+  readonly rol: Rol;
+}
+
+/**
  * La ficha de una pieza: metadatos del catálogo + lo que necesita el VALIDADOR.
  * Datos puros, sin React. El montador (el JSX) vive en `Montadores<R>`, que es
  * un mapeado TOTAL: una ficha sin su rama NO COMPILA. Esa es la vacuna contra
@@ -277,7 +303,7 @@ export interface Ficha<P> {
   /** true = capa de atmósfera: no compite por la maqueta ni cuenta para R08. */
   capa?: boolean;
   /** Alto APROXIMADO en px base 1080. Alarma de humo para R08, no cinta métrica. */
-  alto?: (props: P) => number;
+  alto?: (props: P, ctx: CtxFicha) => number;
   /**
    * Ancho APROXIMADO en px base 1080 de lo MÁS ANCHO QUE NO PUEDE PARTIRSE
    * (R09). Hermana de `alto`, y con la misma convención: sin `ancho` la pieza
@@ -297,7 +323,7 @@ export interface Ficha<P> {
    * la calcula con la tipografía que él mismo monta. Ver `anchoTexto` en
    * `noticias/dialecto.ts` para el margen de error medido.
    */
-  ancho?: (props: P) => number;
+  ancho?: (props: P, ctx: CtxFicha) => number;
   /**
    * Coherencia entre campos de la MISMA pieza — la generalización del mejor
    * hallazgo de noticias. Vive AL LADO de la pieza y no en un switch central,
@@ -873,7 +899,7 @@ export function alturaEstimada<R extends RegistroPiezas, C extends string>(
   }
   const ficha = piezas[n.pieza] as Ficha<never> | undefined;
   if (!ficha || ficha.capa) return 0;
-  const propio = ficha.alto ? ficha.alto(n.props as never) : 0;
+  const propio = ficha.alto ? ficha.alto(n.props as never, { rol: n.rol ?? "apoyo" }) : 0;
   // Una HOJA con `dentro` es un contenedor (el campo del CTA, las caras 3D) y
   // antes medía solo su propia ficha: envolver siete chips en un `campo` sin
   // `alto` los hacía medir 0 px y apagaba R08 en silencio — justo la alarma que
@@ -892,78 +918,275 @@ export function alturaEstimada<R extends RegistroPiezas, C extends string>(
 /* ══════════════════════ 11b · ANCHURA (R09) ══════════════════════════════ */
 
 /**
- * ANCHO DE UN TEXTO, ESTIMADO POR CARACTERES. La pieza que le faltaba al
+ * ANCHO DE UN TEXTO, SUMANDO AVANCES MEDIDOS. La pieza que le faltaba al
  * validador: sin esto no había forma de saber que un titular se sale del cuadro.
  *
- * POR QUÉ ES UNA ESTIMACIÓN Y NO UNA MEDIDA. Medir texto renderizado exige DOM
- * (`getBoundingClientRect`), y el validador corre también con `node` pelado,
- * dentro de un `useMemo` en cada re-render y sobre un plan que tiene que dar el
- * MISMO resultado en cualquier máquina. Una medida real ataría el aviso a la
- * fuente que tenga instalada quien valide, que es justo lo que `theme-noticias`
- * ya documenta como frágil (`-apple-system` resuelve a San Francisco en macOS y
- * a otra cosa en Linux). Estimar es lo correcto aquí, no lo barato.
+ * SIGUE SIN MEDIR NADA EN CALIENTE, y ése es el punto. Medir texto renderizado
+ * exige DOM (`getBoundingClientRect`), y el validador corre también con `node`
+ * pelado, dentro de un `useMemo` en cada re-render y sobre un plan que tiene que
+ * dar el MISMO resultado en cualquier máquina. Lo que cambió no es eso: es de
+ * dónde salen los anchos. Antes eran CINCO CUBOS a ojo («las finas 0,32 em, las
+ * anchas 0,9»); ahora son los avances REALES de cada carácter, medidos una vez
+ * en el Chrome que renderiza y versionados en `avances.ts` (que tampoco tiene
+ * imports en tiempo de ejecución). La tabla se regenera con
+ * `manuales/motion-graphics/scripts/generar-avances.mjs` el día que cambie la
+ * tipografía del formato.
  *
- * CÓMO. Cinco cubos de anchura por clase de carácter, en fracción del cuerpo
- * (em), más el `tracking` (que en CSS es px ABSOLUTOS y no escala con el cuerpo,
- * así que se suma por carácter y no se multiplica).
+ * POR QUÉ SE CAMBIÓ, con el número delante. Los cubos redondeaban hacia arriba
+ * dentro de cada clase y, contra las 170 líneas reales del corpus, sesgaban un
+ * +8,4 % de media (p50 +8,5 %, máx +37,6 % en «iiii…»). Eso son CINCO FALSOS
+ * POSITIVOS vivos —cuatro de ellos en piezas PUBLICADAS: 004·n07, 004·n08,
+ * 005·n16 y el 006·n11 del que salió esta regla—, y un validador que grita
+ * cuando no debe se acaba apagando, que es justo lo que R09 vino a impedir. Y el
+ * sesgo tampoco protegía: los cubos se quedaban CORTOS en 8 líneas (hasta
+ * −7,3 % en «WWWW…», y en Inter en texto corriente), o sea que la promesa de
+ * «nunca por debajo» ya estaba rota antes de tocar nada.
  *
- * DE DÓNDE SALEN LOS NÚMEROS. De medir los avances reales de la geométrica del
- * sistema (San Francisco, la voz del canal) a pesos 500/600/700, y quedarse con
- * el peso 700 —el más ancho de los tres— redondeando hacia arriba dentro de cada
- * cubo. O sea: sesgada a lo ancho por diseño.
+ * CON LA TABLA, las 174 líneas del corpus del arnés: media +1,6 %, p50 +1,5 %,
+ * mínimo +1,02 % y NINGUNA por debajo del ancho real. Cero falsos positivos y
+ * cero falsos negativos sobre los casos que R09 llega a juzgar (métrica `linea` o
+ * `entero`). El máximo, +8,9 %, es la única línea del corpus escrita a propósito
+ * solo con pares que kernean HACIA DENTRO («Ta Vo Wa Ya»); el siguiente es
+ * +3,8 %. Comprobado además sobre las 715 cadenas que las fichas miden de verdad
+ * al recorrer los seis planes (instrumentando esta función y midiendo cada
+ * llamada): ni una por debajo del real.
  *
- * MARGEN DE ERROR, MEDIDO. Contra 17 líneas reales de las piezas 004, 005 y 006
- * (titulares, cierres, kickers en versalitas y etiquetas) la estimación cae entre
- * el +3 % y el +24 % sobre el ancho real, con la mayoría en torno al +10 %. NUNCA
- * se quedó corta, y ése es el único sesgo aceptable: un aviso de más se ignora,
- * uno de menos publica un titular cortado. El +24 % es el caso de los dígitos
- * («123»), que son más estrechos de lo que este modelo supone; si algún día
- * molesta, el arreglo es un cubo propio para dígitos, no bajar el resto.
+ * QUIÉN ELIGE LA TIPOGRAFÍA. El DIALECTO, no el núcleo: `letra` es la tabla de
+ * su familia y su peso (`AVANCES.sf700` para un titular editorial,
+ * `AVANCES.inter800` para uno de gráficos), y llega desde la ficha de la pieza
+ * porque es la ficha la única que sabe con qué `T`/`TXT` se monta. Por eso aquí
+ * se recibe la tabla ya elegida y no una clave: sin lookup no hay combinación
+ * que pueda faltar, y el núcleo se queda sin ni un import en tiempo de ejecución.
  *
- * Lo que NO modela, y hay que saberlo al leer un aviso: kerning entre pares
- * («Ta», «Vo»), ligaduras, y que un `fontWeight` menor aprieta ~5 %. Todo eso
- * juega a favor —el texto real sale más estrecho que la estimación— salvo el
- * kerning positivo, que no existe en esta familia.
+ * EL CUERPO NO LO ELIGE LA FICHA A OJO: sale de `ESCALA[rol]` en cada dialecto,
+ * que es EL MISMO objeto del que el intérprete saca `ctx.escalaRol`. Mientras
+ * cada ficha escribía su propio `p.px ?? 28`, la copia divergía sin que nada
+ * avisara: los once kickers del 006 se estimaban a 28 px y se dibujan a 44, y un
+ * titular `hero` de gráficos sin `px` se estimaba a 92 y se dibuja a 104 —un
+ * 11,5 % por debajo, que se come veinte veces este margen y publica un titular
+ * cortado con el plan diciendo LIMPIO—. Ver `CtxFicha`.
+ *
+ * LO QUE SE CONSERVA DEL MODELO ANTERIOR, porque estaba bien:
+ *   · el TRACKING se suma por carácter y no se multiplica por el cuerpo: en CSS
+ *     `letterSpacing` es px ABSOLUTOS y el montador solo pisa `fontSize`, así que
+ *     un titular a 70 px conserva el −2,6 de los 96. Chrome lo suma también
+ *     DESPUÉS del último carácter: por longitud, no por longitud − 1.
+ *   · las VERSALITAS se miden en mayúscula (el kicker monta `uppercase`).
+ *   · y la regla de QUÉ se mide, que vive en las fichas: la línea entera donde el
+ *     intérprete pone `nowrap`, la palabra más larga donde el texto puede
+ *     maquetarse libre (`anchoPalabraMasLarga`).
+ *
+ * EL KERNING VA EN LOS DOS SENTIDOS, y esto costó un error de bulto: durante una
+ * versión aquí ponía que no hacía falta modelarlo «porque aprieta, y eso va del
+ * lado seguro». La mitad es verdad. Medido sobre el alfabeto entero, SF 700 tiene
+ * 523 pares que ENSANCHAN —«rt» (cuarto, puerta, artículo, importa) vale +1,95 %
+ * del cuerpo cada vez que aparece, «íT» un 5,6 %—, y con ellos una línea se
+ * estimaba por DEBAJO de lo que se dibuja: −1,9 % en «rtrtrt…», −3,5 % en
+ * «íTíT…». Eso ya no se arregla con margen (al 2 % aparece el primer falso
+ * positivo, y haría falta un 4,7 %), así que los pares positivos están MEDIDOS y
+ * viven en `avances.ts`. Se suman dentro de cada tramo — ver `sumaTramos`.
+ *
+ * LO QUE SIGUE SIN MODELAR: el kerning que APRIETA, las ligaduras y el punch-in
+ * del molde. Los dos primeros juegan A FAVOR —el texto real sale más estrecho que
+ * la suma—; el tercero R09 no lo descuenta a propósito (ver la regla).
  */
-const EM_FINA = ".,;:·'ijlíIÍ!¡";
-const EM_FINA2 = "/tfr()-\"";
-const EM_ANCHA = "wmMW%—";
-const EM_ALTA = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÑ0123456789$€«»?¿";
 
-const emDe = (c: string): number => {
-  if (c === " ") return 0.2;
-  if (EM_FINA.indexOf(c) >= 0) return 0.32;
-  if (EM_FINA2.indexOf(c) >= 0) return 0.46;
-  if (EM_ANCHA.indexOf(c) >= 0) return 0.9;
-  if (EM_ALTA.indexOf(c) >= 0) return 0.7;
-  return 0.58;
+/**
+ * MARGEN DE SEGURIDAD sobre el ancho estimado de un TEXTO. Va aquí dentro y no
+ * en la comparación de R09 a propósito: el ancho de un bloque también lleva
+ * anchos DECLARADOS (los 840 px fijos de `RecortePrensa`, el `ancho` de un
+ * diagrama) y padding de piel, y esos no tienen error de medida — inflarlos
+ * resucitaría justo el falso positivo que la regla ya documenta haber probado y
+ * descartado. El margen cubre el residuo de la tabla, nada más.
+ *
+ * EL NÚMERO, ELEGIDO CON EL BARRIDO DELANTE (174 líneas medidas, útiles 844):
+ *   margen   error mín   líneas por DEBAJO del real   falsos +   holgura del
+ *                                                                caso más justo
+ *    0,00 %   +0,06 %             0 / 174                 0          16 px
+ *    0,50 %   +0,56 %             0 / 174                 0          12 px
+ *    1,00 %   +1,02 %             0 / 174                 0           8 px   ←
+ *    1,50 %   +1,56 %             0 / 174                 0           3 px
+ *    2,00 %   +2,04 %             0 / 174                 1          — px
+ * (Falsos negativos: 0 en toda la columna. La calibración no acerca ninguna
+ * línea que se sale al umbral. El primer falso positivo es 004·n07 —«No se frenó
+ * el deseo», 826 px reales— que a partir del 2 % cruza los 844.)
+ *
+ * POR QUÉ 1 %, Y QUÉ ES LO QUE CUBRE. Ojo con el razonamiento que había aquí
+ * antes, porque era falso: decía que el margen tapaba «un residuo de subpíxel,
+ * no un error proporcional, porque lo único que la tabla no modela va en la otra
+ * dirección (el kerning aprieta)». El kerning va en LOS DOS sentidos, y los pares
+ * que ensanchan producían un error PROPORCIONAL de hasta −3,5 %. Ese agujero se
+ * cerró donde tenía que cerrarse —midiendo los pares, `avances.ts`—, no aquí: un
+ * margen que lo cubriera necesitaría un 4,7 % y a partir del 2 % ya inventa
+ * avisos.
+ *
+ * Con el kerning dentro, el modelo NO se queda corto ni sin margen: sobre las 174
+ * líneas del corpus y sobre las 715 cadenas que las fichas miden de verdad, el
+ * error mínimo a margen 0 es +0,06 % y no hay ninguna por debajo del real. O sea
+ * que este 1 % ya no corrige nada: es HOLGURA, y cubre lo que queda fuera del
+ * modelo por construcción —el kerning por debajo del umbral de `avances.ts`
+ * (acotado en ~0,4 % de una línea), la rejilla de 1/64 px de Chrome y lo que
+ * cambie una versión del navegador—. Por arriba deja un punto entero antes del
+ * primer falso positivo. Subirlo a 2-3 % no compra nada y se paga en la única
+ * moneda que R09 no puede gastar: credibilidad.
+ */
+export const MARGEN_ANCHO = 1.01;
+
+/**
+ * Avance de un carácter, en em, al cuerpo pedido.
+ *
+ * INTERPOLA entre anclas porque San Francisco tiene EJE ÓPTICO: el mismo glifo
+ * ocupa un +5,0 % a 20 px y un +0,8 % a 64 respecto del cuerpo grande, así que
+ * un solo em se quedaría corto justo en chip, kicker y etiqueta. La curva real
+ * es convexa y la recta cae por ENCIMA: el error de interpolar (+0,2 % a +1,0 %)
+ * va del lado seguro. Inter no tiene eje óptico y su tabla trae un solo valor.
+ *
+ * Un carácter que no está en la tabla vale `respaldo` —el glifo más ancho que se
+ * ha medido en esa combinación— y NUNCA 0: un carácter que no suma deja pasar
+ * una línea que se sale, y ése es el único error que R09 no puede cometer.
+ */
+const avanceEm = (letra: TablaAvances, c: string, px: number, tabulares: boolean): number => {
+  const propio = tabulares && letra.tabulares[c] !== undefined ? letra.tabulares[c] : letra.glifos[c];
+  if (propio === undefined) return letra.respaldo;
+  if (typeof propio === "number") return propio;
+  const anclas = letra.anclas;
+  const n = Math.min(propio.length, anclas.length);
+  if (n === 0) return letra.respaldo;
+  if (n === 1 || px <= anclas[0]) return propio[0];
+  if (px >= anclas[n - 1]) return propio[n - 1];
+  for (let i = 1; i < n; i++)
+    if (px <= anclas[i]) {
+      const t = (px - anclas[i - 1]) / (anclas[i] - anclas[i - 1]);
+      return propio[i - 1] + t * (propio[i] - propio[i - 1]);
+    }
+  return propio[n - 1];
 };
+
+/**
+ * Lo que el MONTADOR le hace al texto y cambia los glifos que se dibujan. No son
+ * opciones de estilo: son las dos propiedades CSS que hacen que el ancho de un
+ * mismo string sea otro, y por eso viajan hasta aquí.
+ */
+export interface MontaTexto {
+  /** `text-transform: uppercase` (el kicker): se mide la MAYÚSCULA. */
+  readonly versalitas?: boolean;
+  /** `font-variant-numeric: tabular-nums` (T.cifra y TXT.cifra): dígitos de ancho fijo. */
+  readonly tabulares?: boolean;
+}
+
+/**
+ * UN TROZO DE LÍNEA CON SU PROPIA TIPOGRAFÍA. Existe porque una línea NO se
+ * dibuja siempre con una sola tabla: un `Trozo` con `enfasis` se monta a
+ * `fontWeight: 800` (montadores.tsx y PistaGraficos.tsx, las dos capas), y
+ * medirla entera con el peso base la deja por DEBAJO de lo que se pinta — el
+ * error prohibido. SF 700→800 son ~+3,2 %, o sea el triple del margen.
+ *
+ * Se suma tramo a tramo y se redondea UNA VEZ al final, que es lo que hace
+ * Chrome: redondear por tramo acumularía el error de cada uno.
+ */
+export interface TramoTexto {
+  readonly texto: string;
+  readonly letra: TablaAvances;
+}
+
+/**
+ * El ancho crudo en px, sin margen ni redondeo: el que se compone.
+ *
+ * EL KERNING SE SUMA DENTRO DEL TRAMO Y NO ENTRE TRAMOS, y eso no es una
+ * simplificación: es lo que hace Chrome. Cada tramo se dibuja en su propio
+ * `<span>` (`Rico`/`Trocito` montan uno por trozo, incluidos los trozos de texto
+ * llano de un array), y el moldeado no cruza la frontera de un elemento inline,
+ * así que entre el último carácter de un tramo y el primero del siguiente no hay
+ * par que corregir.
+ */
+const sumaTramos = (tramos: readonly TramoTexto[], px: number, tracking: number, monta: MontaTexto): number => {
+  const tabulares = monta.tabulares === true;
+  let w = 0;
+  for (const tr of tramos) {
+    const t = monta.versalitas ? tr.texto.toUpperCase() : tr.texto;
+    for (let i = 0; i < t.length; i++) {
+      w += avanceEm(tr.letra, t.charAt(i), px, tabulares) * px + tracking;
+      if (i > 0) {
+        const k = tr.letra.kerning[t.charAt(i - 1) + t.charAt(i)];
+        if (k !== undefined) w += k * px;
+      }
+    }
+  }
+  return w;
+};
+
+/**
+ * El REMATE de toda estimación de ancho: margen y redondeo, en ese orden.
+ *
+ * `ceil` y no `round` a propósito. El contrato de R09 es «la estimación puede
+ * sobrar, nunca faltar», y `round` lo rompía en las cadenas cortas: «art.» a
+ * 44 px compone 62,7 px reales y devolvía 62. No causaba ningún falso negativo
+ * —son palabras de tres letras que nunca deciden el máximo—, pero dejaba el
+ * invariante escrito en presente y siendo falso, y medio píxel es gratis.
+ */
+const remata = (crudo: number): number => Math.max(0, Math.ceil(crudo * MARGEN_ANCHO));
+
+/** Ancho de una línea COMPUESTA de tramos con tipografías distintas. */
+export const anchoTramos = (
+  tramos: readonly TramoTexto[],
+  px: number,
+  /** `letterSpacing` en px ABSOLUTOS, tal cual lo declara el theme. */
+  tracking = 0,
+  monta: MontaTexto = {}
+): number => remata(sumaTramos(tramos, px, tracking, monta));
 
 export const anchoTexto = (
   texto: string,
   px: number,
+  /** La combinación de familia y peso con la que el dialecto monta esta pieza. */
+  letra: TablaAvances,
   /** `letterSpacing` en px ABSOLUTOS, tal cual lo declara el theme. */
   tracking = 0,
-  /** La pieza monta `text-transform: uppercase` (el kicker): mide la MAYÚSCULA. */
-  versalitas = false
-): number => {
-  const t = versalitas ? texto.toUpperCase() : texto;
-  let w = 0;
-  for (let i = 0; i < t.length; i++) w += emDe(t.charAt(i)) * px + tracking;
-  return Math.max(0, Math.round(w));
-};
+  monta: MontaTexto = {}
+): number => anchoTramos([{ texto, letra }], px, tracking, monta);
 
 /**
- * La PALABRA más ancha de un texto que sí puede partirse por sus espacios. Es lo
- * que de verdad no cabe cuando el navegador puede maquetar libre: una frase
- * larga baja de línea (problema de ALTO, R08), pero una palabra más ancha que la
- * caja se sale sí o sí, porque `overflow-wrap` por defecto no la rompe.
+ * La PALABRA más ancha de una línea de tramos que sí puede partirse por sus
+ * espacios. Es lo que de verdad no cabe cuando el navegador puede maquetar
+ * libre: una frase larga baja de línea (problema de ALTO, R08), pero una palabra
+ * más ancha que la caja se sale sí o sí, porque `overflow-wrap` por defecto no
+ * la rompe.
+ *
+ * Una palabra puede ATRAVESAR tramos —`["súbita", {t:"mente", enfasis:true}]` es
+ * una sola palabra a dos pesos—, así que el corte va por espacios DENTRO de cada
+ * tramo y dos tramos contiguos sin espacio entre ellos siguen la misma palabra.
+ * Medir cada tramo por separado partiría la palabra y devolvería menos.
  */
-export const anchoPalabraMasLarga = (texto: string, px: number, tracking = 0, versalitas = false): number => {
+export const anchoPalabraMasLargaTramos = (
+  tramos: readonly TramoTexto[],
+  px: number,
+  tracking = 0,
+  monta: MontaTexto = {}
+): number => {
   let max = 0;
-  for (const p of texto.split(/\s+/)) max = Math.max(max, anchoTexto(p, px, tracking, versalitas));
+  let actual: TramoTexto[] = [];
+  const cierra = (): void => {
+    if (actual.length > 0) max = Math.max(max, anchoTramos(actual, px, tracking, monta));
+    actual = [];
+  };
+  for (const tr of tramos) {
+    const partes = tr.texto.split(/\s+/);
+    for (let i = 0; i < partes.length; i++) {
+      if (i > 0) cierra();
+      if (partes[i].length > 0) actual.push({ texto: partes[i], letra: tr.letra });
+    }
+  }
+  cierra();
   return max;
 };
+
+export const anchoPalabraMasLarga = (
+  texto: string,
+  px: number,
+  letra: TablaAvances,
+  tracking = 0,
+  monta: MontaTexto = {}
+): number => anchoPalabraMasLargaTramos([{ texto, letra }], px, tracking, monta);
 
 /**
  * Ancho que IMPONE una piel. Mismos números que `cajaPiel` en el intérprete que
@@ -1028,7 +1251,11 @@ export function anchuraEstimada<R extends RegistroPiezas, C extends string>(
   }
   const ficha = piezas[n.pieza] as Ficha<never> | undefined;
   if (!ficha || ficha.capa) return 0;
-  const propio = ficha.ancho ? ficha.ancho(n.props as never) : 0;
+  // `n.rol ?? "apoyo"` es LITERALMENTE lo que hace `RenderNodo` antes de montar
+  // (`const rol: Rol = nodo.rol ?? "apoyo"`): de ahí sale el cuerpo por defecto
+  // de todo texto, así que la ficha tiene que resolverlo igual o estima otra
+  // pieza. Es el mismo defecto en los dos sitios a propósito.
+  const propio = ficha.ancho ? ficha.ancho(n.props as never, { rol: n.rol ?? "apoyo" }) : 0;
   const dentro = n.dentro;
   if (!dentro || dentro.length === 0) return propio;
   // `RenderHoja` monta la pieza y su `dentro` en una FILA con gap 18: el
@@ -1229,16 +1456,19 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
     // plataforma es impredecible— mientras el plan salía limpio (006,
     // `n01-sismo`).
     //
-    // QUÉ MIDE Y QUÉ NO. `anchuraEstimada` es una ESTIMACIÓN por caracteres, y
-    // sesgada ALTO a propósito: contra 17 líneas reales de 004/005/006 cae entre
-    // +3 % y +24 % sobre el ancho medido en Chrome, y nunca por debajo. Por eso
-    // el aviso dice «estimados» y habla de MARGEN SEGURO, no de recorte: en el
-    // caso vivo del 006 (`n11-sin-formula`) la estimación da 961 px y la tinta
-    // real ocupa 882, que se pasa de los 844 útiles por ~19 px por lado pero
-    // sigue a 100 px del borde del lienzo. Prometer «texto cortado» y que el
-    // autor lo abra en Chrome y vea que no se corta es cómo se aprende a
-    // descontar un validador. El umbral no cambia; solo deja de prometer lo que
-    // no sabe.
+    // QUÉ MIDE Y QUÉ NO. `anchuraEstimada` suma AVANCES MEDIDOS (`avances.ts`),
+    // con su corrección de kerning y con el cuerpo que DIBUJA el intérprete,
+    // más un 1 % de holgura (`MARGEN_ANCHO`), no cubos a ojo: contra las 174
+    // líneas del corpus el error queda en +1,5 % de mediana, ninguna por debajo
+    // del ancho real, y sin un solo falso positivo ni negativo en los casos que
+    // esta regla llega a juzgar. Antes de esto sesgaba +8,4 % de media y
+    // avisaba de CINCO líneas que caben —cuatro de ellas ya publicadas—, entre
+    // ellas la que originó la regla
+    // (006 · `n11-sin-formula`). Aun así el aviso sigue diciendo «estimados» y
+    // hablando de MARGEN SEGURO y no de recorte: lo que se compara es el margen
+    // de zona segura, no el borde del lienzo, y prometer «texto cortado» para
+    // que el autor lo abra en Chrome y vea que no se corta es cómo se aprende a
+    // descontar un validador.
     //
     // EL PUNCH DEL MOLDE NO SE DESCUENTA, y se probó al revés primero. El
     // intérprete escala el contenido hasta 1+punch al final de la toma, así que
@@ -1248,6 +1478,17 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
     // margen de zona segura, no el cuadro: 852 px siguen a 114 px del borde
     // real. Avisar de eso es avisar del margen, y un validador que avisa de lo
     // que está bien es un validador que se apaga.
+    //
+    // Lo que eso significa para el contrato, dicho sin adornos: la verdad contra
+    // la que se ha calibrado es la caja SIN punch, así que lo que esta regla
+    // promete es «no se corta en el lienzo», no «no toca el margen seguro». Una
+    // línea puede llegar a dibujarse a 844 × 1,015 ≈ 857 px —trece px fuera del
+    // margen, a 111 del borde real— con el plan limpio. Con el modelo de cubos
+    // ese 1,5 % lo tapaba por accidente el +8 % de sesgo; ahora no lo tapa nada,
+    // y es una decisión, no un descuido. Si algún día se quiere la promesa
+    // fuerte, el número que hay que tocar NO es `MARGEN_ANCHO` (al 2 % ya
+    // aparece un falso positivo) sino comparar contra `anchoMax / (1 + punch)`
+    // SOLO para las hojas de texto, dejando fuera los anchos declarados.
     if (molde.anchoMax !== undefined) {
       const util = molde.anchoMax;
       // Se culpa al nodo MÁS PEQUEÑO que no cabe: si el aviso lo diera cada
@@ -1272,7 +1513,7 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
         });
         if (!algunHijoCulpable)
           avisos.push(
-            `[${ruta}] mide ~${Math.round(w)} px ESTIMADOS de ancho (la estimación sesga alto, hasta +24 %) y el molde "${t.molde}" da ${util} útiles: se sale del margen seguro por los dos lados (${molde.porque})`
+            `[${ruta}] mide ~${Math.round(w)} px ESTIMADOS de ancho (avances medidos + ${Math.round((MARGEN_ANCHO - 1) * 100)} % de margen) y el molde "${t.molde}" da ${util} útiles: se sale del margen seguro por los dos lados (${molde.porque})`
           );
       };
       t.hijos.forEach((h, i) => culpa(h, `${t.id}/${i}`));

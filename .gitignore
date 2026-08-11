@@ -7,6 +7,9 @@
 # Dependencias / builds
 **/node_modules/
 remotion/out/
+# Chrome que se descarga `@remotion/renderer` para renderizar y para medir
+# (`generar-avances.mjs`, `medir-anchos.mjs`): 193 MB de binario que no se versiona.
+.remotion/
 
 # Modelos de IA (pesados, se descargan aparte)
 archivos/whisper/*.bin

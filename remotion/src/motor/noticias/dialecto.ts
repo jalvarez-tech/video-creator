@@ -32,8 +32,24 @@ import type {
   Rol,
   TextoRico,
   Toma,
+  TramoTexto,
 } from "../plan/nucleo";
-import { anchoPalabraMasLarga, anchoTexto, capa, registro, textoPlano, ventanaAbs } from "../plan/nucleo";
+import {
+  anchoPalabraMasLarga,
+  anchoPalabraMasLargaTramos,
+  anchoTexto,
+  anchoTramos,
+  capa,
+  registro,
+  textoPlano,
+  ventanaAbs,
+} from "../plan/nucleo";
+// La TABLA de avances medidos. Es datos puros (cero imports en tiempo de
+// ejecución, igual que el núcleo), así que un plan se sigue validando con `node`.
+// El núcleo no la importa a propósito: qué familia y qué peso monta cada pieza
+// lo sabe este archivo y solo este archivo.
+import { AVANCES } from "../plan/avances";
+import type { TablaAvances } from "../plan/avances";
 // `import type` de un .tsx: se borra al compilar, así que no entra ni React ni
 // JSX en el bundle de datos. La clave del glifo se DERIVA del banco real
 // (`Glifos.tsx`) en vez de repetirla a mano como hace `plan.ts` — esa lista
@@ -247,12 +263,24 @@ const altoTexto = (px: number, lineas = 1): number => Math.round(px * 1.15 * lin
 
 /* ── Ancho de las piezas (R09) ─────────────────────────────────────────────
  *
- * `anchoTexto` (núcleo) estima por caracteres; lo que aporta el dialecto es la
- * TIPOGRAFÍA con la que se monta cada pieza, que es lo único que el núcleo no
- * puede saber. Los tres números de cada llamada —cuerpo, tracking, versalitas—
- * salen literalmente de `T` en theme-noticias.ts, y el tracking va en px
- * ABSOLUTOS porque el montador solo pisa `fontSize`: un titular a `px: 72`
- * conserva el `letterSpacing: -2.6` de los 96.
+ * `anchoTexto` (núcleo) suma avances MEDIDOS carácter a carácter; lo que aporta
+ * el dialecto es la TIPOGRAFÍA con la que se monta cada pieza, que es lo único
+ * que el núcleo no puede saber. Los cuatro datos de cada llamada —tabla de
+ * avances, cuerpo, tracking, versalitas— salen literalmente de `T` en
+ * theme-noticias.ts, y el tracking va en px ABSOLUTOS porque el montador solo
+ * pisa `fontSize`: un titular a `px: 72` conserva el `letterSpacing: -2.6` de
+ * los 96.
+ *
+ * LA TABLA VA EMPAREJADA CON EL `fontWeight` DE `T`, y ésa es la servidumbre
+ * nueva: `T.titular` pesa 700 → `AVANCES.sf700`; `T.etiqueta` pesa 500 →
+ * `AVANCES.sf500`; `T.kicker` y `T.pie` pesan 600 → `AVANCES.sf600`. Si allí
+ * cambia el peso, aquí también — y `medir-anchos.mjs` lo COMPRUEBA contra `T`
+ * antes de medir nada (aborta si no cuadra); antes solo copiaba los mismos
+ * números y comparaba consigo mismo.
+ *
+ * EL CUERPO SALE DE `ESCALA`, NO DE UN `?? 28` A MANO. Ver `ESCALA` abajo: el
+ * intérprete dibuja `p.px ?? escalaRol[rol]` y la ficha tiene que resolverlo
+ * igual o estima un tamaño que el vídeo no contiene.
  *
  * QUÉ SE MIDE Y QUÉ NO, que es la decisión de fondo de toda la regla:
  *
@@ -265,8 +293,44 @@ const altoTexto = (px: number, lineas = 1): number => Math.round(px * 1.15 * lin
  *    alto. Medir la frase entera aquí sacaría un aviso en cada etiqueta del
  *    repo, y un validador que grita en todo es un validador apagado.
  */
+
+/**
+ * LA ESCALA DEL FORMATO, en un solo sitio. Son los cuerpos de `T.titular` /
+ * `T.etiqueta` / `T.kicker` (96/44/28) y la usan DOS consumidores que no pueden
+ * discrepar: el intérprete, que dibuja `p.px ?? escalaRol[rol]` (`pxTexto` en
+ * montadores.tsx sobre `ctx.escalaRol`, que es este mismo objeto vía
+ * `NOTICIAS.escala`), y las fichas de aquí abajo, que estiman.
+ *
+ * Estaba copiada a mano en las fichas como `?? 96`, `?? 44`, `?? 28`, y la copia
+ * ya había divergido: la ficha del kicker asumía 28 porque un kicker «va en
+ * contexto», pero `rol` es del NODO y su defecto es `"apoyo"` — los once kickers
+ * del 006 no declaran rol, se dibujan a 44 px y se estimaban a 28. Un 57 % por
+ * debajo de lo que se pinta, en una pieza publicada.
+ */
+const ESCALA: Record<Rol, number> = { hero: 96, apoyo: 44, contexto: 28 };
+
+/**
+ * Los TRAMOS de un texto rico, cada uno con la tabla de avances de SU peso.
+ *
+ * Un `Trozo` con `enfasis` se monta a `fontWeight: 800` (`Trocito` en
+ * montadores.tsx), así que medir la línea entera con la tabla del peso base la
+ * deja por debajo de lo que se dibuja — el único error que R09 no puede cometer.
+ * Estaba vivo en el 006: la etiqueta de `n10-senales` es un trozo ENTERO con
+ * `enfasis` y se estimaba con `sf500` cuando se pinta a 800 (−9 % en la palabra
+ * más larga). Con los cubos lo tapaba el +12 % de sesgo de esa cohorte; la
+ * calibración quitó el colchón y hay que poner la medida.
+ */
+const tramos = <C extends string>(t: TextoRico<C>, base: TablaAvances): readonly TramoTexto[] =>
+  typeof t === "string"
+    ? [{ texto: t, letra: base }]
+    : t.map((x) =>
+        typeof x === "string"
+          ? { texto: x, letra: base }
+          : { texto: x.t, letra: x.enfasis ? AVANCES.sf800 : base }
+      );
+
 const anchoLineas = <C extends string>(lineas: readonly TextoRico<C>[], px: number, tracking: number): number =>
-  lineas.reduce((m, l) => Math.max(m, anchoTexto(textoPlano(l), px, tracking)), 0);
+  lineas.reduce((m, l) => Math.max(m, anchoTramos(tramos(l, AVANCES.sf700), px, tracking)), 0);
 
 /** ¿El número tiene parte decimal que el formateo se va a comer? */
 const seRedondea = (v: number | undefined, decimales: number | undefined): boolean =>
@@ -296,11 +360,17 @@ export const PIEZAS_NOTICIA = registro({
     "Antetítulo en versalitas con tracking abierto.",
     "Sección, medio o contexto. NUNCA lleva el mensaje: si se puede leer solo, es un titular.",
     {
-      alto: (p) => altoTexto(p.px ?? 28),
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
       // Versalitas Y tracking de +4 px: es la pieza en la que la estimación por
       // caracteres más se aleja de la ingenua, porque una mayúscula ocupa un
       // 25 % más que su minúscula y el tracking pesa un 14 % del cuerpo.
-      ancho: (p) => anchoPalabraMasLarga(textoPlano(p.texto), p.px ?? 28, T.kicker.letterSpacing, true),
+      ancho: (p, c) =>
+        anchoPalabraMasLargaTramos(
+          tramos(p.texto, AVANCES.sf600),
+          p.px ?? ESCALA[c.rol],
+          T.kicker.letterSpacing,
+          { versalitas: true }
+        ),
     }
   ),
   titular: f<{ texto?: TextoN; lineas?: readonly TextoN[]; px?: number }>(
@@ -310,11 +380,15 @@ export const PIEZAS_NOTICIA = registro({
     "El mensaje de la toma, en display. `lineas` = saltos EXPLÍCITOS.",
     "Uno por toma. Un trozo con `rotulador` lo marca en amarillo; con `tinta`, lo colorea.",
     {
-      alto: (p) => altoTexto(p.px ?? 96, p.lineas ? p.lineas.length : 1),
-      ancho: (p) =>
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol], p.lineas ? p.lineas.length : 1),
+      ancho: (p, c) =>
         p.lineas
-          ? anchoLineas(p.lineas, p.px ?? 96, T.titular.letterSpacing)
-          : anchoPalabraMasLarga(textoPlano(p.texto ?? ""), p.px ?? 96, T.titular.letterSpacing),
+          ? anchoLineas(p.lineas, p.px ?? ESCALA[c.rol], T.titular.letterSpacing)
+          : anchoPalabraMasLargaTramos(
+              tramos(p.texto ?? "", AVANCES.sf700),
+              p.px ?? ESCALA[c.rol],
+              T.titular.letterSpacing
+            ),
       revisa: (p) => {
         const av: string[] = [];
         if (!p.texto && !p.lineas) av.push("titular sin `texto` ni `lineas`: la toma no dice nada");
@@ -336,8 +410,13 @@ export const PIEZAS_NOTICIA = registro({
     "La frase de apoyo que explica el titular o la cifra.",
     "Debajo del hero. Sobre papel va en `suave`; sobre cine, en `blanco` rebajado.",
     {
-      alto: (p) => altoTexto(p.px ?? 44),
-      ancho: (p) => anchoPalabraMasLarga(textoPlano(p.texto), p.px ?? 44, T.etiqueta.letterSpacing),
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
+      ancho: (p, c) =>
+        anchoPalabraMasLargaTramos(
+          tramos(p.texto, AVANCES.sf500),
+          p.px ?? ESCALA[c.rol],
+          T.etiqueta.letterSpacing
+        ),
     }
   ),
 
@@ -380,7 +459,10 @@ export const PIEZAS_NOTICIA = registro({
       // de más de dos palabras; esto cubre el caso que se le escapa: UNA palabra
       // larga («Documentación») bajo un chip de 150.
       ancho: (p) =>
-        Math.max(p.tam ?? 150, anchoPalabraMasLarga(p.texto, Math.round((p.tam ?? 150) * 0.19), T.pie.letterSpacing)),
+        Math.max(
+          p.tam ?? 150,
+          anchoPalabraMasLarga(p.texto, Math.round((p.tam ?? 150) * 0.19), AVANCES.sf600, T.pie.letterSpacing)
+        ),
       revisa: (p) => {
         const av: string[] = [];
         if (p.texto.trim().length === 0) av.push("chip sin texto: un icono suelto no etiqueta nada");
@@ -420,7 +502,13 @@ export const PIEZAS_NOTICIA = registro({
         anchoTexto(
           `${p.prefijo ?? ""}${p.valor.toFixed(p.decimales ?? 0)}${p.sufijo ?? ""}`,
           p.px ?? 220,
-          T.cifra.letterSpacing
+          AVANCES.sf700,
+          T.cifra.letterSpacing,
+          // `T.cifra` monta `font-variant-numeric: tabular-nums` para que los
+          // dígitos no bailen al contar, y el dígito tabular de SF es MÁS ANCHO
+          // que el proporcional (0,693 em contra 0,498 el «1»): medir sin esta
+          // bandera dejaba la cifra por debajo de lo que se dibuja.
+          { tabulares: true }
         ),
       revisa: (p) => {
         const av: string[] = [];
@@ -652,7 +740,11 @@ export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaN
   // `T` en theme-noticias.ts: titular 96, etiqueta 44, kicker 28. Un short
   // editorial se lee de un vistazo pero no grita: el hero es 8 px más pequeño
   // que en la capa de overlays y el contexto, 4 px.
-  escala: { hero: 96, apoyo: 44, contexto: 28 } as Record<Rol, number>,
+  //
+  // Es EL MISMO objeto que consultan las fichas para estimar (`ESCALA`, arriba):
+  // de aquí sale `ctx.escalaRol` y de ahí el cuerpo que se dibuja, así que
+  // compartirlo es lo que impide que estimación y dibujo vuelvan a divergir.
+  escala: ESCALA,
   // TODO a alfa 1, y es una decisión, no un descuido: sobre papel beige el
   // apoyo se distingue por COLOR (`suave`, gris cálido), no por transparencia.
   // Un texto al 88 % sobre papel se lee como impresión gastada, no como

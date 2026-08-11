@@ -9,9 +9,15 @@
 // bloque, qué piezas existen y qué se considera un plan mal escrito.
 // ═══════════════════════════════════════════════════════════════════════════
 
-import type { Ficha, Ley, Molde, Nodo, Plan, Regla, Rol, TextoRico } from "../plan/nucleo";
-import { anchoPalabraMasLarga, anchoTexto } from "../plan/nucleo";
+import type { Ficha, Ley, Molde, Nodo, Plan, Regla, Rol, TextoRico, TramoTexto } from "../plan/nucleo";
+import { anchoPalabraMasLargaTramos, anchoTexto, anchoTramos } from "../plan/nucleo";
 import { alturaEstimada, capa, gapEntre, registro, solapan, textoPlano, ventanaAbs } from "../plan/nucleo";
+// La TABLA de avances medidos: datos puros, cero imports en tiempo de ejecución.
+// Esta capa dibuja en INTER (no en San Francisco como la editorial), y el error
+// del modelo de cubos era distinto en cada familia — ahí se veía que un solo
+// juego de cubos no podía servir a las dos.
+import { AVANCES } from "../plan/avances";
+import type { TablaAvances } from "../plan/avances";
 // `import type` de un .tsx: se borra al compilar, así que no entra ni React ni
 // JSX en el bundle de datos. Deriva la clave del banco REAL (`Glifos.tsx`) en
 // vez de repetir la lista a mano; escrita a mano ya divergía —el diseño incluía
@@ -191,15 +197,50 @@ const altoTexto = (px: number, lineas = 1): number => Math.round(px * 1.15 * lin
  *
  * Los trackings van COPIADOS de `TXT` (estilos.ts) y no importados: este archivo
  * es datos puros y `estilos.ts` arrastra `motion.ts`, que sí toca Remotion — un
- * plan tiene que poder validarse con `node`. Es la misma servidumbre que ya
- * tienen los cuerpos (`?? 92`, `?? 46`, `?? 210`), escritos a mano aquí desde el
- * principio: si allí cambian, aquí también. Las piezas de trazo, dato y diagrama ya declaran su
- * ancho como prop (`ancho`, `largo`, `radio`), así que ahí no hay nada que
- * estimar: se lee. Las que no declaran ancho ni son texto no traen `ancho` y
- * miden 0, igual que hace `alto` — mientras nadie las corte, no hay regla.
+ * plan tiene que poder validarse con `node`. Si allí cambian, aquí también. Y
+ * desde la calibración de R09 esa servidumbre incluye el PESO, que es lo que
+ * elige la tabla de avances: `TXT.titular` y `TXT.cifra` pesan 800 →
+ * `AVANCES.inter800`; `TXT.kicker` y `TXT.etiqueta`, 600 → `AVANCES.inter600`;
+ * `<Chip>` dibuja a 700 → `AVANCES.inter700`. Las piezas de trazo, dato y
+ * diagrama ya declaran su ancho como prop (`ancho`, `largo`, `radio`), así que
+ * ahí no hay nada que estimar: se lee. Las que no declaran ancho ni son texto no
+ * traen `ancho` y miden 0, igual que hace `alto` — mientras nadie las corte, no
+ * hay regla.
+ *
+ * LOS CUERPOS YA NO SE COPIAN. Estaban escritos a mano (`?? 92`, `?? 46`,
+ * `?? 210`) y la copia había divergido de lo que dibuja el intérprete, que es
+ * `p.px ?? escalaRol[rol]` (`escalaTexto` en PistaGraficos.tsx): un titular
+ * `hero` sin `px` se estimaba a 92 y se pinta a 104 —un 11,5 % por debajo, o sea
+ * un titular cortado con el plan diciendo LIMPIO— y un contador `hero` sin `px`
+ * se estimaba a 210 y se pinta a 104, el doble. Ahora los dos leen `ESCALA`.
  */
+
+/**
+ * LA ESCALA DE LA CAPA, en un solo sitio: la consultan el intérprete (vía
+ * `GRAFICOS.escala` → `ctx.escalaRol`) y las fichas de aquí abajo. Base 1080 de
+ * ancho; el intérprete la escala con `escalaPorAncho()`, y la ficha estima
+ * SIEMPRE en base 1080 porque es lo que compara R09.
+ */
+const ESCALA: Record<Rol, number> = { hero: 104, apoyo: 46, contexto: 32 };
+
+/**
+ * Los TRAMOS de un texto rico, cada uno con la tabla de su peso: un `Trozo` con
+ * `enfasis` se monta a `fontWeight: 800` (`estiloTrozo` en PistaGraficos.tsx).
+ * Aquí el salto suele ser pequeño —la base de titular y cifra ya es `inter800`—
+ * pero en kicker, etiqueta y lista va de 600 a 800, y una subestimación no deja
+ * de serlo por ser pequeña.
+ */
+const tramos = (t: TextoG, base: TablaAvances): readonly TramoTexto[] =>
+  typeof t === "string"
+    ? [{ texto: t, letra: base }]
+    : t.map((x) =>
+        typeof x === "string"
+          ? { texto: x, letra: base }
+          : { texto: x.t, letra: x.enfasis ? AVANCES.inter800 : base }
+      );
+
 const anchoLineas = (lineas: readonly TextoG[], px: number, tracking: number): number =>
-  lineas.reduce((m, l) => Math.max(m, anchoTexto(textoPlano(l), px, tracking)), 0);
+  lineas.reduce((m, l) => Math.max(m, anchoTramos(tramos(l, AVANCES.inter800), px, tracking)), 0);
 
 
 /**
@@ -225,10 +266,13 @@ export const PIEZAS = registro({
   kicker: f<{ texto: TextoG; px?: number }>("Kicker", "texto", "Texto.tsx",
     "Antetítulo en versalitas.", "Contexto o sección. NUNCA lleva el mensaje.",
     {
-      alto: (p) => altoTexto(p.px ?? 32),
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
       // Versalitas y tracking +6: la mayúscula ocupa un 25 % más que su
       // minúscula, así que medir el texto tal cual está escrito subestimaría.
-      ancho: (p) => anchoPalabraMasLarga(textoPlano(p.texto), p.px ?? 32, 6, true),
+      ancho: (p, c) =>
+        anchoPalabraMasLargaTramos(tramos(p.texto, AVANCES.inter600), p.px ?? ESCALA[c.rol], 6, {
+          versalitas: true,
+        }),
     }),
   titular: f<{ texto?: TextoG; lineas?: readonly TextoG[]; px?: number; encaje?: Encaje }>(
     "Titular", "texto", "Texto.tsx",
@@ -236,11 +280,11 @@ export const PIEZAS = registro({
     "Uno por toma. Un trozo con `tinta` colorea una palabra dentro de la frase.",
     {
       sonido: "impact deep (en la palabra clave)",
-      alto: (p) => altoTexto(p.px ?? 92, p.lineas ? p.lineas.length : 1),
-      ancho: (p) =>
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol], p.lineas ? p.lineas.length : 1),
+      ancho: (p, c) =>
         p.lineas
-          ? anchoLineas(p.lineas, p.px ?? 92, -1)
-          : anchoPalabraMasLarga(textoPlano(p.texto ?? ""), p.px ?? 92, -1),
+          ? anchoLineas(p.lineas, p.px ?? ESCALA[c.rol], -1)
+          : anchoPalabraMasLargaTramos(tramos(p.texto ?? "", AVANCES.inter800), p.px ?? ESCALA[c.rol], -1),
       // El `\n` del plan del 005 no se honra (T.titular no lleva pre-line) y la
       // intención se pierde en silencio. Aquí el salto es estructura.
       revisa: (p) => {
@@ -255,22 +299,32 @@ export const PIEZAS = registro({
     "La frase de apoyo que explica el titular o la cifra.",
     "Debajo del hero. Con rol 'apoyo' hereda el color del hero rebajado, no gris.",
     {
-      alto: (p) => altoTexto(p.px ?? 46),
-      ancho: (p) => anchoPalabraMasLarga(textoPlano(p.texto), p.px ?? 46, 0.2),
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
+      ancho: (p, c) => anchoPalabraMasLargaTramos(tramos(p.texto, AVANCES.inter600), p.px ?? ESCALA[c.rol], 0.2),
     }),
   cifra: f<{ texto?: string; valor?: number; px?: number; prefijo?: string; sufijo?: string; decimales?: number; resplandor?: number }>(
     "Cifra", "texto", "Texto.tsx", "El dato como protagonista, con tabular-nums.",
     "Cuando la magnitud ES el argumento y no hace falta verla subir.",
     {
       sonido: "data / money",
-      alto: (p) => altoTexto(p.px ?? 210),
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
       // Lo que monta el intérprete: `texto` si lo hay, y si no el número con su
       // prefijo y su sufijo. A 210 px de cuerpo, cinco dígitos ya no caben.
-      ancho: (p) =>
+      //
+      // El cuerpo por defecto es el del ROL y no los 210 de `TXT.cifra`: el
+      // montador pasa por `escalaTexto`, así que `TXT.cifra.fontSize` no llega a
+      // aplicarse nunca salvo que el plan pida `px`. Estimar 210 donde se pintan
+      // 104 es un aviso por algo que cabe con el doble de sitio.
+      ancho: (p, c) =>
         anchoTexto(
           p.texto ?? `${p.prefijo ?? ""}${p.valor ?? 0}${p.sufijo ?? ""}`,
-          p.px ?? 210,
-          -3
+          p.px ?? ESCALA[c.rol],
+          AVANCES.inter800,
+          -3,
+          // `TXT.cifra` monta `tabular-nums` (es lo que impide que el número
+          // tiemble al contar) y el dígito tabular de Inter es más ancho que el
+          // proporcional: sin la bandera, la cifra se estimaba por debajo.
+          { tabulares: true }
         ),
       revisa: (p) => (p.texto === undefined && p.valor === undefined ? ["cifra sin `texto` ni `valor`: no dibuja nada"] : []),
     }),
@@ -278,10 +332,14 @@ export const PIEZAS = registro({
     "Píldora de estado: fondo y borde derivados del color.",
     "Etiquetar (activo/inactivo, antes/después). Inalcanzable en v1. `activo: false` lo apaga a gris, que es como se descarta una opción de una comparación.",
     {
-      alto: (p) => altoTexto(p.px ?? 30) + 24,
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]) + 24,
       // El chip es una píldora que se ajusta a su texto: mide el texto ENTERO
       // (no cabe = se sale, no baja de línea) más el padding lateral de <Chip>.
-      ancho: (p) => anchoTexto(textoPlano(p.texto), p.px ?? 30, 0.2) + 44, // padding "8px 22px"
+      // Los tres números salen de `<Chip>` (Texto.tsx) y de nadie más: peso 700
+      // —no el de `TXT`, por eso la tabla es `inter700`—, `letterSpacing: 1` —no
+      // el 0,2 que se estimaba aquí, que era un desajuste vivo— y el padding
+      // "8px 22px". El cuerpo lo pone el rol, como en el resto de la capa.
+      ancho: (p, c) => anchoTramos(tramos(p.texto, AVANCES.inter700), p.px ?? ESCALA[c.rol], 1) + 44,
     }),
   // El glifo es CUADRADO: `cloneElement(GLIFO[…], { width: t, height: t })`.
   glifo: f<{ nombre: ClaveGlifo; px?: number }>("Glifo", "texto", "Glifos.tsx",
@@ -298,18 +356,22 @@ export const PIEZAS = registro({
     "Cuando ver crecer el número es el argumento. `tramos` para fugas (0→200→meseta→3).",
     {
       sonido: "data (textura) + tick / chime al aterrizar",
-      alto: (p) => altoTexto(p.px ?? 210),
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
       // Se mide el número MÁS ANCHO que llega a pintarse, no el de destino: un
       // contador que baja (0→200→3, los `tramos` del 001) enseña «200» a mitad
       // de camino, y si «200» no cabe da igual que el final sea «3». Con
       // `tramos` el máximo sale de recorrerlos; sin ellos, de `de` y `a`.
-      ancho: (p) => {
+      ancho: (p, c) => {
         const picos = [p.de ?? 0, p.a ?? 0];
         for (const tr of p.tramos ?? []) if ("a" in tr) picos.push(tr.a);
         let max = 0;
         for (const v of picos) max = Math.max(max, Math.abs(v));
         const cuerpo = max.toFixed(Math.min(2, p.decimales ?? 0));
-        return anchoTexto(`${p.prefijo ?? ""}${cuerpo}${p.sufijo ?? ""}`, p.px ?? 210, -3);
+        // Mismo motivo que en `cifra`: el montador pasa por `escalaTexto`, así
+        // que sin `px` en el plan se dibuja el cuerpo del rol, no los 210.
+        return anchoTexto(`${p.prefijo ?? ""}${cuerpo}${p.sufijo ?? ""}`, p.px ?? ESCALA[c.rol], AVANCES.inter800, -3, {
+          tabulares: true,
+        });
       },
       revisa: (p) => {
         const av: string[] = [];
@@ -336,14 +398,15 @@ export const PIEZAS = registro({
     "Tres puntos como mucho. `marca` es de la LISTA (ya no está fija a ✓: una lista de errores va con ✗) y `items[].estado` es de UN ítem, que es como se dice «estos dos sí y este no» sin salirse del plan.",
     {
       sonido: "pop por ítem (alterna variantIndex)",
-      alto: (p) => altoTexto(p.px ?? 46, p.items.length) + Math.max(0, p.items.length - 1) * 22,
+      alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol], p.items.length) + Math.max(0, p.items.length - 1) * 22,
       // Cada ítem es una FILA: marca (un carácter a px×0.9) + gap 20 + etiqueta.
       // Se mide la palabra más larga y no la frase entera porque la etiqueta sí
       // puede bajar de línea; lo que no puede partirse es la palabra.
-      ancho: (p) => {
-        const px = p.px ?? 46;
+      ancho: (p, c) => {
+        const px = p.px ?? ESCALA[c.rol];
         let max = 0;
-        for (const it of p.items) max = Math.max(max, anchoPalabraMasLarga(textoPlano(it.texto), px, 0.2));
+        for (const it of p.items)
+          max = Math.max(max, anchoPalabraMasLargaTramos(tramos(it.texto, AVANCES.inter600), px, 0.2));
         return p.items.length === 0 ? 0 : px * 0.9 + 20 + max;
       },
       revisa: (p) => (p.items.length === 0 ? ["lista sin items: ocupa tiempo y no dibuja nada"] : []),
@@ -503,8 +566,11 @@ export const GRAFICOS = {
   // con su `paleta["texto"]` cableado. Ahora lo dice el dialecto, que es quien
   // puede saberlo (el editorial contesta "tinta", y no tiene ningún "texto").
   tintaBase: "texto" as Tinta,
-  // Base 1080 de ancho. El intérprete la escala con `escalaPorAncho()`.
-  escala: { hero: 104, apoyo: 46, contexto: 32 } as Record<Rol, number>,
+  // Base 1080 de ancho. El intérprete la escala con `escalaPorAncho()`. Es EL
+  // MISMO objeto que consultan las fichas (`ESCALA`, arriba): de aquí sale
+  // `ctx.escalaRol` y de ahí el cuerpo que se dibuja, así que compartirlo es lo
+  // que impide que estimación y dibujo vuelvan a divergir.
+  escala: ESCALA,
   // La escala del 003, repetida a mano en once escenas: apoyo = el MISMO color
   // del hero rebajado (no gris), contexto = neutro.
   alfaRol: { hero: 1, apoyo: 0.88, contexto: 0.82 } as Record<Rol, number>,
