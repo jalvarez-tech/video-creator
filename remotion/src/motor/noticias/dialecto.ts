@@ -564,6 +564,18 @@ export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaN
 
 export type DialectoNoticias = typeof NOTICIAS;
 
+/**
+ * `capa` sale también por aquí, igual que en `graficos/coreografia.ts`.
+ *
+ * No es azúcar: sin esto, escribir un plan de noticia NATIVO —un `Plan` a mano,
+ * en vez de compilarlo desde `TomaNoticia[]`— obliga a importar `NOTICIAS` de
+ * este archivo y `capa` de `../plan/nucleo`, dos módulos para una sola línea.
+ * El dialecto de gráficos ya lo reexportaba y éste no: la asimetría apareció al
+ * escribir el primer plan nativo (proyectos/006), que es exactamente para lo que
+ * servía escribirlo. Un dialecto tiene que bastarse solo.
+ */
+export { capa };
+
 /* ── EL COMPILADOR: `TomaNoticia[]` → `Plan` ──────────────────────────────────
  *
  * Aquí se juntan las capas gemelas. `TomaNoticia` SOBREVIVE como DSL de autor
