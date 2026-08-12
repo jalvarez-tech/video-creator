@@ -28,8 +28,8 @@ Root del sistema: **`/Users/nicecode/Work/jalvarez/video-creator`**
 Pipeline en una sola dirección (archivos MP4):
 
 ```
-HeyGen (avatar) / Grok Imagine (b-roll) / grabación  →  [Auto-Editor opc.]  →  Remotion
-              generación de clips                         cortar silencios      ensamblar + titular + máster
+HeyGen (avatar) / Grok Imagine (b-roll IA) / grabación  →  [Auto-Editor opc.]  →  Remotion
+Pexels (b-roll de archivo, lo que YA existe)               cortar silencios      ensamblar + titular + máster
 ```
 
 | Motor | Etapa | Dónde |
@@ -73,7 +73,7 @@ HeyGen (avatar) / Grok Imagine (b-roll) / grabación  →  [Auto-Editor opc.]  �
 Proyecto en `remotion/`. Composición de prueba registrada: **`Prueba`** (1920×1080 · 30fps · 90 frames = 3 s), en `remotion/src/Prueba.tsx` y `remotion/src/Root.tsx`.
 
 ### Requisitos (ya cumplidos en este equipo)
-- **Node 16+** (aquí: Node 25). **FFmpeg va incluido** en Remotion v4 (no se instala aparte).
+- **Node 16+** (aquí: Node 25). **FFmpeg va incluido** en Remotion v4 — pero solo para el RENDER. Los scripts usan el `ffmpeg` y el `ffprobe` del PATH (`brew install ffmpeg`), y sin ellos fallan **en silencio o a medias**: `bancos.py traer --tipo video` avisa y **sigue**, dejando en `public/` un clip con su música dentro (justo el riesgo de Content ID que el script existe para evitar); `contactos` no monta la hoja y se elige a ciegas; `gradar` no mide nada y aborta.
 - **Chromium (Chrome Headless Shell)** se descarga solo en el primer render (ya descargado). Para forzarlo: `npx remotion browser ensure`.
 
 ### 1) Abrir Remotion Studio (la vista previa)
@@ -225,16 +225,30 @@ Hermano de `grok.py`, no su sustituto. **Grok genera un plano que no existe; est
 
 Se opera con **`scripts/bancos.py`** (Python stdlib, sobre `_comun.py`). Clave gratuita `PEXELS_API_KEY` en el `.env` — se saca al instante en [pexels.com/api](https://www.pexels.com/api/).
 
+> **Para quien escriba el próximo script:** `_comun.pide()` y `_comun.descarga()` mandan siempre un `User-Agent` propio, y `descarga()` acepta `cabeceras=`. No es cortesía: con el User-Agent por defecto de urllib, Cloudflare responde **403 con `error code: 1010`** —bloqueo por firma del cliente— antes de que la petición llegue al servicio. El mensaje se lee como «clave sin permisos» y te manda a rotar una clave que está perfecta. Pasó dos veces seguidas: en la API de Pexels y en su CDN de imágenes.
+
 ```shell
 python3 manuales/edicion-video/scripts/bancos.py glosario
+python3 manuales/edicion-video/scripts/bancos.py buscar --proyecto 006 --consulta "grieta en la pared" --para escenario
 python3 manuales/edicion-video/scripts/bancos.py contactos --proyecto 006 --toma n08b --consulta "grieta en la pared" --para escenario
 # …miras la hoja y eliges por el número…
 python3 manuales/edicion-video/scripts/bancos.py traer --proyecto 006 --toma n08b --consulta "grieta en la pared" \
   --para escenario --indice 3 --porque "la fisura vertical del muro, que es de lo que habla la toma"
-python3 manuales/edicion-video/scripts/bancos.py gradar   --proyecto 006     # con todos los clips ya traídos
+python3 manuales/edicion-video/scripts/bancos.py gradar   --proyecto 006     # hacen falta ≥ 2 clips: con uno no hay nada que igualar
 python3 manuales/edicion-video/scripts/bancos.py reponer  --proyecto 006     # tras un clon nuevo
 python3 manuales/edicion-video/scripts/bancos.py creditos --proyecto 006     # para la descripción del vídeo
 ```
+
+**`--tipo` es `foto` por defecto**, así que para traer un CLIP hay que pedirlo — y con la duración mínima de su toma, o llegará más corto y congelará el último fotograma:
+
+```shell
+python3 manuales/edicion-video/scripts/bancos.py contactos --proyecto 006 --toma n11 --consulta "obra gris en medellin" \
+  --para escenario --tipo video --duracion-min 4
+python3 manuales/edicion-video/scripts/bancos.py traer --proyecto 006 --toma n11 --consulta "obra gris en medellin" \
+  --para escenario --tipo video --duracion-min 4 --indice 0 --porque "…"
+```
+
+En el plan, un clip lleva además `esVideo: true`.
 
 **`contactos` es el paso que hace que esto no sea una lotería.** Baja las miniaturas, quita el plano repetido (huella perceptual de 128 bits, dos ejes) y el que ya usa otra toma, marca los planos sin contraste, y monta una **hoja numerada** en `proyectos/NNN/broll/contactos/`. Después se elige **mirando**, que es lo único que contesta la pregunta que importa —¿esto ilustra la frase, o solo el tema?—, y el número de la hoja es el `--indice` que baja ese plano y no el de al lado. `--porque` guarda en el manifiesto por qué ese y no otro: es lo único de ahí que no puede rellenar una máquina.
 
@@ -243,12 +257,14 @@ Al mirar la hoja: ¿ilustra lo que dice la toma o solo el tema? · ¿aguanta el 
 **`gradar` es el último paso, y va cuando ya están todos los clips.** Tres clips de tres autores vienen ya graduados por ellos: uno frío, otro subexpuesto, otro saturado. Ponerles el mismo look encima **no los une, amplifica sus diferencias** — el mismo filtro empuja el color de cada uno hacia otro lado. El oficio dice: primero igualar, después el look. `gradar` mide con `signalstats` la distancia de cada clip a la **mediana del proyecto** (no a un ideal, para que ninguno se fuerce de más) y escribe la corrección lista para pegar:
 
 ```ts
-toma("t08", "escenario", "climax", [954, 1050], {
-  media: "broll/006/n08b-grieta.jpg",
-  grado: { exposicion: 1.083, calido: 0.031 },   // ← lo escribe `gradar`, no tú
+toma("n08b", "escenario", "climax", [954, 1050], {
+  media: "broll/006/n08b-grieta-en-la-pared.jpg",   // ← la ruta que imprime `traer`
+  grado: { exposicion: 1.083, calido: 0.031 },      // ← lo escribe `gradar`, no tú
   titular: "La grieta que nadie miró",
 }, "…")
 ```
+
+El nombre del archivo sale del **id de la toma + la consulta entera**, y el id tiene que ser el mismo en el plan y en `--toma`: el crédito se busca primero por id de toma, así que dos ids distintos dejan a `revisar-broll.mjs` comprobando por ruta, que es la vía frágil.
 
 El **look** (saturación 0.86, velo cálido de papel, grano y viñeta) no se copia en el plan: es del FORMATO, vive en `METRAJE` (theme-noticias.ts) y lo aplica el motor a todo el metraje del canal. En el plan solo va lo que se **midió**. El grano compartido, además, es la herramienta de igualado más barata que hay: disimula que cada clip viene de una cámara distinta.
 
@@ -262,8 +278,12 @@ proyectos/NNN/
 └── broll/
     ├── manifiesto.json      # LO ÚNICO QUE SE VERSIONA: qué, de quién, licencia, sha256
     ├── pexels/raw/          # el binario — ignorado por git, se repone con `reponer`
+    ├── contactos/           # las hojas numeradas y su JSON de orden
     └── cache/               # respuestas de la API (24 h), para no quemar el límite
+
+remotion/public/broll/NNN/   # la COPIA que sirve el motor: es lo que apunta `media`
 ```
+Esa última carpeta es la razón de que exista `reponer`: `staticFile()` solo mira ahí, y ahí no hay nada en un clon nuevo.
 
 Tres cosas que conviene tener presentes, y las tres están medidas:
 
@@ -275,6 +295,12 @@ Se prueba sin gastar cuota ni clave:
 ```shell
 python3 manuales/edicion-video/scripts/revisar-bancos.py
 ```
+
+Y el paso siguiente a `traer` es **la puerta que mira el disco** (sale con 1 si algo no cuadra):
+```shell
+node manuales/video-noticias/scripts/revisar-broll.mjs remotion/src/proyectos/NNN/noticia-NNN.ts
+```
+`revisar-plan.mjs` no vale para esto: valida el plan como datos y no abre un solo archivo.
 
 ---
 

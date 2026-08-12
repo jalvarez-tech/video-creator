@@ -342,19 +342,23 @@ const seRedondea = (v: number | undefined, decimales: number | undefined): boole
   v !== undefined && (decimales ?? 0) === 0 && Math.round(v) !== v;
 
 /**
- * EL REGISTRO EDITORIAL. Nueve piezas, ni una más: es el vocabulario que las
- * dos piezas publicadas (004 y 005) ya usan, escrito como datos.
+ * EL REGISTRO EDITORIAL: el vocabulario del formato, escrito como datos. Nació
+ * con las nueve piezas que el 004 y el 005 ya usaban; hoy son once, y las dos
+ * que se añadieron dicen para qué crece esto — `grieta` porque el 006 necesitaba
+ * ENSEÑAR una forma que el texto no puede dar, y `velo` porque el metraje a
+ * sangre necesitaba encima algo que el molde no podía poner.
  *
  * La unión de claves se DERIVA (`ClaveDe<typeof PIEZAS_NOTICIA>`) y
  * `Montadores<R>` es un mapeado TOTAL, así que añadir una entrada aquí ROMPE la
  * compilación de `montadores.tsx` hasta que se escriba su rama. El catálogo no
  * puede volver a anunciar lo que no sirve.
  *
- * Las nueve NO son los nueve `TipoToma` de `plan.ts`, aunque el número
- * coincida: allí un "tipo" es una MAQUETA entera (kicker + recorte + etiqueta)
- * y aquí una pieza es UN elemento. `titular`, `prensa` y `cifra` compartían el
- * mismo kicker y la misma etiqueta copiados tres veces en el switch del
- * intérprete; aquí son la misma pieza puesta en tres composiciones.
+ * ESTAS PIEZAS NO SON LOS `TipoToma` DE `plan.ts`, y conviene no confundirlos
+ * aunque un día coincidieran en número (hoy ya no: nueve tipos, once piezas).
+ * Allí un "tipo" es una MAQUETA entera (kicker + recorte + etiqueta); aquí una
+ * pieza es UN elemento. `titular`, `prensa` y `cifra` compartían el mismo kicker
+ * y la misma etiqueta copiados tres veces en el switch del intérprete; aquí son
+ * la misma pieza puesta en tres composiciones.
  */
 export const PIEZAS_NOTICIA = registro({
   // ── Texto ────────────────────────────────────────────────────────────────

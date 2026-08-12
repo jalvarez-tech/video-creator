@@ -33,7 +33,9 @@ import { N } from "./theme-noticias";
  * Lo que este envoltorio SIGUE sin hacer, a propósito:
  *   · no pone sonido        → cues-NNN.ts + <PistaSonido> (diseno-sonoro)
  *   · no pone subtítulos    → subtitulos-NNN.ts + <SubtitulosSync>
- *   · no genera el b-roll   → grok.py (director §3h)
+ *   · no trae el b-roll     → bancos.py si el plano existe (lo normal en las tomas
+ *                             `retrato` y `escenario`, cuyo trabajo es enseñar algo
+ *                             REAL), grok.py si no existe (director §3h)
  * Se montan como hermanos suyos en la composición, en ese orden de z.
  */
 export const PistaNoticia: React.FC<{ tomas: TomaNoticia[] }> = ({ tomas }) => {

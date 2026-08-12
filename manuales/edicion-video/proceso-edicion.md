@@ -17,6 +17,7 @@ Este documento es el **procedimiento repetible**. Cada paso dice: qué hace Clau
 | 2 | **Cortar silencios** | original | versión limpia / timeline + evidencias |
 | 3 | **Transcribir** | audio | `transcripcion.json` + guion limpio en bloques de 10 s |
 | 4 | **Decidir formato** | guion | 3 propuestas de formato → **eliges 1** |
+| 4·bis | **Material de apoyo** (si la pieza lo pide) | guion + formato | b-roll en disco, con su crédito, y `revisar-broll.mjs` en verde |
 | 5 | **Editar por bloques** | formato + guion | propuesta + prueba 720p por tramo de 10 s |
 | 6 | **Frames reales** | tramos | tira de frames revisada (hook, subs, visual, ritmo) |
 | 7 | **Exportar y publicar** | tramos aprobados | máster en `finales/` + verificación |
@@ -27,6 +28,7 @@ Este documento es el **procedimiento repetible**. Cada paso dice: qué hace Clau
 2. **Formato antes que animar** — se proponen 3 formatos y **eliges** antes de renderizar (R03).
 3. **Un tramo a la vez** — no se avanza al siguiente tramo sin tu corrección (R04).
 4. **Frames antes de exportar** — se muestran frames/prueba 720p antes del final (R05, R06).
+5. **El material de apoyo, medido y acreditado** — `revisar-broll.mjs` en verde antes de exportar (R16). Va aparte de la puerta 4 porque un crédito que falta **no sale en ningún frame**.
 
 En cada 🚦, Claude entrega evidencias y **espera**. No exporta ni sigue "a ciegas".
 
@@ -142,6 +144,24 @@ bash manuales/edicion-video/scripts/transcribir.sh \
 
 ---
 
+## Paso 4·bis · El material de apoyo (solo si la pieza lo pide)
+
+Antes de montar, cada plano de apoyo tiene que existir en disco y saberse de dónde salió. Lo primero no es conseguirlo: es **de qué motor tiene que salir**, y eso lo decide la honestidad de la pieza, no el coste ([director §3h](../director-video/SKILL.md)).
+
+- Un lugar, un objeto o un gesto **reales** → banco. `bancos.py contactos` monta una hoja numerada ya cribada y se elige **mirando**; `traer … --porque` lo baja y congela autor, licencia y sha256 en el manifiesto.
+- Un concepto sin referente filmable (una cifra, un plazo, una norma) → **no es b-roll, es un gráfico**.
+- Un plano imposible o ilustrativo que no afirma un hecho → `grok.py`.
+
+**Acción (Claude):** deja el material traído, el manifiesto escrito y esta puerta en verde antes de tocar la composición:
+
+```bash
+node manuales/video-noticias/scripts/revisar-broll.mjs remotion/src/proyectos/NNN/noticia-NNN.ts
+```
+
+Comprueba lo que no se ve en un frame: que el archivo esté donde dice el plan, que tenga los píxeles de su hueco, que el clip no sea más corto que su toma y que su crédito esté registrado. Detalle en [R16](reglas.md).
+
+---
+
 ## Paso 5 · Edita de 10 en 10 segundos
 
 > La clave: no pides el vídeo entero. Pides **una propuesta + imágenes + prueba 720p por tramo**.
@@ -197,7 +217,13 @@ npx remotion render <Plantilla> ../proyectos/001/finales/001-<titulo>-<aspecto>.
 ffprobe -v error -select_streams v:0 -show_entries stream=width,height,r_frame_rate \
   -of default=noprint_wrappers=1 ../proyectos/001/finales/001-<titulo>-<aspecto>.mp4
 ```
-**Claude entrega:** archivo final en `finales/`, resolución/fps verificados, y checklist de calidad OK.
+**Claude entrega:** archivo final en `finales/`, resolución/fps verificados, checklist de calidad OK y, si la pieza lleva metraje de archivo, **el bloque de créditos para la descripción**:
+
+```bash
+python3 manuales/edicion-video/scripts/bancos.py creditos --proyecto NNN
+```
+
+Es el único momento del proceso en que el manifiesto se cobra. Si no se pide aquí, se rellena y no se usa nunca.
 
 **🚦 Publicación:** la subida a la plataforma la confirmas/haces **tú** (Claude no publica por su cuenta). Tras publicar, cualquier corrección útil entra como **regla nueva** (R07) o en `aprendizajes.md`.
 

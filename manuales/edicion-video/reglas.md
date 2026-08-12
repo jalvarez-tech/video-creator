@@ -3,7 +3,7 @@
 > **Cada corrección se convierte en regla.** Lo que se corrige una vez no se repite: entra aquí para que el próximo vídeo salga mejor.
 > Antes de editar cualquier vídeo se aplican TODAS. Formato de cada regla: **Regla · Por qué · Cómo aplicarla**.
 > Las reglas nuevas (aprendidas al corregir) se añaden **al final, con el siguiente número libre**.
-> **Última regla: R15.** Actualiza este número al añadir una (es el único sitio donde hay que tocarlo).
+> **Última regla: R16.** Actualiza este número al añadir una (es el único sitio donde hay que tocarlo).
 
 ---
 
@@ -102,3 +102,13 @@
   5. **No reveles el color antes del beat.** En el 003 los 5 puntos que compran salían verdes desde el principio y destripaban el remate: los 100 tienen que ser iguales hasta que se apagan los 95. Un color que informa también informa DEMASIADO PRONTO si no se controla.
   6. Propaga la simbología al **fondo** (el foco de la toma lleva el color del asunto) y a los **detalles mecánicos** (la barra del barrido de entrada). Confirmar en grande lo que la tipografía dice en pequeño es gratis y multiplica la lectura.
   Ejemplo trabajado: `mundo-003.ts` (`SIM`, `TOMAS_GRAFICAS.color`), `Motion003.tsx`, `Fondo003.tsx`.
+
+### R16 — El b-roll de archivo se mide, se acredita y se queda mudo
+- **Por qué:** [R01](reglas.md) obliga a inspeccionar resolución, fps y audio, pero solo del `original.mp4`. El material que entra por un banco trae los mismos tres problemas y **ninguno se ve en un frame**, así que [R05](reglas.md) tampoco los caza: con `objectFit: cover` un plano corto de píxeles se estira sin dejar banda negra, un clip más corto que su toma congela su último fotograma sin fallar, y un crédito que falta no aparece en pantalla jamás. A eso se suma lo que ningún validador puede saber: el banco **nunca devuelve cero** —una consulta sin sentido trae miles de resultados igual que una buena—, así que «hay resultados» no significa que ilustren nada.
+- **Cómo aplicarla:**
+  1. **Medida real del hueco antes de montar**, no la del marco: 1080×1920 a sangre (`escenario`) y **662×853** enmarcado (`retrato`: 624×804 más el Ken Burns 1 → 1.06). `bancos.py` filtra por esto y `revisar-broll.mjs` lo comprueba contra el disco.
+  2. **Se elige mirando.** `bancos.py contactos` monta una hoja numerada ya cribada (sin repetidos, sin planos sin contraste); el número de la hoja es el `--indice` que baja ese plano. En una prueba real sobre «grieta en la pared», seis de nueve resultados eran pintura descascarada: la consulta era buena y el filtro los aprobó a todos.
+  3. **Crédito en el manifiesto**, con autor, licencia, URL, sha256 y el `--porque` de la elección. Es lo único del b-roll que se versiona y lo único que queda si alguien reclama. Se cobra al publicar: `bancos.py creditos --proyecto NNN` en la descripción del vídeo.
+  4. **El clip llega sin pista de audio** (`bancos.py` la quita al traerlo). El riesgo de Content ID documentado en estos bancos no es el vídeo: es la música que llevan dentro, que sus autores sí registran.
+  5. **Primero igualar, después el look.** Con todos los clips traídos, `bancos.py gradar` mide con `signalstats` la distancia de cada uno a la mediana del proyecto y escribe su corrección. El look del formato (saturación, velo cálido, grano compartido, viñeta) es aparte y lo aplica el motor. Al revés —el mismo look sobre clips sin igualar— las diferencias se amplifican, porque cada clip viene ya graduado por su autor.
+  6. **Personas identificables solo en contexto neutro.** La licencia prohíbe mostrarlas «bajo mala luz», y un rostro de archivo junto a un titular sobre estafas o desalojos es exactamente ese caso.

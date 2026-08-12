@@ -84,7 +84,9 @@ python3 manuales/edicion-video/scripts/heygen.py descargar <video_id> --salida p
 
 **(b) PiP con fondo transparente sobre pantalla** — para demos: capa inferior = grabación de pantalla; capa superior = el avatar recortado en una esquina/burbuja. Requiere salida **WebM con alpha** (no `background`; solo avatares de estudio con *matting*, plan de pago; en Remotion `<OffthreadVideo>` + `borderRadius`). Es justo el layout de la plantilla `TutorialYT`.
 
-**(c) Avatar + b-roll de Grok Imagine** — HeyGen pone la voz/cara; **Grok Imagine** (`scripts/grok.py`) genera los planos de apoyo que se intercalan. Se ensamblan como capas/escenas en Remotion. Mide la resolución del clip con `ffprobe` antes de colocarlo: si no llega al formato, va detrás del avatar o en plano escalado, nunca nítido a pantalla completa ([director-video §3h](../director-video/SKILL.md)).
+**(c) Avatar + b-roll** — HeyGen pone la voz y la cara; los planos de apoyo que se intercalan salen de **dos motores, y elegir mal no es un problema de coste sino de honestidad**: lo que existe (un lugar, un objeto, un gesto reales) se **trae** de un banco con `scripts/bancos.py`, y lo que no existe se **genera** con `scripts/grok.py`. Un plano generado que representa un hecho real es prueba documental fabricada. La regla completa, en [director-video §3h](../director-video/SKILL.md).
+
+Se ensamblan como capas/escenas en Remotion. Del material de banco la medida está garantizada por construcción (se filtra por el hueco al traerlo); del generado **no**: mide con `ffprobe` antes de colocarlo y, si no llega al formato, va detrás del avatar o en plano escalado, nunca nítido a pantalla completa.
 
 **Subtítulos y títulos → siempre en Remotion** (no los "quemes" en HeyGen). Como el guion ya es texto, los subtítulos salen de ahí con timing exacto, sin STT.
 

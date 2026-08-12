@@ -73,13 +73,20 @@ esté en el titular de la noticia? → …
 
 ## Metraje y b-roll
 
-Se genera **antes** de escribir el plan: su duración real condiciona los frames.
-Motor y los 4 límites en [director §3h](../../director-video/SKILL.md).
+Se **trae o se genera**, y cuál de las dos cosas lo decide la honestidad de la
+pieza, no el coste: la regla está en [director §3h](../../director-video/SKILL.md).
+Conviene tenerlo antes de escribir el plan, porque la duración real del clip
+condiciona los frames — pero no bloquea: una toma puede declarar
+`buscarMedia: "…"` y maquetarse sin material.
 
-| Toma | Qué plano | Fuente (archivo / Grok / archivo histórico) | Enmarcado o a sangre | Dur. + resolución reales (`ffprobe`) |
+| Toma | Qué plano | Motor (banco / Grok / propio) | Hueco (`retrato` 662×853 · `escenario` 1080×1920) | Por qué ESE plano y no el de al lado |
 |---|---|---|---|---|
-| 5 | … | … | retrato *(enmarcado)* | … |
+| 5 | … | banco | retrato *(enmarcado)* | … *(= el `--porque` de `bancos.py traer`)* |
 
+- **El autor, la licencia, la URL y el sha256 NO se copian aquí.** Viven en
+  `proyectos/NNN/broll/manifiesto.json`, que es lo único del b-roll que se
+  versiona, y `revisar-broll.mjs` los comprueba contra el plan. Dos fuentes de
+  verdad sobre de quién es el metraje es peor que ninguna.
 - **Recuerda:** sobre papel el metraje va SIEMPRE enmarcado (`retrato`); a sangre solo sobre negro (`escenario`).
 - **Descartado:** … *(por qué)*
 
@@ -90,7 +97,9 @@ Motor y los 4 límites en [director §3h](../../director-video/SKILL.md).
 
 ## Validación
 
-- [ ] `revisaNoticia(tomas, 30)` sale limpio *(pega aquí la salida)*
+- [ ] `revisar-plan.mjs <plan>` sale limpio *(pega aquí la salida)*
+- [ ] `revisar-broll.mjs <plan>` sale limpio *(o «esta pieza no pide b-roll»)*
 - [ ] Frames clave renderizados: `[…]`
 - [ ] Prueba 720p vista y aprobada
 - [ ] Todas las fuentes verificadas en la tabla de arriba
+- [ ] Créditos del metraje pegados en la descripción del vídeo (`bancos.py creditos --proyecto NNN`)

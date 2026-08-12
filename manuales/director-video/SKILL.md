@@ -6,7 +6,8 @@ description: >-
   composición", "haz el vídeo con todos los recursos"), coordina TODAS las capas y
   motores del proyecto —motor Remotion + pipeline (edicion-video), cámara virtual
   del avatar (camara-avatar), motion graphics (motion-graphics), sonido/SFX
-  (diseno-sonoro), b-roll IA (Grok Imagine por la API de xAI), avatar (heygen)—
+  (diseno-sonoro), b-roll IA (Grok Imagine por la API de xAI), b-roll de archivo
+  (Pexels, con manifiesto de licencias), avatar (heygen)—
   en una sola composición coherente. Decide el
   orden de trabajo, reparte el espacio y la atención entre
   capas (quién manda cuándo), fija el fps único y el z-order, y valida con frames
@@ -75,7 +76,7 @@ Sigue [proceso-edicion.md](../edicion-video/proceso-edicion.md) (Fase 3, 7 pasos
 1. **Formato + comp** ([R03](../edicion-video/reglas.md)) — elige plantilla/preset y **fija `width`/`height`/`fps`** en la `<Composition>` ANTES de animar. Con avatar real: `ffprobe` da fps/resolución/duración ([R01](../edicion-video/reglas.md)).
 2. **Guion + subtítulos** ([R02](../edicion-video/reglas.md)) — transcribe si hace falta (`transcribir.sh`) → `subtitulos-NNN.ts`. *(Avatar HeyGen: habla limpia → se salta cortes y, si el guion es conocido, transcripción — ver proceso §variante.)*
 3. **Escenas / tramos** ([R04](../edicion-video/reglas.md)) — divide en bloques ~10 s; marca en el guion dónde va cada refuerzo visual y cada cambio.
-3·bis. **B-roll** (solo si alguna escena lo pide) → genera **ya**, no al final: tarda minutos y el resto del plan depende de su duración real. Motor (`scripts/grok.py`) y límites en **§3h**. El script ya descarga el MP4 a `proyectos/NNN/broll/grok/raw/` **en la misma llamada** (las URLs caducan); mide con `ffprobe` antes de contar frames.
+3·bis. **B-roll** (solo si alguna escena lo pide) → resuélvelo **ya**, no al final: el resto del plan depende de su duración real. Primero decide el motor con la regla de **§3h** —lo real se trae, lo que no existe se genera, y lo que no tiene referente filmable no es b-roll sino gráfico—. Del banco: `bancos.py contactos` → **mirar la hoja** → `traer … --porque` (ese paso no se salta: el banco nunca devuelve cero). De Grok: `scripts/grok.py`, que descarga el MP4 **en la misma llamada** porque las URLs caducan. En los dos casos, mide con `ffprobe` antes de contar frames; en el de banco lo hace ya `revisar-broll.mjs`, que además falla si el clip es más corto que su toma.
 4. **Plan de CÁMARA** (si hay avatar) → `camara-NNN.ts` con [camara-avatar](../camara-avatar/SKILL.md). Movimientos motivados, en frames absolutos al fps de la comp.
 5. **Plan de MOTION GRAPHICS** → `graficos-NNN.ts` (un **`Plan`** del núcleo: `motor/plan/nucleo.ts`, dialecto en `motor/graficos/coreografia.ts`) con la biblioteca de [motion-graphics](../motion-graphics/SKILL.md); lo único de la pieza, a mano. Franja superior ([R08](../edicion-video/reglas.md)) o toma a pantalla completa. **1 hero a la vez** — `revisaPlan(plan)` lo comprueba (un solo argumento). Plantilla real de la que copiar: `motor/demos/graficos-demo.ts`.
 6. **Plan de SONIDO** → `cues-NNN.ts` con [diseno-sonoro](../diseno-sonoro/SKILL.md). La voz manda; SFX debajo + ducking.
@@ -94,6 +95,10 @@ Esto es lo que **solo el director** posee — la coordinación transversal que n
 import { MONTADORES_BASE, PistaGraficos } from "../../motor/graficos/PistaGraficos";
 
 <AbsoluteFill>                              {/* fondo (negro / B-roll) */}
+  {/* velo: lo que oscurece el metraje para que el texto se lea (§3h).
+      En la ruta de noticias es la pieza `velo`, colocada ENTRE el media y el
+      texto — no el scrim del molde, que se pinta debajo de los hijos y por
+      tanto debajo del vídeo. Ver recetario-tomas.md § escenario. */}
   <CamaraVirtual cues={camaraNNN}>          {/* SOLO el avatar se reencuadra */}
     <OffthreadVideo src={staticFile("avatar-9x16.mp4")}
       style={{ width:"100%", height:"100%", objectFit:"cover" }} />
@@ -163,7 +168,7 @@ El script sondea hasta que termina, **descarga el MP4 él mismo** y guarda el JS
 
 Cuatro límites que **solo el director** vigila, porque cruzan capas:
 
-1. **La resolución del b-roll está POR CONFIRMAR — mídela en el primer clip.** La doc pública de xAI no fija la resolución de salida, así que **no la des por supuesta**: en cuanto salga el primer MP4, `ffprobe` y anótalo en el plan. Hasta entonces trabaja asumiendo lo peor (≤720p frente a comps de 1080×1920 / 1920×1080): colócalo **detrás del avatar** (fondo), **desenfocado/oscurecido** como scrim, o en un **plano escalado o enmarcado** que no llegue al borde. Y como **no hay motor alternativo**, si una escena pide un plano **nítido a pantalla completa** y la medición confirma que no llega, el b-roll IA **no es la herramienta**: resuélvelo con la biblioteca de gráficos ([motion-graphics](../motion-graphics/SKILL.md)), con metraje real, o replanteando la escena. Nunca subas un 720p a 1080 esperando que no se note.
+1. **La resolución del b-roll está POR CONFIRMAR — mídela en el primer clip.** La doc pública de xAI no fija la resolución de salida, así que **no la des por supuesta**: en cuanto salga el primer MP4, `ffprobe` y anótalo en el plan. Hasta entonces trabaja asumiendo lo peor (≤720p frente a comps de 1080×1920 / 1920×1080): colócalo **detrás del avatar** (fondo), **desenfocado/oscurecido** como scrim, o en un **plano escalado o enmarcado** que no llegue al borde. Si una escena pide un plano **nítido a pantalla completa** y la medición confirma que no llega, el b-roll IA no es la herramienta — y ahora sí hay a dónde ir: si ese plano es de algo **real**, el motor es el banco, que garantiza la medida por construcción (`--para escenario` filtra a 1080×1920 y `revisar-broll.mjs` rechaza lo que no llegue). Solo cuando el plano es imposible o puramente ilustrativo se queda sin alternativa, y entonces se resuelve con la biblioteca de gráficos ([motion-graphics](../motion-graphics/SKILL.md)) o replanteando la escena. Nunca subas un 720p a 1080 esperando que no se note.
 2. **Las URLs caducan.** Las que devuelve la API son temporales: nunca guardes la URL en el código ni en un artefacto. `grok.py` ya descarga el MP4 en la misma llamada — no lo puentees. Copia a `remotion/public/` lo que use la comp. Un proyecto tiene que poder re-renderizar dentro de un año.
 3. **El fps de la comp manda (§3a).** El clip llega con el fps que le dé la gana al modelo. **Nunca** cambies el fps de la comp para encajar un b-roll: mide con `ffprobe` ([R01](../edicion-video/reglas.md)) y re-tiempa en Remotion.
 4. **El texto va en Remotion, nunca en el prompt.** Lo que cualquier modelo generativo escribe en pantalla es poco fiable. Los títulos son motion graphics (§1).
@@ -225,7 +230,7 @@ Con **una instrucción simple**, el director **infiere** del proyecto y **declar
 6. ¿Cada movimiento/gráfico/sonido cae sobre una **frase importante** con `reason`?
 7. ¿El código es **determinista** y validaste con **frames reales**?
 7b. ¿Los tres **artefactos** están escritos y coinciden con lo que se renderizó? ¿Miraste el **catálogo** antes de escribir un gráfico nuevo?
-7c. Si hay **b-roll**: ¿está **descargado** en `proyectos/NNN/broll/` (ninguna URL de la API en el código), **medido con `ffprobe`** y colocado de forma que su resolución real aguante el formato (§3h)?
+7c. Si hay **b-roll**: ¿está **descargado** en `proyectos/NNN/broll/` (ninguna URL de la API en el código), **medido con `ffprobe`** y colocado de forma que su resolución real aguante el formato (§3h)? ¿Y cada plano de banco tiene **autor y licencia en el manifiesto**, con sus créditos listos para la descripción del vídeo (`bancos.py creditos --proyecto NNN`)? Eso último es lo único de esta lista que no se ve en ningún frame. En la ruta de noticias las cuatro comprobaciones las hace una puerta automática que sale con 1: `node manuales/video-noticias/scripts/revisar-broll.mjs <plan>`.
 8. **¿La escena mejora con todas las capas, o sería más clara quitando alguna?** Si dudas → **quita**.
 
 ---
