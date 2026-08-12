@@ -94,7 +94,7 @@ import type { MoldeNoticia, PiezasNoticia, TextoN, TintaNoticia } from "./dialec
 import type { GradoMedia } from "./plan";
 import { LAYOUT, METRAJE, N, T, alfaN } from "./theme-noticias";
 
-/** Las nueve claves del registro, DERIVADAS: nadie escribe esta unión a mano. */
+/** Las claves del registro, DERIVADAS: nadie escribe esta unión a mano. */
 export type PiezaNoticia = ClaveDe<PiezasNoticia>;
 
 type CtxN = CtxPieza<TintaNoticia>;
@@ -539,7 +539,8 @@ export const SelloNoticia: React.FC<{ molde: MoldeNoticia }> = ({ molde }) => <S
  * verdad es: la ficha de qué componentes traen su propia entrada, que es lo que
  * hay que mirar al escribir una composición nueva.
  *
- * Total sobre las nueve claves: una pieza nueva sin decidir esto no compila.
+ * Total sobre TODAS las claves del registro: una pieza nueva sin decidir esto no
+ * compila. Es lo que obligó a decidirlo para `velo`, que trae su propia rampa.
  */
 export const ENTRA_SOLA: Record<PiezaNoticia, boolean> = {
   kicker: false,

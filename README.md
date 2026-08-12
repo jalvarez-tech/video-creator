@@ -1,6 +1,6 @@
 # 🎬 Video Creator — Sistema de edición de vídeo con IA
 
-Root de **todos** los proyectos de vídeo. Combina cinco motores, dirigidos por una capa de skills:
+Root de **todos** los proyectos de vídeo. Combina seis motores, dirigidos por una capa de skills:
 
 | Motor | Para qué | Dónde vive |
 |---|---|---|
@@ -8,7 +8,8 @@ Root de **todos** los proyectos de vídeo. Combina cinco motores, dirigidos por 
 | **Auto-Editor** | Cortar silencios de un vídeo grabado | CLI global (`auto-editor`) |
 | **HeyGen** | Avatar talking-head a partir de un guion | `manuales/edicion-video/scripts/heygen.py` |
 | **ElevenLabs** | Voz en off (texto → audio) cuando la pieza **no** lleva avatar | `manuales/edicion-video/scripts/elevenlabs.py` |
-| **Grok Imagine** (API directa de xAI) | Generar b-roll con IA (texto/imagen → vídeo) | `manuales/edicion-video/scripts/grok.py` |
+| **Grok Imagine** (API directa de xAI) | Generar b-roll de lo que **no existe** (texto/imagen → vídeo) | `manuales/edicion-video/scripts/grok.py` |
+| **Pexels** (banco gratuito) | Traer b-roll de **archivo**: lugares, objetos y gestos reales, con manifiesto de licencias | `manuales/edicion-video/scripts/bancos.py` |
 
 > **Regla de oro:** primero el motor y la estructura, luego el vídeo. Nunca se edita desde Descargas ni desde un archivo suelto: cada vídeo tiene su sitio.
 
@@ -42,7 +43,9 @@ npx remotion still src/index.ts Catalogo out/ficha.png --frame=2140
 npm run lint
 ```
 
-Auto-Editor es global: `auto-editor --version` funciona desde cualquier carpeta. El b-roll se genera con `python3 manuales/edicion-video/scripts/grok.py --help`, y la voz en off con `python3 manuales/edicion-video/scripts/elevenlabs.py voces`.
+Auto-Editor es global: `auto-editor --version` funciona desde cualquier carpeta. La voz en off sale de `python3 manuales/edicion-video/scripts/elevenlabs.py voces`.
+
+Con el b-roll hay **dos caminos, y elegir mal no es un problema de coste sino de honestidad**: lo que existe se **trae** de un banco (`bancos.py glosario` para empezar), y lo que no existe se **genera** (`grok.py --help`). Un lugar o un hecho reales generados con IA son prueba documental fabricada — la regla completa está en [director-video §3h](manuales/director-video/SKILL.md).
 
 ---
 
@@ -93,9 +96,11 @@ video-creator/
 │   │   ├── artefactos/       #   plantillas 01-plan · 02-layout · 03-timeline
 │   │   └── scripts/          #   artefactos.sh
 │   ├── edicion-video/        #   motor, pipeline, reglas (R01+), proceso, heygen
-│   │   └── scripts/          #   heygen.py · grok.py (b-roll) · elevenlabs.py (voz)
+│   │   └── scripts/          #   heygen.py · grok.py (b-roll IA) · bancos.py (b-roll de archivo)
+│   │                         #   elevenlabs.py (voz) · revisar-bancos.py (test sin red)
 │   ├── video-noticias/       #   📰 FORMATO noticias 9:16 + recetario de tomas
-│   │   └── scripts/          #   generar-vo.sh (cronometra) · revisar-plan.mjs · revisar-velo.mjs
+│   │   └── scripts/          #   generar-vo.sh (cronometra) · revisar-plan.mjs
+│   │                         #   revisar-broll.mjs (mira el disco) · revisar-velo.mjs
 │   ├── motion-graphics/      #   dirección de gráficos + catalogo-graficos.md
 │   ├── camara-avatar/        #   cámara virtual del avatar
 │   └── diseno-sonoro/        #   SFX, mezcla, ducking + recetario
@@ -103,6 +108,7 @@ video-creator/
 │   ├── public/sfx/           #   55 efectos calibrados (de los que dependen los renders)
 │   └── src/
 │       ├── motor/            #   LO REUTILIZABLE — un proyecto lo usa, él no usa proyectos
+│       │   ├── plan/         #     EL NÚCLEO: la gramática del plan (piezas, moldes, reglas)
 │       │   ├── graficos/     #     biblioteca de gráficos + catálogo DERIVADO + PistaGraficos
 │       │   ├── noticias/     #     formato noticias: theme CLARO + TomaNoticia + PistaNoticia
 │       │   ├── sound/        #     SoundCue + PistaSonido
@@ -113,6 +119,10 @@ video-creator/
 │   └── 00N/
 │       ├── artefactos/           # 01-plan · 02-layout · 03-timeline (se escriben primero)
 │       │                         #   (formato noticias: 01-noticia.md, con fuentes)
+│       ├── broll/
+│       │   ├── manifiesto.json   #   ⭐ ESTO SÍ se versiona: de quién es cada plano,
+│       │   │                     #      bajo qué licencia y con qué sha256
+│       │   └── pexels/raw/ · cache/ · contactos/   # ⛔ el binario, fuera (bancos.py reponer)
 │       ├── transcripcion.json    # transcripción con tiempos (whisper.cpp)
 │       ├── guion-limpio.md       # guion depurado
 │       ├── guion-vo.txt          # guion de la voz en off (esto SÍ se versiona)
@@ -164,18 +174,21 @@ Para que el repo sea manejable, el material pesado se queda fuera (ver [.gitigno
 | `.env` con las claves | `cp .env.example .env` y rellena `HEYGEN_API_KEY` |
 | Clave de xAI (b-roll con Grok) | va en el mismo `.env`, como `XAI_API_KEY` (empieza por `xai-`; se saca en https://console.x.ai). Comprueba con `python3 manuales/edicion-video/scripts/grok.py modelos` |
 | Clave de ElevenLabs (voz en off) | va en el mismo `.env`, como `ELEVENLABS_API_KEY` (se saca en https://elevenlabs.io → API Keys). Comprueba con `python3 manuales/edicion-video/scripts/elevenlabs.py voces` |
+| Clave de Pexels (b-roll de archivo) | va en el mismo `.env`, como `PEXELS_API_KEY` (gratis e instantánea en https://www.pexels.com/api/). Comprueba con `python3 manuales/edicion-video/scripts/bancos.py buscar --proyecto 006 --consulta "grieta en la pared"` |
+| Binario del b-roll (`proyectos/*/broll/*/raw/`, `cache/`, `contactos/`, `remotion/public/broll/`) | `python3 manuales/edicion-video/scripts/bancos.py reponer --proyecto NNN`. Funciona porque el **manifiesto sí se versiona**: de él salen la URL, el autor, la licencia y el sha256 con el que se comprueba que lo repuesto es lo que se aprobó |
 | Voz en off ya locutada (`proyectos/*/vo/`) | se regenera entera desde `guion-vo.txt`, que **sí** está versionado — es el guion lo que define la pieza, no el WAV |
 | Skills de ElevenLabs (`.agents/`, con sus symlinks en `.claude/skills/`) | `npx skills experimental_install` — las repone desde `skills-lock.json`, que sí está versionado |
 | `node_modules/` | `cd remotion && npm install` |
 
-Consecuencia: tras clonar, el Studio abre y las composiciones de plantilla y `Catalogo` renderizan; **`Avatar002`, `Avatar003` y `Noticia004` no**, hasta que repongas su medio:
+Consecuencia: tras clonar, el Studio abre y las composiciones de plantilla y `Catalogo` renderizan; **`Avatar002`, `Avatar003` y las tres piezas de noticias no**, hasta que repongas su medio:
 
 | Composición | Qué le falta | Cómo reponerlo |
 |---|---|---|
 | `Avatar002`, `Avatar003` | los MP4 del avatar | copia tus clips a `remotion/public/` |
-| `Noticia004` | la voz en off `public/noticias/004-vo.wav` | relocuta el guion (ver más abajo) y copia el WAV que deja `generar-vo.sh` |
+| `Noticia004` | la voz en off `public/noticias/004-vo.wav` | relocuta el guion (ver abajo) y copia el WAV que deja `generar-vo.sh` |
+| `Noticia005`, `Noticia006` | sus WAV `public/noticias/005-vo.wav` y `006-vo.wav` | ídem, con `--motor elevenlabs` (están locutadas con la voz clonada del canal) |
 
-`Noticia004` falla de forma **silenciosa**: `staticFile()` solo construye una URL, así que la imagen se ve y lo que falta es la voz, con un 404 en la consola del Studio. Para reponerla:
+Falla de forma **silenciosa**: `staticFile()` solo construye una URL, así que la imagen se ve y lo que falta es la voz, con un 404 en la consola del Studio. Y en el 005 y el 006 no falta solo el sonido: las dos entran por `calculateMetadata`, que toma **lo más largo entre el plan y la voz**, así que sin el WAV la comp dura menos que la pieza aprobada. Para reponerlas:
 
 ```bash
 bash manuales/video-noticias/scripts/generar-vo.sh proyectos/004/guion-vo.txt --motor say --fps 30
@@ -190,9 +203,10 @@ El banco de sonidos **sí** está en el repo: los renders dependen de él.
 
 - Remotion **4.0.496** · Node **25.8** · `@remotion/paths`, `@remotion/shapes` y `@remotion/media-parser` (duraciones leídas del medio).
 - **Sin Tailwind**: no se usaba ni una clase (`grep -rc className src/` = 0). Lo único que aportaba era su *preflight*, que ahora está explícito como reset mínimo en `src/index.css` — verificado píxel a píxel en 4 composiciones.
-- **13 composiciones** registradas en `remotion/src/Root.tsx` (plantillas, avatares 001-003, `Catalogo`, `GraficosDemo`, `NoticiaDemo`, `Noticia004`).
+- **16 composiciones** registradas en `remotion/src/Root.tsx` (plantillas, avatares 001-003, `Catalogo`, `GraficosDemo`, `PlanDemo`, `NoticiaDemo`, `Noticia004`, `Noticia005`, `Noticia006`).
 - Auto-Editor **29.3.1** (pipx) · whisper.cpp con `ggml-small.bin`.
 - B-roll con Grok Imagine vía `scripts/grok.py` (API directa de xAI): la clave autentica correctamente, pero **el equipo de xAI aún no tiene créditos** → hasta comprarlos en console.x.ai no genera nada.
+- **B-roll de ARCHIVO: funciona hoy y sin gastar un peso.** `scripts/bancos.py` (`buscar` · `contactos` · `traer` · `reponer` · `gradar` · `creditos` · `glosario`) contra Pexels, con clave gratuita. Probado de punta a punta contra la API real: filtra por la medida real del hueco, quita el audio del clip, congela autor y licencia en el manifiesto, y monta una hoja de contactos numerada para elegir mirando — que hace falta, porque **Pexels nunca devuelve cero**. Test sin red: `python3 manuales/edicion-video/scripts/revisar-bancos.py`.
 - Voz en off: **el 005 está locutado de punta a punta con la voz clonada del canal** (`John Stevans v 0.1`, ElevenLabs) — 16 tomas, cronometradas con `generar-vo.sh --motor elevenlabs`. El **004** sigue con la voz GUÍA del sistema (`--motor say`, Paulina es_MX): sus 17 tomas están cronometradas contra esa pista, así que para publicarlo hay que relocutarlo. `elevenlabs.py guion` es reanudable: reejecutarlo no vuelve a facturar lo que ya está en disco (comprobado en el 005 — al acortar una frase refacturó 3 tomas de 16, esa y sus dos vecinas del stitching).
 - `npm run lint` (eslint + tsc) en verde.
 

@@ -38,18 +38,27 @@ revelación · conclusión · cta.
 
 ## B-roll (solo las escenas que lo pidan)
 
-Se genera en el **paso 3·bis**, antes que cámara y gráficos, porque el resto del plan
-depende de su duración real. Motor único: **Grok Imagine** por la API de xAI
-(`scripts/grok.py`); límites en `manuales/director-video/SKILL.md` §3h. Recuerda:
-la **resolución de salida hay que MEDIRLA** con `ffprobe` (xAI no la documenta) y
-**no hay motor alternativo**; las **URLs caducan** y el **fps de la comp manda**.
+Se resuelve en el **paso 3·bis**, antes que cámara y gráficos, porque el resto del
+plan depende de su duración real. **Dos motores**, y cuál toca lo decide la
+honestidad de la pieza, no el coste (`manuales/director-video/SKILL.md` §3h):
+lo real se **trae** de un banco (`scripts/bancos.py`), lo que no existe se
+**genera** (`scripts/grok.py`), y lo que no tiene referente filmable no es b-roll
+sino un gráfico.
 
-| Escena | Qué plano (una intención) | Dur. pedida | Archivo descargado | Dur. + resolución reales (`ffprobe`) |
-|---|---|---|---|---|
-| 3 | … | 6 s | `broll/grok/raw/shot-03.mp4` | … |
+| Escena | Qué plano (una intención) | Motor | Dur. pedida | Archivo + procedencia | Dur. + resolución reales |
+|---|---|---|---|---|---|
+| 3 | … | Grok | 6 s | `broll/grok/raw/shot-03.mp4` | … *(medir con `ffprobe`)* |
+| 7 | … | banco | 4 s | `broll/pexels/raw/…` · hoja `contactos/07.png` índice **2** · autor · licencia · sha256 · `--porque` | … *(garantizada por el filtro del hueco)* |
 
-- **Cómo entra en la comp:** fondo detrás del avatar · scrim oscurecido · plano escalado *(elige uno — nunca full-frame nítido)*.
-- **¿Alguna escena pedía plano nítido a pantalla completa?** → resuelta con gráficos / metraje real / replanteada: …
+- **Lo de Grok:** la **resolución de salida hay que MEDIRLA** (xAI no la documenta),
+  las **URLs caducan** y el **fps de la comp manda**. Mientras no se confirme,
+  entra como fondo detrás del avatar · scrim oscurecido · plano escalado
+  *(nunca full-frame nítido)*.
+- **Lo de banco:** la medida está garantizada por construcción —se filtra por el
+  hueco al traerlo—, así que **sí puede ir nítido a pantalla completa**. Lo que
+  hay que vigilar es lo que no se ve en un frame: el crédito. Va en el manifiesto
+  y se cobra al publicar con `bancos.py creditos`.
+- **¿Alguna escena pedía plano nítido a pantalla completa y era de algo real?** → banco. ¿Era imposible o ilustrativa? → gráficos / replanteada: …
 - **Descartado:** … *(por qué)*
 
 ## Simbología de color (si la pieza la necesita)

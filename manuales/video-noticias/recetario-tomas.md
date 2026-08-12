@@ -5,7 +5,8 @@
 > El sonido definitivo se declara en `cues-NNN.ts` ([diseno-sonoro](../diseno-sonoro/SKILL.md)).
 
 Código: [`noticias/plan.ts`](../../remotion/src/motor/noticias/plan.ts) (el tipo) ·
-[`noticias/PistaNoticia.tsx`](../../remotion/src/motor/noticias/PistaNoticia.tsx) (el intérprete) ·
+[`noticias/dialecto.ts`](../../remotion/src/motor/noticias/dialecto.ts) (las piezas y las reglas; `compilaNoticia` convierte las tomas en plan) ·
+[`noticias/montadores.tsx`](../../remotion/src/motor/noticias/montadores.tsx) (el JSX de cada pieza) ·
 [`noticias/Editorial.tsx`](../../remotion/src/motor/noticias/Editorial.tsx) (las primitivas).
 Ejemplo completo: [`noticia-demo.ts`](../../remotion/src/motor/demos/noticia-demo.ts) (comp `NoticiaDemo` del Studio).
 
@@ -169,7 +170,7 @@ node manuales/video-noticias/scripts/revisar-broll.mjs remotion/src/proyectos/NN
 - Borde naranja + sombra al 15 % + esquinas redondeadas. **Nunca a sangre sobre papel.**
 - Ken Burns automático (escala 1 → 1.06 durante la ventana): una foto fija sin deriva se congela.
 - **Sin `media` monta el marco vacío con "pendiente"** — sirve para maquetar antes de generar el b-roll. Aparece en los avisos de `revisaNoticia()`.
-- Como va enmarcado (~640 px de ancho), **perdona resolución baja**: es la toma correcta para b-roll de Grok mientras no se confirme su resolución de salida ([director §3h](../director-video/SKILL.md)).
+- Enmarcado **no significa que perdone resolución baja**. El hueco mide 624×804 y encima lleva el Ken Burns, así que la fuente tiene que dar **662×853** o se ve reescalada — `revisar-broll.mjs` la rechaza por debajo. Y su motor natural es el **banco**, no Grok: esta ficha empieza diciendo «una foto o un clip **real**», y para lo real la regla de [director §3h](../director-video/SKILL.md) manda traer, no generar.
 - **Sonido:** `camera` (si es foto) o `whoosh light` (si es clip).
 
 ---
@@ -228,6 +229,7 @@ toma("t11", "cierre", "cierre", [1050, 1140], {
 | `buscarMedia` | string o `{consulta, tipo, indice}` | retrato · escenario — la INTENCIÓN, en español, mientras el archivo no exista |
 | `grado` | `{exposicion, contraste, saturacion, calido}` | retrato · escenario — la corrección MEDIDA por `bancos.py gradar`. El look del formato no va aquí |
 | `alto` `desde` `opacidad` `tinta` `rampa` | number/string | velo (solo en planes nativos: en `escenario` lo pone el compilador) |
+| `tipo` `ancho` `alto` `grosor` `dur` | `"fisura"\|"vertical"\|"horizontal"\|"diagonal"` + number | grieta — el muro esquemático con la grieta dibujándose (en producción en el 006). Ojo: una `fisura` con `grosor > 4` avisa, porque dibujarla gruesa contradice al «riesgo bajo» de su propia toma |
 | `registro` | `"papel"\|"cine"` | override del registro por defecto |
 | `color` | string | cifra · medidor |
 | `dur` | number | cronologia · cifra · medidor |

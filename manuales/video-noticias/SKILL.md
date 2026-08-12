@@ -89,7 +89,7 @@ Cada toma es un tipo de `TomaNoticia`. Detalle completo, props y sonido en [rece
 | `cifra` | papel | El dato como argumento. El **recorrido** es el mensaje | 3-4 s | `data` (textura) + `chime` al llegar |
 | `medidor` | papel | Lo que sube o baja mientras miras (control vs. dinero) | 3-4 s | `ui` + `data` |
 | `retrato` | papel | Foto/clip **enmarcado** con Ken Burns | 2.5-3.5 s | `camera` o `whoosh light` |
-| `escenario` | cine | Metraje a sangre sobre negro | 2.5-3.5 s | `whoosh heavy` al entrar |
+| `escenario` | cine | Metraje a sangre sobre negro **+ velo** | 2.5-3.5 s | `whoosh heavy` al entrar |
 | `cierre` | cine | Negro + una palabra. El gancho a la parte 2 | 2.5-3 s | `impact deep` + cola |
 
 **Una idea por toma.** Si una toma necesita dos titulares, son dos tomas.
@@ -99,6 +99,8 @@ Cada toma es un tipo de `TomaNoticia`. Detalle completo, props y sonido en [rece
 ## 4. La ficha de estilo (tokens, no números sueltos)
 
 Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/motor/noticias/theme-noticias.ts). **No escribas colores ni tamaños a mano en una toma** — si hace falta un valor nuevo, se añade al theme.
+
+La excepción es `grado`, y lo es porque no es estilo: es la **corrección medida de ESE clip** (`bancos.py gradar`), la distancia entre él y la mediana de los demás. Va en la toma porque es de la toma. El look del metraje —saturación, velo cálido, grano, viñeta— sí es del formato, vive en `METRAJE` y lo aplica el motor a todo. El orden importa: primero se igualan los clips entre sí, después el look; al revés, el mismo filtro empuja el color de cada uno hacia otro lado y **amplifica** las diferencias en vez de taparlas.
 
 | Rol | Token | Valor |
 |---|---|---|
@@ -132,10 +134,20 @@ Todo vive en [`noticias/theme-noticias.ts`](../../remotion/src/motor/noticias/th
 3. **Guion de voz en off** (~140-160 palabras/minuto). Escribe primero el gancho, y que quepa en 4 s.
 4. **Generar la voz** y **medir su duración real** con `ffprobe` ([R01](../edicion-video/reglas.md)). **La voz manda sobre el plan**, nunca al revés: la comp dura lo que dura la voz.
 5. **Repartir los 7 beats** sobre esa duración → tabla de tomas con frames absolutos **a 30 fps**.
-6. **B-roll y metraje** (solo si alguna toma lo pide) → **genera ya**, antes de escribir el plan: tarda minutos y su duración real condiciona el resto. Motor y los 4 límites en [director §3h](../director-video/SKILL.md). Recuerda que aquí el b-roll casi siempre va **enmarcado** (toma `retrato`), lo que perdona resolución baja.
-7. **Escribir `noticia-NNN.ts`** (`TomaNoticia[]`) copiando [`noticia-demo.ts`](../../remotion/src/motor/demos/noticia-demo.ts). **Valida con `revisaNoticia(tomas, 30)`** antes de renderizar.
+6. **B-roll y metraje** (solo si alguna toma lo pide). Lo primero no es conseguirlo: es **de dónde tiene que salir**, y eso lo decide la honestidad de la pieza ([director §3h](../director-video/SKILL.md)):
+   - un lugar, un objeto o un gesto **reales** → banco: `bancos.py contactos` (hoja numerada) → `traer … --porque`;
+   - un concepto sin referente filmable (una cifra, un plazo, una norma) → **no es b-roll: es un gráfico**;
+   - un plano imposible o ilustrativo que no afirma un hecho → `grok.py`.
+
+   Se trae **antes** de escribir el plan cuando puedas, porque la duración real del clip condiciona los frames. Pero no bloquea: una toma puede declarar `buscarMedia: "grieta en la pared"` y maquetarse sin material, que es un estado legítimo del plan y no un TODO. Y el material tiene que dar la **medida del hueco** — `escenario` pide 1080×1920 y `retrato` **662×853** (624×804 más el Ken Burns), así que aquí «enmarcado» no significa que perdone resolución baja: `revisar-broll.mjs` lo rechaza. Con todos los clips ya traídos, `bancos.py gradar` mide y escribe la corrección que los iguala.
+7. **Escribir `noticia-NNN.ts`** (`TomaNoticia[]`) copiando [`noticia-demo.ts`](../../remotion/src/motor/demos/noticia-demo.ts). Y validar con las dos puertas, que miran cosas distintas y salen con 1 si hay avisos:
+   ```bash
+   node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/proyectos/NNN/noticia-NNN.ts
+   node manuales/video-noticias/scripts/revisar-broll.mjs remotion/src/proyectos/NNN/noticia-NNN.ts
+   ```
+   La primera mide el **plan** (huecos, solapes, duraciones, R08/R09, reglas de cada pieza). La segunda es la única que mira el **disco**: que el archivo esté donde dice el plan, que tenga los píxeles de su hueco, que el clip no sea más corto que su toma y que su crédito esté en el manifiesto. Cuando falta material, imprime el comando de `bancos.py` que hay que correr.
 8. **Subtítulos** (`subtitulos-NNN.ts` + `<SubtitulosSync yPct={78}>`) y **sonido** (`cues-NNN.ts` + `<PistaSonido>`, ver §7).
-9. **Validar**: frames reales ([R05](../edicion-video/reglas.md)) → prueba 720p ([R06](../edicion-video/reglas.md)) → **esperar OK** → final.
+9. **Validar**: los dos validadores en verde → frames reales ([R05](../edicion-video/reglas.md)) → prueba 720p ([R06](../edicion-video/reglas.md)) → **esperar OK** → final. Y antes de publicar, `bancos.py creditos --proyecto NNN` para la descripción del vídeo.
 
 ---
 
@@ -236,6 +248,8 @@ Otros motores del mismo script: `--motor propio` (te grabaste tú: pásale la ca
 - **No** pone avatar en pantalla. Si el vídeo lo lleva, el que orquesta es [director-video](../director-video/SKILL.md) y este skill aporta solo el look de las tomas de gráfico.
 - **No** inventa cifras, fechas, citas ni titulares de prensa. Un recorte de `prensa` es de un medio real o no existe. **Si te falta el dato, dilo — no lo rellenes.**
 - **No** mete texto en el prompt del generador de b-roll: los títulos son motion graphics ([director §3h](../director-video/SKILL.md)).
+- **No** ilustra un hecho con una imagen generada. Una imagen de lo que la pieza afirma que pasó se lee como registro del suceso, y es la misma línea que la del recorte de prensa: o es real, o no existe. Precedente propio: el 006 renunció a metraje del sismo y dibujó esquemas. Lo real se trae de un banco; lo que no tiene referente se resuelve con gráficos.
+- **No** pone caras de archivo junto a una acusación. Personas identificables solo en contexto neutro: la licencia de los bancos prohíbe mostrarlas «bajo mala luz», y un rostro de stock al lado de un titular sobre estafas o desalojos es exactamente ese caso. El sujeto de una noticia se ilustra con objeto, lugar o documento.
 - **No** usa los tokens de `graficos/estilos.ts` para color: aquél asume fondo oscuro y aquí el fondo es claro. Las **primitivas** de la biblioteca general (Subrayado, Rodea, Aspa, Check, Flecha, Particulas) sí se reusan tal cual.
 - **No** añade una toma porque "hay hueco". Ante la duda, **quita**.
 
