@@ -34,6 +34,17 @@ import urllib.request
 # determinista: reintentarlo solo gasta tiempo y repite el mismo error.
 CODIGOS_TRANSITORIOS = frozenset({408, 425, 429, 500, 502, 503, 504})
 
+# IDENTIFICARSE NO ES CORTESIA, ES REQUISITO — y se descubre tarde. Con el
+# User-Agent por defecto de urllib (`Python-urllib/3.x`) Cloudflare responde 403
+# con `error code: 1010` (bloqueo por firma del cliente) ANTES de que la peticion
+# llegue al servicio, asi que la clave puede estar perfecta y el mensaje te manda
+# a rotarla. Paso con la API de Pexels y otra vez con su CDN de imagenes.
+#
+# Va aqui y no en cada script porque el problema es del transporte, no del
+# servicio: cualquier CDN detras de Cloudflare hace lo mismo. Que heygen, grok y
+# elevenlabs funcionen hoy sin esto es suerte, no diseno.
+AGENTE = "video-creator/1.0 (scripts de manuales/edicion-video)"
+
 
 class ErrorHTTP(Exception):
     """Error definitivo de la API. Cada script lo traduce a SU mensaje util."""
@@ -135,6 +146,7 @@ def pide(url, metodo="GET", cabeceras=None, cuerpo=None, timeout=120,
     ultimo, cab = None, None
     for intento in range(maximo):
         req = urllib.request.Request(url, data=datos, method=metodo)
+        req.add_header("User-Agent", AGENTE)
         for k, v in (cabeceras or {}).items():
             req.add_header(k, v)
         if datos is not None:
@@ -180,17 +192,22 @@ def escribe_atomico(destino, datos):
     return len(datos)
 
 
-def descarga(url, destino, timeout=300):
+def descarga(url, destino, timeout=300, cabeceras=None):
     """
     Descarga a disco de forma atomica y con timeout (a diferencia de
     `urlretrieve`, que no acepta ninguno). Si el servidor declara Content-Length
     y lo recibido no cuadra, falla en vez de dejar un archivo a medias.
+
+    Manda `User-Agent` (ver `AGENTE`): los CDN detras de Cloudflare rechazan con
+    403 al cliente que no se identifica, y aqui eso salia como «no se pudo bajar»
+    en bucle sobre veinte archivos seguidos.
     """
     destino = os.path.abspath(destino)
     os.makedirs(os.path.dirname(destino) or ".", exist_ok=True)
     tmp = destino + ".parcial"
+    req = urllib.request.Request(url, headers={"User-Agent": AGENTE, **(cabeceras or {})})
     try:
-        with urllib.request.urlopen(url, timeout=timeout) as r:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
             declarado = r.headers.get("Content-Length")
             escrito = 0
             with open(tmp, "wb") as f:

@@ -22,6 +22,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import type {
+  Ancla,
   Dialecto,
   Entrada,
   Ficha,
@@ -37,9 +38,13 @@ import type {
 import {
   anchoPalabraMasLarga,
   anchoPalabraMasLargaTramos,
+  alturaEstimada,
   anchoTexto,
   anchoTramos,
   capa,
+  esGrupo,
+  gapEntre,
+  recorre,
   registro,
   textoPlano,
   ventanaAbs,
@@ -59,7 +64,7 @@ import type { ClaveGlifo } from "../graficos/Glifos";
 // El tipo del beat y la forma del hito los sigue OWNING `plan.ts`: son el
 // vocabulario que ya usan `noticia-004.ts` y `noticia-005.ts`, y duplicarlos
 // aquí sería crear dos verdades sobre lo mismo el mismo día que se promete una.
-import type { BeatNoticia, Hito, TomaNoticia } from "./plan";
+import type { BeatNoticia, GradoMedia, Hito, TomaNoticia } from "./plan";
 import { REGISTRO_POR_TIPO } from "./plan";
 import { LAYOUT, MARCA, N, T } from "./theme-noticias";
 
@@ -585,8 +590,90 @@ export const PIEZAS_NOTICIA = registro({
     }
   ),
 
+  // ── Diagrama ─────────────────────────────────────────────────────────────
+  grieta: f<{
+    tipo: "fisura" | "vertical" | "horizontal" | "diagonal";
+    ancho?: number;
+    alto?: number;
+    dur?: number;
+    grosor?: number;
+  }>(
+    "DiagramaGrieta",
+    "diagrama",
+    "Editorial.tsx",
+    "Muro esquemático con la grieta dibujándose encima, trazo a trazo.",
+    "Cuando la toma NOMBRA una forma de grieta. Enseñarla es lo único que el espectador no puede sacar del texto: está mirando su propia pared y necesita comparar.",
+    {
+      // Caja de tamaño FIJO como el recorte o el medidor: lo que puede no caber
+      // es el panel, no su contenido — el trazo se genera en coordenadas
+      // relativas al panel y no se sale por construcción.
+      alto: (p) => p.alto ?? 380,
+      ancho: (p) => p.ancho ?? 520,
+      revisa: (p) => {
+        const av: string[] = [];
+        // El artículo describe la fisura capilar como «del grosor de un
+        // cabello». Pintarla con el trazo de una estructural convierte la toma
+        // que dice «riesgo bajo» en una que enseña riesgo alto, y el texto y el
+        // dibujo se contradicen en el mismo frame.
+        if (p.tipo === "fisura" && p.grosor !== undefined && p.grosor > 4)
+          av.push(`fisura con grosor ${p.grosor}: una fisura capilar dibujada gruesa contradice al «riesgo bajo» de su propia toma`);
+        return av;
+      },
+    }
+  ),
+
+  // ── Atmósfera ────────────────────────────────────────────────────────────
+  /**
+   * EL DEGRADADO QUE PROTEGE AL TEXTO SOBRE METRAJE — y la razón de que sea una
+   * PIEZA y no el scrim del molde.
+   *
+   * El ambiente se pinta SIEMPRE por debajo de los hijos, y eso es lo correcto
+   * cuando lo que hay que oscurecer está en otra capa (el avatar). Pero el
+   * metraje a sangre de un `escenario` ES un hijo: un scrim de molde se
+   * dibujaría debajo del vídeo, o sea nunca. Como pieza, el plan lo COLOCA, y el
+   * orden del array es el z-order — así que puede ir exactamente donde tiene que
+   * ir: ENTRE el metraje y el titular.
+   *
+   * Lo que se pierde al desacoplarlo del molde es que «nadie puede olvidarlo»;
+   * eso lo devuelve la regla `veloProtege`, abajo.
+   */
+  velo: f<{ alto?: number; desde?: "abajo" | "arriba"; opacidad?: number; tinta?: TintaNoticia; rampa?: number }>(
+    "Velo",
+    "atmosfera",
+    "graficos/Fondos.tsx (Scrim)",
+    "Degradado a sangre que oscurece lo que ya está pintado DEBAJO de él.",
+    "Entre el metraje a sangre y el texto que lo remata. Es lo que el scrim del molde no puede ser: colocable en el z-order.",
+    {
+      // Atmósfera: no compite por la maqueta ni cuenta para R08, igual que el
+      // `media` a sangre del que es la sombra.
+      capa: true,
+      revisa: (p) => {
+        const av: string[] = [];
+        if (p.alto !== undefined && (p.alto <= 0 || p.alto > 1920))
+          av.push(`velo de alto ${p.alto}: fuera de (0, 1920], o no cubre nada o desborda el cuadro`);
+        if (p.opacidad !== undefined && (p.opacidad <= 0 || p.opacidad > 1))
+          av.push(`velo con opacidad ${p.opacidad}: fuera de (0, 1]`);
+        // Sobre metraje SIN GRADAR el degradado tiene que aportar todo el
+        // contraste él solo: el clip puede ser un cielo a 235 de luma.
+        else if (p.opacidad !== undefined && p.opacidad < 0.5)
+          av.push(
+            `velo al ${Math.round(p.opacidad * 100)} %: sobre metraje sin gradar el degradado aporta TODO el contraste. O lo subes o lo quitas — un velo que no se ve hace creer que el texto está protegido`
+          );
+        return av;
+      },
+    }
+  ),
+
   // ── Media ────────────────────────────────────────────────────────────────
-  media: f<{ src?: string; esVideo?: boolean; sangre?: boolean; ancho?: number; alto?: number; deriva?: number }>(
+  media: f<{
+    src?: string;
+    esVideo?: boolean;
+    sangre?: boolean;
+    ancho?: number;
+    alto?: number;
+    deriva?: number;
+    grado?: GradoMedia;
+  }>(
     "TarjetaFoto / Media",
     "media",
     "Editorial.tsx",
@@ -712,6 +799,126 @@ const noCuatroCineSeguidas: ReglaN<PiezasNoticia> = (plan) => {
   return av;
 };
 
+/**
+ * EL VELO PROTEGE, O NO ESTÁ.
+ *
+ * Es la propiedad que se pierde al sacar el degradado del molde y hay que
+ * devolver: el scrim acoplado «nace con la toma y nadie puede olvidarlo»; una
+ * pieza sí se puede olvidar. Y se olvida en silencio, porque el fallo no se ve
+ * mientras el b-roll no exista: el marco «pendiente» es gris medio y el titular
+ * blanco se lee encima. El día que entre un clip de cielo (luma ~235) el titular
+ * desaparece, y el plan habrá dicho LIMPIO todo el camino.
+ *
+ * Vive en el dialecto y no en el núcleo porque necesita saber qué pieza es
+ * metraje y cuáles son texto: eso es conocimiento del FORMATO. Y corre dentro de
+ * `revisaPlan`, así que vale igual para un plan compilado desde `TomaNoticia[]`
+ * —donde `compilaToma` ya no puede olvidarlo— y para uno NATIVO, que es donde de
+ * verdad se olvida (el 006 demuestra que un plan nativo se escribe sin declarar
+ * el ambiente y nadie se entera).
+ */
+const veloProtege: ReglaN<PiezasNoticia> = (plan) => {
+  const av: string[] = [];
+  const esTexto = (p: string) => p === "titular" || p === "kicker" || p === "etiqueta";
+  for (const t of plan.tomas) {
+    const molde = plan.dialecto.moldes[t.molde];
+    let orden = 0;
+    let iSangre = -1;
+    let iVelo = -1;
+    let iTexto = -1;
+    // Anotado: `LAYOUT` es `as const`, así que el defecto es el literal 1190 y
+    // el `alto` que declare la pieza no encajaría.
+    let altoVelo: number = LAYOUT.veloAlto;
+    // De qué borde cuelga el degradado. Importa tanto como el alto: un velo
+    // `desde: "arriba"` sobre un titular que cuelga oscurece la mitad que no
+    // lleva texto, y al existir apagaba el aviso de «sin velo» sin proteger un
+    // solo píxel — un velo inútil no puede callar la alarma.
+    //
+    // Booleano y no la unión `"abajo" | "arriba"`: el análisis de flujo de TS no
+    // ve las asignaciones que ocurren dentro del callback de `recorre`, estrecha
+    // la variable al literal inicial y declara imposible la comparación de abajo.
+    let veloArriba = false;
+    // `recorre` va en orden de declaración, que ES el orden de pintado.
+    recorre(t.hijos, t.id, (v) => {
+      const n = v.nodo;
+      if (esGrupo(n)) return;
+      const i = orden++;
+      const pieza = String(n.pieza);
+      const props = (n.props ?? {}) as Record<string, unknown>;
+      const aSangre = pieza === "media" && props.sangre === true;
+      if (aSangre && iSangre < 0) iSangre = i;
+      if (pieza === "velo" && iVelo < 0) {
+        iVelo = i;
+        if (typeof props.alto === "number") altoVelo = props.alto;
+        if (props.desde === "arriba") veloArriba = true;
+      }
+      if (esTexto(pieza) && iTexto < 0) iTexto = i;
+      // Entrada prohibida en lo que va a sangre, y es un fallo 100 % invisible:
+      // el envoltorio de la entrada (un transform en `muelle`, un
+      // `position: relative` en `barrido`/`extiende`) se convierte en el bloque
+      // contenedor del absoluto, así que la pieza se dibuja contra una caja que
+      // no es el cuadro y acaba fuera de plano — con el plan diciendo LIMPIO.
+      //
+      // SE JUZGA LA ENTRADA QUE DE VERDAD SE MONTA, no la que el autor escribe.
+      // Omitir `entra` no es neutro: el intérprete cae en `entra ?? ley.entrada`
+      // y la ley editorial entra con muelle. Mirar solo lo escrito dejaba pasar
+      // el caso más probable en un plan nativo —donde el resto de piezas se
+      // apoyan en la ley y nadie declara `entra`— y también el más caro: medido,
+      // el velo se va 302 px hacia abajo y descubre justo la banda del titular.
+      if (aSangre || pieza === "velo") {
+        const escrita = (n.entra as { como?: string } | undefined)?.como;
+        const como = escrita ?? plan.dialecto.ley.entrada.como;
+        if (como !== "ninguna" && como !== "escalon")
+          av.push(
+            `[${t.id}] \`${pieza}\` entra con "${como}"${escrita ? "" : " (heredada de la ley: no declara `entra`)"}: el envoltorio de la entrada se vuelve el bloque contenedor del absoluto y la pieza se dibuja fuera de cuadro. Entra con "ninguna" — el fundido va DENTRO de la pieza`
+          );
+      }
+    });
+    if (iSangre < 0 || iTexto < 0) continue;
+    if (iVelo < 0) {
+      av.push(
+        `[${t.id}] metraje a sangre con texto encima y sin \`velo\`: el titular desaparece en cuanto el clip se aclare`
+      );
+      continue;
+    }
+    if (iVelo < iSangre || iVelo > iTexto) {
+      av.push(
+        `[${t.id}] el \`velo\` va ENTRE el metraje y el texto: donde está ahora o no protege nada o oscurece lo que no toca. El orden del array es el z-order`
+      );
+      continue;
+    }
+    // ¿LLEGA el velo hasta donde empieza el texto? Mismo bulto que R08 y el
+    // mismo ancla que resuelve el intérprete, para que las tres cuentas no
+    // puedan discrepar.
+    let bulto = 0;
+    t.hijos.forEach((h, i) => {
+      bulto += alturaEstimada(h, plan.dialecto.piezas, molde.gap) + (h.sep ?? 0);
+      if (i < t.hijos.length - 1) bulto += gapEntre(t.gap, i, molde.gap);
+    });
+    const alto = plan.formato.alto;
+    const a = t.ancla ?? molde.ancla;
+    const techo =
+      a.desde === "arriba"
+        ? alto * a.pct
+        : a.desde === "abajo"
+          ? alto - alto * a.pct - bulto
+          : a.cuelga !== undefined
+            ? alto - alto * a.cuelga - bulto
+            : alto / 2 - bulto / 2;
+    // La banda que de verdad PROTEGE es el 80 % del alto del velo medido desde
+    // SU borde: hasta ahí el degradado de `Scrim` mantiene alfa ≥ 0,58, y el 20 %
+    // restante es la cola con la que se funde y no tapa nada. Se compara contra
+    // el bloque ENTERO —techo y base—, no solo contra su primera línea.
+    const banda = 0.8 * altoVelo;
+    const [protegeDe, protegeA] = veloArriba ? [0, banda] : [alto - banda, alto];
+    const base = techo + bulto;
+    if (techo < protegeDe || base > protegeA)
+      av.push(
+        `[${t.id}] el velo protege de y=${Math.round(protegeDe)} a y=${Math.round(protegeA)} (${Math.round(altoVelo)} px desde ${veloArriba ? "arriba" : "abajo"}) y el texto va de y=${Math.round(techo)} a y=${Math.round(base)}: se sale del degradado`
+      );
+  }
+  return av;
+};
+
 /* ── El dialecto ────────────────────────────────────────────────────────── */
 
 export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaNoticia> = {
@@ -752,7 +959,7 @@ export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaN
   // negro y que aquí sería suciedad.
   alfaRol: { hero: 1, apoyo: 1, contexto: 1 } as Record<Rol, number>,
   ley: LEY_EDITORIAL,
-  reglas: [sucesion, ritmo, arrancaConGancho, noCuatroCineSeguidas],
+  reglas: [sucesion, ritmo, arrancaConGancho, noCuatroCineSeguidas, veloProtege],
 };
 
 export type DialectoNoticias = typeof NOTICIAS;
@@ -891,6 +1098,10 @@ const compilaToma = (t: TomaNoticia): TomaEditorial => {
   const acento = tintaDeHex(t.color, "acento");
   const hijos: TomaEditorial["hijos"][number][] = [];
   let gap = 34; // el `gap` por defecto de `Centro` en PistaNoticia.tsx
+  // Solo lo escribe `escenario`, y por eso vive aquí y no en el molde: es una
+  // diferencia POR TOMA. `undefined` deja el ancla del molde intacta, que es lo
+  // que publican las demás.
+  let ancla: Ancla | undefined;
 
   switch (t.tipo) {
     // El mensaje. La toma más frecuente del formato: kicker (0), titular (4 si
@@ -1046,7 +1257,7 @@ const compilaToma = (t: TomaNoticia): TomaEditorial => {
     case "retrato":
       gap = 38;
       hijos.push(
-        pon("media", { src: t.media, esVideo: t.esVideo, ancho: 640, alto: 820, en: 2, entra: QUIETA })
+        pon("media", { src: t.media, esVideo: t.esVideo, grado: t.grado, ancho: 640, alto: 820, en: 2, entra: QUIETA })
       );
       if (t.titular)
         hijos.push(pon("titular", { texto: t.titular, px: 62, en: 12, rol: "hero", color: "tinta", entra: sube(24) }));
@@ -1056,29 +1267,31 @@ const compilaToma = (t: TomaNoticia): TomaEditorial => {
     // (position absolute sobre el centro del cuadro) y por eso no descuelga al
     // titular.
     //
-    // ⚠️ DOS COSAS QUE ESTA TOMA PIERDE EN LA MIGRACIÓN, Y NO SE TAPAN AQUÍ:
+    // LAS DOS DEUDAS DE LA MIGRACIÓN, PAGADAS — y pagadas por separado, porque
+    // parecían una y eran dos: la del scrim era de Z-ORDER y la del anclaje, de
+    // CAJA.
     //
-    //  1. EL DEGRADADO PROTECTOR. El intérprete viejo pintaba el scrim ENTRE el
-    //     metraje y el titular. El scrim acoplado al molde (`MOLDES_NOTICIA.cine`)
-    //     no puede hacer eso: el ambiente va SIEMPRE por debajo de los hijos, que
-    //     es lo correcto cuando lo que hay que oscurecer está en otra capa (el
-    //     avatar, en la capa de gráficos) y no lo es cuando el metraje a sangre
-    //     ES un hijo. El degradado se dibujaría debajo del vídeo, o sea nunca, y
-    //     por eso se apaga (abajo) en vez de fingir que está.
-    //  2. EL ANCLAJE AL TERCIO INFERIOR. El titular colgaba de `paddingBottom:
-    //     560`; aquí queda centrado, porque el molde tiene que anclar en el
-    //     CENTRO para que la caja a sangre coincida con el cuadro.
-    //
-    // NINGUNA pieza publicada usa `escenario` (ni el 004 ni el 005), así que
-    // esto no mueve un frame de lo que existe — pero hay que resolverlo antes de
-    // que una pieza con b-roll lo use. La salida es de diseño y no de parche:
-    // una pieza `velo` en el registro (un scrim COLOCABLE en el z-order del
-    // plan, entre el metraje y el texto) o un `ambiente.media` que baje el
-    // metraje a sangre a la capa de fondo, que es donde de verdad vive.
+    //  1. EL DEGRADADO PROTECTOR es ahora la pieza `velo`, colocada AQUÍ, entre
+    //     el metraje y el titular. El scrim del molde no podía ocupar ese sitio:
+    //     el ambiente va SIEMPRE por debajo de los hijos —lo correcto cuando lo
+    //     que hay que oscurecer está en otra capa, el avatar— y el metraje a
+    //     sangre ES un hijo, así que el degradado quedaba debajo del vídeo. El
+    //     scrim del molde sigue apagado (abajo) y sigue siendo lo correcto.
+    //  2. EL ANCLAJE AL TERCIO INFERIOR vuelve por `ancla.cuelga`, que empuja el
+    //     BLOQUE dentro de una caja que sigue midiendo el cuadro entero. Es el
+    //     `paddingBottom: 560` del intérprete viejo, y no rompe la caja a sangre
+    //     porque el padding no encoge el bloque contenedor de los absolutos.
+    //     Va en la TOMA y no en el molde: el `cierre` comparte molde `cine` y
+    //     está diseñado centrado (004, 005 y 006 lo publican así).
     case "escenario":
-      hijos.push(pon("media", { src: t.media, esVideo: t.esVideo, sangre: true, en: 0, entra: QUIETA }));
+      hijos.push(pon("media", { src: t.media, esVideo: t.esVideo, grado: t.grado, sangre: true, en: 0, entra: QUIETA }));
+      // El orden del array ES el z-order: sobre el metraje, bajo el titular.
+      hijos.push(pon("velo", { en: 0, entra: QUIETA }));
       if (t.titular)
         hijos.push(pon("titular", { texto: t.titular, px: 74, en: 4, rol: "hero", color: "blanco", entra: sube(30) }));
+      // 1920 es el alto de DISEÑO del formato; el ancla es fracción a propósito,
+      // para que el mismo plan sirva en otro lienzo sin recolocar nada.
+      ancla = { desde: "centro", pct: 0.5, cuelga: LAYOUT.cuelgaCine / 1920 };
       break;
 
     // El remate: negro y una sola palabra. `pxCierre` deriva el cuerpo de la
@@ -1114,6 +1327,7 @@ const compilaToma = (t: TomaNoticia): TomaEditorial => {
 
   return gfx(t.id, molde, t.beat, [t.startFrame, t.endFrame], "hero", t.reason, hijos, {
     gap,
+    ancla,
     // EL SCRIM DEL MOLDE `cine`, APAGADO EN TODAS LAS TOMAS. Dos razones
     // distintas y las dos ciertas:
     //   · en `cierre` y en un `titular` de registro cine no hay metraje que

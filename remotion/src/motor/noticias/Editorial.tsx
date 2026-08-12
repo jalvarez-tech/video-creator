@@ -1,5 +1,6 @@
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, random, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { EASE, SPRING } from "../motion";
+import { Trazo } from "../graficos/Trazo";
 import { LAYOUT, MARCA, N, T, alfaN } from "./theme-noticias";
 
 /**
@@ -186,6 +187,142 @@ export const TarjetaFoto: React.FC<{
       }}
     >
       <div style={{ width: "100%", height: "100%", transform: `scale(${kb})` }}>{children}</div>
+    </div>
+  );
+};
+
+// ── Diagrama ─────────────────────────────────────────────────────────────────
+
+/** Las cuatro formas que el formato necesita nombrar. */
+export type TipoGrieta = "fisura" | "vertical" | "horizontal" | "diagonal";
+
+/**
+ * Polilínea quebrada de A a B con desvío perpendicular determinista.
+ *
+ * El desvío se modula con `sin(πt)`: cero en los dos extremos y máximo en el
+ * centro. Es lo que separa una grieta de un rayo — una grieta NACE en un punto
+ * y MUERE en otro, y si los extremos bailan se lee como garabato.
+ *
+ * `random(semilla)` es el de Remotion, no `Math.random`: tiene que dar lo mismo
+ * en cada frame y en cada render, o la grieta tiembla mientras se dibuja.
+ */
+const caminoGrieta = (
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  pasos: number,
+  desvio: number,
+  semilla: string
+): string => {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const largo = Math.hypot(dx, dy) || 1;
+  const nx = -dy / largo;
+  const ny = dx / largo;
+  let d = "";
+  for (let i = 0; i <= pasos; i++) {
+    const t = i / pasos;
+    const amp = Math.sin(Math.PI * t) * desvio;
+    const w = (random(`${semilla}-${i}`) - 0.5) * 2 * amp;
+    const x = x1 + dx * t + nx * w;
+    const y = y1 + dy * t + ny * w;
+    d += `${i === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)} `;
+  }
+  return d.trim();
+};
+
+/**
+ * Un muro esquemático con la grieta DIBUJÁNDOSE encima.
+ *
+ * Por qué existe. La pieza de noticias sabía nombrar formas de grieta («en X»,
+ * «horizontales, en la parte alta de los muros») y no sabía enseñarlas: el
+ * espectador que está mirando su propia pared no tiene con qué comparar. Ése es
+ * justo el hueco que un texto no puede tapar.
+ *
+ * Y por qué es un DIBUJO y no una foto. Es una pieza sobre un desastre real con
+ * muertos: una imagen generativa de daños se leería como registro del suceso, no
+ * como ilustración, y eso es fabricar prueba documental. Un trazo esquemático no
+ * finge ser nada. De regalo es nítido a cualquier resolución y no depende de lo
+ * que devuelva ningún generador.
+ *
+ * El trazo se DIBUJA (progreso 0→1) y no aparece, por el mismo motivo que el
+ * rotulador de `RecortePrensa`: una grieta que aparece de golpe se lee como
+ * error de render; una que avanza se lee como una grieta abriéndose.
+ *
+ * `dur` es el dibujado; la entrada del panel es un muelle propio, así que esta
+ * pieza va en `ENTRA_SOLA`.
+ */
+export const DiagramaGrieta: React.FC<{
+  tipo: TipoGrieta;
+  ancho?: number;
+  alto?: number;
+  dur?: number;
+  color?: string;
+  grosor?: number;
+}> = ({ tipo, ancho = 520, alto = 380, dur = 26, color = N.tinta, grosor }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const e = spring({ frame, fps, config: SPRING.tarjeta });
+  const op = interpolate(frame, [0, 8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
+  // El panel entra antes que el trazo: primero se ve el muro, luego se raja. Al
+  // revés no se entiende sobre qué se está dibujando.
+  const at = 6;
+  // Una fisura capilar es «del grosor de un cabello» según el artículo: si se
+  // pinta con el mismo trazo que una grieta estructural, la toma que dice
+  // «riesgo bajo» enseña un riesgo alto.
+  const g = grosor ?? (tipo === "fisura" ? 3 : 7);
+
+  const trazos: { d: string; at: number }[] =
+    tipo === "fisura"
+      ? [{ d: caminoGrieta(ancho * 0.47, alto * 0.34, ancho * 0.53, alto * 0.64, 10, 6, "fisura"), at }]
+      : tipo === "vertical"
+        ? [{ d: caminoGrieta(ancho * 0.51, alto * 0.09, ancho * 0.46, alto * 0.91, 14, 15, "vert"), at }]
+        : tipo === "horizontal"
+          ? // Arriba a propósito: el artículo sitúa las horizontales «en la parte
+            // alta de los muros», y dibujarlas a media altura contradiría el texto
+            // que la propia toma tiene al lado.
+            [{ d: caminoGrieta(ancho * 0.07, alto * 0.29, ancho * 0.93, alto * 0.33, 14, 13, "horz"), at }]
+          : // La X, con la segunda diagonal 9 f después: cruzarse a la vez se lee
+            // como un aspa dibujada; una tras otra, como dos grietas que se
+            // encuentran — que es lo que describe el artículo.
+            [
+              { d: caminoGrieta(ancho * 0.12, alto * 0.13, ancho * 0.88, alto * 0.87, 14, 14, "diagA"), at },
+              { d: caminoGrieta(ancho * 0.88, alto * 0.15, ancho * 0.12, alto * 0.85, 14, 14, "diagB"), at: at + 9 },
+            ];
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: ancho,
+        height: alto,
+        borderRadius: LAYOUT.radio,
+        border: `${LAYOUT.borde}px solid ${alfaN(N.tinta, 0.16)}`,
+        boxShadow: N.sombra,
+        background: N.hueso,
+        opacity: op,
+        transform: `translateY(${interpolate(e, [0, 1], [34, 0])}px) scale(${interpolate(e, [0, 1], [0.95, 1])})`,
+      }}
+    >
+      {trazos.map((t) => (
+        <Trazo
+          key={t.d}
+          d={t.d}
+          ancho={ancho}
+          alto={alto}
+          at={t.at}
+          dur={dur}
+          color={color}
+          grosor={g}
+          // Sin halo: `Trazo` nace con `resplandor` 0.55 porque la biblioteca
+          // general vive sobre fondo oscuro. Sobre papel un resplandor se ve como
+          // una mancha alrededor de la línea.
+          resplandor={0}
+          estilo={{ position: "absolute", inset: 0 }}
+        />
+      ))}
     </div>
   );
 };

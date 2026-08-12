@@ -517,6 +517,23 @@ export const gapEntre = (gap: number | readonly number[] | undefined, i: number,
 export interface Ancla {
   desde: "arriba" | "abajo" | "centro";
   pct: number;
+  /**
+   * DÓNDE REPOSA EL BLOQUE dentro de una caja anclada al centro. Solo con
+   * `desde: "centro"`; en fracción del alto, desde el borde inferior.
+   *
+   * La caja SIGUE cubriendo el cuadro entero —que es lo que hace que un hijo a
+   * sangre (el metraje de un `escenario`, su `velo`) coincida con él— y lo único
+   * que cambia es dónde se apoya el texto. `cuelga: 560/1920` es el
+   * `paddingBottom: 560` con el que el intérprete viejo colgaba el titular del
+   * tercio inferior.
+   *
+   * EXISTE PORQUE `desde: "abajo"` NO SIRVE PARA ESTO, y se probó primero: esa
+   * caja no fija `top` ni `bottom`, así que es de alto AUTO, y un hijo absoluto
+   * no contribuye al alto auto — la caja acaba midiendo lo que mida el titular,
+   * su centro se va a y≈1317 y el metraje a sangre se desplaza ~357 px dejando
+   * negro sin cubrir. Peor: el desplazamiento CAMBIA con el número de líneas.
+   */
+  cuelga?: number;
 }
 
 /**
@@ -1434,6 +1451,17 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
       }
     });
     if (usaPropia) conPropia++;
+
+    // `cuelga` solo empuja en la caja anclada al CENTRO, que es la única que fija
+    // `top` y `bottom` y por tanto la única con alto real dentro del cual apoyar
+    // el bloque. En una caja de alto AUTO el `paddingBottom` no mueve nada y el
+    // campo sería un no-op silencioso — la clase de fallo que este validador
+    // existe para no tener.
+    const anclaToma = t.ancla ?? molde.ancla;
+    if (anclaToma.cuelga !== undefined && anclaToma.desde !== "centro")
+      avisos.push(
+        `[${t.id}] \`cuelga\` con ancla "${anclaToma.desde}": esa caja es de alto AUTO y \`cuelga\` no hace nada — ancla en "centro" o quita el campo`
+      );
 
     // R08 por BULTO. Todos los moldes llevan `altoMax`: en el diseño anterior
     // solo lo tenía "franja", que no la usa ni una escena del repo, así que la

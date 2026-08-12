@@ -1039,7 +1039,20 @@ const cajaMolde = (ancla: Ancla, v: Vista, alinea: string): React.CSSProperties 
   };
   if (ancla.desde === "arriba") return { ...comun, top: Math.round(v.alto * ancla.pct) };
   if (ancla.desde === "abajo") return { ...comun, bottom: Math.round(v.alto * ancla.pct) };
-  return { ...comun, top: 0, bottom: 0, justifyContent: "center" };
+  if (ancla.cuelga === undefined) return { ...comun, top: 0, bottom: 0, justifyContent: "center" };
+  // EL BLOQUE CUELGA Y LA CAJA NO SE MUEVE. El `paddingBottom` NO encoge la caja
+  // de padding, que es el bloque contenedor de los hijos absolutos: el metraje a
+  // sangre y su `velo` siguen resolviendo su `top: 50%` contra los 1920 del
+  // cuadro y siguen cayendo en su centro. Por eso el titular de un `escenario`
+  // puede colgar del tercio inferior sin descuadrar el plano — que es justo lo
+  // que no permitía anclar `desde: "abajo"` (ver `Ancla.cuelga` en nucleo.ts).
+  return {
+    ...comun,
+    top: 0,
+    bottom: 0,
+    justifyContent: "flex-end",
+    paddingBottom: Math.round(v.alto * ancla.cuelga),
+  };
 };
 
 /* ── La toma ────────────────────────────────────────────────────────────── */

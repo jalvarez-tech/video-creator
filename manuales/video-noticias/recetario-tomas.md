@@ -151,6 +151,21 @@ toma("t05", "retrato", "conflicto", [420, 510], {
 }, "Pone cara al momento de ruptura")
 ```
 
+**Antes de tener el archivo**, declara la INTENCIÓN y sigue maquetando — es un estado legítimo del plan, no un TODO:
+
+```ts
+toma("t05", "retrato", "conflicto", [420, 510], {
+  buscarMedia: "grieta en la pared",    // en español; el glosario lo traduce
+  titular: "La grieta que nadie miró",
+}, "Ensena la prueba física de lo que el texto afirma")
+```
+
+Y luego el validador te dice el comando exacto que falta por correr:
+
+```bash
+node manuales/video-noticias/scripts/revisar-broll.mjs remotion/src/proyectos/NNN/noticia-NNN.ts
+```
+
 - Borde naranja + sombra al 15 % + esquinas redondeadas. **Nunca a sangre sobre papel.**
 - Ken Burns automático (escala 1 → 1.06 durante la ventana): una foto fija sin deriva se congela.
 - **Sin `media` monta el marco vacío con "pendiente"** — sirve para maquetar antes de generar el b-roll. Aparece en los avisos de `revisaNoticia()`.
@@ -172,8 +187,9 @@ toma("t10", "escenario", "climax", [954, 1050], {
 }, "Deja de ser corporativo y pasa a ser poder público")
 ```
 
-- Lleva **scrim inferior automático**: sin él, el titular blanco desaparece en cuanto el metraje se aclara.
-- El titular va abajo (`paddingBottom: 560`), por encima de la zona de subtítulos.
+- Lleva **velo automático**: `compilaToma` mete una pieza `velo` entre el metraje y el titular, y ahí es donde tiene que ir. No es el scrim del molde y no puede serlo: el ambiente se pinta siempre por debajo de los hijos, y el metraje a sangre ES un hijo — un scrim de molde se dibujaría debajo del vídeo. Sin velo, el titular blanco desaparece en cuanto el metraje se aclara: medido, un clip de luma 245 lo deja invisible.
+- **Si escribes un plan NATIVO** (un `Plan` del núcleo, como el 006) el velo lo pones tú: `pon("velo", { en: 0, entra: QUIETA })` entre el `media` a sangre y el texto. La regla `veloProtege` avisa si falta, si está en el sitio equivocado del z-order o si se queda corto para donde cae el bloque de texto.
+- El titular cuelga del tercio inferior por `ancla.cuelga` (`LAYOUT.cuelgaCine` = 560, el `paddingBottom` del intérprete viejo), por encima de la zona de subtítulos. Va en la TOMA y no en el molde: el `cierre` comparte molde `cine` y está diseñado centrado.
 - Material de archivo en **blanco y negro** funciona especialmente bien aquí: contrasta con el naranja del resto y refuerza el «esto es documento».
 - **Sonido:** `whoosh heavy` en el corte de entrada.
 
@@ -209,6 +225,9 @@ toma("t11", "cierre", "cierre", [1050, 1140], {
 | `hitos` | `Hito[]` | cronologia |
 | `medidas` | `Medida[]` | medidor |
 | `media` `esVideo` | string/bool | retrato · escenario |
+| `buscarMedia` | string o `{consulta, tipo, indice}` | retrato · escenario — la INTENCIÓN, en español, mientras el archivo no exista |
+| `grado` | `{exposicion, contraste, saturacion, calido}` | retrato · escenario — la corrección MEDIDA por `bancos.py gradar`. El look del formato no va aquí |
+| `alto` `desde` `opacidad` `tinta` `rampa` | number/string | velo (solo en planes nativos: en `escenario` lo pone el compilador) |
 | `registro` | `"papel"\|"cine"` | override del registro por defecto |
 | `color` | string | cifra · medidor |
 | `dur` | number | cronologia · cifra · medidor |

@@ -1,0 +1,12 @@
+n01-sismo|Tras el sismo, muchas viviendas quedaron con grietas. No todas significan lo mismo.
+n02-magnitud|El terremoto fue de magnitud siete coma cuatro.
+n03-fuente|¿Cuándo una grieta es peligrosa?
+n04-no-iguales|La forma de la grieta dice el riesgo.
+n05-fisura|Las fisuras superficiales son del grosor de un cabello y afectan solo al revoque, al estuco o a la pintura.
+n06-vertical|Las verticales no comprometen la estabilidad de inmediato, pero requieren seguimiento por si crecen.
+n07-horizontal|Las horizontales salen en la parte alta de los muros: significan empujes o deformaciones, y el riesgo sube.
+n08-diagonal|Las peores cruzan en equis, en diagonal o en escalera, sobre muros, vigas o columnas. Pueden fallar súbitamente, sin dar previo aviso.
+n09-umbral|Si el ancho supera los dos o tres milímetros, el artículo pide contactar ya a un ingeniero civil o a los organismos de emergencia.
+n10-senales|Y no todo son grietas: puertas que se traban, separación entre muros y marcos, desniveles en placas o techos.
+n11-sin-formula|Los expertos lo aclaran: no hay fórmula exacta para saber a simple vista si una estructura es segura. Este vídeo no reemplaza una inspección.
+n12-ruta|Ante daños estructurales, la ruta es la línea ciento veintitrés. En Medellín la revisión la hace el organismo de gestión del riesgo, y es gratuita. En el resto de Antioquia, la oficina departamental o los bomberos.

@@ -196,6 +196,58 @@ export const LAYOUT = {
   radio: 22,
   /** Grosor del borde naranja de las tarjetas de foto. */
   borde: 8,
+  /**
+   * Alto del `velo`: el 62 % de 1920 en el que el degradado llega a transparente.
+   * Es el mismo número que declara `MOLDES_NOTICIA.cine.scrim`, sacado aquí para
+   * que molde, compilador, montador y validador no lo escriban cuatro veces.
+   */
+  veloAlto: 1190,
+  /**
+   * Lo que cuelga el titular de un `escenario` desde el borde inferior (el
+   * `paddingBottom: 560` del intérprete viejo). Con un titular de una línea el
+   * texto se apoya en y=1360: 140 px por encima del carril de subtítulos.
+   */
+  cuelgaCine: 560,
+} as const;
+
+/**
+ * EL LOOK DEL METRAJE — lo que hace que tres clips de tres autores parezcan una
+ * sola pieza.
+ *
+ * Va en el TEMA y no en el plan porque es del FORMATO: todo el metraje de este
+ * canal se ve así, igual que todo el papel es el mismo beige. Lo que sí es por
+ * clip es la CORRECCIÓN que lo iguala (`grado` en la pieza `media`), y eso se
+ * mide, no se decide.
+ *
+ * Y el orden importa, que es la parte que se hace mal: primero se corrige cada
+ * clip para que todos partan del mismo sitio, y solo después se aplica esto
+ * encima. Un look uniforme sobre clips sin igualar no los une — amplifica sus
+ * diferencias, porque cada uno viene ya graduado por su autor.
+ */
+export const METRAJE = {
+  /**
+   * El único color vivo de una pieza de este formato es el naranja de marca. Un
+   * metraje a plena saturación compite con él, y el ojo va a la foto en vez de
+   * al dato.
+   */
+  saturacion: 0.86,
+  /** Un pelo de contraste: el material de banco suele venir plano de fábrica. */
+  contraste: 1.05,
+  /**
+   * Velo cálido sobre el metraje, del color del papel. Es lo que casa un clip
+   * frío de stock con un formato que es beige y naranja — y de paso el tinte
+   * común es, por sí solo, la herramienta de igualado más barata que hay.
+   */
+  calido: 0.07,
+  /**
+   * Grano. El MISMO truco que `FondoPapel` (repeating-conic-gradient, sin
+   * imágenes ni dependencias, determinista) y por la misma razón: un grano
+   * compartido sobre todo el metraje disimula que cada clip viene de una cámara
+   * distinta. Es el match más barato que existe.
+   */
+  grano: 0.055,
+  /** Hunde las esquinas y empuja el ojo al centro del plano. Muy leve. */
+  vineta: 0.22,
 } as const;
 
 /** `#rrggbb` → `rgba(...)`. Igual que `alfa()` de estilos.ts, sin acoplar los dos themes. */

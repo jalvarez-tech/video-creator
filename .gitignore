@@ -38,6 +38,18 @@ remotion/public/noticias/*.mp4
 avatar/*.mp4
 remotion/public/*.mp4
 
+# B-ROLL DE BANCOS: el binario fuera, el MANIFIESTO dentro. Es la misma decisión
+# que la voz en off (el guion se versiona, el WAV no), y aquí además es lo único
+# que hace re-renderizable el proyecto dentro de un año: los catálogos de los
+# bancos cambian y las URLs caducan, así que lo que se guarda es qué se eligió,
+# de quién es y bajo qué licencia — con su sha256. Se repone entero con
+#   python3 manuales/edicion-video/scripts/bancos.py reponer --proyecto NNN
+proyectos/*/broll/*/raw/
+proyectos/*/broll/cache/
+proyectos/*/broll/contactos/
+remotion/public/broll/
+!proyectos/*/broll/manifiesto.json
+
 # El BANCO DE SONIDOS SÍ se versiona (decisión del 2026-07-28): `sonido/` completo
 # (~846 MB, 1227 archivos, 37 categorías) va al repo porque el sistema depende de
 # él —`copiar-sfx.sh` saca de ahí el set calibrado de remotion/public/sfx/ y el

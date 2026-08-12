@@ -105,6 +105,42 @@ export type Medida = {
   decimales?: number;
 };
 
+/**
+ * LA CORRECCIÓN DE UN CLIP, para que todos partan del mismo sitio antes de que
+ * el look del formato (`METRAJE`, en theme-noticias.ts) se aplique encima.
+ *
+ * No se decide, se MIDE: la calcula `bancos.py gradar` con `signalstats` sobre
+ * el material real y la escribe ya resuelta. Por eso son factores relativos
+ * (1 = no tocar) y no valores absolutos: lo que se corrige es la distancia de
+ * ESTE clip a la mediana de los del proyecto, y esa distancia no la sabe nadie
+ * mirando.
+ *
+ * Lo que NO va aquí es el look —saturación, grano, viñeta, el velo cálido de
+ * marca—: eso es del FORMATO, es igual para todo el metraje del canal y vive en
+ * `METRAJE`. Mezclarlos es cómo se acaba con un plan lleno de números de color
+ * que nadie sabe si son corrección o estilo.
+ *
+ * Vive en este archivo, que no importa nada, porque `dialecto.ts` ya importa de
+ * aquí: al revés habría un ciclo.
+ */
+export type GradoMedia = {
+  /**
+   * Factor de brillo. 1.12 = subir un 12 % para alcanzar la mediana.
+   *
+   * Iguala, no rescata: lo que ya está quemado no se recupera subiendo el
+   * brillo —un canal a 255 se queda en 255— ni bajándolo. Un clip que necesite
+   * más de lo que permiten los topes de `bancos.py` no es un clip mal graduado,
+   * es un clip que no sirve.
+   */
+  exposicion?: number;
+  /** Factor de contraste, sobre el del formato. */
+  contraste?: number;
+  /** Factor de saturación, sobre la del formato. */
+  saturacion?: number;
+  /** Temperatura: positivo calienta (velo de papel), negativo enfría (velo azul). */
+  calido?: number;
+};
+
 export type TomaNoticia = {
   id: string;
   tipo: TipoToma;
@@ -146,6 +182,33 @@ export type TomaNoticia = {
   media?: string;
   /** El media es vídeo (usa OffthreadVideo) en vez de imagen. */
   esVideo?: boolean;
+  /**
+   * LA INTENCIÓN del b-roll, en español y como la diría un documentalista de
+   * archivo: «grieta en la pared», «obra gris en medellín», «firmar ante notario».
+   *
+   * Va aquí y no en un archivo aparte porque es una decisión EDITORIAL —qué
+   * prueba visual pide esta toma— y las decisiones editoriales viven en el plan,
+   * al lado del `reason` que las justifica. Lo que NO va en el plan es el
+   * resultado: la URL, el autor y la licencia los congela
+   * `proyectos/NNN/broll/manifiesto.json`, porque un plan que guardara la URL de
+   * un banco deja de renderizar en cuanto el banco la rote.
+   *
+   * `bancos.py` la traduce con su glosario (los términos jurídicos y locales
+   * colombianos no existen en el índice de los bancos ni traducidos palabra a
+   * palabra) y `revisar-broll.mjs` la usa para decirte el comando exacto que
+   * falta por correr.
+   *
+   * Declararla y no traerla es un estado legítimo: es lo que permite maquetar la
+   * pieza entera antes de bajar un solo byte. Lo que no es legítimo es llegar al
+   * render sin ninguna de las dos, y de eso avisa `revisaNoticia`.
+   */
+  buscarMedia?: string | { consulta: string; tipo?: "foto" | "video"; indice?: number };
+  /**
+   * La corrección MEDIDA de este clip, para que todos partan del mismo sitio.
+   * La calcula `bancos.py gradar` y se pega tal cual; el look del formato
+   * (saturación, grano, viñeta, velo cálido) NO va aquí: es de `METRAJE`.
+   */
+  grado?: GradoMedia;
 
   // ── Forma ──
   color?: string;
@@ -218,8 +281,32 @@ export function revisaNoticia(tomas: TomaNoticia[], fps = 30): string[] {
       avisos.push(`[${t.id}] dura ${len} f (< 0.8 s): no da tiempo a leer el titular`);
     else if (len > Math.round(fps * 6))
       avisos.push(`[${t.id}] dura ${len} f (> 6 s): en un short, demasiado sin cambio visual`);
-    if ((t.tipo === "retrato" || t.tipo === "escenario") && !t.media)
-      avisos.push(`[${t.id}] toma ${t.tipo} sin media: montará el marco vacío`);
+    // Los tres estados del b-roll de una toma, y son tres avisos distintos
+    // porque son tres cosas distintas que hacer:
+    //   sin nada          → falta una DECISIÓN editorial (qué prueba pide la toma)
+    //   con `buscarMedia` → falta un COMANDO (traerla del banco)
+    //   con `media`       → falta comprobar el DISCO, y eso ya no es asunto de
+    //                       este validador: lo mide `revisar-broll.mjs`, que sí
+    //                       tiene `fs` y `ffprobe`.
+    if (t.tipo === "retrato" || t.tipo === "escenario") {
+      const consulta = typeof t.buscarMedia === "string" ? t.buscarMedia : t.buscarMedia?.consulta;
+      if (!t.media && !consulta)
+        avisos.push(
+          `[${t.id}] toma ${t.tipo} sin media ni \`buscarMedia\`: montará el marco vacío y el plan no dice qué debería ir ahí`
+        );
+      else if (!t.media)
+        avisos.push(`[${t.id}] \`buscarMedia: "${consulta}"\` declarada pero sin traer: córrelo con revisar-broll.mjs`);
+    }
+    // Un `.mp4` sin `esVideo` monta un <Img> con un vídeo dentro: no se ve nada,
+    // no falla nada y no avisa nadie. Barato de cazar aquí y caro de encontrar
+    // en un render de 80 s.
+    if (t.media) {
+      const esClip = /\.(mp4|mov|webm|m4v)$/i.test(t.media);
+      if (esClip && !t.esVideo)
+        avisos.push(`[${t.id}] media "${t.media}" es un clip y falta \`esVideo: true\`: montaría un <Img> vacío`);
+      if (!esClip && t.esVideo)
+        avisos.push(`[${t.id}] \`esVideo: true\` sobre "${t.media}", que no es un clip: <OffthreadVideo> no lo reproduce`);
+    }
     // AQUÍ HABÍA una regla sobre `resaltar`: avisaba de que el fragmento no
     // aparecía LITERAL en el titular, porque el rotulador se posicionaba con un
     // `indexOf` que devolvía −1 y no dibujaba nada, en silencio. Se borra porque
