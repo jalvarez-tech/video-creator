@@ -69,6 +69,26 @@ PRESETS = {
 }
 PRESET_DEF = "noticias"
 
+# Modelos que RECHAZAN el request stitching (`previous_text` / `next_text`).
+#
+# No es una precaucion teorica: `guion` mandaba los vecinos SIEMPRE, asi que
+# `guion --modelo eleven_v3` moria en la primera linea con un 400
+# ("Providing previous_text or next_text is not yet supported with the
+# 'eleven_v3' model") — y el subcomando anunciaba `--idioma`, que es una opcion
+# que multilingual_v2 no admite y v3 si. O sea que la ayuda describia una
+# combinacion que el codigo hacia imposible.
+#
+# Se apaga el stitching en vez de rechazar el modelo porque v3 sigue siendo la
+# eleccion correcta cuando se quiere rango emocional. Lo que NO se hace es
+# apagarlo en silencio: sin vecinos, cada linea se genera a ciegas y las
+# junturas pueden saltar de tono. Eso lo decide quien locuta, informado.
+SIN_STITCHING = {"eleven_v3"}
+
+
+def hay_stitching(modelo):
+    """¿Este modelo admite `previous_text`/`next_text`?"""
+    return modelo not in SIN_STITCHING
+
 
 ENV = cargar_env("ELEVENLABS_")
 
@@ -202,12 +222,16 @@ def sintetiza(texto, voz, args, previo=None, siguiente=None):
     le dicen al modelo que hay texto antes y despues de este fragmento. Sin esto,
     generar un guion frase a frase produce saltos de tono y pausas raras en cada
     juntura — que es exactamente lo que se oye al concatenar los clips despues.
+
+    Los modelos de `SIN_STITCHING` los rechazan con un 400, asi que ahi se omiten:
+    el precio esta documentado arriba y lo avisa `cmd_guion` antes de facturar.
     """
     body = {"text": texto, "model_id": args.modelo, "voice_settings": ajustes(args)}
-    if previo:
-        body["previous_text"] = previo
-    if siguiente:
-        body["next_text"] = siguiente
+    if hay_stitching(args.modelo):
+        if previo:
+            body["previous_text"] = previo
+        if siguiente:
+            body["next_text"] = siguiente
     # `language_code` guia pronunciacion y normalizacion, pero NO lo admite
     # multilingual_v2 (lo ignora o da 422). Solo se manda si el usuario lo pide.
     if args.idioma:
@@ -260,6 +284,10 @@ def huella(texto, voz, args, previo, siguiente):
     (request stitching), asi que tocar una linea cambia de verdad el audio de sus
     dos vecinas. Regenerar tres tomas es lo correcto; dar por buenas las vecinas
     dejaria una juntura con la entonacion vieja.
+
+    Y por eso SALEN de la firma cuando el modelo no admite stitching: si los
+    vecinos no viajan en la peticion, no influyen en el audio, y meterlos en el
+    hash haria repagar dos tomas intactas cada vez que se toca una linea.
     """
     firma = {
         "texto": texto,
@@ -269,8 +297,8 @@ def huella(texto, voz, args, previo, siguiente):
         "formato": args.formato,
         "idioma": args.idioma,
         "normalizar": args.normalizar,
-        "previo": previo,
-        "siguiente": siguiente,
+        "previo": previo if hay_stitching(args.modelo) else None,
+        "siguiente": siguiente if hay_stitching(args.modelo) else None,
     }
     bruto = json.dumps(firma, sort_keys=True, ensure_ascii=False).encode("utf-8")
     return hashlib.sha256(bruto).hexdigest()
@@ -342,7 +370,17 @@ def cmd_guion(args):
 
     total_chars = sum(len(t) for _, _, t in con_voz)
     print(f"\n{len(lineas)} lineas ({len(con_voz)} con voz) · {total_chars:,} caracteres")
-    print(f"voz {voz[:8]}… · {args.modelo} · preset {args.preset} · {args.formato} · stitching ON")
+    stitching = hay_stitching(args.modelo)
+    print(
+        f"voz {voz[:8]}… · {args.modelo} · preset {args.preset} · {args.formato}"
+        f" · stitching {'ON' if stitching else 'OFF'}"
+    )
+    if not stitching:
+        print(
+            f"⚠  {args.modelo} no admite request stitching: cada linea se genera SIN saber\n"
+            "   que va antes ni despues, asi que las junturas pueden saltar de tono.\n"
+            "   Escucha la pista montada antes de dar la locucion por buena."
+        )
     if args.simular:
         print("(--simular: no se llama a la API, no se gasta cuota)")
     if args.forzar:
