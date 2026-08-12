@@ -71,9 +71,10 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import type { ReactNode } from "react";
-import { Img, OffthreadVideo, interpolate, staticFile } from "remotion";
+import { AbsoluteFill, Img, OffthreadVideo, interpolate, staticFile } from "remotion";
 import { formatea } from "../formato";
 import { EASE, durSegura } from "../motion";
+import { Scrim } from "../graficos/Fondos";
 import { GLIFO } from "../graficos/Glifos";
 import { textoPlano } from "../plan/nucleo";
 import type { ClaveDe, CtxPieza, Montadores, Trozo } from "../plan/nucleo";
@@ -81,6 +82,7 @@ import {
   ChipIcono,
   CifraContada,
   Cronologia,
+  DiagramaGrieta,
   FondoCine,
   FondoPapel,
   Medidor,
@@ -89,7 +91,8 @@ import {
   TarjetaFoto,
 } from "./Editorial";
 import type { MoldeNoticia, PiezasNoticia, TextoN, TintaNoticia } from "./dialecto";
-import { N, T, alfaN } from "./theme-noticias";
+import type { GradoMedia } from "./plan";
+import { LAYOUT, METRAJE, N, T, alfaN } from "./theme-noticias";
 
 /** Las nueve claves del registro, DERIVADAS: nadie escribe esta unión a mano. */
 export type PiezaNoticia = ClaveDe<PiezasNoticia>;
@@ -206,7 +209,11 @@ const trozoRotulado = (t: TextoN): string | undefined => {
  * maquetar la pieza entera antes de generar un solo clip. Que llegue al render
  * final es un fallo, y por eso `ficha.media` avisa de un `media` sin `src`.
  */
-export const MediaNoticia: React.FC<{ src?: string; esVideo?: boolean }> = ({ src, esVideo }) => {
+export const MediaNoticia: React.FC<{ src?: string; esVideo?: boolean; grado?: GradoMedia }> = ({
+  src,
+  esVideo,
+  grado,
+}) => {
   if (!src) {
     return (
       <div
@@ -228,8 +235,58 @@ export const MediaNoticia: React.FC<{ src?: string; esVideo?: boolean }> = ({ sr
       </div>
     );
   }
-  const estilo: React.CSSProperties = { width: "100%", height: "100%", objectFit: "cover" };
-  return esVideo ? <OffthreadVideo src={staticFile(src)} style={estilo} /> : <Img src={staticFile(src)} style={estilo} />;
+  // EL ORDEN ES EL DEL OFICIO Y NO ES INTERCAMBIABLE: primero se CORRIGE cada
+  // clip (`grado`, que se mide con `bancos.py gradar`) para que todos partan del
+  // mismo sitio, y solo después se aplica el LOOK del formato (`METRAJE`), igual
+  // para todos. Al revés —look uniforme sobre clips sin igualar— el look
+  // amplifica las diferencias en vez de taparlas: cada clip viene ya graduado
+  // por su autor y el mismo filtro empuja el color de cada uno hacia otro lado.
+  const estilo: React.CSSProperties = {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    filter: [
+      `brightness(${((grado?.exposicion ?? 1) * 100).toFixed(1)}%)`,
+      `contrast(${(((grado?.contraste ?? 1) * METRAJE.contraste) * 100).toFixed(1)}%)`,
+      `saturate(${(((grado?.saturacion ?? 1) * METRAJE.saturacion) * 100).toFixed(1)}%)`,
+    ].join(" "),
+  };
+  return (
+    <div style={{ width: "100%", height: "100%", position: "relative", overflow: "hidden" }}>
+      {esVideo ? (
+        <OffthreadVideo src={staticFile(src)} style={estilo} />
+      ) : (
+        <Img src={staticFile(src)} style={estilo} />
+      )}
+      {/* El velo cálido del formato, más lo que pida el clip para corregir su
+       *  propia dominante. `calido` negativo enfría (velo azulado). */}
+      <AbsoluteFill
+        style={{
+          background:
+            (grado?.calido ?? 0) < 0
+              ? alfaN("#4A6C8A", Math.min(0.5, METRAJE.calido + Math.abs(grado?.calido ?? 0)))
+              : alfaN(N.papel, Math.min(0.5, METRAJE.calido + (grado?.calido ?? 0))),
+          mixBlendMode: "soft-light",
+          pointerEvents: "none",
+        }}
+      />
+      {/* Grano: el mismo de `FondoPapel`, y a propósito. Un grano compartido es
+       *  lo que hace que dos clips de dos cámaras se lean como una sola pieza. */}
+      <AbsoluteFill
+        style={{
+          backgroundImage: `repeating-conic-gradient(${alfaN("#8A8172", METRAJE.grano)} 0% 25%, transparent 0% 50%)`,
+          backgroundSize: "6px 6px",
+          pointerEvents: "none",
+        }}
+      />
+      <AbsoluteFill
+        style={{
+          background: `radial-gradient(ellipse at 50% 50%, transparent 55%, ${alfaN("#000000", METRAJE.vineta)} 100%)`,
+          pointerEvents: "none",
+        }}
+      />
+    </div>
+  );
 };
 
 /* ── EL REGISTRO ──────────────────────────────────────────────────────────── */
@@ -345,6 +402,67 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
     />
   ),
 
+  // ── Diagrama ─────────────────────────────────────────────────────────────
+  // `colorDe` y no `N.tinta` a secas: es la regla 3 de la casa. Sobre papel el
+  // trazo cae en tinta por defecto, y una toma de riesgo alto pide `acento` para
+  // que el dibujo escale igual que su kicker.
+  grieta: (p, c) => (
+    <DiagramaGrieta
+      tipo={p.tipo}
+      ancho={p.ancho}
+      alto={p.alto}
+      grosor={p.grosor}
+      // El dibujado no puede durar más que la toma: si `dur` se pasa, la grieta
+      // se queda a medio trazar y el frame final del plano enseña media grieta.
+      // Mismo criterio que `Cronologia` con su raíl.
+      dur={durSegura(p.dur, Math.min(26, c.len - 10))}
+      color={colorDe(c, N.tinta)}
+    />
+  ),
+
+  // ── Atmósfera ────────────────────────────────────────────────────────────
+  velo: (p, c) => (
+    // EL ENVOLTORIO A SANGRE ES OBLIGATORIO, y es la misma construcción que la
+    // rama `media` de aquí abajo: `Scrim` se dibuja con `left: 0; right: 0`, así
+    // que sin envoltorio resolvería contra la caja del molde y saldría metido
+    // 118 px por cada lado — un degradado con dos franjas de vídeo sin tapar.
+    <div
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        width: c.ancho,
+        height: c.alto,
+        transform: "translate(-50%, -50%)",
+        pointerEvents: "none",
+        // Rampa de 3 f, la misma que usan las capas de ambiente: un velo que
+        // aparece de golpe sobre el corte se lee como parpadeo. `opacity` crea
+        // contexto de apilado pero NO bloque contenedor, así que no descuadra al
+        // hijo absoluto (que es justo lo que sí haría un transform de entrada).
+        // El `Math.max(1, …)` es el patrón de la casa y no una precaución
+        // ociosa: `interpolate` exige un rango estrictamente creciente, así que
+        // un `rampa: 0` —lo que escribe quien quiere el velo a corte duro sobre
+        // el corte de plano— lanzaba y tumbaba el render entero, no un frame.
+        // Con el clamp, `rampa: 0` es un fundido de 1 f, que es ese corte duro.
+        opacity: interpolate(c.f, [0, Math.max(1, p.rampa ?? 3)], [0, 1], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        }),
+      }}
+    >
+      <Scrim
+        alto={p.alto ?? LAYOUT.veloAlto}
+        desde={p.desde ?? "abajo"}
+        opacidad={p.opacidad}
+        // NADA de `colorDe(c, …)` aquí, y es la trampa de esta pieza: en una toma
+        // `cine` el color del nodo ya viene resuelto a BLANCO por `molde.tinta`,
+        // así que un velo que respetara el color del nodo saldría blanco y
+        // lavaría el plano en vez de protegerlo.
+        color={p.tinta ? c.tinta(p.tinta) : N.negro}
+      />
+    </div>
+  ),
+
   // ── Media ────────────────────────────────────────────────────────────────
   media: (p, c) =>
     p.sangre ? (
@@ -366,7 +484,7 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
           overflow: "hidden",
         }}
       >
-        <MediaNoticia src={p.src} esVideo={p.esVideo} />
+        <MediaNoticia src={p.src} esVideo={p.esVideo} grado={p.grado} />
       </div>
     ) : (
       // ENMARCADA: la regla del formato. Sobre papel el metraje va SIEMPRE con
@@ -374,7 +492,7 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
       // registro cine. Los 640×820 son los del intérprete viejo, no los del
       // componente (620×800): el que manda para comparar frames es el primero.
       <TarjetaFoto ancho={p.ancho ?? 640} alto={p.alto ?? 820} deriva={p.deriva} duracion={c.len}>
-        <MediaNoticia src={p.src} esVideo={p.esVideo} />
+        <MediaNoticia src={p.src} esVideo={p.esVideo} grado={p.grado} />
       </TarjetaFoto>
     ),
 };
@@ -432,8 +550,18 @@ export const ENTRA_SOLA: Record<PiezaNoticia, boolean> = {
   cifra: false, // el conteo es su gesto, pero la ENTRADA la ponía `<Entra>`
   medidor: true, // rampa de 8 f dentro de Medidor
   cronologia: false, // dibuja el raíl, pero no entra: el bloque sí necesita ley
+  // El panel del muro trae su propio muelle `tarjeta` + rampa de 8 f, igual que
+  // TarjetaFoto. Encadenarle la entrada de la ley daría un doble salto — y el
+  // trazo, que arranca en el frame 6 del nodo, empezaría a dibujarse mientras el
+  // panel todavía está subiendo.
+  grieta: true,
   // Enmarcada, la entrada la pone TarjetaFoto (spring `tarjeta` + Ken Burns);
   // a sangre no hay entrada NINGUNA, y es lo correcto: un fondo que se desliza
   // al entrar delata el corte en vez de taparlo.
   media: true,
+  // El velo trae su propia rampa de opacidad (3 f) dentro del montador. Y no
+  // puede ser de otra manera: la ley monta `<Aparece>`, que aplica un transform,
+  // y un transform se convierte en el bloque contenedor de su hijo absoluto — el
+  // degradado se dibujaría contra una caja que no es el cuadro.
+  velo: true,
 };

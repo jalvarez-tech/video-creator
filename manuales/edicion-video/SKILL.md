@@ -3,14 +3,17 @@ name: edicion-video
 description: >-
   Manual operativo para crear y editar vídeo profesional en el sistema
   "video-creator" que combina Remotion (motor de vídeo programático),
-  Auto-Editor (corte de silencios) y Grok Imagine por la API de xAI
-  (generación de b-roll con IA).
+  Auto-Editor (corte de silencios), Grok Imagine por la API de xAI
+  (generación de b-roll con IA) y Pexels (b-roll de archivo de bancos
+  gratuitos, con manifiesto de licencias).
   Úsalo siempre que se quiera montar una intro/animación/título, abrir Remotion
   Studio, renderizar un vídeo o un frame de prueba, cortar silencios de una
-  grabación, exportar una timeline a DaVinci Resolve, o estructurar un proyecto
-  de vídeo nuevo. Triggers: "editar vídeo", "remotion", "auto-editor",
-  "cortar silencios", "render", "frame de prueba", "abrir studio",
-  "nuevo proyecto de vídeo", "davinci resolve", "b-roll", "grok imagine".
+  grabación, exportar una timeline a DaVinci Resolve, buscar o traer metraje de
+  archivo, o estructurar un proyecto de vídeo nuevo. Triggers: "editar vídeo",
+  "remotion", "auto-editor", "cortar silencios", "render", "frame de prueba",
+  "abrir studio", "nuevo proyecto de vídeo", "davinci resolve", "b-roll",
+  "grok imagine", "pexels", "banco de imágenes", "metraje de archivo",
+  "stock", "buscar imágenes gratis".
 user-invocable: true
 metadata:
   type: reference
@@ -33,6 +36,7 @@ HeyGen (avatar) / Grok Imagine (b-roll) / grabación  →  [Auto-Editor opc.]  �
 |---|---|---|
 | **HeyGen** | Avatar talking-head desde guion (fuente de "cámara") | script `scripts/heygen.py` · [heygen.md](heygen.md) |
 | **Grok Imagine** (API directa de xAI) | Generación de b-roll / imágenes con IA | `scripts/grok.py` · clips en `proyectos/NNN/broll/grok/` |
+| **Pexels** (banco gratuito) | B-roll de ARCHIVO: lugares, objetos y gestos reales | `scripts/bancos.py` · manifiesto en `proyectos/NNN/broll/` |
 | **Auto-Editor** | Cortar silencios (opc. con avatar) | CLI global `auto-editor` (v29.3.1) |
 | **Remotion** | Ensamblaje, títulos, animación, render | `remotion/` (Remotion 4.0.496) |
 
@@ -212,6 +216,65 @@ En Remotion se importan con `<OffthreadVideo src={staticFile('clips/shot-01.mp4'
 **Los cuatro límites que gobiernan su uso** (resolución por confirmar, URLs que caducan, fps de la comp, texto en Remotion) y **cómo conseguir 9:16** están en el contrato del director: **[director-video §3h](../director-video/SKILL.md)**. No los dupliques aquí. El crítico: la resolución de salida **no está documentada** por xAI → mídela con `ffprobe` en el primer clip y, hasta saberlo, no pongas b-roll nítido a pantalla completa en una comp 1080p.
 
 > **`seedance-20` está descartado** — el skill sigue instalado, pero es un pack de *prompt-directing*, **no** el modelo, y no hay suscripción de Seedance (2026-08-05). No lo propongas como alternativa. Si se contrata, vuelve a entrar como respaldo para el caso del techo de 720p.
+
+---
+
+## 🏛️ Pexels — b-roll de ARCHIVO (bancos gratuitos)
+
+Hermano de `grok.py`, no su sustituto. **Grok genera un plano que no existe; esto trae uno que sí existe**, y en una pieza periodística esa diferencia no es de coste: generar un lugar o un hecho real es fabricar prueba documental. La regla de qué motor toca está en **[director-video §3h](../director-video/SKILL.md)**.
+
+Se opera con **`scripts/bancos.py`** (Python stdlib, sobre `_comun.py`). Clave gratuita `PEXELS_API_KEY` en el `.env` — se saca al instante en [pexels.com/api](https://www.pexels.com/api/).
+
+```shell
+python3 manuales/edicion-video/scripts/bancos.py glosario
+python3 manuales/edicion-video/scripts/bancos.py contactos --proyecto 006 --toma n08b --consulta "grieta en la pared" --para escenario
+# …miras la hoja y eliges por el número…
+python3 manuales/edicion-video/scripts/bancos.py traer --proyecto 006 --toma n08b --consulta "grieta en la pared" \
+  --para escenario --indice 3 --porque "la fisura vertical del muro, que es de lo que habla la toma"
+python3 manuales/edicion-video/scripts/bancos.py gradar   --proyecto 006     # con todos los clips ya traídos
+python3 manuales/edicion-video/scripts/bancos.py reponer  --proyecto 006     # tras un clon nuevo
+python3 manuales/edicion-video/scripts/bancos.py creditos --proyecto 006     # para la descripción del vídeo
+```
+
+**`contactos` es el paso que hace que esto no sea una lotería.** Baja las miniaturas, quita el plano repetido (huella perceptual de 128 bits, dos ejes) y el que ya usa otra toma, marca los planos sin contraste, y monta una **hoja numerada** en `proyectos/NNN/broll/contactos/`. Después se elige **mirando**, que es lo único que contesta la pregunta que importa —¿esto ilustra la frase, o solo el tema?—, y el número de la hoja es el `--indice` que baja ese plano y no el de al lado. `--porque` guarda en el manifiesto por qué ese y no otro: es lo único de ahí que no puede rellenar una máquina.
+
+Al mirar la hoja: ¿ilustra lo que dice la toma o solo el tema? · ¿aguanta el recorte a 9:16? · ¿lleva texto quemado o marcas? · ¿hay una persona identificable? (solo en contexto neutro — la licencia prohíbe mostrarla «bajo mala luz») · ¿es el stock que usa todo el mundo?
+
+**`gradar` es el último paso, y va cuando ya están todos los clips.** Tres clips de tres autores vienen ya graduados por ellos: uno frío, otro subexpuesto, otro saturado. Ponerles el mismo look encima **no los une, amplifica sus diferencias** — el mismo filtro empuja el color de cada uno hacia otro lado. El oficio dice: primero igualar, después el look. `gradar` mide con `signalstats` la distancia de cada clip a la **mediana del proyecto** (no a un ideal, para que ninguno se fuerce de más) y escribe la corrección lista para pegar:
+
+```ts
+toma("t08", "escenario", "climax", [954, 1050], {
+  media: "broll/006/n08b-grieta.jpg",
+  grado: { exposicion: 1.083, calido: 0.031 },   // ← lo escribe `gradar`, no tú
+  titular: "La grieta que nadie miró",
+}, "…")
+```
+
+El **look** (saturación 0.86, velo cálido de papel, grano y viñeta) no se copia en el plan: es del FORMATO, vive en `METRAJE` (theme-noticias.ts) y lo aplica el motor a todo el metraje del canal. En el plan solo va lo que se **midió**. El grano compartido, además, es la herramienta de igualado más barata que hay: disimula que cada clip viene de una cámara distinta.
+
+> **No hay ningún modelo puntuando aquí, y es deliberado.** Se evaluó meter CLIP para reordenar por afinidad texto-imagen: son ~2,5 GB de `torch` más 800 MB de pesos en un sistema cuyos scripts son stdlib a propósito, su trabajo real (bajar 60 candidatos a 12) ya lo hace el filtro de medida en 9:16, y su coseno no tiene umbral absoluto transferible — daría una cifra que parece objetiva sin serlo. Mirar nueve miniaturas cuesta segundos.
+
+`--para` no es un preset de calidad: son **las medidas reales del hueco** que monta el motor. `escenario` va a sangre (1080×1920); `retrato` va enmarcado en 624×804 con un Ken Burns de 1 → 1.06, así que pide 662×853 — el 6 % extra es lo que hace falta para que en el frame más ampliado siga habiendo un píxel de fuente por píxel dibujado. Los mismos números los mide `revisar-broll.mjs`, y `revisar-bancos.py` comprueba que los dos scripts no se separen.
+
+Estructura de un proyecto con b-roll de archivo:
+```
+proyectos/NNN/
+└── broll/
+    ├── manifiesto.json      # LO ÚNICO QUE SE VERSIONA: qué, de quién, licencia, sha256
+    ├── pexels/raw/          # el binario — ignorado por git, se repone con `reponer`
+    └── cache/               # respuestas de la API (24 h), para no quemar el límite
+```
+
+Tres cosas que conviene tener presentes, y las tres están medidas:
+
+- **Pexels nunca devuelve cero.** Una consulta sin sentido trae miles de resultados. `buscar` enseña la descripción de cada candidato justamente por eso: el filtro de medida es automático, el de pertinencia no.
+- **La consulta va en inglés y los topónimos en español.** Lo hace el glosario del script. `notaría` devuelve notarías parisinas; `bogota` devuelve Transmilenio.
+- **El clip llega sin pista de audio**, porque el riesgo de Content ID documentado en estos bancos es la música incrustada, no el vídeo.
+
+Se prueba sin gastar cuota ni clave:
+```shell
+python3 manuales/edicion-video/scripts/revisar-bancos.py
+```
 
 ---
 

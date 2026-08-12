@@ -70,7 +70,11 @@ Cambia el recorrido en tres puntos:
 
 ```bash
 node manuales/video-noticias/scripts/revisar-plan.mjs remotion/src/proyectos/005/noticia-005.ts
+node manuales/video-noticias/scripts/revisar-broll.mjs remotion/src/proyectos/005/noticia-005.ts
+node manuales/video-noticias/scripts/revisar-velo.mjs
 ```
+
+`revisar-broll.mjs` es el único que mira el DISCO: que el `media` esté donde dice, que tenga los píxeles que pide su hueco, que el clip no sea más corto que su toma y que su crédito esté en el manifiesto. Cuando falta el archivo pero el plan declara `buscarMedia`, imprime el comando de `bancos.py` que hay que correr.
 
 Pasa los **dos** validadores y **sale con 1 si hay avisos**, para que sirva de puerta y no de informe: `revisaNoticia()` sobre las tomas (huecos, solapes, duraciones, `reason`, beat de gancho) y `revisaPlan()` sobre el plan compilado con la misma `compilaNoticia()` que usa `<PistaNoticia>` (R08 alto, R09 ancho, tintas de marca, reglas de cada pieza). Corría solo el primero, y eso firmaba «✅ Plan limpio» sobre planes que el motor sí marcaba.
 
@@ -91,7 +95,7 @@ video-creator/
 │   ├── edicion-video/        #   motor, pipeline, reglas (R01+), proceso, heygen
 │   │   └── scripts/          #   heygen.py · grok.py (b-roll) · elevenlabs.py (voz)
 │   ├── video-noticias/       #   📰 FORMATO noticias 9:16 + recetario de tomas
-│   │   └── scripts/          #   generar-vo.sh (cronometra) · revisar-plan.mjs
+│   │   └── scripts/          #   generar-vo.sh (cronometra) · revisar-plan.mjs · revisar-velo.mjs
 │   ├── motion-graphics/      #   dirección de gráficos + catalogo-graficos.md
 │   ├── camara-avatar/        #   cámara virtual del avatar
 │   └── diseno-sonoro/        #   SFX, mezcla, ducking + recetario

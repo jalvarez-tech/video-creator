@@ -41,7 +41,8 @@ Root: **`/Users/nicecode/Work/jalvarez/video-creator`**. Este skill es la **capa
 | **Cámara** del avatar (zoom / reencuadre / hacer espacio) | [camara-avatar](../camara-avatar/SKILL.md) | `camara.ts` · `CamaraVirtual.tsx` · `camara-NNN.ts` |
 | **Motion graphics** (títulos, datos, transiciones, CTA) | [motion-graphics](../motion-graphics/SKILL.md) | `motion.ts` · `theme.ts` · **biblioteca `motor/graficos/`** ([catálogo](../motion-graphics/catalogo-graficos.md)) · `graficos-NNN.ts` + `PistaGraficos` |
 | **Sonido** (SFX, mezcla, ducking) | [diseno-sonoro](../diseno-sonoro/SKILL.md) | `sound/cues.ts` · `PistaSonido.tsx` · `cues-NNN.ts` |
-| **B-roll** generado con IA | **Grok Imagine**, API directa de xAI (único motor — ver §3h; `seedance-20` sin suscripción, no usar) | `scripts/grok.py` · clips en `proyectos/NNN/broll/grok/` |
+| **B-roll** generado con IA | **Grok Imagine**, API directa de xAI (ver §3h; `seedance-20` sin suscripción, no usar) | `scripts/grok.py` · clips en `proyectos/NNN/broll/grok/` |
+| **B-roll de archivo** (lugares, objetos y gestos REALES) | **Pexels**, banco gratuito de uso comercial (ver §3h) | `scripts/bancos.py` · manifiesto en `proyectos/NNN/broll/manifiesto.json` |
 | **Avatar** talking-head (fuente) | [heygen](../edicion-video/heygen.md) | `scripts/heygen.py` |
 | **Noticias** (formato completo, sin avatar) | [video-noticias](../video-noticias/SKILL.md) · [recetario](../video-noticias/recetario-tomas.md) | `noticias/` (theme + `TomaNoticia` + `PistaNoticia`) · `noticia-NNN.ts` |
 | Subtítulos sincronizados | edicion-video | `SubtitulosSync.tsx` · `subtitulos-NNN.ts` |
@@ -122,9 +123,33 @@ Las **cuatro capas declarativas** del sistema son hermanas y se leen igual: `cam
 
 **g) Determinismo.** Todo desde `useCurrentFrame()`/`useVideoConfig()`. Prohibido `Math.random()` sin sembrar, timers, `Date.now()`, CSS `animation`/`transition` para el movimiento (rompen la coherencia entre renders).
 
-**h) B-roll generado por IA — motor y límites.** El b-roll es un **asset externo** que entra en la capa de **fondo** (z-order, §3·b), no una capa declarativa: no tiene plan `broll-NNN.ts`; se genera, se descarga y se referencia como `<OffthreadVideo>`.
+**h) B-roll — dos motores y sus límites.** El b-roll es un **asset externo** que entra en la capa de **fondo** (z-order, §3·b), no una capa declarativa: no tiene plan `broll-NNN.ts`; se genera o se trae, se descarga y se referencia (como `<OffthreadVideo>`, o como el campo `media` de una toma en el formato de noticias).
 
-**Motor único: Grok Imagine por la API DIRECTA de xAI** (`api.x.ai`), con el script `manuales/edicion-video/scripts/grok.py` (stdlib, hermano de `heygen.py`). Clave **`XAI_API_KEY`** en el `.env` de la raíz. **No se usa RunAPI**: era un revendedor con cuenta y factura aparte; yendo directo se paga solo a xAI.
+**La regla que decide el motor, y no es de coste: es de honestidad.** Lo que existe se **trae** (`bancos.py`); lo que no existe se **genera** (`grok.py`).
+
+- **Un lugar, un objeto o un gesto reales → banco.** Una fachada en Medellín, unas manos firmando, una grieta en un muro. Generarlos con IA cuando la pieza afirma que algo *pasó* es fabricar prueba documental, y en el formato de noticias eso está prohibido por precedente propio: el 006 renunció a metraje del sismo y dibujó un esquema (`proyectos/006/artefactos/01-noticia.md`).
+- **Un concepto sin referente filmable → ni banco ni IA: gráfico.** Una cifra, un plazo, un porcentaje, una norma. Es el error más caro de este paso, y también el más fácil de cometer, porque el banco *siempre* devuelve algo plausible. La biblioteca de `motor/graficos/` es la respuesta correcta.
+- **Un plano imposible o ilustrativo que no afirma un hecho → IA.**
+
+**Motor de archivo: Pexels.** Clave gratuita `PEXELS_API_KEY` en el `.env`. Licencia de uso comercial sin atribución obligatoria, y aun así el script anota siempre autor, licencia y URL: es gratis de poner y es la única defensa si alguien reclama.
+
+```shell
+python3 manuales/edicion-video/scripts/bancos.py contactos --proyecto NNN --toma n08b --consulta "grieta en la pared" --para escenario
+python3 manuales/edicion-video/scripts/bancos.py traer     --proyecto NNN --toma n08b --consulta "grieta en la pared" --para escenario --indice 3 --porque "…"
+```
+
+El paso de `contactos` **no se salta**: monta una hoja numerada con los candidatos ya cribados (sin repetidos, sin planos que ya usa otra toma) y la elección se hace **mirando**. Es lo único que contesta si el plano ilustra la frase o solo el tema — y es precisamente lo que el banco no puede decir, porque nunca devuelve cero.
+
+Cuatro cosas que el director vigila aquí, porque ninguna se ve en el frame:
+
+1. **El banco NUNCA dice que no.** Una consulta sin sentido devuelve miles de resultados igual que una buena: `results.length > 0` no significa nada. Se miran las descripciones antes de elegir.
+2. **La consulta va en inglés; los topónimos, en español.** Medido: el español pierde entre ×3 y ×22 de candidatos y rompe la semántica de los términos jurídicos. Pero `bogota` y `medellin` sí traen Colombia real. De eso se encarga el glosario de `bancos.py` (`bancos.py glosario`).
+3. **Personas identificables solo en contexto neutro.** La licencia prohíbe presentarlas «bajo mala luz», y un rostro de archivo junto a un titular sobre estafas o desalojos es exactamente ese caso. El sujeto de una noticia se ilustra con objeto, lugar o documento — nunca con una cara de stock. Tampoco marcas ni logos visibles.
+4. **El clip llega sin audio**, y el script lo fuerza. El riesgo documentado de Content ID en estos bancos no es el vídeo: es la música que llevan dentro, que sus autores sí registran.
+
+En git queda el **manifiesto** (qué se eligió, de quién, con qué licencia y con el sha256 del archivo); el binario no. Un clon nuevo lo repone entero con `bancos.py reponer --proyecto NNN`.
+
+**Motor generativo: Grok Imagine por la API DIRECTA de xAI** (`api.x.ai`), con el script `manuales/edicion-video/scripts/grok.py` (stdlib, hermano de `heygen.py`). Clave **`XAI_API_KEY`** en el `.env` de la raíz. **No se usa RunAPI**: era un revendedor con cuenta y factura aparte; yendo directo se paga solo a xAI.
 
 > **`seedance-20` NO está disponible** — el usuario no tiene suscripción (2026-08-05). El skill sigue instalado, pero es un pack de *prompt-directing*, **no** el modelo: sin suscripción no genera nada. **No lo propongas como alternativa ni planifiques contando con él.** Si algún día se contrata, vuelve a entrar como motor de respaldo para el caso del punto 1.
 
