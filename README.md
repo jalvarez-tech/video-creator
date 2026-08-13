@@ -1,10 +1,11 @@
 # 🎬 Video Creator — Sistema de edición de vídeo con IA
 
-Root de **todos** los proyectos de vídeo. Combina seis motores, dirigidos por una capa de skills:
+Root de **todos** los proyectos de vídeo. Combina siete motores, dirigidos por una capa de skills:
 
 | Motor | Para qué | Dónde vive |
 |---|---|---|
-| **Remotion** | Vídeo programático (intros, títulos, animaciones, gráficos, cámara virtual) | `remotion/` |
+| **Remotion** | Vídeo programático (intros, títulos, animaciones, gráficos, cámara virtual). **El motor por defecto** | `remotion/` |
+| **HyperFrames** | Segundo motor: vídeo desde HTML+GSAP, render local y gratis. Se **elige** por pieza, no se hereda | `npx hyperframes` · `manuales/motor-hyperframes/` |
 | **Auto-Editor** | Cortar silencios de un vídeo grabado | CLI global (`auto-editor`) |
 | **HeyGen** | Avatar talking-head a partir de un guion | `manuales/edicion-video/scripts/heygen.py` |
 | **ElevenLabs** | Voz en off (texto → audio) cuando la pieza **no** lleva avatar | `manuales/edicion-video/scripts/elevenlabs.py` |
@@ -83,13 +84,25 @@ Pasa los **dos** validadores y **sale con 1 si hay avisos**, para que sirva de p
 
 Referencia real montada de punta a punta: `proyectos/004/` (17 tomas, 73,5 s).
 
+### 🧱 Si la pieza va en el segundo motor
+
+Remotion es el motor **por defecto**; HyperFrames se **elige**, no se hereda. La skill **`motor-hyperframes`** tiene la tabla de decisión — resumida: el plan de gráficos como dato, las entradas de muelle y la reserva con `<Freeze>` **se quedan en Remotion**; el layout y el contraste que hay que **medir**, el recorte de fondo del avatar y las piezas cortas y gráficas ganan en HyperFrames.
+
+```bash
+node manuales/motor-hyperframes/scripts/nuevo-hf.mjs 008 --canal luxur --formato 9:16 --fps 25
+node manuales/motor-hyperframes/scripts/revisar-hf.mjs 008     # invariantes del repo
+bash manuales/motor-hyperframes/scripts/render-hf.sh 008       # las dos puertas + render
+```
+
+La marca **no se copia, se genera**: `marca-a-css.mjs` lee el mismo `src/marcas/<canal>.ts` que lee Remotion y emite las custom properties, así que cambiar el canal mueve los dos motores a la vez.
+
 ---
 
 ## 📁 Estructura
 
 ```
 video-creator/
-├── .claude/skills/           # Las 6 skills del sistema (symlinks a manuales/)
+├── .claude/skills/           # Las 7 skills del sistema (symlinks a manuales/)
 │                             #   + las de ElevenLabs (⛔ fuera del repo, ver abajo)
 ├── manuales/                 # La capa de dirección — el "cómo se decide"
 │   ├── director-video/       #   🚪 ORQUESTADOR: entra por aquí
@@ -105,7 +118,13 @@ video-creator/
 │   │   └── scripts/          #   generar/revisar-catalogo · medir-anchos (R09)
 │   │                         #   revisar-marca (invariantes) · sonda-frames + revisar-sonda
 │   ├── camara-avatar/        #   cámara virtual del avatar
-│   └── diseno-sonoro/        #   SFX, mezcla, ducking + recetario
+│   ├── diseno-sonoro/        #   SFX, mezcla, ducking + recetario
+│   └── motor-hyperframes/    #   🧱 SEGUNDO MOTOR: vídeo desde HTML+GSAP (HeyGen)
+│       ├── plantilla/        #   la composición 9:16 ya renderizada y mirada
+│       └── scripts/          #   nuevo-hf · marca-a-css (la marca, generada)
+│                             #   revisar-hf (invariantes) · render-hf.sh (las 2 puertas)
+│                             #   instalar-skill-hf (trae skills de HF con prefijo
+│                             #   heygen-*, sin pisar la motion-graphics propia)
 ├── remotion/                 # MOTOR (proyecto npm)
 │   ├── public/sfx/           #   55 efectos calibrados (de los que dependen los renders)
 │   └── src/
@@ -136,7 +155,9 @@ video-creator/
 │       ├── guion-vo.txt          # guion de la voz en off (esto SÍ se versiona)
 │       ├── aprendizajes.md       # qué funcionó y qué evitar
 │       ├── avatar/ vo/ finales/ pruebas-720p/ vistas-previas/   # ⛔ fuera del repo
-│       └── corte-auto-editor/    # salida de Auto-Editor (FCPXML)
+│       ├── corte-auto-editor/    # salida de Auto-Editor (FCPXML)
+│       └── hf/                   # si la pieza va en HyperFrames: index.html +
+│                                 #   marca.css (GENERADO) + vendor/ + assets/
 ├── sonido/                   # Banco completo: 1227 efectos en 37 categorías
 │                             #   índice: sonido/MAPA-SONIDOS.md
 ├── archivos/                 # Biblioteca reutilizable (marca, música, capturas, whisper)
@@ -283,5 +304,8 @@ El banco de sonidos **sí** está en el repo: los renders dependen de él.
 - **B-roll de ARCHIVO: funciona hoy y sin gastar un peso.** `scripts/bancos.py` (`buscar` · `contactos` · `traer` · `reponer` · `gradar` · `creditos` · `glosario`) contra Pexels, con clave gratuita. Probado de punta a punta contra la API real: filtra por la medida real del hueco, quita el audio del clip, congela autor y licencia en el manifiesto, y monta una hoja de contactos numerada para elegir mirando — que hace falta, porque **Pexels nunca devuelve cero**. Test sin red: `python3 manuales/edicion-video/scripts/revisar-bancos.py`.
 - Voz en off: **el 005 está locutado de punta a punta con la voz clonada del canal** (`John Stevans v 0.1`, ElevenLabs) — 16 tomas, cronometradas con `generar-vo.sh --motor elevenlabs`. El **004** sigue con la voz GUÍA del sistema (`--motor say`, Paulina es_MX): sus 17 tomas están cronometradas contra esa pista, así que para publicarlo hay que relocutarlo. `elevenlabs.py guion` es reanudable: reejecutarlo no vuelve a facturar lo que ya está en disco (comprobado en el 005 — al acortar una frase refacturó 3 tomas de 16, esa y sus dos vecinas del stitching).
 - `npm run lint` (eslint + tsc) en verde.
+- **Segundo motor: HyperFrames `0.7.107`, renderizado de verdad en este Mac (2026-08-13).** Composición 9:16 propia → MP4 **1080×1920, 25 fps, 200 frames, 8,0 s**, con `data-fps` respetado sin pasar `--fps`, GSAP vendorizado (sin CDN) y dos SFX del banco de `sonido/` mezclados a **AAC 48 kHz estéreo**. Las cinco pasadas de `hyperframes check` en verde: lint, runtime, **9 muestras de layout** y **21/21 de contraste**. Sin API key y sin tocar servidores de HeyGen: el render local es gratis.
+  - Hallazgo de esa puerta, y es sobre la MARCA, no sobre el motor: el acento `#FF5500` sobre el papel `#ECE8DF` mide **2.62:1**, por debajo del 3:1 de WCAG para texto grande. Como el acento **sí** es una tinta de texto del dialecto editorial (`noticias/dialecto.ts`), afecta a piezas ya publicadas. `marca-a-css.mjs` deriva una variante `--acento-texto` (`#eb4e00` para Luxur) para el segundo motor; **en Remotion sigue sin corregir**.
+  - Tipografía: HyperFrames **no usa San Francisco** — sustituye las familias por webfonts deterministas que cachea en `~/.cache/hyperframes/fonts/`. Los renders son reproducibles entre máquinas, pero las tablas de avances de `plan/avances.ts` (`sf500`…`sf800`) **no valen** para este motor.
 
 📖 **Antes de editar un vídeo real, lee** [manuales/edicion-video/SKILL.md](manuales/edicion-video/SKILL.md) — o entra directamente por el [director](manuales/director-video/SKILL.md). Si la pieza sale de una noticia, por [video-noticias](manuales/video-noticias/SKILL.md).
