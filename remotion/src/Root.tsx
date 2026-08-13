@@ -11,6 +11,7 @@ import { Avatar002 } from "./proyectos/002/Avatar002";
 import { Avatar003 } from "./proyectos/003/Avatar003";
 import { GraficosDemo } from "./motor/demos/GraficosDemo";
 import { PlanDemo } from "./motor/demos/PlanDemo";
+import { LUXUR } from "./marcas/luxur";
 import { NoticiaDemo } from "./motor/demos/NoticiaDemo";
 import { noticiaDemo } from "./motor/demos/noticia-demo";
 import { Noticia004 } from "./proyectos/004/Noticia004";
@@ -18,6 +19,8 @@ import { noticia004 } from "./proyectos/004/noticia-004";
 import { Noticia005 } from "./proyectos/005/Noticia005";
 import { Noticia006 } from "./proyectos/006/Noticia006";
 import { noticia006 } from "./proyectos/006/noticia-006";
+import { Noticia007 } from "./proyectos/007/Noticia007";
+import { noticia007 } from "./proyectos/007/noticia-007";
 import { noticia005 } from "./proyectos/005/noticia-005";
 import { duracionPlan } from "./motor/noticias";
 import { framesDelMedio, framesDePlanYVoz } from "./motor/duracion";
@@ -211,6 +214,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="NoticiaDemo"
         component={NoticiaDemo}
+        defaultProps={{ marca: LUXUR }}
         durationInFrames={duracionPlan(noticiaDemo)}
         fps={30}
         width={1080}
@@ -279,6 +283,22 @@ export const RemotionRoot: React.FC = () => {
             noticia006.formato.duracion
           ),
         })}
+      />
+
+      {/* ⚠️ BLOQUE RECONSTRUIDO (2026-08-13). El registro original se perdió al
+          revertir Root.tsx con `git checkout` durante el paso 10; era trabajo sin
+          commitear. Los datos son los correctos —comprobados contra
+          `noticia-007.ts` y contra la duración que registraba el Studio antes de
+          perderse (2417 f · 80,57 s)— pero esta prosa NO es la original.
+
+          Sello: PROPIEDADES LUXUR. Artefacto: proyectos/007/artefactos/01-noticia.md */}
+      <Composition
+        id="Noticia007"
+        component={Noticia007}
+        durationInFrames={noticia007.formato.duracion}
+        fps={noticia007.formato.fps}
+        width={noticia007.formato.ancho}
+        height={noticia007.formato.alto}
       />
     </>
   );

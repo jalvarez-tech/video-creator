@@ -21,17 +21,26 @@
  */
 
 /**
- * MARCA — lo único que se toca por canal. Cámbialo aquí y afecta al watermark,
- * al color de acento y a la tipografía de toda la plantilla.
+ * DE DÓNDE SALEN AHORA LOS VALORES.
  *
- * `sello` es el texto del watermark persistente (la píldora inferior centrada).
- * Déjalo en null si el canal no lleva sello: la plantilla simplemente no lo
- * monta, sin huecos ni ajustes de layout.
+ * Este archivo era la única definición de la voz del canal, y por eso el canal
+ * no se podía cambiar sin editarlo: `MARCA`, `N`, `FUENTE`, `T` y `METRAJE` eran
+ * `export const` que quince archivos importaban a nivel de módulo, así que dos
+ * marcas no podían convivir en el repo (la ⚠️ de abajo sobre el 004 era eso).
+ *
+ * Ahora el archivo NO define valores: define la FORMA del tema y lo deriva de un
+ * `Marca` (`motor/marca.ts`). Los `export const` de siempre siguen aquí, con los
+ * mismos nombres y los mismos valores, instanciados con el perfil del canal —así
+ * ningún importador cambia y ningún frame publicado se mueve— pero ya no son la
+ * fuente: son UNA instancia. Un segundo canal es `temaNoticiasDe(OTRA_MARCA)`.
+ *
+ * Lo que se queda fuera de la marca a propósito, porque no es suya:
+ *   · la GRAMÁTICA papel↔negro (qué significa cada registro) — es del dialecto;
+ *   · la GEOMETRÍA del lienzo (margen, carril de subtítulos, alto del velo) — es
+ *     del formato, y su sitio es `presets.ts`. Aquí solo quedan de paso.
  */
-export const MARCA = {
-  sello: "PROPIEDADES LUXUR" as string | null, // null = sin watermark
-  acento: "#FF5500", // naranja editorial: el ÚNICO color vivo de la pieza
-} as const;
+import { MARCA_BASE } from "../marca";
+import type { Marca } from "../marca";
 
 /**
  * Paleta editorial. Dos fondos que alternan (papel / negro) y un solo acento.
@@ -41,37 +50,37 @@ export const MARCA = {
  * Papel = "esto significa" (el gráfico que lo explica).
  * Mezclar los dos registros en una misma escena rompe la lectura.
  */
-export const N = {
+const paletaDe = (m: Marca) => ({
   /** Fondo dominante: beige cálido tipo papel reciclado premium. */
-  papel: "#ECE8DF",
+  papel: m.color.papel,
   /** Variante clara para tarjetas y recortes de prensa sobre el papel. */
-  hueso: "#F7F5EF",
+  hueso: m.color.hueso,
   /** Fondo cinematográfico: negro puro, no gris. La low-key vive de esto. */
-  negro: "#000000",
+  negro: m.color.negro,
 
   /** Texto principal sobre papel. Carbón, nunca #000 (vibra sobre beige). */
-  tinta: "#111111",
+  tinta: m.color.tinta,
   /** Texto de apoyo sobre papel: gris CÁLIDO, no azulado. */
-  tintaSuave: "#57524A",
+  tintaSuave: m.color.tintaSuave,
   /** Texto sobre negro. */
-  blanco: "#FFFFFF",
+  blanco: m.color.blanco,
 
   /** Acento primario. Bordes de tarjeta, chips, subrayados, énfasis. */
-  naranja: MARCA.acento,
+  naranja: m.color.acento,
   /** El naranja de los chips isométricos: más terroso, con cuerpo. */
-  naranjaChip: "#E8863A",
+  naranjaChip: m.color.acentoChip,
   /** Amarillo de rotulador para resaltar sobre recortes de prensa. */
-  resalte: "#FFE24A",
+  resalte: m.color.resalte,
 
   /** Líneas y separadores sobre papel. */
-  linea: "rgba(17,17,17,0.14)",
+  linea: m.color.linea,
   /** Sombra proyectada de tarjetas y recortes (15 % — nunca más). */
-  sombra: "0 18px 44px rgba(17,17,17,0.15)",
+  sombra: m.sombra.caja,
   /** Sombra corta de chips y píldoras. */
-  sombraCorta: "0 6px 16px rgba(17,17,17,0.18)",
+  sombraCorta: m.sombra.corta,
   /** Sombra de texto SOBRE NEGRO (sobre papel no se usa nunca). */
-  sombraTexto: "0 2px 14px rgba(0,0,0,0.75)",
-} as const;
+  sombraTexto: m.sombra.textoCine,
+});
 
 /**
  * Tipografías — la VOZ del canal (decisión de `Propiedades Luxur`, 2026-08-09).
@@ -81,10 +90,11 @@ export const N = {
  * apple.com: elegante por contención, no por adorno. Es coherente con una marca
  * de inmuebles de gama alta, y sigue leyéndose a velocidad de habla.
  *
- * ⚠️ ESTO CAMBIA TAMBIÉN EL 004 si se vuelve a renderizar: el theme es del
- * formato, no del proyecto. Es deliberado (es la voz del canal, y el canal es el
- * mismo), pero si algún día el 004 tiene que conservar el serif, la salida es
- * mover estas dos constantes a `MARCA` y que cada proyecto elija.
+ * ✅ AQUEL «ALGÚN DÍA» YA LLEGÓ. Esta nota decía: «si algún día el 004 tiene que
+ * conservar el serif, la salida es mover estas dos constantes a MARCA y que cada
+ * proyecto elija». Hecho — la familia sale de `m.letra` y una composición pasa la
+ * marca que quiera (`<PistaNoticia marca={…}>`). Cambiar la voz del canal ya no
+ * arrastra a las piezas publicadas: basta con darles su propio perfil.
  *
  * POR QUÉ `-apple-system` Y NO "SF Pro Display": la SF Pro descargable de Apple
  * NO está instalada; lo que sí hay es `/System/Library/Fonts/SFNS.ttf`, y Chrome
@@ -99,14 +109,12 @@ export const N = {
  * Los dos roles siguen la propia división de Apple (Display para lo grande,
  * Text para lo pequeño), que no es cosmética: cambia el tracking óptico.
  */
-const SF = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif";
-
-export const FUENTE = {
+const fuenteDe = (m: Marca) => ({
   /** Titulares, cifras, palabra de cierre. Lo que se lee de un vistazo. */
-  display: SF,
+  display: m.letra.display,
   /** Subtítulos, kickers, labels, chips. Lo que acompaña. */
-  texto: SF,
-} as const;
+  texto: m.letra.texto,
+});
 
 /**
  * Escalas tipográficas EN PX A 1080 DE ANCHO (9:16 — el formato del canal).
@@ -120,7 +128,7 @@ export const FUENTE = {
  *   etiqueta → la frase de apoyo que explica el titular o la cifra.
  *   pie      → label pequeño bajo un icono o una foto.
  */
-export const T = {
+const escalaDe = (N: Paleta, FUENTE: Fuente) => ({
   kicker: {
     fontFamily: FUENTE.texto,
     fontSize: 28,
@@ -178,24 +186,24 @@ export const T = {
     letterSpacing: -1,
     lineHeight: 1.15,
   },
-} as const;
+});
 
 /**
  * Geometría del formato en 1080×1920. Son las posiciones que hacen que la pieza
  * se lea igual escena tras escena; cambiarlas por capricho es lo que produce el
  * "salta todo" entre cortes.
  */
-export const LAYOUT = {
+const layoutDe = (m: Marca) => ({
   /** Margen lateral seguro (11 % — coincide con verticalSocial de presets.ts). */
   margen: 118,
   /** Y del bloque de subtítulos, en px. Encima del watermark. */
   subtituloY: 1500,
   /** Y del watermark (píldora de marca), desde abajo. */
   selloBottom: 250,
-  /** Radio de esquina de tarjetas y recortes. */
-  radio: 22,
-  /** Grosor del borde naranja de las tarjetas de foto. */
-  borde: 8,
+  /** Radio de esquina de tarjetas y recortes. DE LA MARCA. */
+  radio: m.forma.radio,
+  /** Grosor del borde naranja de las tarjetas de foto. DE LA MARCA. */
+  borde: m.forma.borde,
   /**
    * Alto del `velo`: el 62 % de 1920 en el que el degradado llega a transparente.
    * Es el mismo número que declara `MOLDES_NOTICIA.cine.scrim`, sacado aquí para
@@ -208,7 +216,7 @@ export const LAYOUT = {
    * texto se apoya en y=1360: 140 px por encima del carril de subtítulos.
    */
   cuelgaCine: 560,
-} as const;
+});
 
 /**
  * EL LOOK DEL METRAJE — lo que hace que tres clips de tres autores parezcan una
@@ -224,31 +232,74 @@ export const LAYOUT = {
  * encima. Un look uniforme sobre clips sin igualar no los une — amplifica sus
  * diferencias, porque cada uno viene ya graduado por su autor.
  */
-export const METRAJE = {
-  /**
-   * El único color vivo de una pieza de este formato es el naranja de marca. Un
-   * metraje a plena saturación compite con él, y el ojo va a la foto en vez de
-   * al dato.
-   */
-  saturacion: 0.86,
-  /** Un pelo de contraste: el material de banco suele venir plano de fábrica. */
-  contraste: 1.05,
-  /**
-   * Velo cálido sobre el metraje, del color del papel. Es lo que casa un clip
-   * frío de stock con un formato que es beige y naranja — y de paso el tinte
-   * común es, por sí solo, la herramienta de igualado más barata que hay.
-   */
-  calido: 0.07,
-  /**
-   * Grano. El MISMO truco que `FondoPapel` (repeating-conic-gradient, sin
-   * imágenes ni dependencias, determinista) y por la misma razón: un grano
-   * compartido sobre todo el metraje disimula que cada clip viene de una cámara
-   * distinta. Es el match más barato que existe.
-   */
-  grano: 0.055,
-  /** Hunde las esquinas y empuja el ojo al centro del plano. Muy leve. */
-  vineta: 0.22,
-} as const;
+const metrajeDe = (m: Marca) => ({ ...m.metraje });
+
+/* ── El tema, instanciado ─────────────────────────────────────────────────
+ *
+ * `escalaDe` recibe la paleta y la fuente YA RESUELTAS en vez de la marca: los
+ * cuerpos y los trackings (96 px, −2.6) son del FORMATO editorial, no del canal,
+ * y mezclarlos con la marca invitaría a que un perfil cambiara el tamaño del
+ * titular — que es exactamente lo que hace que dos piezas del mismo formato
+ * dejen de parecerse. Lo que el canal decide es la FAMILIA y el COLOR; el
+ * tamaño lo decide el formato. */
+
+type Paleta = ReturnType<typeof paletaDe>;
+type Fuente = ReturnType<typeof fuenteDe>;
+
+/**
+ * MEMOIZADO POR IDENTIDAD DE MARCA, y no es una micro-optimización.
+ *
+ * Un montador lo llama por NODO y por FRAME (`temaNoticiasDe(c.marca).T`), así
+ * que sin caché una pieza de 80 s a 30 fps reconstruiría el tema entero unas
+ * cien mil veces. Con `Map` sobre la referencia del objeto es una búsqueda.
+ *
+ * Y hay una razón que no es de rendimiento: los estilos que salen de aquí se
+ * esparcen en `style={{...T.titular}}`, y devolver un objeto NUEVO cada vez
+ * haría que React viera props distintas en cada render. El determinismo no se
+ * rompe —el frame se pinta igual— pero el trabajo se dispara sin motivo.
+ *
+ * `Map` y no `WeakMap` a propósito: los perfiles de marca son constantes de
+ * módulo que viven toda la sesión, así que no hay nada que recolectar, y `Map`
+ * es es2015 (la disciplina de esta casa; `WeakMap` también, pero no aporta).
+ */
+/** La forma del tema, derivada de sus constructores: no hay lista que mantener. */
+export interface TemaNoticias {
+  MARCA: { sello: string | null; acento: string };
+  N: Paleta;
+  FUENTE: Fuente;
+  T: ReturnType<typeof escalaDe>;
+  LAYOUT: ReturnType<typeof layoutDe>;
+  METRAJE: ReturnType<typeof metrajeDe>;
+}
+
+const cacheTema = new Map<Marca, TemaNoticias>();
+
+/** El tema editorial completo, derivado de una marca. Un segundo canal es esto
+ *  con otro perfil: `temaNoticiasDe(OTRA)`. */
+export const temaNoticiasDe = (m: Marca): TemaNoticias => {
+  const guardado = cacheTema.get(m);
+  if (guardado) return guardado;
+  const N = paletaDe(m);
+  const FUENTE = fuenteDe(m);
+  const tema = {
+    MARCA: { sello: m.sello.texto as string | null, acento: m.color.acento },
+    N,
+    FUENTE,
+    T: escalaDe(N, FUENTE),
+    LAYOUT: layoutDe(m),
+    METRAJE: metrajeDe(m),
+  };
+  cacheTema.set(m, tema);
+  return tema;
+};
+
+/**
+ * LA INSTANCIA DEL CANAL. Mismos nombres y mismos valores que antes, para que
+ * los quince importadores no se enteren y ningún frame publicado se mueva.
+ * Deja de ser la fuente de verdad: la fuente es `MARCA_BASE` en `motor/marca.ts`.
+ */
+export const TEMA_NOTICIAS = temaNoticiasDe(MARCA_BASE);
+export const { MARCA, N, FUENTE, T, LAYOUT, METRAJE } = TEMA_NOTICIAS;
 
 /** `#rrggbb` → `rgba(...)`. Igual que `alfa()` de estilos.ts, sin acoplar los dos themes. */
 /** Reexportada de `formato.ts` (era una copia literal de `alfa`). */

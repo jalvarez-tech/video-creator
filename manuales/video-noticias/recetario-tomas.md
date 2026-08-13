@@ -12,6 +12,29 @@ Ejemplo completo: [`noticia-demo.ts`](../../remotion/src/motor/demos/noticia-dem
 
 ---
 
+## ⚠️ Este recetario cubre UNA de las dos superficies
+
+Lo de abajo son los **9 tipos de toma** del DSL `TomaNoticia[]` — la puerta que usan el 004 y el 005. Hay una segunda, y es la que usan el 006 y el 007: escribir un **`Plan` nativo** del núcleo con `capa(dialectoEditorialDe(MARCA), "noticia")`. Ahí no se pide un *tipo de toma*, se pide una **pieza** del registro `PIEZAS_NOTICIA`, y ese registro es más grande que estas nueve fichas.
+
+**Desde 2026-08-13 el dialecto editorial tiene 17 piezas, no 11.** Las seis nuevas vienen del registro compartido (`motor/piezas/`), que sirve a las dos capas del motor:
+
+| Pieza | Qué dibuja |
+|---|---|
+| `regla` | línea recta que se extiende. Con `estira` toma el ancho del bloque; con `gira`, es un tachón |
+| `subrayado` | línea a mano alzada bajo una palabra (`semilla` distinta = otro trazo) |
+| `rodea` | óvalo de rotulador con exceso al cerrar. Señalar UNA cosa |
+| `flecha` | arco de A a B con la punta orientada por la tangente real |
+| `check` | marca de confirmación en dos tiempos |
+| `aspa` | dos trazos cruzados EN SECUENCIA — descarte |
+
+Se piden como cualquier otra: `pon("subrayado", { ancho: 420, dur: 14, color: "acento" })`. Pintan con el color del nodo, así que sobre papel salen carbón y sobre cine blancos sin decir nada.
+
+> **Por qué estas seis y no `lista` o `barras`.** El contrato del registro compartido es que una pieza pinte SOLO con `ctx.color`. Las uniones de tinta de los dos dialectos son disjuntas —el editorial no tiene `logro` ni `perdida`—, así que una pieza que colorea partes por separado no puede entrar hasta que las dos capas acuerden un vocabulario semántico común.
+
+> **Este archivo se escribe A MANO y por eso puede mentir.** La capa de gráficos resolvió esto con un catálogo DERIVADO del registro (`graficos/fichas.ts` → `catalogo-graficos.md`, con su test); el dialecto editorial todavía no lo tiene. Es deuda conocida: ver §8 de [cruce-remotion-scenes.md](../motion-graphics/cruce-remotion-scenes.md).
+
+---
+
 ## `titular` — el mensaje
 
 **Para qué:** decir la cosa. Es la toma más frecuente del formato y la que sostiene los beats `gancho`, `conflicto` y `clímax`.

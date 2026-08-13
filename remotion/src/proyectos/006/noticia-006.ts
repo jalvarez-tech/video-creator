@@ -50,9 +50,10 @@
  * Si alguna cae a destiempo se ve en los frames de control y se mueve a mano: son
  * números, no una estructura.
  */
-import { capa, NOTICIAS } from "../../motor/noticias/dialecto";
+import { capa, dialectoEditorialDe } from "../../motor/noticias/dialecto";
+import { LUXUR } from "../../marcas/luxur";
 
-const { pon, col, fila, gfx, plan, tras } = capa(NOTICIAS, "noticia");
+const { pon, col, fila, gfx, plan, tras } = capa(dialectoEditorialDe(LUXUR), "noticia");
 
 export const noticia006 = plan({ ancho: 1080, alto: 1920, fps: 30, duracion: 2409 }, [
   // ══ GANCHO ═══════════════════════════════════════════════════════════════

@@ -53,8 +53,7 @@ import {
 // ejecución, igual que el núcleo), así que un plan se sigue validando con `node`.
 // El núcleo no la importa a propósito: qué familia y qué peso monta cada pieza
 // lo sabe este archivo y solo este archivo.
-import { AVANCES } from "../plan/avances";
-import type { TablaAvances } from "../plan/avances";
+import type { CtxFicha, LetraDialecto, PesoAvance } from "../plan/nucleo";
 // `import type` de un .tsx: se borra al compilar, así que no entra ni React ni
 // JSX en el bundle de datos. La clave del glifo se DERIVA del banco real
 // (`Glifos.tsx`) en vez de repetirla a mano como hace `plan.ts` — esa lista
@@ -66,7 +65,14 @@ import type { ClaveGlifo } from "../graficos/Glifos";
 // aquí sería crear dos verdades sobre lo mismo el mismo día que se promete una.
 import type { BeatNoticia, GradoMedia, Hito, TomaNoticia } from "./plan";
 import { REGISTRO_POR_TIPO } from "./plan";
-import { LAYOUT, MARCA, N, T } from "./theme-noticias";
+// Ya NO entran `MARCA` ni `N`: la paleta se deriva de la marca que recibe la
+// fábrica, no de las constantes del canal. Quedan `LAYOUT` y `T`, que son
+// GEOMETRÍA y ESCALA del formato — no del canal — hasta el paso 10.
+import { LAYOUT, T, temaNoticiasDe } from "./theme-noticias";
+import { MARCA_BASE } from "../marca";
+import { letraDe } from "../letra";
+import { PIEZAS_COMUNES } from "../piezas";
+import type { Marca } from "../marca";
 
 /* ── Paleta semántica ─────────────────────────────────────────────────────
  * Seis tintas y ni una más. Los hex NO se inventan aquí: salen de
@@ -83,20 +89,33 @@ export type TintaNoticia = "tinta" | "suave" | "blanco" | "acento" | "resalte" |
 /** Texto rico del formato: `["El notario ", {t:"no", rotulador:true}, " inscribe"]`. */
 export type TextoN = TextoRico<TintaNoticia>;
 
-export const PALETA_NOTICIA: Record<TintaNoticia, string> = {
-  /** Texto principal sobre papel. Carbón, nunca #000 (vibra sobre beige). */
-  tinta: N.tinta,
-  /** Texto de apoyo sobre papel: gris CÁLIDO, no azulado. */
-  suave: N.tintaSuave,
-  /** Texto sobre negro (registro cine). */
-  blanco: N.blanco,
-  /** El único color vivo de la pieza. Bordes, chips, subrayados, cifras. */
-  acento: MARCA.acento,
-  /** Amarillo de rotulador: marca sobre la prueba, no colorea texto. */
-  resalte: N.resalte,
-  /** El fondo hecho tinta: sirve para calar (un punto de papel sobre naranja). */
-  papel: N.papel,
+/**
+ * La letra editorial, derivada de la marca: familia + las cuatro tablas medidas.
+ * Es lo que permite que una ficha diga «mido con el peso 700» en vez de nombrar
+ * `c.tabla(700)` y quedarse atada a San Francisco para siempre.
+ */
+export const letraEditorialDe = (m: Marca): LetraDialecto => letraDe(m, "noticias");
+
+export const paletaNoticiaDe = (m: Marca): Record<TintaNoticia, string> => {
+  const N = temaNoticiasDe(m).N;
+  return {
+    /** Texto principal sobre papel. Carbón, nunca #000 (vibra sobre beige). */
+    tinta: N.tinta,
+    /** Texto de apoyo sobre papel: gris CÁLIDO, no azulado. */
+    suave: N.tintaSuave,
+    /** Texto sobre negro (registro cine). */
+    blanco: N.blanco,
+    /** El único color vivo de la pieza. Bordes, chips, subrayados, cifras. */
+    acento: m.color.acento,
+    /** Amarillo de rotulador: marca sobre la prueba, no colorea texto. */
+    resalte: N.resalte,
+    /** El fondo hecho tinta: sirve para calar (un punto de papel sobre naranja). */
+    papel: N.papel,
+  };
 };
+
+/** La paleta del canal. Es UNA instancia; la fuente es `paletaNoticiaDe`. */
+export const PALETA_NOTICIA: Record<TintaNoticia, string> = paletaNoticiaDe(MARCA_BASE);
 
 /* ── Ley de movimiento ──────────────────────────────────────────────────── */
 
@@ -277,8 +296,8 @@ const altoTexto = (px: number, lineas = 1): number => Math.round(px * 1.15 * lin
  * los 96.
  *
  * LA TABLA VA EMPAREJADA CON EL `fontWeight` DE `T`, y ésa es la servidumbre
- * nueva: `T.titular` pesa 700 → `AVANCES.sf700`; `T.etiqueta` pesa 500 →
- * `AVANCES.sf500`; `T.kicker` y `T.pie` pesan 600 → `AVANCES.sf600`. Si allí
+ * nueva: `T.titular` pesa 700 → `c.tabla(700)`; `T.etiqueta` pesa 500 →
+ * `c.tabla(500)`; `T.kicker` y `T.pie` pesan 600 → `c.tabla(600)`. Si allí
  * cambia el peso, aquí también — y `medir-anchos.mjs` lo COMPRUEBA contra `T`
  * antes de medir nada (aborta si no cuadra); antes solo copiaba los mismos
  * números y comparaba consigo mismo.
@@ -325,17 +344,24 @@ const ESCALA: Record<Rol, number> = { hero: 96, apoyo: 44, contexto: 28 };
  * más larga). Con los cubos lo tapaba el +12 % de sesgo de esa cohorte; la
  * calibración quitó el colchón y hay que poner la medida.
  */
-const tramos = <C extends string>(t: TextoRico<C>, base: TablaAvances): readonly TramoTexto[] =>
-  typeof t === "string"
+const tramos = <C extends string>(t: TextoRico<C>, c: CtxFicha, peso: PesoAvance): readonly TramoTexto[] => {
+  const base = c.tabla(peso);
+  return typeof t === "string"
     ? [{ texto: t, letra: base }]
     : t.map((x) =>
         typeof x === "string"
           ? { texto: x, letra: base }
-          : { texto: x.t, letra: x.enfasis ? AVANCES.sf800 : base }
+          : { texto: x.t, letra: x.enfasis ? c.tabla(800) : base }
       );
+};
 
-const anchoLineas = <C extends string>(lineas: readonly TextoRico<C>[], px: number, tracking: number): number =>
-  lineas.reduce((m, l) => Math.max(m, anchoTramos(tramos(l, AVANCES.sf700), px, tracking)), 0);
+const anchoLineas = <C extends string>(
+  lineas: readonly TextoRico<C>[],
+  px: number,
+  tracking: number,
+  c: CtxFicha
+): number =>
+  lineas.reduce((m, l) => Math.max(m, anchoTramos(tramos(l, c, 700), px, tracking)), 0);
 
 /** ¿El número tiene parte decimal que el formateo se va a comer? */
 const seRedondea = (v: number | undefined, decimales: number | undefined): boolean =>
@@ -361,6 +387,12 @@ const seRedondea = (v: number | undefined, decimales: number | undefined): boole
  * la misma pieza puesta en tres composiciones.
  */
 export const PIEZAS_NOTICIA = registro({
+  // EL REGISTRO COMPARTIDO. Las seis piezas polaridad-neutras (`regla` y las
+  // cinco de trazo) que hasta ahora solo alcanzaba la capa de gráficos, aunque
+  // el README dijera que «las primitivas neutras se reusan en ambos»: era cierto
+  // en JSX y falso desde un plan. Una toma editorial ya puede subrayar una
+  // palabra, rodear un dato o tachar una opción. Ver `motor/piezas/`.
+  ...PIEZAS_COMUNES,
   // ── Texto ────────────────────────────────────────────────────────────────
   kicker: f<{ texto: TextoN; px?: number }>(
     "Kicker",
@@ -375,7 +407,7 @@ export const PIEZAS_NOTICIA = registro({
       // 25 % más que su minúscula y el tracking pesa un 14 % del cuerpo.
       ancho: (p, c) =>
         anchoPalabraMasLargaTramos(
-          tramos(p.texto, AVANCES.sf600),
+          tramos(p.texto, c, 600),
           p.px ?? ESCALA[c.rol],
           T.kicker.letterSpacing,
           { versalitas: true }
@@ -392,9 +424,9 @@ export const PIEZAS_NOTICIA = registro({
       alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol], p.lineas ? p.lineas.length : 1),
       ancho: (p, c) =>
         p.lineas
-          ? anchoLineas(p.lineas, p.px ?? ESCALA[c.rol], T.titular.letterSpacing)
+          ? anchoLineas(p.lineas, p.px ?? ESCALA[c.rol], T.titular.letterSpacing, c)
           : anchoPalabraMasLargaTramos(
-              tramos(p.texto ?? "", AVANCES.sf700),
+              tramos(p.texto ?? "", c, 700),
               p.px ?? ESCALA[c.rol],
               T.titular.letterSpacing
             ),
@@ -422,7 +454,7 @@ export const PIEZAS_NOTICIA = registro({
       alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
       ancho: (p, c) =>
         anchoPalabraMasLargaTramos(
-          tramos(p.texto, AVANCES.sf500),
+          tramos(p.texto, c, 500),
           p.px ?? ESCALA[c.rol],
           T.etiqueta.letterSpacing
         ),
@@ -467,10 +499,10 @@ export const PIEZAS_NOTICIA = registro({
       // El cuadrado, o su label si sobresale. `ficha.revisa` ya avisa del label
       // de más de dos palabras; esto cubre el caso que se le escapa: UNA palabra
       // larga («Documentación») bajo un chip de 150.
-      ancho: (p) =>
+      ancho: (p, c) =>
         Math.max(
           p.tam ?? 150,
-          anchoPalabraMasLarga(p.texto, Math.round((p.tam ?? 150) * 0.19), AVANCES.sf600, T.pie.letterSpacing)
+          anchoPalabraMasLarga(p.texto, Math.round((p.tam ?? 150) * 0.19), c.tabla(600), T.pie.letterSpacing)
         ),
       revisa: (p) => {
         const av: string[] = [];
@@ -507,11 +539,11 @@ export const PIEZAS_NOTICIA = registro({
       alto: (p) => p.px ?? 220,
       // El número YA FORMADO (es lo que se ve al final del conteo), con su
       // prefijo y su sufijo. A 220 px de cuerpo, cinco dígitos ya no caben.
-      ancho: (p) =>
+      ancho: (p, c) =>
         anchoTexto(
           `${p.prefijo ?? ""}${p.valor.toFixed(p.decimales ?? 0)}${p.sufijo ?? ""}`,
           p.px ?? 220,
-          AVANCES.sf700,
+          c.tabla(700),
           T.cifra.letterSpacing,
           // `T.cifra` monta `font-variant-numeric: tabular-nums` para que los
           // dígitos no bailen al contar, y el dígito tabular de SF es MÁS ANCHO
@@ -895,7 +927,7 @@ const veloProtege: ReglaN<PiezasNoticia> = (plan) => {
     // puedan discrepar.
     let bulto = 0;
     t.hijos.forEach((h, i) => {
-      bulto += alturaEstimada(h, plan.dialecto.piezas, molde.gap) + (h.sep ?? 0);
+      bulto += alturaEstimada(h, plan.dialecto.piezas, molde.gap, plan.dialecto.letra) + (h.sep ?? 0);
       if (i < t.hijos.length - 1) bulto += gapEntre(t.gap, i, molde.gap);
     });
     const alto = plan.formato.alto;
@@ -925,8 +957,45 @@ const veloProtege: ReglaN<PiezasNoticia> = (plan) => {
 
 /* ── El dialecto ────────────────────────────────────────────────────────── */
 
+/**
+ * EL DIALECTO EDITORIAL, PARA UNA MARCA.
+ *
+ * Era `export const NOTICIAS = {...}`, y por eso el formato noticias no era «el
+ * formato noticias» sino «el formato noticias de Propiedades Luxur»: la paleta
+ * salía de un theme de módulo y el sello era una constante. Hermano de
+ * `dialectoDe()` en `graficos/coreografia.ts`, que ya nacía como fábrica.
+ *
+ * Lo que SÍ depende de la marca es solo la PALETA (y la marca misma). Los moldes
+ * no: `MOLDES_NOTICIA` habla en NOMBRES de tinta y de fondo (`"tinta"`,
+ * `"blanco"`, `"papel"`, `"cine"`), nunca en colores, así que la misma gramática
+ * sirve a cualquier canal. Los beats, la escala, la ley y las reglas tampoco:
+ * son el formato, no el canal. Ésa es exactamente la línea que este paso viene
+ * a dibujar.
+ *
+ * MEMOIZADA POR IDENTIDAD DE MARCA, y no por rendimiento: `NOTICIAS` tiene que
+ * seguir siendo EL MISMO objeto en cada llamada. Los planes de 006 y 007 hacen
+ * `capa(NOTICIAS, "noticia")` a nivel de módulo y `compilaNoticia` construye el
+ * suyo; si la fábrica devolviera un objeto nuevo cada vez, dos planes del mismo
+ * canal tendrían dialectos distintos por identidad y cualquier comparación por
+ * referencia (o un `useMemo` con el dialecto en las dependencias) se rompería en
+ * silencio.
+ */
+const cacheDialecto = new Map<Marca, Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaNoticia>>();
+
+export const dialectoEditorialDe = (
+  m: Marca
+): Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaNoticia> => {
+  const guardado = cacheDialecto.get(m);
+  if (guardado) return guardado;
+  const d = { ...NOTICIAS, marca: m, letra: letraEditorialDe(m), paleta: paletaNoticiaDe(m) };
+  cacheDialecto.set(m, d);
+  return d;
+};
+
 export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaNoticia> = {
   nombre: "noticias",
+  marca: MARCA_BASE,
+  letra: letraEditorialDe(MARCA_BASE),
   piezas: PIEZAS_NOTICIA,
   beats: BEATS_NOTICIA,
   moldes: MOLDES_NOTICIA,
@@ -965,6 +1034,18 @@ export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaN
   ley: LEY_EDITORIAL,
   reglas: [sucesion, ritmo, arrancaConGancho, noCuatroCineSeguidas, veloProtege],
 };
+
+// Siembra la caché con el SUELO, no con un canal: `NOTICIAS` se construye desde
+// `MARCA_BASE`, así que `dialectoEditorialDe(MARCA_BASE)` tiene que devolver ESTE
+// objeto y no una copia equivalente (ver la nota de la fábrica sobre por qué la
+// identidad importa).
+//
+// ⚠️ `dialectoEditorialDe(LUXUR)` es OTRO objeto, y debe serlo: LUXUR tiene sello
+// y `MARCA_BASE` no. Los proyectos publicados piden el suyo explícitamente
+// —`capa(dialectoEditorialDe(LUXUR), "noticia")`— y el memo se lo devuelve
+// estable. Si alguna vez ves un plan editorial atado a `NOTICIAS` a secas, está
+// compilando SIN canal: los colores coinciden hoy por herencia, pero el sello no.
+cacheDialecto.set(MARCA_BASE, NOTICIAS);
 
 export type DialectoNoticias = typeof NOTICIAS;
 
@@ -1360,7 +1441,14 @@ export function compilaNoticia(
     alto: 1920,
     fps: 30,
     duracion: tomas.reduce((max, t) => Math.max(max, t.endFrame), 0),
-  }
+  },
+  /** El canal para el que se compila. Por defecto, el del sistema. */
+  marca: Marca = MARCA_BASE
 ): PlanNoticia {
-  return plan(formato, tomas.map(compilaToma));
+  const tomasCompiladas = tomas.map(compilaToma);
+  // `pon`/`col`/`gfx` construyen NODOS y no saben del dialecto: el único que lo
+  // embebe es `plan()`. Así que compilar para otro canal es cambiar quién monta
+  // el plan, no volver a compilar las tomas.
+  if (marca === MARCA_BASE) return plan(formato, tomasCompiladas);
+  return capa(dialectoEditorialDe(marca), "noticia").plan(formato, tomasCompiladas);
 }

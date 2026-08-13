@@ -9,20 +9,38 @@
 // bloque, qué piezas existen y qué se considera un plan mal escrito.
 // ═══════════════════════════════════════════════════════════════════════════
 
-import type { Ficha, Ley, Molde, Nodo, Plan, Regla, Rol, TextoRico, TramoTexto } from "../plan/nucleo";
+import type {
+  CtxFicha, Ficha, LetraDialecto, Ley, Molde, Nodo, PesoAvance, Plan, Regla, Rol, TextoRico, TramoTexto,
+} from "../plan/nucleo";
 import { anchoPalabraMasLargaTramos, anchoTexto, anchoTramos } from "../plan/nucleo";
 import { alturaEstimada, capa, gapEntre, registro, solapan, textoPlano, ventanaAbs } from "../plan/nucleo";
-// La TABLA de avances medidos: datos puros, cero imports en tiempo de ejecución.
-// Esta capa dibuja en INTER (no en San Francisco como la editorial), y el error
-// del modelo de cubos era distinto en cada familia — ahí se veía que un solo
-// juego de cubos no podía servir a las dos.
-import { AVANCES } from "../plan/avances";
-import type { TablaAvances } from "../plan/avances";
+// Las tablas de avances ya no se resuelven aquí: `letraDe` (motor/letra.ts) lo
+// hace para las dos capas, porque la marca declara CLAVES y el dialecto necesita
+// TABLAS. Esta capa dibuja en Inter POR DEFECTO —no por herencia de la marca—, y
+// el error del modelo de cubos era distinto en cada familia: ahí se vio que un
+// solo juego de cubos no podía servir a las dos.
+// `theme.ts` es un objeto literal SIN imports: entra aquí sin romper la regla de
+// que esta capa se pueda leer con `node` pelado. Ver `PALETA_MARCA`.
+import { theme } from "../theme";
+// La marca del canal. Deja de ser un import de módulo en cada componente y pasa
+// a viajar EN EL DIALECTO, que es lo que permite que dos canales convivan.
+import { MARCA_BASE } from "../marca";
+// Alias: este archivo YA tiene un tipo `Marca` — las marcas de lista
+// (check/punto/aspa/numero). Dos cosas distintas con el mismo nombre, y el
+// compilador lo cazó en el sitio exacto (`MARCAS[p.marca]`).
+import type { LetraMarca, Marca as MarcaCanal } from "../marca";
+import { letraDe } from "../letra";
 // `import type` de un .tsx: se borra al compilar, así que no entra ni React ni
 // JSX en el bundle de datos. Deriva la clave del banco REAL (`Glifos.tsx`) en
 // vez de repetir la lista a mano; escrita a mano ya divergía —el diseño incluía
 // un "chat" que el banco nunca llegó a dibujar— y un plan con un glifo
 // inexistente compilaría hoy para reventar en el intérprete.
+// EL REGISTRO COMPARTIDO. Estas seis fichas ya no se definen aquí: viven en
+// `motor/piezas/` y las incorporan LOS DOS dialectos, así que una toma editorial
+// puede pedir un subrayado. Se referencian una a una y EN SU SITIO —en vez de
+// con un spread— porque `Object.keys(PIEZAS)` es el orden del catálogo y de la
+// comp `Catalogo`: reordenarlo movería todos sus frames.
+import { PIEZAS_COMUNES } from "../piezas";
 import type { ClaveGlifo } from "./Glifos";
 
 export * from "../plan/nucleo";
@@ -35,13 +53,28 @@ export type { ClaveGlifo };
 export type Tinta = "marca" | "dato" | "perdida" | "logro" | "neutro" | "texto" | "fondo";
 export type TextoG = TextoRico<Tinta>;
 
+/**
+ * `marca` y `texto` se DERIVAN de `theme.ts`; no se vuelven a escribir.
+ *
+ * Estaban copiados como hex (`"#0F766E"`, `"#FFFFFF"`) al lado del mismo color
+ * que ya vive en `theme.accent` y `theme.text` — dos verdades sobre el mismo
+ * color, y `motion.ts` ya derivaba la suya (`MG.teal = theme.accent`). Con la
+ * copia, cambiar el acento del canal en theme.ts movía `MG`/`G` y dejaba
+ * `PALETA_MARCA` —la que resuelve el color de CADA nodo del plan— en el teal
+ * viejo. Importar `theme` no rompe la pureza de esta capa: theme.ts es un
+ * objeto literal sin un solo import, así que un plan se sigue validando con
+ * `node` pelado.
+ *
+ * Las otras cinco no salen de theme y es correcto: son la paleta SEMÁNTICA del
+ * sistema (qué significa un dato, una pérdida, un logro), no la voz del canal.
+ */
 export const PALETA_MARCA: Record<Tinta, string> = {
-  marca: "#0F766E",
+  marca: theme.accent,
   dato: "#f59e0b",
   perdida: "#ef4444",
   logro: "#34d399",
   neutro: "rgba(148,163,184,0.95)",
-  texto: "#FFFFFF",
+  texto: theme.text,
   fondo: "#0E1015",
 };
 
@@ -200,8 +233,8 @@ const altoTexto = (px: number, lineas = 1): number => Math.round(px * 1.15 * lin
  * plan tiene que poder validarse con `node`. Si allí cambian, aquí también. Y
  * desde la calibración de R09 esa servidumbre incluye el PESO, que es lo que
  * elige la tabla de avances: `TXT.titular` y `TXT.cifra` pesan 800 →
- * `AVANCES.inter800`; `TXT.kicker` y `TXT.etiqueta`, 600 → `AVANCES.inter600`;
- * `<Chip>` dibuja a 700 → `AVANCES.inter700`. Las piezas de trazo, dato y
+ * `c.tabla(800)`; `TXT.kicker` y `TXT.etiqueta`, 600 → `c.tabla(600)`;
+ * `<Chip>` dibuja a 700 → `c.tabla(700)`. Las piezas de trazo, dato y
  * diagrama ya declaran su ancho como prop (`ancho`, `largo`, `radio`), así que
  * ahí no hay nada que estimar: se lee. Las que no declaran ancho ni son texto no
  * traen `ancho` y miden 0, igual que hace `alto` — mientras nadie las corte, no
@@ -230,17 +263,19 @@ const ESCALA: Record<Rol, number> = { hero: 104, apoyo: 46, contexto: 32 };
  * pero en kicker, etiqueta y lista va de 600 a 800, y una subestimación no deja
  * de serlo por ser pequeña.
  */
-const tramos = (t: TextoG, base: TablaAvances): readonly TramoTexto[] =>
-  typeof t === "string"
+const tramos = (t: TextoG, c: CtxFicha, peso: PesoAvance): readonly TramoTexto[] => {
+  const base = c.tabla(peso);
+  return typeof t === "string"
     ? [{ texto: t, letra: base }]
     : t.map((x) =>
         typeof x === "string"
           ? { texto: x, letra: base }
-          : { texto: x.t, letra: x.enfasis ? AVANCES.inter800 : base }
+          : { texto: x.t, letra: x.enfasis ? c.tabla(800) : base }
       );
+};
 
-const anchoLineas = (lineas: readonly TextoG[], px: number, tracking: number): number =>
-  lineas.reduce((m, l) => Math.max(m, anchoTramos(tramos(l, AVANCES.inter800), px, tracking)), 0);
+const anchoLineas = (lineas: readonly TextoG[], px: number, tracking: number, c: CtxFicha): number =>
+  lineas.reduce((m, l) => Math.max(m, anchoTramos(tramos(l, c, 800), px, tracking)), 0);
 
 
 /**
@@ -270,7 +305,7 @@ export const PIEZAS = registro({
       // Versalitas y tracking +6: la mayúscula ocupa un 25 % más que su
       // minúscula, así que medir el texto tal cual está escrito subestimaría.
       ancho: (p, c) =>
-        anchoPalabraMasLargaTramos(tramos(p.texto, AVANCES.inter600), p.px ?? ESCALA[c.rol], 6, {
+        anchoPalabraMasLargaTramos(tramos(p.texto, c, 600), p.px ?? ESCALA[c.rol], 6, {
           versalitas: true,
         }),
     }),
@@ -283,8 +318,8 @@ export const PIEZAS = registro({
       alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol], p.lineas ? p.lineas.length : 1),
       ancho: (p, c) =>
         p.lineas
-          ? anchoLineas(p.lineas, p.px ?? ESCALA[c.rol], -1)
-          : anchoPalabraMasLargaTramos(tramos(p.texto ?? "", AVANCES.inter800), p.px ?? ESCALA[c.rol], -1),
+          ? anchoLineas(p.lineas, p.px ?? ESCALA[c.rol], -1, c)
+          : anchoPalabraMasLargaTramos(tramos(p.texto ?? "", c, 800), p.px ?? ESCALA[c.rol], -1),
       // El `\n` del plan del 005 no se honra (T.titular no lleva pre-line) y la
       // intención se pierde en silencio. Aquí el salto es estructura.
       revisa: (p) => {
@@ -300,7 +335,7 @@ export const PIEZAS = registro({
     "Debajo del hero. Con rol 'apoyo' hereda el color del hero rebajado, no gris.",
     {
       alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
-      ancho: (p, c) => anchoPalabraMasLargaTramos(tramos(p.texto, AVANCES.inter600), p.px ?? ESCALA[c.rol], 0.2),
+      ancho: (p, c) => anchoPalabraMasLargaTramos(tramos(p.texto, c, 600), p.px ?? ESCALA[c.rol], 0.2),
     }),
   cifra: f<{ texto?: string; valor?: number; px?: number; prefijo?: string; sufijo?: string; decimales?: number; resplandor?: number }>(
     "Cifra", "texto", "Texto.tsx", "El dato como protagonista, con tabular-nums.",
@@ -319,7 +354,7 @@ export const PIEZAS = registro({
         anchoTexto(
           p.texto ?? `${p.prefijo ?? ""}${p.valor ?? 0}${p.sufijo ?? ""}`,
           p.px ?? ESCALA[c.rol],
-          AVANCES.inter800,
+          c.tabla(800),
           -3,
           // `TXT.cifra` monta `tabular-nums` (es lo que impide que el número
           // tiemble al contar) y el dígito tabular de Inter es más ancho que el
@@ -339,7 +374,7 @@ export const PIEZAS = registro({
       // —no el de `TXT`, por eso la tabla es `inter700`—, `letterSpacing: 1` —no
       // el 0,2 que se estimaba aquí, que era un desajuste vivo— y el padding
       // "8px 22px". El cuerpo lo pone el rol, como en el resto de la capa.
-      ancho: (p, c) => anchoTramos(tramos(p.texto, AVANCES.inter700), p.px ?? ESCALA[c.rol], 1) + 44,
+      ancho: (p, c) => anchoTramos(tramos(p.texto, c, 700), p.px ?? ESCALA[c.rol], 1) + 44,
     }),
   // El glifo es CUADRADO: `cloneElement(GLIFO[…], { width: t, height: t })`.
   glifo: f<{ nombre: ClaveGlifo; px?: number }>("Glifo", "texto", "Glifos.tsx",
@@ -369,7 +404,7 @@ export const PIEZAS = registro({
         const cuerpo = max.toFixed(Math.min(2, p.decimales ?? 0));
         // Mismo motivo que en `cifra`: el montador pasa por `escalaTexto`, así
         // que sin `px` en el plan se dibuja el cuerpo del rol, no los 210.
-        return anchoTexto(`${p.prefijo ?? ""}${cuerpo}${p.sufijo ?? ""}`, p.px ?? ESCALA[c.rol], AVANCES.inter800, -3, {
+        return anchoTexto(`${p.prefijo ?? ""}${cuerpo}${p.sufijo ?? ""}`, p.px ?? ESCALA[c.rol], c.tabla(800), -3, {
           tabulares: true,
         });
       },
@@ -384,15 +419,7 @@ export const PIEZAS = registro({
     "BarraProgreso", "dato", "Datos.tsx", "Proporción que crece LINEAL, con umbral opcional.",
     "Lineal a propósito: con easing mentiría sobre la velocidad del proceso.",
     { sonido: "whoosh light + chime al llegar", alto: (p) => (p.alto ?? 18) + 40, ancho: (p) => p.ancho ?? 720 }),
-  regla: f<{ ancho?: number; alto?: number; dur?: number; gira?: number }>(
-    "Regla", "dato", "Datos.tsx", "Línea recta que se extiende mecánicamente.",
-    "Subrayado MECÁNICO. Con `estira` toma el ancho del bloque y desaparece el número a ojo. `gira` la convierte en tachón.",
-    // `estira` NO se puede consultar aquí (la ficha solo ve las props de la
-    // pieza, y `estira` es del NODO). No hace falta: cuando el plan escribe
-    // `estira: true` no escribe `ancho`, así que se mide el defecto de 430 —
-    // que cabe en cualquier molde y por tanto no inventa un aviso. Y un nodo
-    // estirado es `width: 100%` del bloque: por construcción no puede salirse.
-    { alto: (p) => p.alto ?? 4, ancho: (p) => p.ancho ?? 430 }),
+  regla: PIEZAS_COMUNES.regla,
   lista: f<{ items: readonly ItemDeLista[]; marca?: Marca; paso?: number; px?: number }>(
     "ItemLista", "dato", "Datos.tsx", "Lista con marca y stagger por índice.",
     "Tres puntos como mucho. `marca` es de la LISTA (ya no está fija a ✓: una lista de errores va con ✗) y `items[].estado` es de UN ítem, que es como se dice «estos dos sí y este no» sin salirse del plan.",
@@ -406,7 +433,7 @@ export const PIEZAS = registro({
         const px = p.px ?? ESCALA[c.rol];
         let max = 0;
         for (const it of p.items)
-          max = Math.max(max, anchoPalabraMasLargaTramos(tramos(it.texto, AVANCES.inter600), px, 0.2));
+          max = Math.max(max, anchoPalabraMasLargaTramos(tramos(it.texto, c, 600), px, 0.2));
         return p.items.length === 0 ? 0 : px * 0.9 + 20 + max;
       },
       revisa: (p) => (p.items.length === 0 ? ["lista sin items: ocupa tiempo y no dibuja nada"] : []),
@@ -438,34 +465,11 @@ export const PIEZAS = registro({
     }),
 
   // ── Trazo ────────────────────────────────────────────────────────────────
-  subrayado: f<{ ancho?: number; dur?: number; semilla?: string; grosor?: number; amplitud?: number }>(
-    "Subrayado", "trazo", "Trazo.tsx", "Línea a mano alzada bajo una palabra.",
-    "`semilla` distinta = otro trazo con el mismo gesto (en v1 dos subrayados salían IDÉNTICOS).",
-    // `<Subrayado>` monta un SVG de ancho FIJO: no honra `estira` (solo `regla`
-    // lo hace). Por eso el ancho está siempre en las props y R09 puede leerlo.
-    { sonido: "scribble", alto: (p) => (p.grosor ?? 8) + 12, ancho: (p) => p.ancho ?? 520 }),
-  rodea: f<{ ancho?: number; alto?: number; dur?: number; semilla?: string; vueltas?: number; grosor?: number }>(
-    "Rodea", "trazo", "Trazo.tsx", "Óvalo de rotulador con exceso al cerrar.",
-    "Señalar UNA cosa. Más de una por pieza y deja de señalar.",
-    { sonido: "scribble / pen", alto: (p) => p.alto ?? 180, ancho: (p) => p.ancho ?? 520 }),
-  flecha: f<{ de: Punto; a: Punto; curvatura?: number; cabeza?: boolean; dur?: number; grosor?: number }>(
-    "Flecha", "trazo", "Trazo.tsx", "Arco de A a B con punta orientada por la tangente.",
-    "`curvatura` 0 = causa directa; curva = rodeo. Significan distinto.",
-    {
-      sonido: "swoosh",
-      alto: (p) => Math.abs(p.a[1] - p.de[1]) + (p.grosor ?? 8),
-      // Espejo exacto del alto sobre el otro eje: la flecha ocupa el rectángulo
-      // que va de `de` a `a`, engordado por el grosor del trazo.
-      ancho: (p) => Math.abs(p.a[0] - p.de[0]) + (p.grosor ?? 8),
-    }),
-  check: f<{ px?: number; dur?: number; grosor?: number }>("Check", "trazo", "Trazo.tsx",
-    "Marca de confirmación en dos tiempos naturales.", "Confirmación. Verde por defecto: el color es información.",
-    { sonido: "success / chime", alto: (p) => p.px ?? 120, ancho: (p) => p.px ?? 120 }),
-  aspa: f<{ px?: number; dur?: number; grosor?: number; retardo?: number }>("Aspa", "trazo", "Trazo.tsx",
-    "Dos trazos cruzados EN SECUENCIA.", "Descarte. El `retardo` es lo que la hace gesto y no icono.",
-    { sonido: "error / impact sharp", alto: (p) => p.px ?? 120, ancho: (p) => p.px ?? 120 }),
-
-  // ── Diagrama (solo dentro de un grupo `diagrama`) ─────────────────────────
+  subrayado: PIEZAS_COMUNES.subrayado,
+  rodea: PIEZAS_COMUNES.rodea,
+  flecha: PIEZAS_COMUNES.flecha,
+  check: PIEZAS_COMUNES.check,
+  aspa: PIEZAS_COMUNES.aspa,
   nodo: f<{ radio: number; relleno?: boolean; grosor?: number }>("Nodo", "dato", "Datos.tsx",
     "Punto de un eje: hueco = «aquí no pasó nada», relleno = «aquí sí».",
     "En la línea de tiempo del 003. Con `ancla: 'centro'` se coloca por su centro.",
@@ -556,8 +560,34 @@ const r08Encuadre: ReglaG<PiezasGraficos> = (plan) => {
 
 /* ── El dialecto ────────────────────────────────────────────────────────── */
 
+/**
+ * LA LETRA POR DEFECTO DE ESTA CAPA: Inter.
+ *
+ * No es la voz de ningún canal, es una decisión de LEGIBILIDAD: esta capa se
+ * dibuja encima de vídeo que no controla, y una display de marca sobre una
+ * imagen movida se cae. Por eso el dialecto trae la suya en vez de heredar la
+ * de la marca — y por eso un canal la puede sobrescribir a sabiendas con
+ * `marca.letraPorCapa.graficos`, que es una decisión informada y no un
+ * arrastre.
+ *
+ * El peso 500 apunta a `inter600` porque no hay tabla medida de Inter 500: es
+ * el lado seguro de la regla de `LetraMarca.tablas` (ante un peso sin medir, el
+ * SUPERIOR). Sobreestimar da un aviso de más; subestimar publica un titular
+ * cortado.
+ */
+export const LETRA_GRAFICOS: LetraMarca = {
+  display: theme.fontFamily,
+  texto: theme.fontFamily,
+  tablas: { 500: "inter600", 600: "inter600", 700: "inter700", 800: "inter800" },
+};
+
+/** La letra de esta capa para una marca: la suya si la pide, Inter si no. */
+export const letraGraficosDe = (m: MarcaCanal): LetraDialecto => letraDe(m, "graficos", LETRA_GRAFICOS);
+
 export const GRAFICOS = {
   nombre: "graficos",
+  marca: MARCA_BASE,
+  letra: letraGraficosDe(MARCA_BASE),
   piezas: PIEZAS,
   beats: BEATS_GRAFICOS,
   moldes: MOLDES_GRAFICOS,
@@ -587,6 +617,8 @@ export type DialectoGraficos = typeof GRAFICOS;
  */
 export function dialectoDe<R extends PiezasGraficos>(cambios: {
   piezas: R;
+  /** El canal para el que se monta. Sin él, el del sistema. */
+  marca?: MarcaCanal;
   ley?: Ley;
   paleta?: Record<Tinta, string>;
   escala?: Record<Rol, number>;
@@ -595,6 +627,8 @@ export function dialectoDe<R extends PiezasGraficos>(cambios: {
   const base = GRAFICOS.reglas as unknown as readonly Regla<R, BeatGrafico, MoldeGrafico, Tinta>[];
   return {
     nombre: GRAFICOS.nombre,
+    marca: cambios.marca ?? GRAFICOS.marca,
+    letra: letraGraficosDe(cambios.marca ?? GRAFICOS.marca),
     piezas: cambios.piezas,
     beats: BEATS_GRAFICOS,
     moldes: MOLDES_GRAFICOS,
@@ -618,7 +652,7 @@ export const altoDeToma = <R extends PiezasGraficos>(
   const mo = plan.dialecto.moldes[t.molde];
   let total = 0;
   t.hijos.forEach((h, i) => {
-    total += alturaEstimada(h, plan.dialecto.piezas, mo.gap) + (h.sep ?? 0);
+    total += alturaEstimada(h, plan.dialecto.piezas, mo.gap, plan.dialecto.letra) + (h.sep ?? 0);
     if (i < t.hijos.length - 1) total += gapEntre(t.gap, i, mo.gap);
   });
   return total;

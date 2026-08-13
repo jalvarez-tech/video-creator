@@ -176,9 +176,36 @@ Elige **una** alineación dominante (izq/centro/der). Profundidad = tamaño · c
 
 ---
 
-## 9. Color (roles → `theme.ts`)
+## 9. Color (roles → la MARCA, no un theme global)
 
-`accent` `#0F766E` = color de marca (cámbialo en `theme.ts` y afecta a todo) · `text` `#FFFFFF` · `textMuted` · paleta MG en `motion.ts` (`teal`=accent, `green`, `cyan`, `amber`, `red`, `white`). **Reserva el mayor contraste** para lo único importante (palabra clave, dato, producto, CTA, estado que cambia). Un cambio de color debe *significar* algo: estado, progreso, éxito (`green`), error (`red`), transformación. No pintes todo con el acento.
+El plan pide colores por lo que SIGNIFICAN (`color: "acento"`), nunca en hex. Los hex los pone la marca del canal y llegan al montador como `ctx.color` / `ctx.tinta(...)`, ya resueltos contra el fondo del molde.
+
+**La marca es un dato, no una constante del motor.** Vive en `src/marcas/<canal>.ts` y la pasa la composición:
+
+```tsx
+<PistaNoticia tomas={…} marca={LUXUR} />
+capa(dialectoEditorialDe(LUXUR), "noticia")
+```
+
+Dar de alta un canal es escribir un fichero; el motor no se toca. Qué decide cada capa:
+
+| | Decide | Dónde |
+|---|---|---|
+| **Marca** | colores, tipografía, sello, radio, look del metraje | `src/marcas/` |
+| **Dialecto** | qué piezas, qué moldes, qué beats, y la POLARIDAD | `motor/graficos/` · `motor/noticias/` |
+| **Formato** | margen seguro, carril de subtítulos | `presets.ts` |
+
+⚠️ **Nunca escribas un hex en un montador.** Si necesitas un color que la paleta no nombra, el arreglo es añadirlo a la marca o a la paleta del dialecto. Cablearlo ata el componente a un canal, que es justo lo que se acaba de deshacer.
+
+⚠️ La tipografía es **por capa**: gráficos dibuja en Inter (decisión de legibilidad — va encima de metraje que no controla) y editorial en la voz de la marca. Un canal puede pedir la suya para gráficos con `letraPorCapa`, pero **midiendo la fuente antes** con `generar-avances.mjs`: sin tabla medida, R09 estima mal y no se queja.
+
+---
+
+## 9b. El registro compartido (`motor/piezas/`)
+
+Seis piezas sirven a los DOS dialectos y son el mismo objeto en ambos: `regla`, `subrayado`, `rodea`, `flecha`, `check`, `aspa`. Una toma editorial puede subrayar una palabra igual que una de overlay.
+
+**Contrato para entrar ahí, y lo hace cumplir el tipo:** una pieza compartida pinta **solo con `ctx.color`**. Las uniones de tinta de las dos capas son disjuntas, así que un montador genérico en `C` no tiene ni un nombre de color que pueda escribir. Por eso `lista` y `barras` NO están: colorean partes con `logro`/`perdida`, que solo existen en gráficos.
 
 ---
 

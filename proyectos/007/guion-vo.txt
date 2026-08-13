@@ -1,0 +1,13 @@
+n01-gancho|Si tu inmueble está hipotecado, así se reclama el seguro.
+n02-zonas|Solo en las zonas más golpeadas por el sismo hay más de cuatrocientos cuarenta y dos mil inmuebles asegurados.
+n03-amparo|El seguro ya existe: todo inmueble hipotecado está asegurado contra incendio y terremoto. Es un amparo obligatorio.
+n04-pasos|¿Cómo se reclama? Cinco pasos.
+n05-paso1|Uno: avisar a la aseguradora que expidió la póliza, no al banco. La ley da tres días desde que se conoce el daño.
+n06-paso2|Dos: documentar con fotos y video, y conservar facturas y soportes, si hacerlo no implica riesgo.
+n07-paso3|Tres: nada de reparaciones definitivas hasta recibir instrucciones, salvo para proteger la vida o evitar más daños.
+n08-paso4|Cuatro: presentar la reclamación y demostrar el daño y su valor. Esa prueba le corresponde al asegurado.
+n09-paso5|Cinco: la aseguradora tiene un mes para pagar. Si se demora, debe intereses de mora.
+n10-pago|El banco cobra primero, hasta el saldo de la deuda. El excedente es del propietario.
+n11-si-no|¿Objetan o callan? Hay defensor del consumidor financiero, gratuito, y la Superintendencia. La acción prescribe en dos años.
+n12-poliza|El detalle, deducibles y exclusiones, está en el certificado individual. Se puede pedir copia.
+n13-cierre|La ruta ya está escrita. Tu póliza dice el resto.

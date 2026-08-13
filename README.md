@@ -102,13 +102,21 @@ video-creator/
 │   │   └── scripts/          #   generar-vo.sh (cronometra) · revisar-plan.mjs
 │   │                         #   revisar-broll.mjs (mira el disco) · revisar-velo.mjs
 │   ├── motion-graphics/      #   dirección de gráficos + catalogo-graficos.md
+│   │   └── scripts/          #   generar/revisar-catalogo · medir-anchos (R09)
+│   │                         #   revisar-marca (invariantes) · sonda-frames + revisar-sonda
 │   ├── camara-avatar/        #   cámara virtual del avatar
 │   └── diseno-sonoro/        #   SFX, mezcla, ducking + recetario
 ├── remotion/                 # MOTOR (proyecto npm)
 │   ├── public/sfx/           #   55 efectos calibrados (de los que dependen los renders)
 │   └── src/
+│       ├── marcas/           #   LOS CANALES — un fichero por marca (luxur.ts). El motor
+│       │                      #   NO los importa: llegan por parámetro desde la composición
 │       ├── motor/            #   LO REUTILIZABLE — un proyecto lo usa, él no usa proyectos
 │       │   ├── plan/         #     EL NÚCLEO: la gramática del plan (piezas, moldes, reglas)
+│       │   ├── marca.ts      #     el TIPO `Marca` + `MARCA_BASE` (el suelo, sin canal)
+│       │   ├── letra.ts      #     con qué tipografía dibuja y MIDE cada capa
+│       │   ├── piezas/       #     REGISTRO COMPARTIDO: las polaridad-neutras que sirven
+│       │   │                 #     a los dos dialectos (regla + las cinco de trazo)
 │       │   ├── graficos/     #     biblioteca de gráficos + catálogo DERIVADO + PistaGraficos
 │       │   ├── noticias/     #     formato noticias: theme CLARO + TomaNoticia + PistaNoticia
 │       │   ├── sound/        #     SoundCue + PistaSonido
@@ -150,6 +158,31 @@ node manuales/motion-graphics/scripts/generar-catalogo.mjs   # regenera el markd
 node manuales/motion-graphics/scripts/revisar-catalogo.mjs   # test: toda ficha tiene ruta y toda ruta tiene ficha
 ```
 
+**Al tocar el motor: los invariantes de marca.** 39 aserciones que el compilador no puede ver porque son de identidad y de valor, no de tipo — que dos marcas coexisten, que los memos devuelven el mismo objeto, que el registro compartido es una sola verdad, que el orden de `PIEZAS` no se movió:
+
+```bash
+node manuales/motion-graphics/scripts/revisar-marca.mjs
+```
+
+Cazó dos fallos reales el día que se escribió, y ninguno movía un píxel: un plan publicado que compilaba **sin canal**, y un comentario del núcleo que afirmaba una identidad ya falsa. Es el hermano de la sonda y se complementan — **la sonda dice si algo se movió; esto dice si algo dejó de ser cierto**.
+
+**Antes y después de tocar el motor: la sonda de frames.** Es el único control de no-regresión **visual** que hay. Captura una tanda antes del cambio, otra después, y compara:
+
+```bash
+node manuales/motion-graphics/scripts/sonda-frames.mjs antes
+node manuales/motion-graphics/scripts/revisar-sonda.mjs antes despues
+```
+
+Saca 8 frames de cada composición (136 en total, ~5 min) a `remotion/out/sonda/`, que está en `.gitignore`. Sale 0 si no hay regresiones y 2 si las hay, así que se encadena con el resto. **Tiene suelo de ruido medido**: dos tandas del MISMO código mueven 2-3 frames con delta ≤ 8 —los que llevan `<OffthreadVideo>`, donde el *seek* del decodificador no cae siempre en el mismo sitio—, y por eso el comparador usa un umbral de 12. Un cambio de color de marca no se le parece: delta 200-255 en menos del 1 % del cuadro. Para un cambio deliberadamente pequeño, `--umbral 1`.
+
+> La sonda dice si algo se movió, **no si el cambio es correcto**. Un refactor que no mueve un píxel puede haber desconectado el gancho que decía arreglar. Al lado va siempre la prueba POSITIVA: mueve a propósito el valor que acabas de parametrizar y comprueba que el render lo obedece.
+
+⚠️ **Para la prueba positiva, apunta a frames concretos con `--frames`.** El reparto automático se salta las tomas cortas y eso invalida la prueba sin avisar: comprobando un cambio en los chips del 006 —que viven en `[1633,1767]`— la sonda muestreaba 1606 y 1874, pasaba por encima y decía «no cambia nada», que era falso. Localiza primero en qué tomas está la pieza afectada:
+
+```bash
+node manuales/motion-graphics/scripts/sonda-frames.mjs antes --comps Noticia007 --frames 967,2224
+```
+
 El catálogo se DERIVA del código (registro `PIEZAS`, `MOLDES_GRAFICOS` y los tipos del núcleo), así que no puede anunciar algo que el plan no sepa escribir — que es exactamente el fallo que tenía: anunciaba 37 gráficos y el plan servía 16. Hoy son **52 entradas** agrupadas por cómo se alcanzan: moldes, gramática, piezas, entradas, envolturas y ambiente. Los componentes se importan de una sola pieza:
 
 ```ts
@@ -158,7 +191,48 @@ import { Titular, Contador, Subrayado, Particulas } from "./graficos";
 
 Lo repetitivo (títulos, cifras, listas, remates, CTA) no se escribe en JSX: se declara como datos en `graficos-NNN.ts` y lo monta `<PistaGraficos>`, con `revisaPlan()` validando las reglas del sistema antes de renderizar.
 
-> **El formato noticias tiene su propia biblioteca**, aparte y fuera de este catálogo: `motor/noticias/Editorial.tsx` (`FondoPapel`, `RecortePrensa`, `ChipIcono`, `Cronologia`, `Medidor`…). Está separada a propósito — estos tokens son para fondo **claro** y los de arriba asumen vídeo oscuro con texto blanco, así que mezclarlos da blanco sobre beige. Las primitivas neutras (`Subrayado`, `Aspa`, `Check`, `Flecha`, `Particulas`) sí se reusan en ambos. Su ficha está en [recetario-tomas.md](manuales/video-noticias/recetario-tomas.md), no en el catálogo generado.
+> **El formato noticias tiene su propia biblioteca**, aparte y fuera de este catálogo: `motor/noticias/Editorial.tsx` (`FondoPapel`, `RecortePrensa`, `ChipIcono`, `Cronologia`, `Medidor`…). Está separada a propósito — estos tokens son para fondo **claro** y los de arriba asumen vídeo oscuro con texto blanco, así que mezclarlos da blanco sobre beige. Su ficha está en [recetario-tomas.md](manuales/video-noticias/recetario-tomas.md), no en el catálogo generado.
+>
+> **Lo que SÍ comparten las dos capas** vive en `motor/piezas/`: `regla`, `subrayado`, `rodea`, `flecha`, `check` y `aspa`. Antes esto se decía de otra forma —«las primitivas neutras se reusan en ambos»— y era cierto **en JSX** y falso **desde un plan**: una toma editorial no podía pedir un subrayado aunque el componente existiera. Ahora las seis están en los dos registros, son el mismo objeto, y el contrato para entrar ahí es duro: **pintan solo con `ctx.color`**. Las uniones de tinta de los dos dialectos son disjuntas, así que un montador compartido no tiene ni un nombre de color que pueda escribir — y `ctx.color`, que ya viene resuelto contra `molde.tinta`, sale carbón sobre papel y blanco sobre cine sin saber en cuál está. Por eso `lista` y `barras` NO entraron: colorean partes con `logro`/`perdida`, que solo existen en gráficos.
+
+---
+
+## 🎨 Una marca, un fichero
+
+`video-creator` sirve a **cualquier canal**, no solo al que está configurado hoy. La marca no es una constante del motor: es un dato que llega por parámetro.
+
+```
+src/marcas/luxur.ts        ← el perfil del canal (colores, letra, sello, look del metraje)
+src/motor/marca.ts         ← el TIPO `Marca` y `MARCA_BASE`. El motor NO conoce ningún canal
+```
+
+**Dar de alta un canal es escribir un fichero hermano de `luxur.ts` y pasarlo.** El motor no se toca. Quien lo elige es la composición, que es donde tiene sentido decir para quién se monta:
+
+```tsx
+<PistaNoticia tomas={noticia004} marca={LUXUR} />        // 004 y 005
+capa(dialectoEditorialDe(LUXUR), "noticia")              // planes nativos (006, 007)
+fondos={fondosNoticiaDe(LUXUR)}                          // <PistaGraficos> a pelo
+```
+
+Las tres capas y qué decide cada una — la regla que evita que esto se convierta en un cajón:
+
+| | Qué decide | Dónde vive |
+|---|---|---|
+| **Sustrato** | cómo se monta un plan | `plan/nucleo.ts` + `PistaGraficos.tsx` — genérico, no se toca |
+| **Dialecto** | el VOCABULARIO: qué piezas, qué moldes, qué beats, y la POLARIDAD | `motor/graficos/` · `motor/noticias/` |
+| **Marca** | los VALORES: colores, tipografía, sello, radio, look del metraje | `src/marcas/` |
+
+Y el FORMATO (margen seguro, carril de subtítulos) sale de `presets.ts`, que no es ninguna de las tres.
+
+> ⚠️ `MARCA_BASE` **no es un canal** y se nota en que su `sello.texto` es `null`. Una composición que olvide pasar su marca sale **sin watermark** — un fallo que se ve en el primer frame, no uno que se publica. Lo que sí arrastra son los colores históricos del canal, porque `Editorial.tsx` todavía los usa como valor por defecto en algún sitio.
+
+**La tipografía es por CAPA, no solo por marca.** La editorial dibuja en San Francisco y la de overlays sobre vídeo en Inter, y eso no es un descuido: la segunda va encima de metraje que no controla y una display de marca ahí se cae. Cada dialecto trae su letra por defecto y una marca la sobrescribe **si lo pide**:
+
+```ts
+letraPorCapa: { graficos: { display: MiSans, texto: MiSans, tablas: { 500: "…", … } } }
+```
+
+Las `tablas` son las que mide R09. El tipo impide nombrar una tabla que no existe, pero no puede comprobar que corresponda a la familia que declaras: **mide con `generar-avances.mjs` antes de dar de alta una fuente**, o R09 estimará mal y no se quejará.
 
 ---
 

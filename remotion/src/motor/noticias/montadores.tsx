@@ -92,7 +92,10 @@ import {
 } from "./Editorial";
 import type { MoldeNoticia, PiezasNoticia, TextoN, TintaNoticia } from "./dialecto";
 import type { GradoMedia } from "./plan";
-import { LAYOUT, METRAJE, N, T, alfaN } from "./theme-noticias";
+import { LAYOUT, METRAJE, N, alfaN, temaNoticiasDe } from "./theme-noticias";
+import { MARCA_BASE } from "../marca";
+import type { Marca } from "../marca";
+import { montadoresComunes } from "../piezas/montadores";
 
 /** Las claves del registro, DERIVADAS: nadie escribe esta unión a mano. */
 export type PiezaNoticia = ClaveDe<PiezasNoticia>;
@@ -132,6 +135,52 @@ const colorDe = (c: CtxN, respaldo: string): string =>
  */
 const pxTexto = (c: CtxN, propio: number | undefined, respaldo: number): number =>
   Math.round((propio ?? c.px) * c.escala) || respaldo;
+
+/**
+ * EL TEMA SALE DEL CONTEXTO, NO DEL MÓDULO.
+ *
+ * Este archivo hacía `import { T } from "./theme-noticias"` y lo consumía como
+ * objeto estático. Mientras eso fuera así la marca no podía ser un parámetro:
+ * cambiarla cambiaba TODOS los proyectos publicados a la vez. Ahora la marca
+ * viaja en el dialecto y llega al montador como `c.marca`, así que el tema se
+ * resuelve por nodo y dos canales pueden convivir en el mismo repo.
+ *
+ * `temaNoticiasDe` está memoizado por identidad de marca, o sea que esto es una
+ * búsqueda en un `Map`, no reconstruir el tema en cada frame.
+ */
+const temaDe = (c: CtxN) => temaNoticiasDe(c.marca);
+
+/**
+ * EL ACENTO DE LO DECORATIVO — y por qué NO es el color del nodo.
+ *
+ * El primer intento fue `c.colorPropio ?? c.tinta("acento")`: que mandara el
+ * plan si decía algo. Lo tumbó la sonda en un frame, y el motivo es una lección
+ * sobre este dialecto: `compilaToma` YA escribe `color: "tinta"` en el nodo de
+ * la cronología (dialecto.ts), y ese color significa EL TEXTO —el año y su
+ * descripción—. El raíl y los puntos son otra cosa. Al hacer que el plan mandara
+ * sobre el acento, el raíl salió carbón sobre papel: una pieza que dejaba de
+ * leerse como línea de tiempo.
+ *
+ * O sea que en esta capa el nodo tiene UN color y estas piezas tienen DOS
+ * cosas que colorear. Mientras el plan no tenga vocabulario para pedir el
+ * segundo —un `acento?: TintaNoticia` en la ficha, si algún día hace falta—, el
+ * acento sale de la marca y punto. Que es exactamente lo que hacía el naranja
+ * cableado; la diferencia es que ahora sale de `c.tinta`, así que lo alcanzan
+ * tanto el canal como un `plan.paleta` de proyecto.
+ */
+const acentoDe = (c: CtxN): string => c.tinta("acento");
+
+/**
+ * El acento CON CUERPO de los chips. Es otro color, no el mismo con otro alfa:
+ * `acentoChip` es más terroso (#E8863A frente a #FF5500) porque un chip es una
+ * superficie y el naranja puro a ese tamaño vibra. Lo cazó la sonda: sustituirlo
+ * por el acento a secas movía todos los chips de la pieza.
+ *
+ * No pasa por `c.tinta` porque `TintaNoticia` no tiene esa clave —la paleta del
+ * dialecto son seis tintas semánticas y ésta es un tono de MARCA—, así que sale
+ * de `c.marca`.
+ */
+const acentoChipDe = (c: CtxN): string => c.marca.color.acentoChip;
 
 /* ── Texto rico: la palabra de otro color, el tachado y el rotulador ──────── */
 
@@ -209,10 +258,17 @@ const trozoRotulado = (t: TextoN): string | undefined => {
  * maquetar la pieza entera antes de generar un solo clip. Que llegue al render
  * final es un fallo, y por eso `ficha.media` avisa de un `media` sin `src`.
  */
-export const MediaNoticia: React.FC<{ src?: string; esVideo?: boolean; grado?: GradoMedia }> = ({
+/**
+ * `fuente` es la familia del marco vacío ("pendiente"), y llega por prop en vez
+ * de salir de un `import { T }`: este componente lo monta un montador, que sí
+ * tiene la marca en el contexto. Es la misma razón por la que `Sello` dejará de
+ * tener `MARCA.sello` como valor por defecto.
+ */
+export const MediaNoticia: React.FC<{ src?: string; esVideo?: boolean; grado?: GradoMedia; fuente: string }> = ({
   src,
   esVideo,
   grado,
+  fuente,
 }) => {
   if (!src) {
     return (
@@ -224,7 +280,7 @@ export const MediaNoticia: React.FC<{ src?: string; esVideo?: boolean; grado?: G
           alignItems: "center",
           justifyContent: "center",
           background: "#DBD5C9",
-          fontFamily: T.kicker.fontFamily,
+          fontFamily: fuente,
           fontSize: 26,
           letterSpacing: 3,
           color: N.tintaSuave,
@@ -292,14 +348,22 @@ export const MediaNoticia: React.FC<{ src?: string; esVideo?: boolean; grado?: G
 /* ── EL REGISTRO ──────────────────────────────────────────────────────────── */
 
 export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNode> = {
+  // El MISMO JSX que monta la capa de gráficos para las seis compartidas: no hay
+  // una copia editorial del subrayado. Pintan con `c.color`, que aquí resuelve a
+  // la tinta del molde — carbón sobre papel, blanco sobre cine.
+  ...montadoresComunes<TintaNoticia>(),
   // ── Texto ────────────────────────────────────────────────────────────────
-  kicker: (p, c) => (
-    <span style={{ ...T.kicker, fontSize: pxTexto(c, p.px, T.kicker.fontSize), color: colorDe(c, T.kicker.color) }}>
-      <Rico t={p.texto} c={c} />
-    </span>
-  ),
+  kicker: (p, c) => {
+    const { T } = temaDe(c);
+    return (
+      <span style={{ ...T.kicker, fontSize: pxTexto(c, p.px, T.kicker.fontSize), color: colorDe(c, T.kicker.color) }}>
+        <Rico t={p.texto} c={c} />
+      </span>
+    );
+  },
 
   titular: (p, c) => {
+    const { T } = temaDe(c);
     const estilo: React.CSSProperties = {
       ...T.titular,
       fontSize: pxTexto(c, p.px, T.titular.fontSize),
@@ -329,13 +393,16 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
     );
   },
 
-  etiqueta: (p, c) => (
-    <span
-      style={{ ...T.etiqueta, fontSize: pxTexto(c, p.px, T.etiqueta.fontSize), color: colorDe(c, T.etiqueta.color) }}
-    >
-      <Rico t={p.texto} c={c} />
-    </span>
-  ),
+  etiqueta: (p, c) => {
+    const { T } = temaDe(c);
+    return (
+      <span
+        style={{ ...T.etiqueta, fontSize: pxTexto(c, p.px, T.etiqueta.fontSize), color: colorDe(c, T.etiqueta.color) }}
+      >
+        <Rico t={p.texto} c={c} />
+      </span>
+    );
+  },
 
   // ── Prueba periodística ──────────────────────────────────────────────────
   // El titular baja a texto plano (el componente no sabe de trozos) y el
@@ -355,7 +422,7 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
   // Sin `ctx`: el chip no honra el color del nodo (deuda del encabezado). El
   // stagger entre chips tampoco vive aquí — son nodos hermanos de una `fila` y
   // el desfase lo pone el `paso` del grupo.
-  chip: (p) => <ChipIcono glifo={GLIFO[p.glifo]} label={p.texto} activo={p.activo !== false} tam={p.tam} />,
+  chip: (p, c) => <ChipIcono acento={acentoChipDe(c)} glifo={GLIFO[p.glifo]} label={p.texto} activo={p.activo !== false} tam={p.tam} />,
 
   // ── Dato ─────────────────────────────────────────────────────────────────
   cifra: (p, c) => (
@@ -373,7 +440,7 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
       // La cifra NO usa el px del rol: el hero del dialecto son 96 px y esto es
       // un dato de 220. El 220 lo dice `T.cifra` y lo repite `ficha.cifra.alto`,
       // que es lo que hace que R08 estime lo mismo que se pinta.
-      px={Math.round((p.px ?? T.cifra.fontSize) * c.escala)}
+      px={Math.round((p.px ?? temaDe(c).T.cifra.fontSize) * c.escala)}
       punch={p.golpe}
     />
   ),
@@ -396,6 +463,7 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
     <Cronologia
       // `slice()` porque el plan es `readonly` (los datos no se mutan) y el
       // componente pide un array normal.
+      acento={acentoDe(c)}
       hitos={p.hitos.slice()}
       dur={durSegura(p.dur, Math.min(40, c.len - 10))}
       alto={p.alto}
@@ -484,15 +552,15 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
           overflow: "hidden",
         }}
       >
-        <MediaNoticia src={p.src} esVideo={p.esVideo} grado={p.grado} />
+        <MediaNoticia src={p.src} esVideo={p.esVideo} grado={p.grado} fuente={c.marca.letra.texto} />
       </div>
     ) : (
       // ENMARCADA: la regla del formato. Sobre papel el metraje va SIEMPRE con
       // marco naranja (es una prueba dentro del artículo); a sangre solo en
       // registro cine. Los 640×820 son los del intérprete viejo, no los del
       // componente (620×800): el que manda para comparar frames es el primero.
-      <TarjetaFoto ancho={p.ancho ?? 640} alto={p.alto ?? 820} deriva={p.deriva} duracion={c.len}>
-        <MediaNoticia src={p.src} esVideo={p.esVideo} grado={p.grado} />
+      <TarjetaFoto borde={acentoDe(c)} ancho={p.ancho ?? 640} alto={p.alto ?? 820} deriva={p.deriva} duracion={c.len}>
+        <MediaNoticia src={p.src} esVideo={p.esVideo} grado={p.grado} fuente={c.marca.letra.texto} />
       </TarjetaFoto>
     ),
 };
@@ -509,17 +577,49 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
  * con fondo de cine, que es precisamente lo que la gramática del formato
  * prohíbe.
  */
-export const FONDOS_NOTICIA: Record<string, React.FC> = {
-  papel: FondoPapel,
-  cine: FondoCine,
+/**
+ * LOS FONDOS, PARA UNA MARCA.
+ *
+ * `Molde.fondo` es un NOMBRE (`"papel"`, `"cine"`) y el intérprete lo resuelve
+ * contra este registro; el registro era `Record<string, React.FC>` SIN props, así
+ * que el plan podía elegir QUÉ fondo pero nunca DE QUÉ COLOR. Se vio en la prueba
+ * de convivencia del paso 5: la demo con otra marca cambió texto, acento y letra
+ * y siguió pintando el beige del canal debajo.
+ *
+ * Memoizada por identidad de marca por la misma razón que el dialecto: el
+ * registro entra como prop de `<PistaGraficos>` y devolver componentes nuevos en
+ * cada render remontaría el fondo entero en cada frame.
+ */
+const cacheFondos = new Map<Marca, Record<string, React.FC>>();
+
+export const fondosNoticiaDe = (m: Marca): Record<string, React.FC> => {
+  const guardado = cacheFondos.get(m);
+  if (guardado) return guardado;
+  const r: Record<string, React.FC> = {
+    papel: () => <FondoPapel color={m.color.papel} />,
+    cine: () => <FondoCine color={m.color.negro} />,
+  };
+  cacheFondos.set(m, r);
+  return r;
 };
+
+/** Los fondos del canal. Es UNA instancia; la fuente es `fondosNoticiaDe`. */
+export const FONDOS_NOTICIA: Record<string, React.FC> = fondosNoticiaDe(MARCA_BASE);
 
 /**
  * El watermark persistente. Tampoco es una pieza: va en TODOS los frames de la
  * pieza y se invierte según el registro (sobre negro, blanco; sobre papel,
  * tinta). Un plan que pudiera olvidarlo es un plan que lo olvidará.
  */
-export const SelloNoticia: React.FC<{ molde: MoldeNoticia }> = ({ molde }) => <Sello sobre={molde} />;
+export const SelloNoticia: React.FC<{ molde: MoldeNoticia; marca?: Marca }> = ({ molde, marca = MARCA_BASE }) => (
+  <Sello
+    texto={marca.sello.texto}
+    sobre={molde}
+    claro={marca.color.blanco}
+    oscuro={marca.color.tinta}
+    fuente={marca.letra.texto}
+  />
+);
 
 /**
  * Piezas que YA traen su propia entrada dentro del componente (muelle + rampa
@@ -551,6 +651,19 @@ export const ENTRA_SOLA: Record<PiezaNoticia, boolean> = {
   cifra: false, // el conteo es su gesto, pero la ENTRADA la ponía `<Entra>`
   medidor: true, // rampa de 8 f dentro de Medidor
   cronologia: false, // dibuja el raíl, pero no entra: el bloque sí necesita ley
+
+  // ── Las seis del registro compartido ─────────────────────────────────────
+  // TODAS `false`, y por la misma razón que `cronologia`: un trazo SE DIBUJA
+  // —`evolvePath` va descubriendo el path— pero eso es su contenido, no su
+  // entrada. Sin la ley del dialecto aparecerían de golpe en su frame y luego se
+  // dibujarían, que es medio gesto. Con ella entran como cualquier otro nodo y
+  // el trazo corre dentro.
+  regla: false,
+  subrayado: false,
+  rodea: false,
+  flecha: false,
+  check: false,
+  aspa: false,
   // El panel del muro trae su propio muelle `tarjeta` + rampa de 8 f, igual que
   // TarjetaFoto. Encadenarle la entrada de la ley daría un doble salto — y el
   // trazo, que arranca en el frame 6 del nodo, empezaría a dibujarse mientras el

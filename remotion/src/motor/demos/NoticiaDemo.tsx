@@ -1,6 +1,7 @@
 import { AbsoluteFill } from "remotion";
 import { PistaNoticia } from "../noticias";
 import { noticiaDemo } from "./noticia-demo";
+import type { Marca } from "../marca";
 
 /**
  * DEMO del formato noticias — el plan `noticia-demo.ts` montado por su intérprete.
@@ -18,8 +19,13 @@ import { noticiaDemo } from "./noticia-demo";
  * es validar el LOOK, no la narración. En un proyecto real las cuatro van juntas
  * y la duración de la comp la fija la voz, no el plan.
  */
-export const NoticiaDemo: React.FC = () => (
+/**
+ * La marca llega por PROP y no se importa aquí: `motor/` no conoce ningún canal
+ * y esta demo vive dentro de motor. Quien la elige es `Root.tsx`, que está fuera
+ * y es el sitio donde una composición dice para quién se monta.
+ */
+export const NoticiaDemo: React.FC<{ marca: Marca }> = ({ marca }) => (
   <AbsoluteFill>
-    <PistaNoticia tomas={noticiaDemo} />
+    <PistaNoticia tomas={noticiaDemo} marca={marca} />
   </AbsoluteFill>
 );

@@ -1,7 +1,9 @@
 import { AbsoluteFill, interpolate, random, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { EASE, SPRING } from "../motion";
 import { Trazo } from "../graficos/Trazo";
-import { LAYOUT, MARCA, N, T, alfaN } from "./theme-noticias";
+// Ya no entra `MARCA`: `Sello` recibe el texto del canal por prop. Era el
+// último sitio del formato que conocía al canal.
+import { LAYOUT, N, T, alfaN } from "./theme-noticias";
 
 /**
  * PRIMITIVAS DEL FORMATO NOTICIAS — lo que NO estaba en la biblioteca general.
@@ -39,11 +41,21 @@ import { LAYOUT, MARCA, N, T, alfaN } from "./theme-noticias";
  *
  * `grano` por encima de 0.05 deja de ser textura y empieza a ser ruido visible.
  */
-export const FondoPapel: React.FC<{ color?: string; grano?: number }> = ({ color = N.papel, grano = 0.025 }) => (
+export const FondoPapel: React.FC<{ color?: string; grano?: number; textura?: string; sombraBorde?: string }> = ({
+  color = N.papel,
+  grano = 0.025,
+  // Los dos tonos de la textura son CÁLIDOS porque el papel del canal es beige.
+  // Son props y no constantes para que un canal de papel frío pueda darles su
+  // propio tono: sobre un #F2F4F8 azulado, un grano marrón se ve sucio. No están
+  // en `Marca` a propósito — son textura del fondo, no vocabulario de la marca,
+  // y meter dos hex más en el tipo por un caso que aún no existe es inventar.
+  textura = "#8A8172",
+  sombraBorde = "#6B6055",
+}) => (
   <AbsoluteFill style={{ background: color }}>
     <AbsoluteFill
       style={{
-        backgroundImage: `repeating-conic-gradient(${alfaN("#8A8172", grano)} 0% 25%, transparent 0% 50%)`,
+        backgroundImage: `repeating-conic-gradient(${alfaN(textura, grano)} 0% 25%, transparent 0% 50%)`,
         backgroundSize: "6px 6px",
         pointerEvents: "none",
       }}
@@ -51,7 +63,7 @@ export const FondoPapel: React.FC<{ color?: string; grano?: number }> = ({ color
     {/* Vignette cálida muy leve: hunde las esquinas sin ensuciar el centro. */}
     <AbsoluteFill
       style={{
-        background: `radial-gradient(ellipse at 50% 45%, transparent 58%, ${alfaN("#6B6055", 0.14)} 100%)`,
+        background: `radial-gradient(ellipse at 50% 45%, transparent 58%, ${alfaN(sombraBorde, 0.14)} 100%)`,
         pointerEvents: "none",
       }}
     />
@@ -65,12 +77,13 @@ export const FondoPapel: React.FC<{ color?: string; grano?: number }> = ({ color
  * reconstrucciones. `cy` bajo (30-40) coloca la luz arriba, que es lo que
  * produce la iluminación tipo softbox cenital de la referencia.
  */
-export const FondoCine: React.FC<{ cx?: number; cy?: number; intensidad?: number }> = ({
+export const FondoCine: React.FC<{ cx?: number; cy?: number; intensidad?: number; color?: string }> = ({
   cx = 50,
   cy = 34,
   intensidad = 0.13,
+  color = N.negro,
 }) => (
-  <AbsoluteFill style={{ background: N.negro }}>
+  <AbsoluteFill style={{ background: color }}>
     <AbsoluteFill
       style={{
         background: `radial-gradient(58% 44% at ${cx}% ${cy}%, ${alfaN("#FFFFFF", intensidad)}, transparent 66%)`,
@@ -93,12 +106,19 @@ export const FondoCine: React.FC<{ cx?: number; cy?: number; intensidad?: number
  * Devuelve null si `MARCA.sello` es null — un canal sin sello no debe pagar un
  * hueco en la maqueta.
  */
-export const Sello: React.FC<{ texto?: string | null; sobre?: "papel" | "cine" }> = ({
-  texto = MARCA.sello,
-  sobre = "papel",
-}) => {
+export const Sello: React.FC<{
+  /** El texto del watermark. OBLIGATORIO y sin valor por defecto: tenerlo hacía
+   *  que este componente conociera al canal, y era el último sitio del formato
+   *  que no se podía cambiar sin editar el motor. `null` = canal sin sello. */
+  texto: string | null;
+  sobre?: "papel" | "cine";
+  /** Colores del registro. Por defecto los del canal, para no mover un píxel. */
+  claro?: string;
+  oscuro?: string;
+  fuente?: string;
+}> = ({ texto, sobre = "papel", claro = N.blanco, oscuro = N.tinta, fuente = T.pie.fontFamily }) => {
   if (!texto) return null;
-  const claro = sobre === "cine";
+  const esCine = sobre === "cine";
   return (
     <div
       style={{
@@ -118,13 +138,13 @@ export const Sello: React.FC<{ texto?: string | null; sobre?: "papel" | "cine" }
           gap: 14,
           padding: "12px 30px",
           borderRadius: 999,
-          border: `2px solid ${claro ? alfaN("#FFFFFF", 0.55) : alfaN("#111111", 0.3)}`,
-          background: claro ? alfaN("#000000", 0.35) : alfaN("#FFFFFF", 0.45),
-          fontFamily: T.pie.fontFamily,
+          border: `2px solid ${esCine ? alfaN("#FFFFFF", 0.55) : alfaN("#111111", 0.3)}`,
+          background: esCine ? alfaN("#000000", 0.35) : alfaN("#FFFFFF", 0.45),
+          fontFamily: fuente,
           fontSize: 30,
           fontWeight: 800,
           letterSpacing: 1.5,
-          color: claro ? N.blanco : N.tinta,
+          color: esCine ? claro : oscuro,
         }}
       >
         {/* Globo: dos elipses y un círculo, sin dependencias de icon set. */}
@@ -160,8 +180,11 @@ export const TarjetaFoto: React.FC<{
   at?: number;
   deriva?: number;
   duracion?: number;
-  borde?: string;
-}> = ({ children, ancho = 620, alto = 800, at = 0, deriva = 0.06, duracion = 200, borde = N.naranja }) => {
+  /** Color del marco. OBLIGATORIO y sin defecto: tenía `N.naranja` cableado, que
+   *  es lo que ataba el componente a un canal. Lo resuelve `acentoDe` en el
+   *  montador, así que sale de la paleta y lo alcanzan la marca y `plan.paleta`. */
+  borde: string;
+}> = ({ children, ancho = 620, alto = 800, at = 0, deriva = 0.06, duracion = 200, borde }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = frame - at;
@@ -426,13 +449,19 @@ export const ChipIcono: React.FC<{
   at?: number;
   tam?: number;
   activo?: boolean;
-}> = ({ glifo, label, at = 0, tam = 150, activo = true }) => {
+  /** El color del chip ENCENDIDO. Lo resuelve `acentoChipDe` en el montador:
+   *  es `acentoChip`, más terroso que el acento, porque un chip es superficie. */
+  acento: string;
+  /** El del chip apagado. Es un NEUTRO del registro claro, no un color de marca:
+   *  una opción descartada no se descarta con otro tono del canal. */
+  apagado?: string;
+}> = ({ glifo, label, at = 0, tam = 150, activo = true, acento, apagado = "#B9B3A7" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = frame - at;
   const e = spring({ frame: f, fps, config: SPRING.entrada });
   const op = interpolate(f, [0, 7], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const base = activo ? N.naranjaChip : "#B9B3A7";
+  const base = activo ? acento : apagado;
   return (
     <div
       style={{
@@ -549,7 +578,11 @@ export const Cronologia: React.FC<{
   at?: number;
   dur?: number;
   alto?: number;
-}> = ({ hitos, at = 0, dur = 30, alto = 560 }) => {
+  /** El acento del raíl y de los puntos alcanzados. Lo resuelve el montador. */
+  acento: string;
+  /** El relleno de un punto AÚN NO alcanzado: el fondo, para que se lea hueco. */
+  hueco?: string;
+}> = ({ hitos, at = 0, dur = 30, alto = 560, acento, hueco = N.papel }) => {
   const frame = useCurrentFrame();
   const f = frame - at;
   const p = interpolate(f, [0, dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
@@ -575,7 +608,7 @@ export const Cronologia: React.FC<{
       />
       {/* Raíl recorrido: dónde va la cabeza */}
       <div
-        style={{ position: "absolute", left: RAIL, top: respiro, height: util * p, width: 3, background: N.naranja }}
+        style={{ position: "absolute", left: RAIL, top: respiro, height: util * p, width: 3, background: acento }}
       />
       {hitos.map((h, i) => {
         const enPos = hitos.length > 1 ? i / (hitos.length - 1) : 0;
@@ -605,8 +638,8 @@ export const Cronologia: React.FC<{
                 height: 30,
                 marginLeft: RAIL - 13,
                 borderRadius: "50%",
-                background: alcanzado ? N.naranja : N.papel,
-                border: `4px solid ${N.naranja}`,
+                background: alcanzado ? acento : hueco,
+                border: `4px solid ${acento}`,
                 boxShadow: N.sombraCorta,
                 flexShrink: 0,
               }}
@@ -644,8 +677,11 @@ export const Medidor: React.FC<{
   dur?: number;
   max?: number;
   formato?: (v: number) => string;
-  color?: string;
-}> = ({ label, de, a, at = 0, dur = 30, max, formato = (v) => `${Math.round(v)}`, color = N.naranja }) => {
+  /** OBLIGATORIO. Tenía `N.naranja` por defecto y era INALCANZABLE: el montador
+   *  siempre pasa `colorDe(c, …)`, que devuelve `c.color` porque nunca es vacío.
+   *  Un defecto que no se puede alcanzar es una mentira sobre lo que pinta. */
+  color: string;
+}> = ({ label, de, a, at = 0, dur = 30, max, formato = (v) => `${Math.round(v)}` , color }) => {
   const frame = useCurrentFrame();
   const f = frame - at;
   const v = interpolate(f, [0, dur], [de, a], {

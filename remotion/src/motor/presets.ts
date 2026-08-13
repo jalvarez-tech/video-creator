@@ -121,3 +121,29 @@ export const feedCuadrado: Preset = {
 };
 
 export const PRESETS = { tutorialYT, verticalSocial, feedCuadrado };
+
+/**
+ * LA ZONA SEGURA ES DEL FORMATO, NO DE LA MARCA — y hasta ahora no lo era.
+ *
+ * `margenSeguro(width, pct = 11)` (graficos/estilos.ts) se llamaba SIN `pct`
+ * desde el intérprete, así que los tres presets declaraban su zona segura
+ * —5 % en 16:9, 11 % en 9:16, 8 % en 1:1— y el motor usaba el 11 % en los tres.
+ * El dato existía, estaba bien, y nadie lo leía: en horizontal el bloque salía
+ * con 211 px de margen a cada lado en vez de 96, o sea la mitad del ancho útil
+ * tirada. Es el mismo fallo que `escalaPorAncho`, que también vivía en
+ * estilos.ts sin que nadie la llamara.
+ *
+ * Se busca por ASPECTO y no por nombre de preset porque quien pregunta es el
+ * intérprete, que solo conoce el lienzo (`useVideoConfig`). El defecto es el
+ * 11 % del formato dominante de la casa: un lienzo raro se comporta como hoy en
+ * vez de inventarse un margen.
+ */
+export const zonaSeguraDe = (ancho: number, alto: number): number => {
+  for (const clave of Object.keys(PRESETS)) {
+    const f = PRESETS[clave as keyof typeof PRESETS].formato;
+    // Por PROPORCIÓN, no por píxeles exactos: el mismo 9:16 vale a 1080×1920 y
+    // a 720×1280, y una prueba a media resolución no debe cambiar la maqueta.
+    if (Math.abs(f.width / f.height - ancho / alto) < 0.01) return f.zonaSeguraPct;
+  }
+  return 11;
+};
