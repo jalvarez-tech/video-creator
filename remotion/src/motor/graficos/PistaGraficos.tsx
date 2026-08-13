@@ -8,20 +8,23 @@ import type { Muelle } from "../motion";
 import { Barras, BarraProgreso, Contador, ItemLista } from "./Datos";
 import type { EstadoItem } from "./Datos";
 import { Aparece, Barrido, Latido } from "./Entradas";
-import { CAJA, escalaPorAncho, FONT, G, margenSeguro } from "./estilos";
+import { CAJA, escalaPorAncho, G, margenSeguro } from "./estilos";
 import { Halo, Puntos, Rejilla, Resplandor, Scrim, Vineta } from "./Fondos";
 import { GLIFO } from "./Glifos";
 import { Aberracion, Glitch } from "./Glitch";
 import { Particulas } from "./Particulas";
 import { Tarjeta3D } from "./Tarjeta3D";
-import { Aspa, Check, Flecha, Rodea, Subrayado } from "./Trazo";
 import { Chip, Cifra, Etiqueta, Kicker, Titular } from "./Texto";
 import { duracionEntrada, esGrupo, gapEntre, resuelveMomentos, revisaPlan, ventanaAbs } from "../plan/nucleo";
 import type {
   Alineacion, Ambiente, Ancla, ClaveDe, CtxPieza, Entrada as EntradaLey, Envoltura, Grupo, Ley, Molde,
   Momento, Momentos, Montadores, NombreMuelle, Nodo, NodoUbicado, Piel, Plan, RegistroPiezas,
-  Rol, TextoRico, Toma, Trozo,
+  Rol, Salida, TextoRico, Toma, Trozo,
 } from "../plan/nucleo";
+import type { Marca } from "../marca";
+import type { LetraDialecto } from "../plan/nucleo";
+import { zonaSeguraDe } from "../presets";
+import { montadoresComunes } from "../piezas/montadores";
 import { PALETA_MARCA } from "./coreografia";
 import type { PiezasGraficos, Tinta, TramoContador } from "./coreografia";
 
@@ -93,6 +96,12 @@ interface CtxToma<R extends RegistroPiezas, C extends string> {
   fondos: Record<string, React.FC>;
   /** Color del degradado del scrim (el fondo de la capa: casi negro). */
   scrimColor: string;
+  /** La marca de la capa, del dialecto. Baja hasta `CtxPieza` para que un
+   *  montador pinte la voz del canal sin importarla a nivel de módulo. */
+  marca: Marca;
+  /** La letra RESUELTA de la capa: su defecto, o la que la marca pidió para
+   *  ella (`marca.letraPorCapa`). Ver `motor/letra.ts`. */
+  letra: LetraDialecto;
 }
 
 /** El mismo contexto visto sin sus genéricos: lo que necesitan los componentes
@@ -145,8 +154,23 @@ const tintaDe = (paleta: Record<string, string>, c: string | undefined, base: st
 
 /* ── Texto con partes (una palabra de otro color dentro de la frase) ─────── */
 
-const estiloTrozo = (x: Trozo<Tinta>, paleta: Record<Tinta, string>): React.CSSProperties => {
-  const col = x.tinta ? tintaDe(paleta, x.tinta, "texto") : undefined;
+/**
+ * EL COLOR DE UN TROZO SALE DEL CONTEXTO, NO DE LA PALETA DEL CANAL.
+ *
+ * Aquí estaba cableada `PALETA_MARCA` en los seis puntos de uso de `<Rico>`, y
+ * eso cortocircuitaba el gancho que el sistema ya tiene: `plan.paleta` se funde
+ * con la del dialecto en `RenderToma` y llega a la pieza como `c.tinta()`. Con
+ * la paleta redefinida —el 002 la descarta entera— el plan pedía un color y
+ * cualquier palabra con `tinta` DENTRO de una frase seguía saliendo en el teal
+ * del canal. El plan decía una cosa y el render pintaba otra, sin un aviso.
+ *
+ * `c.tinta` resuelve contra `ctx.paleta` con `dialecto.tintaBase` de suelo, que
+ * en gráficos es exactamente `"texto"` (el literal que estaba escrito aquí):
+ * con la paleta por defecto no se mueve ni un píxel. La línea 362, al lado, ya
+ * lo hacía bien — era esto lo único que faltaba por alinear.
+ */
+const estiloTrozo = (x: Trozo<Tinta>, c: CtxPieza<Tinta>): React.CSSProperties => {
+  const col = x.tinta ? c.tinta(x.tinta) : undefined;
   return {
     color: col,
     fontWeight: x.enfasis ? 800 : undefined,
@@ -154,13 +178,13 @@ const estiloTrozo = (x: Trozo<Tinta>, paleta: Record<Tinta, string>): React.CSSP
     // Rotulador: banda plana detrás de la palabra, del color del trozo. Es
     // ESTÁTICA a propósito — el barrido del rotulador tendría que arrancar en
     // un frame que sabe la pieza contenedora, y hoy ninguna lo declara.
-    background: x.rotulador ? conAlfa(col ?? paleta.marca, 0.3) : undefined,
+    background: x.rotulador ? conAlfa(col ?? c.tinta("marca"), 0.3) : undefined,
     padding: x.rotulador ? "0 .12em" : undefined,
     borderRadius: x.rotulador ? 4 : undefined,
   };
 };
 
-const Rico: React.FC<{ t: TextoRico<Tinta>; paleta: Record<Tinta, string> }> = ({ t, paleta }) => {
+const Rico: React.FC<{ t: TextoRico<Tinta>; c: CtxPieza<Tinta> }> = ({ t, c }) => {
   if (typeof t === "string") return <>{t}</>;
   return (
     <>
@@ -168,7 +192,7 @@ const Rico: React.FC<{ t: TextoRico<Tinta>; paleta: Record<Tinta, string> }> = (
         typeof x === "string" ? (
           <span key={i}>{x}</span>
         ) : (
-          <span key={i} style={estiloTrozo(x, paleta)}>
+          <span key={i} style={estiloTrozo(x, c)}>
             {x.t}
           </span>
         )
@@ -235,9 +259,12 @@ const escalaTexto = (c: CtxPieza<Tinta>, px: number | undefined, rol: Rol): numb
  * biblioteca. */
 
 export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
+  // Las seis compartidas (`regla` y las cinco de trazo) salen del registro
+  // común: el mismo JSX que monta la capa editorial. Ver `motor/piezas/`.
+  ...montadoresComunes<Tinta>(),
   kicker: (p, c) => (
     <Kicker color={c.color} px={escalaTexto(c, p.px, "contexto")}>
-      <Rico t={p.texto} paleta={PALETA_MARCA} />
+      <Rico t={p.texto} c={c} />
     </Kicker>
   ),
   titular: (p, c) =>
@@ -248,18 +275,18 @@ export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
       <span style={{ display: "flex", flexDirection: "column", alignItems: "center", whiteSpace: "nowrap" }}>
         {p.lineas.map((l, i) => (
           <Titular key={i} color={c.color} px={escalaTexto(c, p.px, "hero")}>
-            <Rico t={l} paleta={PALETA_MARCA} />
+            <Rico t={l} c={c} />
           </Titular>
         ))}
       </span>
     ) : (
       <Titular color={c.color} px={escalaTexto(c, p.px, "hero")}>
-        <Rico t={p.texto ?? ""} paleta={PALETA_MARCA} />
+        <Rico t={p.texto ?? ""} c={c} />
       </Titular>
     ),
   etiqueta: (p, c) => (
     <Etiqueta color={c.color} px={escalaTexto(c, p.px, "apoyo")}>
-      <Rico t={p.texto} paleta={PALETA_MARCA} />
+      <Rico t={p.texto} c={c} />
     </Etiqueta>
   ),
   cifra: (p, c) => (
@@ -273,7 +300,7 @@ export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
   // mismo que en la capa editorial: lo que apaga es decirlo, no omitirlo.
   chip: (p, c) => (
     <Chip color={c.color} px={escalaTexto(c, p.px, "contexto")} activo={p.activo !== false}>
-      <Rico t={p.texto} paleta={PALETA_MARCA} />
+      <Rico t={p.texto} c={c} />
     </Chip>
   ),
   // El plan pide el glifo por NOMBRE y nunca lleva el `path`: el dibujo es del
@@ -320,24 +347,6 @@ export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
   ),
   // `regla` NO usa el componente Regla porque necesita poder estirarse al ancho
   // del bloque en porcentaje: es lo que mata el `ancho: 520` medido a ojo.
-  regla: (p, c) => {
-    const pr = interpolate(c.f, [0, Math.max(1, p.dur ?? 6)], [0, 1], {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-    });
-    return (
-      <div style={{ width: c.estira ? "100%" : p.ancho ?? 430, transform: p.gira ? `rotate(${p.gira}deg)` : undefined }}>
-        <div
-          style={{
-            width: `${pr * 100}%`,
-            height: p.alto ?? 4,
-            background: c.color,
-            boxShadow: `0 0 16px ${conAlfa(c.color, 0.5)}`,
-          }}
-        />
-      </div>
-    );
-  },
   // `items[].estado` es lo que permite marcar UN ítem distinto del resto ("estos
   // dos sí, este no"), que es el caso para el que sirve una lista con marcas y
   // que hasta ahora había que escribir a mano fuera del plan.
@@ -362,7 +371,7 @@ export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
           color={it.estado ? c.tinta(TINTA_ESTADO[it.estado]) : c.color}
           px={escalaTexto(c, p.px, "apoyo")}
         >
-          <Rico t={it.texto} paleta={PALETA_MARCA} />
+          <Rico t={it.texto} c={c} />
         </ItemLista>
       ))}
     </div>
@@ -400,26 +409,6 @@ export const MONTADORES_BASE: Montadores<PiezasGraficos, Tinta, ReactNode> = {
       </div>
     );
   },
-
-  subrayado: (p, c) => (
-    <Subrayado ancho={p.ancho ?? 520} dur={p.dur} semilla={p.semilla} grosor={p.grosor} amplitud={p.amplitud} color={c.color} />
-  ),
-  rodea: (p, c) => (
-    <Rodea
-      ancho={p.ancho ?? 520}
-      alto={p.alto ?? 180}
-      dur={p.dur}
-      semilla={p.semilla}
-      vueltas={p.vueltas}
-      grosor={p.grosor}
-      color={c.color}
-    />
-  ),
-  flecha: (p, c) => (
-    <Flecha de={[p.de[0], p.de[1]]} a={[p.a[0], p.a[1]]} curvatura={p.curvatura} grosor={p.grosor} dur={p.dur} color={c.color} />
-  ),
-  check: (p, c) => <Check tam={p.px ?? 120} dur={p.dur} grosor={p.grosor} color={c.color} />,
-  aspa: (p, c) => <Aspa tam={p.px ?? 120} dur={p.dur} grosor={p.grosor} retardo={p.retardo} color={c.color} />,
 
   nodo: (p, c) => (
     <div
@@ -525,15 +514,45 @@ export const Entra: React.FC<{
   estilo: React.CSSProperties;
   /** El nodo pidió `estira`: su caja tiene que llegar al ancho del bloque. */
   estira: boolean;
+  /**
+   * LA SALIDA DEL NODO (`Comun.sale`) — el campo que llevaba desde el primer día
+   * declarado en el núcleo y SIN UN SOLO LECTOR. Un plan podía escribir
+   * `sale: {como:"fundido", dur: 10}` en una hoja y no pasaba absolutamente
+   * nada, sin un aviso: la única salida que el sistema honraba era la de la LEY,
+   * y esa se aplica a la TOMA entera en `RenderToma`.
+   *
+   * Aquí y no en un envoltorio nuevo, y ésa es toda la dificultad del cambio: el
+   * nodo es un flex-item y su `alignSelf: stretch` / `width: 100%` / márgenes
+   * los aplica ESTE componente vía `estilo`. Envolverlo por fuera para poner una
+   * opacidad convierte al envoltorio en el flex-item y el contenido pierde el
+   * estirado. (`display: contents` tampoco vale: `opacity` fuerza caja.) Como en
+   * las tres ramas de abajo hay exactamente UN elemento que es el flex-item y
+   * que ya recibe `estilo`, la opacidad se multiplica ahí y no se añade ni un
+   * nodo al DOM.
+   *
+   * Solo actúa si el NODO la declara. No cae a `ley.salida` a propósito: ésa ya
+   * la aplica la toma, y heredarla aquí daría un doble fundido.
+   */
+  sale?: Salida;
+  /** Duración de la ventana del nodo, en frames. La necesita el fundido. */
+  len?: number;
   children: ReactNode;
-}> = ({ ley, entra, color, rol, estilo, estira, children }) => {
+}> = ({ ley, entra, color, rol, estilo, estira, sale, len = 0, children }) => {
+  const fSalida = useCurrentFrame();
+  // `opacidadVentana(f, len, 1, dur)`: el 1 anula la rampa de ENTRADA (de eso ya
+  // se encarga la entrada del nodo) y deja solo la de salida. Si la ventana es
+  // más corta que el fundido devuelve 1 — degrada a corte en vez de reventar.
+  const alfaSalida = sale && sale.como === "fundido" ? opacidadVentana(fSalida, len, 1, sale.dur ?? 8) : 1;
   const e = entra ?? ley.entrada;
   // `escalon` y `ninguna` comparten rama porque dentro de una <Sequence> son lo
   // mismo: el corte duro ya lo da la Sequence, y añadirle un frame en blanco
   // haría parpadear justo lo que el plan real declara con `escalon` (la serie de
   // pasos del 003, el nodo del eje, el campo del CTA). Lo que SÍ las distingue
   // es `duracionEntrada` —1 f contra 0—, que es lo que lee un `tras(id)`.
-  if (e.como === "ninguna" || e.como === "escalon") return <div style={estilo}>{children}</div>;
+  // `opacity` DESPUÉS del spread: `estilo` solo trae caja (alignSelf, width,
+  // márgenes) y nunca opacidad, así que no hay nada que multiplicar aquí.
+  if (e.como === "ninguna" || e.como === "escalon")
+    return <div style={{ ...estilo, opacity: alfaSalida }}>{children}</div>;
   if (e.como === "barrido" || e.como === "extiende") {
     const dur = duracionEntrada(e, ley);
     // La barra viajera es un canal de JERARQUÍA: la lleva el hero y nadie más.
@@ -550,7 +569,13 @@ export const Entra: React.FC<{
     // <Barrido> se blockifica (deja de ser inline-block) y `align-items:
     // stretch` le da el ancho del bloque, que es el que el hijo estira.
     return (
-      <div style={estira ? { ...estilo, display: "flex", flexDirection: "column" } : estilo}>
+      <div
+        style={
+          estira
+            ? { ...estilo, display: "flex", flexDirection: "column", opacity: alfaSalida }
+            : { ...estilo, opacity: alfaSalida }
+        }
+      >
         <Barrido at={0} dur={dur} barra={barra ? color : undefined}>
           {children}
         </Barrido>
@@ -569,6 +594,7 @@ export const Entra: React.FC<{
       // fuera de foco medio segundo y se lee como un fallo de render.
       desenfoque={rol === "hero" ? e.desenfoque ?? 0 : 0}
       estilo={estilo}
+      alfa={alfaSalida}
     >
       {children}
     </Aparece>
@@ -676,6 +702,8 @@ function RenderHoja<R extends RegistroPiezas, C extends string>({
     escala: ctx.vista.escala,
     estira: nodo.estira === true,
     ley: ctx.ley,
+    marca: ctx.marca,
+    letra: ctx.letra,
   };
   const pintado = montador(nodo.props as never, cp);
   if (!nodo.dentro || nodo.dentro.length === 0) return <>{pintado}</>;
@@ -750,7 +778,16 @@ function RenderNodo<R extends RegistroPiezas, C extends string>({
   const retardo = Math.max(0, desde - base);
   const cuerpo = (
     <Envuelve envs={nodo.envolturas} ctx={ctx as unknown as CtxAnon} inicio={desde}>
-      <Entra ley={ctx.ley} entra={nodo.entra} color={color} rol={rol} estilo={estilo} estira={nodo.estira === true}>
+      <Entra
+        ley={ctx.ley}
+        entra={nodo.entra}
+        color={color}
+        rol={rol}
+        estilo={estilo}
+        estira={nodo.estira === true}
+        sale={nodo.sale}
+        len={dura}
+      >
         {esGrupo(nodo) ? (
           <RenderGrupo grupo={nodo} ctx={ctx} base={desde} />
         ) : (
@@ -879,7 +916,10 @@ function RenderGrupo<R extends RegistroPiezas, C extends string>({
         alignItems: alineaCSS(grupo.alinea),
         justifyContent: "center",
         textAlign: "center",
-        fontFamily: FONT,
+        // La familia se hereda desde aquí: las piezas de esta capa no la
+        // declaran (las editoriales sí, con `T.*`). Sale del DIALECTO, así que
+        // un canal puede pedir la suya con `marca.letraPorCapa.graficos`.
+        fontFamily: ctx.letra.texto,
         ...piel,
       };
 
@@ -1026,7 +1066,7 @@ const CapasAmbiente: React.FC<{
 
 /** El ancla va en FRACCIÓN del alto real, no en px: el mismo plan sirve en 9:16
  *  y en 16:9 sin recolocar nada a mano. */
-const cajaMolde = (ancla: Ancla, v: Vista, alinea: string): React.CSSProperties => {
+const cajaMolde = (ancla: Ancla, v: Vista, alinea: string, fuente: string): React.CSSProperties => {
   const comun: React.CSSProperties = {
     position: "absolute",
     left: v.margen,
@@ -1035,7 +1075,8 @@ const cajaMolde = (ancla: Ancla, v: Vista, alinea: string): React.CSSProperties 
     flexDirection: "column",
     alignItems: alinea === "inicio" ? "flex-start" : alinea === "fin" ? "flex-end" : "center",
     textAlign: "center",
-    fontFamily: FONT,
+    // La familia HEREDADA del bloque, del dialecto. Ver la nota de `RenderGrupo`.
+    fontFamily: fuente,
   };
   if (ancla.desde === "arriba") return { ...comun, top: Math.round(v.alto * ancla.pct) };
   if (ancla.desde === "abajo") return { ...comun, bottom: Math.round(v.alto * ancla.pct) };
@@ -1094,7 +1135,7 @@ function RenderToma<R extends RegistroPiezas, B extends string, M extends string
        * cenital, que son textura fija: se leería como un temblor de cámara.
        */}
       <AbsoluteFill style={{ transform: escala === 1 ? undefined : `scale(${escala})` }}>
-        <div style={cajaMolde(toma.ancla ?? molde.ancla, ctx.vista, toma.alinea ?? molde.alinea)}>
+        <div style={cajaMolde(toma.ancla ?? molde.ancla, ctx.vista, toma.alinea ?? molde.alinea, ctx.letra.texto)}>
           {toma.hijos.map((h, i) => (
             <RenderNodo
               key={i}
@@ -1150,7 +1191,7 @@ export function PistaGraficos<
     () => ({ ...plan.dialecto.paleta, ...(plan.paleta ?? {}) }) as Record<C, string>,
     [plan]
   );
-  const vista: Vista = { ancho: width, alto: height, fps, margen: margenSeguro(width), escala: escalaPorAncho(width) };
+  const vista: Vista = { ancho: width, alto: height, fps, margen: margenSeguro(width, zonaSeguraDe(width, height)), escala: escalaPorAncho(width) };
 
   return (
     <>
@@ -1162,6 +1203,8 @@ export function PistaGraficos<
           montadores,
           paleta,
           base: plan.dialecto.tintaBase,
+          marca: plan.dialecto.marca,
+          letra: plan.dialecto.letra,
           escalaRol: plan.dialecto.escala,
           alfaRol: plan.dialecto.alfaRol,
           ley,

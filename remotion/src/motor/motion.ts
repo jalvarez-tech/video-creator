@@ -48,6 +48,42 @@ export const SPRING = {
 export const EASE = {
   outCubic: Easing.out(Easing.cubic),
   inOutCubic: Easing.inOut(Easing.cubic),
+  /**
+   * FRENADO LARGO en tres tramos. Para algo que RUEDA y se detiene: una palabra
+   * que se releva, un contador que aterriza tras un recorrido, un carrusel.
+   *
+   * No es una bezier y por eso no está escrita como tal: una cúbica no puede
+   * reptar al principio Y frenar en seco al final: o hace una cosa o hace la
+   * otra. Los tres tramos son
+   *   0-15 %   `0.02·x²` — arranca casi parado, que es lo que da la sensación
+   *                        de inercia antes de soltarse
+   *   15-70 %  lineal    — la parte que de verdad se lee como rodar
+   *   70-100 % `1−(1−x)⁷` — frena muy fuerte al final
+   * Empalmados con continuidad para que no haya un tirón en las juntas.
+   *
+   * Cosechada de `RollerSlotReveal` (lifeprompt-team/remotion-scenes, MIT). Es
+   * lo único que se copió del lote externo: la CURVA, no el componente. Ver
+   * manuales/motion-graphics/cruce-remotion-scenes.md.
+   */
+  frenoLargo: (x: number): number => {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    const c1 = 0.15; // fin del reptar
+    const c2 = 0.7; // inicio del frenado
+    const y1 = 0.02 * c1 * c1;
+    // y2 = 0.928 no es a ojo: es el valor que hace que la pendiente del tramo
+    // lineal y la del ARRANQUE del frenado coincidan. Con cualquier otro hay un
+    // tirón en la junta —el primer intento puso aquí `1−(1−x)⁷` evaluado en la x
+    // GLOBAL, que ya vale 0.9998 en 0.7: el movimiento terminaba al 70 % y los
+    // tres tramos eran decorativos—. Se ve en el perfil, no en el código.
+    const y2 = 0.928;
+    if (x < c1) return 0.02 * x * x;
+    if (x < c2) return y1 + ((x - c1) / (c2 - c1)) * (y2 - y1);
+    // El frenado se remapea a SU tramo (`u` de 0 a 1 dentro de [c2, 1]) y cubre
+    // lo que falta hasta 1. Exponente 7: muy seco, que es el gesto.
+    const u = (x - c2) / (1 - c2);
+    return y2 + (1 - y2) * (1 - Math.pow(1 - u, 7));
+  },
 } as const;
 
 /** segundos → frames al fps de la composición (determinista). */

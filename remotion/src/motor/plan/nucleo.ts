@@ -49,6 +49,11 @@
 // nada. La TABLA de avances (`AVANCES`) NO se importa aquí: la elige el dialecto
 // —que es quien sabe con qué tipografía monta cada pieza— y la pasa a
 // `anchoTexto`. Ver §11b.
+// `import type`: se borra al compilar, así que esta capa sigue siendo DATOS
+// PUROS y un plan se valida con `node` pelado. Ver la cabecera de marca.ts.
+import type { Marca, PesoAvance } from "../marca";
+export type { PesoAvance };
+
 import type { TablaAvances } from "./avances";
 
 /* ══════════════════════ 1 · TIEMPO ═══════════════════════════════════════ */
@@ -282,6 +287,19 @@ export function recorreTrozos(valor: unknown, fn: (t: Trozo<string>) => void, ho
  */
 export interface CtxFicha {
   readonly rol: Rol;
+  /**
+   * LA TABLA DE ANCHOS MEDIDOS DEL PESO CON QUE PINTA EL MONTADOR.
+   *
+   * Antes cada ficha nombraba la suya a mano (`AVANCES.sf700`, `AVANCES.inter800`),
+   * y eso ataba la estimación a UNA tipografía: cambiar la letra del canal dejaba
+   * las quince fichas midiendo con la fuente vieja y R09 seguía diciendo LIMPIO
+   * mientras el titular se salía. Ahora la pide por PESO y la resuelve el
+   * dialecto, que es quien sabe con qué se dibuja.
+   *
+   * Sigue sin importarse `AVANCES` en esta capa (ver la nota de la cabecera): lo
+   * que llega aquí son tablas YA RESUELTAS por quien montó el contexto.
+   */
+  readonly tabla: (peso: PesoAvance) => TablaAvances;
 }
 
 /**
@@ -363,6 +381,15 @@ export interface CtxPieza<C extends string> {
   /** El nodo pidió estirarse al ancho del bloque (`alignSelf: stretch`). */
   estira: boolean;
   ley: Ley;
+  /**
+   * La marca de la capa, ya resuelta. Es lo que permite que un montador pinte
+   * el color y la letra del canal SIN importarlos a nivel de módulo — que era
+   * lo que ataba el repo a una sola marca. Ver `Dialecto.marca`.
+   */
+  marca: Marca;
+  /** La letra RESUELTA de la capa. Un montador que quiera la DISPLAY del canal
+   *  la pide aquí; lo demás se hereda del contenedor. Ver `motor/letra.ts`. */
+  letra: LetraDialecto;
 }
 
 export type Montador<P, C extends string, N> = (props: P, ctx: CtxPieza<C>) => N;
@@ -631,9 +658,40 @@ export type Regla<R extends RegistroPiezas, B extends string, M extends string, 
   plan: Plan<R, B, M, C>
 ) => string[];
 
+/**
+ * La letra de una capa: la familia con la que dibuja y la tabla medida de cada
+ * peso. Vive en el DIALECTO y no en la marca porque hoy las dos capas usan
+ * tipografías distintas —editorial San Francisco, gráficos Inter— y una ficha
+ * que estimara con la tabla equivocada mentiría en silencio. El dialecto la
+ * deriva de su marca; lo que no puede es heredarla de otra capa.
+ */
+export interface LetraDialecto {
+  display: string;
+  texto: string;
+  tablas: Record<PesoAvance, TablaAvances>;
+}
+
 /** El vocabulario de una capa sobre el sustrato común. */
 export interface Dialecto<R extends RegistroPiezas, B extends string, M extends string, C extends string> {
   nombre: string;
+  /**
+   * LA MARCA DE LA CAPA — la voz del canal, como DATO y no como import.
+   *
+   * El dialecto define el VOCABULARIO (qué piezas, qué moldes, qué beats) y la
+   * marca los VALORES (colores, letra, sello, radio). Estaban en planos
+   * distintos: el vocabulario se inyectaba —`<PistaGraficos>` es genérica en los
+   * cuatro parámetros y no tiene un solo `if` por dialecto— y los valores eran
+   * `export const` que quince archivos importaban a nivel de módulo. Por eso dos
+   * marcas no podían convivir en el repo: cambiar el acento cambiaba TODOS los
+   * proyectos, incluidos los ya publicados.
+   *
+   * Colgada del dialecto y no del plan a propósito: el validador recibe el plan
+   * y llega al dialecto, así que R09 puede medir con la tipografía con la que se
+   * va a pintar en vez de con la que la ficha nombró a mano.
+   */
+  marca: Marca;
+  /** Con qué se dibuja y con qué se mide. Ver `LetraDialecto`. */
+  letra: LetraDialecto;
   piezas: R;
   /** Eje narrativo. El vocabulario lo pone el DIALECTO: forzar los siete beats
    *  del short informativo sobre una pieza de avatar solo consigue que el autor
@@ -897,26 +955,29 @@ const ALTO_VOLTEO = 460;
 export function alturaEstimada<R extends RegistroPiezas, C extends string>(
   n: Nodo<R, C>,
   piezas: R,
-  gapPorDefecto: number
+  gapPorDefecto: number,
+  /** Las tablas del DIALECTO. Sin ellas la ficha no puede medir con la letra
+   *  que se va a pintar, que es justo lo que este parámetro viene a impedir. */
+  letra: LetraDialecto
 ): number {
   if (esGrupo(n)) {
     if (n.eje === "diagrama") return n.alto;
     const conPiel = (x: number): number =>
       "piel" in n && n.piel ? altoDePiel(n.piel, x, n.hijos.length) : x;
     if (n.eje === "ranura" || n.eje === "pila" || n.eje === "capas" || n.eje === "fila") {
-      const mayor = n.hijos.reduce((m, h) => Math.max(m, alturaEstimada(h, piezas, gapPorDefecto)), 0);
+      const mayor = n.hijos.reduce((m, h) => Math.max(m, alturaEstimada(h, piezas, gapPorDefecto, letra)), 0);
       return conPiel(n.eje === "ranura" && n.conmuta === "volteo" ? Math.max(mayor, ALTO_VOLTEO) : mayor);
     }
     let total = 0;
     n.hijos.forEach((h, i) => {
-      total += alturaEstimada(h, piezas, gapPorDefecto) + (h.sep ?? 0);
+      total += alturaEstimada(h, piezas, gapPorDefecto, letra) + (h.sep ?? 0);
       if (i < n.hijos.length - 1) total += gapEntre(n.gap, i, gapPorDefecto);
     });
     return conPiel(total);
   }
   const ficha = piezas[n.pieza] as Ficha<never> | undefined;
   if (!ficha || ficha.capa) return 0;
-  const propio = ficha.alto ? ficha.alto(n.props as never, { rol: n.rol ?? "apoyo" }) : 0;
+  const propio = ficha.alto ? ficha.alto(n.props as never, { rol: n.rol ?? "apoyo", tabla: (w) => letra.tablas[w] }) : 0;
   // Una HOJA con `dentro` es un contenedor (el campo del CTA, las caras 3D) y
   // antes medía solo su propia ficha: envolver siete chips en un `campo` sin
   // `alto` los hacía medir 0 px y apagaba R08 en silencio — justo la alarma que
@@ -926,7 +987,7 @@ export function alturaEstimada<R extends RegistroPiezas, C extends string>(
   if (!dentro || dentro.length === 0) return propio;
   let interior = 0;
   dentro.forEach((h, i) => {
-    interior += alturaEstimada(h, piezas, gapPorDefecto) + (h.sep ?? 0);
+    interior += alturaEstimada(h, piezas, gapPorDefecto, letra) + (h.sep ?? 0);
     if (i < dentro.length - 1) interior += gapPorDefecto;
   });
   return Math.max(propio, interior);
@@ -1244,7 +1305,10 @@ const anchoDePiel = <C extends string>(p: Piel<C>, interior: number, huecos: num
 export function anchuraEstimada<R extends RegistroPiezas, C extends string>(
   n: Nodo<R, C>,
   piezas: R,
-  gapPorDefecto: number
+  gapPorDefecto: number,
+  /** Las tablas del DIALECTO. Sin ellas la ficha no puede medir con la letra
+   *  que se va a pintar, que es justo lo que este parámetro viene a impedir. */
+  letra: LetraDialecto
 ): number {
   if (esGrupo(n)) {
     if (n.eje === "diagrama") return n.ancho;
@@ -1259,12 +1323,12 @@ export function anchuraEstimada<R extends RegistroPiezas, C extends string>(
       n.hijos.forEach((h, i) => {
         // En una fila el `sep` del plan se monta como `marginLeft`, así que
         // ocupa ancho. En una columna es `marginTop` y no ocupa nada.
-        total += anchuraEstimada(h, piezas, gapPorDefecto) + (i === 0 ? 0 : h.sep ?? 0);
+        total += anchuraEstimada(h, piezas, gapPorDefecto, letra) + (i === 0 ? 0 : h.sep ?? 0);
         if (i < n.hijos.length - 1) total += gapEntre(n.gap, i, gapPorDefecto);
       });
       return conPiel(total);
     }
-    return conPiel(n.hijos.reduce((m, h) => Math.max(m, anchuraEstimada(h, piezas, gapPorDefecto)), 0));
+    return conPiel(n.hijos.reduce((m, h) => Math.max(m, anchuraEstimada(h, piezas, gapPorDefecto, letra)), 0));
   }
   const ficha = piezas[n.pieza] as Ficha<never> | undefined;
   if (!ficha || ficha.capa) return 0;
@@ -1272,13 +1336,13 @@ export function anchuraEstimada<R extends RegistroPiezas, C extends string>(
   // (`const rol: Rol = nodo.rol ?? "apoyo"`): de ahí sale el cuerpo por defecto
   // de todo texto, así que la ficha tiene que resolverlo igual o estima otra
   // pieza. Es el mismo defecto en los dos sitios a propósito.
-  const propio = ficha.ancho ? ficha.ancho(n.props as never, { rol: n.rol ?? "apoyo" }) : 0;
+  const propio = ficha.ancho ? ficha.ancho(n.props as never, { rol: n.rol ?? "apoyo", tabla: (w) => letra.tablas[w] }) : 0;
   const dentro = n.dentro;
   if (!dentro || dentro.length === 0) return propio;
   // `RenderHoja` monta la pieza y su `dentro` en una FILA con gap 18: el
   // contenedor mide la suma, no el máximo (que es lo que sí hace el alto).
   let total = propio;
-  for (const h of dentro) total += anchuraEstimada(h, piezas, gapPorDefecto) + 18;
+  for (const h of dentro) total += anchuraEstimada(h, piezas, gapPorDefecto, letra) + 18;
   return total;
 }
 
@@ -1364,6 +1428,23 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
         avisos.push(`[${v.ruta}] entra en el frame local ${Math.round(en)}: antes del arranque de su toma`);
       if (en !== undefined && muere !== undefined && muere <= en)
         avisos.push(`[${v.ruta}] muere (${muere}) antes de entrar (${Math.round(en)})`);
+      // UN FUNDIDO DE SALIDA QUE NO CABE SE RECORTA EN SILENCIO.
+      //
+      // `opacidadVentana` acota la rampa a la ventana del nodo para no reventar
+      // con un `inputRange` no creciente — bien— pero eso significa que un
+      // `sale: {dur: 20}` sobre un nodo que vive 10 frames se dibuja como un
+      // fundido de 8, y el plan dice una cosa y el render hace otra. Es el mismo
+      // patrón que este archivo persigue en todas partes; ahora que `sale` tiene
+      // lector de verdad, también hay que vigilarlo.
+      if (n.sale && n.sale.como === "fundido" && en !== undefined && muere !== undefined) {
+        const vive = Math.max(1, Math.round(muere) - Math.max(0, Math.round(en)));
+        const pedido = n.sale.dur ?? 8;
+        // `−2`: `opacidadVentana` reserva 1 frame de entrada y 1 de margen.
+        if (pedido > vive - 2)
+          avisos.push(
+            `[${v.ruta}] sale con un fundido de ${pedido} f y el nodo solo vive ${vive}: se recortará a ${Math.max(1, vive - 2)} f`
+          );
+      }
       // `ventana` va en ABSOLUTOS y `muere` en LOCALES: pegar aquí el frame del
       // guion es el error más previsible del sistema. `en` tiene `abs` como red
       // y `muere` no tenía ninguna. `muere === len` no dispara: es la forma
@@ -1469,7 +1550,7 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
     if (molde.altoMax !== undefined) {
       let bulto = 0;
       t.hijos.forEach((h, i) => {
-        bulto += alturaEstimada(h, dialecto.piezas, molde.gap) + (h.sep ?? 0);
+        bulto += alturaEstimada(h, dialecto.piezas, molde.gap, dialecto.letra) + (h.sep ?? 0);
         if (i < t.hijos.length - 1) bulto += gapEntre(t.gap, i, molde.gap);
       });
       if (bulto > molde.altoMax)
@@ -1525,7 +1606,7 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
       // ignorar los tres. Se recorre a mano (y no con `recorre`) porque hay que
       // mirar a los hijos ANTES de decidir si el padre habla.
       const culpa = (n: Nodo<R, C>, ruta: string): void => {
-        const w = anchuraEstimada(n, dialecto.piezas, molde.gap);
+        const w = anchuraEstimada(n, dialecto.piezas, molde.gap, dialecto.letra);
         if (w <= util) return;
         // Un `diagrama` declara su propio ancho y coloca a sus hijos por `xy`:
         // el culpable es él, y bajar dentro señalaría a un hijo que está donde
@@ -1534,7 +1615,7 @@ export function revisaPlan<R extends RegistroPiezas, B extends string, M extends
         const hijos: readonly Nodo<R, C>[] = esDiagrama ? [] : esGrupo(n) ? n.hijos : n.dentro ?? [];
         let algunHijoCulpable = false;
         hijos.forEach((h, i) => {
-          if (anchuraEstimada(h, dialecto.piezas, molde.gap) > util) {
+          if (anchuraEstimada(h, dialecto.piezas, molde.gap, dialecto.letra) > util) {
             algunHijoCulpable = true;
             culpa(h, `${ruta}/${i}`);
           }

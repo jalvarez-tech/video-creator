@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { AbsoluteFill, Audio, staticFile } from "remotion";
 import { PistaNoticia } from "../../motor/noticias";
+import { LUXUR } from "../../marcas/luxur";
 import { noticia004 } from "./noticia-004";
 import { cues004 } from "./cues-004";
 import { PistaSonido } from "../../motor/sound/PistaSonido";
@@ -49,7 +50,7 @@ export const Noticia004: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <PistaNoticia tomas={noticia004} />
+      <PistaNoticia tomas={noticia004} marca={LUXUR} />
       <Audio src={staticFile("noticias/004-vo.wav")} />
       <PistaSonido cues={cues004} duckDb={-5} />
     </AbsoluteFill>

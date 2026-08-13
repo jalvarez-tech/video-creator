@@ -1,6 +1,23 @@
 import { AbsoluteFill, interpolate, Sequence, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { EASE, Muelle, opacidadVentana, SPRING } from "../motion";
-import { FONT } from "./estilos";
+/**
+ * AQUÍ YA NO SE FIJA LA FAMILIA, Y ES EL ARREGLO DE UNA CASCADA INVERTIDA.
+ *
+ * Estos cuatro envoltorios (`Fundido`, `Aparece`, `Barrido`, `Ranura`) ponían
+ * `fontFamily: FONT` cada uno. Son los MÁS INTERNOS que ve un nodo —`<Aparece>`
+ * envuelve a todos—, así que ganaban a la familia que ponen el grupo y el
+ * bloque. Mientras las dos fueran la misma no se notaba; en cuanto el dialecto
+ * empezó a resolver su letra (para que una marca pueda pedir la suya con
+ * `marca.letraPorCapa`), el intérprete la aplicaba arriba y aquí abajo se
+ * volvía a pisar con la de módulo. El override no pintaba nada.
+ *
+ * Se quita en vez de pasarse por prop porque era REDUNDANTE: el bloque
+ * (`cajaMolde`) y el grupo (`RenderGrupo`) ya la declaran, y el texto la hereda.
+ * Un solo sitio que la fije es lo que hace que se pueda cambiar.
+ *
+ * Se descubrió mirando un frame renderizado, no leyendo: el código resolvía
+ * Georgia y la pantalla seguía en sans.
+ */
 
 /**
  * ENTRADAS Y SALIDAS — el "cuándo aparece" separado del "qué se ve".
@@ -46,7 +63,7 @@ export const Escena: React.FC<{
 const Fundido: React.FC<{ len: number; dur: number; children: React.ReactNode }> = ({ len, dur, children }) => {
   const f = useCurrentFrame();
   return (
-    <AbsoluteFill style={{ opacity: opacidadVentana(f, len, dur, dur), fontFamily: FONT }}>{children}</AbsoluteFill>
+    <AbsoluteFill style={{ opacity: opacidadVentana(f, len, dur, dur) }}>{children}</AbsoluteFill>
   );
 };
 
@@ -71,7 +88,16 @@ export const Aparece: React.FC<{
   rampa?: number;
   desenfoque?: number;
   estilo?: React.CSSProperties;
-}> = ({ children, at = 0, y = 0, x = 0, escala = 1, muelle = SPRING.entrada, rampa = 8, desenfoque = 0, estilo }) => {
+  /**
+   * Multiplicador de opacidad, para la SALIDA del nodo (`Comun.sale`).
+   *
+   * Se multiplica en vez de pasarse por `estilo` porque `estilo` se esparce
+   * DESPUÉS de `opacity` y la pisaría: un nodo con salida perdería su entrada.
+   * Aquí las dos conviven, que es lo que son — el mismo nodo apareciendo y
+   * yéndose.
+   */
+  alfa?: number;
+}> = ({ children, at = 0, y = 0, x = 0, escala = 1, muelle = SPRING.entrada, rampa = 8, desenfoque = 0, estilo, alfa = 1 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = frame - at;
@@ -81,10 +107,9 @@ export const Aparece: React.FC<{
   return (
     <div
       style={{
-        opacity: op,
+        opacity: op * alfa,
         transform: `translate(${interpolate(e, [0, 1], [x, 0])}px, ${interpolate(e, [0, 1], [y, 0])}px) scale(${interpolate(e, [0, 1], [escala, 1])})`,
         filter: blur > 0.05 ? `blur(${blur}px)` : undefined,
-        fontFamily: FONT,
         ...estilo,
       }}
     >
@@ -112,7 +137,7 @@ export const Barrido: React.FC<{
   const frame = useCurrentFrame();
   const p = interpolate(frame, [at, at + dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <div style={{ position: "relative", display: "inline-block", fontFamily: FONT }}>
+    <div style={{ position: "relative", display: "inline-block" }}>
       <div style={{ clipPath: `inset(0 ${(1 - p) * 100}% 0 0)` }}>{children}</div>
       {barra && frame >= at && p < 1 ? (
         <div
@@ -167,7 +192,6 @@ export const Ranura: React.FC<{
       right: 0,
       display: "flex",
       justifyContent: "center",
-      fontFamily: FONT,
       ...estilo,
     }}
   >

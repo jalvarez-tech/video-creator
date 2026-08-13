@@ -2,7 +2,7 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import type { ReactNode } from "react";
 import { CATALOGO } from "./fichas";
 import type { FichaGrafico } from "./fichas";
-import { LEY_BLANDA, MOLDES_GRAFICOS, PALETA_MARCA } from "./coreografia";
+import { GRAFICOS, LEY_BLANDA, MOLDES_GRAFICOS, PALETA_MARCA } from "./coreografia";
 import type { MoldeGrafico, Tinta } from "./coreografia";
 import type { CtxPieza } from "../plan/nucleo";
 import { cajaPiel, Entra, MONTADORES_BASE } from "./PistaGraficos";
@@ -88,6 +88,12 @@ const tintaDemo = (t: Tinta, a = 1): string => {
 
 const ctxDemo = (f: number, color: string): CtxPieza<Tinta> => ({
   f,
+  // El catálogo enseña las piezas del CANAL, así que su ctx trae la marca del
+  // dialecto de gráficos. El día que el escaparate tenga que mostrar más de una
+  // marca, esto es lo que se parametriza (y no será combinatorio: la ficha se
+  // demuestra en un perfil y la marca se prueba aparte).
+  marca: GRAFICOS.marca,
+  letra: GRAFICOS.letra,
   len: PASO,
   fps: 30,
   ancho: 1080,

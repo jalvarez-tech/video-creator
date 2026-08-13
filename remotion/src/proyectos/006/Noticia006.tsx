@@ -4,8 +4,8 @@ import { PistaGraficos } from "../../motor/graficos/PistaGraficos";
 import { PistaSonido } from "../../motor/sound/PistaSonido";
 import { avisaDelPlan } from "../../motor/avisos";
 import { aplana, revisaMontaje } from "../../motor/plan/nucleo";
-import { FONDOS_NOTICIA, MONTADORES_NOTICIA, SelloNoticia } from "../../motor/noticias/montadores";
-import { N } from "../../motor/noticias/theme-noticias";
+import { fondosNoticiaDe, MONTADORES_NOTICIA, SelloNoticia } from "../../motor/noticias/montadores";
+import { LUXUR } from "../../marcas/luxur";
 import type { TomaEditorial } from "../../motor/noticias/dialecto";
 import { cues006 } from "./cues-006";
 import { noticia006 } from "./noticia-006";
@@ -72,9 +72,9 @@ export const Noticia006: React.FC = () => {
       <PistaGraficos
         plan={noticia006}
         montadores={MONTADORES_NOTICIA}
-        fondos={FONDOS_NOTICIA}
-        scrimColor={N.negro}
-        encima={(t: TomaEditorial) => <SelloNoticia molde={t.molde} />}
+        fondos={fondosNoticiaDe(LUXUR)}
+        scrimColor={LUXUR.color.negro}
+        encima={(t: TomaEditorial) => <SelloNoticia molde={t.molde} marca={LUXUR} />}
       />
       <Audio src={staticFile("noticias/006-vo.wav")} />
       <PistaSonido cues={cues006} duckDb={-5} />
