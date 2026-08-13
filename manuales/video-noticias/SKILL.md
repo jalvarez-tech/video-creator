@@ -119,7 +119,16 @@ La excepción es `grado`, y lo es porque no es estilo: es la **corrección medid
 >
 > ⚠️ `-apple-system` resuelve a San Francisco **en macOS**; en Linux cae a otra cosa. El render de este sistema es local en Mac, así que es estable — pero para renderizar en CI habría que empaquetar la fuente con `@remotion/fonts`.
 
-**Marca:** `MARCA.sello` en el mismo archivo. `null` = sin watermark (y sin hueco en la maqueta). Ponle el nombre del canal y aparece la píldora inferior en **todos** los frames, invirtiendo color según el registro.
+**Marca: NO está en este archivo.** Vive en `src/marcas/<canal>.ts` y llega **por parámetro** — `theme-noticias.ts` solo define la FORMA del tema y la deriva de la marca que reciba. Un canal nuevo es un fichero nuevo; el motor no se toca.
+
+```tsx
+<PistaNoticia tomas={noticia00N} marca={LUXUR} />       // 004, 005
+capa(dialectoEditorialDe(LUXUR), "noticia")             // plan nativo: 006, 007
+```
+
+Son **cuatro** los sitios que la necesitan y se olvida uno de cada vez: el plan, los fondos (`fondosNoticiaDe`), el scrim y el sello. Si el render sale **sin la píldora de marca**, es que falta el parámetro: el suelo del motor (`MARCA_BASE`) tiene `sello.texto: null` justamente para que ese olvido se vea en el primer frame en vez de publicarse.
+
+Y una pieza del sistema que este formato ya puede usar y antes no: las seis del **registro compartido** (`regla`, `subrayado`, `rodea`, `flecha`, `check`, `aspa`). Se piden como cualquier otra desde un plan nativo — ver el aviso al principio de [recetario-tomas.md](recetario-tomas.md).
 
 **Sombras:** proyectadas al **15 %** (`N.sombra`). Más y la pieza pasa de editorial a "plantilla de Canva".
 

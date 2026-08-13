@@ -204,6 +204,34 @@ Con **una instrucción simple**, el director **infiere** del proyecto y **declar
 
 ---
 
+## 5b. La MARCA del vídeo (una decisión que se declara, no se hereda)
+
+`video-creator` sirve a **cualquier canal**. La marca —colores, tipografía, sello, look del metraje— es un DATO que vive en `src/marcas/<canal>.ts` y que la **composición** pasa por parámetro:
+
+```tsx
+<PistaNoticia tomas={noticia00N} marca={LUXUR} />       // DSL de tomas (004, 005)
+capa(dialectoEditorialDe(LUXUR), "noticia")             // plan nativo (006, 007)
+fondos={fondosNoticiaDe(LUXUR)}                         // <PistaGraficos> a pelo
+```
+
+**Qué tiene que hacer el director:**
+
+1. **Preguntar para qué canal es** si el proyecto no lo dice. Hoy el configurado es Propiedades Luxur (`src/marcas/luxur.ts`), pero no des por hecho que todo vídeo es suyo.
+2. **Pasar la marca en TODAS las capas de la composición.** Son cuatro sitios y se olvidan de uno en uno: el plan, los fondos, el scrim y el sello.
+3. Si el canal es nuevo, **escribir su fichero** en `src/marcas/`. El motor no se toca. Lo único que exige cuidado es la tipografía: una fuente sin tabla medida en `plan/avances.ts` apaga R09 en silencio (`generar-avances.mjs` la mide).
+
+⚠️ **Cómo se ve que te lo has dejado:** `MARCA_BASE` —el suelo del motor— no es un canal y su `sello.texto` es `null`. Una composición sin marca sale **sin watermark**. Si ves un render sin la píldora de marca, falta el parámetro.
+
+Antes de exportar, dos redes que no cuestan nada:
+
+```bash
+node manuales/motion-graphics/scripts/revisar-marca.mjs    # los invariantes de marca
+node manuales/motion-graphics/scripts/revisar-sonda.mjs antes despues   # regresión de píxel
+```
+
+---
+
+
 ## 6. Formato de respuesta a "monta el vídeo" (obligatorio)
 
 1. **Cabecera:** `formato · comp · fps · duración · estilo` (supuestos declarados).
