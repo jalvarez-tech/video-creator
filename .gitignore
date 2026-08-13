@@ -22,6 +22,23 @@ proyectos/*/finales/
 proyectos/*/pruebas-720p/
 proyectos/*/vistas-previas/
 
+# SEGUNDO MOTOR (HyperFrames, proyectos/*/hf/). La composición SÍ se versiona —
+# `index.html` es código, `marca.css` se regenera con marca-a-css.mjs y GSAP está
+# vendorizado a propósito para que la pieza siga renderizando dentro de un año.
+# Lo que queda fuera es `assets/`: ahí van copias del avatar, del b-roll y de los
+# WAV del banco, y es la misma decisión que proyectos/*/avatar/ y proyectos/*/vo/
+# — material, no código. Un clon nuevo los repone con heygen.py / bancos.py y
+# copiando del banco de sonido/.
+proyectos/*/hf/assets/*
+!proyectos/*/hf/assets/.gitkeep
+# Los PNG de `hyperframes snapshot` (paso obligatorio antes de exportar): son
+# evidencia de una revisión, no fuente. Mismo trato que remotion/out/.
+proyectos/*/hf/snapshots/
+# Salida por defecto de `hyperframes render` si alguien lo invoca a pelo en vez
+# de por render-hf.sh (que la manda a pruebas-720p/ o a finales/).
+renders/
+**/renders/
+
 # Voz en off: es MATERIAL, no código (misma decisión que proyectos/*/avatar/).
 # Y aquí ni siquiera hace falta guardarla: lo que la define es el guion, y ese SÍ
 # se versiona (proyectos/*/guion-vo.txt). Se regenera entera con
@@ -79,3 +96,7 @@ __pycache__/
 .claude/skills/update-skills-from-changelog
 .claude/skills/voice-changer
 .claude/skills/voice-isolator
+
+# Skills de HyperFrames traídas con prefijo por instalar-skill-hf.mjs.
+# Copias de terceros: se reponen corriendo el script, no se versionan.
+.claude/skills/heygen-*

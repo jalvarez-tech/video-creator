@@ -47,6 +47,7 @@ Root: **`/Users/nicecode/Work/jalvarez/video-creator`**. Este skill es la **capa
 | **Avatar** talking-head (fuente) | [heygen](../edicion-video/heygen.md) | `scripts/heygen.py` |
 | **Noticias** (formato completo, sin avatar) | [video-noticias](../video-noticias/SKILL.md) · [recetario](../video-noticias/recetario-tomas.md) | `noticias/` (theme + `TomaNoticia` + `PistaNoticia`) · `noticia-NNN.ts` |
 | Subtítulos sincronizados | edicion-video | `SubtitulosSync.tsx` · `subtitulos-NNN.ts` |
+| **Segundo motor** (HTML+GSAP, render local) | [motor-hyperframes](../motor-hyperframes/SKILL.md) · [contrato](../motor-hyperframes/contrato-hf.md) · [equivalencias](../motor-hyperframes/equivalencias.md) | `npx hyperframes` · `proyectos/NNN/hf/` · `nuevo-hf.mjs` · `revisar-hf.mjs` |
 
 **No repitas** aquí lo que ya dice cada skill: cuando toca diseñar una capa, **abre su SKILL.md** y sigue sus tablas.
 
@@ -57,6 +58,28 @@ Root: **`/Users/nicecode/Work/jalvarez/video-creator`**. Este skill es la **capa
 > instrucción es "monta esta noticia", entra directo por ahí y el director solo
 > interviene si además hay avatar, en cuyo caso este formato aporta el look de
 > las tomas de gráfico y el avatar sigue las reglas de §3.
+
+> **Excepción — el MOTOR es una decisión previa, no una capa.**
+> Este skill dirige sobre **Remotion**, que es el motor **por defecto**. Existe un
+> segundo motor, [motor-hyperframes](../motor-hyperframes/SKILL.md): HTML+GSAP,
+> render local y gratis, con puertas que **miden** layout y contraste en vez de
+> estimarlos. **Se elige, no se hereda**: si no puedes decir en una frase por qué
+> esa pieza va en HTML, va en Remotion.
+> Lo que decide, resumido — **se quedan en Remotion**: el plan de gráficos como
+> dato (§2·5), las entradas de muelle y la reserva de maqueta con `<Freeze>`,
+> porque las tres no tienen traducción fiel; y los `camara-NNN.ts` ya escritos,
+> no porque la cámara no traduzca —sí traduce— sino porque `camara.ts` mezcla el
+> dato con hooks de Remotion. **Ganan en HyperFrames**: el layout y el contraste
+> que hay que medir, el recorte de fondo del avatar (`remove-background`, local y
+> sin API) y las piezas cortas y gráficas.
+> Si la pieza va por ahí, **todo este skill sigue valiendo menos §3a, §3b y §3g**:
+> la narrativa (§2·0), el estilo único (§4), la marca (§5b), el b-roll y su regla
+> de honestidad (§3h) y las puertas de control (§6.4) son los mismos. Lo que cambia
+> son las tres cosas que el otro motor define distinto —la **unidad de tiempo**
+> (§3a: allí frames absolutos, aquí SEGUNDOS), el **z-order** (§3b: allí orden de
+> montaje, aquí `z-index` de CSS) y la forma del **determinismo** (§3g: allí
+> `useCurrentFrame()`, aquí una timeline pausada que se seekea)—, y todas viven en
+> [equivalencias.md](../motor-hyperframes/equivalencias.md).
 
 ---
 
@@ -90,7 +113,7 @@ Esto es lo que **solo el director** posee — la coordinación transversal que n
 
 **a) Un fps único por comp.** Avatar 9:16 = **25 fps** · plantillas 16:9/9:16/1:1 y avatar 16:9 = **30 fps**. **Todo** (cámara, MG, sonido) se calcula en **frames absolutos** a ESE fps con `seg(fps, s)`. Nunca mezcles fps entre capas.
 
-**b) Z-order (capas, de atrás a delante).** El orden NO es negociable:
+**b) Z-order (capas, de atrás a delante).** El orden NO es negociable. *(Esto es el ensamblado del motor **Remotion**. En el segundo motor el equivalente vive en [contrato-hf.md §3](../motor-hyperframes/contrato-hf.md) — allí el orden de pintado es `z-index` de CSS y `data-track-index` NO es la z.)*
 ```tsx
 import { MONTADORES_BASE, PistaGraficos } from "../../motor/graficos/PistaGraficos";
 

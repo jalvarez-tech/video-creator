@@ -12,6 +12,10 @@ description: >-
   `Catalogo` del Studio + catalogo-graficos.md) y el plan de gráficos COMO DATOS
   (un `Plan` del núcleo → `PistaGraficos`) con validador `revisaPlan()`. Mira el catálogo
   ANTES de escribir un gráfico nuevo. El sonido se delega a `diseno-sonoro`.
+  ESTE ES EL MOTOR POR DEFECTO (Remotion): si la instrucción no nombra otro motor,
+  es este skill. Si dice EXPLÍCITAMENTE "con heygen", "con hyperframes", "en HTML"
+  o "en el segundo motor", NO es este skill → `heygen-motion-graphics` (el
+  recetario) y `motor-hyperframes` (el contrato, las puertas y la marca).
   Úsalo siempre que haya que diseñar, animar o revisar un gráfico, título,
   contador, transición, lower-third, logo o CTA en vídeo. Triggers: "motion
   graphics", "animación", "animar", "gráfico en pantalla", "título", "lower
