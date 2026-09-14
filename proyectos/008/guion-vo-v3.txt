@@ -1,0 +1,25 @@
+# Guion VO v3 · proyecto 008 — lectura FLUIDA (pedido del cliente)
+# Cambios v3: modelo eleven_multilingual_v2 CON request stitching (junturas
+# continuas), sin elipsis en el texto (en v3 producían pausas dramáticas),
+# pausa entre tomas 0,15 s. + sil10/sil10b: versículo Hechos 20:35 (NVI).
+# (v2 en guion-vo-v2.txt · v1 en guion-vo-v1.txt)
+g01|En unos días probablemente dejaremos de hablar del terremoto.
+g02|Pero para las familias de Quibdó, la tragedia no habrá terminado.
+c01|Hoy toda Colombia está ayudando.
+c02|Pero las noticias cambian y las cámaras se van.
+c03|Y cuando la ayuda disminuya, muchas familias seguirán sin poder volver a casa.
+d01|Por eso nosotros queremos llegar después.
+d02|Tenemos un camión de ocho toneladas y queremos llenarlo.
+n01|Vamos a recolectar alimentos, agua, elementos de aseo, colchonetas, cobijas y carpas.
+a01|Tráelo a cualquiera de las dos sedes de Juan Papita.
+sil3|
+m01|Y si deseas donar cemento o varillas para que puedan reconstruir sus casas, sería una maravilla.
+f01|La familia de Juan Pablo Rico ya puso el camión. Solo falta llenarlo.
+f04|Ocho toneladas se llenan, un granito a la vez.
+f07|Hoy ese granito puede ser el tuyo.
+sil6|
+sil8|
+sil9|
+sil9b|
+sil10|
+sil10b|

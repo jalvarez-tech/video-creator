@@ -1,0 +1,32 @@
+{
+  "proyecto": "009",
+  "banco": "pexels",
+  "assets": {
+    "p04-alitas": {
+      "huella": "7ece0ed10929be379df12987b502625b081d371e5be85fce6ce38842ea6b1af3",
+      "banco": "pexels",
+      "id": 3920746,
+      "tipo": "video",
+      "consulta": "alitas pollo salsa",
+      "consulta_original": "alitas de pollo con salsa",
+      "para": "escenario",
+      "indice": 5,
+      "autor": "Aghyad Najjar",
+      "autor_url": "https://www.pexels.com/@aghyadnajjar",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/wings-on-a-grill-3920746/",
+      "descarga_url": "https://videos.pexels.com/video-files/3920746/3920746-hd_1080_1920_30fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 1920,
+      "duracion": 8,
+      "sha256": "19b3cf85a333b7bae4d945f61498940a6643189ec512efb20fe70f13d2fa85e2",
+      "dhash": "3f371970c80d83f001fcff7fe7e1ff3f",
+      "porque": "La mitad de la promesa de marca son las ALITAS y los 4 clips del cliente son casi todo papas: alitas glaseadas al carbon con humo, en negro y ambar como la paleta",
+      "archivo": "proyectos/009/broll/pexels/raw/009-p04-alitas-alitas-de-pollo-con-salsa.mp4",
+      "servido": "broll/009/p04-alitas-alitas-de-pollo-con-salsa.mp4",
+      "descartados": []
+    }
+  }
+}

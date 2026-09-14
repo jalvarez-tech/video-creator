@@ -100,3 +100,19 @@ __pycache__/
 # Skills de HyperFrames traídas con prefijo por instalar-skill-hf.mjs.
 # Copias de terceros: se reponen corriendo el script, no se versionan.
 .claude/skills/heygen-*
+
+# 010 · metraje propio normalizado (224 MB) y la voz sin comprimir. En git queda
+# el MANIFIESTO con sha256 (proyectos/010/manifiesto.json) y la receta que lo
+# repone entero: `bash proyectos/010/normalizar.sh`. El binario no.
+remotion/public/choco-010/
+proyectos/010/vo/*.wav
+# La cama musical es un recorte de un archivo del cliente sin licencia
+# conocida (proyectos/010/musica/README.md): la receta va en git, el audio no.
+proyectos/010/musica/*.wav
+
+# 011 · la boda es material PRIVADO de una familia (1 GB normalizado) y las dos
+# canciones son grabaciones comerciales: en git van la receta
+# (`bash proyectos/011/normalizar.sh`), el plan y los golpes medidos; ni el
+# metraje ni el audio.
+remotion/public/boda-011/
+proyectos/011/musica/*.wav

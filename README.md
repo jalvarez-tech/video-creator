@@ -138,6 +138,8 @@ video-creator/
 │       │   │                 #     a los dos dialectos (regla + las cinco de trazo)
 │       │   ├── graficos/     #     biblioteca de gráficos + catálogo DERIVADO + PistaGraficos
 │       │   ├── noticias/     #     formato noticias: theme CLARO + TomaNoticia + PistaNoticia
+│       │   ├── metraje/      #     formato MONTAJE (sin avatar): Corte[] + PistaMetraje +
+│       │   │                 #     la puerta genérica (revisar-metraje.mjs)
 │       │   ├── sound/        #     SoundCue + PistaSonido
 │       │   └── demos/        #     los planes de ejemplo que se copian para empezar
 │       └── proyectos/00N/    #   UN VÍDEO: sus planes como datos + su JSX propio

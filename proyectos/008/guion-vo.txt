@@ -1,0 +1,31 @@
+# Guion VO v6-STREETCATS · proyecto 008 — variante de punto de recolección
+# v5 = v4 sin pausas dentro de la voz: fuera sil3 (la tarjeta de direcciones
+# dura lo que dura la frase), fuera sil6 (el claim; su contenido ya está en
+# la voz), y la foto de los niños (sil8) pasa DESPUÉS de la frase final.
+# Los únicos silencios quedan al cierre: niños (2 s) + versículo (4 s).
+# Partes: vo/partes/ (22 archivos, cortados por palabra de la grabación).
+g01|En unos días probablemente dejaremos de hablar del terremoto
+g02|pero para las familias del Chocó, la tragedia no habrá terminado.
+c01|Hoy toda Colombia está ayudando
+c02a|pero las noticias cambian
+c02b|y las cámaras se van
+c03a|y cuando la ayuda disminuya
+c03b|muchas familias seguirán sin poder volver a casa
+d01|por eso nosotros queremos llegar después.
+d02a|Tenemos un camión de ocho toneladas
+d02b|y queremos llenarlo.
+n01a|Vamos a recolectar alimentos, agua, elementos de aseo,
+n01b|colchonetas, carpas y cobijas.
+m01a|También, si deseas donar cemento o varillas
+m01b|para que las personas puedan reconstruir sus casas
+m01c|sería de maravilla.
+a01a|En Caldas, Antioquia, nuestro punto de recolección será Street Cats
+a01b|en la carrera 48 con la calle 132A sur.
+f01a|La familia de Juan Pablo Rico ya puso el camión
+f01b|solo falta llenarlo.
+f04|Ocho toneladas se llenan, un granito a la vez
+f07|hoy ese granito puede ser el tuyo.
+sil9v|Que la tragedia deje de ser noticia no significa que haya terminado.
+sil8|
+sil10|
+sil10b|

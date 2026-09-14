@@ -1,0 +1,746 @@
+{
+  "proyecto": "008",
+  "banco": "pexels",
+  "assets": {
+    "a02": {
+      "huella": "e226b834d1dc9750622b7809a74d051966864ecd7ee641e0fd34a8db4a0f73a9",
+      "banco": "pexels",
+      "id": 4327194,
+      "tipo": "video",
+      "consulta": "hands folding blankets stack",
+      "consulta_original": "hands folding blankets stack",
+      "para": "escenario",
+      "indice": 1,
+      "autor": "cottonbro studio",
+      "autor_url": "https://www.pexels.com/@cottonbro",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/person-grabbing-a-towel-4327194/",
+      "descarga_url": "https://videos.pexels.com/video-files/4327194/4327194-hd_1080_2048_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 8,
+      "sha256": "79db48ea291837da39856edc2101834f311c88c9977425001cb2f2ad86f2bd35",
+      "dhash": "cd87efe6afede766f07c03f18dfeb3ff",
+      "porque": "Cobijas dobladas y apiladas, sin personas ni marcas: lo recogido listo para entregarse — literal a la enumeración de la voz y sin el aire de moda del clip anterior",
+      "archivo": "proyectos/008/broll/pexels/raw/008-a02-hands-folding-blankets-stack.mp4",
+      "servido": "broll/008/a02-hands-folding-blankets-stack.mp4",
+      "descartados": [
+        {
+          "id": 7198950,
+          "motivo": "720x1280 < 1080x1920"
+        },
+        {
+          "id": 7198953,
+          "motivo": "720x1280 < 1080x1920"
+        },
+        {
+          "id": 7198961,
+          "motivo": "720x1280 < 1080x1920"
+        }
+      ],
+      "color": {
+        "y": 71.78,
+        "u": 124.21,
+        "v": 129.99,
+        "sat": 5.06
+      },
+      "grado": {
+        "exposicion": 1.25,
+        "saturacion": 1.2
+      }
+    },
+    "c01": {
+      "huella": "3f1c08d4be572c997615a193f62790302af5a79efac0e7105857f45670643769",
+      "banco": "pexels",
+      "id": 6590940,
+      "tipo": "video",
+      "consulta": "volunteers passing food donation bags",
+      "consulta_original": "volunteers passing food donation bags",
+      "para": "escenario",
+      "indice": 8,
+      "autor": "cottonbro studio",
+      "autor_url": "https://www.pexels.com/@cottonbro",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/person-packing-essential-goods-6590940/",
+      "descarga_url": "https://videos.pexels.com/video-files/6590940/6590940-hd_1080_2048_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 8,
+      "sha256": "68d51d1c555230334729e6475a59baee480d72eb4cb23b7d552413819e446418",
+      "dhash": "3c78f01acc8c9b5f7c13c00f7ffb0902",
+      "porque": "primer plano de manos empacando viveres en una caja kraft: la solidaridad de los primeros dias contada sin rostros, sin marcas y sin fondo de estudio visible",
+      "archivo": "proyectos/008/broll/pexels/raw/008-c01-volunteers-passing-food-donation-bags.mp4",
+      "servido": "broll/008/c01-volunteers-passing-food-donation-bags.mp4",
+      "descartados": [
+        {
+          "id": 7475240,
+          "motivo": "1066x1920 < 1080x1920"
+        },
+        {
+          "id": 7475243,
+          "motivo": "1066x1920 < 1080x1920"
+        },
+        {
+          "id": 7475265,
+          "motivo": "1066x1920 < 1080x1920"
+        },
+        {
+          "id": 38482272,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 7475256,
+          "motivo": "1066x1920 < 1080x1920"
+        },
+        {
+          "id": 4440960,
+          "motivo": "dura 3s < 6s"
+        },
+        {
+          "id": 4440955,
+          "motivo": "720x1280 < 1080x1920"
+        }
+      ],
+      "color": {
+        "y": 129.15,
+        "u": 120.83,
+        "v": 132.04,
+        "sat": 10.41
+      },
+      "grado": {
+        "exposicion": 0.831,
+        "saturacion": 1.2
+      }
+    },
+    "c03": {
+      "huella": "4f556c4ecb6d28cb82d8260f420026b5d4cc96107382c37e0dbd7070ec7933ee",
+      "banco": "pexels",
+      "id": 34258665,
+      "tipo": "foto",
+      "consulta": "thumb scrolling phone screen close up dark",
+      "consulta_original": "thumb scrolling phone screen close up dark",
+      "para": "escenario",
+      "indice": 5,
+      "autor": "Julio Lopez",
+      "autor_url": "https://www.pexels.com/@julio-lopez-75309646",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/photo/person-using-smartphone-for-work-task-in-office-34258665/",
+      "descarga_url": "https://images.pexels.com/photos/34258665/pexels-photo-34258665.jpeg",
+      "descripcion": "Close-up of individual using a smartphone in an office setting, showing productivity.",
+      "ancho": 4375,
+      "alto": 6562,
+      "duracion": null,
+      "sha256": "8c306177051798521d70d58d056ac69b3fce281cc64013c36260c0736212aa77",
+      "dhash": "9cc8cc76e9cceccd31ff93096423ffc1",
+      "porque": "Manos pasando una página de noticias en el celular: se lee 'noticia' por la maqueta (foto+texto) sin que ningún texto sea legible — el candidato 4 mostraba una app de Biblia legible en inglés",
+      "archivo": "proyectos/008/broll/pexels/raw/008-c03-thumb-scrolling-phone-screen-close-up-da.jpg",
+      "servido": "broll/008/c03-thumb-scrolling-phone-screen-close-up-da.jpg",
+      "descartados": [],
+      "color": {
+        "y": 142.51,
+        "u": 121.48,
+        "v": 136.97,
+        "sat": 14.76
+      },
+      "grado": {
+        "exposicion": 0.8,
+        "saturacion": 0.91,
+        "calido": -0.027
+      }
+    },
+    "c04": {
+      "huella": "cf0923ad7cd657be90db1b62d12b243327c0b7dabbb44a5c5ce2e4e8e3eea22d",
+      "banco": "pexels",
+      "id": 6883838,
+      "tipo": "video",
+      "consulta": "television broadcast camera studio",
+      "consulta_original": "television broadcast camera studio",
+      "para": "escenario",
+      "indice": 6,
+      "autor": "cottonbro studio",
+      "autor_url": "https://www.pexels.com/@cottonbro",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/an-interview-being-recorded-in-camera-6883838/",
+      "descarga_url": "https://videos.pexels.com/video-files/6883838/6883838-hd_1080_2048_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 24,
+      "sha256": "49f65099a5ee03a22ff7090528d154423e90b97a1250a6b835ec65bd8119baaa",
+      "dhash": "f4f0e19898736365c1ffff04b110c76f",
+      "porque": "la camara profesional como objeto en primer plano, set oscuro y la entrevista solo en su pantallita: dice prensa sin rostros identificables",
+      "archivo": "proyectos/008/broll/pexels/raw/008-c04-television-broadcast-camera-studio.mp4",
+      "servido": "broll/008/c04-television-broadcast-camera-studio.mp4",
+      "descartados": [
+        {
+          "id": 38672314,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 30742630,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 34555217,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 35313947,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 35134511,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 28599140,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 34555206,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 32423801,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 30742629,
+          "motivo": "dura 4s < 6s"
+        },
+        {
+          "id": 13399625,
+          "motivo": "dura 4s < 6s"
+        }
+      ],
+      "color": {
+        "y": 59.82,
+        "u": 128.53,
+        "v": 130.15,
+        "sat": 2.98
+      },
+      "grado": {
+        "exposicion": 1.25,
+        "saturacion": 1.2,
+        "calido": 0.027
+      }
+    },
+    "c06a": {
+      "huella": "3bf7f235f6a5fe965013ba4319bb68e1bbda630d1ad79f918d5fe977878fd219",
+      "banco": "pexels",
+      "id": 6392156,
+      "tipo": "video",
+      "consulta": "child holding parents hand walking",
+      "consulta_original": "child holding parents hand walking",
+      "para": "escenario",
+      "indice": 8,
+      "autor": "William  Fortunato",
+      "autor_url": "https://www.pexels.com/@william-fortunato",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/mother-holding-baby-s-hand-6392156/",
+      "descarga_url": "https://videos.pexels.com/video-files/6392156/6392156-hd_1080_1920_24fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 1920,
+      "duracion": 10,
+      "sha256": "905df78b34a86828ef265296cee7eafc4a1791b5359f77fdf0135a4bbf4200d4",
+      "dhash": "010083b0f4931ce1cf071f3fff83fcf9",
+      "porque": "La mano del niño envuelta en la adulta, sin rostros: el gesto literal del guion, en piel afro y tono cálido digno — sin la cruz de fondo del clip anterior",
+      "archivo": "proyectos/008/broll/pexels/raw/008-c06a-child-holding-parents-hand-walking.mp4",
+      "servido": "broll/008/c06a-child-holding-parents-hand-walking.mp4",
+      "descartados": [
+        {
+          "id": 9436811,
+          "motivo": "720x1280 < 1080x1920"
+        }
+      ],
+      "color": {
+        "y": 125.31,
+        "u": 101.49,
+        "v": 159.79,
+        "sat": 41.26
+      },
+      "grado": {
+        "exposicion": 0.857,
+        "saturacion": 0.85,
+        "calido": -0.12
+      }
+    },
+    "f01": {
+      "huella": "57479ae969ebd38200617dde4973b43a39cbabead4b07463f78574328b1b2bd2",
+      "banco": "pexels",
+      "id": 4170834,
+      "tipo": "video",
+      "consulta": "unloading boxes from van",
+      "consulta_original": "unloading boxes from van",
+      "para": "escenario",
+      "indice": 1,
+      "autor": "Norma Mortenson",
+      "autor_url": "https://www.pexels.com/@norma-mortenson",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/a-man-unloading-boxes-from-the-car-4170834/",
+      "descarga_url": "https://videos.pexels.com/video-files/4170834/4170834-hd_1080_1920_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 1920,
+      "duracion": 13,
+      "sha256": "30ae22a94ce2e4bf12fc9a5d5c0b11e9e6614cd1d46f889d91ac8d6e89a84c9b",
+      "dhash": "47c3c19799556e36401dffc39cbf0000",
+      "porque": "cajas kraft en brazos en la boca oscura del furgon, rostro oculto tras la carga y luz de atardecer: la ayuda pasando al camion sin marcas ni posado (reemplaza al clip anterior: Pexels servia 720p pese a anunciar 1080)",
+      "archivo": "proyectos/008/broll/pexels/raw/008-f01-unloading-boxes-from-van.mp4",
+      "servido": "broll/008/f01-unloading-boxes-from-van.mp4",
+      "descartados": [],
+      "color": {
+        "y": 105.24,
+        "u": 123.58,
+        "v": 138.08,
+        "sat": 14.01
+      },
+      "grado": {
+        "exposicion": 1.02,
+        "saturacion": 0.959,
+        "calido": -0.023
+      }
+    },
+    "f05": {
+      "huella": "7d0cff979cc12b3d9a8ebd7647b4a1ea42805b945b5027702bf385d105ebb92b",
+      "banco": "pexels",
+      "id": 10780740,
+      "tipo": "video",
+      "consulta": "aerial road green tropical landscape colombia",
+      "consulta_original": "aerial road green tropical landscape colombia",
+      "para": "escenario",
+      "indice": 0,
+      "autor": "Amar  Preciado",
+      "autor_url": "https://www.pexels.com/@amar",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/view-from-above-on-jeep-towing-trailer-on-ground-road-10780740/",
+      "descarga_url": "https://videos.pexels.com/video-files/10780740/10780740-hd_1080_1920_30fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 1920,
+      "duracion": 13,
+      "sha256": "7252f4799e9f00bbe1c22d2e6152daa6708477003ccb5e072d62f38fa8fecff5",
+      "dhash": "dac8c81633321230fe701299fd07c034",
+      "porque": "cenital de un campero con remolque metiendose por una trocha entre selva espesa: el viaje hacia el Choco en una sola imagen, verde denso y camino destapado, sin letreros que delaten otro pais",
+      "archivo": "proyectos/008/broll/pexels/raw/008-f05-aerial-road-green-tropical-landscape-col.mp4",
+      "servido": "broll/008/f05-aerial-road-green-tropical-landscape-col.mp4",
+      "descartados": [
+        {
+          "id": 3629511,
+          "motivo": "720x900 < 1080x1920"
+        },
+        {
+          "id": 36273214,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 38403362,
+          "motivo": "dura 5s < 6s"
+        }
+      ],
+      "color": {
+        "y": 78.99,
+        "u": 116.18,
+        "v": 124.34,
+        "sat": 12.87
+      },
+      "grado": {
+        "exposicion": 1.25,
+        "saturacion": 1.045
+      }
+    },
+    "f06": {
+      "huella": "e0d8df263b3765ed80015b558549784a071f6c0488160a97db705ab2618d5816",
+      "banco": "pexels",
+      "id": 3943592,
+      "tipo": "video",
+      "consulta": "hand giving single grocery bag donation",
+      "consulta_original": "hand giving single grocery bag donation",
+      "para": "escenario",
+      "indice": 4,
+      "autor": "cottonbro studio",
+      "autor_url": "https://www.pexels.com/@cottonbro",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/bread-food-hands-texture-3943592/",
+      "descarga_url": "https://videos.pexels.com/video-files/3943592/3943592-hd_1080_2048_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 12,
+      "sha256": "066a544374671878478b13e5f9cc016d51b38c2b3a9737223f4332bd551e7fb2",
+      "dhash": "1f9f3733c3501f0f002208607edff3ff",
+      "porque": "dos manos y un pan saliendo de su bolsa de papel, primer plano calido sin rostros ni marcas: el granito de arena hecho gesto (no hay en vertical una entrega literal de UNA bolsa que no sea estudio con logo VOLUNTEER)",
+      "archivo": "proyectos/008/broll/pexels/raw/008-f06-hand-giving-single-grocery-bag-donation.mp4",
+      "servido": "broll/008/f06-hand-giving-single-grocery-bag-donation.mp4",
+      "descartados": [
+        {
+          "id": 5710440,
+          "motivo": "dura 2s < 6s"
+        },
+        {
+          "id": 4440960,
+          "motivo": "dura 3s < 6s"
+        },
+        {
+          "id": 4440959,
+          "motivo": "dura 3s < 6s"
+        },
+        {
+          "id": 3756140,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 6700902,
+          "motivo": "dura 2s < 6s"
+        }
+      ],
+      "color": {
+        "y": 146.62,
+        "u": 132.75,
+        "v": 127.26,
+        "sat": 10.59
+      },
+      "grado": {
+        "exposicion": 0.8,
+        "saturacion": 1.2,
+        "calido": 0.055
+      }
+    },
+    "g02": {
+      "huella": null,
+      "banco": "cliente",
+      "id": null,
+      "tipo": "foto",
+      "consulta": null,
+      "consulta_original": null,
+      "para": "escenario",
+      "indice": null,
+      "autor": "Material propio del cliente (campaña Juan Papita)",
+      "autor_url": null,
+      "licencia": "Material propio del cliente — uso autorizado para esta campaña",
+      "licencia_url": null,
+      "origen_url": "adjunto del chat, 2026-08-13 (v3.2)",
+      "descarga_url": null,
+      "descripcion": "Playa del Pacífico chocoano: selva con bruma, palmeras y un niño frente al mar",
+      "ancho": 1080,
+      "alto": 1350,
+      "duracion": null,
+      "sha256": "96a5997dd034ced53b21e39f36dd5f8d485bb2dfa5350d3a2c7a2531aadefb99",
+      "dhash": null,
+      "porque": "El cliente pidió reemplazar la catedral de Quibdó por esta playa a pantalla completa con el texto CHOCÓ",
+      "archivo": "proyectos/008/broll/cliente/choco-playa.jpg",
+      "servido": "broll/008/cliente-choco-playa.jpg",
+      "descartados": [],
+      "color": null,
+      "grado": {
+        "saturacion": 0.9
+      },
+      "nota": "Reemplaza a la catedral (Daniel Manosalva, Pexels 13832459), que queda registrada abajo como g02-catedral"
+    },
+    "m02a": {
+      "huella": "6b4ecf5e6a65be68609a5dd34c4f2a25c2ba3d2e1b3b3428be806abbb3cd7bb3",
+      "banco": "pexels",
+      "id": 14346212,
+      "tipo": "video",
+      "consulta": "steel rebar bars construction site",
+      "consulta_original": "steel rebar bars construction site",
+      "para": "escenario",
+      "indice": 7,
+      "autor": "mohd hasan",
+      "autor_url": "https://www.pexels.com/@mdkamal",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/man-dropping-metal-parts-from-truck-14346212/",
+      "descarga_url": "https://videos.pexels.com/video-files/14346212/14346212-hd_1080_1920_30fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 1920,
+      "duracion": 29,
+      "sha256": "a0a075502668c6d0e9eba5c60d1cc1c3ffbe4718ce1124fc6ed1c5c357734136",
+      "dhash": "80367ecf6e7869000f3fed879c00e1fe",
+      "porque": "varillas y tubos de acero reales bajados de un camion en obra con polvo y luz natural: el hierro llegando cuenta la reconstruccion sin posado",
+      "archivo": "proyectos/008/broll/pexels/raw/008-m02a-steel-rebar-bars-construction-site.mp4",
+      "servido": "broll/008/m02a-steel-rebar-bars-construction-site.mp4",
+      "descartados": [
+        {
+          "id": 34528813,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 35595841,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 4938985,
+          "motivo": "540x960 < 1080x1920"
+        },
+        {
+          "id": 36515303,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 36783895,
+          "motivo": "dura 5s < 6s"
+        }
+      ],
+      "color": {
+        "y": 123.56,
+        "u": 116.9,
+        "v": 138.75,
+        "sat": 16.72
+      },
+      "grado": {
+        "exposicion": 0.869,
+        "saturacion": 0.85,
+        "calido": -0.052
+      }
+    },
+    "n01a": {
+      "huella": "32a9e8548b70f85ccf0078ab189abaeb16fcbd9cf922319609b57468556e5987",
+      "banco": "pexels",
+      "id": 31865918,
+      "tipo": "video",
+      "consulta": "canned food rice donation box",
+      "consulta_original": "canned food rice donation box",
+      "para": "escenario",
+      "indice": 0,
+      "autor": "De.nirann",
+      "autor_url": "https://www.pexels.com/@de-nirann-2149811383",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/african-woman-sifting-rice-traditional-method-31865918/",
+      "descarga_url": "https://videos.pexels.com/video-files/31865918/13574126_1440_2376_24fps.mp4",
+      "descripcion": "",
+      "ancho": 1440,
+      "alto": 2376,
+      "duracion": 13,
+      "sha256": "4de4552008e7e99d55c15a4890e4f0e88140938f9aa77f6ca9ce61c0ad0f8c1c",
+      "dhash": "4383006141030604e07e0001847f7efe",
+      "porque": "arroz cayendo entre manos con luz calida y textura real: el alimento basico de cerca, digno, sin empaques de marca ni carteles",
+      "archivo": "proyectos/008/broll/pexels/raw/008-n01a-canned-food-rice-donation-box.mp4",
+      "servido": "broll/008/n01a-canned-food-rice-donation-box.mp4",
+      "descartados": [
+        {
+          "id": 7475243,
+          "motivo": "1066x1920 < 1080x1920"
+        },
+        {
+          "id": 7475240,
+          "motivo": "1066x1920 < 1080x1920"
+        },
+        {
+          "id": 7475265,
+          "motivo": "1066x1920 < 1080x1920"
+        },
+        {
+          "id": 4554453,
+          "motivo": "dura 5s < 6s"
+        }
+      ],
+      "color": {
+        "y": 172.07,
+        "u": 106.03,
+        "v": 141.64,
+        "sat": 26.07
+      },
+      "grado": {
+        "exposicion": 0.8,
+        "saturacion": 0.85,
+        "calido": -0.106
+      }
+    },
+    "n04": {
+      "huella": "9463ced5f1e1c1943bd623fc24b8751cd9fb835ef889afb04d76acb3e10fbd98",
+      "banco": "pexels",
+      "id": 6473926,
+      "tipo": "video",
+      "consulta": "cement bags stacked construction",
+      "consulta_original": "cement bags stacked construction",
+      "para": "escenario",
+      "indice": 7,
+      "autor": "Tima Miroshnichenko",
+      "autor_url": "https://www.pexels.com/@tima-miroshnichenko",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/worker-mixing-paint-in-bucket-6473926/",
+      "descarga_url": "https://videos.pexels.com/video-files/6473926/6473926-hd_1080_1920_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 1920,
+      "duracion": 23,
+      "sha256": "825286fa14e5083147710d9bbed1be5c8cfa5c2a17bb9231574abb9fd2e67d75",
+      "dhash": "01116127646065650c3f570ffc000104",
+      "porque": "no hay bultos apilados en vertical en el banco: van las manos enguantadas del obrero batiendo mezcla en balde, polvo real de obra, sin rostro; es la variante obra de la toma",
+      "archivo": "proyectos/008/broll/pexels/raw/008-n04-cement-bags-stacked-construction.mp4",
+      "servido": "broll/008/n04-cement-bags-stacked-construction.mp4",
+      "descartados": [
+        {
+          "id": 34307983,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 36912199,
+          "motivo": "dura 5s < 6s"
+        },
+        {
+          "id": 36770299,
+          "motivo": "dura 5s < 6s"
+        }
+      ],
+      "color": {
+        "y": 86.88,
+        "u": 125.58,
+        "v": 126.7,
+        "sat": 3.16
+      },
+      "grado": {
+        "exposicion": 1.236,
+        "saturacion": 1.2,
+        "calido": 0.029
+      }
+    },
+    "sil1": {
+      "huella": "f8be4dc46841842504d33743f7f5b990661dcba06f4b3253f4d42a61d1e42cae",
+      "banco": "pexels",
+      "id": 12171479,
+      "tipo": "foto",
+      "consulta": "simple bed floor poverty",
+      "consulta_original": "simple bed floor poverty",
+      "para": "retrato",
+      "indice": 5,
+      "autor": "Etkin Celep",
+      "autor_url": "https://www.pexels.com/@etkincelep",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/photo/wooden-door-of-a-bedroom-12171479/",
+      "descarga_url": "https://images.pexels.com/photos/12171479/pexels-photo-12171479.jpeg",
+      "descripcion": "A dimly lit bedroom seen through an open wooden door with a large window.",
+      "ancho": 4640,
+      "alto": 6960,
+      "duracion": null,
+      "sha256": "5a446971cc6fb4b7f1602f19e2ec96db9402e569587240c78654fdf9e7a97267",
+      "dhash": "00060e0f0f0e0e0c001c00001e1e0400",
+      "porque": "cuarto en penumbra visto desde la puerta: cama sencilla con cobija de cuadros sobre madera, sin personas ni decoracion de catalogo; interior humilde y digno",
+      "archivo": "proyectos/008/broll/pexels/raw/008-sil1-simple-bed-floor-poverty.jpg",
+      "servido": "broll/008/sil1-simple-bed-floor-poverty.jpg",
+      "descartados": [],
+      "color": {
+        "y": 31.52,
+        "u": 126.66,
+        "v": 128.87,
+        "sat": 4.53
+      },
+      "grado": {
+        "exposicion": 1.25,
+        "saturacion": 1.2,
+        "calido": 0.025
+      }
+    },
+    "sil8": {
+      "huella": null,
+      "banco": "cliente",
+      "id": null,
+      "tipo": "foto",
+      "consulta": null,
+      "consulta_original": null,
+      "para": "retrato",
+      "indice": null,
+      "autor": "Material propio del cliente (campaña Juan Papita)",
+      "autor_url": null,
+      "licencia": "Material propio del cliente — uso autorizado para esta campaña",
+      "licencia_url": null,
+      "origen_url": "adjunto del chat del brief, 2026-08-13",
+      "descarga_url": null,
+      "descripcion": "Niños saludando desde una ventana de ladrillo (cierre esperanzador del brief)",
+      "ancho": 768,
+      "alto": 1376,
+      "duracion": null,
+      "sha256": "b079c0e07a1e448e3c341f59a9d7c395fdf33e808b643b549b01ea2ec7ee5500",
+      "dhash": null,
+      "porque": "El brief pide usar esta imagen en la parte final: es la esperanza y el 'volver a construir' en una sola imagen",
+      "archivo": "proyectos/008/broll/cliente/final-ninos.jpg",
+      "servido": "broll/008/cliente-final-ninos.jpg",
+      "descartados": [],
+      "color": {
+        "y": 98.34,
+        "u": 114.31,
+        "v": 143.79,
+        "sat": 23.13
+      },
+      "grado": {
+        "exposicion": 1.092,
+        "saturacion": 0.85,
+        "calido": -0.082
+      }
+    },
+    "g02-catedral": {
+      "huella": null,
+      "banco": "pexels",
+      "id": 13832459,
+      "tipo": "foto",
+      "consulta": "choco colombia",
+      "consulta_original": "quibdo choco colombia",
+      "para": "retrato",
+      "indice": 6,
+      "autor": "Daniel Manosalva",
+      "autor_url": null,
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/photo/church-tower-under-clear-sky-13832459/",
+      "descarga_url": null,
+      "descripcion": "Torre de la catedral San Francisco de Asís, Quibdó",
+      "ancho": 4000,
+      "alto": 6000,
+      "duracion": null,
+      "sha256": null,
+      "dhash": null,
+      "porque": "Única imagen verificable de Quibdó en el banco (usada en v1-v3.1; fuera del plan desde v3.2)",
+      "archivo": "proyectos/008/broll/pexels/raw/008-g02-choco-colombia.jpg",
+      "servido": "broll/008/g02-choco-colombia.jpg",
+      "descartados": [],
+      "color": null,
+      "grado": null
+    },
+    "g01": {
+      "huella": null,
+      "banco": "cliente",
+      "id": null,
+      "tipo": "foto",
+      "consulta": null,
+      "consulta_original": null,
+      "para": "escenario",
+      "indice": null,
+      "autor": "Material propio del cliente (campaña Juan Papitas)",
+      "autor_url": null,
+      "licencia": "Material propio del cliente — uso autorizado para esta campaña",
+      "licencia_url": null,
+      "origen_url": "adjunto del chat, 2026-08-13 (v3.3)",
+      "descarga_url": null,
+      "descripcion": "Daño real del sismo en Quibdó: fachada de tres pisos rota, escombros de ladrillo en la calle",
+      "ancho": 899,
+      "alto": 1600,
+      "duracion": null,
+      "sha256": "5dc6a37227cca8c22ee53dc3d7ce732c5baafe2adea15e65f12f0da462df0a1b",
+      "dhash": null,
+      "porque": "El cliente pidió abrir con esta foto real del daño: el gancho ahora es evidencia auténtica, no metonimia de banco",
+      "archivo": "proyectos/008/broll/cliente/dano-real.jpg",
+      "servido": "broll/008/cliente-dano-real.jpg",
+      "descartados": [],
+      "color": null,
+      "grado": {
+        "saturacion": 0.88
+      }
+    }
+  }
+}
