@@ -1,0 +1,142 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "archivos/whisper/ggml-small.bin",
+		"language": "es",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:04,080"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 4080
+			},
+			"text": " pensamos que 8 toneladas serán mucho pero le estamos logrando, muchas gracias a todas"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:04,080",
+				"to": "00:00:08,920"
+			},
+			"offsets": {
+				"from": 4080,
+				"to": 8920
+			},
+			"text": " las personas que se están uniendo, recuerden que estamos recolectando kit diaseos, medicinas"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:08,920",
+				"to": "00:00:13,520"
+			},
+			"offsets": {
+				"from": 8920,
+				"to": 13520
+			},
+			"text": " básicas, alimentos no perecederos en nuestras edades de Medellín, Caldas y aquí en el"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:13,520",
+				"to": "00:00:19,040"
+			},
+			"offsets": {
+				"from": 13520,
+				"to": 19040
+			},
+			"text": " Oriente Antioqueno, si todavía no ha llevado tu aporte o quieres hacer el aporte después"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:19,040",
+				"to": "00:00:24,320"
+			},
+			"offsets": {
+				"from": 19040,
+				"to": 24320
+			},
+			"text": " todavía tenemos tiempo, queremos llegar a fin de ese mes con el camión achocó a las"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:24,320",
+				"to": "00:00:29,400"
+			},
+			"offsets": {
+				"from": 24320,
+				"to": 29400
+			},
+			"text": " comunidades más necesitadas, ya nos hemos comunicado, nos han pedido algunas medicinas"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:29,400",
+				"to": "00:00:34,680"
+			},
+			"offsets": {
+				"from": 29400,
+				"to": 34680
+			},
+			"text": " puntuales para los niños y los adultos mayores, así que el que quiera vincularse a este proyecto,"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:34,680",
+				"to": "00:00:40,320"
+			},
+			"offsets": {
+				"from": 34680,
+				"to": 40320
+			},
+			"text": " el que quiera mandar cualquier ayuda, por menor que sea, todo suma, todo suma, vamos"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:40,320",
+				"to": "00:00:45,640"
+			},
+			"offsets": {
+				"from": 40320,
+				"to": 45640
+			},
+			"text": " a mandar 8 toneladas de puro amor hacia el choco, entonces nada, Dios los bendiga, nuevamente"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:45,640",
+				"to": "00:00:46,720"
+			},
+			"offsets": {
+				"from": 45640,
+				"to": 46720
+			},
+			"text": " muchas gracias a todos."
+		}
+	]
+}

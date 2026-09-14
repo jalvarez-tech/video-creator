@@ -1,0 +1,102 @@
+{
+  "proyecto": "010",
+  "origen": "~/Downloads/Choco (material propio de la expedición, no es banco ni IA)",
+  "reponer": "bash proyectos/010/normalizar.sh [carpeta-origen]",
+  "archivos": {
+    "010-vo.wav": {
+      "sha256": "1f15770e5ee188f203eb2dd793364f86f9773ac8145f03123333110cb4debc2e",
+      "bytes": 13912336
+    },
+    "f-apie.jpg": {
+      "sha256": "5064c81e208b3a8c6b60f893a46ae77d444611dbe4a6e65a1d71ecc72120569f",
+      "bytes": 513740,
+      "ancho": 1296,
+      "alto": 1296,
+      "segundos": 0.04
+    },
+    "f-bote.jpg": {
+      "sha256": "b5f956344a4b0531c47572ebf0b1e367cdb27578016b68de43f987ff4c67182b",
+      "bytes": 380115,
+      "ancho": 1296,
+      "alto": 2304,
+      "segundos": 0.04
+    },
+    "f-casa1.jpg": {
+      "sha256": "e10480393db2ae509976d1360f467bc9a0daa6f62555162841159a836d33bf86",
+      "bytes": 568425,
+      "ancho": 1296,
+      "alto": 1296,
+      "segundos": 0.04
+    },
+    "f-casa2.jpg": {
+      "sha256": "f464d24b0ce939c87d29c079aa92a153ab678dec886d0e8377e084a451cc9f94",
+      "bytes": 305768,
+      "ancho": 1296,
+      "alto": 1296,
+      "segundos": 0.04
+    },
+    "f-casa3.jpg": {
+      "sha256": "f4be377fac21754d1ff7b5b2f04c0657d68016170f2b255f219ef1514bdc829c",
+      "bytes": 352204,
+      "ancho": 1296,
+      "alto": 1296,
+      "segundos": 0.04
+    },
+    "f-entrega1.jpg": {
+      "sha256": "61a79554e36e499b8e9eaac5e4bd19b1553ffa9586d900ff8fd9e41c79a7690a",
+      "bytes": 423215,
+      "ancho": 1296,
+      "alto": 1296,
+      "segundos": 0.04
+    },
+    "f-entrega2.jpg": {
+      "sha256": "463c5038f31d781402cd5d12c7c5e9633b9003db25ceabfac13f2feea02a1d56",
+      "bytes": 533397,
+      "ancho": 1296,
+      "alto": 1296,
+      "segundos": 0.04
+    },
+    "f-entrega3.jpg": {
+      "sha256": "2bd2edbfe1d43c5cbd20d4b6a0b2c2b4f958e77b6205320bc2042c5947332697",
+      "bytes": 468438,
+      "ancho": 1296,
+      "alto": 1296,
+      "segundos": 0.04
+    },
+    "v-camion.mp4": {
+      "sha256": "913b5eed60d8b280bbdb1933abffce7b0fffe46e640e4ee094cf15b78f50ff6b",
+      "bytes": 23645574,
+      "ancho": 1296,
+      "alto": 2304,
+      "segundos": 14.533
+    },
+    "v-gracias.mp4": {
+      "sha256": "19f7aff313f1a1e24123f741335a5d8c816aac135768b514d6fb5946d9d793c8",
+      "bytes": 90666322,
+      "ancho": 1296,
+      "alto": 2324,
+      "segundos": 39.267
+    },
+    "v-lancha.mp4": {
+      "sha256": "d033f9adc633cc8aa1795184cfabc9b4883f171a349ee595092981612473b56c",
+      "bytes": 68975282,
+      "ancho": 1296,
+      "alto": 2304,
+      "segundos": 32.666
+    },
+    "v-mercados.mp4": {
+      "sha256": "d9eb8cb3aa38e633e45e3c94ba72a4b76a8fc2ed6a1f99aa357856ef06e67701",
+      "bytes": 23174086,
+      "ancho": 1296,
+      "alto": 2304,
+      "segundos": 14.0
+    },
+    "v-ninos.mp4": {
+      "sha256": "fb1093b18c5a2afb281ca3e572d919ccf1eea4bdbb6afeae7b428b130d4e7245",
+      "bytes": 10803361,
+      "ancho": 1296,
+      "alto": 1728,
+      "segundos": 5.267
+    }
+  }
+}

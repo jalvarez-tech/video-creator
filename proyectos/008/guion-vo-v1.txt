@@ -1,0 +1,46 @@
+# Guion VO · proyecto 008 — «La tragedia no termina cuando deja de ser noticia»
+# Una línea = una unidad de cronometraje. Línea sin texto = 2 s de silencio (toma de tarjeta/respiro).
+# Voz: clonada del canal (ELEVENLABS_VOICE_ID) · eleven_v3 · preset narracion.
+g00|
+g01|En unos días… probablemente dejaremos de hablar del terremoto.
+g02|Pero para ellos… la tragedia no habrá terminado.
+c01|Hoy Colombia está volcada a ayudar.
+c02|Pero sabemos cómo funciona el tiempo.
+c03|Las noticias cambian.
+c04|Las cámaras se van.
+c05|La ayuda comienza a disminuir…
+sil1|
+c06|Pero hay familias que todavía tendrán que levantarse cada mañana frente a una casa que ya no pueden habitar.
+d01|Por eso nosotros queremos llegar después.
+d02|Cuando la emergencia ya no esté ocupando todos los titulares…
+d03|pero la necesidad siga ahí.
+sil2|
+sil2b|
+n01|Vamos a recolectar alimentos no perecederos, elementos de aseo, colchonetas, cobijas, carpas y todo aquello que pueda hacer un poco más llevaderos estos días.
+n03|Y también queremos ayudarles con algo que vendrá después…
+n04|Volver a construir.
+a01|Desde hoy, las dos sedes de Juan Papita serán puntos de recolección.
+a02|Puedes traer una bolsa de arroz, una lata, una colchoneta, una carpa…
+a03|Lo que puedas.
+sil3|
+sil3b|
+m01|También habilitaremos una cuenta exclusivamente para esta campaña.
+m02|El dinero recaudado será destinado a comprar materiales de construcción, especialmente cemento y varillas, que son algunas de las ayudas más costosas de transportar y conseguir.
+sil4|
+sil4b|
+f01|La familia de Juan Pablo Rico ya puso el camión.
+f02|Nosotros ya tenemos el contacto en Chocó.
+f03|Ahora solo falta llenarlo.
+f04|Sabemos que en un camión de ocho toneladas no cabe todo lo que necesitan…
+sil5|
+f05|Pero ocho toneladas se llenan…
+f06|un granito de arena a la vez.
+f07|Hoy ese granito puede ser el tuyo.
+sil6|
+sil6b|
+sil7|
+sil7b|
+sil8|
+sil8b|
+sil9|
+sil9b|

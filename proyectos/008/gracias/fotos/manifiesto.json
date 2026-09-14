@@ -1,0 +1,36 @@
+{
+  "proyecto": "008",
+  "pieza": "GRACIAS (Gracias008)",
+  "origen": "MATERIAL PROPIO del cliente — fotos de la campaña enviadas por el chat el 2026-08-15 y recuperadas del transcript de la sesión (JSONL con base64). NO son de banco de imágenes: no llevan licencia de terceros ni crédito que dar, y por eso pueden afirmar un hecho (director §3h: lo que existe se trae; generar esto con IA sería fabricar prueba documental).",
+  "verificacion": "Cada foto abierta y mirada antes de montarla (R17): se comprobó qué se LEE en las etiquetas y que ninguna muestra rostros ni datos personales.",
+  "nota_resolucion": "Dos de las tres llegan a 899×1599, por debajo del 1080×1920 de la comp: se escalan ~1,2×. Es una foto de móvil de una campaña y ese es su registro; no se disimula.",
+  "fotos": [
+    {
+      "archivo_publico": "remotion/public/fotos-008/ayuda-aseo.jpg",
+      "original": "proyectos/008/gracias/fotos/ayuda-03.jpg",
+      "sha256": "ff919fd91229ae9fa452facd8464da80933339f21191c2b7338457eb5fc3de25",
+      "bytes": 133367,
+      "uso": "g03 · «Kits de aseo» (f206–249)",
+      "contenido": "Caja con jabones de tocador, toallas higiénicas y papel higiénico, sobre una caja de atún y una de aceite. En un punto de recolección.",
+      "coincide_con_publicado": true
+    },
+    {
+      "archivo_publico": "remotion/public/fotos-008/ayuda-medicinas.jpg",
+      "original": "proyectos/008/gracias/fotos/ayuda-01.jpg",
+      "sha256": "040b8915b81cefcfbf38d66f216b4b567230cbad05d1a4dae072f67110fd4ee9",
+      "bytes": 169132,
+      "uso": "g03 · «Medicinas básicas» (f249–286)",
+      "contenido": "Cajas de Ibuprofeno 800 mg y Acetaminofén 500 mg sobre bultos de grano y cobijas dobladas.",
+      "coincide_con_publicado": true
+    },
+    {
+      "archivo_publico": "remotion/public/fotos-008/ayuda-alimentos.jpg",
+      "original": "proyectos/008/gracias/fotos/ayuda-02.jpg",
+      "sha256": "52916182815a3a06dc457ddcdace6153fa108e6748122397ad95d82b4e370d3f",
+      "bytes": 134519,
+      "uso": "g03 · «Alimentos no perecederos» (f286–336)",
+      "contenido": "Paquetes de spaghetti y arroz apilados junto a una nevera, con un bulto de alimento para perros.",
+      "coincide_con_publicado": true
+    }
+  ]
+}

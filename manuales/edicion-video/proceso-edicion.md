@@ -212,7 +212,7 @@ npx remotion still <Plantilla> out/rev-10.png --frame=299   # salida
 **Acción (Claude):** render final en alta calidad (fps = original, nombre y carpeta del preset).
 ```bash
 cd remotion
-npx remotion render <Plantilla> ../proyectos/001/finales/001-<titulo>-<aspecto>.mp4 --codec=h264 --crf=18
+npx remotion render <Plantilla> ../proyectos/001/finales/001-<titulo>-<aspecto>.mp4 --codec=h264 --crf=18 --color-space=bt709 --image-format=png   # R22
 # Verificación:
 ffprobe -v error -select_streams v:0 -show_entries stream=width,height,r_frame_rate \
   -of default=noprint_wrappers=1 ../proyectos/001/finales/001-<titulo>-<aspecto>.mp4

@@ -21,6 +21,16 @@ import { Noticia006 } from "./proyectos/006/Noticia006";
 import { noticia006 } from "./proyectos/006/noticia-006";
 import { Noticia007 } from "./proyectos/007/Noticia007";
 import { noticia007 } from "./proyectos/007/noticia-007";
+import { Noticia008 } from "./proyectos/008/Noticia008";
+import { noticia008 } from "./proyectos/008/noticia-008";
+import { Avatar008 } from "./proyectos/008/Avatar008";
+import { Gracias008 } from "./proyectos/008/Gracias008";
+import { Reel009 } from "./proyectos/009/Reel009";
+import { DURACION_009 } from "./proyectos/009/metraje-009";
+import { Documental010 } from "./proyectos/010/Documental010";
+import { DURACION_010 } from "./proyectos/010/metraje-010";
+import { Boda011 } from "./proyectos/011/Boda011";
+import { DURACION_011 } from "./proyectos/011/metraje-011";
 import { noticia005 } from "./proyectos/005/noticia-005";
 import { duracionPlan } from "./motor/noticias";
 import { framesDelMedio, framesDePlanYVoz } from "./motor/duracion";
@@ -299,6 +309,137 @@ export const RemotionRoot: React.FC = () => {
         fps={noticia007.formato.fps}
         width={noticia007.formato.ancho}
         height={noticia007.formato.alto}
+      />
+
+      {/* ── PROYECTO 008 ── (src/proyectos/008/)
+          «La tragedia no termina cuando deja de ser noticia.»
+          Campaña de ayuda por el terremoto en Chocó (Quibdó) — Juan Papita.
+          Sin avatar: VOZ PROPIA del cliente (v4: 78,21 s = 2346 f, cortada
+          por palabra con Whisper y montada con generar-vo.sh --motor propio)
+          + 25 tomas papel/cine, textos con barrido disruptivo y atmósferas
+          de lluvia/viento por sección. La comp dura lo mayor de plan y voz.
+          Marca: AYUDEMOS A CHOCÓ (marcas/choco.ts).
+          Artefactos: proyectos/008/artefactos/01-plan.md · 03-timeline.md */}
+      <Composition
+        id="Noticia008"
+        component={Noticia008}
+        durationInFrames={noticia008.formato.duracion}
+        fps={noticia008.formato.fps}
+        width={noticia008.formato.ancho}
+        height={noticia008.formato.alto}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDePlanYVoz(
+            "noticias/008-vo.wav",
+            noticia008.formato.fps,
+            noticia008.formato.duracion
+          ),
+        })}
+      />
+
+      {/* ── PROYECTO 008 · pieza AVATAR ── (src/proyectos/008/Avatar008.tsx)
+          «Ya hay 3 puntos»: clip REAL del cliente anunciando los puntos de
+          recolección, con las direcciones en tarjetas de banda inferior +
+          cámara + SFX. Marca AYUDEMOS A CHOCÓ (watermark propio en franja alta).
+          Clip: avatar-008.mp4 · 1080×1920 · 30 fps (fuente real de iPhone, R01:
+          el fps original manda — el 25 de §3a es para clips HeyGen) · 1314 f.
+          Artefactos: proyectos/008/artefactos/0{1,2,3}-*-avatar.md */}
+      <Composition
+        id="Avatar008"
+        component={Avatar008}
+        durationInFrames={1314}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar-008.mp4", 30, 1314),
+        })}
+      />
+
+      {/* ── PROYECTO 008 · pieza GRACIAS ── (src/proyectos/008/Gracias008.tsx)
+          «8 toneladas de puro amor»: el cliente agradece el apoyo recibido y da
+          parte del avance de la campaña. Es la pieza donde el color deja de ser
+          un acento y pasa a repartir autoría — VERDE lo que logró la gente,
+          ÁMBAR lo que falta por hacer, BLANCO su voz y SIN COLOR quien recibe
+          (graficos-008-gracias.ts §simbología). El plan de sonido dice lo mismo:
+          tres `impact deep`, los tres sobre verde.
+          Clip: avatar-008-gracias.mp4 · 1080×1920 · 30 fps (fuente real de
+          iPhone, R01: el fps original manda) · 1410 f.
+          Artefactos: proyectos/008/artefactos/0{1,2,3}-*-gracias.md */}
+      <Composition
+        id="Gracias008"
+        component={Gracias008}
+        durationInFrames={1410}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar-008-gracias.mp4", 30, 1410),
+        })}
+      />
+
+      {/* ── PROYECTO 009 · REEL DE COMIDA ── (src/proyectos/009/Reel009.tsx)
+          «Te reto a ver esto sin antojarte»: reel viral para STREET CATS
+          (@streetcats.food, Caldas · Antioquia), el negocio que en el 008 salía
+          como punto de recolección. Marca nueva: src/marcas/streetcats.ts.
+
+          Es la PRIMERA pieza del repo sin avatar Y sin voz: no hay clip que
+          mande el fps ni transcripción que dé las ventanas. Manda el MONTAJE
+          (`metraje-009.ts`, 11 cortes sobre 5 planos de b-roll), y de ahí sale
+          también la duración — por eso `DURACION_009` se calcula del plan en vez
+          de escribirse a mano aquí: alargar un corte reajusta la composición
+          sola, sin `calculateMetadata` ni medir ningún medio.
+          Artefactos: proyectos/009/artefactos/0{1,2,3}-*.md */}
+      <Composition
+        id="Reel009"
+        component={Reel009}
+        durationInFrames={DURACION_009}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+
+      {/* ── PROYECTO 010 · MINI DOCUMENTAL HUMANITARIO ── (src/proyectos/010/)
+          «Gracias, Chocó»: el cierre del arco que abrió el 008. Allí se pedía
+          ayuda; aquí se rinde cuentas de que llegó y se pide no olvidar.
+
+          Es la primera pieza SIN avatar pero CON voz, y esa combinación cambia
+          quién manda: no hay clip de avatar que fije el fps, pero sí una
+          locución de 72,46 s que fija TODO lo demás — los ocho beats salen de
+          la transcripción por palabra, no de una retícula redonda.
+
+          Dos cosas que no tiene ninguna pieza anterior:
+            · SUBTÍTULOS BILINGÜES a dos pisos (es 100 % / en 68 %), anclados por
+              abajo para que el bloque no tiemble entre los 26 cues.
+            · METRAJE 100 % REAL — ni banco ni IA. Con 105 s de vídeo propio y 8
+              fotos para 74 s de pieza, traer stock habría sido fabricar prueba
+              documental de algo que la pieza afirma que pasó (director §3h).
+
+          `DURACION_010` sale del plan de montaje, igual que en el 009. Son 60 f
+          MÁS que la voz: los ~2 s de rótulo limpio del cierre.
+          Artefactos: proyectos/010/artefactos/0{1,2,3}-*.md */}
+      <Composition
+        id="Documental010"
+        component={Documental010}
+        durationInFrames={DURACION_010}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      {/* ── PROYECTO 011 · BODA ── (src/proyectos/011/)
+          Montaje de 2 minutos con TODO el material de la carpeta Boda (27
+          vídeos de iPhone en HDR + 1 de mensajería + 1 foto): el primer minuto,
+          la boda con «Turning Page»; el segundo, la rumba con «El Preso». Sin
+          voz, sin texto y sin marca. El metraje se repone con
+          `bash proyectos/011/normalizar.sh` y se comprueba con
+          `node proyectos/011/revisar-011.mjs`.
+          Artefactos: proyectos/011/artefactos/0{1,2,3}-*.md */}
+      <Composition
+        id="Boda011"
+        component={Boda011}
+        durationInFrames={DURACION_011}
+        fps={30}
+        width={1080}
+        height={1920}
       />
     </>
   );

@@ -1,0 +1,90 @@
+{
+  "model_id": "music_v2",
+  "composition_plan": {
+    "chunks": [
+      {
+        "text": "[Intro]\nSolo piano, very sparse and quiet. Single soft notes with long silences between them. Melancholic but dignified, like grief held with composure. No melody resolution yet.",
+        "duration_ms": 12000,
+        "positive_styles": [
+          "minimalist solo piano",
+          "sparse",
+          "intimate",
+          "melancholic",
+          "slow 60 bpm",
+          "cinematic documentary score",
+          "instrumental",
+          "quiet"
+        ],
+        "negative_styles": [
+          "drums",
+          "percussion",
+          "epic",
+          "vocals",
+          "synth",
+          "upbeat"
+        ],
+        "context_adherence": "high"
+      },
+      {
+        "text": "[Cuerdas entran]\nA soft ambient string pad and a low warm cello slowly join under the piano. Still restrained and sad, but something begins to hold the weight.",
+        "duration_ms": 14000,
+        "positive_styles": [
+          "soft ambient strings",
+          "warm cello",
+          "piano continues",
+          "restrained",
+          "emotional",
+          "instrumental"
+        ],
+        "negative_styles": [
+          "drums",
+          "percussion",
+          "epic brass",
+          "vocals",
+          "climax"
+        ],
+        "context_adherence": "high"
+      },
+      {
+        "text": "[Solidaridad]\nWarm sustained strings and gentle piano figures. The harmony slowly turns from minor toward warmth. Compassionate, human, steady — hands working together.",
+        "duration_ms": 26000,
+        "positive_styles": [
+          "warm strings",
+          "gentle piano arpeggios",
+          "hopeful undertone",
+          "compassionate",
+          "slow build without percussion",
+          "instrumental"
+        ],
+        "negative_styles": [
+          "drums",
+          "percussion",
+          "vocals",
+          "bombastic",
+          "trailer music"
+        ],
+        "context_adherence": "high"
+      },
+      {
+        "text": "[Esperanza y cierre]\nThe strings open into a warm, hopeful swell — moving but never epic. Piano returns with a simple rising figure. Ends resolving into a long soft final chord that fades to silence.",
+        "duration_ms": 13000,
+        "positive_styles": [
+          "uplifting warm strings",
+          "hopeful",
+          "emotional resolution",
+          "soft dynamics",
+          "final cadence fading out",
+          "instrumental"
+        ],
+        "negative_styles": [
+          "drums",
+          "percussion",
+          "vocals",
+          "epic",
+          "abrupt ending"
+        ],
+        "context_adherence": "high"
+      }
+    ]
+  }
+}
