@@ -64,7 +64,7 @@ metraje y no en la de gráficos porque es una propiedad del FORMATO (proteger la
 banda alta), no de ninguna toma.
 
 ⚠️ **Si se mueve el molde, se mueve el velo.** Son dos números en dos archivos
-distintos (`MOLDES_GRAFICOS.franja.ancla` = 0,061 y `veloAlto` = 620) y nada los
+distintos (`MOLDES_GRAFICOS.franja.ancla` = 0,061 y `VELOS_009.arriba.alto` = 620) y nada los
 ata. Es la deuda declarada de esta pieza.
 
 Las dos tomas de `pantalla` se protegen distinto: con `VeloPantalla` al **72 %**,

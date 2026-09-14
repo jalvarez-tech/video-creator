@@ -85,6 +85,14 @@ No se hizo en esta pieza a propósito: promover el componente obliga a tocar el
 como refactor propio, con el 009 re-renderizado y comparado píxel a píxel
 (`revisar-sonda.mjs`).
 
+**Hecho el 2026-09-14** (detalle al final de `proyectos/011/aprendizajes.md`).
+Al subir, la puerta genérica midió lo que la de esta pieza no contaba —el
+prerrollo de las disolvencias— y encontró un fallo publicado AQUÍ: `c10-nina`
+disuelve desde el 0,05 s de `v-ninos`, la disolvencia pide 0,27 s de clip antes
+de ese punto, el intérprete recorta el arranque a 0 y, al cortar a `c11-mano`,
+se ven dos veces unos 9 frames. Está en el MP4 entregado. Queda declarado en
+`revisar-010.mjs` y sin arreglar, porque arreglarlo mueve píxeles.
+
 **Los subtítulos bilingües tampoco tienen sitio en el motor.** `SubtitulosSync`
 es monolingüe. Si vuelve a hacer falta un vídeo a dos idiomas, `Bilingue.tsx`
 del 010 es el punto de partida y sube con él.

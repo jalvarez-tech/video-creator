@@ -75,7 +75,8 @@ también la única banda alta segura.
 
 Y `franja` no trae scrim, así que el degradado que hace legible su texto hay que
 ponerlo en la capa de metraje. Son dos números en dos archivos que nada ata
-(`MOLDES_GRAFICOS.franja.ancla` = 0,061 y `veloAlto` = 620): deuda declarada.
+(`MOLDES_GRAFICOS.franja.ancla` = 0,061 y el `alto` de `VELOS_009` = 620, en
+`Reel009.tsx`): deuda declarada.
 
 ## 6. El punch-in puede ser RESCATE y no estilo — y entonces decide el archivo
 

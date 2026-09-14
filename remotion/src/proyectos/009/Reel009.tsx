@@ -38,9 +38,10 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { MONTADORES_BASE, PistaGraficos } from "../../motor/graficos/PistaGraficos";
+import { PistaMetraje, type Velos } from "../../motor/metraje";
 import { PistaSonido } from "../../motor/sound/PistaSonido";
 import { STREETCATS } from "../../marcas/streetcats";
-import { PistaMetraje } from "./PistaMetraje";
+import { ENTRADAS_009 } from "./entradas-009";
 import { PistaSabor } from "./PistaSabor";
 import { metraje009 } from "./metraje-009";
 import { graficos009 } from "./graficos-009";
@@ -69,9 +70,19 @@ const VeloPantalla: React.FC = () => (
   <AbsoluteFill style={{ backgroundColor: STREETCATS.color.fondoOscuro, opacity: 0.72 }} />
 );
 
+/**
+ * EL VELO DEL TEXTO — la capa que el z-order nombra y que casi siempre se
+ * olvida. Todo el copy vive en el molde `franja` (y ∈ 117-457), que no trae
+ * scrim: sin este degradado un titular blanco sobre el humo blanco de las
+ * alitas no se lee, y el fallo no aparece hasta que se renderiza ese plano
+ * concreto. Alto en px reales y no en %, porque lo que tiene que cubrir es la
+ * caja del molde, que está en px. Si se mueve el molde, se mueve el velo.
+ */
+const VELOS_009: Velos = { arriba: { alto: 620, borde: 0.82, medio: 0.55, parada: 0.55 } };
+
 export const Reel009: React.FC = () => (
   <AbsoluteFill style={{ backgroundColor: STREETCATS.color.negro }}>
-    <PistaMetraje cortes={metraje009} marca={STREETCATS} />
+    <PistaMetraje cortes={metraje009} marca={STREETCATS} velos={VELOS_009} entradas={ENTRADAS_009} />
     <PistaGraficos
       plan={graficos009}
       montadores={MONTADORES_BASE}

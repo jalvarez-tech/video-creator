@@ -46,6 +46,7 @@ Root: **`/Users/nicecode/Work/jalvarez/video-creator`**. Este skill es la **capa
 | **B-roll de archivo** (lugares, objetos y gestos REALES) | **Pexels**, banco gratuito de uso comercial (ver §3h) | `scripts/bancos.py` · manifiesto en `proyectos/NNN/broll/manifiesto.json` |
 | **Avatar** talking-head (fuente) | [heygen](../edicion-video/heygen.md) | `scripts/heygen.py` |
 | **Noticias** (formato completo, sin avatar) | [video-noticias](../video-noticias/SKILL.md) · [recetario](../video-noticias/recetario-tomas.md) | `noticias/` (theme + `TomaNoticia` + `PistaNoticia`) · `noticia-NNN.ts` |
+| **Montaje** (pieza sin avatar hecha de clips y fotos: reel, documental, evento) | este skill · [reglas R19-R21](../edicion-video/reglas.md) (normalizar, puerta, HDR) | `motor/metraje/` (`Corte` + `PistaMetraje`) · `metraje-NNN.ts` · puerta `revisar-metraje.mjs` desde `proyectos/NNN/revisar-NNN.mjs` |
 | Subtítulos sincronizados | edicion-video | `SubtitulosSync.tsx` · `subtitulos-NNN.ts` |
 | **Segundo motor** (HTML+GSAP, render local) | [motor-hyperframes](../motor-hyperframes/SKILL.md) · [contrato](../motor-hyperframes/contrato-hf.md) · [equivalencias](../motor-hyperframes/equivalencias.md) | `npx hyperframes` · `proyectos/NNN/hf/` · `nuevo-hf.mjs` · `revisar-hf.mjs` |
 
@@ -139,7 +140,7 @@ import { MONTADORES_BASE, PistaGraficos } from "../../motor/graficos/PistaGrafic
 ```
 Regla: **solo el avatar va dentro de `<CamaraVirtual>`**; MG y subtítulos son overlays fijos ([R09](../edicion-video/reglas.md)).
 
-Las **cuatro capas declarativas** del sistema son hermanas y se leen igual: `camara-NNN.ts` → `<CamaraVirtual>` · `graficos-NNN.ts` (un `Plan`) → `<PistaGraficos>` · `cues-NNN.ts` → `<PistaSonido>` · `noticia-NNN.ts` → `<PistaNoticia>` (formato noticias, sin avatar; el 006 escribe ya un `Plan` y monta `<PistaGraficos>` directamente). Lo repetitivo (títulos, cifras, listas, remates, CTA) va en el plan de datos; el JSX a mano queda para la idea visual propia de la pieza (como el mundo líquido del 003).
+Las **cinco capas declarativas** del sistema son hermanas y se leen igual: `camara-NNN.ts` → `<CamaraVirtual>` · `graficos-NNN.ts` (un `Plan`) → `<PistaGraficos>` · `cues-NNN.ts` → `<PistaSonido>` · `noticia-NNN.ts` → `<PistaNoticia>` (formato noticias, sin avatar; el 006 escribe ya un `Plan` y monta `<PistaGraficos>` directamente) · `metraje-NNN.ts` (un `Corte[]`) → `<PistaMetraje>` (piezas sin avatar, donde el movimiento ES el montaje: el look sale de la marca o se pasa entero, los velos los pide la composición y las entradas que no son del formato las trae la pieza en `entradas`). Lo repetitivo (títulos, cifras, listas, remates, CTA) va en el plan de datos; el JSX a mano queda para la idea visual propia de la pieza (como el mundo líquido del 003).
 
 **c) Reparto del espacio (9:16).** Cara al centro · MG en franja superior `y < 340px` ([R08](../edicion-video/reglas.md)) · subtítulos `y ≈ 70%` · la cámara **abre headroom** (baja el avatar) cuando un overlay superior lo necesita. Nada tapa la cara ni el subtítulo.
 

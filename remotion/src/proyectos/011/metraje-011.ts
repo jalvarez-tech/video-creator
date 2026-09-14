@@ -21,9 +21,9 @@
  *
  *   · SIN MARCA Y CON UN SOLO TEXTO. Es una pieza personal, no de un canal: no
  *     hay sello ni subtítulos, y el único texto es el título de apertura, que
- *     vive en `Titulo011.tsx` y trae su propio velo. Por eso el intérprete de
- *     esta pieza no pinta los velos de franja del 010 y el look no sale de
- *     `src/marcas/`, sale de `LOOK_011` en la composición.
+ *     vive en `Titulo011.tsx` y trae su propio velo. Por eso esta pieza no le
+ *     pide velos a `<PistaMetraje>` y el look no sale de `src/marcas/`: sale
+ *     de `LOOK_011` en la composición.
  *   · LA MÚSICA DA LA RETÍCULA. Sin voz, los cortes caen en golpes MEDIDOS de
  *     cada canción (energía por bandas con ffmpeg, no a oído): las notas de
  *     piano de Turning Page (~1,05 s) y los golpes de El Preso (~104,5 BPM,
@@ -48,11 +48,7 @@
  * saldrían a 7 s por plano. Nunca se repite un tramo (`revisar-011.mjs`).
  */
 
-/** Corrección POR TRAMO, medida con `signalstats` (objetivo ~118 de luma). */
-export interface Grado {
-  /** Multiplicador de brillo. Aquí solo sube: los tramos claros son de vestido blanco y cielo, y esa luz es el look. */
-  exposicion?: number;
-}
+import type { Corte as CorteDelFormato } from "../../motor/metraje";
 
 /**
  * Cómo entra un plano.
@@ -62,33 +58,17 @@ export interface Grado {
  */
 export type Entrada = "corte" | "disolver" | "negro";
 
-export interface Corte {
-  id: string;
-  /** `video` reproduce; `foto` sostiene. La foto ignora `desde`. */
+/**
+ * El `Corte` del formato (`motor/metraje/corte.ts`) con lo que esta pieza fija:
+ * `tipo` explícito y solo las entradas de arriba.
+ *
+ * Techo de punch-in 1,12: los clips se normalizaron a 1296 px (1080 × 1,2) y a
+ * esa escala todavía se reduce (lo mide `revisar-011.mjs`). El `grado` va POR
+ * TRAMO, medido con `signalstats` (objetivo ~118 de luma), y aquí solo sube la
+ * exposición: los tramos claros son de vestido blanco y cielo, y esa luz es el look.
+ */
+export interface Corte extends CorteDelFormato<Entrada> {
   tipo: "video" | "foto";
-  /** Ruta dentro de `remotion/public/`. */
-  src: string;
-  /** SEGUNDO de entrada en el clip FUENTE. Solo vídeo. */
-  desde?: number;
-  /** Frame ABSOLUTO de la comp en el que entra. */
-  en: number;
-  /** Frames que dura EN LA COMP. */
-  dur: number;
-  /**
-   * Punch-in: escala al entrar → escala al salir. Techo 1,12: los clips se
-   * normalizaron a 1296 px (1080 × 1,2) y a esa escala todavía se reduce.
-   */
-  zoom: readonly [number, number];
-  /**
-   * % del alto que se SUBE el plano. Positivo enseña la parte de abajo. Límite
-   * sin enseñar el borde: `(escala mínima − 1) / 2 × 100`.
-   */
-  pan?: number;
-  entra?: Entrada;
-  /** Frames de fundido a negro al final del plano. */
-  salidaNegro?: number;
-  grado?: Grado;
-  reason: string;
 }
 
 export const FPS_011 = 30;

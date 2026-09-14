@@ -41,8 +41,8 @@ import React from "react";
 import { AbsoluteFill, Audio, interpolate, staticFile, useVideoConfig } from "remotion";
 import { CHOCO } from "../../marcas/choco";
 import type { Marca } from "../../motor/marca";
+import { PistaMetraje, type Velos } from "../../motor/metraje";
 import { SelloCampana } from "../../motor/SelloCampana";
-import { PistaMetraje } from "./PistaMetraje";
 import { SubtitulosBilingues, Rotulos } from "./Bilingue";
 import { metraje010 } from "./metraje-010";
 import { subtitulos010, rotulos010 } from "./subtitulos-010";
@@ -51,6 +51,26 @@ import { subtitulos010, rotulos010 } from "./subtitulos-010";
 const CHOCO_DOC: Marca = {
   ...CHOCO,
   metraje: { saturacion: 0.92, contraste: 1.05, calido: 0.03, grano: 0.05, vineta: 0.22 },
+};
+
+/**
+ * LOS VELOS, y el de abajo es la diferencia con el 009 y no es cosmética.
+ *
+ * ABAJO, los dos pisos del subtítulo bilingüe: el bloque ocupa de y≈1330 a
+ * y≈1620 sobre metraje sin control de exposición —un cielo del Pacífico
+ * quemado, una camiseta blanca—, y sin velo el subtítulo inglés (el más
+ * pequeño, el más fino) desaparece en los planos claros. El fallo no sale en el
+ * frame que revisas: sale en el plano 19 de 30.
+ *
+ * ARRIBA, el sello (top 84) y los rótulos de franja alta, y MÁS FLOJO que el de
+ * abajo (0,42 contra 0,72), no por simetría rota: arriba solo hay que sostener
+ * una píldora con borde propio y un rótulo de 3 s; abajo hay dos pisos de texto
+ * durante 65 s. A 0,55 —lo que había— el frame de apertura perdía el cielo del
+ * Pacífico, que es medio plano.
+ */
+const VELOS_010: Velos = {
+  arriba: { alto: 360, borde: 0.42, medio: 0.2, parada: 0.5 },
+  abajo: { alto: 760, borde: 0.72, medio: 0.42, parada: 0.45 },
 };
 
 /** `false` deja la pieza a voz sola. Ver §musica. */
@@ -119,7 +139,7 @@ export const Documental010: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
   <AbsoluteFill style={{ backgroundColor: CHOCO_DOC.color.negro }}>
-    <PistaMetraje cortes={metraje010} marca={CHOCO_DOC} />
+    <PistaMetraje cortes={metraje010} marca={CHOCO_DOC} velos={VELOS_010} />
     <SelloCampana marca={CHOCO_DOC} />
     <Rotulos rotulos={rotulos010} marca={CHOCO_DOC} />
     <SubtitulosBilingues cues={subtitulos010} marca={CHOCO_DOC} />

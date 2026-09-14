@@ -36,7 +36,8 @@ import { DURACION_009 } from "./metraje-009";
  *   · `pantalla` lleva la revelación y el CTA, que son las dos únicas tomas que
  *     PUEDEN tapar el metraje porque ya no dependen de él.
  *   · `franja` no trae scrim; el degradado que hace legible su texto lo pinta
- *     `<PistaMetraje>` (su capa 3). Si se mueve el molde, se mueve el velo.
+ *     `<PistaMetraje>` con `VELOS_009` (Reel009.tsx). Si se mueve el molde, se
+ *     mueve el velo.
  */
 const { pon, col, gfx, plan } = capa(
   dialectoDe({

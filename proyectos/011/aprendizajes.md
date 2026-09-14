@@ -140,3 +140,38 @@ que faltaba saber del formato:
 
 Hacerlo como refactor propio, re-renderizando 009 y 010 y comparando píxel a
 píxel (`revisar-sonda.mjs`).
+
+### Pagada el 2026-09-14: `remotion/src/motor/metraje/`
+
+`corte.ts` (el formato como datos), `PistaMetraje.tsx` (el intérprete) y
+`revisar-metraje.mjs` (la puerta genérica). 009, 010 y 011 importan de ahí y
+conservan sus `metraje-0NN.ts`; cada uno cierra el tipo `Corte` a las entradas
+que su encargo permite. Subió lo de las dos tablas; **no subieron el `whip` ni
+el `flash`**, porque solo los ha usado el 009: se quedan en
+`proyectos/009/entradas-009.ts` y llegan por `entradas`, que el tipo exige si
+algún corte los usa.
+
+**Píxel a píxel, y con el ruido medido primero.** 138 stills a resolución
+completa de Reel009, Documental010 y Boda011 (un frame por plano más cada
+disolvencia, whip, flash y fundido), comparados por sha256 contra el render de
+antes. Dos tandas del MISMO código ya difieren en 4 de 138: todas son fotos o
+un whip, con miles de píxeles movidos 1-13 niveles, que es la firma del ruido
+de `sonda-frames.mjs`. Por eso la regla fue «cada frame nuevo tiene que ser
+idéntico a ALGÚN render del código viejo», y no «igual a una tanda concreta».
+
+**La puerta genérica encontró tres fallos PUBLICADOS** que la revisión por
+frames no vio porque ningún frame revisado caía en ellos, y los tres están en
+los MP4 de `finales/`:
+
+- 009 `c04-papas`: el whip entra con zoom 1,08 y enseña hasta 47 px de negro
+  por la izquierda (f222–f225).
+- 009 `c08-porciones`: `pan: 4` con escala inicial 1,06 enseña hasta 19 px de
+  negro por abajo (f474–f485).
+- 010 `c10-nina`: la disolvencia pide clip antes del principio de `v-ninos`; el
+  plano sale 0,2 s tarde y al cortar a `c11-mano` se repiten unos 9 frames.
+
+No se arreglaron: mueven píxeles de piezas publicadas. Quedan DECLARADOS en
+`revisar-009.mjs` y `revisar-010.mjs`, y la puerta falla el día que una
+declaración sobre. La lección es la de R20 llevada más lejos: la puerta tiene que
+usar las MISMAS cuentas que el render (aquí literalmente: carga `corte.ts` y
+ejecuta la misma función del whip), o mide otro vídeo.

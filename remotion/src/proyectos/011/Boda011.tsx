@@ -34,7 +34,7 @@
  */
 import React from "react";
 import { AbsoluteFill, Audio, interpolate, Sequence, staticFile } from "remotion";
-import { PistaMetraje, type Look } from "./PistaMetraje";
+import { PistaMetraje, type LookMetraje } from "../../motor/metraje";
 import { RotuloFiesta011 } from "./RotuloFiesta011";
 import { Titulo011 } from "./Titulo011";
 import { DURACION_011, metraje011, RELEVO } from "./metraje-011";
@@ -42,15 +42,17 @@ import { DURACION_011, metraje011, RELEVO } from "./metraje-011";
 /**
  * El look. Suave a propósito: el material ya viene bien expuesto después del
  * tone-mapping, y una boda graduada «con estilo» envejece mal. El velo cálido
- * compensa la luz de fluorescente del salón; la viñeta centra.
+ * compensa la luz de fluorescente del salón; la viñeta centra, y empieza en el
+ * 58 % del radio (el formato la empieza en el 55).
  */
-const LOOK_011: Look = {
+const LOOK_011: LookMetraje = {
   saturacion: 1.0,
   contraste: 1.03,
   calido: 0.05,
   colorCalido: "#F2B880",
   grano: 0.025,
   vineta: 0.2,
+  vinetaDesde: 58,
 };
 
 const CLAMP = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;

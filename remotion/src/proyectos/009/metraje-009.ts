@@ -39,58 +39,30 @@
  * disjuntos de sus clips.
  */
 
-/** Corrección POR CLIP para que los cinco partan del mismo sitio. */
-export interface Grado {
-  /** Multiplicador de brillo. Medido con `signalstats`, no a ojo. */
-  exposicion?: number;
-  saturacion?: number;
-  contraste?: number;
-  /** Velo cálido extra. Positivo calienta; negativo enfría. */
-  calido?: number;
-}
+import type { Corte as CorteDelFormato, Grado } from "../../motor/metraje";
 
 /** Cómo ENTRA un plano. El corte seco es el defecto: en un reel de comida el
- *  ritmo lo llevan los cortes, y una transición en cada uno los anula todos. */
+ *  ritmo lo llevan los cortes, y una transición en cada uno los anula todos.
+ *  `whip` y `flash` no son del formato: los pinta `entradas-009.ts`. */
 export type Entrada = "corte" | "whip" | "flash";
 
-export interface Corte {
-  id: string;
-  /** Ruta dentro de `remotion/public/`. */
-  src: string;
-  /** SEGUNDO de entrada en el clip FUENTE (no frame: los fps no coinciden). */
+/**
+ * El `Corte` del formato (`motor/metraje/corte.ts`) con las entradas de este
+ * reel: todo es vídeo, a tres fps distintos, así que `desde` es obligatorio.
+ *
+ * §pan — DE DÓNDE SALEN ESTOS NÚMEROS, porque a ojo se ponen mal. Salen de las
+ * dos ecuaciones de §encuadre en `corte.ts` (llevar el sujeto a su sitio y
+ * seguir cubriendo el cuadro), y la segunda es la que muerde: pedir un `pan`
+ * grande obliga a un `zoom` grande, no al revés. En el plano del grill el sujeto
+ * está en u ≈ 0,76 y se quiere en d ≈ 0,62; las dos ecuaciones juntas dan
+ * z ≥ 1,58, y de ahí el 1,60 de `c03` — no de que 1,60 se viera bien.
+ *
+ * Y esa escala es la que decide la RESOLUCIÓN del archivo: 2160 / 1,78 = 1213
+ * px de fuente para 1080 en pantalla, o sea sin subir nada. Por eso el grill
+ * es el único de los cinco que se queda en 4K (§ cabecera del 01-plan).
+ */
+export interface Corte extends CorteDelFormato<Entrada> {
   desde: number;
-  /** Frame ABSOLUTO de la comp en el que entra. */
-  en: number;
-  /** Frames que dura EN LA COMP (a 30 fps). */
-  dur: number;
-  reason: string;
-  /** Punch-in: escala al entrar → escala al salir. Nada se queda quieto. */
-  zoom: readonly [number, number];
-  /**
-   * % del alto que se SUBE el plano. Positivo enseña la parte de abajo.
-   *
-   * §pan — DE DÓNDE SALEN ESTOS NÚMEROS, porque a ojo se ponen mal y el fallo
-   * (una franja negra en un borde) puede no caer en el frame que revisas.
-   *
-   * El intérprete pinta `translateY(-pan%) scale(z)`, y en CSS eso es T·S: se
-   * escala primero y se desplaza después, así que el `pan` NO lo multiplica la
-   * escala. Con el sujeto a la fracción `u` del alto del plano:
-   *
-   *     para llevarlo a la fracción `d` de la pantalla   pan = 100·(z·(u−0,5) − (d−0,5))
-   *     para que el plano SIGA CUBRIENDO el cuadro       pan ≤ 50·(z−1)
-   *
-   * La segunda es la que muerde: pedir un `pan` grande obliga a un `zoom`
-   * grande, no al revés. En el plano del grill el sujeto está en u ≈ 0,76 y se
-   * quiere en d ≈ 0,62; las dos ecuaciones juntas dan z ≥ 1,58, y de ahí el
-   * 1,60 de `c03` — no de que 1,60 se viera bien.
-   *
-   * Y esa escala es la que decide la RESOLUCIÓN del archivo: 2160 / 1,78 = 1213
-   * px de fuente para 1080 en pantalla, o sea sin subir nada. Por eso el grill
-   * es el único de los cinco que se queda en 4K (§ cabecera del 01-plan).
-   */
-  pan?: number;
-  entra?: Entrada;
-  grado?: Grado;
 }
 
 const PAPAS = "broll/009/009-papas-vuelan.mp4";

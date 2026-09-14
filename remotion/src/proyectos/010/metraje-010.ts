@@ -27,15 +27,7 @@
  * con otra frase encima es lo que convierte «esto se acabó» en «esto sigue».
  */
 
-/** Corrección POR TRAMO. Medida con `ffmpeg signalstats`, objetivo ~118 de luma. */
-export interface Grado {
-  /** Multiplicador de brillo. */
-  exposicion?: number;
-  saturacion?: number;
-  contraste?: number;
-  /** Velo cálido EXTRA sobre el de marca. Positivo calienta; negativo enfría. */
-  calido?: number;
-}
+import type { Corte as CorteDelFormato, Grado } from "../../motor/metraje";
 
 /**
  * §entra — cómo entra un plano.
@@ -54,39 +46,19 @@ export interface Grado {
  */
 export type Entrada = "corte" | "disolver";
 
-export interface Corte {
-  id: string;
-  /** `video` reproduce; `foto` sostiene. La foto ignora `desde` y `velocidad`. */
+/**
+ * El `Corte` del formato (`motor/metraje/corte.ts`) con lo que esta pieza fija:
+ * `tipo` explícito en los treinta —ocho son fotos— y solo las entradas de §entra.
+ *
+ * §techo — POR QUÉ NINGÚN `zoom` PASA DE 1,20. Los vídeos se normalizaron a
+ * 1296 px de ancho, que es 1080 × 1,2: a 1,20 el plano todavía muestrea ≥1080 px
+ * del archivo y el navegador REDUCE. Pedir 1,4 obligaría a ampliar dos veces
+ * (576 → 1296 en ffmpeg, 1296 → 1512 en el navegador) sobre un origen que ya era
+ * el eslabón débil. Las fotos aguantan más (1600²) pero se les aplica el mismo
+ * techo para que el gesto de la pieza sea uno solo. Lo mide `revisar-010.mjs`.
+ */
+export interface Corte extends CorteDelFormato<Entrada> {
   tipo: "video" | "foto";
-  /** Ruta dentro de `remotion/public/`. */
-  src: string;
-  /** SEGUNDO de entrada en el clip FUENTE. Solo vídeo. */
-  desde?: number;
-  /** Frame ABSOLUTO de la comp en el que entra. */
-  en: number;
-  /** Frames que dura EN LA COMP. */
-  dur: number;
-  /**
-   * Velocidad de reproducción. Solo vídeo, defecto 1.
-   * Segundos de fuente consumidos = `dur / fps * velocidad`.
-   */
-  velocidad?: number;
-  reason: string;
-  /**
-   * Punch-in: escala al entrar → escala al salir.
-   *
-   * §techo — POR QUÉ NINGUNO PASA DE 1,20. Los vídeos se normalizaron a 1296 px
-   * de ancho, que es 1080 × 1,2: a 1,20 el plano todavía muestrea ≥1080 px del
-   * archivo y el navegador REDUCE. Pedir 1,4 obligaría a ampliar dos veces
-   * (576 → 1296 en ffmpeg, 1296 → 1512 en el navegador) sobre un origen que ya
-   * era el eslabón débil. Las fotos aguantan más (1600²) pero se les aplica el
-   * mismo techo para que el gesto de la pieza sea uno solo.
-   */
-  zoom: readonly [number, number];
-  /** % del alto que se SUBE el plano. Positivo enseña la parte de abajo. */
-  pan?: number;
-  entra?: Entrada;
-  grado?: Grado;
 }
 
 /* ── FUENTES ──────────────────────────────────────────────────────────────── */
@@ -126,6 +98,8 @@ const F_ENT3 = "choco-010/f-entrega3.jpg";
 const VEL_NINOS = 0.666;
 
 /* ── GRADOS ───────────────────────────────────────────────────────────────────
+ * Por TRAMO, medidos con `ffmpeg signalstats` y con objetivo ~118 de luma.
+ *
  * `v-lancha` es UN plano de 32 s que recorre 120 → 98 de luma (río a pleno día
  * → interior del camión). Graduarlo por archivo dejaría el interior gris o el
  * río quemado, así que se gradúa por TRAMO. La regla del 009 se conserva donde

@@ -19,6 +19,14 @@ import { config } from "@remotion/eslint-config-flat";
 export default [
   ...config,
   {
+    // LAS PUERTAS (`motor/metraje/revisar-metraje.mjs`) viven al lado del formato
+    // que miden, pero no entran en el bundle: corren con `node`. Nadie las importa
+    // desde un vídeo y `tsc` no mira `.mjs`; el linter sí, y sin esto no conoce
+    // `process` ni `console`.
+    files: ["src/**/*.mjs"],
+    languageOptions: { globals: { process: "readonly", console: "readonly" } },
+  },
+  {
     files: ["src/motor/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-imports": [
