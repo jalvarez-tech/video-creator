@@ -12,7 +12,7 @@
  *   1. Un paquete de iconos son megabytes que entran en el bundle de render.
  *   2. Los sets traen su propio grid y su propio grosor; mezclarlos con los
  *      trazos de `Trazo.tsx` (1.8-1.9 px sobre viewBox 24) se nota.
- *   3. Estos son nueve. Escribirlos cuesta menos que gestionar la dependencia.
+ *   3. Estos son doce. Escribirlos cuesta menos que gestionar la dependencia.
  *
  * Las dos convenciones que hay que respetar al añadir uno:
  *   · `viewBox="0 0 24 24"` y grosor 1.8-1.9 — si no, el nuevo glifo pesa
@@ -81,6 +81,37 @@ export const GLIFO = {
     <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
       <circle cx="12" cy="12" r="8.6" />
       <path d="M12 6.6v10.8M14.9 9.2c-.7-.8-1.8-1.1-2.9-1.1-1.6 0-2.9.8-2.9 2.1 0 3 5.8 1.6 5.8 4.5 0 1.4-1.3 2.2-2.9 2.2-1.2 0-2.3-.4-3-1.2" strokeLinecap="round" />
+    </svg>
+  ),
+
+  /*
+   * REDES SOCIALES — las tres del cierre «síguenos» (entraron con el 015).
+   * Son la silueta de cada logotipo pasada a la convención del banco (trazo
+   * 1.9, un color, `currentColor`), no el logotipo: sin el degradado de
+   * Instagram ni el desfase cian/rojo de TikTok. Es lo que se hace al citar una
+   * red en un cierre —señalar dónde está el canal— y es lo que deja que el
+   * icono tome la tinta del texto que tiene al lado.
+   */
+  /** Instagram: la cámara redondeada con su objetivo y el punto del flash. */
+  instagram: (
+    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
+      <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2" />
+      <circle cx="12" cy="12" r="4.1" />
+      <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  /** TikTok: la nota musical, cabeza abierta hacia el mástil y banderola. */
+  tiktok: (
+    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
+      <path d="M14 2.6v13.2a4.2 4.2 0 1 1-4.2-4.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14 2.6c.5 3 2.6 5 5.5 5.3" strokeLinecap="round" />
+    </svg>
+  ),
+  /** Facebook: la «f» cuyo mástil corta el círculo por abajo. */
+  facebook: (
+    <svg width="58%" height="58%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13.4 21V10.8c0-1.5.9-2.5 2.4-2.5h1.3M10.4 13.4h5.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
 } as const;

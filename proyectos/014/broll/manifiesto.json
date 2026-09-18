@@ -1,0 +1,283 @@
+{
+  "proyecto": "014",
+  "banco": "pexels",
+  "assets": {
+    "b01-grabar": {
+      "huella": "afe3d9bbec174168ecb5e05084395fa58ad77ff8bf5be517c176013eb39954e1",
+      "banco": "pexels",
+      "id": 8357558,
+      "tipo": "video",
+      "consulta": "smartphone tripod recording close-up",
+      "consulta_original": "smartphone tripod recording close-up",
+      "para": "escenario",
+      "indice": 2,
+      "autor": "Ron Lach",
+      "autor_url": "https://www.pexels.com/@ron-lach",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/woman-recording-herself-8357558/",
+      "descarga_url": "https://videos.pexels.com/video-files/8357558/8357558-hd_1080_2048_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 34,
+      "sha256": "a1c29d43892f97221f0de8f33ea2826170d13ebfd699ea59228284530c607be7",
+      "dhash": "202438f0c4d979f8161e1fff640997ee",
+      "porque": "El móvil en su estabilizador con el botón rojo de grabar: ES «cuando grabas contenido». La persona sale diminuta dentro de la pantalla, sin rostro identificable; el sujeto es el acto de grabar, no alguien.",
+      "archivo": "proyectos/014/broll/pexels/raw/014-b01-grabar-smartphone-tripod-recording-close-up.mp4",
+      "servido": "broll/014/b01-grabar-smartphone-tripod-recording-close-up.mp4",
+      "descartados": [
+        {
+          "id": 7690506,
+          "motivo": "dura 4s < 5s"
+        },
+        {
+          "id": 7690290,
+          "motivo": "dura 3s < 5s"
+        },
+        {
+          "id": 30742629,
+          "motivo": "dura 4s < 5s"
+        },
+        {
+          "id": 15689208,
+          "motivo": "dura 3s < 5s"
+        },
+        {
+          "id": 28311224,
+          "motivo": "dura 3s < 5s"
+        }
+      ],
+      "color": {
+        "y": 165.66,
+        "u": 129.17,
+        "v": 124.81,
+        "sat": 4.1
+      },
+      "grado": {
+        "exposicion": 0.8,
+        "saturacion": 1.2
+      }
+    },
+    "b02-marketing": {
+      "huella": "3531880c35268deae75e2af2e6c1412b41d61aee5a602e65dc35390898d5aaeb",
+      "banco": "pexels",
+      "id": 6892924,
+      "tipo": "video",
+      "consulta": "content plan calendar close-up",
+      "consulta_original": "content plan calendar close-up",
+      "para": "escenario",
+      "indice": 6,
+      "autor": "cottonbro studio",
+      "autor_url": "https://www.pexels.com/@cottonbro",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/man-writing-on-his-planner-6892924/",
+      "descarga_url": "https://videos.pexels.com/video-files/6892924/6892924-hd_1080_2048_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 46,
+      "sha256": "280347d3ec9a57225a6c7ac2bba5b4d0776ec4961e9448c94489d1174c8d0b80",
+      "dhash": "07430343cf8d8c06a0c30f3f400e06b1",
+      "porque": "Manos rellenando un planificador de contenidos («CONTENT PLANNER»): «cuando creas marketing» como lo vive un creador, planificando publicaciones. Sin rostro. Sustituye al plano de gráficas, que el banco declaró 1080x2048 y llegó a 720x1366.",
+      "archivo": "proyectos/014/broll/pexels/raw/014-b02-marketing-content-plan-calendar-close-up.mp4",
+      "servido": "broll/014/b02-marketing-content-plan-calendar-close-up.mp4",
+      "descartados": [
+        {
+          "id": 19798269,
+          "motivo": "dura 4s < 5s"
+        },
+        {
+          "id": 7479663,
+          "motivo": "720x1280 < 1080x1920"
+        },
+        {
+          "id": 7467020,
+          "motivo": "1080x1620 < 1080x1920"
+        },
+        {
+          "id": 19798262,
+          "motivo": "dura 3s < 5s"
+        },
+        {
+          "id": 7480331,
+          "motivo": "1080x1620 < 1080x1920"
+        }
+      ],
+      "color": {
+        "y": 72.22,
+        "u": 124.46,
+        "v": 134.03,
+        "sat": 8.37
+      },
+      "grado": {
+        "exposicion": 1.192,
+        "calido": -0.036
+      }
+    },
+    "b03-imagenes": {
+      "huella": "724c3e4934553cf244201393fdc1bd2812a922c314470ba03cf00931a32724e1",
+      "banco": "pexels",
+      "id": 5075221,
+      "tipo": "video",
+      "consulta": "photo gallery smartphone scrolling close-up",
+      "consulta_original": "photo gallery smartphone scrolling close-up",
+      "para": "escenario",
+      "indice": 8,
+      "autor": "cottonbro studio",
+      "autor_url": "https://www.pexels.com/@cottonbro",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/a-woman-is-using-her-phone-to-take-a-picture-of-her-coffee-5075221/",
+      "descarga_url": "https://videos.pexels.com/video-files/5075221/5075221-uhd_1440_2732_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1440,
+      "alto": 2732,
+      "duracion": 79,
+      "sha256": "a0bfd78bbc3cb75898c8a5e570848c7f0f377884535818cc158afa6c4c2bc080",
+      "dhash": "60606169ca8e9f3b60000f6ffec7399d",
+      "porque": "Unas manos pasando una rejilla de fotos en el móvil: «imágenes de bancos gratuitos» sin enseñar ningún banco concreto. Sustituye al portátil con la web de Pexels, que tenía su logo legible en el navegador (R16: nada de marcas). Las 2-3 eran la app de Pexels y la 7 Instagram.",
+      "archivo": "proyectos/014/broll/pexels/raw/014-b03-imagenes-photo-gallery-smartphone-scrolling-close.mp4",
+      "servido": "broll/014/b03-imagenes-photo-gallery-smartphone-scrolling-close.mp4",
+      "descartados": [
+        {
+          "id": 2286053,
+          "motivo": "1080x1620 < 1080x1920"
+        }
+      ],
+      "color": {
+        "y": 96.23,
+        "u": 132.75,
+        "v": 128.28,
+        "sat": 10.93
+      },
+      "grado": {
+        "exposicion": 0.895,
+        "saturacion": 0.85
+      }
+    },
+    "b05-editar": {
+      "huella": "ddaa98723e603d12517434ab2441e4f22a1a8f090a8821f1ea579ddea9097f03",
+      "banco": "pexels",
+      "id": 8100345,
+      "tipo": "video",
+      "consulta": "video editing software screen close-up",
+      "consulta_original": "video editing software screen close-up",
+      "para": "escenario",
+      "indice": 7,
+      "autor": "Ron Lach",
+      "autor_url": "https://www.pexels.com/@ron-lach",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/female-editor-posing-on-camera-8100345/",
+      "descarga_url": "https://videos.pexels.com/video-files/8100345/8100345-hd_1080_2048_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 19,
+      "sha256": "50eff30a15ca622d95a8de9664750c2c6d0026a95cb68248393d2ba5a8accd2e",
+      "dhash": "030c3c3cdddf9f7c008eff6100ffffbc",
+      "porque": "De espaldas frente a un editor de vídeo con la línea de tiempo y el etalonaje: «a editar». La pantalla cae en la mitad ALTA del cuadro, encima de la banda de texto; el plano de la chica del gorro naranja la tenía en la baja y quedaba tapada. La 6 es la misma escena con rostro.",
+      "archivo": "proyectos/014/broll/pexels/raw/014-b05-editar-video-editing-software-screen-close-up.mp4",
+      "servido": "broll/014/b05-editar-video-editing-software-screen-close-up.mp4",
+      "descartados": [],
+      "color": {
+        "y": 79.68,
+        "u": 122.84,
+        "v": 123.52,
+        "sat": 12.37
+      },
+      "grado": {
+        "exposicion": 1.081,
+        "saturacion": 0.85
+      }
+    },
+    "b06-voz": {
+      "huella": "85911f0fe3955950e8187d173bb800b6d953011767103036ab05508c7f56ad85",
+      "banco": "pexels",
+      "id": 6892917,
+      "tipo": "video",
+      "consulta": "video editing timeline close-up",
+      "consulta_original": "video editing timeline close-up",
+      "para": "escenario",
+      "indice": 4,
+      "autor": "cottonbro studio",
+      "autor_url": "https://www.pexels.com/@cottonbro",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/man-doing-audio-recording-6892917/",
+      "descarga_url": "https://videos.pexels.com/video-files/6892917/6892917-hd_1080_2048_25fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 25,
+      "sha256": "c2d0e93b87ab25abe726f363bdcd55dee724a3dc5bd3407c82446545b50e91c1",
+      "dhash": "02105018305bf0ca00084fdfffff0200",
+      "porque": "De espaldas, con cascos, frente a las ondas de una pista de voz y con el micrófono en la mano: «mirar si la voz quedó bien». Sin rostro. La 3 enseñaba media cara y la 5-6 eran mesas de mezclas, que dicen «música», no «voz».",
+      "archivo": "proyectos/014/broll/pexels/raw/014-b06-voz-video-editing-timeline-close-up.mp4",
+      "servido": "broll/014/b06-voz-video-editing-timeline-close-up.mp4",
+      "descartados": [
+        {
+          "id": 12330931,
+          "motivo": "dura 3s < 5s"
+        }
+      ],
+      "color": {
+        "y": 59.27,
+        "u": 123.69,
+        "v": 132.55,
+        "sat": 8.42
+      },
+      "grado": {
+        "exposicion": 1.25,
+        "calido": -0.033
+      }
+    },
+    "b07-vida": {
+      "huella": "c7512ce39fad59b967e6e91ea1eaff82bc84fd9442db0e6052ebdd2f0851b777",
+      "banco": "pexels",
+      "id": 5667123,
+      "tipo": "video",
+      "consulta": "holding hands sunset close-up",
+      "consulta_original": "holding hands sunset close-up",
+      "para": "escenario",
+      "indice": 2,
+      "autor": "ROMAN ODINTSOV",
+      "autor_url": "https://www.pexels.com/@roman-odintsov",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/video/silhouette-of-a-couple-standing-outdoors-while-holding-each-other-s-hands-5667123/",
+      "descarga_url": "https://videos.pexels.com/video-files/5667123/5667123-hd_1080_2048_30fps.mp4",
+      "descripcion": "",
+      "ancho": 1080,
+      "alto": 2048,
+      "duracion": 17,
+      "sha256": "abc41cbc778f2f205ff2fbc104868c38721e8531b50fa40a91e92d97504357aa",
+      "dhash": "3f7fbb8e8e9686160000c2f79dbdf0ff",
+      "porque": "Una pareja en silueta, de la mano, contra el atardecer: «lo más importante de la vida» sin un rostro. Llena el cuadro de arriba abajo, así que el texto del remate cae sobre sus piernas y no sobre ellos; en el plano de la familia en la playa las figuras quedaban justo detrás del titular. La 5 era nieve (otro clima) y la 7 enseñaba caras.",
+      "archivo": "proyectos/014/broll/pexels/raw/014-b07-vida-holding-hands-sunset-close-up.mp4",
+      "servido": "broll/014/b07-vida-holding-hands-sunset-close-up.mp4",
+      "descartados": [
+        {
+          "id": 7646282,
+          "motivo": "dura 4s < 5s"
+        },
+        {
+          "id": 4054571,
+          "motivo": "720x1280 < 1080x1920"
+        }
+      ],
+      "color": {
+        "y": 92.54,
+        "u": 129.32,
+        "v": 126.12,
+        "sat": 6.4
+      },
+      "grado": {
+        "exposicion": 0.93,
+        "saturacion": 1.2
+      }
+    }
+  }
+}

@@ -44,8 +44,9 @@ export interface Grado {
  *
  *   corte     seco.
  *   disolver  funde sobre el anterior en `DISOLVER` frames: el plano entra ANTES
- *             de su `en` y el anterior se alarga una cola igual (`solapeDe`,
- *             `colaDe`), así que los dos clips tienen que tener ese metraje.
+ *             de su `en` (`solapeDe`), así que SU clip tiene que tener ese
+ *             metraje antes de `desde`. El anterior no se alarga: acaba en su
+ *             `en + dur`, que es el frame en que el entrante ya es opaco.
  *   negro     nace de negro en `DESDE_NEGRO` frames. Apertura de acto.
  *
  * Una pieza puede tener entradas PROPIAS (el 009: `whip` y `flash`): las nombra
@@ -196,16 +197,25 @@ export const DISOLVER = 12;
 /** Frames en que un plano nace de negro (`entra: "negro"`): 0,6 s. */
 export const DESDE_NEGRO = 18;
 
-/** Frames que un plano entra ANTES de su `en` para disolver sobre el anterior. */
-export const solapeDe = (corte: Corte<string>): number => (corte.entra === "disolver" ? DISOLVER : 0);
-
 /**
- * Frames que un plano sigue DESPUÉS de `en + dur` para que el SIGUIENTE pueda
- * disolver encima. Sin esta cola la disolvencia caería sobre negro, que es un
- * fundido a negro con otro nombre y no lo que se pidió.
+ * Frames que un plano entra ANTES de su `en` para disolver sobre el anterior.
+ *
+ * Es la ÚNICA ventana de la disolvencia, y la pone el que ENTRA. Hasta el 015
+ * el saliente llevaba además una «cola» de otros `DISOLVER` frames después de
+ * su `en + dur`, «para que la disolvencia no cayera sobre negro». No hacía
+ * falta: el entrante se monta DESPUÉS en el DOM (encima), empieza `solape`
+ * frames antes de su `en` y en su `en` ya es opaco, fondo negro incluido; el
+ * saliente sigue visible debajo hasta ese mismo frame sin alargar nada. La cola
+ * solo pintaba 12 frames que el plano opaco de encima tapaba enteros.
+ *
+ * Tapados, pero no gratis: la puerta los contaba como metraje que el clip tenía
+ * que tener. En el 015 (una presentadora grabada en nueve tomas, con la voz
+ * recortada al segundo) eso exigía 0,4 s de clip DESPUÉS de cada corte que
+ * nadie iba a ver, y seis de las ocho transiciones no los tenían. Quitarla no
+ * mueve un píxel de lo publicado —comprobado renderizando los f163-172 del 011
+ * (la cola de `c01` bajo `c02`) antes y después: idénticos byte a byte—.
  */
-export const colaDe = (cortes: readonly Corte<string>[], i: number): number =>
-  cortes[i + 1]?.entra === "disolver" ? DISOLVER : 0;
+export const solapeDe = (corte: Corte<string>): number => (corte.entra === "disolver" ? DISOLVER : 0);
 
 /**
  * El frame de la FUENTE en el que arranca el plano —lo que recibe `trimBefore`—

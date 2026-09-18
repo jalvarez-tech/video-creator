@@ -116,3 +116,8 @@ proyectos/010/musica/*.wav
 # metraje ni el audio.
 remotion/public/boda-011/
 proyectos/011/musica/*.wav
+
+# 015 · las nueve tomas de la presentadora, normalizadas (vídeo mudo + voz en
+# WAV): material de una persona, no del repo. En git van la receta con el sha256
+# de cada original (`bash proyectos/015/normalizar.sh`) y el plan.
+remotion/public/apex-015/

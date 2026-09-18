@@ -624,7 +624,18 @@ export type ModoParticulas = "estallido" | "ambiente" | "lluvia";
  * donde las ventanas 198-313 / 433-495 / … estaban escritas dos veces.
  */
 export interface Ambiente<C extends string> {
-  scrim?: false | { alto?: number; desde?: "abajo" | "arriba"; opacidad?: number };
+  /**
+   * `rampa` = en cuántos frames el velo llega a su opacidad final. Por defecto
+   * 3, que es lo que el intérprete lleva haciendo desde siempre: entrar de
+   * golpe se ve como un parpadeo negro.
+   *
+   * Se pone a 0 cuando la toma pide estar PUESTA en su primer frame
+   * (`entra: { como: "ninguna" }`, R23). Sin esto, esa petición sólo la obedece
+   * el TEXTO: el velo sigue su rampa y el frame 0 sale con el titular sobre el
+   * vídeo a pelo. Medido en el 013 — y el frame 0 es la miniatura del reel.
+   * Ver R25.
+   */
+  scrim?: false | { alto?: number; desde?: "abajo" | "arriba"; opacidad?: number; rampa?: number };
   vineta?: boolean | { intensidad?: number };
   trama?: { tipo: "rejilla" | "puntos"; paso?: number; opacidad?: number; tinta?: C };
   foco?: {

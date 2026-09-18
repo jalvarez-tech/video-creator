@@ -30,6 +30,11 @@ import { DURACION_009 } from "./proyectos/009/metraje-009";
 import { Documental010 } from "./proyectos/010/Documental010";
 import { DURACION_010 } from "./proyectos/010/metraje-010";
 import { Boda011 } from "./proyectos/011/Boda011";
+import { Avatar012 } from "./proyectos/012/Avatar012";
+import { Cobertura013 } from "./proyectos/013/Cobertura013";
+import { Avatar014 } from "./proyectos/014/Avatar014";
+import { Apex015 } from "./proyectos/015/Apex015";
+import { DURACION_015 } from "./proyectos/015/metraje-015";
 import { DURACION_011 } from "./proyectos/011/metraje-011";
 import { noticia005 } from "./proyectos/005/noticia-005";
 import { duracionPlan } from "./motor/noticias";
@@ -437,6 +442,96 @@ export const RemotionRoot: React.FC = () => {
         id="Boda011"
         component={Boda011}
         durationInFrames={DURACION_011}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      {/* ── PROYECTO 012 · CONVOCATORIA APEX ── (src/proyectos/012/)
+          «Las grandes oportunidades necesitan las conexiones correctas»: el
+          cliente convoca a su red antes de APEX (Cartagena, 17 y 18 de
+          septiembre de 2026), pidiendo que quien tenga un lote o una
+          oportunidad le escriba.
+
+          SIN SUBTÍTULOS por petición del cliente, y eso MUEVE TODO EL TEXTO a
+          la banda inferior (moldes `sello`/`cta`, R14): con la pista fuera, ese
+          carril queda libre y es donde el ojo espera leer en un vertical. Los
+          `subtitulos-012.ts` siguen en el proyecto, desconectados, por si se
+          quieren subir como captions a la plataforma.
+
+          SIN MARCA, y es una decisión del cliente declarada en la cabecera de
+          `Avatar012.tsx`: el mensaje es personal, no de canal. El look lo pone
+          el evento (`look-012.ts`), que NO vive en `src/marcas/` justamente
+          porque no es un canal.
+
+          Clip real de iPhone con las dos trampas que no se ven en un frame:
+          `rotation=-90` en la matriz (R19) y HDR **HLG** (R21, medido: YAVG 143
+          sin tone-map contra 122 con él). Se repone con
+          `bash proyectos/012/normalizar.sh`. Clip: avatar-012.mp4 · 1296×2304 ·
+          30 fps · 835 f — el fps ORIGINAL manda (R01).
+          Artefactos: proyectos/012/artefactos/0{1,2,3}-*.md */}
+      {/* 013 · cobertura de Propiedades Luxur desde el APEX. Mismo evento que el
+          012 y la pieza contraria: aquélla convocaba sin marca, ésta informa
+          firmando. `calculateMetadata` lee el clip para que la duración no
+          pueda desincronizarse del archivo (383 f medidos). */}
+      <Composition
+        id="Cobertura013"
+        component={Cobertura013}
+        durationInFrames={383}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("clip-013.mp4", 30, 383),
+        })}
+      />
+      <Composition
+        id="Avatar012"
+        component={Avatar012}
+        durationInFrames={835}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar-012.mp4", 30, 835),
+        })}
+      />
+      {/* ── PROYECTO 014 · AGENTE DE IA ── (src/proyectos/014/)
+          «Publica en minutos»: el cliente a cámara presentando su agente de IA
+          para creadores (subes el vídeo → subtítulos, imágenes de banco y
+          publicación en minutos). Encargo literal: textos + un SFX por cada
+          entrada de texto. Sin marca (mensaje personal, declarado), sin
+          subtítulos (todo el texto en la banda inferior, R14) y sin cámara
+          virtual (selfie de mano). Clip de iPhone en HLG con rotación en la
+          matriz (R19 + R21): `bash proyectos/014/normalizar.sh` lo repone a
+          1080×1920 nativos · 30 fps · 1471 f, y `calculateMetadata` lee el
+          archivo para que la duración no pueda desincronizarse de él.
+          Artefactos: proyectos/014/artefactos/0{1,2,3}-*.md */}
+      <Composition
+        id="Avatar014"
+        component={Avatar014}
+        durationInFrames={1471}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={async () => ({
+          durationInFrames: await framesDelMedio("avatar-014.mp4", 30, 1471),
+        })}
+      />
+      {/* ── PROYECTO 015 · LO QUE APRENDÍ EN APEX ── (src/proyectos/015/)
+          Isabella Cadavid (la presentadora del 013) cuenta lo que se lleva del
+          primer día de APEX en nueve tomas de iPhone, una frase por toma. Es un
+          MONTAJE (director §3i): silencios recortados a 0,5 s entre frases,
+          disolvencia de opacidad entre toma y toma, la voz en su propia capa
+          con una ganancia por toma, textos en la banda inferior con un SFX por
+          entrada y la cuenta @propiedadesluxur al final. Con marca Luxur y el
+          verde de APEX. La duración sale del plan (`DURACION_015`); el material
+          se repone con `bash proyectos/015/normalizar.sh` y se comprueba con
+          `node proyectos/015/revisar-015.mjs`.
+          Artefactos: proyectos/015/artefactos/0{1,2,3}-*.md */}
+      <Composition
+        id="Apex015"
+        component={Apex015}
+        durationInFrames={DURACION_015}
         fps={30}
         width={1080}
         height={1920}

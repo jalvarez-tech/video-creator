@@ -38,7 +38,6 @@ import {
 import type { Marca } from "../marca";
 import {
   arranqueEnFuente,
-  colaDe,
   DESDE_NEGRO,
   lookDeMarca,
   solapeDe,
@@ -212,11 +211,12 @@ export const PistaMetraje = <E extends string = EntradaDelFormato>(props: PropsP
     (props as { entradas?: Readonly<Record<string, EntradaPropia>> }).entradas ?? {};
   return (
     <>
-      {cortes.map((c, i) => {
+      {cortes.map((c) => {
+        // El plano vive de `en − solape` a `en + dur`: nada después. Si el
+        // siguiente disuelve, lo hace ENCIMA de estos frames (ver `solapeDe`).
         const solape = solapeDe(c);
-        const cola = colaDe(cortes, i);
         return (
-          <Sequence key={c.id} from={c.en - solape} durationInFrames={c.dur + solape + cola} name={c.id}>
+          <Sequence key={c.id} from={c.en - solape} durationInFrames={c.dur + solape} name={c.id}>
             <Plano corte={c} look={look} velos={velos} solape={solape} propia={c.entra ? entradas[c.entra] : undefined} />
           </Sequence>
         );

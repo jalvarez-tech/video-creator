@@ -268,6 +268,7 @@ const cues = [
 - **Loops/ambientes:** `type: "texture"` + duración larga + `fadeInFrames`/`fadeOutFrames` + `loopable`. **Colas largas:** marca `hasLongTail` (planifica que invadan la escena siguiente).
 - **Anti-repetición (§12):** las familias con pool (`pop`, `glitch`, `light`, `swoosh`, `metal`, `mouse`, `sparkle`, `chime`) alternan con `variantIndex` — p. ej. `cue(..., { variantIndex: 1 })`. `resolveSound(variant, i)` elige el archivo+volumen de `POOL[variant]`.
 - **Cambiar un sonido / añadir variantes:** copia otro archivo del banco a `public/sfx/` con el nombre estándar (o amplía un pool con sufijo `pop-04`…), edita `copiar-sfx.sh` y reejecútalo; el script **mide el pico y sugiere el `vol`** para copiarlo al mapa.
+- **⚠️ El golpe del archivo se MIDE antes de escribir el cue ([R26](../edicion-video/reglas.md)):** `python3 manuales/diseno-sonoro/medir-sfx.py <archivo>` da el frame del golpe, la ventana audible y su RMS. Varios archivos del set tienen el golpe hasta **1 s dentro** (`pop.mp3` f17, `chime-02.mp3` f25, `click-mouse-02/03.mp3` f31, `whoosh-light-02.wav` f34), y `startFromTarget` + la `<Sequence>` recortada reproducen su silencio inicial: escribe `startFrame = target − pico` y `durationInFrames ≥ fin audible + cola` (patrón: `cues-014.ts`, tabla `PICO` + builder `sfx()`). Y el `vol` de tabla iguala picos de MUESTRA, no lo que se oye: bajo una voz continua, el nivel se pone por RMS medido y se verifica rindiendo la pista de SFX sola a WAV.
 
 ---
 

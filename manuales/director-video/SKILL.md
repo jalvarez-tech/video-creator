@@ -2,25 +2,24 @@
 name: director-video
 description: >-
   Director/orquestador del sistema "video-creator": la PUERTA DE ENTRADA. Con una
-  instrucción simple ("monta el vídeo del avatar con este guion", "arma la
-  composición", "haz el vídeo con todos los recursos"), coordina TODAS las capas y
-  motores del proyecto —motor Remotion + pipeline (edicion-video), cámara virtual
-  del avatar (camara-avatar), motion graphics (motion-graphics), sonido/SFX
-  (diseno-sonoro), b-roll IA (Grok Imagine por la API de xAI), b-roll de archivo
-  (Pexels, con manifiesto de licencias), avatar (heygen)—
-  en una sola composición coherente. Decide el
-  orden de trabajo, reparte el espacio y la atención entre
-  capas (quién manda cuándo), fija el fps único y el z-order, y valida con frames
+  instrucción simple ("monta el vídeo del avatar con este guion", "monta estos
+  clips", "haz el vídeo con todos los recursos"), coordina TODAS las capas y
+  motores —motor Remotion + pipeline (edicion-video), cámara del avatar
+  (camara-avatar), motion graphics (motion-graphics), sonido (diseno-sonoro),
+  b-roll IA (Grok, API de xAI), b-roll de archivo (Pexels), avatar (heygen) y el
+  formato MONTAJE para piezas sin avatar hechas de clips y fotos (motor/metraje:
+  PistaMetraje y su puerta)— en una sola composición coherente. Decide el orden
+  de trabajo, quién manda cuándo, el fps único y el z-order, y valida con frames
   antes de exportar. Abre SIEMPRE los artefactos del proyecto
   (proyectos/NNN/artefactos/: 01-plan, 02-layout, 03-timeline) antes de escribir
-  código, y usa la biblioteca de gráficos ya existente (motor/graficos/ +
-  su catálogo) en vez de reinventar cada gráfico. Úsalo SIEMPRE que se pida
-  montar/ensamblar/producir un vídeo completo, empezar un vídeo o proyecto nuevo,
-  o "usar todo lo del proyecto"; delega el detalle de cada capa en su skill.
-  Triggers: "monta el vídeo", "arma la composición", "haz el vídeo completo",
-  "produce el vídeo", "usa todos los recursos", "compón el vídeo del avatar",
-  "vídeo con cámara + gráficos + sonido", "ensambla la escena", "empezar un
-  vídeo", "vídeo nuevo", "nuevo proyecto de vídeo", "proyecto 004".
+  código, y usa lo que ya existe (motor/graficos/ y su catálogo, motor/metraje/)
+  en vez de reinventarlo. Úsalo SIEMPRE que se pida montar/producir un vídeo
+  completo, empezar un vídeo o proyecto nuevo, o "usar todo lo del proyecto";
+  delega el detalle de cada capa en su skill. Triggers: "monta el vídeo", "arma
+  la composición", "haz el vídeo completo", "usa todos los recursos", "compón el
+  vídeo del avatar", "ensambla la escena", "vídeo nuevo", "nuevo proyecto de
+  vídeo", "monta estos clips", "reel con este material", "vídeo de la boda",
+  "mini documental", "montaje con música", "vídeo sin avatar", "proyecto 012".
 user-invocable: true
 metadata:
   type: reference
@@ -46,7 +45,7 @@ Root: **`/Users/nicecode/Work/jalvarez/video-creator`**. Este skill es la **capa
 | **B-roll de archivo** (lugares, objetos y gestos REALES) | **Pexels**, banco gratuito de uso comercial (ver §3h) | `scripts/bancos.py` · manifiesto en `proyectos/NNN/broll/manifiesto.json` |
 | **Avatar** talking-head (fuente) | [heygen](../edicion-video/heygen.md) | `scripts/heygen.py` |
 | **Noticias** (formato completo, sin avatar) | [video-noticias](../video-noticias/SKILL.md) · [recetario](../video-noticias/recetario-tomas.md) | `noticias/` (theme + `TomaNoticia` + `PistaNoticia`) · `noticia-NNN.ts` |
-| **Montaje** (pieza sin avatar hecha de clips y fotos: reel, documental, evento) | este skill · [reglas R19-R21](../edicion-video/reglas.md) (normalizar, puerta, HDR) | `motor/metraje/` (`Corte` + `PistaMetraje`) · `metraje-NNN.ts` · puerta `revisar-metraje.mjs` desde `proyectos/NNN/revisar-NNN.mjs` |
+| **Montaje** (pieza sin avatar hecha de clips y fotos: reel, documental, evento) | este skill, **§3i** · [reglas R19-R21](../edicion-video/reglas.md) (normalizar, puerta, HDR) | `motor/metraje/` (`Corte` + `PistaMetraje`) · `metraje-NNN.ts` · puerta `revisar-metraje.mjs` desde `proyectos/NNN/revisar-NNN.mjs` |
 | Subtítulos sincronizados | edicion-video | `SubtitulosSync.tsx` · `subtitulos-NNN.ts` |
 | **Segundo motor** (HTML+GSAP, render local) | [motor-hyperframes](../motor-hyperframes/SKILL.md) · [contrato](../motor-hyperframes/contrato-hf.md) · [equivalencias](../motor-hyperframes/equivalencias.md) | `npx hyperframes` · `proyectos/NNN/hf/` · `nuevo-hf.mjs` · `revisar-hf.mjs` |
 
@@ -104,7 +103,13 @@ Sigue [proceso-edicion.md](../edicion-video/proceso-edicion.md) (Fase 3, 7 pasos
 4. **Plan de CÁMARA** (si hay avatar) → `camara-NNN.ts` con [camara-avatar](../camara-avatar/SKILL.md). Movimientos motivados, en frames absolutos al fps de la comp.
 5. **Plan de MOTION GRAPHICS** → `graficos-NNN.ts` (un **`Plan`** del núcleo: `motor/plan/nucleo.ts`, dialecto en `motor/graficos/coreografia.ts`) con la biblioteca de [motion-graphics](../motion-graphics/SKILL.md); lo único de la pieza, a mano. Franja superior ([R08](../edicion-video/reglas.md)) o toma a pantalla completa. **1 hero a la vez** — `revisaPlan(plan)` lo comprueba (un solo argumento). Plantilla real de la que copiar: `motor/demos/graficos-demo.ts`.
 6. **Plan de SONIDO** → `cues-NNN.ts` con [diseno-sonoro](../diseno-sonoro/SKILL.md). La voz manda; SFX debajo + ducking.
-7. **Ensamblar** la comp (z-order §3) y **validar**: frames reales ([R05](../edicion-video/reglas.md)) → prueba 720p ([R06](../edicion-video/reglas.md)) → final.
+7. **Ensamblar** la comp (z-order §3) y **validar**: frames reales ([R05](../edicion-video/reglas.md)) → prueba 720p ([R06](../edicion-video/reglas.md)) → final en BT.709 ([R22](../edicion-video/reglas.md)).
+
+> **Si la pieza es de MONTAJE (sin avatar: clips y fotos), cambian cuatro pasos.**
+> **1** · la comp va a 30 fps y su duración sale del plan, de la voz o de la música, no de un clip;
+> **2** · guion y subtítulos solo si hay voz: si no, la retícula la ponen la música o el propio montaje;
+> **3·bis** · el material se mide y se **normaliza** antes de contar un solo frame ([R19](../edicion-video/reglas.md), [R21](../edicion-video/reglas.md));
+> **4** · en vez de `camara-NNN.ts`, el plan de montaje `metraje-NNN.ts` y su puerta `revisar-NNN.mjs`, que sale con 0 antes del primer render. Todo en **§3i**.
 
 ---
 
@@ -112,7 +117,7 @@ Sigue [proceso-edicion.md](../edicion-video/proceso-edicion.md) (Fase 3, 7 pasos
 
 Esto es lo que **solo el director** posee — la coordinación transversal que ninguna capa ve por sí sola:
 
-**a) Un fps único por comp.** Avatar 9:16 = **25 fps** · plantillas 16:9/9:16/1:1 y avatar 16:9 = **30 fps**. **Todo** (cámara, MG, sonido) se calcula en **frames absolutos** a ESE fps con `seg(fps, s)`. Nunca mezcles fps entre capas.
+**a) Un fps único por comp.** Avatar 9:16 = **25 fps** · plantillas 16:9/9:16/1:1 y avatar 16:9 = **30 fps** · montaje sin avatar = **30 fps**, aunque los clips lleguen a otro (su `desde` va en segundos, §3i). **Todo** (cámara, MG, sonido) se calcula en **frames absolutos** a ESE fps con `seg(fps, s)`. Nunca mezcles fps entre capas.
 
 **b) Z-order (capas, de atrás a delante).** El orden NO es negociable. *(Esto es el ensamblado del motor **Remotion**. En el segundo motor el equivalente vive en [contrato-hf.md §3](../motor-hyperframes/contrato-hf.md) — allí el orden de pintado es `z-index` de CSS y `data-track-index` NO es la z.)*
 ```tsx
@@ -199,6 +204,35 @@ Cuatro límites que **solo el director** vigila, porque cruzan capas:
 
 **Cómo conseguir 9:16.** La doc de xAI **no documenta** un parámetro de aspect ratio para vídeo. Dos vías, en este orden: (1) **imagen → vídeo** — genera primero un still vertical (`grok.py imagen`), súbelo a una URL pública y pásalo con `--imagen`; el encuadre de partida manda, y es la vía que no depende de campos sin documentar. (2) Probar `--extra '{"aspect_ratio":"9:16"}'`, que inyecta el campo tal cual por si la API lo acepta aunque no esté escrito. Si ninguna funciona, genera en el ratio que dé y **recorta en Remotion** — asumiendo que recortar cuesta resolución, que es justo lo que vigila el punto 1.
 
+**i) Montaje — cuando no hay avatar, el movimiento ES el montaje.** Reels de b-roll (009), mini documentales con voz (010), eventos con música (011). No hay clip protagonista que fije el fps ni cara a la que seguir: el vídeo es una lista de planos, y esa lista es la capa declarativa `metraje-NNN.ts` (`Corte[]`) → `<PistaMetraje>` del formato [`motor/metraje/`](../../remotion/src/motor/metraje/index.ts). Se copia de un proyecto que ya existe, no se escribe de cero.
+
+```tsx
+import { PistaMetraje, type Velos } from "../../motor/metraje";
+
+<AbsoluteFill style={{ backgroundColor: "#000" }}>
+  <PistaMetraje cortes={metrajeNNN} marca={CANAL} velos={VELOS_NNN} />  {/* 1 · los planos y el velo del texto */}
+  <PistaGraficos plan={graficosNNN} montadores={MONTADORES_BASE} />       {/* 2 · overlay FIJO */}
+  <SubtitulosSync segmentos={subtitulosNNN} yPct={70} />                   {/* 3 · solo si hay voz */}
+  <PistaSonido cues={cuesNNN} duckDb={0} />                                {/* 4 · 0 solo si no hay voz contra la que duckear */}
+</AbsoluteFill>
+```
+
+Lo que decide el director en una pieza así:
+
+1. **Quién marca el tiempo.** La voz, si la hay (010: los beats salen de la transcripción por palabra). Si la voz viene DENTRO de las tomas —una persona a cámara grabada frase a frase (015)—, cada corte va de su primera a su última palabra, medidas por energía y no con whisper, con un hueco fijo entre frases, el fundido dentro de ese hueco y la voz en su propia capa ([R29](../edicion-video/reglas.md)). Si no, los golpes MEDIDOS de la música (011: `musica/golpes-NNN.json`, cada corte a ≤2 f de un golpe). Si tampoco, los propios cortes (009: cada cartel entra y muere con su plano). Con varias canciones, la frontera de la imagen y la de la música son dos decisiones distintas, y el cambio de canción entre actos pide un fundido AUDIBLE de 2-3 s con el rótulo del acto en el golpe.
+2. **El material se mide y se normaliza antes de montar.** `ffprobe` con rotación ([R19](../edicion-video/reglas.md)) y con transferencia ([R21](../edicion-video/reglas.md): el iPhone graba en HDR), y una receta `proyectos/NNN/normalizar.sh` que quema la rotación, deja un solo fps, quita el audio y escala a 1296 px (1080 × 1,2: el techo del punch-in). El metraje del cliente no va a git: va la receta, y el manifiesto con los sha256 si lo hay. Mide también la nitidez: en el 010 las fotos eran más nítidas que los vídeos, y por eso sostenían los momentos quietos.
+3. **El plan son datos.** `desde` en SEGUNDOS de la fuente (describe el material, no el fps de la comp), `en`/`dur` en frames, `zoom` y `pan`, `grado` medido con `signalstats` (primero se iguala el clip, después el look), `entra`, `velocidad`, `salidaNegro` y `reason` obligatorio. Cada pieza cierra `Corte<E>` a las entradas que su encargo permite: en el 010 un flash no compila.
+4. **Look, velos y entradas van en la composición.** El look sale de `marca`, o se pasa entero con `look` si la pieza no es de un canal (una boda: sin sello, y es una decisión, no un olvido). Los velos solo existen si hay texto encima y se miden en px de la caja de ese texto (009: arriba; 010: arriba y abajo; 011: ninguno). Las entradas que solo usa una pieza (el whip y el flash del 009) viven en su proyecto y llegan por `entradas`: al motor sube lo que ya ha servido a más de un vídeo.
+5. **La puerta, antes que el render.** `proyectos/NNN/revisar-NNN.mjs` se construye sobre `abrePuerta()` de `motor/metraje/revisar-metraje.mjs` —línea de tiempo, metraje, tramos, encuadre y archivos— y añade lo del encargo (subtítulos contra la voz, golpes, anclajes). Tiene que salir con 0. Para arrancar una pieza nueva basta `node remotion/src/motor/metraje/revisar-metraje.mjs <metraje-NNN.ts>`. Las excepciones declaradas son solo para lo ya publicado, y una que sobra tumba la puerta.
+
+Tres fallos que la revisión por frames NO ve. Los dos primeros llegaron a publicarse; el tercero lo paró la puerta del 010:
+
+- **La franja negra del encuadre.** El plano cubre el cuadro mientras `|pan| ≤ 50·(zoom mínimo − 1)`, y un desplazamiento lateral pide `zoom ≥ 1 + 2·desplazamiento/ancho`. El 009 salió con dos franjas de unos frames (`c04` y `c08`).
+- **La disolvencia sin metraje previo.** Un plano que disuelve pide `DISOLVER × velocidad` frames de clip ANTES de su `desde`; si el clip no los tiene, el plano entero sale desplazado. El 010 repite unos 9 frames al cortar de `c10` a `c11`.
+- **La velocidad a oído.** Se despeja (material útil ÷ hueco que cubrir) y es UNA por beat ([R20](../edicion-video/reglas.md)): cuando falta clip, Remotion no falla, congela el último fotograma.
+
+Y dos que sí se ven, pero tarde. **El frame 0 es la miniatura**: el primer plano no nace de negro y el título ya está puesto (011). **El ritmo se juzga con una hoja de contactos del render** (`ffmpeg -i final.mp4 -vf "fps=1/2.5,scale=196:-1,tile=6x5" hoja.png`), no con stills sueltos: es lo que dice cuál es el plano más flojo de treinta (010). Sin voz, además, no hay ducking, y los niveles del motor dejan la pieza muda: se levantan con un factor declarado ([diseno-sonoro](../diseno-sonoro/SKILL.md), 009).
+
 ---
 
 ## 4. Un estilo, tres capas (coherencia)
@@ -225,6 +259,7 @@ Con **una instrucción simple**, el director **infiere** del proyecto y **declar
 - **Necesita:** el clip del avatar (o el guion) y el destino. Si falta el guion, lo pide.
 - **Infiere:** fps/resolución/duración (`ffprobe`), formato por defecto del perfil (16:9 tutoriales · 9:16 talking-head · 1:1 repurpose), estilo por defecto (limpio/educativo) y duración de la comp = `frames del clip`.
 - **Confirma en 1 línea** antes de producir: `formato · comp · fps · duración · estilo`. Si el usuario no corrige, procede.
+- **Pieza de montaje (sin avatar):** necesita la carpeta del material y lo que marca el tiempo (la voz, la música o nada), más lo que el encargo pida con palabras («todos los archivos», «2 minutos», «la música cambia en el 1:18»). Esas frases van a la puerta como comprobaciones, porque son lo primero que se rompe sin avisar al tocar el plan (§3i).
 
 ---
 
@@ -236,12 +271,14 @@ Con **una instrucción simple**, el director **infiere** del proyecto y **declar
 <PistaNoticia tomas={noticia00N} marca={LUXUR} />       // DSL de tomas (004, 005)
 capa(dialectoEditorialDe(LUXUR), "noticia")             // plan nativo (006, 007)
 fondos={fondosNoticiaDe(LUXUR)}                         // <PistaGraficos> a pelo
+<PistaMetraje cortes={metraje00N} marca={CANAL} />      // montaje con canal: el look del metraje (009, 010)
+<PistaMetraje cortes={metraje00N} look={LOOK_00N} />    // montaje SIN canal: una boda (011)
 ```
 
 **Qué tiene que hacer el director:**
 
 1. **Preguntar para qué canal es** si el proyecto no lo dice. Hoy el configurado es Propiedades Luxur (`src/marcas/luxur.ts`), pero no des por hecho que todo vídeo es suyo.
-2. **Pasar la marca en TODAS las capas de la composición.** Son cuatro sitios y se olvidan de uno en uno: el plan, los fondos, el scrim y el sello.
+2. **Pasar la marca en TODAS las capas de la composición.** Son cuatro sitios y se olvidan de uno en uno: el plan, los fondos, el scrim y el sello. En una pieza de montaje hay un quinto, `<PistaMetraje marca>`: el tipo obliga a pasar `marca` o `look`, pero no a que sea la del canal correcto, y con la de otro el render se ve igual de bien. Una pieza que no es de ningún canal pasa `look` en su lugar y no lleva sello, y eso se declara en la cabecera de la composición.
 3. Si el canal es nuevo, **escribir su fichero** en `src/marcas/`. El motor no se toca. Lo único que exige cuidado es la tipografía: una fuente sin tabla medida en `plan/avances.ts` apaga R09 en silencio (`generar-avances.mjs` la mide).
 
 ⚠️ **Cómo se ve que te lo has dejado:** `MARCA_BASE` —el suelo del motor— no es un canal y su `sello.texto` es `null`. Una composición sin marca sale **sin watermark**. Si ves un render sin la píldora de marca, falta el parámetro.
@@ -252,6 +289,8 @@ Antes de exportar, dos redes que no cuestan nada:
 node manuales/motion-graphics/scripts/revisar-marca.mjs    # los invariantes de marca
 node manuales/motion-graphics/scripts/revisar-sonda.mjs antes despues   # regresión de píxel
 ```
+
+⚠️ La regresión de píxel tiene ruido propio: dos tandas del MISMO código ya difieren en los frames con fotos o con blur (medido al subir `PistaMetraje` al motor: 4 de 138). Para afirmar que un refactor no mueve nada, compara cada frame contra VARIAS tandas del código anterior, no contra una.
 
 ---
 
@@ -266,8 +305,8 @@ node manuales/motion-graphics/scripts/revisar-sonda.mjs antes despues   # regres
 | 0–50 | hook | close 1.0→1.16 | — | soft-whoosh | "…" |
 | 200–330 | dato | *reposa* | stat full-screen | impact + count | — |
 
-3. **Genera los artefactos:** `proyectos/NNN/artefactos/01-plan.md` · `02-layout.md` · `03-timeline.md` → y de ahí `camara-NNN.ts` · `graficos-NNN.ts` · `cues-NNN.ts` · el JSX propio de la pieza · `subtitulos-NNN.ts` · la comp ensamblada (z-order §3).
-4. **Puertas de control:** muestra **frames** clave ([R05](../edicion-video/reglas.md)) → **prueba 720p** ([R06](../edicion-video/reglas.md)) → espera OK → **final**.
+3. **Genera los artefactos:** `proyectos/NNN/artefactos/01-plan.md` · `02-layout.md` · `03-timeline.md` → y de ahí `camara-NNN.ts` · `graficos-NNN.ts` · `cues-NNN.ts` · el JSX propio de la pieza · `subtitulos-NNN.ts` · la comp ensamblada (z-order §3). En una pieza de montaje, `camara-NNN.ts` se cambia por `metraje-NNN.ts`, y se añaden `proyectos/NNN/normalizar.sh` y `proyectos/NNN/revisar-NNN.mjs` (§3i). En el mapa de escenas, la columna de cámara pasa a ser el plano: clip, segundo de entrada y cómo entra.
+4. **Puertas de control:** en montaje, primero la puerta `revisar-NNN.mjs` con salida 0 → muestra **frames** clave ([R05](../edicion-video/reglas.md)) → **prueba 720p** ([R06](../edicion-video/reglas.md)) → espera OK → **final**.
 5. **Guarda lo que funcionó** en `proyectos/NNN/aprendizajes.md` y las reglas nuevas con la siguiente R libre de [reglas.md](../edicion-video/reglas.md) ([R07](../edicion-video/reglas.md)).
 
 ---
@@ -283,6 +322,7 @@ node manuales/motion-graphics/scripts/revisar-sonda.mjs antes despues   # regres
 7. ¿El código es **determinista** y validaste con **frames reales**?
 7b. ¿Los tres **artefactos** están escritos y coinciden con lo que se renderizó? ¿Miraste el **catálogo** antes de escribir un gráfico nuevo?
 7c. Si hay **b-roll**: ¿está **descargado** en `proyectos/NNN/broll/` (ninguna URL de la API en el código), **medido con `ffprobe`** y colocado de forma que su resolución real aguante el formato (§3h)? ¿Y cada plano de banco tiene **autor y licencia en el manifiesto**, con sus créditos listos para la descripción del vídeo (`bancos.py creditos --proyecto NNN`)? Eso último es lo único de esta lista que no se ve en ningún frame. En la ruta de noticias las cuatro comprobaciones las hace una puerta automática que sale con 1: `node manuales/video-noticias/scripts/revisar-broll.mjs <plan>`.
+7d. Si es **montaje**: ¿`revisar-NNN.mjs` sale con 0 (tiempo, metraje con velocidad y disolvencias, tramos, encuadre y lo que el encargo pidió con palabras)? ¿El material está normalizado (rotación, HDR, un solo fps, sin audio)? ¿Miraste la **hoja de contactos del render** y no solo stills sueltos? ¿Los velos existen solo donde hay texto encima? Todo esto se detalla en §3i.
 8. **¿La escena mejora con todas las capas, o sería más clara quitando alguna?** Si dudas → **quita**.
 
 ---
@@ -295,4 +335,4 @@ node manuales/motion-graphics/scripts/revisar-sonda.mjs antes despues   # regres
 - **No** exporta el final sin pasar por frames + prueba 720p.
 - **No** inventa recursos: usa los motores/plantillas existentes; si falta algo, lo dice.
 
-> **En una frase:** el director convierte *"monta el vídeo"* en un plan coordinado de cámara + gráficos + sonido + subtítulos sobre el motor Remotion, con la narrativa al mando y una sola cosa importante a la vez.
+> **En una frase:** el director convierte *"monta el vídeo"* en un plan coordinado de cámara + gráficos + sonido + subtítulos sobre el motor Remotion —o, si no hay avatar, en un montaje con su puerta—, con la narrativa al mando y una sola cosa importante a la vez.

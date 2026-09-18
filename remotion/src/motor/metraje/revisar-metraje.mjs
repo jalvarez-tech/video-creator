@@ -13,7 +13,7 @@
  *   lineaDeTiempo      sin huecos ni solapes → un hueco pinta negro un
  *                      instante, y si cae entre dos frames de revisión no lo ves
  *   metrajeDisponible  ningún corte pide más clip del que hay, contando la
- *                      velocidad y el prerrollo y la cola de las disolvencias →
+ *                      velocidad y el prerrollo de las disolvencias →
  *                      Remotion no falla: congela el último fotograma (R20), o
  *                      recorta el arranque a 0 y desplaza el plano entero
  *   tramosDisjuntos    ningún tramo de vídeo sale dos veces → la repetición se
@@ -172,14 +172,13 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
   function metrajeDisponible({ declarados = {} } = {}) {
     const [n, a] = [fallos.length, avisos.length];
     declara("metraje", declarados);
-    cortes.forEach((c, i) => {
+    cortes.forEach((c) => {
       if (!existsSync(join(PUBLICO, c.src))) {
         return mal(`${c.id}: no existe remotion/public/${c.src}${receta ? ` (${receta})` : ""}`);
       }
       if (c.tipo === "foto") return;
       const velocidad = c.velocidad ?? 1;
       const solape = F.solapeDe(c);
-      const cola = F.colaDe(cortes, i);
       const arranque = F.arranqueEnFuente(c, solape, fps);
       if (arranque < 0) {
         falla(
@@ -190,17 +189,18 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
       }
       // Tiempo de fuente del frame `f` del plano, como lo calcula Remotion
       // (`getExpectedMediaFrameUncorrected`): (trimBefore + f · velocidad) / fps.
-      const ultimo = (Math.max(0, arranque) + (solape + c.dur + cola - 1) * velocidad) / fps;
+      // Sin cola: el plano acaba en `en + dur` aunque el siguiente disuelva (ver `solapeDe`).
+      const ultimo = (Math.max(0, arranque) + (solape + c.dur - 1) * velocidad) / fps;
       const dura = duracionDe(c.src);
       if (!(ultimo < dura)) {
         falla(
           "metraje",
           [c.id],
-          `${c.id}: su último frame${cola ? " (con la cola de la disolvencia)" : ""} pide el ${ultimo.toFixed(2)} s de ${c.src}, que dura ${dura.toFixed(2)} s; Remotion congela el último fotograma`
+          `${c.id}: su último frame pide el ${ultimo.toFixed(2)} s de ${c.src}, que dura ${dura.toFixed(2)} s; Remotion congela el último fotograma`
         );
       }
     });
-    cierraSeccion(n, a, "ningún corte pide más metraje del que hay (velocidad, prerrollo y cola incluidos)");
+    cierraSeccion(n, a, "ningún corte pide más metraje del que hay (velocidad y prerrollo incluidos)");
   }
 
   /** Que ningún tramo OPACO de un clip salga en dos cortes (fotos aparte: volver a una foto es una decisión). */
@@ -241,7 +241,7 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
     const [n, a] = [fallos.length, avisos.length];
     declara("encuadre", declarados);
     const conocidas = new Set([...F.ENTRADAS_DEL_FORMATO, ...Object.keys(entradas)]);
-    cortes.forEach((c, i) => {
+    cortes.forEach((c) => {
       if (c.entra && !conocidas.has(c.entra)) {
         mal(`${c.id}: la entrada «${c.entra}» no es del formato y esta puerta no tiene su implementación (\`entradas\`): no puede medir su encuadre`);
       }
@@ -263,7 +263,7 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
       // §encuadre de corte.ts: con T·S el plano cubre en vertical mientras |pan| ≤ 50·(z−1).
       const pan = Math.abs(c.pan ?? 0);
       const vertical = pan
-        ? destapa(solape + c.dur + F.colaDe(cortes, i), (f) => ((pan - 50 * (escala(f) - 1)) / 100) * alto)
+        ? destapa(solape + c.dur, (f) => ((pan - 50 * (escala(f) - 1)) / 100) * alto)
         : null;
       if (vertical) {
         falla(
@@ -277,7 +277,7 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
       const propia = c.entra ? entradas[c.entra] : undefined;
       const x = (f) => propia(f).x ?? 0;
       const horizontal = propia
-        ? destapa(solape + c.dur + F.colaDe(cortes, i), (f) => Math.abs(x(f)) - ((escala(f) - 1) / 2) * ancho)
+        ? destapa(solape + c.dur, (f) => Math.abs(x(f)) - ((escala(f) - 1) / 2) * ancho)
         : null;
       if (horizontal) {
         const maximo = Math.max(...Array.from({ length: solape + c.dur }, (_, f) => Math.abs(x(f))));

@@ -954,6 +954,8 @@ interface ScrimPintado {
   alto: number;
   desde: "abajo" | "arriba";
   opacidad?: number;
+  /** En cuántos frames sube el velo. 3 por defecto; 0 = puesto desde el f0. */
+  rampa: number;
 }
 
 /**
@@ -970,6 +972,9 @@ const scrimDe = (amb: Ambiente<string> | undefined, molde: Molde): ScrimPintado 
     alto: propio && propio.alto !== undefined ? propio.alto : porDefecto.alto,
     desde: propio && propio.desde !== undefined ? propio.desde : porDefecto.desde,
     opacidad: propio ? propio.opacidad : undefined,
+    // 3 f es lo que el intérprete hacía a fuego antes de que esto fuera un dato
+    // del plan: el defecto no mueve un píxel de ninguna pieza publicada.
+    rampa: propio && propio.rampa !== undefined ? propio.rampa : 3,
   };
 };
 
@@ -1029,8 +1034,18 @@ const CapasAmbiente: React.FC<{
       ) : null}
       {vineta ? <Vineta intensidad={typeof vineta === "object" ? vineta.intensidad : undefined} /> : null}
       {scrim ? (
-        // Entra en 3 f y MUERE con la toma (nunca se funde): si se fundiera, los
-        // últimos frames del texto se leerían sobre las manos del avatar.
+        // Entra en `rampa` frames (3 por defecto) y MUERE con la toma (nunca se
+        // funde): si se fundiera, los últimos frames del texto se leerían sobre
+        // las manos del avatar.
+        //
+        // LA RAMPA ES UN DATO DEL PLAN, y tuvo que serlo (R25). Estaba escrita
+        // a fuego aquí, y eso convertía el `entra: { como: "ninguna" }` de R23
+        // en una promesa a medias: el TEXTO salía puesto en el frame 0 y el
+        // velo que lo hace legible no. Medido en el 013 sobre el render: en el
+        // f0 el fondo de la banda estaba en luma 141 y el acento del canal daba
+        // **1,04:1**; en el f4, ya con el velo arriba, 5,37:1. Y el frame 0 es
+        // la MINIATURA del reel. Con `rampa: 0` el velo está puesto desde el
+        // primer frame, igual que el texto.
         //
         // La rampa se hace a mano sobre un <AbsoluteFill> y NO con <Aparece>,
         // que es lo que había: <Aparece> aplica siempre un `transform`, y un
@@ -1043,7 +1058,17 @@ const CapasAmbiente: React.FC<{
         // salía en NINGUNA toma, con el validador diciendo LIMPIO. Es el mismo
         // patrón que ya usa <PistaNoticia>, donde sí se ve.
         <AbsoluteFill
-          style={{ opacity: interpolate(f, [0, 3], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}
+          style={{
+            // `interpolate` con un rango degenerado ([0,0]) lanza, así que la
+            // rampa cero se contesta antes de llamarlo.
+            opacity:
+              scrim.rampa <= 0
+                ? 1
+                : interpolate(f, [0, scrim.rampa], [0, 1], {
+                    extrapolateLeft: "clamp",
+                    extrapolateRight: "clamp",
+                  }),
+          }}
         >
           <Scrim alto={scrim.alto} desde={scrim.desde} opacidad={scrim.opacidad} color={scrimColor} />
         </AbsoluteFill>

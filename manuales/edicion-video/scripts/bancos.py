@@ -351,6 +351,10 @@ def candidatos(consulta, tipo, hueco, proyecto, n=80, usar_cache=True):
             elegido = sirve[0] if sirve else (files[-1] if files else None)
             if not elegido:
                 continue
+            # Las renditions MAYORES que la elegida, de menor a mayor. Son el
+            # plan B de `traer` cuando el archivo servido no mide lo que dice
+            # el banco (ver `medida_real`).
+            mayores = [f for f in sirve if f is not elegido]
             salida.append({
                 "id": v["id"],
                 "tipo": "video",
@@ -362,6 +366,7 @@ def candidatos(consulta, tipo, hueco, proyecto, n=80, usar_cache=True):
                 "autor_url": (v.get("user") or {}).get("url", ""),
                 "origen_url": v.get("url", ""),
                 "descarga_url": elegido["link"],
+                "alternativas": [{"link": f["link"], "ancho": f["width"], "alto": f["height"]} for f in mayores],
                 # El fotograma de portada. Es lo que se juzga en la hoja de
                 # contactos: bajar 15 clips para mirarlos son cientos de MB.
                 "mini": v.get("image", ""),
@@ -457,6 +462,32 @@ def sha256_de(ruta):
 def slug(texto):
     t = texto.lower().translate(str.maketrans("áéíóúñü", "aeiouny"))
     return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", t)).strip("-")[:40] or "toma"
+
+
+def medida_real(ruta):
+    """
+    `(ancho, alto)` del vídeo TAL COMO ESTÁ EN DISCO, o `None` si no se puede medir.
+
+    POR QUÉ EXISTE: el banco puede mentir en la medida, y no en los metadatos de
+    la API sino en el propio archivo. Medido en el 014 (dos veces seguidas, dos
+    autores distintos): la URL `…-hd_1080_2048_25fps.mp4` que la API declara de
+    1080x2048 sirve un archivo de 720x1366. El filtro de `filtra()` se fía de la
+    API, así que un plano que no llega al hueco pasaba entero y salía estirado
+    ×1,5 a sangre, sin ningún error. Solo lo cazaba `revisar-broll.mjs`, y solo
+    en el formato de noticias.
+    """
+    if not shutil.which("ffprobe"):
+        return None
+    r = subprocess.run(
+        ["ffprobe", "-v", "error", "-select_streams", "v:0",
+         "-show_entries", "stream=width,height", "-of", "csv=p=0", ruta],
+        capture_output=True, text=True,
+    )
+    try:
+        ancho, alto = (int(x) for x in r.stdout.strip().split(",")[:2])
+    except ValueError:
+        return None
+    return ancho, alto
 
 
 def sin_audio(ruta):
@@ -923,6 +954,29 @@ def cmd_traer(args):
     bytes_ = descarga(c["descarga_url"], bruto)
     print(f"   bajado: {rel_bruto}  ({bytes_ / 1_000_000:.1f} MB)")
     if c["tipo"] == "video":
+        # SE MIDE EL ARCHIVO, no la ficha (ver `medida_real`). Si no llega al
+        # hueco, se prueba la rendition siguiente del MISMO vídeo —el plano que se
+        # eligió mirando la hoja no cambia— y en el manifiesto queda la URL que
+        # de verdad sirve y la medida de verdad, para que `reponer` baje lo mismo.
+        real = medida_real(bruto)
+        pendientes = list(c.get("alternativas", []))
+        while real and (real[0] < hueco["ancho"] or real[1] < hueco["alto"]):
+            print(f"   ⚠ el banco declaró {c['ancho']}x{c['alto']} y el archivo mide {real[0]}x{real[1]}")
+            if not pendientes:
+                os.remove(bruto)
+                sys.exit(
+                    f"ERROR: ninguna rendition de este vídeo llega a {hueco['ancho']}x{hueco['alto']}.\n"
+                    "  Elige otro candidato de la hoja."
+                )
+            alt = pendientes.pop(0)
+            print(f"   · pruebo la rendition siguiente ({alt['ancho']}x{alt['alto']})…")
+            bytes_ = descarga(alt["link"], bruto)
+            print(f"   bajado: {rel_bruto}  ({bytes_ / 1_000_000:.1f} MB)")
+            c = {**c, "descarga_url": alt["link"]}
+            real = medida_real(bruto)
+        if real:
+            c = {**c, "ancho": real[0], "alto": real[1]}
+            print(f"   medida real: {real[0]}x{real[1]}")
         sin_audio(bruto)
     os.makedirs(os.path.dirname(servido), exist_ok=True)
     shutil.copy2(bruto, servido)
