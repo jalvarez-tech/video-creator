@@ -2,7 +2,9 @@
  * Motor de diseño sonoro (guía: manuales/diseno-sonoro/SKILL.md
  * + catálogo por motion graphic: manuales/diseno-sonoro/recetario-motion-graphics.md).
  * Un SoundCue = una decisión de sonido con FUNCIÓN narrativa (reason obligatorio).
- * Los archivos viven en remotion/public/sfx/ (copiados del banco `sonido/`).
+ * Los archivos viven en remotion/public/sfx/: el set base sintetizado del producto
+ * (manuales/diseno-sonoro/sfx-base/, lo repone sfx.mjs) o los que cada canal ponga
+ * ahí con el mismo nombre (README de public/sfx/).
  *
  * Regla maestra: usa el efecto MÁS ESPECÍFICO disponible (pop, chime, glitch,
  * scribble, liquid, metal…), no un whoosh genérico para todo. Whoosh/riser/impact/
@@ -11,8 +13,8 @@
  * MEZCLA (SKILL §10): TODOS los SFX van por DEBAJO de la voz y la música principal.
  * Los whooshes e impacts van aún más bajos (refuerzan el movimiento sin dominar).
  * Los `vol` por defecto están CALIBRADOS por pico real (dBFS) de cada archivo para
- * caer en el objetivo de su familia (ver TARGET_DBFS). Recalcúlalos con copiar-sfx.sh
- * si cambias un archivo. Con narración encima, aplica ducking (DUCK_DIALOGUE_DB).
+ * caer en el objetivo de su familia (ver TARGET_DBFS). Recalcúlalos con
+ * `node manuales/diseno-sonoro/scripts/sfx.mjs medir` si cambias un archivo. Con narración encima, aplica ducking (DUCK_DIALOGUE_DB).
  */
 
 /**
@@ -87,68 +89,67 @@ export type SoundCue = {
 };
 
 /**
- * Variante → archivo en public/sfx/ + volumen calibrado + familia de mezcla + banco.
+ * Variante → archivo en public/sfx/ + volumen calibrado + familia de mezcla + familia sonora.
  * `vol` = ganancia lineal para que el PICO del archivo caiga en TARGET_DBFS[bucket]
- *   (derivado del pico real medido con ffmpeg; ver copiar-sfx.sh).
+ *   (derivado del pico real medido con ffmpeg: `sfx.mjs medir` lo mide y sugiere el vol).
  * `bucket` = familia de mezcla (general | whoosh | impact | ambient).
- * `cat` = FAMILIA del banco donde buscar más variantes de este timbre
- *   (ver sonido/MAPA-SONIDOS.md; el archivo base puede vivir en otra carpeta, p. ej.
- *   37-OTROS — el origen exacto está en copiar-sfx.sh y en el README de public/sfx/).
- * Para cambiar un sonido: copia otro del banco a public/sfx/ con el mismo nombre y
- * recalcula `vol` (copiar-sfx.sh lo mide y sugiere).
+ * `cat` = FAMILIA SONORA: qué timbre es y cómo está construido, para elegir o
+ *   sintetizar otra variante del mismo carácter. No se lee en ejecución.
+ * Para cambiar un sonido: pon otro archivo en public/sfx/ con el mismo nombre y
+ * recalcula `vol` (node manuales/diseno-sonoro/scripts/sfx.mjs medir <archivo>).
  */
 export const SFX: Record<VarianteSonido, { file: string; vol: number; bucket: MixBucket; cat: string }> = {
   // whoosh / transición (bucket whoosh → más bajo)
-  light: { file: "whoosh-light.wav", vol: 0.062, bucket: "whoosh", cat: "36-WHOOSH" },
-  whip: { file: "whoosh-whip.wav", vol: 0.05, bucket: "whoosh", cat: "36-WHOOSH" },
-  heavy: { file: "whoosh-heavy.mp3", vol: 0.045, bucket: "whoosh", cat: "36-WHOOSH" },
-  wind: { file: "whoosh-wind.wav", vol: 0.06, bucket: "whoosh", cat: "36-WHOOSH" },
-  swoosh: { file: "swoosh.mp3", vol: 0.06, bucket: "whoosh", cat: "32-SWOSH" },
-  "swoosh-hero": { file: "whoosh-swoosh-07.wav", vol: 0.068, bucket: "whoosh", cat: "36-WHOOSH" }, // Ashish "7. Whoosh Swoosh" (pico ~1.25s)
+  light: { file: "whoosh-light.wav", vol: 0.062, bucket: "whoosh", cat: "whoosh ligero: barrido corto de ruido filtrado" },
+  whip: { file: "whoosh-whip.wav", vol: 0.05, bucket: "whoosh", cat: "whoosh látigo: barrido rápido y agudo" },
+  heavy: { file: "whoosh-heavy.mp3", vol: 0.045, bucket: "whoosh", cat: "whoosh pesado: barrido grave con cuerpo" },
+  wind: { file: "whoosh-wind.wav", vol: 0.06, bucket: "whoosh", cat: "whoosh de viento: barrido suave y ancho" },
+  swoosh: { file: "swoosh.mp3", vol: 0.06, bucket: "whoosh", cat: "swoosh: barrido agudo y brillante" },
+  "swoosh-hero": { file: "whoosh-swoosh-07.wav", vol: 0.068, bucket: "whoosh", cat: "swoosh largo: barrido ancho para un movimiento protagonista" }, // whoosh largo: cue de ~48 f, el pico cae al 65 %
   // riser (bucket general)
-  "low-rumble": { file: "riser-low.mp3", vol: 0.653, bucket: "general", cat: "09-CINEMATICA RISER" },
-  cymbal: { file: "riser-cymbal.mp3", vol: 0.155, bucket: "general", cat: "31-RISER" },
+  "low-rumble": { file: "riser-low.mp3", vol: 0.653, bucket: "general", cat: "riser grave: retumbo que crece hasta el golpe" },
+  cymbal: { file: "riser-cymbal.mp3", vol: 0.155, bucket: "general", cat: "riser de platillo: crescendo agudo" },
   // impact (bucket impact → más bajo)
-  deep: { file: "impact-deep.mp3", vol: 0.047, bucket: "impact", cat: "05-BOOM" },
-  sharp: { file: "impact-sharp.wav", vol: 0.054, bucket: "impact", cat: "26-METAL SLICE" },
-  boom: { file: "impact-deep.mp3", vol: 0.047, bucket: "impact", cat: "05-BOOM" }, // alias grave (comparte archivo con deep)
-  metal: { file: "metal.wav", vol: 0.045, bucket: "impact", cat: "26-METAL SLICE" },
+  deep: { file: "impact-deep.mp3", vol: 0.047, bucket: "impact", cat: "impacto grave: sub + golpe con cola" },
+  sharp: { file: "impact-sharp.wav", vol: 0.054, bucket: "impact", cat: "impacto seco: transiente agudo corto" },
+  boom: { file: "impact-deep.mp3", vol: 0.047, bucket: "impact", cat: "impacto grave: alias de deep" }, // alias grave (comparte archivo con deep)
+  metal: { file: "metal.wav", vol: 0.045, bucket: "impact", cat: "golpe metálico: parciales inarmónicos con cola" },
   // click / UI (bucket general)
-  camera: { file: "click-camera.wav", vol: 0.092, bucket: "general", cat: "07-CAMARA" },
-  mouse: { file: "click-mouse.mp3", vol: 0.155, bucket: "general", cat: "10-CLICK" },
-  pen: { file: "click-pen.mp3", vol: 0.094, bucket: "general", cat: "10-CLICK" },
-  ui: { file: "ui.mp3", vol: 0.2, bucket: "general", cat: "19-EXTRAS (UI)" },
+  camera: { file: "click-camera.wav", vol: 0.092, bucket: "general", cat: "clic de obturador: doble transiente" },
+  mouse: { file: "click-mouse.mp3", vol: 0.155, bucket: "general", cat: "clic de ratón: transiente seco" },
+  pen: { file: "click-pen.mp3", vol: 0.094, bucket: "general", cat: "clic de bolígrafo: doble clic seco" },
+  ui: { file: "ui.mp3", vol: 0.2, bucket: "general", cat: "blip de interfaz: tono breve" },
   // aparición elástica
-  pop: { file: "pop.mp3", vol: 0.178, bucket: "general", cat: "29-POP" },
-  boing: { file: "boing.mp3", vol: 0.089, bucket: "general", cat: "19-EXTRAS (spring)" },
+  pop: { file: "pop.mp3", vol: 0.178, bucket: "general", cat: "pop: tono con caída rápida" },
+  boing: { file: "boing.mp3", vol: 0.089, bucket: "general", cat: "muelle: tono con vibrato descendente" },
   // notificación / app
-  notification: { file: "notification.wav", vol: 0.331, bucket: "general", cat: "37-OTROS (apps)" },
-  "msg-send": { file: "msg-send.wav", vol: 0.09, bucket: "general", cat: "37-OTROS (apps)" },
+  notification: { file: "notification.wav", vol: 0.331, bucket: "general", cat: "notificación: dos notas con cola" },
+  "msg-send": { file: "msg-send.wav", vol: 0.09, bucket: "general", cat: "envío de mensaje: barrido ascendente corto" },
   // datos / tech
-  data: { file: "data-count.mp3", vol: 0.26, bucket: "general", cat: "12-DATA" },
-  digital: { file: "digital.wav", vol: 0.116, bucket: "general", cat: "37-OTROS (Sci-Fi/Data)" },
-  glitch: { file: "glitch.wav", vol: 0.955, bucket: "general", cat: "22-GLITCH" },
-  electric: { file: "electric.mp3", vol: 0.107, bucket: "general", cat: "15-ELECTRICO" },
-  spin: { file: "spin.wav", vol: 0.335, bucket: "general", cat: "37-OTROS (spin)" },
-  typing: { file: "typing.mp3", vol: 0.221, bucket: "general", cat: "37-OTROS (teclado)" },
+  data: { file: "data-count.mp3", vol: 0.26, bucket: "general", cat: "contador digital: pulsos en bucle" },
+  digital: { file: "digital.wav", vol: 0.116, bucket: "general", cat: "barrido digital: tono modulado y triturado" },
+  glitch: { file: "glitch.wav", vol: 0.955, bucket: "general", cat: "glitch: ráfagas de ruido troceado" },
+  electric: { file: "electric.mp3", vol: 0.107, bucket: "general", cat: "chispazo eléctrico: zumbido con trémolo" },
+  spin: { file: "spin.wav", vol: 0.335, bucket: "general", cat: "giro: textura con trémolo rápido" },
+  typing: { file: "typing.mp3", vol: 0.221, bucket: "general", cat: "tecleo: ráfagas rítmicas de ruido" },
   // ritmo
-  tick: { file: "tick.mp3", vol: 0.151, bucket: "general", cat: "37-OTROS (reloj)" },
+  tick: { file: "tick.mp3", vol: 0.151, bucket: "general", cat: "tic-tac: pulsos cada segundo" },
   // acierto / error / dinero
-  chime: { file: "chime.mp3", vol: 0.164, bucket: "general", cat: "14-DING" },
-  success: { file: "success.wav", vol: 0.093, bucket: "general", cat: "14-DING" },
-  error: { file: "error.mp3", vol: 0.248, bucket: "general", cat: "16-ERROR" },
-  money: { file: "money.mp3", vol: 0.145, bucket: "general", cat: "13-DINERO" },
-  coin: { file: "coin.mp3", vol: 0.089, bucket: "general", cat: "27-MONEDA" },
+  chime: { file: "chime.mp3", vol: 0.164, bucket: "general", cat: "campanilla: armónicos con cola" },
+  success: { file: "success.wav", vol: 0.093, bucket: "general", cat: "acierto: arpegio ascendente" },
+  error: { file: "error.mp3", vol: 0.248, bucket: "general", cat: "error: dos tonos descendentes" },
+  money: { file: "money.mp3", vol: 0.145, bucket: "general", cat: "caja registradora: golpe + tintineo" },
+  coin: { file: "coin.mp3", vol: 0.089, bucket: "general", cat: "moneda 8-bit: onda cuadrada" },
   // materiales / trazo / partículas
-  scribble: { file: "scribble.mp3", vol: 0.123, bucket: "general", cat: "37-OTROS (escritura)" },
-  paper: { file: "paper.wav", vol: 0.089, bucket: "general", cat: "28-PAPEL" },
-  liquid: { file: "liquid.mp3", vol: 0.116, bucket: "general", cat: "24-LIQUIDO" },
-  sparkle: { file: "sparkle.mp3", vol: 0.184, bucket: "general", cat: "19-EXTRAS (glitter)" },
+  scribble: { file: "scribble.mp3", vol: 0.123, bucket: "general", cat: "trazo de lápiz: ruido modulado" },
+  paper: { file: "paper.wav", vol: 0.089, bucket: "general", cat: "papel: roce corto" },
+  liquid: { file: "liquid.mp3", vol: 0.116, bucket: "general", cat: "gota: tono con glide" },
+  sparkle: { file: "sparkle.mp3", vol: 0.184, bucket: "general", cat: "destellos: tonos agudos en cascada" },
   // logo / inverso / cómico / ambiente
-  logo: { file: "logo.mp3", vol: 0.115, bucket: "general", cat: "03-ANIMACION LOGO" },
-  reverse: { file: "reverse.mp3", vol: 0.148, bucket: "general", cat: "37-OTROS (suction)" },
-  cartoon: { file: "cartoon.mp3", vol: 0.38, bucket: "general", cat: "21-FUNNY" },
-  "ambient-wind": { file: "ambient-wind.mp3", vol: 0.068, bucket: "ambient", cat: "19-EXTRAS (wind)" },
+  logo: { file: "logo.mp3", vol: 0.115, bucket: "general", cat: "logo: sub + acorde + brillo" },
+  reverse: { file: "reverse.mp3", vol: 0.148, bucket: "general", cat: "succión inversa: barrido invertido" },
+  cartoon: { file: "cartoon.mp3", vol: 0.38, bucket: "general", cat: "silbato cómico: tono descendente con vibrato" },
+  "ambient-wind": { file: "ambient-wind.mp3", vol: 0.068, bucket: "ambient", cat: "viento ambiental: ruido grave en bucle" },
 };
 
 /**

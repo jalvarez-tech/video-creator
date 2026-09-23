@@ -12,7 +12,7 @@
 | | |
 |---|---|
 | Noticia / fuente principal | *(titular + medio + fecha + URL)* |
-| Voz en off | `noticias/NNN-vo.mp3` — NN,NN s (`ffprobe`) |
+| Voz en off | `noticias/NNN-vo.wav` — NN,NN s (`ffprobe`; la genera `generar-vo.mjs` en `proyectos/NNN/vo/` y se copia a `remotion/public/noticias/`) |
 | Composición | 1080×1920 · **30 fps** · NNNN f *(= duración de la voz — la voz manda)* |
 | Formato | 9:16 vertical · sin avatar |
 | Marca (`MARCA.sello`) | *(nombre del canal, o `null`)* |
@@ -43,8 +43,8 @@ dato sin sostener la quema entera. Si un dato no se puede verificar, **se cae de
 
 | Dato / titular | Valor exacto | Medio | Fecha | URL | ¿Verificado? |
 |---|---|---|---|---|---|
-| Demanda de Musk | "…incumplimiento de contrato" | Reuters | AAAA-MM-DD | … | ☐ |
-| Tope de beneficio | 100× | … | … | … | ☐ |
+| Titular del recorte (`prensa`) | "…" *(literal)* | *(medio)* | AAAA-MM-DD | … | ☐ |
+| Cifra principal (`cifra` / `medidor`) | … *(con unidad)* | *(medio)* | AAAA-MM-DD | … | ☐ |
 
 - **Datos que se cayeron por no poder sostenerse:** … *(anótalos: evita reintroducirlos)*
 
@@ -74,7 +74,7 @@ esté en el titular de la noticia? → …
 ## Metraje y b-roll
 
 Se **trae o se genera**, y cuál de las dos cosas lo decide la honestidad de la
-pieza, no el coste: la regla está en [director §3h](../../director-video/SKILL.md).
+pieza, no el coste: la regla está en `manuales/director-video/SKILL.md` §3h.
 Conviene tenerlo antes de escribir el plan, porque la duración real del clip
 condiciona los frames — pero no bloquea: una toma puede declarar
 `buscarMedia: "…"` y maquetarse sin material.
@@ -97,9 +97,9 @@ condiciona los frames — pero no bloquea: una toma puede declarar
 
 ## Validación
 
-- [ ] `revisar-plan.mjs <plan>` sale limpio *(pega aquí la salida)*
-- [ ] `revisar-broll.mjs <plan>` sale limpio *(o «esta pieza no pide b-roll»)*
+- [ ] `node manuales/video-noticias/scripts/revisar-plan.mjs <plan>` sale limpio *(pega aquí la salida)*
+- [ ] `node manuales/video-noticias/scripts/revisar-broll.mjs <plan>` sale limpio *(o «esta pieza no pide b-roll»)*
 - [ ] Frames clave renderizados: `[…]`
 - [ ] Prueba 720p vista y aprobada
 - [ ] Todas las fuentes verificadas en la tabla de arriba
-- [ ] Créditos del metraje pegados en la descripción del vídeo (`bancos.py creditos --proyecto NNN`)
+- [ ] Créditos del metraje pegados en la descripción del vídeo (`uv run manuales/edicion-video/scripts/bancos.py creditos --proyecto NNN`)

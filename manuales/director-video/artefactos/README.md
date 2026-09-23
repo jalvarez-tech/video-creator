@@ -1,7 +1,7 @@
 # Artefactos intermedios de un proyecto
 
 > Plantillas a copiar en `proyectos/NNN/artefactos/` al empezar un vídeo.
-> Atajo: `bash manuales/director-video/scripts/artefactos.sh 004`
+> Atajo: `node manuales/director-video/scripts/artefactos.mjs NNN` (desde la raíz del repo; NNN son los tres dígitos del proyecto, y es también la forma de empezar uno nuevo).
 
 ## Por qué existen
 
@@ -9,8 +9,8 @@ El director ya toma todas estas decisiones — narrativa, reparto del espacio,
 frames exactos — pero hasta ahora vivían **en la conversación** y acababan
 incrustadas en el `.tsx` final. Consecuencias que ya hemos pagado:
 
-- Para ajustar el ritmo hay que releer 781 líneas de JSX (`Motion003.tsx`) en vez
-  de una tabla de 20 filas.
+- Para ajustar el ritmo hay que releer cientos de líneas de JSX (el motion propio
+  de una pieza real pasaba de 700) en vez de una tabla de 20 filas.
 - Al volver al proyecto tres semanas después no queda registro de **por qué** un
   gráfico entra en el frame 780 y no en el 760.
 - Cada proyecto nuevo vuelve a empezar de cero: no hay nada que copiar y editar.

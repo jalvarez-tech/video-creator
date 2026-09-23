@@ -408,21 +408,37 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
   // El titular baja a texto plano (el componente no sabe de trozos) y el
   // fragmento a rotular SALE de ese mismo texto: por eso ya no puede no
   // encontrarse. Ver la deuda del encabezado para el caso que queda vivo.
-  recorte: (p) => (
+  //
+  // LA FAMILIA VA POR PROP en esta pieza y en las cuatro de abajo (chip, cifra,
+  // medidor, cronología): `Editorial.tsx` la tomaba del `T` de módulo, que es el
+  // de `MARCA_BASE`, y una marca con otra letra no llegaba a estas cinco. Con
+  // las marcas que comparten la letra del suelo es el mismo string: 0 píxeles.
+  // Aquí se llama `letra` porque `fuente` ya es el MEDIO del recorte.
+  recorte: (p, c) => (
     <RecortePrensa
       titular={textoPlano(p.titular)}
       fuente={p.fuente}
       resaltar={trozoRotulado(p.titular)}
       ancho={p.ancho}
       rotacion={p.rotacion}
+      letra={temaDe(c).FUENTE}
     />
   ),
 
   // ── Comparación ──────────────────────────────────────────────────────────
-  // Sin `ctx`: el chip no honra el color del nodo (deuda del encabezado). El
-  // stagger entre chips tampoco vive aquí — son nodos hermanos de una `fila` y
-  // el desfase lo pone el `paso` del grupo.
-  chip: (p, c) => <ChipIcono acento={acentoChipDe(c)} glifo={GLIFO[p.glifo]} label={p.texto} activo={p.activo !== false} tam={p.tam} />,
+  // Sin `ctx` para el color: el chip no honra el color del nodo (deuda del
+  // encabezado). El stagger entre chips tampoco vive aquí — son nodos hermanos
+  // de una `fila` y el desfase lo pone el `paso` del grupo.
+  chip: (p, c) => (
+    <ChipIcono
+      acento={acentoChipDe(c)}
+      glifo={GLIFO[p.glifo]}
+      label={p.texto}
+      activo={p.activo !== false}
+      tam={p.tam}
+      fuente={temaDe(c).FUENTE}
+    />
+  ),
 
   // ── Dato ─────────────────────────────────────────────────────────────────
   cifra: (p, c) => (
@@ -442,6 +458,7 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
       // que es lo que hace que R08 estime lo mismo que se pinta.
       px={Math.round((p.px ?? temaDe(c).T.cifra.fontSize) * c.escala)}
       punch={p.golpe}
+      fuente={temaDe(c).FUENTE}
     />
   ),
 
@@ -456,6 +473,7 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
       // El formateo es del PLAN (prefijo/sufijo/decimales) y no del componente:
       // así el mismo medidor sirve para "60 %" y para "$500" sin tocar JSX.
       formato={(v) => `${p.prefijo ?? ""}${formatea(v, p.decimales ?? 0)}${p.sufijo ?? ""}`}
+      fuente={temaDe(c).FUENTE}
     />
   ),
 
@@ -467,6 +485,7 @@ export const MONTADORES_NOTICIA: Montadores<PiezasNoticia, TintaNoticia, ReactNo
       hitos={p.hitos.slice()}
       dur={durSegura(p.dur, Math.min(40, c.len - 10))}
       alto={p.alto}
+      fuente={temaDe(c).FUENTE}
     />
   ),
 

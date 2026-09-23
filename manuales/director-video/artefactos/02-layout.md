@@ -47,7 +47,7 @@ import { MONTADORES_BASE, PistaGraficos } from "../../motor/graficos/PistaGrafic
 ## Gráficos por escena
 
 Antes de inventar uno, mira el catálogo:
-[catalogo-graficos.md](../../motion-graphics/catalogo-graficos.md) o la
+`manuales/motion-graphics/catalogo-graficos.md` o la
 composición `Catalogo` del Studio.
 
 | # escena | Qué se ve | Gráfico de la biblioteca | Zona | ¿Nuevo componente? |

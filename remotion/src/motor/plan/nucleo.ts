@@ -23,7 +23,7 @@
  *     `lib: ["es2015"]`, pero `@types/node` entra solo (no hay `"types"`) y su
  *     `/// <reference lib="es2020" />` reabre es2016-es2020: hoy `includes`,
  *     `flat`, `Object.entries` y `padStart` COMPILAN aquí (`plan.ts:221` y dos
- *     `padStart` en `Prueba.tsx`/`MotionGraphicsFull.tsx` ya los usan). Así que
+ *     `padStart` en `Prueba.tsx` ya los usan). Así que
  *     esto es disciplina, no red: `indexOf(x) >= 0`, `Object.keys`, y `Set`/`Map`
  *     que sí son es2015. Si algún día se quiere que muerda de verdad, es
  *     `"types": ["web", "react"]` en el tsconfig y arreglar esos tres usos.
@@ -716,11 +716,11 @@ export interface Dialecto<R extends RegistroPiezas, B extends string, M extends 
    * como color de letra sobre papel beige da el peor contraste de la paleta.
    *
    * Estaba escrito en el comentario de la paleta («marca sobre la prueba, no
-   * colorea texto») y un comentario no es una regla: en el 006 la frase más
-   * crítica de seguridad —«pueden fallar súbitamente sin dar previo aviso»—
-   * acabó en amarillo sobre beige, es decir la línea menos legible del cuadro
-   * siendo la más importante. Declarado aquí, `revisaPlan` lo hace cumplir en
-   * `color` de nodo y en `tinta` de trozo.
+   * colorea texto») y un comentario no es una regla: en una pieza publicada la
+   * advertencia de seguridad más crítica del guion acabó en amarillo sobre
+   * beige, es decir la línea menos legible del cuadro siendo la más importante.
+   * Declarado aquí, `revisaPlan` lo hace cumplir en `color` de nodo y en
+   * `tinta` de trozo.
    *
    * POR QUÉ AQUÍ Y NO EN EL TIPO. Prohibirlo por construcción exigiría partir
    * `C` en dos parámetros (tintas de texto y tintas de marca) y arrastrarlos por

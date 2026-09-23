@@ -17,6 +17,8 @@ import { config } from "@remotion/eslint-config-flat";
  * la señal de que ese algo pertenece al motor. Súbelo, no lo enlaces.
  */
 export default [
+  // El módulo de datos de las fuentes (3 MB de base64, generado) no se lintea.
+  { ignores: ["src/motor/fuentes-inter.datos.ts"] },
   ...config,
   {
     // LAS PUERTAS (`motor/metraje/revisar-metraje.mjs`) viven al lado del formato
@@ -34,9 +36,13 @@ export default [
         {
           patterns: [
             {
-              group: ["**/proyectos/**", "../proyectos/*", "../../proyectos/*"],
+              // Tampoco de una MARCA: los perfiles de canal (src/marcas/) son datos
+              // que llegan por parámetro (`marca={…}`, `dialectoEditorialDe(marca)`).
+              // Un import de `marcas/` desde el motor ataría el producto a un canal
+              // y rompería el clon limpio, que solo trae `ejemplo.ts`.
+              group: ["**/proyectos/**", "../proyectos/*", "../../proyectos/*", "**/marcas/**"],
               message:
-                "El motor no puede depender de un proyecto. Si lo necesitas en varios vídeos, súbelo a src/motor/; si es de un vídeo solo, va en src/proyectos/00N/.",
+                "El motor no puede depender de un proyecto ni de una marca. Si lo necesitas en varios vídeos, súbelo a src/motor/; si es de un vídeo solo, va en src/proyectos/00N/; una marca se pasa por parámetro.",
             },
           ],
         },

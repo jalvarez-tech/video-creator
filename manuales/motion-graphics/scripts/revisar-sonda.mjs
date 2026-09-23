@@ -24,6 +24,14 @@
  * PEQUEÑO —mover una sombra un 3 % de alfa, por ejemplo—. Cuando el cambio que
  * se está probando es de ese orden, pásale `--umbral 1` y lee la lista entera.
  *
+ * TRES COMPOSICIONES DEL PRODUCTO QUEDAN FUERA DEL «CERO DIFERENCIAS». `Catalogo`,
+ * `PlanDemo` y `NoticiaDemo` son del PRODUCTO, no piezas publicadas: su texto se
+ * neutralizó a propósito (las fichas del catálogo, las demos con la marca de
+ * ejemplo), así que una tanda anterior a esa neutralización difiere de una
+ * posterior en ellas y eso NO es una regresión. El criterio «ni un píxel ni un
+ * sonido» es para las composiciones publicadas del estudio; en esas tres, una
+ * diferencia que sea solo de texto es la esperada.
+ *
  * POR QUÉ UN DECODIFICADOR PNG A MANO Y NO UNA DEPENDENCIA. Son cuarenta líneas
  * y evitan meter un paquete en un repo que hoy tiene siete. Cubre lo que
  * `renderStill` emite y nada más: 8 bits, RGB o RGBA, sin entrelazar. Si algún
@@ -33,7 +41,8 @@ import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { createHash } from "node:crypto";
-import { root, rutaTanda } from "./sonda-frames.mjs";
+import { relativa } from "../../../herramientas/comun.mjs";
+import { rutaTanda } from "./sonda-frames.mjs";
 
 const arg = (bandera, defecto) => {
   const i = process.argv.indexOf(bandera);
@@ -50,7 +59,7 @@ const antes = rutaTanda(nombreA);
 const despues = rutaTanda(nombreB);
 for (const d of [antes, despues]) {
   if (!fs.existsSync(d)) {
-    console.error(`no existe la tanda: ${path.relative(root, d)}`);
+    console.error(`no existe la tanda: ${relativa(d)}`);
     process.exit(1);
   }
 }

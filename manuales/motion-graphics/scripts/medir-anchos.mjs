@@ -45,21 +45,29 @@
  * de la toma): R09 tampoco lo descuenta, y mezclarlo aquí haría que la verdad
  * dependiera del frame.
  *
- * DE DÓNDE SALEN LAS LÍNEAS. De los planes REALES del repo (004, 005, 006 y los
- * cuatro demos), recorridos como datos: el corpus no se escribe a mano y por eso
- * no se queda viejo. La tipografía de cada pieza (familia, peso, cuerpo,
- * tracking, versalitas) va COPIADA de `theme-noticias.ts` y de `estilos.ts` en
- * la tabla `TIPO` de abajo — misma servidumbre que ya aceptan las fichas con sus
- * trackings: si allí cambian, aquí también, y este script es el que lo detecta.
+ * DE DÓNDE SALEN LAS LÍNEAS. De planes REALES recorridos como datos, así que el
+ * corpus no se escribe a mano y no se queda viejo: los demos del producto
+ * siempre, y los planes `noticia-NNN.ts` del estudio (`remotion/src/proyectos/`)
+ * cuando están en disco —son piezas publicadas, la mejor verdad que hay—. La
+ * tipografía de cada pieza (familia, peso, tracking, versalitas) se LEE del
+ * theme de la marca del plan y del dialecto con el que se compiló, y la tabla
+ * con la que R09 estima es la que ese dialecto declara (`dialecto.letra`): si
+ * un canal habla en otra letra, el arnés mide y estima con ESA letra, que es lo
+ * que hace el intérprete.
+ *
+ * CON QUÉ LETRA. Antes de medir se inyectan en la página los OTF de Inter que
+ * el motor empaqueta (`remotion/public/fuentes/inter/`, ver `generar-avances`),
+ * así que la verdad de la capa de gráficos es la de esos bytes en cualquier
+ * máquina. La letra de sistema (San Francisco) no se puede empaquetar: esas
+ * líneas siguen midiendo lo que resuelva el Chrome de esta máquina.
  */
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { RAIZ, borrar, carpetaTemporal, esMain, log, relativa } from "../../../herramientas/comun.mjs";
+import { fuentesEmpaquetadas, inyectaFuentes } from "./generar-avances.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-export const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+export const root = RAIZ;
 const src = path.join(root, "remotion", "src");
 
 /* ══════════════════ 1 · CARGAR LOS PLANES COMO DATOS ═══════════════════════ */
@@ -72,60 +80,98 @@ const src = path.join(root, "remotion", "src");
 async function carga(entrada) {
   const require = createRequire(path.join(root, "remotion", "package.json"));
   const esbuild = require("esbuild");
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "anchos-"));
+  const tmp = carpetaTemporal("anchos-");
   const bundle = path.join(tmp, "out.cjs");
-  await esbuild.build({
-    entryPoints: [entrada],
-    bundle: true,
-    platform: "node",
-    format: "cjs",
-    outfile: bundle,
-    logLevel: "error",
-  });
-  const mod = require(bundle);
-  fs.rmSync(tmp, { recursive: true, force: true });
-  return mod;
+  try {
+    await esbuild.build({
+      entryPoints: [entrada],
+      bundle: true,
+      platform: "node",
+      format: "cjs",
+      outfile: bundle,
+      logLevel: "error",
+    });
+    return require(bundle);
+  } finally {
+    borrar(tmp);
+  }
 }
 
-const ENTRY = `
-export { noticia004 } from ${JSON.stringify(path.join(src, "proyectos/004/noticia-004"))};
-export { noticia005 } from ${JSON.stringify(path.join(src, "proyectos/005/noticia-005"))};
-export { noticia006 } from ${JSON.stringify(path.join(src, "proyectos/006/noticia-006"))};
+/**
+ * Los planes del ESTUDIO que hay en disco: `remotion/src/proyectos/NNN/noticia-NNN.ts`.
+ * Se descubren por nombre, no se enumeran: un clon del producto no los tiene, y
+ * el estudio no debería tener que editar este archivo por cada pieza nueva.
+ */
+const DIR_PROYECTOS = path.join(src, "proyectos");
+export function planesDelEstudio() {
+  if (!fs.existsSync(DIR_PROYECTOS)) return [];
+  return fs
+    .readdirSync(DIR_PROYECTOS)
+    .filter((d) => /^\d{3}$/.test(d))
+    .sort()
+    .map((d) => ({ nnn: d, ruta: path.join(DIR_PROYECTOS, d, `noticia-${d}.ts`) }))
+    .filter((p) => fs.existsSync(p.ruta));
+}
+
+const ENTRY_BASE = `
 export { noticiaDemo } from ${JSON.stringify(path.join(src, "motor/demos/noticia-demo"))};
 export { graficosDemo } from ${JSON.stringify(path.join(src, "motor/demos/graficos-demo"))};
 export { planDemo } from ${JSON.stringify(path.join(src, "motor/demos/plan-demo"))};
 export { compilaNoticia, NOTICIAS } from ${JSON.stringify(path.join(src, "motor/noticias/dialecto"))};
 export { GRAFICOS } from ${JSON.stringify(path.join(src, "motor/graficos/coreografia"))};
 export { anchoTramos, textoPlano, esGrupo, recorre } from ${JSON.stringify(path.join(src, "motor/plan/nucleo"))};
-export { AVANCES } from ${JSON.stringify(path.join(src, "motor/plan/avances"))};
 // LOS THEMES, no una copia suya. Es lo que convierte este arnés en una prueba y
 // no en un espejo: mientras la tipografía se copiaba a mano aquí, un peso que
 // cambiara en \`T\` cambiaba a la vez lo que se dibuja y lo que se mide, el error
 // salía 0 y \`cortas\` seguía diciendo 0 con un titular cortándose en pantalla.
-export { T } from ${JSON.stringify(path.join(src, "motor/noticias/theme-noticias"))};
-export { TXT, FONT } from ${JSON.stringify(path.join(src, "motor/graficos/estilos"))};
+// \`temaNoticiasDe(marca).T\` es lo que dibuja el montador editorial para ESA
+// marca; \`TXT\`, la capa de gráficos (su familia la pone el dialecto).
+export { temaNoticiasDe } from ${JSON.stringify(path.join(src, "motor/noticias/theme-noticias"))};
+export { TXT } from ${JSON.stringify(path.join(src, "motor/graficos/estilos"))};
 `;
 
-async function cargaFuentes() {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "anchos-entry-"));
+async function cargaApi(estudio) {
+  const tmp = carpetaTemporal("anchos-entry-");
   const entrada = path.join(tmp, "entry.ts");
-  fs.writeFileSync(entrada, ENTRY);
-  const mod = await carga(entrada);
-  fs.rmSync(tmp, { recursive: true, force: true });
-  return mod;
+  const extra = estudio.map((p) => `export * as estudio_${p.nnn} from ${JSON.stringify(p.ruta)};`).join("\n");
+  fs.writeFileSync(entrada, ENTRY_BASE + extra + "\n");
+  try {
+    return await carga(entrada);
+  } finally {
+    borrar(tmp);
+  }
+}
+
+/**
+ * El plan de un módulo `noticia-NNN.ts`, en cualquiera de sus dos formas (las
+ * mismas que reconoce `revisar-plan.mjs`): un `Plan` ya compilado, o un
+ * `TomaNoticia[]`, que se compila con la marca por defecto del motor.
+ */
+function planDe(modulo, api, nombre) {
+  const exports_ = Object.values(modulo);
+  const planYa = exports_.find(
+    (v) => v && typeof v === "object" && !Array.isArray(v) && v.formato && Array.isArray(v.tomas) && v.dialecto
+  );
+  if (planYa) return planYa;
+  const tomas = exports_.find((v) => Array.isArray(v) && v.length && v[0]?.tipo && v[0]?.beat);
+  if (tomas) return api.compilaNoticia(tomas.slice());
+  throw new Error(`${nombre} no exporta ni un TomaNoticia[] ni un Plan`);
 }
 
 /* ══════════════════ 2 · LA TIPOGRAFÍA DE CADA PIEZA ════════════════════════ */
 
 /**
- * Cómo se dibuja cada pieza de texto, LEÍDO de los themes en vez de copiado.
+ * Cómo se dibuja cada pieza de texto de un DIALECTO, LEÍDO del theme de su marca
+ * y del propio dialecto en vez de copiado.
  *
  * Esta tabla era una copia a mano de `T` y de `TXT`, y por eso no podía detectar
  * nada: si mañana `T.titular.fontWeight` pasa de 700 a 800, el dialecto sigue
- * estimando con `AVANCES.sf700`, el arnés mediría la verdad a 700 y el error
+ * estimando con la tabla del 700, el arnés mediría la verdad a 700 y el error
  * saldría ~0 con el vídeo dibujándose a 800 y cortándose. Un arnés que no puede
  * fallar no es un arnés. Ahora la familia, el peso, el tracking y las versalitas
- * salen del MISMO objeto que monta el intérprete.
+ * salen del MISMO objeto que monta el intérprete, y las TABLAS con las que R09
+ * estima son las que declara el dialecto (`dialecto.letra.tablas`, lo que
+ * `ficha.ancho` consulta vía `c.tabla(peso)`), no una clave cableada aquí.
  *
  * Lo que sigue escrito a mano es solo lo que ningún theme dice, y cada cosa lleva
  * el archivo que la cablea:
@@ -139,8 +185,7 @@ async function cargaFuentes() {
  * El CUERPO ya no vive aquí: lo resuelve `cuerpoDe()` como lo resuelve el
  * intérprete, `p.px ?? escalaRol[rol]`.
  */
-function tipografia(api) {
-  const { T, TXT, FONT } = api;
+function tipografiaDe(api, nombre, dialecto) {
   const de = (t, familia, extra) => ({
     familia,
     peso: t.fontWeight,
@@ -148,16 +193,27 @@ function tipografia(api) {
     versalitas: t.textTransform === "uppercase",
     ...extra,
   });
+  if (nombre === "noticias") {
+    const { T } = api.temaNoticiasDe(dialecto.marca);
+    return {
+      tablas: dialecto.letra.tablas,
+      T,
+      piezas: {
+        kicker: de(T.kicker, T.kicker.fontFamily),
+        titular: de(T.titular, T.titular.fontFamily),
+        etiqueta: de(T.etiqueta, T.etiqueta.fontFamily),
+        cifra: de(T.cifra, T.cifra.fontFamily, { tabulares: true }),
+        chip: de(T.pie, T.pie.fontFamily),
+      },
+    };
+  }
+  const { TXT } = api;
+  // `TXT` no lleva `fontFamily`: la pone el contenedor con `ctx.letra.texto`
+  // (PistaGraficos.tsx), o sea la letra del dialecto.
+  const FONT = dialecto.letra.texto;
   return {
-    noticias: {
-      kicker: de(T.kicker, T.kicker.fontFamily),
-      titular: de(T.titular, T.titular.fontFamily),
-      etiqueta: de(T.etiqueta, T.etiqueta.fontFamily),
-      cifra: de(T.cifra, T.cifra.fontFamily, { tabulares: true }),
-      chip: de(T.pie, T.pie.fontFamily),
-    },
-    graficos: {
-      // `TXT` no lleva `fontFamily`: la pone `FONT` en el contenedor.
+    tablas: dialecto.letra.tablas,
+    piezas: {
       kicker: de(TXT.kicker, FONT),
       titular: de(TXT.titular, FONT),
       etiqueta: de(TXT.etiqueta, FONT),
@@ -184,9 +240,6 @@ const PIEZA_POR_ROL = {
   noticias: { kicker: true, titular: true, etiqueta: true, cifra: false, chip: false },
   graficos: { kicker: true, titular: true, etiqueta: true, cifra: true, contador: true, chip: true, lista: true },
 };
-
-/** La tabla de `avances.ts` con la que se estima cada combinación. */
-const CLAVE_AVANCES = (esSF, peso) => `${esSF ? "sf" : "inter"}${peso}`;
 
 /**
  * Con qué métrica llega cada pieza a R09, sacado de las fichas:
@@ -225,9 +278,10 @@ const UTILES = 844;
  *              de dónde viene el string; lo que cambia es qué hace la ficha con
  *              el número (ahí toma la palabra más larga).
  */
-function casosDePlan(plan, dialecto, fuente, api, TIPO) {
+function casosDePlan(plan, dialecto, fuente, api) {
   const { textoPlano, esGrupo, recorre } = api;
-  const tabla = TIPO[dialecto];
+  const tipo = tipografiaDe(api, dialecto, plan.dialecto);
+  const tabla = tipo.piezas;
   const escalaRol = plan.dialecto.escala;
   const out = [];
 
@@ -264,7 +318,9 @@ function casosDePlan(plan, dialecto, fuente, api, TIPO) {
       forma,
       texto: plano,
       tramos: tramosDe(rico, ti.peso),
-      familia: dialecto === "noticias" ? "SF" : "Inter",
+      // La familia es la de la TABLA con la que estima R09, no un nombre puesto
+      // aquí: si el dialecto declara otra letra, cambia sola.
+      familia: tipo.tablas[ti.peso].familia,
       familiaCss: ti.familia,
       peso: ti.peso,
       px,
@@ -272,6 +328,7 @@ function casosDePlan(plan, dialecto, fuente, api, TIPO) {
       versalitas: ti.versalitas,
       tabulares: ti.tabulares === true,
       nota,
+      tablas: tipo.tablas,
     });
   };
 
@@ -304,7 +361,7 @@ function casosDePlan(plan, dialecto, fuente, api, TIPO) {
         // El número YA FORMADO: es lo que se ve al final del conteo, y es lo que
         // mide la ficha. La cifra editorial NO pasa por el rol.
         if (dialecto === "noticias")
-          mete("cifra", `${p.prefijo ?? ""}${p.valor.toFixed(p.decimales ?? 0)}${p.sufijo ?? ""}`, p.px ?? api.T.cifra.fontSize, toma.id, "texto");
+          mete("cifra", `${p.prefijo ?? ""}${p.valor.toFixed(p.decimales ?? 0)}${p.sufijo ?? ""}`, p.px ?? tipo.T.cifra.fontSize, toma.id, "texto");
         else mete("cifra", p.texto ?? `${p.prefijo ?? ""}${p.valor ?? 0}${p.sufijo ?? ""}`, px, toma.id, "texto");
         return;
       }
@@ -329,53 +386,49 @@ function casosDePlan(plan, dialecto, fuente, api, TIPO) {
 }
 
 /**
- * Casos escritos A MANO: los extremos que los planes no cubren y los tres con
- * verdad conocida que sirven de test de aceptación de la calibración.
+ * Un constructor de casos para un dialecto concreto: la tipografía y las
+ * tablas salen de ESE dialecto, igual que en `casosDePlan`. Sirve tanto para
+ * los extremos del producto (dialectos por defecto) como para los casos del
+ * estudio (el dialecto del plan publicado).
  */
-function casosAMano(TIPO, escalas) {
-  const N = (pieza, texto, px, extra = {}) => {
-    const ti = TIPO.noticias[pieza];
+const constructorDe = (api, dialecto, d) => {
+  const tipo = tipografiaDe(api, dialecto, d);
+  return (pieza, texto, px, extra = {}) => {
+    const ti = tipo.piezas[pieza];
     return {
       fuente: "extremos",
-      dialecto: "noticias",
+      dialecto,
       pieza,
       forma: "linea",
-      metricaFicha: METRICA.noticias[pieza],
+      metricaFicha: METRICA[dialecto][pieza],
       texto,
       tramos: [{ texto, peso: ti.peso }],
-      familia: "SF",
+      familia: tipo.tablas[ti.peso].familia,
       familiaCss: ti.familia,
       peso: ti.peso,
       px,
       tracking: ti.tracking,
       versalitas: ti.versalitas,
       tabulares: ti.tabulares === true,
+      tablas: tipo.tablas,
       ...extra,
     };
   };
-  const G = (pieza, texto, px, extra = {}) => {
-    const ti = TIPO.graficos[pieza];
-    return {
-      fuente: "extremos",
-      dialecto: "graficos",
-      pieza,
-      forma: "linea",
-      metricaFicha: METRICA.graficos[pieza],
-      texto,
-      tramos: [{ texto, peso: ti.peso }],
-      familia: "Inter",
-      familiaCss: ti.familia,
-      peso: ti.peso,
-      px,
-      tracking: ti.tracking,
-      versalitas: ti.versalitas,
-      tabulares: ti.tabulares === true,
-      ...extra,
-    };
-  };
+};
+
+/**
+ * Casos escritos A MANO: los extremos que los planes no cubren. Textos NEUTROS
+ * a propósito (no son de ninguna pieza): lo que se mide aquí es la forma de la
+ * línea —caja alta, dígitos, tildes, pares de kerning, énfasis—, no un titular.
+ * Van con los dialectos por defecto del motor (`NOTICIAS`, `GRAFICOS`).
+ */
+function casosAMano(api) {
+  const N = constructorDe(api, "noticias", api.NOTICIAS);
+  const G = constructorDe(api, "graficos", api.GRAFICOS);
+  const escalas = { noticias: api.NOTICIAS.escala, graficos: api.GRAFICOS.escala };
   return [
     // ── Los cuerpos POR DEFECTO, que es lo que ningún plan del repo ejerce ───
-    // Los seis planes declaran `px` en cada titular de gráficos, así que el
+    // Los planes declaran `px` en cada titular de gráficos, así que el
     // desajuste ficha↔montador que había ahí (`?? 92` contra el rol hero, 104)
     // no lo tocaba nadie. Estos dos casos son justo eso: sin `px` y sin `rol`.
     {
@@ -385,41 +438,39 @@ function casosAMano(TIPO, escalas) {
       nota: "titular `hero` SIN `px`: el montador dibuja el cuerpo del rol (104), no los 92 de TXT",
     },
     {
-      ...G("kicker", "PROPIEDADES LUXUR", escalas.graficos.apoyo),
+      ...G("kicker", "EDITORIAL DEL MES", escalas.graficos.apoyo),
       forma: "texto",
       id: "ext·graficos-kicker-sin-rol",
       toma: "extremo",
       nota: "kicker SIN `rol`: el defecto del intérprete es `apoyo` (46), no `contexto` (32)",
     },
     {
-      ...N("kicker", "CENTRO Y OCCIDENTE DE COLOMBIA", escalas.noticias.apoyo),
+      ...N("kicker", "NORTE Y OCCIDENTE DE LA REGIÓN", escalas.noticias.apoyo),
       forma: "texto",
       id: "ext·noticias-kicker-sin-rol",
       toma: "extremo",
-      nota: "los once kickers del 006 son así: sin `rol`, o sea 44 px y no 28",
+      nota: "los kickers largos de una pieza editorial son así: sin `rol`, o sea 44 px y no 28",
     },
 
     // ── Énfasis: el peso cambia DENTRO de la línea ──────────────────────────
     {
-      ...N("titular", "La forma de la grieta", 84),
+      ...N("titular", "La forma de la orilla", 84),
       tramos: [
         { texto: "La ", peso: 700 },
         { texto: "forma", peso: 800 },
-        { texto: " de la grieta", peso: 700 },
+        { texto: " de la orilla", peso: 700 },
       ],
       id: "ext·enfasis-en-titular",
-      toma: "n04-no-iguales",
-      fuente: "006",
-      nota: "el titular publicado del 006: `enfasis` monta 800 dentro de una línea a 700",
+      toma: "extremo",
+      nota: "`enfasis` monta 800 dentro de una línea a 700: la estimación tiene que cambiar de tabla a mitad de línea",
     },
     {
-      ...N("etiqueta", "Pueden fallar súbitamente sin dar previo aviso.", 44),
+      ...N("etiqueta", "El dato que cambia la decisión de compra.", 44),
       forma: "texto",
-      tramos: [{ texto: "Pueden fallar súbitamente sin dar previo aviso.", peso: 800 }],
+      tramos: [{ texto: "El dato que cambia la decisión de compra.", peso: 800 }],
       id: "ext·enfasis-en-etiqueta",
-      toma: "n10-senales",
-      fuente: "006",
-      nota: "etiqueta ENTERA con `enfasis`: se dibuja a 800 y su tabla base es sf500",
+      toma: "extremo",
+      nota: "etiqueta ENTERA con `enfasis`: se dibuja a 800 y su tabla base es la del peso 500",
     },
 
     // ── Kerning que ENSANCHA ────────────────────────────────────────────────
@@ -440,18 +491,32 @@ function casosAMano(TIPO, escalas) {
     { ...N("titular", "a", 70), id: "ext·un-caracter", toma: "extremo", nota: "línea de un carácter: el tracking pesa un 4 %" },
     { ...N("titular", "sí", 70), id: "ext·dos-caracteres", toma: "extremo", nota: "línea mínima real" },
     {
-      ...N("titular", "Tras el sismo, muchas viviendas quedaron con grietas y nadie sabe cuáles importan", 70),
+      ...N("titular", "Una línea inventada de ochenta caracteres para ver cuánto se acumula el redondeo", 70),
       id: "ext·linea-larguisima",
       toma: "extremo",
       nota: "80 caracteres: donde más se acumula el redondeo por cubo",
     },
-    { ...N("kicker", "Propiedades Luxur · Antioquia", 28), id: "ext·kicker-versalitas", toma: "extremo", nota: "versalitas + tracking +4 en la misma línea" },
+    { ...N("kicker", "Editorial semanal · Provincia", 28), id: "ext·kicker-versalitas", toma: "extremo", nota: "versalitas + tracking +4 en la misma línea" },
     { ...N("etiqueta", "Espacio fino: 1 234 567 m²", 44), id: "ext·espacios-finos", toma: "extremo", nota: "espacios finos U+2009 y símbolos fuera de todo cubo" },
     { ...N("cifra", "1.234.567", 220), id: "ext·cifra-larga", toma: "extremo", nota: "dígitos a cuerpo grande con tracking −9" },
     { ...N("titular", "«¿Y si no cabe?» —dijo—", 70), id: "ext·puntuacion", toma: "extremo", nota: "comillas, guion largo e interrogación de apertura" },
     { ...N("titular", "Ta Vo Wa Ya", 70), id: "ext·pares-de-kerning", toma: "extremo", nota: "los pares que el modelo por caracteres NO puede ver" },
+  ];
+}
 
-    // ── Test de aceptación (verdad ya conocida antes de medir) ──────────────
+/**
+ * Casos del ESTUDIO: los tres tests de aceptación con verdad conocida ANTES de
+ * medir (tinta contada en columnas de píxeles sobre el render publicado del
+ * 006). Sus textos y sus cuerpos son los de esa pieza, y se miden con el
+ * dialecto con el que se compiló: solo entran si el plan está en disco. En un
+ * clon del producto no están, y no hace falta que estén: la calibración que
+ * validan es la de la letra de sistema del estudio.
+ */
+function casosDelEstudio(api, planes) {
+  const p006 = planes.find(([fuente]) => fuente === "006");
+  if (!p006) return [];
+  const N = constructorDe(api, "noticias", p006[2].dialecto);
+  return [
     {
       ...N("titular", "si una estructura es segura.", 70),
       id: "acepta·006-n11-l3-px70",
@@ -484,9 +549,10 @@ function casosAMano(TIPO, escalas) {
 /**
  * Abre el Chrome de `@remotion/renderer` y mide los casos de una tacada. Una
  * sola llamada a `evaluate`: abrir el navegador cuesta ~1 s y medir 150 líneas,
- * nada.
+ * nada. Antes, inyecta los OTF empaquetados (`inyectaFuentes`): así la Inter
+ * que se mide es la que pinta el render, esté o no instalada en la máquina.
  */
-async function mide(casos) {
+async function mide(casos, fuentes = fuentesEmpaquetadas()) {
   const require = createRequire(path.join(root, "remotion", "package.json"));
   const { openBrowser } = require("@remotion/renderer");
   const browser = await openBrowser("chrome", { logLevel: "error" });
@@ -500,7 +566,11 @@ async function mide(casos) {
       onLog: () => {},
     });
     await page.goto({ url: "about:blank", timeout: 30000, options: {} });
-    return await page.evaluate((lista) => {
+    const empaquetadas = await inyectaFuentes(page, fuentes);
+    // Las tablas no viajan a la página: son cuatro objetos grandes por línea y
+    // el navegador no las necesita para medir.
+    const sinTablas = casos.map(({ tablas, ...c }) => c);
+    const medida = await page.evaluate((lista) => {
       const cv = document.createElement("canvas").getContext("2d");
 
       // ¿Está instalada de verdad cada familia de la pila? Se mide en el DOM y
@@ -577,7 +647,8 @@ async function mide(casos) {
         };
       });
       return { disponible, medidos, ua: navigator.userAgent };
-    }, casos);
+    }, sinTablas);
+    return { ...medida, empaquetadas };
   } finally {
     await browser.close({ silent: true });
   }
@@ -611,40 +682,45 @@ const dedup = (casos) => {
 };
 
 export async function construyeVerdad() {
-  const api = await cargaFuentes();
-  const { compilaNoticia, anchoTramos, AVANCES } = api;
-  const TIPO = tipografia(api);
+  const estudio = planesDelEstudio();
+  const api = await cargaApi(estudio);
+  const { compilaNoticia, anchoTramos } = api;
 
+  // El corpus: los demos del producto y, detrás, los planes del estudio que
+  // haya en disco (cada uno con el dialecto con el que se compiló).
   const planes = [
-    ["004", "noticias", compilaNoticia(api.noticia004.slice())],
-    ["005", "noticias", compilaNoticia(api.noticia005.slice())],
-    ["006", "noticias", api.noticia006],
     ["noticia-demo", "noticias", compilaNoticia(api.noticiaDemo.slice())],
     ["graficos-demo", "graficos", api.graficosDemo],
     ["plan-demo", "graficos", api.planDemo],
+    ...estudio.map((p) => [p.nnn, "noticias", planDe(api[`estudio_${p.nnn}`], api, relativa(p.ruta))]),
   ];
+  if (estudio.length === 0) log.aviso("sin planes noticia-NNN.ts en remotion/src/proyectos/: el corpus son solo los demos del producto");
 
   let casos = [];
-  for (const [fuente, dialecto, plan] of planes) casos = casos.concat(casosDePlan(plan, dialecto, fuente, api, TIPO));
-  casos = casos.concat(casosAMano(TIPO, { noticias: api.NOTICIAS.escala, graficos: api.GRAFICOS.escala }));
+  for (const [fuente, dialecto, plan] of planes) casos = casos.concat(casosDePlan(plan, dialecto, fuente, api));
+  casos = casos.concat(casosAMano(api), casosDelEstudio(api, planes));
   casos = dedup(casos);
 
-  const { disponible, medidos, ua } = await mide(casos);
+  const { disponible, medidos, ua, empaquetadas } = await mide(casos);
 
   const filas = casos.map((c, i) => {
     const m = medidos[i];
-    // Se estima con LOS MISMOS tramos que se han dibujado: un trozo en énfasis
-    // pesa 800 en el <span> y consulta `AVANCES.*800` aquí. Antes se estimaba la
-    // línea entera al peso base y el error del énfasis era invisible.
+    // Se estima con LOS MISMOS tramos que se han dibujado y con LAS TABLAS DEL
+    // DIALECTO del plan: un trozo en énfasis pesa 800 en el <span> y consulta
+    // `tablas[800]` aquí. Antes se estimaba la línea entera al peso base y el
+    // error del énfasis era invisible.
     const est = anchoTramos(
-      c.tramos.map((t) => ({ texto: t.texto, letra: AVANCES[CLAVE_AVANCES(c.familia === "SF", t.peso)] })),
+      c.tramos.map((t) => ({ texto: t.texto, letra: c.tablas[t.peso] })),
       c.px,
       c.tracking,
       { versalitas: c.versalitas, tabulares: c.tabulares }
     );
     const real = m.anchoCaja;
+    // Las tablas no salen en el resultado (ni en el --json): cuatro tablas
+    // enteras por línea, y ya están en `avances.ts`.
+    const { tablas, ...caso } = c;
     return {
-      ...c,
+      ...caso,
       ...m,
       anchoEstimado: est,
       errorPx: Math.round((est - real) * 100) / 100,
@@ -660,22 +736,30 @@ export async function construyeVerdad() {
     };
   });
 
-  return { generado: new Date().toISOString().slice(0, 10), ua, fuentesDisponibles: disponible, casos: filas };
+  return {
+    generado: new Date().toISOString().slice(0, 10),
+    ua,
+    corpus: planes.map(([fuente]) => fuente),
+    fuentesEmpaquetadas: empaquetadas,
+    fuentesDisponibles: disponible,
+    casos: filas,
+  };
 }
 
-const esMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
-if (esMain) {
+if (esMain(import.meta.url)) {
   const verdad = await construyeVerdad();
   const i = process.argv.indexOf("--json");
   if (i >= 0 && process.argv[i + 1]) {
-    fs.mkdirSync(path.dirname(process.argv[i + 1]), { recursive: true });
-    fs.writeFileSync(process.argv[i + 1], JSON.stringify(verdad, null, 2));
+    const salida = path.resolve(process.argv[i + 1]);
+    fs.mkdirSync(path.dirname(salida), { recursive: true });
+    fs.writeFileSync(salida, JSON.stringify(verdad, null, 2));
   }
   const err = verdad.casos.map((c) => c.errorPct).sort((a, b) => a - b);
   const p = (q) => err[Math.min(err.length - 1, Math.floor(q * (err.length - 1)))];
   process.stdout.write(
     [
-      `${verdad.casos.length} líneas medidas · fuentes: ${JSON.stringify(verdad.fuentesDisponibles)}`,
+      `${verdad.casos.length} líneas medidas · corpus: ${verdad.corpus.join(", ")}`,
+      `fuentes: ${verdad.fuentesEmpaquetadas ? `${verdad.fuentesEmpaquetadas} OTF empaquetados inyectados` : "las del sistema (sin OTF empaquetados)"} · sondeo ${JSON.stringify(verdad.fuentesDisponibles)}`,
       `error de anchoTexto (estimado − real): min ${p(0)} % · p50 ${p(0.5)} % · p90 ${p(0.9)} % · max ${p(1)} %`,
       `cortas (estimación por debajo del real): ${err.filter((e) => e < 0).length}  ← tiene que ser 0`,
       `falsos positivos: ${verdad.casos.filter((c) => c.falsoPositivo).length} · falsos negativos: ${verdad.casos.filter((c) => c.falsoNegativo).length}`,

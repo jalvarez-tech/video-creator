@@ -1,3 +1,6 @@
+/* eslint-disable @remotion/volume-callback -- pieza PUBLICADA: la forma con callback cambia el frame
+   de referencia del volumen (relativo a la Sequence, no al de useCurrentFrame) y
+   podría mover el audio; se deja tal cual se renderizó. */
 /**
  * EL INTÉRPRETE DE LA CAMA DIEGÉTICA — `Sabor[]` → `<Audio>`.
  * Hermano de `<PistaSonido>`, y deliberadamente MÁS TONTO que él.

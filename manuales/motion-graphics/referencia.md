@@ -29,7 +29,7 @@ No agregues una animación o un sonido porque exista un corte, un texto o un gr�
 
 ## 2. Entradas y salidas
 
-**Puedes recibir:** guion, narración, subtítulos, imágenes, vídeos, logos, íconos, datos, gráficas, colores/tipografías de marca, banco de SFX, música, instrucciones de estilo, formato (horizontal/vertical/cuadrado), duración, FPS y componentes de Remotion existentes. **Analiza los recursos disponibles antes de construir.** No inventes elementos de marca que contradigan lo suministrado (en este repo: `archivos/marca/`, `theme.ts`).
+**Puedes recibir:** guion, narración, subtítulos, imágenes, vídeos, logos, íconos, datos, gráficas, colores/tipografías de marca, banco de SFX, música, instrucciones de estilo, formato (horizontal/vertical/cuadrado), duración, FPS y componentes de Remotion existentes. **Analiza los recursos disponibles antes de construir.** No inventes elementos de marca que contradigan lo suministrado (en este repo: el perfil `remotion/src/marcas/<canal>.ts` —`remotion/src/marcas/ejemplo.ts` es la plantilla—; los logos y fuentes propios del canal, en la carpeta del proyecto).
 
 **Debes producir:** plan de escenas → tokens de movimiento (`motion.ts`) → cues de sonido (`sound/cues.ts`) → estructura de componentes → código Remotion → validación.
 
@@ -49,7 +49,7 @@ type MotionScenePlan = {
   durationInFrames: number;
   primaryElement: string;
   supportingElements: string[];               // máx. 2 relevantes
-  visualStyle: 'clean' | 'corporate' | 'technological' | 'cinematic' | 'luxury'
+  visualStyle: 'clean' | 'corporate' | 'technological' | 'cinematic' | 'lujo'
              | 'educational' | 'energetic' | 'organic' | 'playful' | 'comedic';
   composition: {
     alignment: 'left' | 'center' | 'right';
@@ -93,7 +93,7 @@ type MotionScenePlan = {
 - **Supporting** (40–60 %) — ayuda a comprender el hero: flecha que acompaña un dato, ✓ de confirmación, línea que señala, etiqueta que explica una cifra.
 - **Ambient** (10–25 %) — vida sin pedir atención: partículas lentas, gradiente en movimiento, reflejo suave, parallax mínimo, textura orgánica.
 
-Si varios elementos compiten, **reduce el movimiento de todos menos del protagonista**. En este sistema, la [R08](../edicion-video/reglas.md) lo hace literal en vertical: **1 gráfico a la vez** en la franja superior (`y < 340 px` en 1080×1920), con entradas/salidas limpias. El patrón `Scene` (en `MotionGraphicsFull.tsx`) y `Statement` (en `MotionApple002.tsx`) encapsulan ese hero único.
+Si varios elementos compiten, **reduce el movimiento de todos menos del protagonista**. En este sistema, la [R08](../edicion-video/reglas.md) lo hace literal en vertical: **1 gráfico a la vez** en la franja superior (`y < 340 px` en 1080×1920), con entradas/salidas limpias. En un plan lo imponen la `ventana` de cada toma y `revisaPlan()`, que avisa si dos tomas `hero` se solapan; en JSX a mano, `<Escena>` (`remotion/src/motor/graficos/Entradas.tsx`) da a cada escena su ventana con frames locales, que es lo que encapsula ese hero único.
 
 ---
 
@@ -146,7 +146,7 @@ Tarjeta de UI     → overshoot sutil         Elemento cómico → overshoot alt
 Logo de lujo      → sin rebote visible
 ```
 
-Muelles nombrados por intención (`SPRING` en `motion.ts`) — mapeados 1:1 a los usados en `MotionGraphicsFull.tsx`:
+Muelles nombrados por intención (`SPRING` en `motion.ts`) — cada uno con la intención que lo justifica, y son los que usan las piezas de la biblioteca:
 
 | Token | `config` | Intención |
 |---|---|---|
@@ -155,7 +155,7 @@ Muelles nombrados por intención (`SPRING` en `motion.ts`) — mapeados 1:1 a lo
 | `tarjeta` | `{ damping: 14, mass: 0.7, stiffness: 120 }` | card/burbuja con cuerpo |
 | `cta` | `{ damping: 14, mass: 0.8, stiffness: 120 }` | botón / CTA |
 | `golpe` | `{ damping: 14 }` | aparición seca (aspa roja scaleX) |
-| `flip` | `{ damping: 12 }` | giro 3D (TUYO/DE OTRO) |
+| `flip` | `{ damping: 12 }` | giro 3D de una tarjeta (`ranura` con `conmuta: "volteo"`) |
 | `pulso` | `{ damping: 8 }` | latido de énfasis |
 | `punch` | `{ damping: 8, stiffness: 220 }` | pop de una cifra (overshoot) |
 | `tap` | `{ damping: 9, stiffness: 200 }` | compresión de botón al pulsar |
@@ -204,7 +204,7 @@ Direcciones     izquierda = anterior · derecha = siguiente · arriba = crecimie
 
 Unidad de animación por contenido: emocional → **frase** · educativo → **palabra/concepto** · titular comercial → **bloques de 2–4 palabras** · dato → **número y unidad por separado** · técnico → **líneas/grupos semánticos**.
 
-Reglas: máx. **2 familias**, **3 pesos** (una para titulares, una para cuerpo, una opcional para cifras/acentos) · **no** animes letra a letra un texto largo · **no** muevas párrafos durante la lectura · **no** mezcles estilos de animación en la misma frase · destaca **una sola** palabra por bloque. Números con `font-variant-numeric: tabular-nums` (evita saltos de ancho; ya se aplica en los contadores de `MotionGraphicsFull.tsx`). Texto que no cabe: (1) reduce contenido, (2) mejora saltos de línea, (3) agranda contenedor, (4) baja tamaño moderadamente, (5) **nunca** cortes ni permitas overflow. Mide el texto antes de renderizar.
+Reglas: máx. **2 familias**, **3 pesos** (una para titulares, una para cuerpo, una opcional para cifras/acentos) · **no** animes letra a letra un texto largo · **no** muevas párrafos durante la lectura · **no** mezcles estilos de animación en la misma frase · destaca **una sola** palabra por bloque. Números con `font-variant-numeric: tabular-nums` (evita saltos de ancho; las piezas `cifra` y `contador` de la biblioteca ya lo aplican). Texto que no cabe: (1) reduce contenido, (2) mejora saltos de línea, (3) agranda contenedor, (4) baja tamaño moderadamente, (5) **nunca** cortes ni permitas overflow. Mide el texto antes de renderizar.
 
 ---
 
@@ -224,7 +224,7 @@ Una **alineación dominante** (izq/centro/der), no mezcles muchas. Profundidad =
 
 ## 13. Color
 
-Roles: `background · surface · primary · accent · text primary · text secondary · success · warning · error`. En el repo → `theme.ts` (`accent #0F766E`, `text #FFFFFF`, `textMuted`) + paleta MG en `motion.ts` (`teal`=accent, `green` éxito, `red` error, `cyan`, `amber`). Reserva el **mayor contraste** para: palabra principal · dato importante · producto · CTA · estado que cambia. **No** uses el acento en todos los elementos. Un cambio de color debe representar: cambio de estado, progreso, éxito, error, giro narrativo o transformación.
+Roles: `background · surface · primary · accent · text primary · text secondary · success · warning · error`. En el repo los hex NO los pone un theme global sino la **marca** (`remotion/src/marcas/<canal>.ts`, tipo `Marca` de `motor/marca.ts`; `remotion/src/marcas/ejemplo.ts` es la plantilla): el plan pide colores por lo que significan (`color: "acento"`, `tinta: "perdida"`) y llegan al montador ya resueltos contra el fondo del molde como `ctx.color` / `ctx.tinta(...)` (SKILL §9). `theme.ts` (`accent`) y la paleta `MG` de `motion.ts` (`teal`, `green` éxito, `red` error, `cyan`, `amber`) solo sirven a las plantillas de ejemplo (`TutorialYT`, `VerticalSocial`, `FeedCuadrado`) y al JSX a mano. Reserva el **mayor contraste** para: palabra principal · dato importante · producto · CTA · estado que cambia. **No** uses el acento en todos los elementos. Un cambio de color debe representar: cambio de estado, progreso, éxito, error, giro narrativo o transformación.
 
 ---
 
@@ -236,7 +236,7 @@ Roles: `background · surface · primary · accent · text primary · text secon
 | **Corporate** | movimiento controlado · transiciones claras · alineaciones rígidas · UI sounds discretos · sin exageración |
 | **Technological** | digital sweeps · líneas y grids · escáneres · glitches limpios · pulsos electrónicos |
 | **Cinematic** | movimientos largos · escala · profundidad · cámara · blur · contraste · pausas · risers e impactos |
-| **Luxury** | movimientos lentos · distancias pequeñas · pocos elementos · máscaras · reflejos · easing suave · sin rebotes |
+| **Lujo** | movimientos lentos · distancias pequeñas · pocos elementos · máscaras · reflejos · easing suave · sin rebotes |
 | **Educational** | secuencias claras · jerarquía didáctica · stagger ordenado · highlights · clicks/confirmaciones · pausas de lectura |
 | **Energetic** | duraciones cortas · whip transitions · escalas rápidas · stagger cerrado · cambios de ritmo |
 | **Organic** | movimientos suaves · papel · tinta · líquido · texturas · irregularidad controlada |
@@ -272,7 +272,7 @@ Qué animación y qué **familia de sonido** pide cada gráfico. El detalle de v
 
 ## 16. Diseño sonoro (puente)
 
-El sonido **refuerza** lo visual, no compite. Cada efecto necesita una **función** y un `reason`. El contenido completo — detección de eventos, sincronización al momento reconocible, peso/dirección, prioridad de la voz, ducking, capas, mezcla, presets de combinación e implementación (`SoundCue` + `cue()` + `PistaSonido` + el mapa `SFX` sobre el banco `sonido/`) — vive en **[`diseno-sonoro/SKILL.md`](../diseno-sonoro/SKILL.md)**. Aquí solo el enlace función → familia:
+El sonido **refuerza** lo visual, no compite. Cada efecto necesita una **función** y un `reason`. El contenido completo — detección de eventos, sincronización al momento reconocible, peso/dirección, prioridad de la voz, ducking, capas, mezcla, presets de combinación e implementación (`SoundCue` + `cue()` + `PistaSonido` + el mapa `SFX` sobre el set de `remotion/public/sfx/`) — vive en **[`diseno-sonoro/SKILL.md`](../diseno-sonoro/SKILL.md)**. Aquí solo el enlace función → familia:
 
 ```text
 MOVIMIENTO → whoosh   ANTICIPACIÓN → riser   LLEGADA → impact   RITMO → click/tick
@@ -299,34 +299,30 @@ Prefiere transformar `translate · scale · rotate · opacity · clip-path · ma
 
 Organiza cada elemento en su `<Sequence from={startFrame} durationInFrames={dur}>`. Cada cue de sonido produce un `SoundCue` (con `reason` obligatorio) reproducido por `<PistaSonido cues={cues} />` **por encima** del vídeo/voz.
 
-### 17.1 Cue track listo para `MotionGraphicsFull.tsx` (avatar 9:16 · 25 fps)
+### 17.1 Cue track listo para `GraficosDemo` (9:16 · 25 fps · 300 f)
 
-`targetFrame` = frames absolutos reales de los beats de [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx). Pégalo, previsualiza y ajusta; va **por encima** del vídeo (la voz manda). Variantes → mapa `SFX`; elige matices con el [recetario](../diseno-sonoro/recetario-motion-graphics.md).
+`targetFrame` = frames del plan `remotion/src/motor/demos/graficos-demo.ts`, que es la plantilla de un `graficos-NNN.ts`: cinco tomas con ventana fija —`g00-ambiente` 8–300 (capa) · `g01-gancho` 8–70 (franja) · `g02-dato` 78–150 (franja: contador 0→87 % en 40 f, etiqueta y subrayado con `tras()`) · `g03-solucion` 155–235 (sello: lista de 3 con `paso: 6`) · `g04-cta` 240–300 (cta con estallido de partículas de 60 f)—. Los targets de las ventanas son exactos; los que dependen de `tras()` (etiqueta, subrayado, ítems de la lista) van marcados con `≈`: léelos en el Studio o en la salida de `revisaPlan` antes de pegarlos. Va **por encima** del vídeo (la voz manda). Variantes → mapa `SFX`; elige matices con el [recetario](../diseno-sonoro/recetario-motion-graphics.md).
 
 ```tsx
 import { PistaSonido } from "./sound/PistaSonido";
 import { cue } from "./sound/cues";
 
-const cuesMG = [
-  cue("hero-in",    "whoosh",  "light",        14,   16, "Entra el contador-héroe (corte al gráfico)"),
-  cue("count-200",  "texture", "data",         16,   56, "El contador sube 0→200 (conteo)", { fadeOutFrames: 8 }),
-  cue("drop-3",     "impact",  "sharp",        286,  20, "Caída 200→3: la fuga (llegada dura)", { priority: "high" }),
-  cue("drop-0",     "impact",  "error",        420,  22, "3→0 visitas: resultado negativo", { priority: "high" }),
-  cue("chat-in",    "click",   "notification", 515,  12, "Llega el mensaje del lead"),
-  cue("seen",       "click",   "tick",         560,  8,  "✓✓ se pone gris: visto sin respuesta"),
-  cue("timer-tick", "texture", "tick",         676,  96, "Tic-tac del timer 5:00→0:00", { fadeInFrames: 6, fadeOutFrames: 6 }),
-  cue("timer-0",    "impact",  "deep",         772,  30, "El timer llega a 0:00 (clímax)", { priority: "high" }),
-  cue("flip",       "impact",  "metal",        770,  14, "Flip TUYO→DE OTRO"),
-  cue("comp-count", "texture", "data",         812,  58, "La competencia capta 0→200", { fadeOutFrames: 8 }),
-  cue("comp-money", "impact",  "money",        870,  20, "200 leads para la competencia (dinero)"),
-  cue("tap",        "click",   "pop",          1010, 12, "Se pulsa el botón Seguir"),
-  cue("followed",   "impact",  "chime",        1016, 18, "Seguir→Siguiendo ✓ (confirmación)"),
+const cuesDemo = [
+  cue("gancho-in",   "whoosh",  "light",    8,   12, "Entra el titular del gancho en la franja alta"),
+  cue("cifra-count", "texture", "data",     78,  40, "El contador sube 0→87 % mientras la voz da la magnitud", { fadeOutFrames: 6 }),
+  cue("cifra-golpe", "impact",  "chime",    118, 16, "≈ La cifra aterriza en 87 % (`golpe: true`; 78 + 40 f de cuenta)", { priority: "high" }),
+  cue("subrayado",   "whoosh",  "scribble", 134, 14, "≈ Se dibuja el subrayado bajo la etiqueta (tras la cifra + 40 f)"),
+  cue("item-1",      "click",   "pop",      157, 8,  "≈ Primer punto de la solución", { variantIndex: 0 }),
+  cue("item-2",      "click",   "pop",      163, 8,  "≈ Segundo punto (paso 6)", { variantIndex: 1 }),
+  cue("item-3",      "click",   "pop",      169, 8,  "≈ Tercer punto (paso 6)", { variantIndex: 2 }),
+  cue("cta-in",      "whoosh",  "light",    240, 14, "Entra el CTA con piel de sello en la banda de subtítulos"),
+  cue("cta-confeti", "impact",  "sparkle",  244, 24, "Estallido de partículas del CTA: refuerza el cierre"),
 ];
 
-// <PistaSonido cues={cuesMG} />
+// <PistaSonido cues={cuesDemo} duckDb={-4.5} />
 ```
 
-> [`MotionGraphicsFull.tsx`](../../remotion/src/proyectos/001/MotionGraphicsFull.tsx) (cortes a pantalla completa) usa otras ventanas: SceneFunnel 200–330 · ScenePhone 330–395 · SceneZero 395–468 · SceneWhats 520–660 · SceneTimer 660–800 · SceneCompetencia 800–905 · SceneFollow 965+. Reetiqueta los `targetFrame` a esas escenas si usas esa versión.
+> Un plan propio cambia las ventanas: escribe los `targetFrame` desde la transcripción real del clip, no desde el guion, y mide el golpe de cada archivo antes ([R26](../edicion-video/reglas.md), diseno-sonoro §11).
 
 ---
 

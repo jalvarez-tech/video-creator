@@ -1,21 +1,18 @@
 ---
 name: camara-avatar
 description: >-
-  Cámara virtual dinámica para vídeos con avatar (HeyGen) en Remotion: cuando el
-  avatar es el elemento principal, no lo dejes todo el vídeo en el mismo tamaño y
-  posición. Genera variaciones sutiles (acercamientos, alejamientos, reencuadres
-  laterales, "hacer espacio") MOTIVADAS por la narrativa —intención de la frase,
-  importancia, ritmo, cambios de sección, entrada de motion graphics— para retener
-  la atención sin marear. Cubre tipos de plano, zoom in/out, reencuadre y el
-  acople zoom↔desplazamiento del cover, continuidad/match cuts, capas
-  (avatar dentro de la cámara; subtítulos y gráficos fuera), reposo bajo gráficos
-  a pantalla completa, sonido de cámara (whoosh/impact/riser al mínimo, bajo la
-  voz) y la implementación determinista con `CameraCue` + `camara.ts` +
-  `CamaraVirtual`. Úsalo siempre que el elemento principal del vídeo sea un avatar
-  talking-head. Triggers: "cámara del avatar", "cámara virtual", "zoom del avatar",
-  "acercar/alejar avatar", "reencuadre", "plano medio/primer plano", "punch in",
-  "que no se vea estático", "mover la cámara", "cámara dinámica", "CameraCue".
-user-invocable: true
+  Cámara virtual dinámica para vídeos con avatar (talking-head, p. ej. de
+  HeyGen) en Remotion: cuando el avatar es el elemento principal, no lo dejes
+  todo el vídeo en el mismo tamaño y posición. Genera variaciones sutiles
+  (acercamientos, alejamientos, reencuadres laterales, «hacer espacio»)
+  MOTIVADAS por la narrativa —intención de la frase, importancia, ritmo, cambios
+  de sección, entrada de motion graphics— para retener la atención sin marear.
+  Cubre tipos de plano, zoom in/out, reencuadre y el acople zoom↔desplazamiento
+  del cover, continuidad/match cuts, capas (avatar dentro de la cámara;
+  subtítulos y gráficos fuera), reposo bajo gráficos a pantalla completa, sonido
+  de cámara (whoosh/impact/riser al mínimo, bajo la voz) y la implementación
+  determinista con `CameraCue` + `camara.ts` + `CamaraVirtual`. Úsalo siempre
+  que el elemento principal del vídeo sea un avatar talking-head.
 metadata:
   type: reference
 ---
@@ -25,7 +22,9 @@ metadata:
 > **Regla maestra.** La cámara cambia para **recuperar la atención**, **reforzar una idea** o **liberar espacio** — nunca solo "para que no parezca estático". Cada **acercamiento comunica importancia**; cada **alejamiento, contexto**; cada **desplazamiento crea espacio**; cada **pausa permite comprender**. El avatar es la BASE estable; la cámara la reencuadra con intención.
 > Antes de cada movimiento responde: **¿coincide con una frase importante? ¿aporta variedad sin distraer? ¿la cara sigue bien encuadrada? ¿no hay ya otro cambio visual fuerte?** Si dudas → **cámara quieta**.
 
-Motor: [`camara.ts`](../../remotion/src/motor/camara.ts) (tipo `CameraCue` · tokens `SHOT`/`LIMITS` · hook `useCamara` · `clampOffset`) · wrapper [`CamaraVirtual.tsx`](../../remotion/src/motor/CamaraVirtual.tsx) · plan de ejemplo [`camara-001.ts`](../../remotion/src/proyectos/001/camara-001.ts) · demo viva [`CamaraDemo.tsx`](../../remotion/src/proyectos/001/CamaraDemo.tsx) (comp `CamaraDemo`).
+**Cuándo se usa (disparadores):** "cámara del avatar", "cámara virtual", "zoom del avatar", "acercar/alejar avatar", "reencuadre", "plano medio/primer plano", "punch in", "que no se vea estático", "mover la cámara", "cámara dinámica", "CameraCue".
+
+Motor: `remotion/src/motor/camara.ts` (tipo `CameraCue` · tokens `SHOT`/`LIMITS` · hook `useCamara` · `clampOffset`) · wrapper `remotion/src/motor/CamaraVirtual.tsx` · plan de ejemplo: el `planCamara` de §10 (alineado a las tomas de `remotion/src/motor/demos/graficos-demo.ts`) · demo viva: comp **`DemoCamara`** del Studio (cámara virtual sobre `remotion/public/avatar.mp4`, el clip de relleno que genera `setup.mjs` si falta; no va versionado, así que sustituirlo por el tuyo con el mismo nombre es seguro y la comp se ajusta sola).
 🔗 **Gráficos:** [motion-graphics](../motion-graphics/SKILL.md) ([R08](../edicion-video/reglas.md) fuera de la cara). · **Sonido:** [diseno-sonoro](../diseno-sonoro/SKILL.md) (whooshes de cámara al mínimo). · **Motor y flujo:** [edicion-video](../edicion-video/SKILL.md).
 
 ---
@@ -66,7 +65,7 @@ El avatar es un `<OffthreadVideo … objectFit:"cover">` que a **`scale` 1.0 ya 
 | Zoom in hook fuerte | 1.00 → 1.22 | 0.5–1.0 | 13–25 | 15–30 | `ease-out` |
 | Zoom out | 1.15 → 1.00 | 0.8–1.5 | 20–38 | 24–45 | `ease-in-out` |
 
-Duración en frames = `Math.round(s · fps)` (helper `seg` de [`motion.ts`](../../remotion/src/motor/motion.ts)). **No** encadenes primeros planos fuertes sin reposo entre ellos.
+Duración en frames = `Math.round(s · fps)` (helper `seg` de `remotion/src/motor/motion.ts`). **No** encadenes primeros planos fuertes sin reposo entre ellos.
 
 ---
 
@@ -78,7 +77,7 @@ No mantengas al avatar siempre centrado cuando entra texto/gráfica. **Recuerda 
 - Rango: **4 %–14 %** del ancho/alto (`LIMITS.panPctMax = 0.14`); `clampOffset` no deja pasarse.
 - Mantén el rostro en zona segura, la mirada hacia el contenido y equilibrio en la composición. **No** zigzaguees al avatar en cada frase.
 
-**En 9:16 de este sistema** los motion graphics viven en la **franja superior**, sobre la cabeza ([R08](../edicion-video/reglas.md)) — o son **tomas a pantalla completa**. Así que "hacer espacio" aquí suele ser **bajar un poco el avatar + zoom suave** para abrir *headroom* bajo el overlay superior (p. ej. el botón "Seguir" del CTA), no un paneo lateral largo. El reencuadre lateral fuerte es sobre todo un recurso de **16:9** (avatar a un lado, gráfico al otro).
+**En 9:16 de este sistema** los motion graphics viven en la **franja superior**, sobre la cabeza ([R08](../edicion-video/reglas.md)) — o son **tomas a pantalla completa**. Así que "hacer espacio" aquí suele ser **bajar un poco el avatar + zoom suave** para abrir *headroom* bajo el overlay superior (p. ej. un CTA en la franja alta), o **subirlo un poco** cuando el bloque cuelga de la banda de subtítulos (moldes `sello`/`cta`), no un paneo lateral largo. El reencuadre lateral fuerte es sobre todo un recurso de **16:9** (avatar a un lado, gráfico al otro).
 
 **Combinado** (siempre pequeño): `scale 1.00→1.12` **+** `translateX 0→−40` **+** `translateY 0→−10`. Nunca combines a la vez zoom fuerte + paneo largo + rotación + shake + desenfoque.
 
@@ -109,7 +108,7 @@ Los cambios coinciden con el **ritmo del discurso**. Prioriza variación en: pri
 | **Cinematográfico / lujo** | 6–12 s | movimientos lentos, muy sutiles, aterrizajes suaves, sin rebote |
 | **Cómico** | según gag | punch in/out repentino, pausa visual |
 
-Un "cambio visual" también es: entrada de texto, gráfica, B-roll, cambio de fondo o transición. **Si ya hay uno fuerte (o un gráfico a pantalla completa), la cámara REPOSA** — no sumes movimiento (§7 y demo `camara-001.ts`).
+Un "cambio visual" también es: entrada de texto, gráfica, B-roll, cambio de fondo o transición. **Si ya hay uno fuerte (o un gráfico a pantalla completa), la cámara REPOSA** — no sumes movimiento (§7 y el `planCamara` de §10).
 
 ---
 
@@ -126,21 +125,25 @@ Entre cues la cámara **se queda donde aterrizó** el último (lo hace `useCamar
 ```tsx
 <AbsoluteFill>
   <CamaraVirtual cues={planCamara}>
-    <OffthreadVideo src={staticFile("avatar-9x16.mp4")}
+    {/* SOLO el avatar va dentro: tu clip, en remotion/public/ */}
+    <OffthreadVideo src={staticFile("avatar.mp4")}
       style={{ width: "100%", height: "100%", objectFit: "cover" }} />
   </CamaraVirtual>
-  <MotionGraphicsFull />                                 {/* overlays FUERA */}
-  <SubtitulosSync segmentos={subtitulos001} yPct={70} />
+  {/* overlays FUERA de la cámara: no se mueven con ella */}
+  <PistaGraficos plan={planGraficos} montadores={MONTADORES_BASE} />
+  <SubtitulosSync segmentos={subtitulos} yPct={70} />
 </AbsoluteFill>
 ```
 
-**B-roll / gráficos a pantalla completa:** el avatar no ocupa toda la pantalla todo el vídeo. Alterna: avatar full · avatar desplazado con texto · avatar pequeño sobre B-roll · avatar en tarjeta/split · gráfico full · regreso al avatar **con acercamiento suave**. Mientras un gráfico full está en pantalla, **la cámara del avatar reposa** (no se ve). En la demo, `MotionGraphicsFull` oculta al avatar en `200–468` y `520–905`; el plan `camara-001.ts` **no** pone cues ahí.
+`PistaGraficos` y `MONTADORES_BASE` vienen de `motor/graficos/PistaGraficos`; `SubtitulosSync`, de `motor/SubtitulosSync` (recibe los segmentos `{from, to, text}` en segundos de la transcripción).
+
+**B-roll / gráficos a pantalla completa:** el avatar no ocupa toda la pantalla todo el vídeo. Alterna: avatar full · avatar desplazado con texto · avatar pequeño sobre B-roll · avatar en tarjeta/split · gráfico full · regreso al avatar **con acercamiento suave**. Mientras un gráfico full está en pantalla, **la cámara del avatar reposa** (no se ve). En un plan de gráficos, las tomas de molde `pantalla` (`cubre: true`) desmontan al avatar: **no pongas `CameraCue` en esas ventanas**. `graficos-demo.ts` no tiene ninguna (el avatar se ve los 300 frames) y por eso el `planCamara` de §10 puede moverse en toda la pieza; `plan-demo.ts` sí cubre en `d02-dato` (78–168), y un plan de cámara para él reposaría ahí.
 
 ---
 
 ## 8. Sonido de cámara (delegado a `diseno-sonoro`)
 
-Los movimientos se acompañan de SFX **sutiles, más sentidos que escuchados**, y **siempre por debajo de la voz**. Enlaza cada `CameraCue.soundCueId` con un `SoundCue` de [`cues.ts`](../../remotion/src/motor/sound/cues.ts) (lo reproduce `PistaSonido`).
+Los movimientos se acompañan de SFX **sutiles, más sentidos que escuchados**, y **siempre por debajo de la voz**. Enlaza cada `CameraCue.soundCueId` con un `SoundCue` de `remotion/src/motor/sound/cues.ts` (lo reproduce `PistaSonido`).
 
 | Movimiento de cámara | `type` / `variant` | Bucket (mezcla) |
 |---|---|---|
@@ -162,7 +165,7 @@ Whooshes e impacts de cámara van **aún más bajos** que el resto de SFX y con 
 
 ## 10. `CameraCue` e implementación (determinista)
 
-Tipo real en [`camara.ts`](../../remotion/src/motor/camara.ts) (`reason` **obligatorio**; si no lo justificas, no lo pongas):
+Tipo real en `remotion/src/motor/camara.ts` (`reason` **obligatorio**; si no lo justificas, no lo pongas):
 
 ```ts
 type CameraCue = {
@@ -176,17 +179,33 @@ type CameraCue = {
 };
 ```
 
-Escribe el plan con el builder `cam()` (como `cue()` para el sonido) — ver `camara-001.ts`:
+Escribe el plan con el builder `cam()` (como `cue()` para el sonido). Este es el **plan de ejemplo** del skill: 9:16 · 25 fps · 300 f, alineado a las cinco tomas de `remotion/src/motor/demos/graficos-demo.ts` (gancho 8–70 · dato 78–150 · lista 155–235 · CTA 240–300), que es la pieza que montan las demos del producto. Cópialo a `remotion/src/proyectos/NNN/camara-NNN.ts` y cambia los frames por los de TU transcripción:
 
 ```ts
-import { cam, CameraCue } from "./camara";
-export const camara001: CameraCue[] = [
+import { cam, CameraCue } from "../../motor/camara";
+
+export const planCamara: CameraCue[] = [
+  // Gancho (toma g01, 8–70): acercamiento corto durante la primera frase.
   cam("cam-hook", 0, 18, "close", { s: 1.0 }, { s: 1.16, y: -6 }, "ease-out", "hook",
     "El acercamiento refuerza la primera frase y crea un cambio visual en los primeros segundos.",
     { soundCueId: "cam-whoosh-hook" }),
-  // … reposo bajo los gráficos full; más cues en las ventanas donde el avatar se ve.
+  // Vuelve a plano medio para explicar: descansa la vista antes del dato.
+  cam("cam-settle", 55, 80, "medium", { s: 1.16, y: -6 }, { s: 1.06, y: 0 }, "ease-in-out", "explanation",
+    "Alejar tras el gancho da contexto y prepara el siguiente acercamiento."),
+  // Dato (g02, 78–150): el contador manda; la cámara espera a que aterrice (≈f118 = 78 + 40 f de cuenta) y entonces subraya.
+  cam("cam-dato", 118, 136, "close", { s: 1.06 }, { s: 1.14 }, "ease-out", "emphasis",
+    "Un acercamiento leve cuando la cifra aterriza pone la cara y el dato en la misma frase."),
+  // Lista (g03, 155–235): el sello cuelga de la banda de subtítulos → abre aire subiendo un poco.
+  cam("cam-lista", 150, 172, "medium", { s: 1.14 }, { s: 1.04, y: -8 }, "ease-in-out", "make-space",
+    "Alejar y subir un poco deja la cara clara del bloque que cuelga de la banda de subtítulos."),
+  // CTA (g04, 240–300): acercamiento progresivo y avatar estable en la frase final.
+  cam("cam-cta", 240, 268, "close", { s: 1.04, y: -8 }, { s: 1.18, y: -10 }, "ease-out", "cta",
+    "El acercamiento final concentra la atención en la única acción que se pide.",
+    { soundCueId: "cam-whoosh-cta" }),
 ];
 ```
+
+Cinco cues en doce segundos es el tope para un ritmo de redes (§5); entre cues la cámara se queda donde aterrizó (§6). Los `soundCueId` enlazan con los `SoundCue` de la pieza (§8). La comp **`DemoCamara`** monta el mismo gesto sobre `remotion/public/avatar.mp4`, con los frames al fps y la duración de ese clip.
 
 `useCamara` deriva todo de `useCurrentFrame()`/`useVideoConfig()` (fps y W/H reales de la comp — avatar 9:16 = **25 fps**, 16:9 = **30 fps**), interpola `scale`/`x`/`y`, aplica `clampOffset` y devuelve el `transform`. **Prohibido** para el movimiento: CSS `animation`/`transition`, timers, estado async, `Math.random()` sin sembrar (rompen el determinismo entre renders).
 
@@ -223,8 +242,17 @@ Antes de escribir código, entrega por escena: `MOMENTO NARRATIVO · MOVIMIENTO 
 
 ---
 
-## ✅ Estado verificado del motor (2026-07-24)
+## ✅ Cómo verificar un plan de cámara
 
-- `camara.ts` + `CamaraVirtual.tsx` + `camara-001.ts` + comp **`CamaraDemo`** → `npm run lint` (eslint + `tsc`) en verde.
-- Stills renderizados de `CamaraDemo` (`remotion/out/cam-*.png`): hook (zoom in, subtítulo fijo), reentrada (reencuadre lateral con cara encuadrada), CTA (baja el avatar y abre headroom para el overlay "Seguir"). Reposo correcto bajo los gráficos a pantalla completa.
-- La comp `Avatar9x16` (verificada) queda **intacta**; la cámara es una capa opcional y por proyecto.
+Un comando por línea, desde `remotion/`:
+
+```bash
+npm run lint
+npx remotion still src/index.ts DemoCamara out/cam-hook.png --frame=12
+npx remotion still src/index.ts DemoCamara out/cam-medio.png --frame=60
+npx remotion still src/index.ts DemoCamara out/cam-cta.png --frame=80
+```
+
+- `npm run lint` (eslint + `tsc`) tiene que estar en verde: un `CameraCue` sin `reason` o con un `purpose` inventado no compila.
+- Los tres stills son los de [R05](../edicion-video/reglas.md): la entrada, la mitad y la salida de un movimiento. Cambia `DemoCamara` por tu comp y los `--frame` por los de tus cues. Mira en cada uno: la cara entera y dentro de la zona segura, cero borde negro (si lo hay, el cue pedía `scale < 1` o un desplazamiento mayor que el margen del zoom: `useCamara` lo recorta, pero el plan estaba mal escrito), y los subtítulos/gráficos quietos mientras el avatar se mueve.
+- La cámara es una capa opcional y por proyecto: una comp sin `<CamaraVirtual>` no cambia ni un píxel.

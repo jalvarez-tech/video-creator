@@ -9,16 +9,16 @@ Subcomandos:
   modelos             Lista los modelos TTS disponibles en tu cuenta
   hablar              Genera un audio desde texto y lo guarda
   guion               Genera un audio por CADA LINEA de un guion `id|texto`,
-                      CON request stitching (el formato que consume generar-vo.sh)
+                      CON request stitching (el formato que consume generar-vo.mjs)
   cuota               Cuantos caracteres te quedan este mes
 
 QUE ES ESTE SCRIPT Y QUE NO ES.
-  El skill oficial `.agents/skills/text-to-speech/` (elevenlabs/skills) es la
-  DOCUMENTACION de la API: modelos, ajustes de voz, formatos, streaming. Este
-  script es la HERRAMIENTA DE PIPELINE del proyecto: locuta un guion por tomas y
-  encaja con generar-vo.sh, que es quien cronometra el plan de la noticia.
-  Cuando dudes de un parametro, mira el skill; cuando quieras locutar un
-  proyecto, usa esto. Stdlib a proposito, como heygen.py y grok.py: el sistema
+  La documentacion publica de ElevenLabs (elevenlabs.io/docs, seccion Text to
+  Speech) es la REFERENCIA de la API: modelos, ajustes de voz, formatos,
+  streaming. Este script es la HERRAMIENTA DE PIPELINE del proyecto: locuta un
+  guion por tomas y encaja con generar-vo.mjs, que es quien cronometra el plan
+  de la noticia. Cuando dudes de un parametro, mira la documentacion; cuando
+  quieras locutar un proyecto, usa esto. Stdlib a proposito, como heygen.py y grok.py: el sistema
   no arrastra dependencias de Python para tres llamadas HTTP.
 
 POR QUE ESTE SCRIPT Y NO HEYGEN para la voz en off:
@@ -30,8 +30,12 @@ POR QUE ESTE SCRIPT Y NO HEYGEN para la voz en off:
 La API key se lee de ELEVENLABS_API_KEY (entorno o .env de la raiz). Nunca se
 imprime, ni entera ni truncada.
 
-Doc: manuales/video-noticias/SKILL.md §8 · skill oficial: .agents/skills/text-to-speech/
+Doc: manuales/video-noticias/SKILL.md §8 · API: https://elevenlabs.io/docs/api-reference/text-to-speech
 """
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import argparse
 import hashlib
 import json
@@ -39,7 +43,7 @@ import os
 import sys
 import urllib.parse
 
-from _comun import ErrorHTTP, cargar_env, descarga, escribe_atomico, pide  # noqa: F401
+from _comun import ErrorHTTP, cargar_env, descarga, escribe_atomico, pide, ruta_visible  # noqa: F401
 
 BASE = "https://api.elevenlabs.io"
 
@@ -101,9 +105,10 @@ def api_key():
     if not k:
         sys.exit(
             "ERROR: falta ELEVENLABS_API_KEY.\n"
-            "  1) cp .env.example .env   2) pega tu clave (elevenlabs.io -> perfil -> API Keys)\n"
-            "  o bien: export ELEVENLABS_API_KEY=...\n"
-            "  Guia paso a paso: skill `setup-api-key` de .agents/skills/"
+            "  1) node herramientas/setup.mjs crea el .env (o copia .env.example como .env)\n"
+            "  2) pega tu clave (elevenlabs.io -> perfil -> API Keys)\n"
+            "  o en la terminal:  export ELEVENLABS_API_KEY=...   (macOS/Linux)\n"
+            '                     $env:ELEVENLABS_API_KEY="..."   (PowerShell)'
         )
     return k
 
@@ -250,7 +255,10 @@ def sintetiza(texto, voz, args, previo=None, siguiente=None):
 def resuelve_voz(args):
     voz = args.voz or ENV.get("ELEVENLABS_VOICE_ID")
     if not voz:
-        sys.exit("ERROR: falta voice_id (--voz o ELEVENLABS_VOICE_ID en .env). Listalo con: elevenlabs.py voces")
+        sys.exit(
+            "ERROR: falta voice_id (--voz o ELEVENLABS_VOICE_ID en .env).\n"
+            "  Listalo con: uv run manuales/edicion-video/scripts/elevenlabs.py voces"
+        )
     return voz
 
 
@@ -261,7 +269,8 @@ def ext_de(formato):
 def cmd_hablar(args):
     texto = args.texto
     if args.texto_archivo:
-        with open(args.texto_archivo, encoding="utf-8") as f:
+        # `utf-8-sig` tolera el BOM del Bloc de notas; el CR lo quita el strip.
+        with open(args.texto_archivo, encoding="utf-8-sig") as f:
             texto = f.read().strip()
     if not texto:
         sys.exit('ERROR: da el texto con --texto "..." o --texto-archivo <ruta>')
@@ -307,7 +316,7 @@ def huella(texto, voz, args, previo, siguiente):
 def limpia_otras_extensiones(destino):
     """
     Borra la MISMA toma con otra extension. Al cambiar `--formato` (mp3 -> wav)
-    la version anterior se quedaba en la carpeta, y `generar-vo.sh` monta TODO lo
+    la version anterior se quedaba en la carpeta, y `generar-vo.mjs` monta TODO lo
     que encuentra ordenado por nombre: la pista salia con cada toma duplicada y
     el cronometraje entero mal, sin un solo aviso.
     """
@@ -334,7 +343,10 @@ def ya_locutada(destino, h):
 
 def lee_guion(ruta):
     lineas = []
-    with open(ruta, encoding="utf-8") as f:
+    # `utf-8-sig`: sin el, un guion con BOM (Bloc de notas) convierte la primera
+    # toma en «\ufeffn01» y su archivo sale con ese nombre. El CR de un guion con
+    # CRLF lo quita el strip de cada linea, igual que hace generar-vo.mjs.
+    with open(ruta, encoding="utf-8-sig") as f:
         for raw in f:
             raw = raw.strip()
             if not raw or raw.startswith("#"):
@@ -419,14 +431,14 @@ def cmd_guion(args):
 
     for i, (idl, texto) in enumerate(lineas):
         if not texto:
-            print(f"  {i+1:3}. {idl:22} (silencio — lo genera generar-vo.sh)")
+            print(f"  {i+1:3}. {idl:22} (silencio — lo genera generar-vo.mjs)")
 
     if not args.simular:
         print(f"\nOK: {args.salida}  ({nuevas} generadas, {reutilizadas} reutilizadas)")
         if GASTO["caracteres"]:
             print(f"Facturado: {GASTO['caracteres']:,} caracteres")
         print("\nSiguiente — montar la pista y cronometrar el plan:")
-        print(f"  bash manuales/video-noticias/scripts/generar-vo.sh <guion> --motor elevenlabs --partes {args.salida}")
+        print(f'  node manuales/video-noticias/scripts/generar-vo.mjs <guion> --motor elevenlabs --partes "{ruta_visible(args.salida)}"')
 
 
 def main():

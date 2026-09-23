@@ -80,10 +80,16 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 import path from "node:path";
+import { ES_MAC, RAIZ, abortar, esMain, flags, leerTexto, log, plataforma, posix, relativa } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-export const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+export const root = RAIZ;
 const DESTINO = path.join(root, "remotion", "src", "motor", "plan", "avances.ts");
+
+/** Una ruta para ENSEÑAR: relativa a la raíz si cae dentro, absoluta con «/» si no (un `--out` fuera del repo). */
+const muestra = (p) => {
+  const r = relativa(p);
+  return r.startsWith("..") ? posix(path.resolve(p)) : r;
+};
 
 /**
  * Los cuerpos a los que se mide el alfabeto entero.
@@ -153,10 +159,12 @@ const INTER = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 
  * cuando se toca `T` (theme-noticias.ts) o `TXT` (graficos/estilos.ts).
  */
 const COMBOS = [
-  { clave: "sf500", familia: "SF", css: SF, peso: 500, usos: "T.etiqueta (44 px, tracking −0,2)" },
-  { clave: "sf600", familia: "SF", css: SF, peso: 600, usos: "T.kicker (28, versalitas) · T.pie (26), el label de <ChipIcono>" },
-  { clave: "sf700", familia: "SF", css: SF, peso: 700, usos: "T.titular (96) · T.cifra (220) · T.subtitulo (58)" },
-  { clave: "sf800", familia: "SF", css: SF, peso: 800, usos: "montadores.tsx: `enfasis` dentro de un titular · Editorial.tsx" },
+  // `sistema: true` = la pila resuelve a la letra del sistema (San Francisco solo
+  // en macOS): fuera de un Mac esas tablas no pueden coincidir con las versionadas.
+  { clave: "sf500", familia: "SF", css: SF, peso: 500, sistema: true, usos: "T.etiqueta (44 px, tracking −0,2)" },
+  { clave: "sf600", familia: "SF", css: SF, peso: 600, sistema: true, usos: "T.kicker (28, versalitas) · T.pie (26), el label de <ChipIcono>" },
+  { clave: "sf700", familia: "SF", css: SF, peso: 700, sistema: true, usos: "T.titular (96) · T.cifra (220) · T.subtitulo (58)" },
+  { clave: "sf800", familia: "SF", css: SF, peso: 800, sistema: true, usos: "montadores.tsx: `enfasis` dentro de un titular · Editorial.tsx" },
   { clave: "inter600", familia: "Inter", css: INTER, peso: 600, usos: "TXT.kicker (30, versalitas) · TXT.etiqueta (46) · lista" },
   { clave: "inter700", familia: "Inter", css: INTER, peso: 700, usos: "graficos/Texto.tsx: <Chip> (letterSpacing 1)" },
   { clave: "inter800", familia: "Inter", css: INTER, peso: 800, usos: "TXT.titular (92; el rol hero dibuja 104) · TXT.cifra (210) · contador" },
@@ -209,9 +217,68 @@ const TABULARES = "0123456789.,%$ ".split("");
  */
 const SONDAS = ["国", "→", "∎", "㎡", "🙂"];
 
+/* ══════════════════ 2b · LAS FUENTES EMPAQUETADAS ══════════════════════════ */
+
+/**
+ * Los OTF de Inter que el motor empaqueta: `motor/fuentes.ts` los carga con
+ * `motor/fuentes.ts` bajo la familia «Inter», así que el render pinta ESOS bytes
+ * en cualquier máquina. Para que la tabla sea la de esos mismos bytes, aquí se
+ * inyectan en la página antes de medir. Sin la carpeta se mide con la Inter que
+ * tenga el sistema, y se dice en la cabecera del archivo generado.
+ */
+export const DIR_FUENTES = path.join(root, "remotion", "public", "fuentes", "inter");
+
+/** Peso CSS de cada corte de Inter, por el sufijo del archivo (`Inter-SemiBold.otf` → 600). */
+const PESOS_INTER = { Thin: 100, ExtraLight: 200, Light: 300, Regular: 400, Medium: 500, SemiBold: 600, Bold: 700, ExtraBold: 800, Black: 900 };
+
+/**
+ * Los OTF empaquetados, en base64 para poder pasarlos a la página. `[]` si la
+ * carpeta no existe. Ordenados por peso para que la salida sea estable.
+ * También lo usa `medir-anchos.mjs`: las dos medidas tienen que ver la misma letra.
+ */
+export function fuentesEmpaquetadas(dir = DIR_FUENTES) {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((f) => /^Inter-[A-Za-z]+\.otf$/.test(f))
+    .map((f) => ({
+      familia: "Inter",
+      peso: PESOS_INTER[f.slice("Inter-".length, -".otf".length)],
+      archivo: f,
+      base64: fs.readFileSync(path.join(dir, f)).toString("base64"),
+    }))
+    .filter((f) => f.peso !== undefined)
+    .sort((a, b) => a.peso - b.peso);
+}
+
+/**
+ * Inyecta las fuentes en la página ANTES de medir: `new FontFace` + `document.fonts.add`.
+ * Una familia web «Inter» tapa a cualquier Inter local en todos sus pesos, así
+ * que una máquina sin Inter, o con otra versión, mide exactamente lo mismo.
+ * Una llamada a `evaluate` por fuente (~350 KB de base64 cada una): un solo
+ * mensaje con los nueve OTF sería de varios MB por el protocolo de Chrome.
+ * Devuelve cuántas se inyectaron.
+ */
+export async function inyectaFuentes(page, fuentes = fuentesEmpaquetadas()) {
+  for (const f of fuentes) {
+    await page.evaluate(async (arg) => {
+      const bin = Uint8Array.from(atob(arg.base64), (c) => c.charCodeAt(0));
+      const cara = new FontFace(arg.familia, bin.buffer, { weight: String(arg.peso), style: "normal" });
+      await cara.load();
+      document.fonts.add(cara);
+    }, f);
+  }
+  if (fuentes.length) {
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+    });
+  }
+  return fuentes.length;
+}
+
 /* ══════════════════ 3 · LA MEDIDA ══════════════════════════════════════════ */
 
-async function mide() {
+async function mide(combos = COMBOS, fuentes = fuentesEmpaquetadas()) {
   const require = createRequire(path.join(root, "remotion", "package.json"));
   const { openBrowser } = require("@remotion/renderer");
   const browser = await openBrowser("chrome", { logLevel: "error" });
@@ -225,7 +292,8 @@ async function mide() {
       onLog: () => {},
     });
     await page.goto({ url: "about:blank", timeout: 30000, options: {} });
-    return await page.evaluate(
+    const empaquetadas = await inyectaFuentes(page, fuentes);
+    const medida = await page.evaluate(
       (arg) => {
         const { combos, alfabeto, tabulares, sondas, anclas, umbralKerning } = arg;
 
@@ -318,7 +386,7 @@ async function mide() {
         return { fuentes, combos: salida, ua: navigator.userAgent };
       },
       {
-        combos: COMBOS,
+        combos,
         alfabeto: ALFABETO,
         tabulares: TABULARES,
         sondas: SONDAS,
@@ -326,6 +394,7 @@ async function mide() {
         umbralKerning: UMBRAL_KERNING,
       }
     );
+    return { ...medida, empaquetadas };
   } finally {
     await browser.close({ silent: true });
   }
@@ -422,12 +491,12 @@ const bloque = (mapa, orden, plana, sangria) => {
   return lineas.join("\n");
 };
 
-function componeArchivo(medida, fecha) {
+function componeArchivo(medida, fecha, combos = COMBOS) {
   const porClave = {};
   for (const c of medida.combos) porClave[c.clave] = c;
 
   const resumen = [];
-  const cuerpos = COMBOS.map((combo) => {
+  const cuerpos = combos.map((combo) => {
     const m = porClave[combo.clave];
 
     // ¿Tiene eje óptico esta combinación? Se decide MIDIENDO, no por familia: si
@@ -566,7 +635,12 @@ function componeArchivo(medida, fecha) {
  *   Generado por  manuales/motion-graphics/scripts/generar-avances.mjs
  *   Fecha         ${fecha}
  *   Navegador     ${medida.ua}
- *   Alfabeto      ${ALFABETO.length} caracteres × ${COMBOS.length} combinaciones de familia y peso
+ *   Fuentes       ${
+   medida.empaquetadas
+     ? `${medida.empaquetadas} OTF de Inter inyectados desde remotion/public/fuentes/inter (los que empaqueta el motor)`
+     : "las del sistema (sin OTF empaquetados en remotion/public/fuentes/inter)"
+ }
+ *   Alfabeto      ${ALFABETO.length} caracteres × ${combos.length} combinaciones de familia y peso
  *
  * POR QUÉ ES UN ARCHIVO DE DATOS Y NO UNA MEDIDA. Medir texto exige DOM, y
  * \`revisaPlan\` corre con \`node\` pelado dentro de un \`useMemo\`: tiene que dar el
@@ -642,16 +716,19 @@ function componeArchivo(medida, fecha) {
  *     mismo que hará el render — pero no son glifos de SF ni de Inter.
  *
  * ═══ LIMITACIÓN DE ENTORNO — LÉELA ANTES DE CONFIAR EN UN AVISO ═══
- * Estos avances son los de la fuente TAL COMO LA RESUELVE ESTE Chrome EN ESTA
- * MÁQUINA (macOS, render local). La pila editorial pide \`-apple-system\` primero, y
- * ese nombre NO resuelve en este Chrome: quien salva la pila es \`BlinkMacSystemFont\`
- * → San Francisco. La capa de gráficos pide \`Inter\`, que sí está instalada. Sondeo
- * del día de la medida (ancho de "Handgloves 123" a 100 px):
+ * Las tablas \`inter*\` son las de los OTF que el motor EMPAQUETA (ver la línea
+ * «Fuentes» de arriba): se inyectan antes de medir, así que valen igual en
+ * cualquier máquina. Las tablas \`sf*\` NO: son las de la fuente TAL COMO LA
+ * RESUELVE ESTE Chrome EN ESTA MÁQUINA (macOS, render local). La pila de sistema
+ * pide \`-apple-system\` primero, y ese nombre NO resuelve en este Chrome: quien
+ * salva la pila es \`BlinkMacSystemFont\` → San Francisco, que solo existe en
+ * macOS. Sondeo del día de la medida (ancho de "Handgloves 123" a 100 px):
 ${disponibles}
- * Si algún día se renderiza en otro entorno —CI en Linux, otra máquina sin Inter—
- * la fuente resuelta será OTRA y esta tabla MENTIRÁ: los avisos de R09 dejarán de
- * corresponderse con lo que se ve. La salida no es retocar estos números, es
- * empaquetar la fuente con \`@remotion/fonts\` y volver a correr el script.
+ * Si una pieza se renderiza en otro entorno —Windows, CI en Linux— la fuente de
+ * sistema resuelta será OTRA y las tablas \`sf*\` MENTIRÁN: los avisos de R09
+ * dejarán de corresponderse con lo que se ve. Por eso una marca nueva declara la
+ * letra empaquetada (\`LETRA_INTER\`), y por eso este script no reescribe la tabla
+ * fuera de macOS salvo que se le fuerce.
  */
 
 /** Una combinación de familia y peso. Las claves son las de \`AVANCES\`. */
@@ -699,40 +776,102 @@ ${cuerpos.join("\n")}
 
 /* ══════════════════ 5 · MAIN ═══════════════════════════════════════════════ */
 
-const esMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
-if (esMain) {
-  const medida = await mide();
-  const fecha = new Date().toISOString().slice(0, 10);
+/**
+ * Los BLOQUES de `AVANCES`, uno por clave, tal como los escribe `componeArchivo`
+ * (la línea de comentario «familia peso — usos» y `clave: { … },` hasta su
+ * cierre a dos espacios). `--check` compara ESTO y no el archivo entero: la cabecera lleva
+ * la fecha, la línea `Navegador` y el sondeo de fuentes, que cambian con la
+ * máquina y no con la tipografía; compararla haría que el check solo pudiera dar
+ * AL DÍA en la máquina que generó la tabla.
+ */
+export const bloquesDe = (texto) => {
+  const out = {};
+  const re = /^  \/\*\* [^\n]*\n  (\w+): \{\n[\s\S]*?\n  \},$/gm;
+  let m;
+  while ((m = re.exec(texto)) !== null) out[m[1]] = m[0];
+  return out;
+};
 
-  const i = process.argv.indexOf("--json");
-  if (i >= 0 && process.argv[i + 1]) {
-    fs.mkdirSync(path.dirname(process.argv[i + 1]), { recursive: true });
-    fs.writeFileSync(process.argv[i + 1], JSON.stringify({ generado: fecha, anclas: ANCLAS, ...medida }, null, 2));
+if (esMain(import.meta.url)) {
+  const f = flags();
+  const comprueba = f.check === true;
+  const seco = f.dry === true;
+  const forzar = f["forzar-plataforma"] === true;
+  // `--solo inter` (o `sf`): mide y compara solo las combinaciones que empiezan
+  // así. Sirve para preguntar «¿los OTF empaquetados dan las mismas tablas que
+  // la Inter instalada?» sin arrastrar las sf*, que en otra máquina no pueden
+  // coincidir. Solo con --check: la tabla se escribe entera o no se escribe.
+  if (f.solo === true) abortar("--solo necesita un prefijo de combinación: --solo inter (o --solo sf)");
+  const solo = typeof f.solo === "string" ? f.solo.toLowerCase() : null;
+  if (solo && !comprueba) abortar("--solo solo tiene sentido con --check: la tabla se escribe entera o no se escribe");
+  let combos = solo ? COMBOS.filter((c) => c.clave.startsWith(solo)) : COMBOS;
+  if (combos.length === 0) abortar(`--solo ${solo}: ninguna combinación empieza así (hay ${COMBOS.map((c) => c.clave).join(", ")})`);
+  // Fuera de macOS la pila de sistema no resuelve a San Francisco (cae a Segoe,
+  // Arial…), así que las combinaciones de sistema NUNCA podrían coincidir con
+  // la tabla versionada y --check no podría dar AL DÍA. Sin --solo se omiten y
+  // se dice; con --solo manda lo que pidió quien llama.
+  const omitidas = comprueba && !ES_MAC && !solo ? combos.filter((c) => c.sistema).map((c) => c.clave) : [];
+  if (omitidas.length) {
+    combos = combos.filter((c) => !c.sistema);
+    log.aviso(`en ${plataforma().so} la letra de sistema no es San Francisco: ${omitidas.join(", ")} solo se comprueban en macOS y las omito`);
   }
 
-  const { texto, resumen } = componeArchivo(medida, fecha);
+  const destino = typeof f.out === "string" ? path.resolve(f.out) : DESTINO;
 
-  const j = process.argv.indexOf("--out");
-  const destino = j >= 0 && process.argv[j + 1] ? path.resolve(process.argv[j + 1]) : DESTINO;
-  const seco = process.argv.indexOf("--dry") >= 0;
+  // La tabla versionada solo se reescribe en macOS: las combinaciones sf* miden
+  // la San Francisco del sistema, que fuera de un Mac es OTRA fuente (Segoe,
+  // Arial…), y una tabla medida ahí cambiaría los avisos de R09 en todas las
+  // máquinas. Mirar (--dry, --out) y comprobar (--check) valen en cualquier sitio.
+  if (!comprueba && !seco && destino === DESTINO && !ES_MAC && !forzar) {
+    log.aviso(
+      `en ${plataforma().so} la pila de sistema no resuelve a San Francisco: las tablas sf* saldrían de otra fuente ` +
+        `y R09 avisaría de otra cosa en todas las máquinas.`
+    );
+    log.info(`No escribo ${relativa(DESTINO)}. Mira la medida con --dry o --out RUTA, o fuerza con --forzar-plataforma si sabes lo que haces.`);
+    process.exit(1);
+  }
+
+  const fuentes = fuentesEmpaquetadas();
+  const medida = await mide(combos, fuentes);
+  const fecha = new Date().toISOString().slice(0, 10);
+
+  if (typeof f.json === "string") {
+    fs.mkdirSync(path.dirname(path.resolve(f.json)), { recursive: true });
+    fs.writeFileSync(path.resolve(f.json), JSON.stringify({ generado: fecha, anclas: ANCLAS, ...medida }, null, 2));
+  }
+
+  const { texto, resumen } = componeArchivo(medida, fecha, combos);
+  const notaFuentes = fuentes.length
+    ? `  fuentes: ${fuentes.length} OTF inyectados desde ${relativa(DIR_FUENTES)}`
+    : `  fuentes: las del sistema (no existe ${relativa(DIR_FUENTES)})`;
+
   // `--check` es lo que se puede correr sin ensuciar el árbol: pregunta si la
   // tabla versionada sigue al día en vez de pisarla y dejar que alguien se
   // acuerde de mirar el `git diff`. Sale con código 1 si algo se mueve, así que
-  // vale tal cual para un hook o para CI. La FECHA no cuenta como cambio: se
-  // regenera cada día y compararla haría fallar el check por nada.
-  const comprueba = process.argv.indexOf("--check") >= 0;
-  const sinFecha = (s) => s.replace(/^ \*   Fecha .*$/m, " *   Fecha —");
-
+  // vale tal cual para un hook o para CI. Compara bloque a bloque (ver
+  // `bloquesDe`): ni la fecha ni la cabecera cuentan como cambio. El archivo se
+  // lee con `leerTexto` para que un clon con CRLF no dé DESFASADA por nada.
   if (comprueba) {
-    const actual = fs.existsSync(destino) ? fs.readFileSync(destino, "utf8") : "";
-    const igual = sinFecha(actual) === sinFecha(texto);
+    const actual = fs.existsSync(destino) ? leerTexto(destino) : "";
+    const viejo = bloquesDe(actual);
+    const nuevo = bloquesDe(texto);
+    const claves = combos.map((c) => c.clave);
+    const distintas = claves.filter((k) => viejo[k] !== nuevo[k]).map((k) => `${k} ${viejo[k] === undefined ? "falta" : "difiere"}`);
+    // Sin --solo, una combinación de más en el archivo también es desfase
+    // (salvo las omitidas por plataforma: están en el archivo a propósito).
+    const sobran = solo ? [] : Object.keys(viejo).filter((k) => !claves.includes(k) && !omitidas.includes(k)).map((k) => `${k} sobra`);
+    const igual = distintas.length === 0 && sobran.length === 0;
     process.stdout.write(
       [
         ...resumen,
+        notaFuentes,
         igual
-          ? `AL DÍA · ${path.relative(root, destino)} coincide con lo medido ahora`
-          : `DESFASADA · ${path.relative(root, destino)} NO coincide con lo medido ahora.\n` +
-            `  Regenera con: node ${path.relative(root, fileURLToPath(import.meta.url))}\n` +
+          ? `AL DÍA · ${muestra(destino)} coincide con lo medido ahora${solo ? ` (solo ${claves.join(", ")})` : ""}` +
+            (omitidas.length ? ` (sin ${omitidas.join(", ")}: la letra de sistema solo se comprueba en macOS)` : "")
+          : `DESFASADA · ${muestra(destino)} NO coincide con lo medido ahora: ${[...distintas, ...sobran].join(", ")}.\n` +
+            (ES_MAC
+              ? `  Regenera con: node ${relativa(fileURLToPath(import.meta.url))}\n`
+              : `  La tabla solo se regenera en macOS (mide la letra de sistema): allí, node ${relativa(fileURLToPath(import.meta.url))}\n`) +
             `  y revisa el diff: lo que cambie aquí cambia lo que R09 avisa.`,
         "",
       ].join("\n")
@@ -744,9 +883,10 @@ if (esMain) {
 
   process.stdout.write(
     [
-      `${COMBOS.length} combinaciones × ${ALFABETO.length} caracteres × ${ANCLAS.length} anclas (${ANCLAS.join(", ")} px)`,
+      `${combos.length} combinaciones × ${ALFABETO.length} caracteres × ${ANCLAS.length} anclas (${ANCLAS.join(", ")} px)`,
       ...resumen,
-      seco ? "(--dry: no se ha escrito nada)" : `escrito → ${path.relative(root, destino)}`,
+      notaFuentes,
+      seco ? "(--dry: no se ha escrito nada)" : `escrito → ${muestra(destino)}`,
       "",
     ].join("\n")
   );

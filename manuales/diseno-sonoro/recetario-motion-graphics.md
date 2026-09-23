@@ -267,18 +267,18 @@ Solo cuando el tono del vídeo permite humor (nunca en escenas serias/emocionale
 | Aparición exagerada | cartoon pop → `cartoon`/`pop` |
 | Caída inesperada | plop → `cartoon` |
 | Movimiento elástico | boing → `boing` |
-| Interrupción repentina | record scratch → `cartoon` (banco 19-EXTRAS «Disco rayado») |
+| Interrupción repentina | record scratch → `cartoon` |
 | Error intencional | comedic buzz → `cartoon`/`error` |
 
 ---
 
-## 21. Ambientes y foley (módulo 18)
+## 21. Ambientes y foley
 
 Los motion graphics conviven con material grabado; el ambiente/foley mejora la sensación de realidad.
 
-**Ambientes** (ciudad, oficina, naturaleza, interior, tecnología, público, viento, vehículo) — banco: 01-AGUA, 19-EXTRAS (wind), 33/34 (suspenso). Reglas: continuidad entre planos · fades suaves · **por debajo de la voz** · no reiniciar abruptamente en cada escena. Implementa como `type: "texture"` + `ambient-wind` (o copia otro ambiente del banco) con `fadeIn/fadeOut` y `loopable`.
+**Ambientes** (ciudad, oficina, naturaleza, interior, tecnología, público, viento, vehículo). Reglas: continuidad entre planos · fades suaves · **por debajo de la voz** · no reiniciar abruptamente en cada escena. Implementa como `type: "texture"` + `ambient-wind` con `fadeIn/fadeOut` y `loopable`, o añade a `public/sfx/` un ambiente propio con nombre estándar (SKILL §11).
 
-**Foley** (pasos, puertas, ropa, papel, teclado, objetos sobre mesa, golpes, cristal, metal, agua) — banco: 28-PAPEL, 26-METAL SLICE, 24-LIQUIDO, 07-CAMARA, 10-CLICK (teclado), 19/37 (teclado, cristal).
+**Foley** (pasos, puertas, ropa, papel, teclado, objetos sobre mesa, golpes, cristal, metal, agua) — variantes del mapa: `paper`, `metal`, `liquid`, `camera`, `mouse`/`typing` (teclado), `chime` (cristal).
 
 ```
 IF acción física claramente visible AND hay foley compatible
@@ -289,7 +289,7 @@ Ejemplo — una taza cae sobre una mesa: **correcto** = cerámica/metal sobre ma
 
 ---
 
-## 22. Recetas rápidas (módulo 26)
+## 22. Recetas rápidas
 
 | Situación | Cadena | Variantes |
 |---|---|---|

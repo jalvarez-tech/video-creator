@@ -1,0 +1,47 @@
+# ESTUDIO · edicion-video — los casos concretos detrás de cada regla
+
+> Este archivo es del **estudio** (el checkout del autor) y **no va al producto**: está en `.gitignore` como `**/ESTUDIO*.md`. Guarda lo que se quitó de `SKILL.md`, `reglas.md`, `proceso-edicion.md` y `heygen.md` para que sirvan a cualquiera —números de proyecto, nombres de clips, rutas a código privado, el estado de esta máquina y de las cuentas— sin que el autor pierda de dónde salió cada regla. Cada entrada lleva el ID de la regla o la sección de la que viene.
+
+## SKILL.md
+
+- **Raíz del estudio:** la carpeta `Work/jalvarez/video-creator` del Mac del autor (`remotion/` dentro). En el producto no hay ruta absoluta: «la carpeta del repo».
+- **Estado verificado del motor (2026-07-22), tal como estaba escrito:** Remotion 4.0.496 · composición `Prueba` + plantillas `TutorialYT` / `VerticalSocial` / `FeedCuadrado` renderizan y animan · render probado: `remotion/out/prueba-frame.png` (1920×1080) + `remotion/out/prueba-720p.mp4` (1280×720, 3 s) + frames de las 3 plantillas · Auto-Editor 29.3.1 operativo · transcripción: whisper.cpp 1.9.1 + modelo `small` en `archivos/whisper/` vía `scripts/transcribir.sh`, probado en español · Studio abre en http://localhost:3000.
+- **Herramientas de esta máquina:** Node 25 · `ffmpeg`/`ffprobe` de Homebrew (sin `zscale` ni `libplacebo`: por eso R21 va por VideoToolbox) · `auto-editor` 29.3.1 instalado con pipx en `~/.local/bin` (el producto fija la 31.6.0 en `setup.mjs`; si se actualiza aquí, revisar los flags de la tabla de cortes) · `whisper-cli` 1.9.1 de Homebrew con el modelo en `archivos/whisper/ggml-small.bin` · Chromium ya descargado por Remotion.
+- **Seedance / RunAPI:** no hay suscripción de Seedance (2026-08-05); el skill `seedance-20` y el skill `grok-imagine` + CLI `runapi` están instalados en `~/.claude/skills` y no se usan. Grok Imagine va directo a xAI con `grok.py`. Ojo (memoria `grok-imagine-sin-creditos`): la clave de xAI es válida pero el equipo está sin créditos (403); comprobar con `grok.py modelos` antes de planificar b-roll IA.
+- **Ejemplos de Pexels:** todos los comandos de la sección estaban anclados al **006** (`--proyecto 006`, tomas `n08b` «grieta en la pared» y `n11` «obra gris en medellin», `media: "broll/006/n08b-grieta-en-la-pared.jpg"`). En el producto son `NNN`.
+
+## proceso-edicion.md
+
+- Los comandos de ejemplo usaban `proyectos/001/…` (el primer proyecto real, «captación de leads inmobiliarios» según su `aprendizajes.md`); ahora `NNN`.
+- La transcripción se hacía con `bash manuales/edicion-video/scripts/transcribir.sh` (whisper-cpp de Homebrew); el producto la hace con `transcribir.mjs`.
+
+## heygen.md
+
+- Los ejemplos apuntaban a `proyectos/001/avatar/heygen.mp4` y `proyectos/001/guion-limpio.md`. El avatar y la voz clonada del autor están en el `.env` (`HEYGEN_AVATAR_ID`, `HEYGEN_VOICE_ID`); para locuciones prefiere su voz clonada de HeyGen, no las de stock (memoria `voz-en-off`).
+
+## reglas.md — de qué pieza salió cada regla
+
+- **R10** — el ejemplo era `staticFile("avatar-003.mp4")`, el clip del 003.
+- **R11** — «aprendido en el 003»: se gradó el avatar por el brief («no other colors anywhere») y el cliente acabó pidiendo el avatar a color.
+- **R12** — el sustrato líquido del **003** (`Fondo003.tsx`); el cliente pidió «los fondos en degradados planos». Ejemplo de fondo plano del estudio: `remotion/src/proyectos/003/Fondo003.tsx`.
+- **R13** — YMAX 237/255 medido en el clip del **003**, quemado por las capas de líquido en `screen`. El «verde profesional» y el velo más transparente: **012** (APEX), `emerald 500` a 3,28 : 1 → `emerald 400` a 4,68 : 1 medido.
+- **R14** — la banda de subtítulos como sitio de los sellos: preferencia del cliente confirmada en el **003** (`Motion003.tsx`: `Sello` + `ScrimInf`; `mundo-003.ts`: `BANDA_SUB`). El corolario (llevar o no subtítulos decide el molde): **012**, montado primero CON subtítulos y el cliente los quitó después (cambió el molde de las cinco tomas sobre el avatar). «El fichero de subtítulos no se borra»: `subtitulos-003.ts` quedó desconectado con su nota; el 012 exportó el `.srt` a mano, y de ahí salió `exportar-srt.mjs`.
+- **R15** — la tabla `SIM` y `TOMAS_GRAFICAS.color` de `mundo-003.ts`; los 5 puntos verdes que destripaban el remate: **003**.
+- **R16·7** — la medida falsa de Pexels (1080×2048 declarado, 720×1366 servido): **014**. La puerta que vuelve a medir lo servido: `proyectos/014/revisar-014.mjs`, sección 4.
+- **R17** — los cuatro planos impublicables (gorro y bufanda, la cruz, la app de Biblia, las lentejuelas): **008** (campaña «Ayudemos a Chocó», pieza de terremoto).
+- **R18** — los kickers reales eran del **008/GRACIAS**: «cualquier ayuda, por menor que sea» partía con «SEA» sola, y «nos pidieron medicinas puntuales» llegaba borde a borde. En el producto se sustituyeron por ejemplos inventados porque son citas literales de un texto publicado de un cliente.
+- **R19** — los cuatro clips apaisados con `rotation=-90`: **010** (los MP4 del cliente de Chocó declaran apaisado y son verticales).
+- **R20** — «el beat de los niños» a 0,80 / 0,70 / 0,68 que pedía 5,75 s de un clip de 5,27 s: **010**. La puerta patrón: `proyectos/010/revisar-010.mjs`; la constante que había que resolver: `VEL_NINOS` (en el producto, `VEL_BEAT`).
+- **R21** — luma 155 / sat 8,7 contra 126 / 11,6: medido en el **011** (MOV de iPhone en HLG). Receta completa: `proyectos/011/normalizar.sh` (VideoToolbox). La trampa de las fotos era `sips`: convierte HEIC a JPEG apaisado con `EXIF Orientation=6`; en el producto se cuenta sin nombrar `sips` (no existe fuera de macOS). La rama `zscale` para Windows/Linux del producto **no está probada en el estudio**: aquí el ffmpeg no trae `zscale`.
+- **R22** — PSNR 41,7 dB frente a 40,8 y 15,9 frente a 24 Mbps: **011**. El master con `colr` 1/1/1 y VUI sin especificar: **011**. El VUI `2/2/1` sin átomo `colr` y el arreglo con opciones de muxer: **012**.
+- **R23** — «el frame 0 es la miniatura»: aprendizaje del **011**. El f0 en blanco con plan limpio y la lista de 5 países con `paso: 5` que enseñaba tres: **012**.
+- **R24** — el kicker que saltaba 44 px entre f308 y f320: **012**, toma de Cartagena, al entrar «APEX» y el chip de la sede. Lo reportó el cliente viendo el vídeo.
+- **R25** — luma 141 y 1,04 : 1 en el f0; 5,37 : 1 en el f4; 137 en f62 y 116 en f146: **013** («Estamos en el APEX», acento verde).
+- **R26** — los golpes medidos (`pop.mp3` f17, `chime-02.mp3` f25, `click-mouse-02/03.mp3` f31, `whoosh-light-02.wav` f34): **014**, sobre el set de `remotion/public/sfx/` (39 archivos copiados de `sonido/`, Mixkit/Pixabay, **no redistribuible**: por eso el producto trae `sfx-base/` sintetizado). El patrón `PICO` + `sfx()`: `remotion/src/proyectos/014/cues-014.ts`. **Pendiente del motor:** guardar `pico` y RMS de los 39 archivos en `SFX`/`POOL` para que `startFromTarget` lo use; mueve el sonido de 001-013 (`pop` nunca sonó en ninguna, memoria `sfx-golpe-fuera-del-cue`), así que se decide oyendo.
+- **R27** — el f0 sin titular con R23 y R25 ya aplicados, el ítem escrito para f693 que arrancaba en f699 y el relevo con el kicker al 10 %: **014**.
+- **R28** — el b-roll insertado sobre el orador: **014** («Publica en minutos»). Los planos descartados por el sujeto detrás de la banda: la chica editando y la familia en la playa. Mediana luma 86 de los clips contra 122 del orador. Patrón completo: `remotion/src/proyectos/014/metraje-014.ts` + `proyectos/014/revisar-014.mjs`.
+- **R29** — las nueve tomas de Isabella (**015**, «Lo que aprendí en APEX»): 0,5-1,1 s de aire a cada lado, whisper con la primera palabra en 0,00 s aunque empezara entre 0,48 y 0,87 s, hueco fijo de 15 f, la «cola» de 0,4 s quitada del motor sin mover un píxel. Patrón completo: `remotion/src/proyectos/015/{metraje-015.ts,Voz015.tsx}` + `proyectos/015/revisar-015.mjs`. «Tratar el audio es otra decisión (ver el 013)»: en el 013 el cliente rechazó la versión limpiada y subida a −15 LUFS y se quedó con el audio tal cual de cámara (memoria `audio-de-evento-sin-tratar`).
+
+## plantillas/
+
+- «Pendiente de afinar con tu marca (colores/logo/tipografías en `archivos/marca/`, luego cambiar `theme.ts`)» era una tarea del autor; los PNG `remotion/out/plantilla-*.png` nunca llegaron a existir en esta máquina (en `remotion/out/` solo está `prueba-720p.mp4`).

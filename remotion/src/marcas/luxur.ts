@@ -37,7 +37,7 @@
  * este canal. Unificarlos mueve píxeles de las piezas de avatar ya publicadas,
  * así que es una decisión de dirección y no un efecto colateral.
  */
-import { MARCA_BASE } from "../motor/marca";
+import { LETRA_SF_SISTEMA, MARCA_BASE } from "../motor/marca";
 import type { Marca } from "../motor/marca";
 
 export const LUXUR: Marca = {
@@ -45,4 +45,7 @@ export const LUXUR: Marca = {
   nombre: "Propiedades Luxur",
   /** El watermark de la píldora inferior, en TODOS los frames de la pieza. */
   sello: { texto: "PROPIEDADES LUXUR" },
+  // Explícita y no heredada: es la letra con la que están PUBLICADAS 004-007, 013
+  // y 015, y así el suelo del motor puede pasar a Inter sin arrastrarlas.
+  letra: LETRA_SF_SISTEMA,
 };

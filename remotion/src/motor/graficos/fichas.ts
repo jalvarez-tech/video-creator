@@ -135,7 +135,7 @@ const ENTRADAS: Record<(typeof NOMBRES_ENTRADA)[number], Tarjeta> = {
     archivo: "Entradas.tsx",
     que: "Recorte duro de izquierda a derecha, con barra de color viajando en el borde.",
     cuando:
-      "Materia dura: la ley del 003 (`LEY_SECA`), 4 f, sin fade ni muelle. `barra` solo en el hero — la barra es un canal de jerarquía, no un adorno.",
+      "Materia dura: la ley seca del dialecto (`LEY_SECA`), 4 f, sin fade ni muelle. `barra` solo en el hero — la barra es un canal de jerarquía, no un adorno.",
     sonido: "swoosh / click ui",
   },
   extiende: {
@@ -218,7 +218,7 @@ const ENVOLTURAS: Record<ClaveEnvoltura, Tarjeta> = {
     archivo: "PistaGraficos.tsx",
     que: "Baja la opacidad a `a` en un momento que puede DISPARAR otro nodo.",
     cuando:
-      "Lo que se apaga cuando entra su relevo (la etiqueta «Hoy» del 003). Con `en: {tras: \"otroNodo\"}` deja de ser un número y pasa a ser una relación: mueve el otro y esto se mueve solo.",
+      "Lo que se apaga cuando entra su relevo (la etiqueta «Hoy» de una línea de tiempo cuando llega la siguiente). Con `en: {tras: \"otroNodo\"}` deja de ser un número y pasa a ser una relación: mueve el otro y esto se mueve solo.",
   },
 };
 
@@ -253,7 +253,7 @@ const AMBIENTE: Record<ClaveAmbiente, Tarjeta> = {
     archivo: "Fondos.tsx",
     que: "Resplandor de color colocado en la escena: «la sala» donde ocurre la toma.",
     cuando:
-      "Continuidad entre tomas: misma sala, otro ángulo (mueve `cx`/`cy`). `cambiaEn` es el cambio DURO de color, el ámbar→rojo del f258 del 003.",
+      "Continuidad entre tomas: misma sala, otro ángulo (mueve `cx`/`cy`). `cambiaEn` es el cambio DURO de color: ámbar→rojo en el frame en que la voz da la mala noticia.",
   },
   particulas: {
     nombre: "Partículas",
@@ -304,7 +304,7 @@ const EJES_GRUPO: Record<EjeGrupo, Tarjeta> = {
     archivo: "PistaGraficos.tsx",
     que: "Estados que SE TURNAN en el mismo hueco, conmutando en frames de la voz.",
     cuando:
-      "La sustitución dura (f924 y f1037 del 003): cada estado muere cuando entra el siguiente. Con `conmuta: \"volteo\"` y DOS hijos es la tarjeta 3D.",
+      "La sustitución dura, en los frames en que la voz cambia de estado: cada estado muere cuando entra el siguiente. Con `conmuta: \"volteo\"` y DOS hijos es la tarjeta 3D.",
     sonido: "whip en el volteo",
   },
   diagrama: {

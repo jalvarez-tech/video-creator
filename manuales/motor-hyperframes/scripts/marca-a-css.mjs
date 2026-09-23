@@ -3,43 +3,48 @@
  * marca-a-css.mjs — LA MARCA, TAMBIÉN EN EL SEGUNDO MOTOR.
  *
  * Uso (desde cualquier sitio):
- *   node manuales/motor-hyperframes/scripts/marca-a-css.mjs luxur proyectos/008/hf/marca.css
+ *   node manuales/motor-hyperframes/scripts/marca-a-css.mjs ejemplo proyectos/001/hf/marca.css
  *   node manuales/motor-hyperframes/scripts/marca-a-css.mjs --lista
  *
  * POR QUÉ EXISTE. `src/marcas/<canal>.ts` es la respuesta del repo a «dos marcas
  * no pueden convivir»: los colores, la letra y el sello dejaron de ser un
  * `export const` de módulo y pasaron a ser un PARÁMETRO que la composición pasa.
- * Un segundo motor que vuelva a escribir `#FF5500` a mano en un CSS deshace esa
+ * Un segundo motor que vuelva a escribir un hex a mano en un CSS deshace esa
  * refactorización en el primer archivo — y lo hace en silencio, porque el vídeo
- * sale bien mientras el canal sea Luxur.
+ * sale bien mientras solo haya un canal.
  *
  * Así que la marca no se copia: se GENERA. Este script lee el mismo fichero que
- * lee Remotion y emite las custom properties. Cambiar `luxur.ts` y volver a
+ * lee Remotion y emite las custom properties. Cambiar `<canal>.ts` y volver a
  * correrlo mueve los dos motores a la vez.
  *
  * LA ÚNICA TINTA QUE NO ES UNA COPIA, y es la que justifica que esto sea un
- * script y no un `cp`: `--acento-texto`. El acento del canal es un color de
- * GRÁFICO (trazos, chips, bordes) y como texto sobre el papel mide 2.62:1,
- * por debajo del 3:1 que exige `hyperframes check` para texto grande. Remotion
- * nunca lo dijo porque no mide contraste; HyperFrames falla la puerta. La
- * respuesta correcta no es bajar la puerta: es que el acento tenga una variante
- * oscurecida para cuando hace de letra. Se calcula aquí, contra el papel real
- * del canal, y por eso vale para cualquier marca y no solo para esta.
+ * script y no un `cp`: `--acento-texto`. El acento de un canal es un color de
+ * GRÁFICO (trazos, chips, bordes) y como texto sobre el papel puede quedarse
+ * por debajo del 3:1 que exige `hyperframes check` para texto grande (el acento
+ * por defecto del motor mide 2.62:1). Remotion nunca lo dijo porque no mide
+ * contraste; HyperFrames falla la puerta. La respuesta correcta no es bajar la
+ * puerta: es que el acento tenga una variante oscurecida para cuando hace de
+ * letra. Se calcula aquí, contra el papel real del canal, y por eso vale para
+ * cualquier marca.
  *
  * Sale con 1 si el canal no existe o si el acento de texto no alcanza el 3:1
  * ni oscureciéndolo: eso significa que esa pareja de colores no se puede leer y
  * hay que decirlo antes de montar, no en la puerta de salida.
  */
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { RAIZ, borrar, carpetaTemporal, posix, relativa } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+const root = RAIZ;
 const remotionDir = path.join(root, "remotion");
 const marcasDir = path.join(remotionDir, "src", "marcas");
+
+/** Una ruta para ENSEÑAR: relativa a la raíz si cae dentro, absoluta con «/» si no. */
+const muestra = (p) => {
+  const r = relativa(p);
+  return r.startsWith("..") ? posix(path.resolve(p)) : r;
+};
 
 const canales = fs.existsSync(marcasDir)
   ? fs
@@ -61,7 +66,7 @@ if (!canales.includes(canal)) {
   process.exit(1);
 }
 if (!salida) {
-  console.error("\n✖ Falta la ruta de salida. Ej: proyectos/008/hf/marca.css\n");
+  console.error("\n✖ Falta la ruta de salida. Ej: proyectos/001/hf/marca.css\n");
   process.exit(1);
 }
 
@@ -73,20 +78,24 @@ if (!salida) {
 const require = createRequire(path.join(remotionDir, "package.json"));
 const esbuild = require("esbuild");
 
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "marca-css-"));
+const tmp = carpetaTemporal("marca-css-");
 const entry = path.join(tmp, "entry.ts");
 fs.writeFileSync(entry, `export * from ${JSON.stringify(path.join(marcasDir, `${canal}.ts`))};\n`);
 const bundle = path.join(tmp, "out.cjs");
-await esbuild.build({
-  entryPoints: [entry],
-  bundle: true,
-  platform: "node",
-  format: "cjs",
-  outfile: bundle,
-  logLevel: "error",
-});
-const mod = require(bundle);
-fs.rmSync(tmp, { recursive: true, force: true });
+let mod;
+try {
+  await esbuild.build({
+    entryPoints: [entry],
+    bundle: true,
+    platform: "node",
+    format: "cjs",
+    outfile: bundle,
+    logLevel: "error",
+  });
+  mod = require(bundle);
+} finally {
+  borrar(tmp);
+}
 
 // El fichero de un canal exporta UNA marca; no se asume cómo se llama.
 const marca = Object.values(mod).find((v) => v && typeof v === "object" && "color" in v && "letra" in v);
@@ -213,7 +222,7 @@ fs.mkdirSync(path.dirname(destino), { recursive: true });
 fs.writeFileSync(destino, css);
 
 const sello = marca.sello?.texto;
-console.log(`\n🎨 ${marca.nombre} → ${path.relative(root, destino)}`);
+console.log(`\n🎨 ${marca.nombre} → ${muestra(destino)}`);
 console.log(`   acento        ${c.acento}`);
 console.log(
   texto.tocado

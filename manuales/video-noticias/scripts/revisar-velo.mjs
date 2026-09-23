@@ -27,13 +27,11 @@
  * verde es falso.
  */
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { RAIZ, borrar, carpetaTemporal } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+const root = RAIZ;
 const remotionDir = path.join(root, "remotion");
 const srcDir = path.join(remotionDir, "src", "motor");
 
@@ -44,7 +42,7 @@ const srcDir = path.join(remotionDir, "src", "motor");
 const require = createRequire(path.join(remotionDir, "package.json"));
 const esbuild = require("esbuild");
 
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "velo-"));
+const tmp = carpetaTemporal("velo-");
 const entry = path.join(tmp, "entry.ts");
 fs.writeFileSync(
   entry,
@@ -52,16 +50,21 @@ fs.writeFileSync(
     `export { revisaPlan } from ${JSON.stringify(path.join(srcDir, "plan", "nucleo.ts"))};\n`
 );
 const bundle = path.join(tmp, "out.cjs");
-await esbuild.build({
-  entryPoints: [entry],
-  bundle: true,
-  platform: "node",
-  format: "cjs",
-  outfile: bundle,
-  logLevel: "error",
-});
-const mod = require(bundle);
-fs.rmSync(tmp, { recursive: true, force: true });
+let mod;
+try {
+  await esbuild.build({
+    entryPoints: [entry],
+    bundle: true,
+    platform: "node",
+    format: "cjs",
+    outfile: bundle,
+    logLevel: "error",
+  });
+  mod = require(bundle);
+} finally {
+  // `borrar` reintenta: en Windows el antivirus retiene un instante el .cjs recién creado.
+  borrar(tmp);
+}
 
 /* ── Los casos ───────────────────────────────────────────────────────────── */
 

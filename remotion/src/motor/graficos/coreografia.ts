@@ -48,8 +48,8 @@ export type { ClaveGlifo };
 
 /* ── Paleta semántica ─────────────────────────────────────────────────────
  * El plan pide colores por lo que SIGNIFICAN. Los hex los pone el proyecto
- * (`plan.paleta`), porque el 002 descartó `MG` entera y definió los suyos: la
- * dirección de arte es de la pieza, los significados son del sistema. */
+ * (`plan.paleta`): una pieza puede descartar `MG` entera y definir los suyos,
+ * porque la dirección de arte es de la pieza y los significados, del sistema. */
 export type Tinta = "marca" | "dato" | "perdida" | "logro" | "neutro" | "texto" | "fondo";
 export type TextoG = TextoRico<Tinta>;
 
@@ -89,7 +89,7 @@ export const LEY_BLANDA: Ley = {
   barraEnHero: false,
 };
 
-/** La ley del 003: barrido duro de 4 f, sin easing, sin fade, sin muelle. La
+/** La ley SECA: barrido duro de 4 f, sin easing, sin fade, sin muelle. La
  *  escalera [0,2,3,7,12] ES el stagger real de sus tarjetas: escritas con esta
  *  ley, las tres no llevan ni un solo `en`. */
 export const LEY_SECA: Ley = {
@@ -106,7 +106,7 @@ export type MoldeGrafico = "sello" | "cta" | "franja" | "pantalla" | "capa";
 
 /**
  * `tinta` es OBLIGATORIA en `Molde` desde que un fondo sin su tinta dejó texto
- * invisible en el 006. En esta capa las cinco valen lo mismo —"texto", el blanco
+ * invisible en una pieza publicada. En esta capa las cinco valen lo mismo —"texto", el blanco
  * de la paleta— porque los cinco moldes se leen sobre vídeo oscuro o sobre el
  * fondo de la propia capa; declararlo no mueve un píxel (es lo que ya daba
  * `dialecto.tintaBase`) y deja escrito por qué.
@@ -117,7 +117,7 @@ export type MoldeGrafico = "sello" | "cta" | "franja" | "pantalla" | "capa";
 export const MOLDES_GRAFICOS: Record<MoldeGrafico, Molde<Tinta>> = {
   sello: {
     cubre: false,
-    ancla: { desde: "arriba", pct: 0.698 }, // 1340/1920 = la banda de subtítulos del 003
+    ancla: { desde: "arriba", pct: 0.698 }, // 1340/1920 = la banda de subtítulos del avatar 9:16
     alinea: "centro",
     gap: 14,
     scrim: { alto: 830, desde: "abajo" },
@@ -206,7 +206,7 @@ export type Punto = readonly [number, number];
 export type Marca = "check" | "punto" | "numero" | "aspa";
 export type ItemDeLista = { texto: TextoG; estado?: "si" | "no" | "neutro" };
 export type SerieBarra = { etiqueta: string; valor: number; tinta?: Tinta };
-/** SceneFunnel del 001 es 0→200 (45 f) · meseta (55 f) · 200→3 (22 f): cuatro
+/** Un embudo que se vacía —0→200 (45 f) · meseta (55 f) · 200→3 (22 f)— son cuatro
  *  keyframes que un par `de`/`a` no expresa, y por eso vivían en un if/else. */
 export type TramoContador = { a: number; dur: number } | { espera: number };
 
@@ -320,7 +320,7 @@ export const PIEZAS = registro({
         p.lineas
           ? anchoLineas(p.lineas, p.px ?? ESCALA[c.rol], -1, c)
           : anchoPalabraMasLargaTramos(tramos(p.texto ?? "", c, 800), p.px ?? ESCALA[c.rol], -1),
-      // El `\n` del plan del 005 no se honra (T.titular no lleva pre-line) y la
+      // Un `\n` dentro de `texto` no se honra (T.titular no lleva pre-line) y la
       // intención se pierde en silencio. Aquí el salto es estructura.
       revisa: (p) => {
         const av: string[] = [];
@@ -382,7 +382,7 @@ export const PIEZAS = registro({
     { alto: (p) => p.px ?? 46, ancho: (p) => p.px ?? 46 }),
   caret: f<{ ancho?: number; alto?: number }>("Caret", "texto", "Texto.tsx",
     "Barra de cursor de un campo de texto.",
-    "Con la envoltura `parpadeo`: es tiempo cíclico, no una ventana. Escrito a mano en 001, 002 y 003.",
+    "Con la envoltura `parpadeo`: es tiempo cíclico, no una ventana. Antes se escribía a mano en cada pieza.",
     { alto: (p) => p.alto ?? 56, ancho: (p) => p.ancho ?? 4 }),
 
   // ── Dato ─────────────────────────────────────────────────────────────────
@@ -393,7 +393,7 @@ export const PIEZAS = registro({
       sonido: "data (textura) + tick / chime al aterrizar",
       alto: (p, c) => altoTexto(p.px ?? ESCALA[c.rol]),
       // Se mide el número MÁS ANCHO que llega a pintarse, no el de destino: un
-      // contador que baja (0→200→3, los `tramos` del 001) enseña «200» a mitad
+      // contador que baja (0→200→3, con `tramos`) enseña «200» a mitad
       // de camino, y si «200» no cabe da igual que el final sea «3». Con
       // `tramos` el máximo sale de recorrerlos; sin ellos, de `de` y `a`.
       ancho: (p, c) => {
@@ -455,7 +455,7 @@ export const PIEZAS = registro({
     }),
   serie: f<{ n: number; activo: number; ancho?: number; alto?: number; hueco?: number; tintas?: readonly Tinta[] }>(
     "SerieBarras", "dato", "Datos.tsx", "Indicador de N pasos con el activo saturado y los demás rebajados.",
-    "Cuando la pieza promete N cosas: planta la tríada antes y repítela en cada paso. Aparece en 4 de las 11 escenas del 003.",
+    "Cuando la pieza promete N cosas: planta la tríada antes y repítela en cada paso, para que el espectador sepa en cuál va.",
     {
       alto: (p) => p.alto ?? 6,
       // Fila de N segmentos: el montador los dibuja con `gap: p.hueco ?? 16` y
@@ -472,7 +472,7 @@ export const PIEZAS = registro({
   aspa: PIEZAS_COMUNES.aspa,
   nodo: f<{ radio: number; relleno?: boolean; grosor?: number }>("Nodo", "dato", "Datos.tsx",
     "Punto de un eje: hueco = «aquí no pasó nada», relleno = «aquí sí».",
-    "En la línea de tiempo del 003. Con `ancla: 'centro'` se coloca por su centro.",
+    "En una línea de tiempo, dentro de un `diagrama`. Con `ancla: 'centro'` se coloca por su centro.",
     { alto: (p) => p.radio * 2, ancho: (p) => p.radio * 2 }),
   enlace: f<{ largo: number; recorre?: number; guion?: readonly [number, number]; dur?: number; alto?: number }>(
     "Enlace", "dato", "Datos.tsx", "Línea punteada que recorre solo una fracción del camino.",
@@ -521,8 +521,8 @@ const escalaHonesta: ReglaG<PiezasGraficos> = (plan) => {
 
 /**
  * Hueco de 1 a 4 frames entre dos tomas que cubren: siempre es un off-by-one y
- * se ve como un parpadeo del avatar en negro. Los huecos GRANDES son guion (en
- * el 001, 468→520 son 52 frames en los que manda el avatar).
+ * se ve como un parpadeo del avatar en negro. Los huecos GRANDES son guion (50
+ * frames entre dos tomas que cubren son una ventana en la que manda el avatar).
  */
 const huecosSospechosos: ReglaG<PiezasGraficos> = (plan) => {
   const av: string[] = [];
@@ -601,7 +601,7 @@ export const GRAFICOS = {
   // `ctx.escalaRol` y de ahí el cuerpo que se dibuja, así que compartirlo es lo
   // que impide que estimación y dibujo vuelvan a divergir.
   escala: ESCALA,
-  // La escala del 003, repetida a mano en once escenas: apoyo = el MISMO color
+  // Lo que antes se repetía a mano en cada escena: apoyo = el MISMO color
   // del hero rebajado (no gris), contexto = neutro.
   alfaRol: { hero: 1, apoyo: 0.88, contexto: 0.82 } as Record<Rol, number>,
   ley: LEY_BLANDA,
@@ -612,8 +612,8 @@ export type DialectoGraficos = typeof GRAFICOS;
 
 /**
  * Un proyecto arranca del dialecto del canal y cambia lo suyo: su ley, su
- * paleta y sus piezas propias. Eso es todo lo que separa al 003 (barrido duro,
- * malla y eje de tiempo) del 002 (muelle, mockups de UI).
+ * paleta y sus piezas propias. Eso es todo lo que separa a una pieza de barrido
+ * duro, malla y eje de tiempo de otra de muelle y mockups de UI.
  */
 export function dialectoDe<R extends PiezasGraficos>(cambios: {
   piezas: R;

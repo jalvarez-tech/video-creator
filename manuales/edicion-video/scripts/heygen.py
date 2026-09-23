@@ -13,12 +13,16 @@ en la raiz de video-creator. Nunca se imprime.
 
 Doc: manuales/edicion-video/heygen.md
 """
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import argparse
 import sys
 import time
 import urllib.parse
 
-from _comun import ErrorHTTP, cargar_env, descarga, pide
+from _comun import ErrorHTTP, cargar_env, descarga, pide, resuelve_salida, ruta_visible
 
 BASE = "https://api.heygen.com"
 
@@ -30,8 +34,10 @@ def api_key():
     if not k:
         sys.exit(
             "ERROR: falta HEYGEN_API_KEY.\n"
-            "  1) cp .env.example .env   2) pega tu clave (app.heygen.com -> Settings -> API)\n"
-            "  o bien: export HEYGEN_API_KEY=..."
+            "  1) node herramientas/setup.mjs crea el .env (o copia .env.example como .env)\n"
+            "  2) pega tu clave (app.heygen.com -> Settings -> API)\n"
+            "  o en la terminal:  export HEYGEN_API_KEY=...   (macOS/Linux)\n"
+            '                     $env:HEYGEN_API_KEY="..."   (PowerShell)'
         )
     return k
 
@@ -100,10 +106,19 @@ DIMS = {
 }
 
 
+SALIDA_DEFECTO = "avatar/heygen.mp4"  # dentro de proyectos/NNN/, cuando se da --proyecto
+
+
 def cmd_generar(args):
+    # La salida se decide ANTES de pedir el render: si ya hay un archivo ahi y
+    # no se pidio --forzar, mejor pararse ahora que despues de gastar creditos.
+    args.salida = resuelve_salida(args.salida, args.proyecto, SALIDA_DEFECTO, args.forzar)
     texto = args.texto
     if args.texto_archivo:
-        with open(args.texto_archivo) as f:
+        # `utf-8-sig`: en Windows, sin encoding, el guion UTF-8 se leia como
+        # cp1252 («cancion» con la tilde rota) y ESE texto iba a un render de
+        # pago; y tolera el BOM que deja el Bloc de notas.
+        with open(args.texto_archivo, encoding="utf-8-sig") as f:
             texto = f.read().strip()
     if not texto:
         sys.exit('ERROR: da el guion con --texto "..." o --texto-archivo <ruta>')
@@ -113,9 +128,15 @@ def cmd_generar(args):
     avatar = args.avatar or ENV.get("HEYGEN_AVATAR_ID")
     voz = args.voz or ENV.get("HEYGEN_VOICE_ID")
     if not avatar:
-        sys.exit("ERROR: falta avatar_id (--avatar o HEYGEN_AVATAR_ID en .env). Listalo con: heygen.py avatares")
+        sys.exit(
+            "ERROR: falta avatar_id (--avatar o HEYGEN_AVATAR_ID en .env).\n"
+            "  Listalo con: uv run manuales/edicion-video/scripts/heygen.py avatares"
+        )
     if not voz:
-        sys.exit("ERROR: falta voice_id (--voz o HEYGEN_VOICE_ID en .env). Listalo con: heygen.py voces")
+        sys.exit(
+            "ERROR: falta voice_id (--voz o HEYGEN_VOICE_ID en .env).\n"
+            "  Listalo con: uv run manuales/edicion-video/scripts/heygen.py voces"
+        )
 
     w, h = DIMS.get(args.formato, DIMS["16:9"])
     payload = {
@@ -159,7 +180,7 @@ def esperar_y_descargar(vid, args):
             dur = st.get("duration")
             print(f"OK, listo ({dur}s). Descargando...")
             tam = descarga(url, args.salida)
-            print(f"Guardado: {args.salida}  ({tam/1_000_000:.1f} MB)")
+            print(f"Guardado: {ruta_visible(args.salida)}  ({tam/1_000_000:.1f} MB)")
             print("Siguiente: usalo como talking-head en Remotion (ver manuales/edicion-video/heygen.md).")
             return
         if estado == "failed":
@@ -168,7 +189,7 @@ def esperar_y_descargar(vid, args):
             sys.exit(
                 f"ERROR: timeout (>{args.timeout}s). Ultimo estado: {estado}.\n"
                 f"  El render sigue en curso y los creditos ya se gastaron. Retomalo con:\n"
-                f"    python3 manuales/edicion-video/scripts/heygen.py descargar {vid} --salida {args.salida}"
+                f'    uv run manuales/edicion-video/scripts/heygen.py descargar {vid} --salida "{ruta_visible(args.salida)}"'
             )
         print(f"   ... {estado}")
         time.sleep(args.intervalo)
@@ -176,6 +197,7 @@ def esperar_y_descargar(vid, args):
 
 def cmd_descargar(args):
     """Retoma un video_id que ya existe (timeout, Ctrl-C, corte de red)."""
+    args.salida = resuelve_salida(args.salida, args.proyecto, SALIDA_DEFECTO, args.forzar)
     print(f"Retomando video_id {args.video_id} (polling cada {args.intervalo}s)...")
     esperar_y_descargar(args.video_id, args)
 
@@ -183,6 +205,13 @@ def cmd_descargar(args):
 def main():
     p = argparse.ArgumentParser(description="Integracion HeyGen para video-creator")
     sub = p.add_subparsers(dest="cmd", required=True)
+
+    def salida(sp):
+        # Sin valor por defecto a proposito: antes todo caia en proyectos/001/
+        # y cada render pisaba al anterior. O --salida, o --proyecto NNN.
+        sp.add_argument("--salida", help=f"Ruta de salida MP4 (o --proyecto NNN, que guarda en proyectos/NNN/{SALIDA_DEFECTO})")
+        sp.add_argument("--proyecto", help="NNN del proyecto, si no das --salida")
+        sp.add_argument("--forzar", action="store_true", help="Sobrescribe la salida si ya existe")
 
     sub.add_parser("avatares", help="Lista avatares y talking photos")
 
@@ -199,13 +228,13 @@ def main():
     g.add_argument("--fondo", default="#FAFAFA", help="Color de fondo hex (def. #FAFAFA)")
     g.add_argument("--velocidad", type=float, default=1.0, help="Velocidad de voz 0.5-1.5")
     g.add_argument("--final", action="store_true", help="Salida FINAL (consume creditos, sin marca de agua)")
-    g.add_argument("--salida", default="proyectos/001/avatar/heygen.mp4", help="Ruta de salida MP4")
+    salida(g)
     g.add_argument("--intervalo", type=int, default=8, help="Segundos entre sondeos (def. 8)")
     g.add_argument("--timeout", type=int, default=900, help="Segundos maximos de espera (def. 900)")
 
     d = sub.add_parser("descargar", help="Retoma un video_id ya generado (no vuelve a generar ni a gastar creditos)")
     d.add_argument("video_id", help="El video_id que imprimio `generar`")
-    d.add_argument("--salida", default="proyectos/001/avatar/heygen.mp4", help="Ruta de salida MP4")
+    salida(d)
     d.add_argument("--intervalo", type=int, default=8, help="Segundos entre sondeos (def. 8)")
     d.add_argument("--timeout", type=int, default=900, help="Segundos maximos de espera (def. 900)")
 

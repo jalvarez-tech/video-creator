@@ -3,8 +3,8 @@
  * revisar-hf.mjs — LO QUE `hyperframes check` NO PUEDE SABER.
  *
  * Uso (desde cualquier sitio):
- *   node manuales/motor-hyperframes/scripts/revisar-hf.mjs 008
- *   node manuales/motor-hyperframes/scripts/revisar-hf.mjs proyectos/008/hf
+ *   node manuales/motor-hyperframes/scripts/revisar-hf.mjs 001
+ *   node manuales/motor-hyperframes/scripts/revisar-hf.mjs proyectos/001/hf
  *
  * DIVISIÓN DE TRABAJO, y por eso este archivo es corto. `npx hyperframes check`
  * ya corre cinco puertas de verdad —lint, runtime en Chrome, layout MEDIDO con
@@ -13,7 +13,7 @@
  * Duplicarlas sería peor y además mentiría.
  *
  * Lo que `check` no sabe es que esto es video-creator: no sabe que el fps lo
- * manda el clip de HeyGen (R01), que una URL de terceros no es un archivo (la
+ * manda el clip del avatar (R01), que una URL de terceros no es un archivo (la
  * lección del b-roll), que la marca es un parámetro y no un color escrito a
  * mano, ni que un canal con `sello.texto: null` no lleva píldora. Eso es lo que
  * mira este script.
@@ -26,20 +26,27 @@
  * un `Date.now()`». NO sirve para razonar sobre anidamiento — de eso se encarga
  * `hyperframes lint`, que sí parsea. Los dos, no uno.
  */
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 import path from "node:path";
+import { RAIZ, leerTexto, posix, relativa } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+const root = RAIZ;
+
+/** Una ruta para ENSEÑAR: relativa a la raíz si cae dentro, absoluta con «/» si no.
+ *  Siempre con barras normales: valen en PowerShell, cmd y bash; las invertidas
+ *  copiadas a Git Bash son un escape y rompen el comando. */
+const muestra = (p) => {
+  const r = relativa(p);
+  return r.startsWith("..") ? posix(path.resolve(p)) : r;
+};
 
 const arg = process.argv[2];
 if (!arg) {
   console.error(`
 ✖ Falta el proyecto.
 
-  node manuales/motor-hyperframes/scripts/revisar-hf.mjs 008
-  node manuales/motor-hyperframes/scripts/revisar-hf.mjs proyectos/008/hf
+  node manuales/motor-hyperframes/scripts/revisar-hf.mjs 001
+  node manuales/motor-hyperframes/scripts/revisar-hf.mjs proyectos/001/hf
 `);
   process.exit(1);
 }
@@ -50,17 +57,19 @@ const dir = /^\d{3}$/.test(arg)
 const indexPath = path.join(dir, "index.html");
 
 if (!fs.existsSync(indexPath)) {
-  console.error(`\n✖ No hay index.html en ${path.relative(root, dir)}\n`);
+  console.error(`\n✖ No hay index.html en ${muestra(dir)}\n`);
   process.exit(1);
 }
 
-const bruto = fs.readFileSync(indexPath, "utf8");
+// `leerTexto`: sin BOM y con LF, para que las expresiones de abajo vean el
+// mismo texto en un clon con autocrlf que en el Mac donde se escribió.
+const bruto = leerTexto(indexPath);
 /* Fuera los comentarios ANTES de mirar nada. Un `<audio>` comentado no carga
  * un archivo, y contarlo como recurso que falta es un falso positivo que hace
  * que la puerta deje de creerse — que es peor que no tenerla. (Lo encontró
  * este mismo script en la plantilla, que trae el ejemplo de SFX comentado.) */
 const html = bruto.replace(/<!--[\s\S]*?-->/g, "");
-const rel = path.relative(root, dir);
+const rel = muestra(dir);
 
 const fallos = [];
 const avisos = [];
@@ -111,7 +120,7 @@ let fps = NaN;
 if (fpsCrudo === null) {
   mal(
     "La raíz no declara `data-fps`. Sin él el CLI renderiza a **30** y nadie avisa: " +
-      "si la pieza lleva avatar de HeyGen a 25, el lip-sync se va y solo se ve mirándolo."
+      "si la pieza lleva un avatar a 25, el lip-sync se va y solo se ve mirándolo."
   );
 } else if (/^\d+\/\d+$/.test(fpsCrudo)) {
   const [n, d] = fpsCrudo.split("/").map(Number);
@@ -207,10 +216,10 @@ const marcaPath = path.join(dir, "marca.css");
 if (!fs.existsSync(marcaPath)) {
   mal(
     "Falta `marca.css`. Genéralo, no lo escribas:\n" +
-      `     node manuales/motor-hyperframes/scripts/marca-a-css.mjs <canal> ${path.join(rel, "marca.css")}`
+      `     node manuales/motor-hyperframes/scripts/marca-a-css.mjs <canal> ${rel}/marca.css`
   );
 } else {
-  const marcaCss = fs.readFileSync(marcaPath, "utf8");
+  const marcaCss = leerTexto(marcaPath);
   if (!/GENERADO por/.test(marcaCss)) {
     ojo("`marca.css` no lleva la cabecera de generado: ¿se editó a mano? Se pierde al regenerar.");
   }
@@ -266,7 +275,7 @@ if (videos.length) {
   ojo(
     `Hay ${videos.length} <video>. Mide su fps con \`ffprobe\` y comprueba que la composición\n` +
       `     declara ESE fps (ahora declara ${Number.isFinite(fps) ? fps : "ninguno"}):\n` +
-      `     ffprobe -v error -select_streams v:0 -show_entries stream=r_frame_rate -of csv=p=0 ${path.join(rel, videos[0])}`
+      `     ffprobe -v error -select_streams v:0 -show_entries stream=r_frame_rate -of csv=p=0 ${rel}/${posix(videos[0])}`
   );
 }
 

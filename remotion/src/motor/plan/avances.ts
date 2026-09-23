@@ -95,7 +95,7 @@
  * Si algún día se renderiza en otro entorno —CI en Linux, otra máquina sin Inter—
  * la fuente resuelta será OTRA y esta tabla MENTIRÁ: los avisos de R09 dejarán de
  * corresponderse con lo que se ve. La salida no es retocar estos números, es
- * empaquetar la fuente con `@remotion/fonts` y volver a correr el script.
+ * empaquetar la fuente (como hace `motor/fuentes.ts` con Inter) y volver a correr el script.
  */
 
 /** Una combinación de familia y peso. Las claves son las de `AVANCES`. */

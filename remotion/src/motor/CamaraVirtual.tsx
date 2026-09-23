@@ -14,10 +14,10 @@ import { CameraCue, useCamara } from "./camara";
  *
  *   <AbsoluteFill>
  *     <CamaraVirtual cues={planCamara}>
- *       <OffthreadVideo src={staticFile("avatar-9x16.mp4")}
+ *       <OffthreadVideo src={staticFile("avatar.mp4")}
  *         style={{ width: "100%", height: "100%", objectFit: "cover" }} />
  *     </CamaraVirtual>
- *     <MotionGraphicsFull />        // overlays FUERA de la cámara
+ *     <PistaGraficos plan={…} />    // overlays FUERA de la cámara
  *     <SubtitulosSync ... />
  *   </AbsoluteFill>
  */

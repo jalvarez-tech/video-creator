@@ -12,6 +12,10 @@
  * envolturas y `tras()`. Y es también la prueba RENDERIZADA de que la gramática
  * completa dibuja algo: un intérprete sin consumidor compila y sale en negro.
  *
+ * El CONTENIDO es de ejemplo (una pieza sobre copias de seguridad): ningún
+ * canal, ninguna cifra real. Lo que importa es la forma de cada toma, no lo que
+ * dice; al copiarlo a un proyecto se cambia el texto y se conserva el molde.
+ *
  * DATOS PUROS: importa del dialecto, nunca de un componente. Por eso se puede
  * validar con `node` sin montar React.
  */
@@ -30,12 +34,12 @@ export const planDemo = plan({ ancho: 1080, alto: 1920, fps: 25, duracion: 300 }
     [
       col(
         [
-          pon("kicker", { texto: "PROPIEDADES LUXUR" }),
+          pon("kicker", { texto: "COPIAS DE SEGURIDAD" }),
           pon("titular", {
             id: "titular",
             rol: "hero",
             px: 60,
-            lineas: ["Firmaste la escritura.", ["Todavía ", { t: "no", tinta: "perdida", enfasis: true }, " eres el dueño."]],
+            lineas: ["Guardaste el archivo.", ["Todavía ", { t: "no", tinta: "perdida", enfasis: true }, " tienes copia."]],
           }),
           // `estira` toma el ancho del bloque: sin él habría que medir a ojo el
           // ancho del titular y volver a medirlo al cambiar una palabra.
@@ -56,7 +60,7 @@ export const planDemo = plan({ ancho: 1080, alto: 1920, fps: 25, duracion: 300 }
     [
       col(
         [
-          pon("kicker", { texto: "EN COLOMBIA" }),
+          pon("kicker", { texto: "EN LOS EQUIPOS" }),
           pon("contador", {
             id: "cifra",
             rol: "hero",
@@ -71,7 +75,7 @@ export const planDemo = plan({ ancho: 1080, alto: 1920, fps: 25, duracion: 300 }
           // `tras(id)` = cuando el otro ATERRIZA. El número exacto (entrada +
           // rampa) deja de estar copiado en el plan y se recalcula solo si la
           // cifra cambia de ley.
-          pon("etiqueta", { texto: "de los compradores cree que ya es dueño", en: tras("cifra", 6) }),
+          pon("etiqueta", { texto: "de los equipos cree que ya tiene copia", en: tras("cifra", 6) }),
           pon("barras", {
             en: tras("cifra", 14),
             max: 100,
@@ -100,17 +104,17 @@ export const planDemo = plan({ ancho: 1080, alto: 1920, fps: 25, duracion: 300 }
     "mecanismo",
     [168, 246],
     "apoyo",
-    "Los tres pasos de la norma cuelgan de la banda de subtítulos: es apoyo de lo que dice la voz, no el mensaje.",
+    "Los tres pasos del método cuelgan de la banda de subtítulos: es apoyo de lo que dice la voz, no el mensaje.",
     [
       col(
         [
-          fila([pon("glifo", { nombre: "balanza", px: 54, color: "marca" }), pon("etiqueta", { texto: "Lo que exige la norma" })], {
+          fila([pon("glifo", { nombre: "caja", px: 54, color: "marca" }), pon("etiqueta", { texto: "Lo que pide el método" })], {
             gap: 20,
           }),
           pon("lista", {
             marca: "numero",
             paso: 6,
-            items: [{ texto: "Escritura pública" }, { texto: "Registro en la ORIP" }, { texto: "Folio de matrícula" }],
+            items: [{ texto: "Una copia local" }, { texto: "Otra fuera del sitio" }, { texto: "Restaurar y comprobar" }],
           }),
           pon("serie", { n: 3, activo: 2, color: "marca" }),
         ],
@@ -132,7 +136,7 @@ export const planDemo = plan({ ancho: 1080, alto: 1920, fps: 25, duracion: 300 }
           pon("titular", { rol: "hero", px: 56, texto: "Escríbenos" }),
           fila(
             [
-              pon("etiqueta", { texto: "WhatsApp", color: "logro" }),
+              pon("etiqueta", { texto: "Mensaje directo", color: "logro" }),
               // El caret es tiempo CÍCLICO (9 f encendido, 9 apagado): como cues
               // serían diez cues de nueve frames. Por eso es una envoltura.
               pon("caret", { color: "logro", envolturas: [{ env: "parpadeo", ciclo: 9, a: 0.9 }] }),

@@ -1,123 +1,116 @@
-# Secretos — nunca versionar
+# .gitignore de video-creator, escrito por ZONAS.
+#
+# El repo sirve a dos cosas a la vez: el PRODUCTO (motor, skills, scripts e
+# instaladores: lo que se comparte) y el ESTUDIO de quien lo usa (sus proyectos,
+# sus marcas, su banco de sonido, sus medios). Los dos viven en las mismas rutas,
+# y este archivo decide qué NO entra en git: secretos, lo que genera cada máquina
+# y todo lo que es material o estudio. La misma lista, para los scripts, está en
+# herramientas/zonas.mjs (la leen exportar-producto.mjs y revisar-producto.mjs).
+#
+# Ojo: ignorar no destrackea. Un archivo que ya está en el índice sigue en git
+# aunque una regla de aquí lo cubra; solo `git rm --cached` lo saca.
+
+# ─── 1. Secretos ─────────────────────────────────────────────────────────────
+# Las claves las escribe el usuario en .env (setup.mjs lo crea desde .env.example).
 .env
+.env.*
+!.env.example
 
-# Sistema
+# ─── 2. Sistema operativo ────────────────────────────────────────────────────
 .DS_Store
+Thumbs.db
+desktop.ini
 
-# Dependencias / builds
+# ─── 3. Dependencias, builds y cachés (se regeneran) ────────────────────────
 **/node_modules/
 remotion/out/
-# Chrome que se descarga `@remotion/renderer` para renderizar y para medir
-# (`generar-avances.mjs`, `medir-anchos.mjs`): 193 MB de binario que no se versiona.
+# Chrome Headless Shell que descarga Remotion para renderizar y para medir
+# (generar-avances.mjs, medir-anchos.mjs): cientos de MB de binario que
+# `node herramientas/setup.mjs` repone.
 .remotion/
-
-# Modelos de IA (pesados, se descargan aparte)
+remotion/.remotion/
+# Salida por defecto de `hyperframes render` si alguien lo lanza a pelo en vez
+# de por render-hf.mjs (que la manda a pruebas-720p/ o a finales/).
+renders/
+**/renders/
+# Modelo de whisper (~470 MB): lo descarga `setup.mjs --whisper`.
 archivos/whisper/*.bin
+# Python: los scripts de manuales/ son de librería estándar y uv no crea
+# entornos dentro del repo, pero un intérprete siempre deja su caché.
+__pycache__/
+*.pyc
+.venv/
+# Carpeta local de herramientas, si alguien la deja dentro del repo.
+.herramientas/
 
-# Material de vídeo pesado (se regenera / se guarda aparte)
+# ─── 4. Agentes: lo que cada máquina genera y lo que cada persona anota ─────
+# Los enlaces .claude/skills/<s> y .agents/skills/<s> → manuales/<s> los crea
+# setup.mjs en cada instalación (symlink en macOS, junction en Windows). Ahí
+# caen también las skills de terceros que se instalen aparte (`npx skills add`,
+# las de HyperFrames con prefijo): copias que se reponen, no se versionan.
+.claude/skills/*
+.agents/skills/*
+.claude/settings.local.json
+.claude/worktrees/
+# Notas locales de cada persona: Claude Code lee CLAUDE.local.md y Codex,
+# AGENTS.override.md. Se quedan en su máquina.
+CLAUDE.local.md
+AGENTS.override.md
+
+# ─── 5. Zonas del estudio: se ignoran SOLO en el producto ────────────────────
+# En este checkout (el ESTUDIO) los proyectos, las marcas, el banco de sonido y
+# el cuaderno (ESTUDIO.md) SÍ se versionan. Al exportar, exportar-producto.mjs
+# sustituye el bloque entre las dos marcas por las zonas de herramientas/zonas.mjs,
+# que el producto ignora entero (sonido/, proyectos/*, remotion/src/proyectos/*,
+# remotion/src/marcas/* salvo ejemplo.ts, remotion/public/* salvo lo del producto,
+# y todo ESTUDIO*.md). Lo que va DENTRO de las marcas es lo que el estudio no
+# versiona por ser material o marcadores locales.
+# >>> SOLO ESTUDIO >>>
+# Medios que Remotion sirve y que no entran en git: se reponen desde su origen
+# (clips del avatar, voz en off, b-roll y el material de cada pieza).
+remotion/public/*.mp4
+# avatar.mp4 va dentro: es el relleno que setup.mjs genera (o el clip que el
+# usuario pone con ese nombre), no fuente.
+remotion/public/noticias/*.wav
+remotion/public/noticias/*.mp3
+remotion/public/noticias/*.mp4
+remotion/public/broll/
+remotion/public/choco-010/
+remotion/public/boda-011/
+remotion/public/apex-015/
+remotion/public/quien-soy-013/
+# Marcador local de origen del set de SFX (lo escribe sfx.mjs desde-banco).
+remotion/public/sfx/.origen.json
+# Material de terceros y vistas previas dentro de los proyectos.
+**/vistas-previas/
+proyectos/*/broll/cliente/
+# <<< SOLO ESTUDIO <<<
+
+# ─── 6. Material dentro de un proyecto ───────────────────────────────────────
+# En el producto la zona 5 tapa proyectos/ entero; en el estudio, que sí los
+# versiona, estas reglas dicen QUÉ es material y no código dentro de uno: el
+# original, el avatar, las pruebas, las vistas previas, la voz en off (se
+# regenera del guion), la música, el b-roll descargado y las copias de assets
+# del segundo motor. Los manifiestos, los guiones y las recetas SÍ se versionan.
 entrada/*
+avatar/*.mp4
 proyectos/*/original.*
 proyectos/*/avatar/
 proyectos/*/finales/
 proyectos/*/pruebas-720p/
 proyectos/*/vistas-previas/
-
-# SEGUNDO MOTOR (HyperFrames, proyectos/*/hf/). La composición SÍ se versiona —
-# `index.html` es código, `marca.css` se regenera con marca-a-css.mjs y GSAP está
-# vendorizado a propósito para que la pieza siga renderizando dentro de un año.
-# Lo que queda fuera es `assets/`: ahí van copias del avatar, del b-roll y de los
-# WAV del banco, y es la misma decisión que proyectos/*/avatar/ y proyectos/*/vo/
-# — material, no código. Un clon nuevo los repone con heygen.py / bancos.py y
-# copiando del banco de sonido/.
-proyectos/*/hf/assets/*
-!proyectos/*/hf/assets/.gitkeep
-# Los PNG de `hyperframes snapshot` (paso obligatorio antes de exportar): son
-# evidencia de una revisión, no fuente. Mismo trato que remotion/out/.
-proyectos/*/hf/snapshots/
-# Salida por defecto de `hyperframes render` si alguien lo invoca a pelo en vez
-# de por render-hf.sh (que la manda a pruebas-720p/ o a finales/).
-renders/
-**/renders/
-
-# Voz en off: es MATERIAL, no código (misma decisión que proyectos/*/avatar/).
-# Y aquí ni siquiera hace falta guardarla: lo que la define es el guion, y ese SÍ
-# se versiona (proyectos/*/guion-vo.txt). Se regenera entera con
-#   python3 manuales/edicion-video/scripts/elevenlabs.py guion <guion> --salida <dir>
-#   bash  manuales/video-noticias/scripts/generar-vo.sh <guion> --motor elevenlabs --partes <dir>
 proyectos/*/vo/
-remotion/public/noticias/*.wav
-remotion/public/noticias/*.mp3
-remotion/public/noticias/*.mp4
-
-# Clips fuente del avatar (~210 MB): son material, no código. Misma decisión que
-# proyectos/*/avatar/. Sin ellos las comps Avatar002/Avatar003 no renderizan en un
-# clon nuevo: copia los MP4 a remotion/public/ y a avatar/ desde tu disco.
-avatar/*.mp4
-remotion/public/*.mp4
-
-# B-ROLL DE BANCOS: el binario fuera, el MANIFIESTO dentro. Es la misma decisión
-# que la voz en off (el guion se versiona, el WAV no), y aquí además es lo único
-# que hace re-renderizable el proyecto dentro de un año: los catálogos de los
-# bancos cambian y las URLs caducan, así que lo que se guarda es qué se eligió,
-# de quién es y bajo qué licencia — con su sha256. Se repone entero con
-#   python3 manuales/edicion-video/scripts/bancos.py reponer --proyecto NNN
+proyectos/*/musica/*.wav
 proyectos/*/broll/*/raw/
 proyectos/*/broll/cache/
 proyectos/*/broll/contactos/
-remotion/public/broll/
 !proyectos/*/broll/manifiesto.json
-
-# El BANCO DE SONIDOS SÍ se versiona (decisión del 2026-07-28): `sonido/` completo
-# (~846 MB, 1227 archivos, 37 categorías) va al repo porque el sistema depende de
-# él —`copiar-sfx.sh` saca de ahí el set calibrado de remotion/public/sfx/ y el
-# recetario de diseno-sonoro referencia sus categorías por nombre—. Un clon sin
-# banco no puede elegir un efecto nuevo. Repo privado: no hay redistribución.
-# Ningún archivo pasa de 23 MB, así que no toca el límite de 100 MB de GitHub.
-
-!**/.gitkeep
-
-# Papelera de Android: los `.trashed-*` son archivos YA BORRADOS que se colaron
-# al sincronizar el banco de sonidos desde el móvil. No son efectos: son basura.
+proyectos/*/hf/assets/*
+!proyectos/*/hf/assets/.gitkeep
+# Los PNG de `hyperframes snapshot`: evidencia de una revisión, no fuente.
+proyectos/*/hf/snapshots/
+# Papelera de Android (`.trashed-*`): archivos ya borrados que se cuelan al
+# sincronizar carpetas desde el móvil. No son material: son basura.
 **/.trashed-*
-
-# Python (los scripts de manuales/)
-__pycache__/
-*.pyc
-
-# Skills instalados con `npx skills add` (se reinstalan; no versionamos copias)
-.agents/
-.claude/skills/agents
-.claude/skills/music
-.claude/skills/setup-api-key
-.claude/skills/sound-effects
-.claude/skills/speech-engine
-.claude/skills/speech-to-text
-.claude/skills/text-to-speech
-.claude/skills/update-skills-from-changelog
-.claude/skills/voice-changer
-.claude/skills/voice-isolator
-
-# Skills de HyperFrames traídas con prefijo por instalar-skill-hf.mjs.
-# Copias de terceros: se reponen corriendo el script, no se versionan.
-.claude/skills/heygen-*
-
-# 010 · metraje propio normalizado (224 MB) y la voz sin comprimir. En git queda
-# el MANIFIESTO con sha256 (proyectos/010/manifiesto.json) y la receta que lo
-# repone entero: `bash proyectos/010/normalizar.sh`. El binario no.
-remotion/public/choco-010/
-proyectos/010/vo/*.wav
-# La cama musical es un recorte de un archivo del cliente sin licencia
-# conocida (proyectos/010/musica/README.md): la receta va en git, el audio no.
-proyectos/010/musica/*.wav
-
-# 011 · la boda es material PRIVADO de una familia (1 GB normalizado) y las dos
-# canciones son grabaciones comerciales: en git van la receta
-# (`bash proyectos/011/normalizar.sh`), el plan y los golpes medidos; ni el
-# metraje ni el audio.
-remotion/public/boda-011/
-proyectos/011/musica/*.wav
-
-# 015 · las nueve tomas de la presentadora, normalizadas (vídeo mudo + voz en
-# WAV): material de una persona, no del repo. En git van la receta con el sha256
-# de cada original (`bash proyectos/015/normalizar.sh`) y el plan.
-remotion/public/apex-015/
+# Los .gitkeep sujetan carpetas vacías; siempre entran.
+!**/.gitkeep

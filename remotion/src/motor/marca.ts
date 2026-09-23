@@ -17,7 +17,7 @@
  * «⚠️ esto cambia también el 004 si se vuelve a renderizar».
  *
  * Este archivo es el TIPO y el SUELO del motor (`MARCA_BASE`). Nada más: los
- * PERFILES de canal viven fuera, en `src/marcas/` (hoy: `luxur.ts`), y llegan
+ * PERFILES de canal viven fuera, en `src/marcas/` (la plantilla es `ejemplo.ts`), y llegan
  * por parámetro. Datos puros, cero imports en tiempo de ejecución (solo
  * `import type`, que desaparece al compilar), misma disciplina que
  * `plan/nucleo.ts` y `plan/avances.ts`: el validador tiene que poder leer una
@@ -210,11 +210,40 @@ export interface Marca {
  * componentes (`TarjetaFoto`, `ChipIcono`, `Cronologia`, `Medidor`). Ese es el
  * paso 8; cuando caiga, esto se puede vaciar de verdad. */
 
-/** Tipografía del canal. Ver la nota larga de `theme-noticias.ts` sobre por qué
- *  `-apple-system` y no "SF Pro Display": la descargable de Apple no está
- *  instalada, la del sistema sí, y Chrome la resuelve por ese alias. */
+/** Tipografía de SISTEMA (San Francisco). Ver la nota larga de `theme-noticias.ts`
+ *  sobre por qué `-apple-system` y no "SF Pro Display": Chrome solo llega a la SF
+ *  del sistema por ese alias. ⚠️ Solo resuelve a SF en macOS: en Windows cae a
+ *  Helvetica/Arial y las tablas `sf*` de R09 dejan de corresponder con lo que se
+ *  pinta. Por eso es la letra de las marcas que nacieron en un Mac y se
+ *  renderizan ahí, no la de una marca nueva. */
 const SF =
   "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+
+/** La pila de Inter, la MISMA cadena que `theme.ts` usa en la capa de gráficos.
+ *  `motor/fuentes.ts` registra la Inter empaquetada bajo la familia "Inter",
+ *  así que esta pila pinta los mismos glifos en cualquier máquina. */
+export const PILA_INTER =
+  "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+
+/** Letra DETERMINISTA: Inter empaquetada. Es la que debe declarar toda marca nueva.
+ *  No hay tabla `inter500` medida: el peso 500 se estima con la de 600, que
+ *  sobreestima (del lado seguro para R09). */
+export const LETRA_INTER: LetraMarca = {
+  display: PILA_INTER,
+  texto: PILA_INTER,
+  tablas: { 500: "inter600", 600: "inter600", 700: "inter700", 800: "inter800" },
+};
+
+/** Letra de SISTEMA (SF en macOS). Es la que heredan, y ahora declaran, las
+ *  marcas que ya tienen piezas publicadas con ella: no se toca sin pasar la sonda. */
+export const LETRA_SF_SISTEMA: LetraMarca = {
+  display: SF,
+  texto: SF,
+  // Los cuatro pesos que dibujan las fichas editoriales, cada uno con su
+  // tabla medida: titular y cifra 700, kicker y pie 600, etiqueta 500,
+  // énfasis 800. Ver `LetraMarca.tablas`.
+  tablas: { 500: "sf500", 600: "sf600", 700: "sf700", 800: "sf800" },
+};
 
 export const MARCA_BASE: Marca = {
   nombre: "base",
@@ -233,14 +262,9 @@ export const MARCA_BASE: Marca = {
     linea: "rgba(17,17,17,0.14)",
     acentoOscuro: "#0F766E",
   },
-  letra: {
-    display: SF,
-    texto: SF,
-    // Los cuatro pesos que dibujan las fichas editoriales, cada uno con su
-    // tabla medida: titular y cifra 700, kicker y pie 600, etiqueta 500,
-    // énfasis 800. Ver `LetraMarca.tablas`.
-    tablas: { 500: "sf500", 600: "sf600", 700: "sf700", 800: "sf800" },
-  },
+  // Los MISMOS valores de siempre (la sonda de píxeles lo exige): la letra de
+  // sistema. Una marca nueva declara `letra: LETRA_INTER`; ver `marcas/ejemplo.ts`.
+  letra: LETRA_SF_SISTEMA,
   forma: { radio: 22, borde: 8 },
   sombra: {
     caja: "0 18px 44px rgba(17,17,17,0.15)",

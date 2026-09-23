@@ -18,7 +18,7 @@
  * Tipografía: la del suelo (SF del sistema) con sus CUATRO tablas ya medidas —
  * una fuente nueva sin tabla apagaría R09 en silencio (motor/marca.ts).
  */
-import { MARCA_BASE } from "../motor/marca";
+import { LETRA_SF_SISTEMA, MARCA_BASE } from "../motor/marca";
 import type { Marca } from "../motor/marca";
 
 export const CHOCO: Marca = {
@@ -26,6 +26,9 @@ export const CHOCO: Marca = {
   nombre: "Ayudemos a Chocó (Juan Papita)",
   /** El watermark de todos los frames: la campaña, no el comercio. */
   sello: { texto: "AYUDEMOS A CHOCÓ" },
+  // Explícita y no heredada: es la letra con la que están PUBLICADOS el 008 y el
+  // 010, y así el suelo del motor puede pasar a Inter sin arrastrarlos.
+  letra: LETRA_SF_SISTEMA,
   color: {
     ...MARCA_BASE.color,
     /** Ámbar tierra: solidaridad/acción. 4,2:1 sobre `papel` (display OK). */

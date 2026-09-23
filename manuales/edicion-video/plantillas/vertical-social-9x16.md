@@ -2,7 +2,7 @@
 
 **Uso:** clips cortos y talking-head verticales para Reels / TikTok / Shorts.
 **Composición Remotion:** `VerticalSocial` · **Preset:** `remotion/src/motor/presets.ts → verticalSocial`
-**Frame de referencia:** `remotion/out/plantilla-9x16.png`
+**Frame de referencia:** desde `remotion/`, `npx remotion still VerticalSocial out/plantilla-9x16.png --frame=60`
 
 ## Las 5 decisiones
 - **Formato:** 9:16 · 1080×1920 · fps = original (demo 30) · layout talking-head · zona segura 11%.

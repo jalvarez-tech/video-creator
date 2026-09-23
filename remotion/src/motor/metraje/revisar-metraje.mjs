@@ -4,8 +4,8 @@
  *
  *   node remotion/src/motor/metraje/revisar-metraje.mjs <metraje-NNN.ts> [export] [--fps 30] [--ancho 1080] [--alto 1920]
  *
- * Genérica: sirve a cualquier `metraje-NNN.ts`. Nace de juntar `revisar-010.mjs`
- * y `revisar-011.mjs`, que ya eran casi iguales. Un proyecto la importa desde su
+ * Genérica: sirve a cualquier `metraje-NNN.ts`. Nace de juntar dos puertas de
+ * proyecto que ya eran casi iguales. Un proyecto la importa desde su
  * `proyectos/NNN/revisar-NNN.mjs` y le añade lo de SU encargo (subtítulos,
  * golpes de música, anclajes…). Lo de aquí es del formato, y cada comprobación
  * existe porque su fallo SOBREVIVE a una revisión por frames:
@@ -35,17 +35,18 @@
  * fallo sale como ⚠️ con su motivo y no tumba la puerta. Una declaración que ya
  * no hace falta SÍ la tumba; si no, la lista de excusas sobreviviría al arreglo.
  *
+ * API PARA LAS PUERTAS DE PROYECTO (no se renombra: las importan desde
+ * proyectos/NNN/revisar-NNN.mjs): `abrePuerta`, `cargaTs`, `duracionDe`,
+ * `RAIZ`, `PUBLICO`.
+ *
  * Sale con 1 si algo falla.
  */
-import { execFileSync } from "node:child_process";
-import { existsSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { tmpdir } from "node:os";
-import { basename, dirname, isAbsolute, join, parse, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { basename, isAbsolute, join, parse, resolve } from "node:path";
+import { RAIZ as RAIZ_REPO, borrar, carpetaTemporal, ejecutar, esMain } from "../../../../herramientas/comun.mjs";
 
-const AQUI = dirname(fileURLToPath(import.meta.url));
-export const RAIZ = resolve(AQUI, "..", "..", "..", "..");
+export const RAIZ = RAIZ_REPO;
 export const PUBLICO = join(RAIZ, "remotion", "public");
 /** Segundos que dos cortes del mismo clip pueden compartir sin que se lea como repetición. */
 const TOLERANCIA_TRAMO = 0.15;
@@ -56,7 +57,7 @@ const absoluta = (ruta) => (isAbsolute(ruta) ? ruta : join(RAIZ, ruta));
 export async function cargaTs(modulos) {
   const require = createRequire(join(RAIZ, "remotion", "package.json"));
   const esbuild = require("esbuild");
-  const tmp = mkdtempSync(join(tmpdir(), "metraje-"));
+  const tmp = carpetaTemporal("metraje-");
   try {
     const entrada = join(tmp, "entrada.ts");
     const salida = join(tmp, "salida.cjs");
@@ -69,7 +70,8 @@ export async function cargaTs(modulos) {
     await esbuild.build({ entryPoints: [entrada], bundle: true, platform: "node", format: "cjs", outfile: salida, logLevel: "error" });
     return require(salida);
   } finally {
-    rmSync(tmp, { recursive: true, force: true });
+    // `borrar` reintenta: en Windows el antivirus retiene un instante el .cjs recién creado.
+    borrar(tmp);
   }
 }
 
@@ -77,15 +79,17 @@ const duraciones = new Map();
 /** Duración del stream de VÍDEO de un archivo de `public/` (la del contenedor si no hay vídeo, p. ej. un WAV). */
 export function duracionDe(src) {
   if (!duraciones.has(src)) {
-    const json = execFileSync(
+    // `ejecutar` localiza ffprobe también en la carpeta de herramientas del
+    // usuario (donde lo deja setup.mjs) y, si no está, lo dice con nombre en vez
+    // de un ENOENT. Su stderr se captura y no se enseña: hay MP4 de mensajería
+    // con NAL units rotas que hacen a ffprobe escupir cien líneas por lectura;
+    // se decodifican enteros igual, y aquí solo se quiere el número.
+    const r = ejecutar(
       "ffprobe",
       ["-v", "error", "-select_streams", "v:0", "-show_entries", "stream=duration:format=duration", "-of", "json", join(PUBLICO, src)],
-      // `stderr: "ignore"`: el MP4 original de `v-gracias` (010) trae NAL units
-      // rotas de mensajería y ffprobe escupe cien líneas por lectura. Se
-      // decodifica entero igual; aquí solo se quiere el número.
-      { stdio: ["ignore", "pipe", "ignore"] }
-    ).toString();
-    const { streams = [], format = {} } = JSON.parse(json);
+      { check: true, silencioso: true }
+    );
+    const { streams = [], format = {} } = JSON.parse(r.stdout);
     duraciones.set(src, Number(streams[0]?.duration ?? format.duration));
   }
   return duraciones.get(src);
@@ -334,8 +338,9 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
   };
 }
 
-// Solo corre si se invoca directamente: las puertas de los proyectos importan `abrePuerta`.
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// Solo corre si se invoca directamente: las puertas de los proyectos importan
+// `abrePuerta`. `esMain` compara rutas reales (symlink o junction incluidos).
+if (esMain(import.meta.url)) {
   const args = process.argv.slice(2);
   const opcion = (bandera, defecto) => {
     const i = args.indexOf(bandera);
@@ -345,9 +350,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const ancho = opcion("--ancho", 1080);
   const alto = opcion("--alto", 1920);
   const [plan, nombre] = args;
-  if (!plan) {
+  if (!plan || plan === "--help" || plan === "-h") {
     console.error("uso: node remotion/src/motor/metraje/revisar-metraje.mjs <metraje-NNN.ts> [export] [--fps 30] [--ancho 1080] [--alto 1920]");
-    process.exit(1);
+    process.exit(plan ? 0 : 1);
   }
   const puerta = await abrePuerta({ proyecto: basename(plan, ".ts"), plan: resolve(plan), cortes: nombre, fps, ancho, alto });
   puerta.seccion("1. línea de tiempo");

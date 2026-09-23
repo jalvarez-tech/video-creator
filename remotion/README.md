@@ -1,54 +1,24 @@
-# Remotion video
+# `remotion/` — el motor
 
-<p align="center">
-  <a href="https://github.com/remotion-dev/logo">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-dark.apng">
-      <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
-    </picture>
-  </a>
-</p>
+Proyecto npm de [Remotion](https://www.remotion.dev): aquí viven las composiciones (`src/Root.tsx`), el motor reutilizable (`src/motor/`), las marcas (`src/marcas/`) y los medios (`public/`). Las instrucciones de uso están en el [README de la raíz](../README.md); este archivo solo recuerda los comandos del motor.
 
-Welcome to your Remotion project!
+Todos se lanzan **desde esta carpeta** (`remotion/`), uno por línea. Las dependencias las instala `node ../herramientas/setup.mjs` (hace `npm ci`); no hace falta `npm install` a mano.
 
-## Commands
+| Qué | Comando |
+|---|---|
+| Abrir el Studio en http://localhost:3000 (cerrar: `Ctrl + C`) | `npm run dev` |
+| Listar las composiciones | `npx remotion compositions src/index.ts` |
+| Un fotograma, sin abrir el Studio | `npx remotion still src/index.ts Prueba out/prueba.png --frame=45` |
+| Renderizar una composición | `npx remotion render src/index.ts Prueba out/prueba.mp4` |
+| Lint + tipos (obligatorio antes de dar por bueno un cambio) | `npm run lint` |
+| Diagnóstico de la instalación (el mismo `doctor` de la raíz) | `npm run doctor` |
 
-**Install Dependencies**
+Las composiciones del producto son `Prueba`, `TutorialYT`, `VerticalSocial`, `FeedCuadrado`, `Avatar16x9`, `DemoCamara`, `Catalogo`, `GraficosDemo`, `PlanDemo` y `NoticiaDemo`. Tus proyectos (`src/proyectos/NNN/composiciones.tsx`) se registran solos detrás de ellas: los recoge `src/estudio.tsx`.
 
-```console
-npm i
-```
+`public/` es la carpeta de medios: `sfx/` (los efectos de sonido, ver su [README](public/sfx/README.md)), `fuentes/` (Inter, empaquetada) y `avatar.mp4` (un clip de relleno que crea el instalador si falta). Lo que pongas ahí para tus proyectos queda fuera de git.
 
-**Start Preview**
+## Licencia de Remotion
 
-```console
-npm run dev
-```
+El código de este repo es MIT, pero **Remotion no**: tiene [su propia licencia](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md). Es gratis para particulares y para empresas de hasta 3 personas; una empresa mayor necesita una licencia de empresa de Remotion. El detalle de cada dependencia de terceros está en [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 
-**Render video**
-
-```console
-npx remotion render
-```
-
-**Upgrade Remotion**
-
-```console
-npx remotion upgrade
-```
-
-## Docs
-
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
-
-## Help
-
-We provide help on our [Discord server](https://discord.gg/6VzzNDwUwV).
-
-## Issues
-
-Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
-
-## License
-
-Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+Documentación de Remotion: [The fundamentals](https://www.remotion.dev/docs/the-fundamentals). Ayuda de Remotion: [Discord](https://discord.gg/6VzzNDwUwV).

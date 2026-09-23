@@ -27,16 +27,12 @@ Con avatar, el habla es **limpia y el guion ya es texto conocido**, así que:
 ### B) Automatizada — por API (script `heygen.py`)
 Requiere **API key de pago** (ver Requisitos). Una vez configurada, generas desde la terminal.
 
-**Setup (una vez):**
-```bash
-cd /Users/nicecode/Work/jalvarez/video-creator
-cp .env.example .env          # y pega tu HEYGEN_API_KEY dentro (tú, no el asistente)
-```
+**Setup (una vez):** el instalador (`node herramientas/setup.mjs`) crea `.env` en la raíz del repo a partir de la plantilla; abre `.env` en tu editor y pega dentro tu `HEYGEN_API_KEY` — **tú, no el asistente**: el agente nunca pide ni lee claves.
 
 **1. Encuentra los IDs de tu avatar y voz:**
-```bash
-python3 manuales/edicion-video/scripts/heygen.py avatares
-python3 manuales/edicion-video/scripts/heygen.py voces --idioma Spanish
+```shell
+uv run manuales/edicion-video/scripts/heygen.py avatares
+uv run manuales/edicion-video/scripts/heygen.py voces --idioma Spanish
 ```
 Copia tu `avatar_id` y un `voice_id` al `.env`:
 ```
@@ -46,30 +42,25 @@ HEYGEN_VOICE_ID=yyyyyyyy
 > Tu avatar custom recién creado sale en el array `avatars` (o en `talking_photos` si es Photo Avatar). El ID copiado de la web no siempre vale para la API — usa el que lista el script.
 
 **2. Genera un vídeo (por defecto en modo TEST: gratis, con marca de agua):**
-```bash
-# Desde texto directo
-python3 manuales/edicion-video/scripts/heygen.py generar \
-  --texto "Hola, hoy te enseño a automatizar tu edición de vídeo." \
-  --formato 16:9 --salida proyectos/001/avatar/heygen.mp4
-
-# Desde tu guion limpio
-python3 manuales/edicion-video/scripts/heygen.py generar \
-  --texto-archivo proyectos/001/guion-limpio.md --formato 9:16
+```shell
+uv run manuales/edicion-video/scripts/heygen.py generar --texto "Hola, hoy te enseño a automatizar tu edición de vídeo." --formato 16:9 --salida proyectos/NNN/avatar/heygen.mp4
+uv run manuales/edicion-video/scripts/heygen.py generar --texto-archivo proyectos/NNN/guion-limpio.md --formato 9:16
 ```
+La primera línea genera desde texto directo; la segunda, desde tu guion limpio.
 El script: crea el vídeo → hace *polling* del estado → descarga el MP4. Cuando el payload te convenza, añade `--final` para la versión **sin marca de agua** (esa **sí consume créditos**).
 
 Opciones: `--formato {16:9,9:16,1:1,4:5,720p}` · `--velocidad 0.5-1.5` · `--fondo "#RRGGBB"` · `--titulo` · `--avatar`/`--voz` (si no usas los del `.env`) · `--intervalo`/`--timeout` (sondeo).
 
 **3. Si pierdes el proceso (timeout, Ctrl-C, corte de red), NO vuelvas a generar:** con `--final` esos créditos ya se gastaron. El render sigue en el servidor; retómalo con el `video_id` que imprimió `generar`:
 
-```bash
-python3 manuales/edicion-video/scripts/heygen.py descargar <video_id> --salida proyectos/001/avatar/heygen.mp4
+```shell
+uv run manuales/edicion-video/scripts/heygen.py descargar <video_id> --salida proyectos/NNN/avatar/heygen.mp4
 ```
 
 ---
 
 ## Requisitos y coste (API)
-- **API key:** `app.heygen.com` → **Settings → API**. Va en `.env` (`HEYGEN_API_KEY`). Nunca en el chat.
+- **API key:** `app.heygen.com` → **Settings → API**. Va en `.env` (`HEYGEN_API_KEY`). Nunca en el chat: el agente no la pide ni la lee, y `.env` está fuera de su alcance.
 - **La API es de pago aparte** del plan web. Desde feb-2026 **no hay créditos de API gratis**.
   - **Pay-As-You-Go:** mínimo **$5**, créditos caducan a 12 meses. Ideal para probar.
   - **Coste:** Avatar V ≈ **$0.05/seg (~$3/min)**; se cobra por segundo generado.

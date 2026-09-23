@@ -4,22 +4,35 @@ medir-velo.py — mide el FONDO de la banda de texto en un still y el contraste
 que resulta para cada tinta (R13, R25).
 
 Uso:
-  python3 manuales/motion-graphics/scripts/medir-velo.py <still.png> [--filas 1340,1450,1560,1680,1750] [--x 118:962] [--colores '#FFFFFF,#34D399']
+  uv run manuales/motion-graphics/scripts/medir-velo.py <still.png> [--filas "1340,1450,1560,1680,1750"] [--x 118:962] [--colores "#FFFFFF,#34D399"]
+  (las listas con comas, entre comillas: PowerShell las partiria)
 
 Por qué existe. R25 manda verificar el velo MIDIENDO el fondo de la banda en el
 frame exacto (el 0, el primero de cada relevo y el primero de cada toma que
 nace), con la MEDIANA por fila del ancho útil —mediana y no media, porque el
-texto blanco ocupa menos de la mitad del ancho y la media lo contamina—. El 013
-lo hizo a mano; esto lo deja repetible y sin dependencias: decodifica el PNG con
+texto blanco ocupa menos de la mitad del ancho y la media lo contamina—. Se hizo
+a mano en una pieza; esto lo deja repetible y sin dependencias: decodifica el PNG con
 ffmpeg a gris de 8 bits y calcula la mediana en Python puro.
 
 Imprime, por fila, la luma mediana del fondo (0-255) y el contraste WCAG contra
 cada color pedido. Para texto grande (≥ 24 px, o ≥ 19 px en negrita) el umbral
 AA es 3:1; para texto normal, 4,5:1.
 """
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import argparse
+import os
 import subprocess
 import sys
+
+# Lo comun a los scripts de Python vive en edicion-video/scripts/_comun.py:
+# de ahi sale donde buscar ffmpeg/ffprobe (la carpeta de setup.mjs y luego el
+# PATH) y la consola en UTF-8, que en Windows por tuberia es cp1252 y rompe
+# con «✖». `realpath` por si el script llega por el enlace de .claude/skills/.
+sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "edicion-video", "scripts")))
+from _comun import herramienta  # noqa: E402
 
 
 def luminancia_relativa_gris(y8: int) -> float:
@@ -46,13 +59,14 @@ def main() -> int:
     ap.add_argument("--x", default="118:962", help="rango horizontal útil, ini:fin")
     ap.add_argument("--colores", default="#FFFFFF,#34D399")
     a = ap.parse_args()
+    ffprobe, ffmpeg = herramienta("ffprobe"), herramienta("ffmpeg")
 
     probe = subprocess.run(
-        ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+        [ffprobe, "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
          "-of", "csv=p=0", a.still], capture_output=True, text=True, check=True)
     ancho, alto = (int(v) for v in probe.stdout.strip().split(","))
     raw = subprocess.run(
-        ["ffmpeg", "-v", "error", "-i", a.still, "-vf", "scale=flags=accurate_rnd+full_chroma_int+bitexact",
+        [ffmpeg, "-v", "error", "-i", a.still, "-vf", "scale=flags=accurate_rnd+full_chroma_int+bitexact",
          "-pix_fmt", "gray", "-f", "rawvideo", "-"], capture_output=True, check=True).stdout
     if len(raw) != ancho * alto:
         print(f"✖ esperaba {ancho*alto} bytes y llegaron {len(raw)}", file=sys.stderr)

@@ -41,6 +41,7 @@
  */
 import { MARCA_BASE } from "../marca";
 import type { Marca } from "../marca";
+import { letraDe } from "../letra";
 
 /**
  * Paleta editorial. Dos fondos que alternan (papel / negro) y un solo acento.
@@ -83,38 +84,55 @@ const paletaDe = (m: Marca) => ({
 });
 
 /**
- * Tipografías — la VOZ del canal (decisión de `Propiedades Luxur`, 2026-08-09).
+ * Tipografías — la VOZ del canal.
  *
- * Antes el formato firmaba con un SERIF pesado (Georgia): voz de periódico. Se
- * cambió a la geométrica del sistema —San Francisco— buscando el registro de
- * apple.com: elegante por contención, no por adorno. Es coherente con una marca
- * de inmuebles de gama alta, y sigue leyéndose a velocidad de habla.
+ * Antes el formato firmaba con un SERIF pesado (Georgia): voz de periódico. El
+ * canal que estrenó el formato (2026-08-09) la cambió a la geométrica del
+ * sistema —San Francisco— buscando el registro de apple.com: elegante por
+ * contención, no por adorno. Coherente con una marca de gama alta, y sigue
+ * leyéndose a velocidad de habla.
  *
  * ✅ AQUEL «ALGÚN DÍA» YA LLEGÓ. Esta nota decía: «si algún día el 004 tiene que
  * conservar el serif, la salida es mover estas dos constantes a MARCA y que cada
- * proyecto elija». Hecho — la familia sale de `m.letra` y una composición pasa la
- * marca que quiera (`<PistaNoticia marca={…}>`). Cambiar la voz del canal ya no
+ * proyecto elija». Hecho — la familia sale de la marca y una composición pasa la
+ * que quiera (`<PistaNoticia marca={…}>`). Cambiar la voz del canal ya no
  * arrastra a las piezas publicadas: basta con darles su propio perfil.
  *
  * POR QUÉ `-apple-system` Y NO "SF Pro Display": la SF Pro descargable de Apple
- * NO está instalada; lo que sí hay es `/System/Library/Fonts/SFNS.ttf`, y Chrome
- * solo llega a ella por las palabras clave `-apple-system`/`BlinkMacSystemFont`.
+ * PUEDE estar instalada (en `/Library/Fonts`; en el Mac donde nació el formato lo
+ * está), pero NO es la que pinta. `BlinkMacSystemFont` va antes en la pila y
+ * resuelve a la SF del SISTEMA (`/System/Library/Fonts/SFNS.ttf`, con eje óptico);
+ * `-apple-system` ni siquiera resuelve en el Chrome headless de Remotion. Lo
+ * confirma la medida de `plan/avances.ts`: el avance crece +13,4 % a 12 px y es
+ * plano desde 84 px, que es el eje óptico de SFNS, no las OTF estáticas de SF Pro.
  * Nombrar la familia a pelo caería al genérico sin avisar.
  *
- * ⚠️ DETERMINISMO ENTRE MÁQUINAS: estas palabras clave resuelven a San Francisco
- * en macOS y a otra cosa en Linux. Mientras el render sea local en Mac (que es el
- * caso), la salida es estable. Para renderizar en CI habría que empaquetar la
- * fuente con @remotion/fonts, no confiar en el sistema.
+ * ⚠️ DETERMINISMO ENTRE MÁQUINAS: esa SF es la de CADA macOS —cambia con la
+ * versión del sistema— y fuera de macOS las palabras clave caen a Segoe UI o a
+ * Helvetica/Arial, con lo que las tablas `sf*` de R09 dejan de corresponder con
+ * lo que se pinta. Por eso `LETRA_SF_SISTEMA` (`motor/marca.ts`) es solo para las
+ * marcas con piezas ya publicadas desde un Mac, y una marca nueva declara
+ * `LETRA_INTER`: Inter viene empaquetada en `remotion/public/fuentes/inter/` y la
+ * carga `motor/fuentes.ts`, así que pinta los mismos glifos en cualquier máquina.
+ * SF no se puede empaquetar: es una fuente de Apple con licencia de sistema.
  *
  * Los dos roles siguen la propia división de Apple (Display para lo grande,
  * Text para lo pequeño), que no es cosmética: cambia el tracking óptico.
  */
-const fuenteDe = (m: Marca) => ({
-  /** Titulares, cifras, palabra de cierre. Lo que se lee de un vistazo. */
-  display: m.letra.display,
-  /** Subtítulos, kickers, labels, chips. Lo que acompaña. */
-  texto: m.letra.texto,
-});
+const fuenteDe = (m: Marca) => {
+  // LA MISMA RESOLUCIÓN CON LA QUE EL DIALECTO MIDE: `letraEditorialDe` en
+  // `dialecto.ts` es `letraDe(m, "noticias")`. Si una marca pide otra letra solo
+  // para esta capa (`letraPorCapa.noticias`), R09 estima y el montador pinta con
+  // la misma familia; antes esto leía `m.letra` a secas y las dos podían
+  // divergir. Sin `letraPorCapa` cae en `m.letra`: los mismos strings de siempre.
+  const letra = letraDe(m, "noticias");
+  return {
+    /** Titulares, cifras, palabra de cierre. Lo que se lee de un vistazo. */
+    display: letra.display,
+    /** Subtítulos, kickers, labels, chips. Lo que acompaña. */
+    texto: letra.texto,
+  };
+};
 
 /**
  * Escalas tipográficas EN PX A 1080 DE ANCHO (9:16 — el formato del canal).

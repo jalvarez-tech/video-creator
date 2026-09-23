@@ -77,7 +77,7 @@ Funciona porque GSAP interpola un objeto plano y el `onUpdate` corre en cada see
 | `<Img src={staticFile("x.png")}>` | `<img class="clip" src="./assets/x.png" data-start data-duration data-track-index>` |
 | `startFrom={f}` (trim) | `data-media-start` — **ese nombre**, no `data-playback-start` (ver contrato §5) |
 | `playbackRate` | `data-playback-rate` (0.1–5) |
-| WebM con alpha para PiP | igual, y además `npx hyperframes remove-background a.mp4 -o a.webm` lo genera **en local, sin API** |
+| WebM con alpha para PiP | igual, y además `npx hyperframes@0.8.47 remove-background a.mp4 -o a.webm` lo genera **en local, sin API** |
 
 **El avatar sigue saliendo de `heygen.py`.** HyperFrames no genera avatares: su CLI no tiene comando de avatar y ningún bloque del registry genera uno. El avatar entra como un `<video>` más. La única diferencia con Remotion: aquí, en render, el vídeo **no se reproduce** — FFmpeg pre-extrae los frames y los inyecta —, así que no hay deriva posible, pero **el `data-fps` de la composición tiene que ser el del clip** (R01 vale igual).
 
@@ -92,7 +92,7 @@ Funciona porque GSAP interpola un objeto plano y el `onUpdate` corre en cada see
 | `<Audio volume={f => …}>` (rampa) | lane de `data-automation` sobre `volume` — *sin verificar aquí* |
 | `<PistaSonido duckDb={-4.5}>` (banda ancha) | `data-fx-carve` — ducking **espectral**: hunde solo las bandas de la voz. Distinto y mejor. *Sin verificar aquí.* |
 | `cues-NNN.ts` → `<PistaSonido>` | un `<audio>` por cue. El **catálogo y las reglas de elección de [diseno-sonoro](../diseno-sonoro/SKILL.md) valen igual**: lo que cambia es dónde se declara. |
-| `subtitulos-NNN.ts` → `<SubtitulosSync>` | un clip por segmento + tween por palabra. `npx hyperframes transcribe` da timestamps por palabra con Whisper **local**. |
+| `subtitulos-NNN.ts` → `<SubtitulosSync>` | un clip por segmento + tween por palabra. `npx hyperframes@0.8.47 transcribe` da timestamps por palabra con Whisper **local**. |
 
 ---
 
@@ -133,9 +133,9 @@ Lo que sí cuesta trabajo no es el motor, es el **plan**: `camara-NNN.ts` arrast
 
 No todo es pérdida. Lo que cruza sin tocarse:
 
-- **El plan como dato.** `Plan<R,B,M,C>`, `Toma`, `Nodo`, el dialecto, `revisaPlan`, `resuelveMomentos`. Es dato puro y `node` pelado ya lo lee (`revisar-plan.mjs` valida 23 tomas sin montar React). No se usa todavía desde este motor, pero **el tipo lo permite**: `Montadores<R, C, N>` es genérico en el nodo de salida, y `ReactNode` es solo una instancia.
-- **La marca.** No se copia: se **genera** con `marca-a-css.mjs`. Cambiar `src/marcas/luxur.ts` mueve los dos motores.
-- **El banco de sonido** y las reglas de elección de `diseno-sonoro`.
+- **El plan como dato.** `Plan<R,B,M,C>`, `Toma`, `Nodo`, el dialecto, `revisaPlan`, `resuelveMomentos`. Es dato puro y `node` pelado ya lo lee (`revisar-plan.mjs` valida un plan entero sin montar React). No se usa todavía desde este motor, pero **el tipo lo permite**: `Montadores<R, C, N>` es genérico en el nodo de salida, y `ReactNode` es solo una instancia.
+- **La marca.** No se copia: se **genera** con `marca-a-css.mjs`. Cambiar `remotion/src/marcas/<canal>.ts` mueve los dos motores.
+- **El set de SFX** (`remotion/public/sfx/`) y las reglas de elección de `diseno-sonoro`.
 - **El b-roll** y la regla de honestidad de `director-video §3h` — lo real se trae, lo que no existe se genera. Eso no depende del motor.
 - **`segmentos.ts`**, que ya está en segundos.
 
@@ -145,9 +145,9 @@ No todo es pérdida. Lo que cruza sin tocarse:
 
 Para que la elección no sea solo una lista de pérdidas:
 
-- **`check` mide, no estima.** Layout con `getBoundingClientRect` sobre 9 muestras y **contraste WCAG sobre los píxeles**. La primera vez que se corrió encontró que el acento de marca sobre el papel da **2.62:1** — por debajo del 3:1 — y eso llevaba en el repo desde siempre sin que nadie lo dijera.
+- **`check` mide, no estima.** Layout con `getBoundingClientRect` sobre 9 muestras y **contraste WCAG sobre los píxeles**. La primera vez que se corrió encontró que el acento de una marca como texto sobre su papel quedaba **por debajo del 3:1**, y eso llevaba en el repo desde siempre sin que nadie lo dijera (caso del estudio: ver ESTUDIO.md; de ahí `--acento-texto` en `marca-a-css.mjs`).
 - **`remove-background` local**, sin API ni subida, con salida WebM alpha o ProRes.
 - **`transcribe`** con Whisper local a timestamps por palabra.
-- **Más de 150 bloques y 220 componentes** instalables de su registry (`npx hyperframes catalog`; el número crece, míralo tú).
+- **Más de 150 bloques y 220 componentes** instalables de su registry (`npx hyperframes@0.8.47 catalog`; el número crece, míralo tú).
 - **Renders reproducibles entre máquinas**: las fuentes van embebidas, no dependen del sistema.
 - **Es HTML/CSS.** Cualquiera que sepa CSS puede tocar una pieza sin saber React ni Remotion.

@@ -2,7 +2,7 @@
 
 **Uso:** tutoriales y demos horizontales para YouTube, alternando pantalla y cámara.
 **Composición Remotion:** `TutorialYT` · **Preset:** `remotion/src/motor/presets.ts → tutorialYT`
-**Frame de referencia:** `remotion/out/plantilla-16x9.png`
+**Frame de referencia:** desde `remotion/`, `npx remotion still TutorialYT out/plantilla-16x9.png --frame=60`
 
 ## Las 5 decisiones
 - **Formato:** 16:9 · 1920×1080 · fps = original (demo 30) · layout *alterna pantalla↔cámara* (+ PiP cámara en esquina) · zona segura 5%.

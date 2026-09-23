@@ -4,7 +4,7 @@
  * archivo `.srt` para subirlo como pista de captions a la plataforma.
  *
  * Uso (desde cualquier sitio):
- *   node manuales/edicion-video/scripts/exportar-srt.mjs remotion/src/proyectos/014/subtitulos-014.ts proyectos/014/finales/014-agente-ia.srt
+ *   node manuales/edicion-video/scripts/exportar-srt.mjs remotion/src/proyectos/NNN/subtitulos-NNN.ts proyectos/NNN/finales/NNN.srt
  *
  * Por qué existe: R14 dice que, al quitar la pista de subtítulos de una pieza,
  * el fichero NO se borra —se deja desconectado y se exporta a `.srt`, que es
@@ -19,14 +19,18 @@
  * `.srt` con un cue roto se sube igual y la plataforma lo pinta mal.
  */
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { RAIZ, borrar, carpetaTemporal, posix, relativa } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+const root = RAIZ;
 const remotionDir = path.join(root, "remotion");
+
+/** Una ruta para ENSEÑAR: relativa a la raíz si cae dentro, absoluta con «/» si no. */
+const muestra = (p) => {
+  const r = relativa(p);
+  return r.startsWith("..") ? posix(path.resolve(p)) : r;
+};
 
 const [, , entradaRel, salidaRel] = process.argv;
 if (!entradaRel || !salidaRel) {
@@ -45,11 +49,16 @@ const salida = path.isAbsolute(salidaRel) ? salidaRel : path.resolve(process.cwd
 
 const require = createRequire(path.join(remotionDir, "package.json"));
 const esbuild = require("esbuild");
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "srt-"));
+const tmp = carpetaTemporal("srt-");
 const bundle = path.join(tmp, "out.cjs");
-await esbuild.build({ entryPoints: [entrada], bundle: true, platform: "node", format: "cjs", outfile: bundle, logLevel: "error" });
-const mod = require(bundle);
-fs.rmSync(tmp, { recursive: true, force: true });
+let mod;
+try {
+  await esbuild.build({ entryPoints: [entrada], bundle: true, platform: "node", format: "cjs", outfile: bundle, logLevel: "error" });
+  mod = require(bundle);
+} finally {
+  // `borrar` reintenta: en Windows el antivirus retiene un instante el .cjs recién creado.
+  borrar(tmp);
+}
 
 const segmentos = Object.values(mod).find(
   (v) => Array.isArray(v) && v.length && typeof v[0].from === "number" && typeof v[0].to === "number" && typeof v[0].text === "string"
@@ -83,4 +92,4 @@ const marca = (seg) => {
 const srt = segmentos.map((s, i) => `${i + 1}\n${marca(s.from)} --> ${marca(s.to)}\n${s.text.trim()}\n`).join("\n");
 fs.mkdirSync(path.dirname(salida), { recursive: true });
 fs.writeFileSync(salida, srt, "utf8");
-console.log(`✅ ${path.relative(root, salida)} · ${segmentos.length} cues · ${marca(segmentos[0].from)} → ${marca(segmentos[segmentos.length - 1].to)}`);
+console.log(`✅ ${muestra(salida)} · ${segmentos.length} cues · ${marca(segmentos[0].from)} → ${marca(segmentos[segmentos.length - 1].to)}`);

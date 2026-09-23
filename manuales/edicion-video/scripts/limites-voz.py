@@ -3,14 +3,14 @@
 limites-voz.py — dónde EMPIEZA y dónde ACABA de hablar alguien en cada toma.
 
 Uso:
-  python3 manuales/edicion-video/scripts/limites-voz.py TOMA [TOMA …]      # .mov/.mp4/.wav
-  python3 manuales/edicion-video/scripts/limites-voz.py --margen 12 *.mov  # umbral = suelo + 12 dB (defecto)
+  uv run manuales/edicion-video/scripts/limites-voz.py TOMA [TOMA …]      # .mov/.mp4/.wav
+  uv run manuales/edicion-video/scripts/limites-voz.py --margen 12 *.mov  # umbral = suelo + 12 dB (defecto)
 
 Por qué existe. Para «recortar los silencios» de una pieza grabada en tomas
 (una persona a cámara, una frase por toma) hay que saber en qué segundo de cada
 toma empieza y acaba la frase. Las marcas por palabra de whisper.cpp NO sirven
-para eso: en las nueve tomas del 015 ponían la primera palabra en 0,00 s aunque
-ella empezaba a hablar entre 0,48 y 0,87 s (medido aquí y comprobado en el
+para eso: en una pieza de nueve tomas ponían la primera palabra en 0,00 s aunque
+la voz empezaba entre 0,48 y 0,87 s (medido aquí y comprobado en el
 espectrograma). Cortar con ellas deja el aire de entrada entero, o se come una
 palabra si se «corrige» a ojo. Esto mide la ENERGÍA, que no se equivoca de
 sitio aunque no sepa qué se dice.
@@ -27,14 +27,19 @@ internas de más de 150 ms, y la sonoridad integrada de la ventana de voz
 (`loudnorm`), que es lo que hace falta para igualar el nivel entre tomas.
 
 Ojo con lo que NO ve: una fricativa final («problemaS») puede quedar ~0,1 s
-fuera del umbral. Deja margen después de `fin` (el 015 deja 2 f antes de la
+fuera del umbral. Deja margen después de `fin` (esa pieza deja 2 f antes de la
 disolvencia y cruza la voz 8 f más tarde) y contrasta las tomas dudosas con
 `showspectrumpic`.
 
 Sin dependencias: decodifica con ffmpeg a PCM y mide en Python puro.
 """
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import argparse
 import array
+import glob
 import json
 import math
 import os
@@ -42,16 +47,18 @@ import subprocess
 import sys
 import tempfile
 
+from _comun import herramienta  # busca ffmpeg donde lo deja setup.mjs y pone la consola en UTF-8
+
 SR = 16000
 VENTANA = SR // 100  # 10 ms
 
 
-def envolvente(ruta: str):
+def envolvente(ffmpeg: str, ruta: str):
     with tempfile.NamedTemporaryFile(suffix=".raw", delete=False) as tmp:
         raw = tmp.name
     try:
         subprocess.run(
-            ["ffmpeg", "-v", "error", "-y", "-i", ruta, "-map", "0:a:0", "-ac", "1", "-ar", str(SR),
+            [ffmpeg, "-v", "error", "-y", "-i", ruta, "-map", "0:a:0", "-ac", "1", "-ar", str(SR),
              "-af", "highpass=f=300:p=2,highpass=f=300:p=2,lowpass=f=3400", "-f", "s16le", raw],
             check=True,
         )
@@ -94,11 +101,11 @@ def tramos(env, margen: float):
     return suelo, umbral, [s for s in unidos if s[1] - s[0] >= 6]  # islas < 60 ms fuera
 
 
-def lufs(ruta: str, a: float, b: float) -> str:
+def lufs(ffmpeg: str, ruta: str, a: float, b: float) -> str:
     salida = subprocess.run(
-        ["ffmpeg", "-hide_banner", "-nostdin", "-ss", f"{a:.3f}", "-to", f"{b:.3f}", "-i", ruta,
+        [ffmpeg, "-hide_banner", "-nostdin", "-ss", f"{a:.3f}", "-to", f"{b:.3f}", "-i", ruta,
          "-map", "0:a:0", "-af", "loudnorm=print_format=json", "-f", "null", "-"],
-        capture_output=True, text=True,
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
     ).stderr
     try:
         j = json.loads(salida[salida.rindex("{") : salida.rindex("}") + 1])
@@ -109,14 +116,23 @@ def lufs(ruta: str, a: float, b: float) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
-    ap.add_argument("tomas", nargs="+")
+    ap.add_argument("tomas", nargs="+", help="archivos o comodines (*.mov): se expanden aqui, PowerShell no lo hace")
     ap.add_argument("--margen", type=float, default=12.0, help="dB sobre el suelo de la toma (defecto 12)")
     args = ap.parse_args()
-    for ruta in args.tomas:
+    ffmpeg = herramienta("ffmpeg")
+    # Los comodines se expanden AQUI: bash los expande antes de llamar, pero
+    # PowerShell y cmd le pasan «*.mov» literal a un programa nativo.
+    tomas = []
+    for patron in args.tomas:
+        if any(c in patron for c in "*?["):
+            tomas.extend(sorted(glob.glob(patron)) or [patron])
+        else:
+            tomas.append(patron)
+    for ruta in tomas:
         if not os.path.exists(ruta):
             print(f"❌ no existe {ruta}", file=sys.stderr)
             continue
-        env = envolvente(ruta)
+        env = envolvente(ffmpeg, ruta)
         dur = len(env) / 100
         suelo, umbral, segs = tramos(env, args.margen)
         nombre = os.path.basename(ruta)
@@ -129,7 +145,7 @@ def main() -> None:
         pausas = [(a, b) for a, b in pausas if b - a >= 0.15]
         if pausas:
             print("    pausas: " + " · ".join(f"{a:.2f}-{b:.2f} ({(b - a) * 1000:.0f} ms)" for a, b in pausas))
-        print(f"    nivel de la voz [{max(0, ini - 0.1):.2f}, {fin + 0.15:.2f}]: {lufs(ruta, max(0, ini - 0.1), fin + 0.15)}"
+        print(f"    nivel de la voz [{max(0, ini - 0.1):.2f}, {fin + 0.15:.2f}]: {lufs(ffmpeg, ruta, max(0, ini - 0.1), fin + 0.15)}"
               f"   (suelo {suelo:.1f} dB, umbral {umbral:.1f} dB)")
 
 

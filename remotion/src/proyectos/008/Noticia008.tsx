@@ -1,3 +1,6 @@
+/* eslint-disable @remotion/volume-callback, @remotion/from-0 -- pieza PUBLICADA: la forma con callback cambia el frame
+   de referencia del volumen (relativo a la Sequence, no al de useCurrentFrame) y
+   podría mover el audio; se deja tal cual se renderizó. */
 import { useMemo } from "react";
 import { AbsoluteFill, Audio, interpolate, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { PistaGraficos } from "../../motor/graficos/PistaGraficos";

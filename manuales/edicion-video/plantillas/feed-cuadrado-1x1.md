@@ -2,7 +2,7 @@
 
 **Uso:** repurpose de un clip/talking-head para feed de Instagram / LinkedIn.
 **Composición Remotion:** `FeedCuadrado` · **Preset:** `remotion/src/motor/presets.ts → feedCuadrado`
-**Frame de referencia:** `remotion/out/plantilla-1x1.png`
+**Frame de referencia:** desde `remotion/`, `npx remotion still FeedCuadrado out/plantilla-1x1.png --frame=60`
 
 ## Las 5 decisiones
 - **Formato:** 1:1 · 1080×1080 · fps = original (demo 30) · layout centrado · zona segura 8%.
