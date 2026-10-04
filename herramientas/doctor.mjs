@@ -63,6 +63,20 @@ const UV_MINIMO = [0, 4, 0];
 const CORTES_INTER = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"];
 const BYTES_MINIMOS_OTF = 100 * 1024;
 
+/**
+ * Las caras de la pista de subtítulos editoriales (también las registra remotion/src/motor/fuentes.ts).
+ * Umbral propio y no el de Inter: la Quicksand variable entera pesa ~120 KB; cada Lato, ~700 KB;
+ * Montserrat, ~730 KB; la itálica de Playfair Display, ~270 KB.
+ */
+const FUENTES_SUBTITULOS = [
+  "quicksand/Quicksand-Variable.ttf",
+  "lato/Lato-Italic.ttf",
+  "lato/Lato-BoldItalic.ttf",
+  "montserrat/Montserrat-Variable.ttf",
+  "playfair/PlayfairDisplay-Italic-Variable.ttf",
+];
+const BYTES_MINIMOS_TTF = 50 * 1024;
+
 const DIR_REMOTION = desdeRaiz("remotion");
 const MODELO_WHISPER = desdeRaiz("archivos", "whisper", "ggml-small.bin");
 const BYTES_MODELO = 487601967;
@@ -359,6 +373,31 @@ function revisarFuentes() {
   else falta("fuentes", `${mal.length} de ${CORTES_INTER.length} fuentes Inter mal en remotion/public/fuentes/inter/: ${mal.slice(0, 4).join(", ")}${mal.length > 4 ? "…" : ""}; sin ellas ninguna composición pinta la tipografía del producto`, "vuelve a clonar o descomprimir el repo entero");
 }
 
+/**
+ * Las fuentes de los subtítulos editoriales (Quicksand, Lato, Montserrat y Playfair Display) NO son punto único de fallo: solo
+ * las pide esa pista, y detrás de ellas en su pila va Inter. Por eso, si faltan, es un AVISO y el
+ * nivel 0 sigue en pie: todo lo demás renderiza igual. De estos archivos salen la copia en base64
+ * que registra el motor (empaquetar-fuentes.mjs) y la tabla de avances de la pista
+ * (medir-letras-subtitulos.mjs). Tampoco los descarga nadie (vienen con el repo), y se mira el
+ * tamaño por lo mismo que en Inter: un TTF truncado existe pero no carga.
+ */
+function revisarFuentesSubtitulos() {
+  const dir = path.join(DIR_REMOTION, "public", "fuentes");
+  const mal = [];
+  for (const nombre of FUENTES_SUBTITULOS) {
+    let tam = -1;
+    try {
+      tam = fs.statSync(path.join(dir, ...nombre.split("/"))).size;
+    } catch {
+      /* no existe */
+    }
+    if (tam < 0) mal.push(`${nombre} (falta)`);
+    else if (tam <= BYTES_MINIMOS_TTF) mal.push(`${nombre} (${tam} bytes, truncado)`);
+  }
+  if (mal.length === 0) ok("fuentes-subtitulos", `las ${FUENTES_SUBTITULOS.length} fuentes de los subtítulos editoriales (Quicksand, Lato itálica, Montserrat y Playfair Display itálica) están en remotion/public/fuentes/`, { obligatoria: false });
+  else aviso("fuentes-subtitulos", `${mal.length} de ${FUENTES_SUBTITULOS.length} fuentes de los subtítulos editoriales mal en remotion/public/fuentes/: ${mal.join(", ")}; solo se degrada la pista de subtítulos editoriales (su letra no se puede volver a medir ni a empaquetar; el render usa la copia en base64 de remotion/src/motor/fuentes-subtitulos.datos.ts): el resto del sistema no las usa`, "vuelve a clonar o descomprimir el repo entero");
+}
+
 function revisarGit() {
   const git = binario("git");
   if (git) ok("git", `${versionDe(git) || "git"} (opcional: solo para actualizar el repo)`, { obligatoria: false });
@@ -399,6 +438,7 @@ function principal() {
   revisarSfx();
   revisarAvatar();
   revisarFuentes();
+  revisarFuentesSubtitulos();
   revisarGit();
 
   const presentes = clavesPresentes();

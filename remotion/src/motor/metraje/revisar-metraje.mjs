@@ -22,6 +22,10 @@
  *                      el `pan` y el desplazamiento de las entradas propias
  *                      dentro de lo que la escala permite) → la franja negra
  *                      dura unos frames y no cae en el que revisas
+ *   colorCine          el `color` de cada plano (el efecto `colorCorrection()`) usa
+ *                      claves y rangos que el efecto admite → una clave mal escrita no
+ *                      da error en ningún sitio (no hace nada), y un valor fuera de
+ *                      rango es un render que se cae a mitad
  *   todosLosArchivos   si el encargo lo pide, todo el material sale en pantalla
  *
  * NO LLEVA SUS PROPIAS CUENTAS. Carga `corte.ts` —el mismo que usa el
@@ -295,6 +299,30 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
     cierraSeccion(n, a, `todos los planos cubren el cuadro${techoZoom !== undefined ? ` · zoom dentro de [1, ${techoZoom}]` : ""}`);
   }
 
+  /**
+   * Que el `color` de cada plano que lo lleva (`ColorCine`) sea válido: solo claves del efecto,
+   * números finitos dentro de su rango, y nunca en una `foto` (el intérprete solo pasa el vídeo
+   * por el efecto: en una foto se quedaría sin hacer nada). Sin planos con color no imprime nada
+   * y devuelve 0. Con ellos, deja dicha la bandera del render: `--gl=angle`.
+   */
+  function colorCine() {
+    const conColor = cortes.filter((c) => c.color !== undefined);
+    if (!conColor.length) return 0;
+    const n = fallos.length;
+    for (const c of conColor) {
+      if (c.tipo === "foto") mal(`${c.id}: lleva \`color\` pero es una foto; solo el vídeo pasa por el efecto (la foto saldría sin corregir)`);
+      if (c.color === null || typeof c.color !== "object" || Array.isArray(c.color)) {
+        mal(`${c.id}: \`color\` tiene que ser un objeto con parámetros de colorCorrection()`);
+        continue;
+      }
+      for (const problema of F.revisaColorCine(c.color)) mal(`${c.id}: color ${problema}`);
+    }
+    if (fallos.length === n) {
+      ok(`${conColor.length} ${conColor.length === 1 ? "plano lleva" : "planos llevan"} color y todos están dentro de lo que el efecto admite · renderiza con --gl=angle`);
+    }
+    return conColor.length;
+  }
+
   /** Que todo el material del encargo salga en pantalla. Contra la carpeta original si está; si no, contra `public/`. */
   function todosLosArchivos({ carpeta, origen, extensiones = /\.(mov|mp4|heic|jpe?g)$/i }) {
     const n = fallos.length;
@@ -333,6 +361,7 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
     metrajeDisponible,
     tramosDisjuntos,
     encuadre,
+    colorCine,
     todosLosArchivos,
     cierra,
   };
@@ -363,5 +392,9 @@ if (esMain(import.meta.url)) {
   puerta.tramosDisjuntos();
   puerta.seccion("4. encuadre");
   puerta.encuadre();
+  if (puerta.cortes.some((c) => c.color !== undefined)) {
+    puerta.seccion("5. color");
+    puerta.colorCine();
+  }
   puerta.cierra();
 }

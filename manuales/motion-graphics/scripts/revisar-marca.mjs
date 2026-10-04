@@ -35,6 +35,11 @@
  * producto declara `LETRA_INTER`, la empaquetada, que pinta igual en cualquier
  * máquina.
  *
+ * Y una séptima desde que existen los subtítulos editoriales: el TEXTO EN
+ * PANTALLA de una marca (`Marca.texto`) es opcional, el suelo no lo declara y
+ * quien no lo declara sigue en modo banda con la letra del motor. Si el suelo
+ * lo declarase, todas las marcas lo heredarían por spread.
+ *
  * DOS FALLOS REALES QUE ESTE TEST CAZÓ el día que se escribió, y que ni el
  * compilador ni la sonda de frames veían:
  *   1. Un plan publicado compilaba con `capa(NOTICIAS, …)` en vez de con
@@ -80,7 +85,11 @@ const PLANES_ESTUDIO = [
 const HAY_ESTUDIO = PLANES_ESTUDIO.every(([, ruta]) => hay(`${ruta}.ts`));
 
 let ENTRY = `
-export { MARCA_BASE, LETRA_INTER, LETRA_SF_SISTEMA, PILA_INTER } from ${en("motor/marca")};
+export { MARCA_BASE, LETRA_INTER, LETRA_SF_SISTEMA, LETRA_SUBTITULOS, PILA_INTER } from ${en("motor/marca")};
+export { letraSubtitulosDe, modoTextoDe, revisaSubtitulosEditoriales, resuelveBloque, segmentosDe, sombraSubtitulosDe, SUB }
+  from ${en("motor/subtitulos-editoriales")};
+export { AVANCES_SUBTITULOS } from ${en("motor/subtitulos-editoriales.avances")};
+export { subtitulosDemo, DURACION_SUBTITULOS_DEMO, FPS_SUBTITULOS_DEMO } from ${en("motor/demos/subtitulos-demo")};
 export { letraDe } from ${en("motor/letra")};
 export { PIEZAS_COMUNES } from ${en("motor/piezas")};
 export { NOTICIAS, PIEZAS_NOTICIA, dialectoEditorialDe, letraEditorialDe, compilaNoticia }
@@ -190,6 +199,86 @@ const CONVOZ = { ...CANAL, letraPorCapa: { graficos: { display: "Courier", texto
 t("la marca puede sobrescribir la de gráficos", M.letraGraficosDe(CONVOZ).display === "Courier");
 t("…sin tocar la editorial", M.letraEditorialDe(CONVOZ).display === CANAL.letra.display);
 t("las 4 tablas llegan RESUELTAS, no como claves", [500, 600, 700, 800].every((w) => typeof M.letraEditorialDe(CANAL).tablas[w] === "object"));
+
+seccion("El texto en pantalla: un campo OPCIONAL de la marca");
+// El campo es nuevo y las piezas publicadas no: lo que aquí se fija es que quien
+// no lo declara sigue exactamente donde estaba, y que declararlo no se cuela en
+// ninguna otra marca.
+t("MARCA_BASE no lo declara (las marcas heredan por spread)", M.MARCA_BASE.texto === undefined);
+t("sin declararlo, el modo es banda", M.modoTextoDe(M.MARCA_BASE) === "banda" && M.modoTextoDe({ ...CANAL, texto: undefined }) === "banda");
+t("…y la letra es la del motor, el MISMO objeto", M.letraSubtitulosDe(M.MARCA_BASE) === M.LETRA_SUBTITULOS);
+const CONTEXTO = { ...CANAL, texto: { modo: "editorial", letra: { acento: { familia: "Georgia, serif", peso: 400, italica: true } } } };
+t("una marca puede pedir editorial", M.modoTextoDe(CONTEXTO) === "editorial");
+t("…con su acento y el resto del motor", M.letraSubtitulosDe(CONTEXTO).acento.familia === "Georgia, serif" && M.letraSubtitulosDe(CONTEXTO).base === M.LETRA_SUBTITULOS.base);
+t("…sin tocar a las demás", M.modoTextoDe(CANAL) === (CANAL.texto ? CANAL.texto.modo : "banda") && M.MARCA_BASE.texto === undefined);
+t(
+  "las tres letras del motor tienen tabla medida",
+  ["base", "acento", "dato"].every((e) => typeof M.AVANCES_SUBTITULOS[M.LETRA_SUBTITULOS[e].tabla] === "object")
+);
+t(
+  "…de su familia, peso y estilo (una tabla prestada mediría mal en silencio)",
+  ["base", "acento", "dato"].every((e) => {
+    const l = M.LETRA_SUBTITULOS[e];
+    const tabla = M.AVANCES_SUBTITULOS[l.tabla];
+    return l.familia.indexOf(tabla.familia) === 0 && tabla.peso === l.peso && tabla.italica === l.italica;
+  })
+);
+const opcionesDemo = { fps: M.FPS_SUBTITULOS_DEMO, ancho: 1080, alto: 1920, duracion: M.DURACION_SUBTITULOS_DEMO };
+const avisosDemo = M.revisaSubtitulosEditoriales(M.subtitulosDemo, opcionesDemo);
+t("el plan de demo pasa su validador", avisosDemo.length === 0, avisosDemo.slice(0, 2).join(" | "));
+const dosAcentos = M.subtitulosDemo.map((b) => (b.id === "b03" ? { ...b, trozos: b.trozos.map((x) => ({ ...x, estilo: "acento" })) } : b));
+t("dos acentos en un bloque: avisa", M.revisaSubtitulosEditoriales(dosAcentos, opcionesDemo).some((a) => a.includes("[b03]") && a.includes("acentos")));
+const largo = [{ id: "x", hasta: 60, trozos: [{ desde: 10, texto: "una línea de acento que de ninguna manera cabe", estilo: "acento" }] }];
+const resuelto = M.resuelveBloque(largo[0], { ancho: 1080, alto: 1920 }, M.LETRA_SUBTITULOS);
+t("una línea que no cabe se ENCOGE hasta caber, no se sale", resuelto.lineas[0].encoge < 1 && resuelto.lineas[0].ancho <= resuelto.anchoUtil);
+t("…y el validador lo dice", M.revisaSubtitulosEditoriales(largo, opcionesDemo).some((a) => a.includes("se encoge")));
+t("sin tabla no se ajusta a ciegas: se avisa", M.revisaSubtitulosEditoriales(M.subtitulosDemo, { ...opcionesDemo, letra: M.letraSubtitulosDe(CONTEXTO) }).some((a) => a.includes("no tiene tabla")));
+t("sin declararla, la sombra es la de la marca", M.sombraSubtitulosDe(M.MARCA_BASE) === M.MARCA_BASE.sombra.textoCine + ", " + M.MARCA_BASE.sombra.texto);
+t("…y `sombra: null` la quita", M.sombraSubtitulosDe({ ...CANAL, texto: { modo: "editorial", sombra: null } }) === "none");
+const roto = [{ id: "r", hasta: 60, trozos: [{ desde: 10, texto: "hola", estilo: "énfasis" }, { desde: 20 }] }];
+let avisosRoto = null;
+try {
+  avisosRoto = M.revisaSubtitulosEditoriales(roto, opcionesDemo);
+  M.resuelveBloque(roto[0], { ancho: 1080, alto: 1920 }, M.LETRA_SUBTITULOS);
+  M.segmentosDe(roto, 30);
+} catch (e) {
+  avisosRoto = null;
+}
+t(
+  "un plan roto (estilo desconocido, texto ausente) se AVISA, no revienta",
+  Array.isArray(avisosRoto) && avisosRoto.some((a) => a.includes("desconocido")) && avisosRoto.some((a) => a.includes("sin texto"))
+);
+const srt = M.segmentosDe(M.subtitulosDemo, M.FPS_SUBTITULOS_DEMO);
+t(
+  "el .srt no pierde las líneas que entran en el mismo frame (un bloque ya puesto)",
+  srt[0].from === 0 && srt[0].text === "¿Y si tu próximo vídeo" && srt.every((x, i) => x.to > x.from && (i === 0 || x.from >= srt[i - 1].to))
+);
+// `acentoMenos`: lo que una PIEZA le resta a la itálica. Sin él, el motor da lo de siempre (las piezas publicadas no se mueven).
+{
+  const vista = { ancho: 1080, alto: 1920 };
+  const conAcento = M.subtitulosDemo.find((b) => b.id === "b03");
+  const sin = M.resuelveBloque(conAcento, vista, M.LETRA_SUBTITULOS);
+  const igual = M.resuelveBloque(conAcento, vista, M.LETRA_SUBTITULOS, {});
+  const con = M.resuelveBloque(conAcento, vista, M.LETRA_SUBTITULOS, { acentoMenos: 8 });
+  t("acentoMenos: sin ajuste (o vacío) el cuerpo del acento es el de siempre", JSON.stringify(sin) === JSON.stringify(igual) && sin.lineas.some((l) => l.estilo === "acento" && l.px === 99));
+  t(
+    "…con 8 baja la cursiva 8 px (99 → 91) y NADA más: la base no se toca",
+    con.lineas.every((l, i) => (l.estilo === "acento" ? l.px === sin.lineas[i].px - 8 : l.px === sin.lineas[i].px && l.alto === sin.lineas[i].alto))
+  );
+  t("…la línea sigue a su cuerpo (el bloque encoge, no baila) y el borde de arriba se queda", con.lineas.find((l) => l.estilo === "acento").alto < sin.lineas.find((l) => l.estilo === "acento").alto && con.top === sin.top);
+  t("un ajuste que no es un número se ignora (no revienta)", JSON.stringify(M.resuelveBloque(conAcento, vista, M.LETRA_SUBTITULOS, { acentoMenos: Number.NaN })) === JSON.stringify(sin));
+  t(
+    "el validador mide con el cuerpo con que se va a pintar",
+    M.revisaSubtitulosEditoriales([largo[0]], { ...opcionesDemo, acentoMenos: 8 }).length <= M.revisaSubtitulosEditoriales([largo[0]], opcionesDemo).length
+  );
+}
+t(
+  "ningún bloque de la demo pasa del suelo del 88 %",
+  M.subtitulosDemo.every((b) => {
+    const r = M.resuelveBloque(b, { ancho: 1080, alto: 1920 }, M.LETRA_SUBTITULOS);
+    return r.top >= 0 && r.top + r.alto <= Math.round(1920 * M.SUB.suelo);
+  })
+);
 
 seccion("El registro compartido");
 const comunes = Object.keys(M.PIEZAS_COMUNES);

@@ -1,6 +1,6 @@
 import "./index.css";
-// Inter empaquetada (motor/fuentes.ts): se carga UNA vez, aquí, en tiempo de
-// ejecución. Nunca desde un módulo de datos, que los scripts de node importan.
+// Las fuentes empaquetadas (motor/fuentes.ts): se cargan UNA vez, aquí, en tiempo
+// de ejecución. Nunca desde un módulo de datos, que los scripts de node importan.
 import "./motor/fuentes";
 import { Composition } from "remotion";
 import { Prueba } from "./Prueba";
@@ -13,6 +13,8 @@ import { GraficosDemo } from "./motor/demos/GraficosDemo";
 import { PlanDemo } from "./motor/demos/PlanDemo";
 import { NoticiaDemo } from "./motor/demos/NoticiaDemo";
 import { noticiaDemo } from "./motor/demos/noticia-demo";
+import { SubtitulosDemo } from "./motor/demos/SubtitulosDemo";
+import { DURACION_SUBTITULOS_DEMO, FPS_SUBTITULOS_DEMO } from "./motor/demos/subtitulos-demo";
 import { EJEMPLO } from "./marcas/ejemplo";
 import { duracionPlan } from "./motor/noticias";
 import { framesDelMedio } from "./motor/duracion";
@@ -175,6 +177,24 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{ marca: EJEMPLO }}
         durationInFrames={duracionPlan(noticiaDemo)}
         fps={30}
+        width={1080}
+        height={1920}
+      />
+
+      {/* ── Subtítulos editoriales (motor/SubtitulosEditoriales.tsx) ──
+          Tipografía que acompaña a la voz: trozos de una a cuatro palabras que
+          se acumulan, una itálica grande para la palabra que se queda y una
+          cifra sola al centro. El plan es DATOS (subtitulos-demo.ts →
+          BloqueEditorial[]) con su validador, `revisaSubtitulosEditoriales()`,
+          y su puerta: manuales/edicion-video/scripts/revisar-subtitulos.mjs.
+          La demo no lleva voz ni metraje: valida las letras y las posiciones.
+          Como en NoticiaDemo, la marca se elige aquí y no dentro del motor. */}
+      <Composition
+        id="SubtitulosDemo"
+        component={SubtitulosDemo}
+        defaultProps={{ marca: EJEMPLO }}
+        durationInFrames={DURACION_SUBTITULOS_DEMO}
+        fps={FPS_SUBTITULOS_DEMO}
         width={1080}
         height={1920}
       />

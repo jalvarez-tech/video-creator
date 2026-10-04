@@ -6,7 +6,8 @@
  * `corte.ts`; aquí solo cómo se pinta.
  *
  * LAS CAPAS DE CADA CORTE, en orden de pintado:
- *   1. el medio (vídeo mudo o foto), con su punch-in y su corrección de clip
+ *   1. el medio (vídeo mudo o foto), con su punch-in y su corrección de clip: el `grado`
+ *      (filtro CSS) y, si el corte lo pide, su `color` (`colorCorrection()`, ver abajo)
  *   2. el LOOK (velo cálido + grano + viñeta), igual para todos los cortes
  *   3. los VELOS, si la pieza pone texto encima: arriba y/o abajo
  *   4. el destello de una entrada propia y el fundido a negro, si los hay
@@ -23,8 +24,15 @@
  * EL VÍDEO VA SIEMPRE MUDO. El audio de cámara no entra por aquí: se quita en la
  * normalización (R19). Si una pieza necesita el sonido de un clip, va en su
  * propia capa de audio y con su volumen.
+ *
+ * EL COLOR ES DE ADHESIÓN. Un corte sin `color` se pinta como siempre, con
+ * `<OffthreadVideo>`: lo publicado no cambia ni un píxel. Un corte CON `color` pasa
+ * por `<Video>` de `@remotion/media` —el único que admite efectos— con el efecto
+ * `colorCorrection()` de Remotion; el render necesita `--gl=angle` (ver `ColorCine`).
  */
-import React from "react";
+import { colorCorrection } from "@remotion/effects/color-correction";
+import { Video } from "@remotion/media";
+import React, { useMemo } from "react";
 import {
   AbsoluteFill,
   Img,
@@ -81,6 +89,13 @@ const Plano: React.FC<{
   const negro = look.negro ?? "#000000";
   const efecto = propia ? propia(f) : SIN_EFECTO;
 
+  // El efecto se construye UNA vez por plano: `<Video>` compara el array por identidad y,
+  // si cambiara en cada frame, reharía su cadena de WebGL en cada uno. La clave es el
+  // JSON del color (un `useMemo` con el objeto como dependencia lo rehace si el plan se
+  // reevalúa en el Studio sin haber cambiado).
+  const claveColor = corte.color ? JSON.stringify(corte.color) : "";
+  const efectos = useMemo(() => (claveColor ? [colorCorrection(JSON.parse(claveColor))] : []), [claveColor]);
+
   // Punch-in sobre la ventana COMPLETA (solape incluido): si el zoom empezara
   // al acabar la disolvencia, el plano daría un tirón justo al hacerse opaco.
   const escala = interpolate(f, [0, corte.dur + solape], [corte.zoom[0], corte.zoom[1]], CLAMP);
@@ -105,7 +120,8 @@ const Plano: React.FC<{
     .filter(Boolean)
     .join(" ");
 
-  const medio: React.CSSProperties = { width: "100%", height: "100%", objectFit: "cover", filter: filtro };
+  const estiloMedio: React.CSSProperties = { width: "100%", height: "100%", filter: filtro };
+  const medio: React.CSSProperties = { ...estiloMedio, objectFit: "cover" };
   const desplazamiento = efecto.x !== undefined ? `translateX(${efecto.x.toFixed(2)}px) ` : "";
 
   return (
@@ -115,6 +131,22 @@ const Plano: React.FC<{
       >
         {corte.tipo === "foto" ? (
           <Img src={staticFile(corte.src)} style={medio} />
+        ) : corte.color ? (
+          <Video
+            src={staticFile(corte.src)}
+            // Mismos números que el `<OffthreadVideo>` de abajo: `desde` en SEGUNDOS de la
+            // fuente, `trimBefore` en frames de la comp, disolvencia incluida.
+            trimBefore={Math.max(0, arranqueEnFuente(corte, solape, fps))}
+            playbackRate={corte.velocidad ?? 1}
+            muted
+            objectFit="cover"
+            // Si el navegador no pudiera decodificar el clip, `<Video>` caería en silencio a
+            // `<OffthreadVideo>`, que no lleva el efecto: el plano saldría SIN corregir y
+            // nadie lo vería. Que el render falle.
+            disallowFallbackToOffthreadVideo
+            style={estiloMedio}
+            effects={efectos}
+          />
         ) : (
           <OffthreadVideo
             src={staticFile(corte.src)}

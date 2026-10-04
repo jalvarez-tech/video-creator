@@ -5,18 +5,20 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@remotion/cli": "4.0.496",
-    "@remotion/media-parser": "4.0.496",
-    "@remotion/paths": "4.0.496",
-    "@remotion/shapes": "4.0.496",
+    "@remotion/cli": "4.0.509",
+    "@remotion/effects": "4.0.509",
+    "@remotion/media": "4.0.509",
+    "@remotion/media-parser": "4.0.509",
+    "@remotion/paths": "4.0.509",
+    "@remotion/shapes": "4.0.509",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "remotion": "4.0.496"
+    "remotion": "4.0.509"
   },
   "devDependencies": {
-    "@remotion/bundler": "4.0.496",
-    "@remotion/eslint-config-flat": "4.0.496",
-    "@remotion/renderer": "4.0.496",
+    "@remotion/bundler": "4.0.509",
+    "@remotion/eslint-config-flat": "4.0.509",
+    "@remotion/renderer": "4.0.509",
     "@types/node": "26.1.1",
     "@types/react": "19.2.7",
     "@types/web": "0.0.166",

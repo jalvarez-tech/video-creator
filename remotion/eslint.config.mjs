@@ -17,8 +17,8 @@ import { config } from "@remotion/eslint-config-flat";
  * la señal de que ese algo pertenece al motor. Súbelo, no lo enlaces.
  */
 export default [
-  // El módulo de datos de las fuentes (3 MB de base64, generado) no se lintea.
-  { ignores: ["src/motor/fuentes-inter.datos.ts"] },
+  // Los módulos de datos de las fuentes (3 MB y 2 MB de base64, generados) no se lintean.
+  { ignores: ["src/motor/fuentes-inter.datos.ts", "src/motor/fuentes-subtitulos.datos.ts"] },
   ...config,
   {
     // LAS PUERTAS (`motor/metraje/revisar-metraje.mjs`) viven al lado del formato
