@@ -79,11 +79,14 @@ remotion/public/choco-010/
 remotion/public/boda-011/
 remotion/public/apex-015/
 remotion/public/quien-soy-013/
+remotion/public/rd-016/
 # Marcador local de origen del set de SFX (lo escribe sfx.mjs desde-banco).
 remotion/public/sfx/.origen.json
 # Material de terceros y vistas previas dentro de los proyectos.
 **/vistas-previas/
 proyectos/*/broll/cliente/
+remotion/public/recorrido-017/
+remotion/public/recorrido-018/
 # <<< SOLO ESTUDIO <<<
 
 # ─── 6. Material dentro de un proyecto ───────────────────────────────────────
@@ -95,6 +98,7 @@ proyectos/*/broll/cliente/
 entrada/*
 avatar/*.mp4
 proyectos/*/original.*
+proyectos/*/original/
 proyectos/*/avatar/
 proyectos/*/finales/
 proyectos/*/pruebas-720p/
