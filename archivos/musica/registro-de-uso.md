@@ -23,7 +23,7 @@ Cada sesión trabaja en su rama `feat/reel-NNN-…` (NNN = el número de proyect
 | V1 | 017 | video-creator · PR #10 | Los Patios (apto 501) | final (CRF 12 y CRF 16) | 2026-10-03 | «La oportunidad»: HK02 · MD09 · CT07 · *Time* · dron DR147 al inicio |
 | V2 | 018 | video-creator · PR #10 | Los Patios (apto 501) | final (la «en» del CTA sin oír) | 2026-10-04 | HK07 · MD07 · CT01 · *Return to Oasis* · dron DR155 al inicio · RC25 en la rev. 2 |
 | V3 | 019 | video-creator · checkout del estudio (reserva publicada; el proyecto 019 sigue SIN commit: el usuario pidió no commitear) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Altura sin torre»: RC25 limpio en el frame 0 · HK05 · dron DR152 como 1.er plano del recorrido · MD08 · CT05 · *Flying Into the Sun* (entrada 178,095 s) · pendiente: el OK a la prueba; oír MD08 «y (la) ventilación» (≈ 21,1 s), CT05 «escríbeme» (≈ 36,6-37,2 s) y la canción |
-| V4 | 020 | video-creator · rama `feat/reel-020-definir` (worktree propio del estudio) | Los Patios (apto 501) | **reservada** | 2026-10-04 | «Lo que todavía puedes definir» (pedido: canción tipo jazz): HK03 · MD14 · CT06 · *Sax for the Last Customer* (entrada 137,615 s) · dron DR156 · apertura RC22 · sin cifras · sentido I del paseo · análisis en `proyectos/020/analisis-uso.md` |
+| V4 | 020 | video-creator · rama `feat/reel-020-definir` (worktree propio del estudio; el proyecto 020 SIN commit) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Lo que todavía puedes definir» (pedido: canción tipo jazz): la calle RC22 en el frame 0 · HK03 · MD14 · CT06 · dron DR156 como último plano del bloque 5 · *Sax for the Last Customer* (entrada 137,615 s; su acorde final en f1183 resuelve tras el CTA) · 1253 f · 41,8 s · sin cifras · sentido I · ni un segundo de metraje compartido · pendiente: el OK a la prueba; oír «terminado» (HK03, ≈ 4,3-5,2 s) y «reto» (CT06, ≈ 36,9-37,1 s), la canción y la licencia; canal del CTA y si Luxur puede agendar |
 | V5 | 021 | | Los Patios (apto 501) | **libre: es la siguiente** | | |
 
 El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V4 → 020…) para la que venga detrás.
@@ -50,22 +50,22 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | ByErik ヵ - desolate (Slowed) | `74195082` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Chill Music - F.G.G. - Chillin' (Chillstep Mix) | `6c9eb412` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Cornfield Chase | `e28cd1ab` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Daniel Armand — Street Level Sessions on the Green | `e428a369` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Daniel Armand — Street Level Sessions on the Green | `e428a369` | libre | | | lo-fi / chillhop · medida en la V4: entrada 165,232 s (golpe de 20,2 dB) y caída de 25,6 dB a +40 s: encaja en la medida, pero es hip hop y no jazz; la segunda opción técnica si se quiere otro color |
 | Emilio Piano ft. Lucie - Maison | `df2be878` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Epic Inspirational and Cinematic Motivational - by AShamaluevMusic | `38c75296` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Fortitude (Light Version) | `493eeec6` | libre | | | Sol mayor · 128 (o 64) · desde 105,23 (★★) · −15 dB plano, un respiro de silencio en +32,5 s y un «drop» a +33,4 s hacia −12 dB (cae en el dron: más empuje, menos calma). Medida, no montada. |
 | Gary B.B. Coleman - The Sky is Crying | `b422686a` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | ~~Hans Zimmer - Time~~ | `4b659bec` | **usada** | V1 | 2026-10-03 | Sol mayor · 63 BPM · desde 175,633 s (el compás 8 de la entrada del catálogo) · rejilla de FRASES de 8 pulsos (7,6 s) · resolución de piano bajo el CTA · proyecto 017 |
 | Heaven on Earth | `acd99178` | libre | | | Do menor? · 97 · desde 107,51 (★★★) · plana. Medida, no montada. |
-| I Feel It Coming - The Weeknd (Saxophone Cover) | `3fcefe36` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| I Feel It Coming - The Weeknd (Saxophone Cover) | `3fcefe36` | libre | | | cover de saxofón (lounge) · Sol menor · 93 BPM · medida en la V4 (`buscar-entrada.py --cta 33 40`): entrada 217,415 s (golpe de 18,7 dB) y caída de solo 6,0 dB a +40 s (en el borde de la ventana): no resuelve donde entra el CTA. Descartada para jazz |
 | In This Together | `bd507fe6` | libre | | | Mi menor · 120 (o 60) · desde 92,98 (★★) · meseta de −7 dB hasta +43 s y cae a silencio: la resolución llega tarde para un CTA a los 38 s. Medida, no montada. |
-| Ivory Skyline Reverie | `80bf4f33` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Ivory Skyline Reverie | `80bf4f33` | libre | | | lounge/downtempo · plana · medida en la V4: entrada 143,146 s (14,1 dB), caída de 3,6 dB a +34,7 s: sin caída. Descartada |
 | L' Amour Toujours on SAXOPHONE | `951c5de2` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| La Isla Bonita (Saxophone 80 Mix) | `71321b4f` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| La Isla Bonita (Saxophone 80 Mix) | `71321b4f` | libre | | | pop latino en saxofón · medida en la V4: entrada 179,834 s con un golpe de 9,7 dB (en el umbral) y caída de 14,3 dB a +40 s; no es jazz. Descartada |
 | Light Fills the Room | `b3c8b7c6` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Ludovico Einaudi - Einaudi Fly | `a7e0695e` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Ludovico Einaudi - Experience (Live from Teatro dal Verme, Milano) | `66858006` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Luxury, Elegance, Refined - Oficial Vídeo Clipe | `4d36ea48` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Luxury, Elegance, Refined - Oficial Vídeo Clipe | `4d36ea48` | libre | | | lounge · plana · medida en la V4: entrada 128,141 s con un golpe de solo 10,5 dB y caída de 4,3 dB: sin caída. Descartada |
 | Nils Frahm - Familiar | `5ef30490` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Nils Frahm - Says  | `990e04bd` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Oceans (Where Feet May Fail) | `f6cebfbd` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
