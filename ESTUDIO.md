@@ -308,7 +308,7 @@ El banco de sonidos **sí** está en el repo: los renders dependen de él.
 
 ## ✅ Estado verificado
 
-- Remotion **4.0.496** · Node **25.8** · `@remotion/paths`, `@remotion/shapes` y `@remotion/media-parser` (duraciones leídas del medio).
+- Remotion **4.0.509** (subido desde la 4.0.496 el 2026-10-03 para `colorCorrection()`; ver R32 de `edicion-video`) · Node **25.8** · `@remotion/paths`, `@remotion/shapes` y `@remotion/media-parser` (duraciones leídas del medio) · `@remotion/media` y `@remotion/effects` (el color por plano).
 - **Sin Tailwind**: no se usaba ni una clase (`grep -rc className src/` = 0). Lo único que aportaba era su *preflight*, que ahora está explícito como reset mínimo en `src/index.css` — verificado píxel a píxel en 4 composiciones.
 - **16 composiciones** registradas en `remotion/src/Root.tsx` (plantillas, avatares 001-003, `Catalogo`, `GraficosDemo`, `PlanDemo`, `NoticiaDemo`, `Noticia004`, `Noticia005`, `Noticia006`).
 - Auto-Editor **29.3.1** (pipx) · whisper.cpp con `ggml-small.bin`.

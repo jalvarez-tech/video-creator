@@ -37,11 +37,11 @@ Pexels (b-roll de archivo, lo que YA existe)               cortar silencios     
 | **Grok Imagine** (API directa de xAI) | Generación de b-roll / imágenes con IA | `scripts/grok.py` · clips en `proyectos/NNN/broll/grok/` |
 | **Pexels** (banco gratuito) | B-roll de ARCHIVO: lugares, objetos y gestos reales | `scripts/bancos.py` · manifiesto en `proyectos/NNN/broll/` |
 | **Auto-Editor** | Cortar silencios (opc. con avatar) | CLI `auto-editor` (la instala `herramientas/setup.mjs`) |
-| **Remotion** | Ensamblaje, títulos, animación, render | `remotion/` (Remotion 4.0.496) |
+| **Remotion** | Ensamblaje, títulos, animación, render | `remotion/` (Remotion 4.0.509) |
 
 > 📰 **Para montar un vídeo a partir de una NOTICIA** (formato editorial 9:16, voz en off sin avatar, papel beige + acento del canal), entra por **[video-noticias](../video-noticias/SKILL.md)**: trae su propio look, sus 7 beats y su capa declarativa (`TomaNoticia[]` → `<PistaNoticia>`) sobre este mismo motor.
 
-📂 **Partes del manual:** [proceso-edicion.md](proceso-edicion.md) (Fase 3 · flujo bruto→publicación, 7 pasos) · [heygen.md](heygen.md) (avatar de IA) · [video-noticias](../video-noticias/SKILL.md) (formato noticias completo) · [motion-graphics](../motion-graphics/SKILL.md) (dirección de animación: jerarquía, timing, muelles/tokens) · [camara-avatar](../camara-avatar/SKILL.md) (cámara virtual dinámica del avatar: zoom/reencuadre motivados) · [diseno-sonoro](../diseno-sonoro/SKILL.md) (SFX, mezcla, ducking) · [reglas.md](reglas.md) (reglas operativas R01–R29) · [plantillas/](plantillas/README.md) (biblioteca de plantillas reutilizables).
+📂 **Partes del manual:** [proceso-edicion.md](proceso-edicion.md) (Fase 3 · flujo bruto→publicación, 7 pasos) · [heygen.md](heygen.md) (avatar de IA) · [video-noticias](../video-noticias/SKILL.md) (formato noticias completo) · [motion-graphics](../motion-graphics/SKILL.md) (dirección de animación: jerarquía, timing, muelles/tokens) · [camara-avatar](../camara-avatar/SKILL.md) (cámara virtual dinámica del avatar: zoom/reencuadre motivados) · [diseno-sonoro](../diseno-sonoro/SKILL.md) (SFX, mezcla, ducking) · [reglas.md](reglas.md) (reglas operativas R01–R33) · [plantillas/](plantillas/README.md) (biblioteca de plantillas reutilizables).
 
 ---
 
@@ -327,5 +327,7 @@ auto-editor --version
 ```
 
 Transcripción (opcional, solo si instalaste whisper con `--whisper`): `node manuales/edicion-video/scripts/transcribir.mjs <un-clip-corto.mp4> out/transcripcion.json es` tiene que dejar un JSON con segmentos y tiempos.
+
+Subtítulos editoriales (modo de texto `editorial`, [R30](reglas.md)): `transcribir.mjs <audio> <salida.json> es --palabras` → `trozos-editoriales.mjs <guion-marcado.txt> <salida.json>` → `revisar-subtitulos.mjs <subtitulos-NNN.ts> --marca <canal>.ts`. El texto sale del guion; los frames, de la voz.
 
 Studio abre en http://localhost:3000 con `npm run dev` desde `remotion/`.

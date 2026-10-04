@@ -198,6 +198,17 @@ Dar de alta un canal es escribir un fichero (`remotion/src/marcas/ejemplo.ts` es
 
 ⚠️ La tipografía es **por capa**: gráficos dibuja en Inter (decisión de legibilidad — va encima de metraje que no controla) y editorial en la voz de la marca. Un canal puede pedir la suya para gráficos con `letraPorCapa`, pero **midiendo la fuente antes** con `generar-avances.mjs`: sin tabla medida, R09 estima mal y no se queja.
 
+**El texto que acompaña a la voz también es de la marca**, y va aparte de `letraPorCapa`: el campo opcional `texto` dice el MODO por defecto de sus piezas con voz (`banda`: textos clave con los moldes `sello`/`cta`; `editorial`: la pista de subtítulos editoriales, [R30](../edicion-video/reglas.md)) y, si quiere, sus tres letras (`base`, `acento`, `dato`). Sin el campo, el canal está en `banda` y los subtítulos editoriales usan las letras del motor: Quicksand y Lato itálica, empaquetadas junto a Inter en `remotion/public/fuentes/` (`empaquetar-fuentes.mjs`) y medidas en `motor/subtitulos-editoriales.avances.ts` (`medir-letras-subtitulos.mjs`).
+
+```ts
+texto: {
+  modo: "editorial",
+  letra: { acento: { familia: PILA_LATO, peso: 400, italica: true, tabla: "lato400i" } },  // lo que no se declara, lo pone el motor
+},
+```
+
+Una letra sin `tabla` medida se pinta, pero ni se ajusta al ancho ni se comprueba, y el validador lo dice. El modo lo lee quien planifica (`modoTextoDe(marca)`); ningún componente monta subtítulos por su cuenta porque la marca diga `editorial`.
+
 ---
 
 ## 9b. El registro compartido (`motor/piezas/`)

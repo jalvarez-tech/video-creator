@@ -85,7 +85,7 @@ Sin ninguna clave el sistema ya monta vídeos. Las claves van en **`.env`** (pla
 ## ⏱️ Primer vídeo en 5 minutos
 
 1. **Diagnóstico** (desde la raíz): `node herramientas/doctor.mjs` → nivel 0 en verde.
-2. **Abre el Studio:** `cd remotion` y luego `npm run dev` → http://localhost:3000 (cerrar: `Ctrl + C`). Ahí están las composiciones del producto: `Prueba`, `TutorialYT`, `VerticalSocial`, `FeedCuadrado`, `Avatar16x9`, `DemoCamara`, `Catalogo`, `GraficosDemo`, `PlanDemo` y `NoticiaDemo`.
+2. **Abre el Studio:** `cd remotion` y luego `npm run dev` → http://localhost:3000 (cerrar: `Ctrl + C`). Ahí están las composiciones del producto: `Prueba`, `TutorialYT`, `VerticalSocial`, `FeedCuadrado`, `Avatar16x9`, `DemoCamara`, `Catalogo`, `GraficosDemo`, `PlanDemo`, `NoticiaDemo` y `SubtitulosDemo`.
 3. **Un fotograma sin abrir nada** (desde `remotion/`): `npx remotion still src/index.ts NoticiaDemo out/noticia.png --frame=100`. Si sale la imagen, el motor renderiza.
 4. **Tu primer proyecto** (desde la raíz): `node manuales/director-video/scripts/artefactos.mjs 001` crea `proyectos/001/artefactos/` con `01-plan.md → 02-layout.md → 03-timeline.md`, que se escriben **antes** del código.
 5. **Tu material:** copia tus clips, fotos o el original a `proyectos/001/` (la carpeta que acaba de crear el paso 4); nunca se edita desde Descargas. El agente pone en `remotion/public/` lo que Remotion tenga que ver, con el número del proyecto en el nombre, y mide cada archivo con `ffprobe` antes de contar un frame. Si aún no sabes a qué proyecto irá algo, `entrada/` es una bandeja opcional para material sin clasificar: de ahí el agente lo mueve al proyecto cuando lo use.
@@ -102,10 +102,10 @@ Cada skill es una carpeta `manuales/<skill>/` con su `SKILL.md`; el instalador l
 | Skill | Es | Entra cuando dices… |
 |---|---|---|
 | [director-video](manuales/director-video/SKILL.md) | 🚪 **La puerta de entrada.** Orquesta todas las capas, decide el fps y el z-order, valida con frames | «monta el vídeo», «vídeo nuevo», «monta estos clips», «usa todos los recursos» |
-| [edicion-video](manuales/edicion-video/SKILL.md) | El motor, el pipeline, las reglas R01-R29, HeyGen, b-roll (Pexels/Grok), transcripción, render | «render», «frame de prueba», «cortar silencios», «b-roll», «abrir studio» |
+| [edicion-video](manuales/edicion-video/SKILL.md) | El motor, el pipeline, las reglas R01-R33, HeyGen, b-roll (Pexels/Grok), transcripción, render | «render», «frame de prueba», «cortar silencios», «b-roll», «abrir studio» |
 | [camara-avatar](manuales/camara-avatar/SKILL.md) | Cámara virtual sobre un talking-head, motivada por la narrativa | cualquier pieza cuyo elemento principal sea un avatar |
 | [motion-graphics](manuales/motion-graphics/SKILL.md) | Dirección de gráficos animados + la biblioteca y el catálogo (`Catalogo`) + el plan como datos | «anima este título», «un contador», «lower-third», «CTA» |
-| [diseno-sonoro](manuales/diseno-sonoro/SKILL.md) | SFX, mezcla, ducking bajo la voz, recetario por gráfico | siempre que haya un gráfico o un corte que sonorizar |
+| [diseno-sonoro](manuales/diseno-sonoro/SKILL.md) | SFX, mezcla, ducking bajo la voz, recetario por gráfico; voz y música por tramos (`audio-NNN.ts`) | siempre que haya un gráfico o un corte que sonorizar |
 | [video-noticias](manuales/video-noticias/SKILL.md) | 📰 Formato completo: noticia → short 9:16 editorial sin avatar, voz en off + 9 tomas | «monta esta noticia», «explicador», «vídeo editorial» |
 | [motor-hyperframes](manuales/motor-hyperframes/SKILL.md) | 🧱 El segundo motor (HTML+GSAP), sus puertas y el puente de marca | «con hyperframes», «en HTML», «segundo motor» |
 
@@ -128,7 +128,7 @@ Las reglas de trabajo para el agente (artefactos antes que código, validadores 
 
 - **El código de este repo es MIT** ([LICENSE](LICENSE)).
 - **Remotion no es MIT:** tiene [su propia licencia](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md). Es gratis para particulares y para empresas de hasta 3 personas; una empresa mayor necesita una licencia de empresa de Remotion. Es tu responsabilidad comprobarlo.
-- El resto de terceros y su licencia, en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): HyperFrames (Apache-2.0), GSAP vendorizado (`manuales/motor-hyperframes/plantilla/vendor/`, GreenSock Standard License), Inter (SIL OFL 1.1, en `remotion/public/fuentes/inter/`), whisper.cpp (MIT), auto-editor (Unlicense), ffmpeg (LGPL/GPL, binario que se instala en tu máquina).
+- El resto de terceros y su licencia, en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): HyperFrames (Apache-2.0), GSAP vendorizado (`manuales/motor-hyperframes/plantilla/vendor/`, GreenSock Standard License), Inter, Quicksand, Lato, Montserrat y Playfair Display (SIL OFL 1.1, en `remotion/public/fuentes/`), whisper.cpp (MIT), auto-editor (Unlicense), ffmpeg (LGPL/GPL, binario que se instala en tu máquina).
 - **Los SFX que trae el producto** (`manuales/diseno-sonoro/sfx-base/`, 55 archivos) están **sintetizados con ffmpeg** por `node manuales/diseno-sonoro/scripts/sfx.mjs sintetizar`: no son de ningún banco y puedes usarlos en lo que publiques. Si tienes tu propio banco, `sfx.mjs desde-banco` lo pone en su sitio con el mismo nombre de archivo (ver [remotion/public/sfx/README.md](remotion/public/sfx/README.md)).
 - Lo que generes con HeyGen, ElevenLabs, xAI o traigas de Pexels se rige por las condiciones de cada servicio; `bancos.py creditos` te da el bloque de atribución de Pexels listo para la descripción del vídeo.
 
@@ -148,25 +148,25 @@ video-creator/
 ├── manuales/                 # LAS SKILLS — el "cómo se decide"
 │   ├── director-video/       #   🚪 orquestador · artefactos/ (01-plan · 02-layout · 03-timeline) · scripts/artefactos.mjs
 │   ├── edicion-video/        #   motor, pipeline, reglas.md (R01+), proceso, heygen.md, plantillas/
-│   │   └── scripts/          #   heygen.py · elevenlabs.py · grok.py · bancos.py · revisar-bancos.py · transcribir.mjs · exportar-srt.mjs
+│   │   └── scripts/          #   heygen.py · elevenlabs.py · grok.py · bancos.py · revisar-bancos.py · transcribir.mjs · trozos-editoriales.mjs · revisar-subtitulos.mjs · exportar-srt.mjs
 │   ├── camara-avatar/        #   cámara virtual del avatar
 │   ├── motion-graphics/      #   dirección de gráficos + catalogo-graficos.md (generado)
 │   │   └── scripts/          #   generar/revisar-catalogo · revisar-marca · generar-avances · sonda-frames + revisar-sonda
-│   ├── diseno-sonoro/        #   SFX, mezcla, ducking · sfx-base/ (los 55 sintetizados) · scripts/sfx.mjs
+│   ├── diseno-sonoro/        #   SFX, voz y música, mezcla, ducking · sfx-base/ (los 55 sintetizados) · scripts/sfx.mjs · revisar-audio.mjs
 │   ├── video-noticias/       #   📰 formato noticias + recetario-tomas.md + artefactos/01-noticia.md
 │   │   └── scripts/          #   generar-vo.mjs (cronometra la voz) · revisar-plan · revisar-broll · revisar-velo
 │   └── motor-hyperframes/    #   🧱 segundo motor · plantilla/ (HTML + GSAP vendorizado) · contrato-hf.md · equivalencias.md
 │       └── scripts/          #   nuevo-hf · marca-a-css · revisar-hf · render-hf.mjs · instalar-skill-hf
 ├── remotion/                 # EL MOTOR (proyecto npm; ver remotion/README.md)
-│   ├── public/               #   medios: sfx/ · fuentes/inter/ · avatar.mp4 (relleno, lo genera setup.mjs) · lo tuyo, fuera de git
+│   ├── public/               #   medios: sfx/ · fuentes/ (Inter, Quicksand, Lato, Montserrat, Playfair Display) · avatar.mp4 (relleno, lo genera setup.mjs) · lo tuyo, fuera de git
 │   └── src/
 │       ├── Root.tsx          #   las composiciones del producto + <ComposicionesDelEstudio /> (las tuyas)
 │       ├── estudio.tsx       #   recoge src/proyectos/*/composiciones.tsx sin tocar Root.tsx
 │       ├── marcas/           #   UN FICHERO POR CANAL — ejemplo.ts versionado; los tuyos, fuera de git
 │       ├── motor/            #   LO REUTILIZABLE: plan/ (el núcleo) · graficos/ · noticias/ · metraje/ · sound/ · piezas/
 │       │   ├── marca.ts      #     el tipo `Marca` + `MARCA_BASE` (el suelo, sin canal) + LETRA_INTER
-│       │   ├── fuentes.ts    #     registra la Inter empaquetada (render idéntico en Mac y Windows)
-│       │   └── demos/        #     plan-demo · graficos-demo · noticia-demo: los planes que se copian para empezar
+│       │   ├── fuentes.ts    #     registra las fuentes empaquetadas: Inter y las de los subtítulos (render idéntico en Mac y Windows)
+│       │   └── demos/        #     plan-demo · graficos-demo · noticia-demo · camara-demo · subtitulos-demo: los planes que se copian para empezar
 │       └── proyectos/NNN/    #   TUS VÍDEOS: sus planes como datos + su composiciones.tsx (fuera de git)
 ├── proyectos/NNN/            # UN PROYECTO POR CARPETA (fuera de git): artefactos/ · broll/manifiesto.json · guion-vo.txt · hf/ …
 ├── .env                      # ⛔ tus claves (plantilla: .env.example). El agente no lo lee

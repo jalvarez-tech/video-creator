@@ -60,3 +60,7 @@
 - El cue track de `referencia.md` §17.1 de motion-graphics (13 cues sobre
   `MotionGraphicsFull`, 25 fps) está guardado en
   `manuales/motion-graphics/ESTUDIO.md`.
+
+## §11 Música de un montaje (bullet «La música de un montaje se mide antes de cortar contra ella»)
+
+- «Return to Oasis» en el **018**: ventana de 40 s desde 143,0 s con 62 golpes ≥ 6 dB; meseta de −8,5 LUFS durante 37 s y caída a un piano de −20,5 LUFS en el pulso 68 (180,09 s), donde entra el cierre; bajo la voz del cierre el piano se baja −4,4 dB (no −16: quedaría inaudible) y queda a −31,4 LUFS, 10,4 LU por debajo de ella. «Time» (Hans Zimmer) en el **017**: rejilla de FRASES de 8 pulsos (7,6 s).

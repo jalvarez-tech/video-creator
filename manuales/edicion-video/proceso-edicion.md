@@ -3,9 +3,9 @@
 > **Principio rector:** primero **guion**, luego **formato**, después **bloques**.
 > Si la idea no está clara, ningún visual arregla el vídeo. Si te saltas una fase, pierdes control y aparecen errores difíciles de corregir.
 
-Este documento es el **procedimiento repetible**. Cada paso dice: qué hace Claude, qué **entrega como evidencia**, y **dónde se detiene** a esperar tu decisión. Se apoya en las [reglas R01–R29](reglas.md) y en las [plantillas](plantillas/README.md). Todos los comandos se lanzan desde la raíz del repo (salvo donde se dice `cd remotion`), un comando por línea, y corren igual en macOS y en Windows.
+Este documento es el **procedimiento repetible**. Cada paso dice: qué hace Claude, qué **entrega como evidencia**, y **dónde se detiene** a esperar tu decisión. Se apoya en las [reglas R01–R33](reglas.md) y en las [plantillas](plantillas/README.md). Todos los comandos se lanzan desde la raíz del repo (salvo donde se dice `cd remotion`), un comando por línea, y corren igual en macOS y en Windows.
 
-> **Variante con avatar HeyGen:** si el vídeo lo genera tu avatar (ver [heygen.md](heygen.md)), el habla ya es limpia y el guion es texto conocido → **sáltate el Paso 2 (silencios) y el Paso 3 (transcripción)** y ve directo a **Paso 4 (formato) → 5 → 6 → 7**.
+> **Variante con avatar HeyGen:** si el vídeo lo genera tu avatar (ver [heygen.md](heygen.md)), el habla ya es limpia y el guion es texto conocido → **sáltate el Paso 2 (silencios) y el Paso 3 (transcripción)** y ve directo a **Paso 4 (formato) → 5 → 6 → 7**. Salvo en modo de texto `editorial`: ahí `transcribir.mjs --palabras` hace falta aunque el guion se conozca, porque los frames de cada trozo salen de la voz ([R30](reglas.md)).
 
 ---
 
@@ -227,7 +227,7 @@ El **Paso 3** usa **whisper.cpp** (nativo; en Apple Silicon va muy rápido) medi
 - Binario: `whisper-cli` (en Windows, `whisper-cli.exe`), que `node herramientas/setup.mjs --whisper` deja en la carpeta de herramientas del usuario sin administrador, y el modelo por defecto, que el mismo instalador descarga a `archivos/whisper/ggml-small.bin` (465 MB); `node herramientas/doctor.mjs` dice si están.
 - Uso: `node manuales/edicion-video/scripts/transcribir.mjs <entrada> <salida.json> [idioma] [modelo.bin]` (idioma por defecto `es`).
 - **Más precisión:** descarga `ggml-medium.bin` o `ggml-large-v3.bin` (los publica el proyecto whisper.cpp) en `archivos/whisper/` y pásalo como 4.º argumento.
-- **Subtítulos karaoke** (tiempos por palabra): cambia `-oj` por `-ojf` en `transcribir.mjs` (la línea está comentada en el propio script).
+- **Tiempos por palabra** (subtítulos editoriales, karaoke): añade `--palabras` (`node manuales/edicion-video/scripts/transcribir.mjs <entrada> <salida.json> es --palabras`). El JSON sigue siendo el de whisper-cli, con una entrada por palabra y sus tokens; los tiempos finos son los `t_dtw` de cada token. De ahí al plan de subtítulos editoriales: `node manuales/edicion-video/scripts/trozos-editoriales.mjs <guion-marcado.txt> <salida.json>` (el texto sale del guion; los frames, de la voz; con `--audio <voz.wav>` ancla a la energía las palabras que siguen a una pausa) y `revisar-subtitulos.mjs` como puerta ([R30](reglas.md)).
 - Sin whisper, el Paso 3 se hace con cualquier otra transcripción con tiempos convertida al mismo JSON de segmentos, o se salta si el guion ya es texto conocido (variante avatar).
 
 > El proceso completo (pasos 1–7) se ejecuta de principio a fin con el nivel 0 del `doctor` (sin ninguna clave); el b-roll de banco pide el nivel 1 y el avatar o el b-roll IA, el nivel 2.

@@ -12,9 +12,9 @@
 | `manuales/<skill>/` | Las 7 skills (`SKILL.md` + referencias + `scripts/`): la capa de dirección, el «cómo se decide». | Del sistema |
 | `herramientas/` | `setup.mjs` (instala y repara), `doctor.mjs` (diagnostica), `comun.mjs` (lo que comparten los scripts), `zonas.mjs` (qué es producto y qué es del usuario), `revisar-producto.mjs` (guard del repo). | Del sistema |
 | `proyectos/NNN/` | Un proyecto por vídeo, numerado con tres dígitos: artefactos (plan, layout, timeline), guion, material (avatar, b-roll, voz), pruebas y finales. | Del usuario |
-| `remotion/src/proyectos/NNN/` | El código de ese proyecto: `composiciones.tsx` y sus planes (`camara-NNN.ts`, `graficos-NNN.ts`, `cues-NNN.ts`, `subtitulos-NNN.ts`, `noticia-NNN.ts`, `metraje-NNN.ts`). | Del usuario |
+| `remotion/src/proyectos/NNN/` | El código de ese proyecto: `composiciones.tsx` y sus planes (`camara-NNN.ts`, `graficos-NNN.ts`, `cues-NNN.ts`, `subtitulos-NNN.ts`, `noticia-NNN.ts`, `metraje-NNN.ts`, `audio-NNN.ts`). | Del usuario |
 | `remotion/src/marcas/<canal>.ts` | La marca es un **parámetro**: colores, letra, sello. `ejemplo.ts` es la plantilla; cada canal es un archivo nuevo. El motor no importa marcas: le llegan por props desde la composición. | Del usuario (salvo `ejemplo.ts`) |
-| `remotion/public/` | Lo que Remotion sirve: `sfx/` (el set de efectos), `fuentes/inter/`, un `avatar.mp4` de relleno y los medios que cada proyecto copia ahí. | Mixto |
+| `remotion/public/` | Lo que Remotion sirve: `sfx/` (el set de efectos), `fuentes/` (Inter y las cuatro de los subtítulos editoriales), un `avatar.mp4` de relleno y los medios que cada proyecto copia ahí. | Mixto |
 | `.env` | Las claves de API del usuario. **Nunca lo lees** (§6). | Del usuario |
 
 Hay un **segundo motor**, HyperFrames (HTML + GSAP, renderiza en local y gratis), que se elige pieza a pieza y nunca por defecto: skill `motor-hyperframes`.
@@ -63,16 +63,16 @@ Cada skill vive en `manuales/<skill>/SKILL.md` y se carga desde `.claude/skills/
 | Skill | Una línea |
 |---|---|
 | **`director-video`** | **La puerta de entrada.** «Monta el vídeo», «vídeo nuevo», «monta estos clips», «retoma el proyecto NNN»: coordina todas las capas, fija fps y z-order, abre los artefactos y delega el detalle. Empieza SIEMPRE por aquí cuando la petición es un vídeo. |
-| `edicion-video` | El motor y el pipeline: formato, estructura de un proyecto, reglas R01-R29, transcripción, corte de silencios, render de prueba y final, HeyGen, Pexels, Grok. |
+| `edicion-video` | El motor y el pipeline: formato, estructura de un proyecto, reglas R01-R33, transcripción, corte de silencios, render de prueba y final, HeyGen, Pexels, Grok. |
 | `camara-avatar` | Cámara virtual sobre un avatar hablando: planos, zooms y reencuadres motivados por el guion, como datos (`camara-NNN.ts`). |
 | `motion-graphics` | Gráficos con intención: jerarquía, timing en frames, la biblioteca `motor/graficos/`, su catálogo y el plan como datos (`graficos-NNN.ts`) con validador `revisaPlan()`. |
-| `diseno-sonoro` | SFX sincronizados al frame y con función narrativa: el set de `remotion/public/sfx/`, cues como datos (`cues-NNN.ts`), mezcla y ducking bajo la voz. |
+| `diseno-sonoro` | SFX sincronizados al frame y con función narrativa: el set de `remotion/public/sfx/`, cues como datos (`cues-NNN.ts`), mezcla y ducking bajo la voz; voz y música por tramos (`audio-NNN.ts`). |
 | `video-noticias` | Formato completo: de una noticia a un short 9:16 con voz en off, papel + acento de marca y 7 beats; el plan `noticia-NNN.ts` y sus validadores. |
 | `motor-hyperframes` | El segundo motor (HTML + GSAP): cuándo elegirlo, su contrato, el puente de marca (`marca-a-css.mjs`) y sus puertas (`revisar-hf.mjs` + `hyperframes check`). |
 
 Cómo se invocan: en Claude Code, `/director-video`; en Codex, `$director-video`; o de forma implícita por la petición. Cuando una capa toca, **abre su SKILL.md y sigue sus tablas** en vez de improvisar.
 
-Para ver lo que ya existe antes de inventar: los planes de `remotion/src/motor/demos/` (`plan-demo.ts`, `graficos-demo.ts`, `noticia-demo.ts`, `camara-demo.ts`) y las composiciones del producto en `remotion/src/Root.tsx` (`Prueba`, `TutorialYT`, `VerticalSocial`, `FeedCuadrado`, `Avatar16x9`, `DemoCamara`, `Catalogo`, `GraficosDemo`, `PlanDemo`, `NoticiaDemo`). Copiar de una demo es mejor que empezar de cero.
+Para ver lo que ya existe antes de inventar: los planes de `remotion/src/motor/demos/` (`plan-demo.ts`, `graficos-demo.ts`, `noticia-demo.ts`, `camara-demo.ts`, `subtitulos-demo.ts`) y las composiciones del producto en `remotion/src/Root.tsx` (`Prueba`, `TutorialYT`, `VerticalSocial`, `FeedCuadrado`, `Avatar16x9`, `DemoCamara`, `Catalogo`, `GraficosDemo`, `PlanDemo`, `NoticiaDemo`, `SubtitulosDemo`). Copiar de una demo es mejor que empezar de cero.
 
 ## 5. Reglas de trabajo
 
@@ -81,6 +81,8 @@ Para ver lo que ya existe antes de inventar: los planes de `remotion/src/motor/d
    - gráficos: `revisaPlan(plan)` lo ejecuta la propia composición; `npm run lint` en `remotion/` comprueba tipos y reglas del resto;
    - noticias: `node manuales/video-noticias/scripts/revisar-plan.mjs <noticia-NNN.ts>` y `node manuales/video-noticias/scripts/revisar-broll.mjs <noticia-NNN.ts>`;
    - montaje: `node remotion/src/motor/metraje/revisar-metraje.mjs <metraje-NNN.ts>`;
+   - subtítulos editoriales: `node manuales/edicion-video/scripts/revisar-subtitulos.mjs <subtitulos-NNN.ts> --marca remotion/src/marcas/<canal>.ts` (con `--marca` mide con las letras con las que se va a pintar);
+   - voz y música por tramos: `node manuales/diseno-sonoro/scripts/revisar-audio.mjs <audio-NNN.ts> --fps <fps> --duracion <frames>`;
    - HyperFrames: `node manuales/motor-hyperframes/scripts/revisar-hf.mjs NNN`;
    - motor y marca: `node manuales/motion-graphics/scripts/revisar-marca.mjs` y `node manuales/motion-graphics/scripts/revisar-catalogo.mjs`.
    Después **un fotograma** (`npx remotion still …`), luego una prueba a 720p y solo al final el render final. Enseña frames y espera la respuesta del usuario: no exportes a ciegas.
@@ -120,8 +122,10 @@ Los scripts corren igual en los dos sistemas si se invocan así, **desde la raí
 | Abrir el Studio (puerto 3000) | `cd remotion` · `npm run dev` |
 | Listar composiciones | `cd remotion` · `npx remotion compositions src/index.ts` |
 | Render de prueba a 720p | `cd remotion` · `npx remotion render src/index.ts <Comp> out/<comp>-720p.mp4 --scale=0.5` |
+| Pieza con `color` por plano (R32) | `cd remotion` · `npx remotion render src/index.ts <Comp> out/<comp>.mp4 --scale=1 --gl=angle --crf=10` y, para la prueba, reducir con ffmpeg a 540×960 (`scale=540:960:flags=lanczos`): a `--scale=0.5` el camino con efectos sale aliasado |
 | Artefactos de un proyecto | `node manuales/director-video/scripts/artefactos.mjs NNN` |
-| Transcribir | `node manuales/edicion-video/scripts/transcribir.mjs <entrada> [salida.json] [idioma]` |
+| Transcribir | `node manuales/edicion-video/scripts/transcribir.mjs <entrada> [salida.json] [idioma]` (con `--palabras`, tiempos por palabra) |
+| Subtítulos editoriales desde el guion marcado | `node manuales/edicion-video/scripts/trozos-editoriales.mjs <guion.txt> <palabras.json>` · `revisar-subtitulos.mjs <subtitulos-NNN.ts> --marca remotion/src/marcas/<canal>.ts` |
 | Medir el golpe de un SFX | `node manuales/diseno-sonoro/scripts/sfx.mjs medir <archivo>` |
 | B-roll de archivo | `uv run manuales/edicion-video/scripts/bancos.py glosario` (y de ahí `contactos` → `traer`) |
 | Voz en off | `node manuales/video-noticias/scripts/generar-vo.mjs proyectos/NNN/guion-vo.txt` |
@@ -141,6 +145,7 @@ Los scripts corren igual en los dos sistemas si se invocan así, **desde la raí
 | Remotion no renderiza: falta el navegador | Chrome headless sin descargar | `node herramientas/setup.mjs` (sin `--sin-chrome`) |
 | Remotion o HyperFrames mueren al arrancar Chrome con `MachPortRendezvousServer … Permission denied (1100)` | estás en Codex, dentro de su sandbox de macOS | repite el comando pidiendo ejecutarlo fuera del sandbox (aprobación del usuario); la instalación está bien |
 | `npm run lint` falla | error de tipos en un plan o una composición | lee el mensaje: casi siempre es un plan que no cumple su molde, y el validador dice cuál |
+| `Failed to acquire WebGL2 context` al renderizar | un plano lleva `color` (el efecto `colorCorrection()`) y se renderizó sin `--gl=angle` | repite con `--gl=angle` (o `swangle`); no lo pongas en `remotion.config.ts`: movería las piezas ya publicadas |
 | un script de Python «no arranca» | se lanzó con `python3` o `python` | `uv run …` desde la raíz |
 | 401 o 403 de una API | clave ausente, inválida o cuenta sin créditos | el usuario revisa `.env` (tú no); con xAI, `uv run manuales/edicion-video/scripts/grok.py modelos` distingue clave mala de cuenta sin créditos |
 | acentos rotos en la consola de Windows | consola sin UTF-8 | los scripts fuerzan UTF-8 al escribir; si es la consola, `chcp 65001` |
