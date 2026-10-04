@@ -1,0 +1,4 @@
+# CT01 · CTA1.MOV · «Si buscas algo diferente en un apartamento convencional, escríbeme y conoce Los Patios.»
+# POR CONFIRMAR AL OÍDO: «diferente en un apartamento» (rev. 2; hasta la rev. 1 se pintó «a»). Whisper oye «en» (confianza 0,75) y la vocal MEDIDA es una [e] (F1 ≈ 605, F2 ≈ 2.360 Hz; sus /a/ miden F2 ≈ 1.500): `herramientas/formantes.py`. La gramática pedía «a».
+Si buscas algo diferente / en un apartamento / convencional,
+**escríbeme** / y conoce Los Patios.
