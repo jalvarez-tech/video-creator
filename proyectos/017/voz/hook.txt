@@ -1,0 +1,4 @@
+# HK02 · Hook2+IA.MOV · «Este apartamento aún no está terminado… y ahí está, precisamente, la oportunidad.»
+# Un bloque por línea. La pausa de 200 ms entre las dos cláusulas (2,73-2,93 s) es donde entra la imagen de Isabella.
+Este apartamento / aún no está / **terminado**
+y ahí está, / precisamente, / **la oportunidad.**
