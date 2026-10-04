@@ -1,23 +1,28 @@
 {
-  "name": "my-video",
+  "name": "video-creator",
   "version": "1.0.0",
-  "description": "My Remotion video",
-  "repository": {},
-  "license": "UNLICENSED",
+  "description": "Motor de vídeo de video-creator (Remotion): plantillas, gráficos, formato noticias, montaje y sonido",
+  "license": "MIT",
   "private": true,
   "dependencies": {
-    "@remotion/cli": "4.0.496",
-    "@remotion/media-parser": "4.0.496",
-    "@remotion/paths": "4.0.496",
-    "@remotion/shapes": "4.0.496",
+    "@remotion/cli": "4.0.509",
+    "@remotion/effects": "4.0.509",
+    "@remotion/media": "4.0.509",
+    "@remotion/media-parser": "4.0.509",
+    "@remotion/paths": "4.0.509",
+    "@remotion/shapes": "4.0.509",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "remotion": "4.0.496"
+    "remotion": "4.0.509"
   },
   "devDependencies": {
-    "@remotion/eslint-config-flat": "4.0.496",
+    "@remotion/bundler": "4.0.509",
+    "@remotion/eslint-config-flat": "4.0.509",
+    "@remotion/renderer": "4.0.509",
+    "@types/node": "26.1.1",
     "@types/react": "19.2.7",
     "@types/web": "0.0.166",
+    "esbuild": "0.28.1",
     "eslint": "9.19.0",
     "prettier": "3.8.1",
     "typescript": "5.9.3"
@@ -26,9 +31,11 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "doctor": "node ../herramientas/doctor.mjs"
   },
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "./src/motor/fuentes.ts"
   ]
 }

@@ -57,7 +57,8 @@ vacíos, ids repetidos, y lo que no cabe en el molde: alto (R08) y ancho (R09).
 `<PistaGraficos>` lo llama solo en cada render y lo escupe por consola.
 
 Plantilla real de la que copiar, ya en esta gramática:
-[`motor/demos/graficos-demo.ts`](../../../remotion/src/motor/demos/graficos-demo.ts).
+`remotion/src/motor/demos/graficos-demo.ts` (y la gramática entera, en
+`remotion/src/motor/demos/plan-demo.ts`).
 
 ## Cues de sonido (borrador de `cues-NNN.ts`)
 

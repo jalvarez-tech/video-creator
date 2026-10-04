@@ -17,13 +17,17 @@ del proyecto es guardar el archivo en el mismo paso que se genera
 
 Doc: manuales/edicion-video/SKILL.md
 """
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import argparse
 import json
 import os
 import sys
 import time
 
-from _comun import ErrorHTTP, cargar_env, descarga, escribe_atomico, pide
+from _comun import ErrorHTTP, cargar_env, descarga, escribe_atomico, pide, resuelve_salida, ruta_visible
 
 BASE = "https://api.x.ai/v1"
 
@@ -35,8 +39,10 @@ def api_key():
     if not k:
         sys.exit(
             "ERROR: falta XAI_API_KEY.\n"
-            "  1) cp .env.example .env   2) pega tu clave de https://console.x.ai\n"
-            "  o bien: export XAI_API_KEY=...\n"
+            "  1) node herramientas/setup.mjs crea el .env (o copia .env.example como .env)\n"
+            "  2) pega tu clave de https://console.x.ai\n"
+            "  o en la terminal:  export XAI_API_KEY=...   (macOS/Linux)\n"
+            '                     $env:XAI_API_KEY="..."   (PowerShell)\n'
             "  OJO: empieza por 'xai-'. No es la de Groq (gsk_) ni la de RunAPI."
         )
     return k
@@ -77,7 +83,7 @@ def pedir(method, path, body=None, timeout=120):
 def descargar(url, salida):
     """Descarga a disco AHORA (atomica y con timeout). Las URLs de la API caducan."""
     tam = descarga(url, salida)
-    print(f"Guardado: {salida}  ({tam/1_000_000:.1f} MB)")
+    print(f"Guardado: {ruta_visible(salida)}  ({tam/1_000_000:.1f} MB)")
 
 
 def guardar_prompt(salida, payload):
@@ -96,7 +102,7 @@ def guardar_prompt(salida, payload):
     base = os.path.splitext(os.path.basename(salida))[0]
     ruta = os.path.join(prompts, base + ".json")
     escribe_atomico(ruta, json.dumps(payload, indent=2, ensure_ascii=False).encode("utf-8"))
-    print(f"Prompt guardado: {ruta}")
+    print(f"Prompt guardado: {ruta_visible(ruta)}")
 
 
 def extras(args):
@@ -125,7 +131,15 @@ def cmd_modelos(args):
         print("\nAviso: no aparece ningun modelo 'imagine' en esta cuenta.")
 
 
+# Dentro de proyectos/NNN/, cuando se da --proyecto en vez de --salida.
+SALIDA_IMAGEN = "broll/grok/raw/imagen.jpg"
+SALIDA_VIDEO = "broll/grok/raw/shot-01.mp4"
+
+
 def cmd_imagen(args):
+    # La salida se decide ANTES de pedir nada: si ya hay un archivo ahi y no se
+    # pidio --forzar, mejor pararse ahora que despues de pagar la generacion.
+    args.salida = resuelve_salida(args.salida, args.proyecto, SALIDA_IMAGEN, args.forzar)
     payload = {"model": args.modelo, "prompt": args.prompt}
     payload.update(extras(args))
     print(f"Generando imagen [{args.modelo}]...")
@@ -141,7 +155,7 @@ def cmd_imagen(args):
     elif item.get("b64_json"):
         import base64
         escribe_atomico(args.salida, base64.b64decode(item["b64_json"]))
-        print(f"Guardado: {args.salida}")
+        print(f"Guardado: {ruta_visible(args.salida)}")
     else:
         sys.exit(f"ERROR: sin 'url' ni 'b64_json': {json.dumps(item)[:400]}")
     guardar_prompt(args.salida, payload)
@@ -163,6 +177,7 @@ def _url_del_video(estado):
 
 
 def cmd_video(args):
+    args.salida = resuelve_salida(args.salida, args.proyecto, SALIDA_VIDEO, args.forzar)
     payload = {"model": args.modelo, "prompt": args.prompt, "duration": args.duracion}
     if args.imagen:
         # imagen -> video. La imagen fuente fija el encuadre: es la via fiable
@@ -208,7 +223,7 @@ def esperar_y_descargar(rid, args, payload=None):
             sys.exit(
                 f"ERROR: timeout (>{args.timeout}s). Ultimo status: {status}.\n"
                 f"  El render sigue en curso y YA esta pagado. Retomalo con:\n"
-                f"    python3 manuales/edicion-video/scripts/grok.py recuperar {rid} --salida {args.salida}"
+                f'    uv run manuales/edicion-video/scripts/grok.py recuperar {rid} --salida "{ruta_visible(args.salida)}"'
             )
         print(f"   ... {status or 'en curso'}")
         time.sleep(args.intervalo)
@@ -216,6 +231,7 @@ def esperar_y_descargar(rid, args, payload=None):
 
 def cmd_recuperar(args):
     """Retoma un request_id que ya existe (timeout, Ctrl-C, corte de red)."""
+    args.salida = resuelve_salida(args.salida, args.proyecto, SALIDA_VIDEO, args.forzar)
     print(f"Retomando request_id {args.request_id} (polling cada {args.intervalo}s)...")
     esperar_y_descargar(args.request_id, args)
 
@@ -224,12 +240,19 @@ def main():
     p = argparse.ArgumentParser(description="Grok Imagine (API directa de xAI) para video-creator")
     sub = p.add_subparsers(dest="cmd", required=True)
 
+    def salida(sp, defecto):
+        # Sin valor por defecto a proposito: antes todo caia en proyectos/001/
+        # y cada generacion pisaba a la anterior. O --salida, o --proyecto NNN.
+        sp.add_argument("--salida", help=f"Ruta de salida (o --proyecto NNN, que guarda en proyectos/NNN/{defecto})")
+        sp.add_argument("--proyecto", help="NNN del proyecto, si no das --salida")
+        sp.add_argument("--forzar", action="store_true", help="Sobrescribe la salida si ya existe")
+
     sub.add_parser("modelos", help="Lista los modelos de la cuenta (verifica clave y creditos)")
 
     i = sub.add_parser("imagen", help="Texto -> imagen")
     i.add_argument("prompt", help="Descripcion de la imagen")
     i.add_argument("--modelo", default="grok-imagine-image", help="def. grok-imagine-image (calidad: grok-imagine-image-quality)")
-    i.add_argument("--salida", default="proyectos/001/broll/grok/raw/imagen.jpg", help="Ruta de salida")
+    salida(i, SALIDA_IMAGEN)
     i.add_argument("--extra", help='JSON con campos extra, p. ej. \'{"aspect_ratio":"9:16"}\'')
 
     v = sub.add_parser("video", help="Texto -> video, o imagen -> video")
@@ -237,14 +260,14 @@ def main():
     v.add_argument("--imagen", help="URL publica de la imagen de partida (imagen -> video)")
     v.add_argument("--modelo", default="grok-imagine-video-1.5", help="def. grok-imagine-video-1.5")
     v.add_argument("--duracion", type=int, default=6, help="Segundos, hasta 15 (def. 6)")
-    v.add_argument("--salida", default="proyectos/001/broll/grok/raw/shot-01.mp4", help="Ruta de salida MP4")
+    salida(v, SALIDA_VIDEO)
     v.add_argument("--intervalo", type=int, default=5, help="Segundos entre sondeos (def. 5)")
     v.add_argument("--timeout", type=int, default=900, help="Segundos maximos de espera (def. 900)")
     v.add_argument("--extra", help='JSON con campos extra, p. ej. \'{"aspect_ratio":"9:16"}\'')
 
     r = sub.add_parser("recuperar", help="Retoma un request_id ya lanzado (no vuelve a generar ni a pagar)")
     r.add_argument("request_id", help="El request_id que imprimio `video`")
-    r.add_argument("--salida", default="proyectos/001/broll/grok/raw/shot-01.mp4", help="Ruta de salida MP4")
+    salida(r, SALIDA_VIDEO)
     r.add_argument("--intervalo", type=int, default=5, help="Segundos entre sondeos (def. 5)")
     r.add_argument("--timeout", type=int, default=900, help="Segundos maximos de espera (def. 900)")
 

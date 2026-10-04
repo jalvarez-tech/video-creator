@@ -3,7 +3,28 @@ import { EASE, SPRING } from "../motion";
 import { Trazo } from "../graficos/Trazo";
 // Ya no entra `MARCA`: `Sello` recibe el texto del canal por prop. Era el
 // último sitio del formato que conocía al canal.
-import { LAYOUT, N, T, alfaN } from "./theme-noticias";
+import { FUENTE, LAYOUT, N, T, alfaN } from "./theme-noticias";
+
+/**
+ * LA FAMILIA LA PONE EL MONTADOR, no el `T` de módulo.
+ *
+ * `T` está instanciado con `MARCA_BASE`, así que sus `fontFamily` son la letra
+ * del SUELO del motor y no la de la marca que está montando la pieza. Mientras
+ * el suelo y las marcas tuvieron la misma letra no se notaba; en cuanto una
+ * marca declara otra (`LETRA_INTER`), el recorte, el chip, la cifra, la
+ * cronología y el medidor seguirían pintando con la del suelo. Por eso esos
+ * cinco reciben la familia por prop y sobrescriben SOLO `fontFamily`: los
+ * colores siguen saliendo de `T` y de `N`, que es lo que ata cada píxel
+ * publicado. El defecto es `FUENTE` de módulo —las mismas familias que llevan
+ * `T.titular`/`T.cifra` (display) y `T.kicker`/`T.pie`/`T.etiqueta` (texto)—,
+ * o sea exactamente lo que pintaban antes de tener la prop.
+ */
+export interface FuenteEditorial {
+  /** Titulares, cifras, años. Lo que se lee de un vistazo. */
+  display: string;
+  /** Kickers, labels, etiquetas. Lo que acompaña. */
+  texto: string;
+}
 
 /**
  * PRIMITIVAS DEL FORMATO NOTICIAS — lo que NO estaba en la biblioteca general.
@@ -258,10 +279,9 @@ const caminoGrieta = (
 /**
  * Un muro esquemático con la grieta DIBUJÁNDOSE encima.
  *
- * Por qué existe. La pieza de noticias sabía nombrar formas de grieta («en X»,
- * «horizontales, en la parte alta de los muros») y no sabía enseñarlas: el
- * espectador que está mirando su propia pared no tiene con qué comparar. Ése es
- * justo el hueco que un texto no puede tapar.
+ * Por qué existe. La pieza de noticias sabía nombrar formas de grieta y no
+ * sabía enseñarlas: el espectador que está mirando su propia pared no tiene
+ * con qué comparar. Ése es justo el hueco que un texto no puede tapar.
  *
  * Y por qué es un DIBUJO y no una foto. Es una pieza sobre un desastre real con
  * muertos: una imagen generativa de daños se leería como registro del suceso, no
@@ -370,7 +390,10 @@ export const RecortePrensa: React.FC<{
   at?: number;
   ancho?: number;
   rotacion?: number;
-}> = ({ titular, fuente, resaltar, at = 0, ancho = 840, rotacion = -1.2 }) => {
+  /** La familia de la marca. Se llama `letra` y no `fuente` como en las otras
+   *  cuatro piezas porque aquí `fuente` ya es EL MEDIO (CNN, Reuters…). */
+  letra?: FuenteEditorial;
+}> = ({ titular, fuente, resaltar, at = 0, ancho = 840, rotacion = -1.2, letra = FUENTE }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = frame - at;
@@ -403,9 +426,9 @@ export const RecortePrensa: React.FC<{
       }}
     >
       {fuente ? (
-        <div style={{ ...T.kicker, fontSize: 24, letterSpacing: 4, marginBottom: 14 }}>{fuente}</div>
+        <div style={{ ...T.kicker, fontFamily: letra.texto, fontSize: 24, letterSpacing: 4, marginBottom: 14 }}>{fuente}</div>
       ) : null}
-      <div style={{ fontFamily: T.titular.fontFamily, fontSize: 52, fontWeight: 700, lineHeight: 1.18, color: N.tinta }}>
+      <div style={{ fontFamily: letra.display, fontSize: 52, fontWeight: 700, lineHeight: 1.18, color: N.tinta }}>
         {antes}
         {medio ? (
           <span style={{ position: "relative", display: "inline" }}>
@@ -455,7 +478,9 @@ export const ChipIcono: React.FC<{
   /** El del chip apagado. Es un NEUTRO del registro claro, no un color de marca:
    *  una opción descartada no se descarta con otro tono del canal. */
   apagado?: string;
-}> = ({ glifo, label, at = 0, tam = 150, activo = true, acento, apagado = "#B9B3A7" }) => {
+  /** La familia de la marca (solo `fontFamily`; ver `FuenteEditorial`). */
+  fuente?: FuenteEditorial;
+}> = ({ glifo, label, at = 0, tam = 150, activo = true, acento, apagado = "#B9B3A7", fuente = FUENTE }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = frame - at;
@@ -489,7 +514,7 @@ export const ChipIcono: React.FC<{
       >
         {glifo}
       </div>
-      <span style={{ ...T.pie, fontSize: Math.round(tam * 0.19) }}>{label}</span>
+      <span style={{ ...T.pie, fontFamily: fuente.texto, fontSize: Math.round(tam * 0.19) }}>{label}</span>
     </div>
   );
 };
@@ -532,7 +557,21 @@ export const CifraContada: React.FC<{
   color?: string;
   px?: number;
   punch?: boolean;
-}> = ({ de = 0, a, at = 0, dur = 34, decimales = 0, prefijo = "", sufijo = "", color = N.tinta, px, punch = true }) => {
+  /** La familia de la marca (solo `fontFamily`; ver `FuenteEditorial`). */
+  fuente?: FuenteEditorial;
+}> = ({
+  de = 0,
+  a,
+  at = 0,
+  dur = 34,
+  decimales = 0,
+  prefijo = "",
+  sufijo = "",
+  color = N.tinta,
+  px,
+  punch = true,
+  fuente = FUENTE,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = frame - at;
@@ -548,6 +587,7 @@ export const CifraContada: React.FC<{
     <span
       style={{
         ...T.cifra,
+        fontFamily: fuente.display,
         fontSize: px ?? T.cifra.fontSize,
         color,
         display: "inline-block",
@@ -582,7 +622,9 @@ export const Cronologia: React.FC<{
   acento: string;
   /** El relleno de un punto AÚN NO alcanzado: el fondo, para que se lea hueco. */
   hueco?: string;
-}> = ({ hitos, at = 0, dur = 30, alto = 560, acento, hueco = N.papel }) => {
+  /** La familia de la marca (solo `fontFamily`; ver `FuenteEditorial`). */
+  fuente?: FuenteEditorial;
+}> = ({ hitos, at = 0, dur = 30, alto = 560, acento, hueco = N.papel, fuente = FUENTE }) => {
   const frame = useCurrentFrame();
   const f = frame - at;
   const p = interpolate(f, [0, dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
@@ -645,10 +687,10 @@ export const Cronologia: React.FC<{
               }}
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 2, textAlign: "left", maxWidth: 600 }}>
-              <span style={{ fontFamily: T.cifra.fontFamily, fontSize: 78, fontWeight: 700, color: N.tinta, lineHeight: 1 }}>
+              <span style={{ fontFamily: fuente.display, fontSize: 78, fontWeight: 700, color: N.tinta, lineHeight: 1 }}>
                 {h.año}
               </span>
-              <span style={{ ...T.etiqueta, fontSize: 34, lineHeight: 1.2 }}>{h.texto}</span>
+              <span style={{ ...T.etiqueta, fontFamily: fuente.texto, fontSize: 34, lineHeight: 1.2 }}>{h.texto}</span>
             </div>
           </div>
         );
@@ -681,7 +723,9 @@ export const Medidor: React.FC<{
    *  siempre pasa `colorDe(c, …)`, que devuelve `c.color` porque nunca es vacío.
    *  Un defecto que no se puede alcanzar es una mentira sobre lo que pinta. */
   color: string;
-}> = ({ label, de, a, at = 0, dur = 30, max, formato = (v) => `${Math.round(v)}` , color }) => {
+  /** La familia de la marca (solo `fontFamily`; ver `FuenteEditorial`). */
+  fuente?: FuenteEditorial;
+}> = ({ label, de, a, at = 0, dur = 30, max, formato = (v) => `${Math.round(v)}`, color, fuente = FUENTE }) => {
   const frame = useCurrentFrame();
   const f = frame - at;
   const v = interpolate(f, [0, dur], [de, a], {
@@ -695,10 +739,10 @@ export const Medidor: React.FC<{
   return (
     <div style={{ width: 760, opacity: op }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
-        <span style={{ ...T.kicker, fontSize: 30 }}>{label}</span>
+        <span style={{ ...T.kicker, fontFamily: fuente.texto, fontSize: 30 }}>{label}</span>
         <span
           style={{
-            fontFamily: T.cifra.fontFamily,
+            fontFamily: fuente.display,
             fontSize: 70,
             fontWeight: 700,
             color,

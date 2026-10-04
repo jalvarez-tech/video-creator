@@ -56,5 +56,5 @@ Una plantilla completa = 5 decisiones agrupadas para un tipo de vídeo:
 ```
 
 ## Estado
-✅ **3 plantillas iniciales listas** (estilo minimalista, para tutoriales 16:9 · vertical 9:16 · feed 1:1). Frames de referencia renderizados en `remotion/out/plantilla-*.png`.
-Pendiente de afinar con tu **marca** (colores/logo/tipografías en `archivos/marca/`, luego cambiar `theme.ts`) y tus **ejemplos** de referencia.
+✅ **3 plantillas iniciales listas** (estilo minimalista, para tutoriales 16:9 · vertical 9:16 · feed 1:1). El frame de referencia de cada una se renderiza desde `remotion/` con `npx remotion still <Composición> out/plantilla-<aspecto>.png --frame=60` (el comando exacto está en la doc de cada plantilla).
+La marca de un canal vive en `remotion/src/marcas/<canal>.ts` (director-video §5b; el producto trae `ejemplo.ts` como plantilla). `theme.ts` solo fija el acento de estas tres plantillas: cámbialo si quieres que hagan juego con tu marca.

@@ -14,7 +14,7 @@ Subcomandos:
 POR QUE EXISTE, frente a `grok.py`. Grok Imagine GENERA un plano que no existe;
 esto TRAE uno que si existe. Para el formato `video-noticias` la diferencia no es
 de coste sino de honestidad: un plano generado que representa un hecho real es
-fabricar prueba documental (ver proyectos/006/artefactos/01-noticia.md), y en una
+fabricar prueba documental (lo razona la skill `video-noticias`), y en una
 pieza periodistica eso no se hace. Un lugar real, un objeto real y un gesto real
 se traen; lo que no tiene referente se resuelve con motion graphics.
 
@@ -40,17 +40,33 @@ la capa de puntuacion). Esto trae material; no jura que sea el correcto.
 
 Doc: manuales/edicion-video/SKILL.md · formato: manuales/video-noticias/SKILL.md
 """
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import argparse
 import hashlib
 import json
 import os
+import posixpath
 import re
 import shutil
 import subprocess
 import sys
 import time
 
-from _comun import ErrorHTTP, cargar_env, descarga, escribe_atomico, pide, raiz_proyecto
+from _comun import (
+    ErrorHTTP, binario, cargar_env, descarga, desde_raiz, escribe_atomico, pide,
+    pista_instalacion, posix, raiz_proyecto, ruta_visible,
+)
+
+# LAS RUTAS DEL MANIFIESTO SON LOGICAS, NO DEL SISTEMA DE ARCHIVOS. `archivo` y
+# `servido` se guardan, se imprimen para pegarlas en el plan y las comparan
+# como cadenas staticFile() de Remotion y revisar-broll.mjs. Van SIEMPRE con
+# «/» (posixpath); os.path solo se usa para abrir el archivo en esta maquina
+# (`desde_raiz`). Con os.path.join, un manifiesto escrito en Windows llevaba
+# «broll\\006\\…», que Remotion no sirve, y un `reponer` posterior en un Mac
+# creaba un archivo con barras invertidas en el nombre.
 
 BASE = "https://api.pexels.com"
 LICENCIA = {"nombre": "Pexels License", "url": "https://www.pexels.com/license/"}
@@ -72,8 +88,10 @@ def api_key():
     if not k:
         sys.exit(
             "ERROR: falta PEXELS_API_KEY.\n"
-            "  1) cp .env.example .env   2) pega tu clave de https://www.pexels.com/api/\n"
-            "  o bien: export PEXELS_API_KEY=...\n"
+            "  1) node herramientas/setup.mjs crea el .env (o copia .env.example como .env)\n"
+            "  2) pega tu clave de https://www.pexels.com/api/\n"
+            "  o en la terminal:  export PEXELS_API_KEY=...   (macOS/Linux)\n"
+            '                     $env:PEXELS_API_KEY="..."   (PowerShell)\n'
             "  Es gratis y se saca al instante con una cuenta de Pexels."
         )
     return k
@@ -351,6 +369,10 @@ def candidatos(consulta, tipo, hueco, proyecto, n=80, usar_cache=True):
             elegido = sirve[0] if sirve else (files[-1] if files else None)
             if not elegido:
                 continue
+            # Las renditions MAYORES que la elegida, de menor a mayor. Son el
+            # plan B de `traer` cuando el archivo servido no mide lo que dice
+            # el banco (ver `medida_real`).
+            mayores = [f for f in sirve if f is not elegido]
             salida.append({
                 "id": v["id"],
                 "tipo": "video",
@@ -362,6 +384,7 @@ def candidatos(consulta, tipo, hueco, proyecto, n=80, usar_cache=True):
                 "autor_url": (v.get("user") or {}).get("url", ""),
                 "origen_url": v.get("url", ""),
                 "descarga_url": elegido["link"],
+                "alternativas": [{"link": f["link"], "ancho": f["width"], "alto": f["height"]} for f in mayores],
                 # El fotograma de portada. Es lo que se juzga en la hoja de
                 # contactos: bajar 15 clips para mirarlos son cientos de MB.
                 "mini": v.get("image", ""),
@@ -427,8 +450,16 @@ def lee_manifiesto(proyecto):
     ruta = ruta_manifiesto(proyecto)
     if not os.path.isfile(ruta):
         return {"proyecto": proyecto, "banco": "pexels", "assets": {}}
-    with open(ruta, encoding="utf-8") as f:
-        return json.load(f)
+    with open(ruta, encoding="utf-8-sig") as f:
+        m = json.load(f)
+    # Un manifiesto escrito en Windows por una version anterior traia las rutas
+    # logicas con «\»: se normalizan al leer. En un manifiesto correcto (todos
+    # los del estudio) esto no cambia ni un byte.
+    for a in m.get("assets", {}).values():
+        for clave in ("archivo", "servido"):
+            if isinstance(a.get(clave), str):
+                a[clave] = posix(a[clave])
+    return m
 
 
 def guarda_manifiesto(proyecto, m):
@@ -459,6 +490,33 @@ def slug(texto):
     return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", t)).strip("-")[:40] or "toma"
 
 
+def medida_real(ruta):
+    """
+    `(ancho, alto)` del vídeo TAL COMO ESTÁ EN DISCO, o `None` si no se puede medir.
+
+    POR QUÉ EXISTE: el banco puede mentir en la medida, y no en los metadatos de
+    la API sino en el propio archivo. Medido en una pieza real (dos veces seguidas, dos
+    autores distintos): la URL `…-hd_1080_2048_25fps.mp4` que la API declara de
+    1080x2048 sirve un archivo de 720x1366. El filtro de `filtra()` se fía de la
+    API, así que un plano que no llega al hueco pasaba entero y salía estirado
+    ×1,5 a sangre, sin ningún error. Solo lo cazaba `revisar-broll.mjs`, y solo
+    en el formato de noticias.
+    """
+    ffprobe = binario("ffprobe")
+    if not ffprobe:
+        return None
+    r = subprocess.run(
+        [ffprobe, "-v", "error", "-select_streams", "v:0",
+         "-show_entries", "stream=width,height", "-of", "csv=p=0", ruta],
+        capture_output=True, text=True,
+    )
+    try:
+        ancho, alto = (int(x) for x in r.stdout.strip().split(",")[:2])
+    except ValueError:
+        return None
+    return ancho, alto
+
+
 def sin_audio(ruta):
     """
     Quita la pista de audio de un clip, copiando el video sin recodificar.
@@ -469,12 +527,13 @@ def sin_audio(ruta):
     ya publicada se pelea con el reclamante como juez. El b-roll de este formato
     va bajo voz en off: su audio no se usa para nada.
     """
-    if not shutil.which("ffmpeg"):
-        print("   ⚠ sin ffmpeg: el clip conserva su audio (riesgo de Content ID)")
+    ffmpeg = binario("ffmpeg")
+    if not ffmpeg:
+        print(f"   ⚠ sin ffmpeg: el clip conserva su audio (riesgo de Content ID). {pista_instalacion('ffmpeg')}")
         return
     tmp = ruta + ".mudo.mp4"
     r = subprocess.run(
-        ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", ruta, "-c", "copy", "-an", tmp],
+        [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-i", ruta, "-c", "copy", "-an", tmp],
         capture_output=True,
     )
     if r.returncode == 0 and os.path.getsize(tmp) > 0:
@@ -507,10 +566,11 @@ def sin_audio(ruta):
 
 def _gris(archivo, ancho, alto):
     """Los pixeles en gris de una miniatura, via ffmpeg. `None` si no se puede."""
-    if not shutil.which("ffmpeg"):
+    ffmpeg = binario("ffmpeg")
+    if not ffmpeg:
         return None
     r = subprocess.run(
-        ["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", archivo,
+        [ffmpeg, "-hide_banner", "-loglevel", "error", "-i", archivo,
          "-vf", f"scale={ancho}:{alto},format=gray", "-frames:v", "1", "-f", "rawvideo", "-"],
         capture_output=True,
     )
@@ -537,6 +597,16 @@ def dhash(archivo):
     v = _gris(archivo, 8, 9)
     if h is None or v is None:
         return None
+    # UNA IMAGEN PLANA ES PLANA AUNQUE EL DESCODIFICADOR NO LO SEA. Un gris liso
+    # sale de una build de ffmpeg con filas a 166 y filas a 165 (ruido de +-1 del
+    # JPEG), y el gradiente estricto de abajo lo leia como tres franjas: 24 bits,
+    # o sea "estructura", y el dedupe dejaba de protegerlo. Medido en un Windows
+    # real con ffmpeg 9.0.2 (en este Mac el mismo gris sale exacto). Si toda la
+    # miniatura cabe en dos niveles de gris, es el hash canonico de ceros: los
+    # hashes de las fotos de verdad no cambian (una foto nunca cabe en dos niveles).
+    todo = bytes(h) + bytes(v)
+    if max(todo) - min(todo) <= 2:
+        return "0" * 32
     bits = 0
     for fila in range(8):
         base = fila * 9
@@ -639,7 +709,8 @@ def hoja_contactos(minis, salida, columnas=3):
     Celdas de 336 px: por debajo de 200 px un modelo de vision empieza a
     inventarse lo que ve, y a ojo tampoco se distingue un plano de otro.
     """
-    if not shutil.which("ffmpeg"):
+    ffmpeg = binario("ffmpeg")
+    if not ffmpeg:
         return None
     tmp = os.path.join(os.path.dirname(salida), ".celdas")
     shutil.rmtree(tmp, ignore_errors=True)
@@ -651,7 +722,7 @@ def hoja_contactos(minis, salida, columnas=3):
         # otras en rgb24 segun la entrada, y `tile` —que fija el formato con la
         # primera— compone una hoja practicamente vacia sin dar ningun error.
         subprocess.run(
-            ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", m, "-i", chapa,
+            [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-i", m, "-i", chapa,
              "-filter_complex",
              "[0:v]scale=336:336:force_original_aspect_ratio=increase,crop=336:336[c];"
              "[c][1:v]overlay=10:10,format=rgb24",
@@ -667,13 +738,13 @@ def hoja_contactos(minis, salida, columnas=3):
     # cinco. Con la rejilla llena hay un solo frame y no hay ambiguedad.
     for i in range(len(minis), filas * columnas):
         subprocess.run(
-            ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "lavfi",
+            [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-f", "lavfi",
              "-i", "color=c=0x111111:s=336x336", "-vf", "format=rgb24", "-frames:v", "1",
              os.path.join(tmp, f"celda-{i:02d}.png")],
             capture_output=True,
         )
     r = subprocess.run(
-        ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "image2",
+        [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-f", "image2",
          "-i", os.path.join(tmp, "celda-%02d.png"),
          "-vf", f"tile={columnas}x{filas}:margin=10:padding=10:color=0x111111",
          "-frames:v", "1", "-update", "1", salida],
@@ -722,9 +793,12 @@ def cmd_buscar(args):
     if not vivos:
         print("  Ningun candidato cumple la medida. Prueba otra consulta o baja a --para retrato.")
         return
-    print(f"\nSiguiente: python3 manuales/edicion-video/scripts/bancos.py traer \\")
-    print(f'  --proyecto {args.proyecto} --toma <id-de-la-toma> --consulta "{args.consulta}" \\')
-    print(f"  --para {args.para} --tipo {args.tipo} --indice 0")
+    # Una sola linea: PowerShell no entiende la continuacion con «\».
+    print(
+        f"\nSiguiente: uv run manuales/edicion-video/scripts/bancos.py traer"
+        f' --proyecto {args.proyecto} --toma <id-de-la-toma> --consulta "{args.consulta}"'
+        f" --para {args.para} --tipo {args.tipo} --indice 0"
+    )
     print("\nOJO: Pexels NUNCA devuelve cero — una consulta sin sentido tambien trae")
     print("resultados. Mira las descripciones antes de elegir.\n")
 
@@ -845,7 +919,7 @@ def cmd_contactos(args):
         print(f"\n  ({len(fuera)} descartados por medida; el primero: {fuera[0]['motivo']})")
 
     if hoja:
-        print(f"\n   Hoja: {os.path.relpath(hoja, raiz_proyecto())}")
+        print(f"\n   Hoja: {ruta_visible(hoja)}")
         print("\n   MÍRALA y elige por el número. Lo que hay que juzgar, en este orden:")
         print("     1. ¿ilustra literalmente lo que dice la toma, o solo el tema?")
         print("     2. ¿aguanta el recorte a 9:16 con el sujeto dentro?")
@@ -856,10 +930,14 @@ def cmd_contactos(args):
         print("     5. ¿parece el stock que usa todo el mundo? → busca el plano de detalle")
     else:
         print("\n   ⚠ no se pudo montar la hoja (¿ffmpeg?): decide por la tabla y las URLs")
+        if not binario("ffmpeg"):
+            print(f"     {pista_instalacion('ffmpeg')}")
 
-    print(f"\n   Siguiente: python3 manuales/edicion-video/scripts/bancos.py traer \\")
-    print(f'     --proyecto {args.proyecto} --toma {args.toma} --consulta "{args.consulta}" \\')
-    print(f'     --para {args.para} --tipo {args.tipo} --indice <n> --porque "qué prueba aporta"\n')
+    print(
+        f"\n   Siguiente: uv run manuales/edicion-video/scripts/bancos.py traer"
+        f' --proyecto {args.proyecto} --toma {args.toma} --consulta "{args.consulta}"'
+        f' --para {args.para} --tipo {args.tipo} --indice <n> --porque "qué prueba aporta"\n'
+    )
 
 
 def cmd_traer(args):
@@ -870,7 +948,7 @@ def cmd_traer(args):
 
     ya = m["assets"].get(args.toma)
     if ya and ya.get("huella") == h and not args.forzar:
-        archivo = os.path.join(raiz_proyecto(), ya["archivo"])
+        archivo = desde_raiz(ya["archivo"])
         if os.path.isfile(archivo):
             print(f"[{args.toma}] ya traido y sin cambios (huella {h[:8]}). --forzar para re-elegir.")
             print(f"   media: \"{ya['servido']}\"")
@@ -908,10 +986,12 @@ def cmd_traer(args):
     c = vivos[args.indice]
 
     nombre = f"{args.proyecto}-{args.toma}-{slug(args.consulta)}{c['extension']}"
-    rel_bruto = os.path.join("proyectos", args.proyecto, "broll", "pexels", "raw", nombre)
-    rel_servido = os.path.join("broll", args.proyecto, f"{args.toma}-{slug(args.consulta)}{c['extension']}")
-    bruto = os.path.join(raiz_proyecto(), rel_bruto)
-    servido = os.path.join(raiz_proyecto(), "remotion", "public", rel_servido)
+    # Rutas LOGICAS (se guardan y se pegan en el plan): siempre con «/».
+    rel_bruto = posixpath.join("proyectos", args.proyecto, "broll", "pexels", "raw", nombre)
+    rel_servido = posixpath.join("broll", args.proyecto, f"{args.toma}-{slug(args.consulta)}{c['extension']}")
+    # Rutas LOCALES (se abren en esta maquina).
+    bruto = desde_raiz(rel_bruto)
+    servido = desde_raiz("remotion", "public", rel_servido)
 
     print(f"   elegido [{args.indice}]: {c['ancho']}x{c['alto']} · {c['autor']}")
     if c["descripcion"]:
@@ -923,6 +1003,29 @@ def cmd_traer(args):
     bytes_ = descarga(c["descarga_url"], bruto)
     print(f"   bajado: {rel_bruto}  ({bytes_ / 1_000_000:.1f} MB)")
     if c["tipo"] == "video":
+        # SE MIDE EL ARCHIVO, no la ficha (ver `medida_real`). Si no llega al
+        # hueco, se prueba la rendition siguiente del MISMO vídeo —el plano que se
+        # eligió mirando la hoja no cambia— y en el manifiesto queda la URL que
+        # de verdad sirve y la medida de verdad, para que `reponer` baje lo mismo.
+        real = medida_real(bruto)
+        pendientes = list(c.get("alternativas", []))
+        while real and (real[0] < hueco["ancho"] or real[1] < hueco["alto"]):
+            print(f"   ⚠ el banco declaró {c['ancho']}x{c['alto']} y el archivo mide {real[0]}x{real[1]}")
+            if not pendientes:
+                os.remove(bruto)
+                sys.exit(
+                    f"ERROR: ninguna rendition de este vídeo llega a {hueco['ancho']}x{hueco['alto']}.\n"
+                    "  Elige otro candidato de la hoja."
+                )
+            alt = pendientes.pop(0)
+            print(f"   · pruebo la rendition siguiente ({alt['ancho']}x{alt['alto']})…")
+            bytes_ = descarga(alt["link"], bruto)
+            print(f"   bajado: {rel_bruto}  ({bytes_ / 1_000_000:.1f} MB)")
+            c = {**c, "descarga_url": alt["link"]}
+            real = medida_real(bruto)
+        if real:
+            c = {**c, "ancho": real[0], "alto": real[1]}
+            print(f"   medida real: {real[0]}x{real[1]}")
         sin_audio(bruto)
     os.makedirs(os.path.dirname(servido), exist_ok=True)
     shutil.copy2(bruto, servido)
@@ -969,8 +1072,8 @@ def cmd_traer(args):
 
 def reponer_uno(proyecto, toma, a):
     """Vuelve a bajar UN asset del manifiesto y comprueba que es el mismo."""
-    bruto = os.path.join(raiz_proyecto(), a["archivo"])
-    servido = os.path.join(raiz_proyecto(), "remotion", "public", a["servido"])
+    bruto = desde_raiz(a["archivo"])
+    servido = desde_raiz("remotion", "public", a["servido"])
     if not os.path.isfile(bruto):
         print(f"   [{toma}] bajando de nuevo…")
         descarga(a["descarga_url"], bruto)
@@ -1029,28 +1132,42 @@ def mide_color(archivo, muestras=6):
     Se muestrea con `select` y NO con `fps=1`, que era lo natural: sobre una
     imagen fija —que dura un frame— el remuestreo a 1 fps se queda sin ninguno y
     ffprobe devuelve una lista vacia, sin error. Con `select` pasan las dos.
+
+    EL ARCHIVO ENTRA POR `-i`, NO POR `movie=` DENTRO DEL GRAFO. Ahi la ruta
+    hay que escaparla a DOS niveles (el del grafo y el de las opciones del
+    filtro), y con un solo nivel bastaba un «:» —la unidad C: de Windows,
+    siempre— o una «,» en la ruta para que `gradar` dijera «no se pudo medir»
+    en TODOS los clips. Por `-i` no hay nada que escapar; las medidas salen por
+    `metadata=print` a stdout y son las MISMAS cifras que daba ffprobe
+    (comprobado clip a clip, tambien sobre una imagen fija). `-frames:v` corta
+    la decodificacion en cuanto hay muestras suficientes.
     """
-    if not shutil.which("ffprobe"):
+    ffmpeg = binario("ffmpeg")
+    if not ffmpeg:
         return None
     r = subprocess.run(
-        ["ffprobe", "-v", "error", "-f", "lavfi",
-         "-i", f"movie={archivo.replace(chr(92), '/').replace(':', chr(92) + ':')},"
-               f"select=not(mod(n\\,15)),signalstats",
-         "-show_entries",
-         "frame_tags=lavfi.signalstats.YAVG,lavfi.signalstats.UAVG,lavfi.signalstats.VAVG,lavfi.signalstats.SATAVG",
-         "-of", "json"],
-        capture_output=True, text=True,
+        [ffmpeg, "-nostdin", "-v", "error", "-i", archivo,
+         "-vf", "select=not(mod(n\\,15)),signalstats,metadata=print:file=-",
+         "-frames:v", str(muestras), "-f", "null", "-"],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
     )
     if r.returncode != 0:
         return None
-    try:
-        frames = json.loads(r.stdout).get("frames", [])[:muestras]
-    except json.JSONDecodeError:
-        return None
+    # Formato de `metadata=print`: una linea «frame:N pts:… pts_time:…» y
+    # despues una «lavfi.signalstats.CLAVE=valor» por cada estadistica.
+    frames, actual = [], None
+    for linea in r.stdout.splitlines():
+        if linea.startswith("frame:"):
+            actual = {}
+            frames.append(actual)
+        elif linea.startswith("lavfi.signalstats.") and actual is not None:
+            clave, _, valor = linea.partition("=")
+            actual[clave.rsplit(".", 1)[-1]] = valor.strip()
+    frames = frames[:muestras]
     if not frames:
         return None
     def media(clave):
-        vals = [float(f["tags"][f"lavfi.signalstats.{clave}"]) for f in frames if f.get("tags", {}).get(f"lavfi.signalstats.{clave}")]
+        vals = [float(f[clave]) for f in frames if f.get(clave)]
         return sum(vals) / len(vals) if vals else None
     y, u, v, sat = media("YAVG"), media("UAVG"), media("VAVG"), media("SATAVG")
     if y is None:
@@ -1073,10 +1190,12 @@ def cmd_gradar(args):
     m = lee_manifiesto(args.proyecto)
     if not m["assets"]:
         sys.exit(f"ERROR: proyectos/{args.proyecto}/broll/manifiesto.json no tiene assets.")
+    if not binario("ffmpeg"):
+        sys.exit(f"ERROR: gradar mide con ffmpeg y no lo encuentro. {pista_instalacion('ffmpeg')}")
 
     medidas = {}
     for toma, a in m["assets"].items():
-        archivo = os.path.join(raiz_proyecto(), a["archivo"])
+        archivo = desde_raiz(a["archivo"])
         if not os.path.isfile(archivo):
             print(f"   ⚠ [{toma}] no esta en disco: corre `reponer` antes de gradar")
             continue

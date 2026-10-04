@@ -37,7 +37,7 @@
  * y declararla sin tabla medida en `plan/avances.ts` apagaría R09 en silencio
  * (motor/marca.ts). Se deja para cuando se mida con `generar-avances.mjs`.
  */
-import { MARCA_BASE } from "../motor/marca";
+import { LETRA_SF_SISTEMA, MARCA_BASE } from "../motor/marca";
 import type { Marca } from "../motor/marca";
 
 export const STREETCATS: Marca = {
@@ -45,6 +45,9 @@ export const STREETCATS: Marca = {
   nombre: "Street Cats (@streetcats.food)",
   /** El watermark: el nombre del negocio, que es lo que se busca luego. */
   sello: { texto: "STREET CATS" },
+  // Explícita y no heredada: la que tenía cuando se publicó el 009 (hoy no la
+  // consume ninguna capa), y así el suelo del motor puede pasar a Inter sin tocarlo.
+  letra: LETRA_SF_SISTEMA,
   color: {
     ...MARCA_BASE.color,
     /** Ámbar de papa frita. 11:1 sobre el scrim negro — es tinta de titular. */

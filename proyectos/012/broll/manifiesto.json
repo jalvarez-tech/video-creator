@@ -1,0 +1,32 @@
+{
+  "proyecto": "012",
+  "banco": "pexels",
+  "assets": {
+    "t01-cartagena": {
+      "huella": "de7bcbb6ecc6c99800e5e5eaa07fa4b80489781765bc0be043883382de4602e1",
+      "banco": "pexels",
+      "id": 26600370,
+      "tipo": "foto",
+      "consulta": "cartagena bocagrande skyscrapers waterfront towers beach",
+      "consulta_original": "cartagena bocagrande skyscrapers waterfront towers beach",
+      "para": "escenario",
+      "indice": 0,
+      "autor": "Andres Villamizar",
+      "autor_url": "https://www.pexels.com/@andres-villamizar-185552101",
+      "licencia": "Pexels License",
+      "licencia_url": "https://www.pexels.com/license/",
+      "origen_url": "https://www.pexels.com/photo/view-of-boats-moored-in-the-harbor-in-a-coastal-city-26600370/",
+      "descarga_url": "https://images.pexels.com/photos/26600370/pexels-photo-26600370.jpeg",
+      "descripcion": "A beautiful harbor view of Cartagena de Indias, showcasing urban skyline and moored boats.",
+      "ancho": 8829,
+      "alto": 11773,
+      "duracion": null,
+      "sha256": "8b6d7f7dcd9f10dd114f33e7a481f052238f4f7a094bc967ec8da16085dbbc5a",
+      "dhash": "3f3e071f1f3fbfbf00c000ffffffffff",
+      "porque": "Cartagena REAL con el skyline de Bocagrande (la zona del Hotel Estelar, sede del evento): dice ciudad de inversion, no turismo colonial. El cielo abierto del tercio superior es donde cae el nombre del evento",
+      "archivo": "proyectos/012/broll/pexels/raw/012-t01-cartagena-cartagena-bocagrande-skyscrapers-waterfr.jpg",
+      "servido": "broll/012/t01-cartagena-cartagena-bocagrande-skyscrapers-waterfr.jpg",
+      "descartados": []
+    }
+  }
+}

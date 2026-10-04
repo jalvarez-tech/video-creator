@@ -17,7 +17,7 @@
  * «⚠️ esto cambia también el 004 si se vuelve a renderizar».
  *
  * Este archivo es el TIPO y el SUELO del motor (`MARCA_BASE`). Nada más: los
- * PERFILES de canal viven fuera, en `src/marcas/` (hoy: `luxur.ts`), y llegan
+ * PERFILES de canal viven fuera, en `src/marcas/` (la plantilla es `ejemplo.ts`), y llegan
  * por parámetro. Datos puros, cero imports en tiempo de ejecución (solo
  * `import type`, que desaparece al compilar), misma disciplina que
  * `plan/nucleo.ts` y `plan/avances.ts`: el validador tiene que poder leer una
@@ -39,6 +39,8 @@
 // `import type` de la tabla de avances: se borra al compilar, así que no entra
 // un solo byte de los 1.280 renglones de datos medidos en el bundle de tipos.
 import type { AVANCES } from "./plan/avances";
+// Igual con la tabla de las letras de los subtítulos editoriales: solo el tipo.
+import type { ClaveAvancesSubtitulos } from "./subtitulos-editoriales.avances";
 
 /** Las tablas de anchos medidos que existen. Declarar una fuente sin tabla es
  *  lo que apaga R09 EN SILENCIO, así que la clave va DENTRO del tipo. */
@@ -157,6 +159,55 @@ export interface MetrajeMarca {
   vineta: number;
 }
 
+/**
+ * CÓMO PONE TEXTO EN PANTALLA una pieza con voz. Dos costumbres, y un canal
+ * suele tener una:
+ *
+ *   banda      textos clave en la banda inferior (moldes `sello`/`cta` de la
+ *              capa de gráficos), sin subtítulos palabra a palabra.
+ *   editorial  todo lo dicho, en trozos de una a cuatro palabras, con la pista
+ *              de subtítulos editoriales (`motor/subtitulos-editoriales.ts`).
+ *
+ * Son excluyentes en una misma pieza: las dos viven en el mismo 70-85 % del
+ * alto y se pisan (R14).
+ */
+export type ModoTexto = "banda" | "editorial";
+
+/** La letra de UNA línea de los subtítulos editoriales. */
+export interface LetraTrozo {
+  /** Pila CSS. La primera familia tiene que estar empaquetada (`motor/fuentes.ts`). */
+  familia: string;
+  peso: number;
+  italica: boolean;
+  /**
+   * La tabla de avances MEDIDA de esa familia, peso y estilo. Sin ella la línea
+   * no se ajusta al ancho ni se comprueba, y el validador lo dice: se puede
+   * declarar una letra sin medir, pero no sin enterarse.
+   */
+  tabla?: ClaveAvancesSubtitulos;
+}
+
+/** Las tres letras de los subtítulos editoriales: lo dicho, lo que se queda y la cifra. */
+export interface LetraSubtitulos {
+  base: LetraTrozo;
+  acento: LetraTrozo;
+  dato: LetraTrozo;
+}
+
+/** La costumbre del canal con el texto en pantalla. */
+export interface TextoMarca {
+  /** El modo por defecto de sus piezas con voz. Lo lee quien PLANIFICA, no quien pinta. */
+  modo: ModoTexto;
+  /** Sus letras para el modo editorial. Lo que no declare, lo pone el motor (`LETRA_SUBTITULOS`). */
+  letra?: Partial<LetraSubtitulos>;
+  /**
+   * La sombra de esas letras, como `text-shadow` de CSS. `null` = SIN sombra:
+   * texto limpio, y la legibilidad la da el velo de la composición. Sin
+   * declarar, las dos sombras de la marca (`sombra.textoCine` + `sombra.texto`).
+   */
+  sombra?: string | null;
+}
+
 export interface Marca {
   nombre: string;
   sello: SelloMarca;
@@ -188,6 +239,23 @@ export interface Marca {
   forma: FormaMarca;
   sombra: SombraMarca;
   metraje: MetrajeMarca;
+  /**
+   * EL TEXTO EN PANTALLA — opcional, y tiene que seguir siéndolo.
+   *
+   * Un canal que no lo declara trabaja en modo `banda`, que es como se han
+   * hecho todas las piezas hasta hoy. `MARCA_BASE` no lo declara a propósito:
+   * las marcas se construyen por `...MARCA_BASE` y un valor ahí les llegaría a
+   * todas.
+   *
+   * ⚠️ Ningún intérprete existente lee este campo, y ninguno debe empezar a
+   * hacerlo para decidir QUÉ monta: los `look-NNN.ts` de piezas publicadas
+   * heredan la marca de su canal por spread, así que un componente que
+   * montara subtítulos «porque la marca dice editorial» cambiaría vídeos ya
+   * entregados. Se consulta con `modoTextoDe(marca)` al planificar y con
+   * `letraSubtitulosDe(marca)` dentro de `<SubtitulosEditoriales>`, que solo
+   * existe donde una composición lo pone.
+   */
+  texto?: TextoMarca;
 }
 
 /* ── EL SUELO DEL MOTOR ────────────────────────────────────────────────────
@@ -210,11 +278,67 @@ export interface Marca {
  * componentes (`TarjetaFoto`, `ChipIcono`, `Cronologia`, `Medidor`). Ese es el
  * paso 8; cuando caiga, esto se puede vaciar de verdad. */
 
-/** Tipografía del canal. Ver la nota larga de `theme-noticias.ts` sobre por qué
- *  `-apple-system` y no "SF Pro Display": la descargable de Apple no está
- *  instalada, la del sistema sí, y Chrome la resuelve por ese alias. */
+/** Tipografía de SISTEMA (San Francisco). Ver la nota larga de `theme-noticias.ts`
+ *  sobre por qué `-apple-system` y no "SF Pro Display": Chrome solo llega a la SF
+ *  del sistema por ese alias. ⚠️ Solo resuelve a SF en macOS: en Windows cae a
+ *  Helvetica/Arial y las tablas `sf*` de R09 dejan de corresponder con lo que se
+ *  pinta. Por eso es la letra de las marcas que nacieron en un Mac y se
+ *  renderizan ahí, no la de una marca nueva. */
 const SF =
   "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+
+/** La pila de Inter, la MISMA cadena que `theme.ts` usa en la capa de gráficos.
+ *  `motor/fuentes.ts` registra la Inter empaquetada bajo la familia "Inter",
+ *  así que esta pila pinta los mismos glifos en cualquier máquina. */
+export const PILA_INTER =
+  "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+
+/** Letra DETERMINISTA: Inter empaquetada. Es la que debe declarar toda marca nueva.
+ *  No hay tabla `inter500` medida: el peso 500 se estima con la de 600, que
+ *  sobreestima (del lado seguro para R09). */
+export const LETRA_INTER: LetraMarca = {
+  display: PILA_INTER,
+  texto: PILA_INTER,
+  tablas: { 500: "inter600", 600: "inter600", 700: "inter700", 800: "inter800" },
+};
+
+/** Letra de SISTEMA (SF en macOS). Es la que heredan, y ahora declaran, las
+ *  marcas que ya tienen piezas publicadas con ella: no se toca sin pasar la sonda. */
+export const LETRA_SF_SISTEMA: LetraMarca = {
+  display: SF,
+  texto: SF,
+  // Los cuatro pesos que dibujan las fichas editoriales, cada uno con su
+  // tabla medida: titular y cifra 700, kicker y pie 600, etiqueta 500,
+  // énfasis 800. Ver `LetraMarca.tablas`.
+  tablas: { 500: "sf500", 600: "sf600", 700: "sf700", 800: "sf800" },
+};
+
+/** Las dos familias de los subtítulos editoriales. `motor/fuentes.ts` las
+ *  registra empaquetadas («Quicksand», variable de 300 a 700, y «Lato» en
+ *  itálica 400 y 700), así que pintan los mismos glifos en cualquier máquina.
+ *  Detrás va Inter, también empaquetada: si una cara no cargara, el respaldo
+ *  sigue siendo determinista. */
+export const PILA_QUICKSAND = `Quicksand, ${PILA_INTER}`;
+export const PILA_LATO = `Lato, ${PILA_INTER}`;
+/** Las otras dos que `motor/fuentes.ts` empaqueta para esa pista, para el canal
+ *  que las declare: «Montserrat» (variable, 100-900) y «Playfair Display» (solo
+ *  la itálica, variable, 400-900). El respaldo, otra vez, Inter. */
+export const PILA_MONTSERRAT = `Montserrat, ${PILA_INTER}`;
+export const PILA_PLAYFAIR = `'Playfair Display', Georgia, ${PILA_INTER}`;
+
+/**
+ * La letra de los subtítulos editoriales cuando la marca no declara la suya.
+ *
+ * Quicksand a 500 para lo dicho: es una geométrica redonda y a 400 el trazo
+ * se pierde sobre metraje claro. Lato itálica a 700 para el acento: a 2,2 veces
+ * el cuerpo de la base, es el peso el que la separa de ella, no solo el tamaño.
+ * El dato, la misma Quicksand a 700, su peso más alto.
+ */
+export const LETRA_SUBTITULOS: LetraSubtitulos = {
+  base: { familia: PILA_QUICKSAND, peso: 500, italica: false, tabla: "quicksand500" },
+  acento: { familia: PILA_LATO, peso: 700, italica: true, tabla: "lato700i" },
+  dato: { familia: PILA_QUICKSAND, peso: 700, italica: false, tabla: "quicksand700" },
+};
 
 export const MARCA_BASE: Marca = {
   nombre: "base",
@@ -233,14 +357,9 @@ export const MARCA_BASE: Marca = {
     linea: "rgba(17,17,17,0.14)",
     acentoOscuro: "#0F766E",
   },
-  letra: {
-    display: SF,
-    texto: SF,
-    // Los cuatro pesos que dibujan las fichas editoriales, cada uno con su
-    // tabla medida: titular y cifra 700, kicker y pie 600, etiqueta 500,
-    // énfasis 800. Ver `LetraMarca.tablas`.
-    tablas: { 500: "sf500", 600: "sf600", 700: "sf700", 800: "sf800" },
-  },
+  // Los MISMOS valores de siempre (la sonda de píxeles lo exige): la letra de
+  // sistema. Una marca nueva declara `letra: LETRA_INTER`; ver `marcas/ejemplo.ts`.
+  letra: LETRA_SF_SISTEMA,
   forma: { radio: 22, borde: 8 },
   sombra: {
     caja: "0 18px 44px rgba(17,17,17,0.15)",

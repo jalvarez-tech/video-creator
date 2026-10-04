@@ -46,13 +46,11 @@
  * Remotion en tiempo de ejecución—, así que el bundle no arrastra React.
  */
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { RAIZ, borrar, carpetaTemporal } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+const root = RAIZ;
 const remotionDir = path.join(root, "remotion");
 
 const rel = process.argv[2] ?? "src/motor/demos/noticia-demo.ts";
@@ -87,7 +85,7 @@ const esbuild = require("esbuild");
 
 // Punto de entrada sintético: reexporta el plan Y los dos validadores, para que
 // el bundle resuelva todo sin que el archivo del plan tenga que importar nada más.
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "noticia-"));
+const tmp = carpetaTemporal("noticia-");
 const entry = path.join(tmp, "entry.ts");
 const planUrl = JSON.stringify(planTs);
 const srcDir = path.join(remotionDir, "src", "motor");
@@ -103,17 +101,21 @@ fs.writeFileSync(
 );
 
 const bundle = path.join(tmp, "out.cjs");
-await esbuild.build({
-  entryPoints: [entry],
-  bundle: true,
-  platform: "node",
-  format: "cjs",
-  outfile: bundle,
-  logLevel: "error",
-});
-
-const mod = require(bundle);
-fs.rmSync(tmp, { recursive: true, force: true });
+let mod;
+try {
+  await esbuild.build({
+    entryPoints: [entry],
+    bundle: true,
+    platform: "node",
+    format: "cjs",
+    outfile: bundle,
+    logLevel: "error",
+  });
+  mod = require(bundle);
+} finally {
+  // `borrar` reintenta: en Windows el antivirus retiene un instante el .cjs recién creado.
+  borrar(tmp);
+}
 
 // El plan puede exportarse con cualquier nombre (noticiaDemo, noticia004…) y en
 // una de DOS formas, porque la migración a la gramática única dejó las dos

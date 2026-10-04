@@ -1,8 +1,16 @@
 # Cruce con `lifeprompt-team/remotion-scenes`
 
-> **Documento de análisis, no de estado.** El catálogo de lo que el sistema SÍ
-> sabe hacer hoy es la comp `Catalogo` del Studio y
-> [catalogo-graficos.md](catalogo-graficos.md), que se DERIVAN del código.
+> **Análisis histórico (2026-08-13), no documento de estado.** Describe el motor
+> tal como estaba ese día, con referencias `archivo:línea` de entonces, y varias
+> ya no coinciden: el export de `PistaGraficos` cambió de línea, los seis
+> `paleta={PALETA_MARCA}` literales del §3 ya se retiraron y el paso 2 del §4 se
+> hizo como `remotion/src/marcas/<canal>.ts` (un fichero por canal, con
+> `ejemplo.ts` de plantilla), no como `marcas/<canal>/marca.ts`. Se conserva por
+> lo que sigue vigente: el diagnóstico de §1-§3 (la marca es un dato, no una
+> constante) y la procedencia MIT de §11, que citan `motor/motion.ts` y
+> `motor/marca.ts`. El catálogo de lo que el sistema SÍ sabe hacer hoy es la
+> comp `Catalogo` del Studio y [catalogo-graficos.md](catalogo-graficos.md),
+> que se DERIVAN del código.
 >
 > **Lo que YA se cosechó de este análisis** (2026-08-13), y por tanto ya no está
 > pendiente: `EASE.frenoLargo` (de `RollerSlotReveal` — la curva, no el
@@ -66,17 +74,17 @@ el motor: **19 ficheros importan `theme`, `MG`, `G`, `FONT`, `SOMBRA`, `TXT`,
 `PistaGraficos.tsx` 4, `Datos.tsx` 4…).
 
 **Consecuencia: dos marcas no pueden convivir en el mismo repo.** El propio
-`theme-noticias.ts` lo admite («⚠️ esto cambia también el 004 si se vuelve a
-renderizar»). Y la tipografía **ni siquiera es un campo del tipo `Dialecto`**
+`theme-noticias.ts` lo admitía (cambiar un valor cambiaba también las piezas ya
+publicadas si se volvían a renderizar). Y la tipografía **ni siquiera es un campo del tipo `Dialecto`**
 (`nucleo.ts:635-680`): colores, escala, ley, moldes y tintas viajan; la letra no.
 
 ### Qué pasa hoy con tres marcas hipotéticas (comprobado en el código)
 
 | Caso | Qué pasa |
 |---|---|
-| **Papel beige con acento azul** | Sale mal sin avisar. `plan.paleta` funciona (`nucleo.ts:706`), pero cuatro componentes tienen el naranja como default y sus montadores no pasan color: `TarjetaFoto` (`Editorial.tsx:164` — el marco de **toda** foto), `ChipIcono` (`:435`, con un hex `#E8863A` que ni deriva de `MARCA.acento`), `Cronologia` (`:578/608/609`, literal en el JSX: **no hay prop que sobrescribir**). Y el b-roll sale teñido de beige (`montadores.tsx:268`). Resultado: textos azules con marcos naranjas. |
+| **Papel beige con acento azul** | Sale mal sin avisar. `plan.paleta` funciona (`nucleo.ts:706`), pero cuatro componentes tienen el acento del primer canal como default y sus montadores no pasan color: `TarjetaFoto` (`Editorial.tsx:164` — el marco de **toda** foto), `ChipIcono` (`:435`, con un hex literal que ni deriva de `MARCA.acento`), `Cronologia` (`:578/608/609`, literal en el JSX: **no hay prop que sobrescribir**). Y el b-roll sale teñido de beige (`montadores.tsx:268`). Resultado: textos azules con marcos del acento viejo. |
 | **Fondo blanco puro** | No hay ruta desde el plan: `FONDOS_*` son `Record<string, React.FC>` **sin props**. Existe una salida que nadie usa: `fondos` **es una prop** de `PistaGraficos` (`:1130`), así que un proyecto puede pasar `{papel: () => <FondoPapel color="#FFF" />}` hoy mismo. No está documentada en ningún manual. |
-| **Marca oscura con acento rosa** | El mejor caso, y aun así se cortocircuita: `PistaGraficos.tsx:240,251,257,263,276,365` pasan `paleta={PALETA_MARCA}` **literal** a `<Rico>` en vez de la del contexto. Con la paleta redefinida, toda palabra con `tinta` dentro de una frase sigue saliendo en el teal del canal. El plan dice una cosa y el render pinta otra. |
+| **Marca oscura con acento rosa** | El mejor caso, y aun así se cortocircuita: `PistaGraficos.tsx:240,251,257,263,276,365` pasan `paleta={PALETA_MARCA}` **literal** a `<Rico>` en vez de la del contexto. Con la paleta redefinida, toda palabra con `tinta` dentro de una frase sigue saliendo en el acento cableado de la capa de gráficos. El plan dice una cosa y el render pinta otra. |
 
 ### ¿Y la polaridad claro/oscuro? Es gramática, no marca
 
@@ -103,7 +111,7 @@ El orden importa más que el contenido. **Primero la marca, después la cosecha.
 | # | Qué | Por qué va aquí |
 |---|---|---|
 | 1 | **Cerrar los ganchos ya cortocircuitados** — `paleta={PALETA_MARCA}` literal (6 sitios), `PALETA_MARCA.marca` duplicando `theme.accent` | Sin esto, todo lo que se parametrice después promete lo que no cumple |
-| 2 | **`motor/marca.ts`**: el tipo `Marca` + `marcas/luxur/marca.ts` con los valores de hoy | Datos puros, cero imports en runtime. Ningún frame publicado se mueve |
+| 2 | **`motor/marca.ts`**: el tipo `Marca` + `marcas/<canal>.ts` con los valores del canal existente (hecho: `remotion/src/marcas/`, un fichero por canal y `ejemplo.ts` como plantilla) | Datos puros, cero imports en runtime. Ningún frame publicado se mueve |
 | 3 | **Los dos themes pasan a ser funciones de la marca**, y `LAYOUT` separa lo que es marca de lo que es formato | |
 | 4 | **El tema resuelto viaja en `CtxPieza`** — los montadores dejan de importar `T` y `FONT` a nivel de módulo | El eslabón que de verdad desacopla. Cero cambios en la firma de `Montador` |
 | 5 | **`Dialecto` gana `marca`**, y `NOTICIAS` pasa de constante a fábrica `dialectoEditorialDe(marca)` | Así R09 mide con la tipografía con la que se va a pintar |
@@ -179,7 +187,7 @@ La pregunta que responde: *si mañana este sistema produce vídeo para una marca
 | Familia | Cobertura | Escenas del lote | Qué marca la pide | Qué falta |
 |---|---|---:|---|---|
 | **neutro** | 🟨 parcial | 102 | TODAS. No es una estética, es la capa que no tiene ninguna: mecanismos que solo dicen «esto entra», «esto se releva», «esto sale», «esto es un dato»,  | 1) SALIDA de nodo con movimiento y desenfoque, y transiciones entre tomas: `Salida` es {corte}\|{fundido} y `Comun.sale` no lo lee NINGÚN intérprete (PistaGraficos solo aplica `ctx.ley.salida` a nivel de toma), o sea que hoy un nodo siempre sale por corte d… |
-| **editorial-sobrio** | 🟨 parcial *(corregido)* | 43 | Prensa y explicadores factuales, despachos jurídicos y notarías, consultoría, inmobiliaria (el caso actual), think tanks y fundaciones, universidades  | Que sea un FORMATO y no un CANAL. |
+| **editorial-sobrio** | 🟨 parcial *(corregido)* | 43 | Prensa y explicadores factuales, despachos jurídicos y notarías, consultoría, inmobiliaria, think tanks y fundaciones, universidades  | Que sea un FORMATO y no un CANAL. |
 | **corporativo-limpio** | 🟨 parcial | 94 | SaaS B2B, consultoras tecnológicas, fintech y seguros, salud privada, industria y logística, agencias, formación corporativa, informes de resultados.  | El REGISTRO, no las piezas. |
 | **lujo** | 🟥 descubierta | 33 | Joyería y relojería, moda y alta perfumería, hotelería y resorts, inmobiliaria de alto standing, automoción premium, wealth management, fine dining, s | Todo el vocabulario de material y de aire. |
 | **tech-oscuro** | 🟨 parcial | 103 | SaaS de infraestructura, ciberseguridad, IA y datos, cripto y trading, hardware y semiconductores, devtools, telco, canales de divulgación técnica y d | Puerta para `Scanlines` como ESTADO DE REPOSO: hoy está declarada sin ruta en el propio catálogo («ninguna envoltura la monta») y `Glitch` se documenta como ráfaga acotada, «NUNCA de fondo continuo», así que una capa de degradación de señal sostenida no se … |
@@ -478,7 +486,7 @@ Otras dos promesas incumplidas que este cruce destapó: `Encaje`
 | `Theme3DGlass` | 🟢 SANO | 🟩 NUEVO | pieza | lujo, tech-oscuro, corporativo-limpio, cinematico-dramatico | agnostico | alto | Es el mejor construido del lote entero. |
 | `ThemeDuotone` | 🟢 SANO | 🟩 NUEVO | envoltura | neutro, brutalista-pop, tech-oscuro, editorial-sobrio | agnostico | alto | La tecnica es de las mejores del lote. |
 | `ThemeGlassmorphism` | 🟢 SANO | 🟩 NUEVO | envoltura | corporativo-limpio, tech-oscuro, lujo, neutro | agnostico | alto | spring con frame-startDelay-10 (negativo antes de tiempo, que Remotion clampa a 0 correctamente), tarjeta centrada por porcentaje, sin ciclos ni semillas. |
-| `ThemeLuxury` | 🟢 SANO | 🟩 NUEVO | ambiente | lujo, cinematico-dramatico, editorial-sobrio, corporativo-limpio, neutro | agnostico | alto | Marco por inset (left/top/right/bottom: 80) mas dos escuadras de 40px en esquinas opuestas y un filete con degradado a transparente; |
+| `Theme` de lujo (nombre en inglés en el lote) | 🟢 SANO | 🟩 NUEVO | ambiente | lujo, cinematico-dramatico, editorial-sobrio, corporativo-limpio, neutro | agnostico | alto | Marco por inset (left/top/right/bottom: 80) mas dos escuadras de 40px en esquinas opuestas y un filete con degradado a transparente; |
 | `ThemeSwiss` | 🟢 SANO | 🟨 MEJORA | gramatica | editorial-sobrio, corporativo-limpio, neutro | vertical-ok | alto | Cuatro lerp con clamp, todos sobre frame-startDelay. |
 | `ThemeBauhaus` | 🟢 SANO | 🟩 NUEVO | pieza | brutalista-pop, infantil-festivo, corporativo-limpio, neutro | vertical-ok | medio | Tres springs desfasados con frame-startDelay-{0,10,20} y un lerp de filete. |
 | `ThemeJapanese` | 🟢 SANO | 🟨 MEJORA | pieza | editorial-sobrio, lujo, organico-artesanal | agnostico | medio | Dos lerp con clamp sobre frame-startDelay y nada mas. |
@@ -560,7 +568,7 @@ Otras dos promesas incumplidas que este cruce destapó: `Encaje`
 ## 9 · Riesgos del giro a herramienta global
 
 1. **El catálogo se vuelve combinatorio.** Hoy `Catalogo` dura `55 fichas × 90 f` ≈ **165 s**. Con `M` dialectos × `N` marcas serían `55·M·N·90` frames — con 3 dialectos y 4 marcas, **33 minutos**. La respuesta razonable es que **no** sea combinatorio: la ficha se demuestra en el perfil neutro y la marca se prueba aparte con una comp `Marca`. Hay que decidirlo **antes** del paso 9.
-2. **La superficie de prueba se multiplica.** `medir-anchos.mjs` valida R09 leyendo *los planes reales del repo*: con N marcas, «verde» pasa a significar «verde para las marcas que tienen plan escrito». Hace falta un plan sintético canónico que se renderice en todos los perfiles.
+2. **La superficie de prueba se multiplica.** `medir-anchos.mjs` valida R09 leyendo *los planes de `motor/demos/` y los de los proyectos presentes*: con N marcas, «verde» pasa a significar «verde para las marcas que tienen plan escrito». Hace falta un plan sintético canónico que se renderice en todos los perfiles.
 3. **La sonda de frames no escala** y es el único control de no-regresión que hay. Sin automatizarla, el paso 4 no es auditable.
 4. **`plan/avances.ts` son 1.280 líneas para dos familias.** Con 6 marcas serían ~7.000 líneas versionadas sin política de retirada. La tabla debe generarse **por marca**, en `marcas/<slug>/avances.ts`, y borrarse con el perfil.
 5. **Una pieza compartida se rompe en un dialecto y nadie lo ve.** `Montadores` es un mapeado total para el *tipo* y no hay nada para el *aspecto*. El registro compartido crea este riesgo.

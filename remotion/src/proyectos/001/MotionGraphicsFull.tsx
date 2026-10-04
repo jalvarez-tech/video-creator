@@ -118,7 +118,11 @@ const ScenePhone: React.FC = () => {
           <div style={{ flex: 1, background: "#1f2937", borderRadius: 999, padding: "16px 24px", color: sent ? "rgba(255,255,255,0.35)" : C.white, fontSize: 28, fontWeight: 600, minHeight: 30 }}>
             {sent ? "Mensaje" : typed + cursor}
           </div>
-          <div style={{ width: 58, height: 58, borderRadius: 999, background: C.green, display: "flex", alignItems: "center", justifyContent: "center", color: "#08251f", fontSize: 30, fontWeight: 900 }}>→</div>
+          <div style={{ width: 58, height: 58, borderRadius: 999, background: C.green, display: "flex", alignItems: "center", justifyContent: "center", color: "#08251f", fontSize: 30, fontWeight: 800 }}>→</div>
+          {/* Peso 800 y no 900: con la Inter instalada Chrome resolvía el 900 a la cara
+              ExtraBold (medido), así que 800 es lo que SIEMPRE se pintó. Con la Inter
+              empaquetada (motor/fuentes.ts) el 900 sí existe y movería 31 píxeles del
+              «→» en el frame 364 de Avatar9x16 y CamaraDemo: la pieza está publicada. */}
         </div>
       </div>
     </Scene>

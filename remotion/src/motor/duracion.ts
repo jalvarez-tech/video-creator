@@ -72,7 +72,7 @@ export const framesDelMedio = async (
  * pasado el último `endFrame` NO hay nada — los frames sobrantes salen NEGROS,
  * no con la última toma sostenida. Es el fallo barato de los dos (se ve, se
  * arregla), pero no es un final publicable: si esto avisa, RECRONOMETRA el plan
- * con `generar-vo.sh` en vez de dejar la cola.
+ * con `generar-vo.mjs` en vez de dejar la cola.
  */
 export const framesDePlanYVoz = async (
   audio: string,
@@ -92,7 +92,7 @@ export const framesDePlanYVoz = async (
     console.warn(
       `[duracion] La voz (${frames} f) dura más que el plan (${framesDelPlan} f): la comp se alarga\n` +
         `           ${frames - framesDelPlan} f, y esos frames salen EN NEGRO. Recronometra el plan:\n` +
-        `           bash manuales/video-noticias/scripts/generar-vo.sh <guion> --fps ${fps}`
+        `           node manuales/video-noticias/scripts/generar-vo.mjs <guion> --fps ${fps}`
     );
   }
   return Math.max(framesDelPlan, frames);

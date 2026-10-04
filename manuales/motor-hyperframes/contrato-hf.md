@@ -2,7 +2,7 @@
 
 > La referencia dura. Lo que hay que escribir bien **la primera vez**, porque la mitad de estos fallos no se ven en el frame: se ven tres días después, cuando alguien vuelve a renderizar.
 >
-> Verificado ejecutando el CLI **v0.7.107** en este Mac (2026-08-13), no leyendo el fuente. Lo que no se ha comprobado va marcado como tal.
+> Verificado ejecutando el CLI (**v0.7.107**, en macOS), no leyendo el fuente. `render-hf.mjs` fija hoy la **0.8.47**. Lo que no se ha comprobado va marcado como tal.
 
 ---
 
@@ -18,7 +18,7 @@ proyectos/NNN/hf/
   assets/         MP4, WAV, PNG que use la pieza
 ```
 
-Se abre con `node manuales/motor-hyperframes/scripts/nuevo-hf.mjs NNN`, que deja las cuatro cosas puestas. La plantilla de la que sale está en `manuales/motor-hyperframes/plantilla/index.html` y **está renderizada y mirada**, no es pseudocódigo.
+Se abre con `node manuales/motor-hyperframes/scripts/nuevo-hf.mjs NNN --canal <canal>`, que deja las cuatro cosas puestas. La plantilla de la que sale está en `manuales/motor-hyperframes/plantilla/index.html` y **está renderizada y mirada**, no es pseudocódigo.
 
 ---
 
@@ -75,7 +75,7 @@ Cuatro reglas:
 window.__timelines = window.__timelines || {};
 const tl = gsap.timeline({ paused: true });
 // …tweens…
-window.__timelines["p008"] = tl;
+window.__timelines["p001"] = tl;
 ```
 
 - La duración del render la manda `data-duration` de la raíz, **no** el largo de la timeline.
@@ -83,7 +83,7 @@ window.__timelines["p008"] = tl;
 - **GSAP no extrapola.** Un `fromTo` equivale a `interpolate(..., {extrapolate:"clamp"})` de Remotion: antes del tween vale el `from`, después el `to`.
 - Nada de `repeat: -1`. Un bucle infinito no tiene frame final.
 
-**Determinismo** (el motor pide los frames en cualquier orden y con **6 workers a la vez** — medido en este Mac):
+**Determinismo** (el motor pide los frames en cualquier orden y con **varios workers a la vez** — medidos 6 en macOS):
 
 - ❌ `Date.now()`, `new Date()`, `setTimeout`, `setInterval`
 - ❌ `Math.random()` sin sembrar
@@ -97,7 +97,7 @@ window.__timelines["p008"] = tl;
 ## 5. Media
 
 ```html
-<video id="p008-avatar" src="./assets/avatar.mp4"
+<video id="p001-avatar" src="./assets/avatar.mp4"
        data-start="0" data-duration="8" data-track-index="0"
        muted playsinline></video>
 ```
@@ -116,7 +116,7 @@ window.__timelines["p008"] = tl;
 **Alpha sí funciona:** WebM/VP9, VP8 y ProRes se decodifican con el decodificador alpha-aware y los frames se extraen como PNG para no perder la transparencia. Y hay recorte de fondo **local, sin API ni subida**:
 
 ```bash
-npx hyperframes remove-background assets/avatar.mp4 -o assets/avatar.webm
+npx hyperframes@0.8.47 remove-background proyectos/NNN/hf/assets/avatar.mp4 -o proyectos/NNN/hf/assets/avatar.webm
 ```
 
 ---
@@ -131,7 +131,7 @@ Un `<audio>` es un clip más: `data-start` es **cuándo suena**.
        data-volume="0.35" data-has-audio="true"></audio>
 ```
 
-**Verificado**: con dos `<audio>` del banco de `sonido/`, el render sale con pista **AAC 48 kHz estéreo** y `hasAudio: true`. Los efectos se eligen con las mismas reglas de [diseno-sonoro](../diseno-sonoro/SKILL.md); lo único que cambia es dónde se declaran.
+**Verificado**: con dos `<audio>` (dos WAV copiados de `remotion/public/sfx/` a `assets/`), el render sale con pista **AAC 48 kHz estéreo** y `hasAudio: true`. Los efectos se eligen con las mismas reglas de [diseno-sonoro](../diseno-sonoro/SKILL.md); lo único que cambia es dónde se declaran.
 
 **El ducking existe y es mejor que el de aquí.** HyperFrames trae *voiceover carve*: en vez de bajar todo el lecho musical, mide las bandas que ocupa la voz y hunde **solo esas**, con envolvente dinámica. Se escribe como `data-fx-carve` + `data-fx-chain` + lanes de `data-automation`. Es otra cosa que el `duckDb: -4.5` de banda ancha de `PistaSonido`.
 
@@ -144,9 +144,11 @@ Un `<audio>` es un clip más: `data-start` es **cuándo suena**.
 **Dos, y ninguna sustituye a la otra:**
 
 ```bash
-node manuales/motor-hyperframes/scripts/revisar-hf.mjs 008   # invariantes del repo
-npx hyperframes check proyectos/008/hf                       # los píxeles
+node manuales/motor-hyperframes/scripts/revisar-hf.mjs 001
+npx hyperframes@0.8.47 check proyectos/001/hf
 ```
+
+La primera son los invariantes del repo; la segunda, los píxeles.
 
 `check` corre cinco pasadas: **lint** (estructura), **runtime** (Chrome headless, errores JS y assets), **layout** (medido con `getBoundingClientRect`), **motion** y **contraste WCAG**. Es más de lo que hace `revisaPlan` en el otro motor, porque mide en vez de estimar.
 
@@ -177,8 +179,8 @@ Lo que sí toca la red:
 
 | Qué | Cuándo | Cómo se apaga |
 |---|---|---|
-| Telemetría anónima | cada invocación | `HYPERFRAMES_NO_TELEMETRY=1` (ya lo exporta `render-hf.sh`) |
-| Descarga de fuentes | primer render con una familia nueva | se cachea sola en `~/.cache/hyperframes/fonts/` |
+| Telemetría anónima | cada invocación | `HYPERFRAMES_NO_TELEMETRY=1` (ya lo pone `render-hf.mjs`, junto con `HYPERFRAMES_NO_UPDATE_CHECK=1` y `HYPERFRAMES_NO_AUTO_INSTALL=1`) |
+| Descarga de fuentes | primer render con una familia nueva | se cachea sola en la caché de usuario de HyperFrames (en macOS/Linux, `.cache/hyperframes/fonts/` dentro de tu carpeta personal; la ruta de Windows no está verificada) |
 | GSAP desde jsdelivr | si no lo vendorizas | **vendorizado**: `vendor/gsap-3.14.2.min.js` |
 
 Lo que **sí** cuesta dinero y esta skill no usa: `hyperframes cloud render` (se paga por crédito), `publish`, y las voces/música hospedadas de HeyGen.

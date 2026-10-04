@@ -3,10 +3,11 @@
  * nuevo-hf.mjs — ABRE UNA PIEZA EN EL SEGUNDO MOTOR.
  *
  * Uso (desde cualquier sitio):
- *   node manuales/motor-hyperframes/scripts/nuevo-hf.mjs 008
- *   node manuales/motor-hyperframes/scripts/nuevo-hf.mjs 008 --canal luxur --formato 9:16 --fps 25 --duracion 12
+ *   node manuales/motor-hyperframes/scripts/nuevo-hf.mjs 001
+ *   node manuales/motor-hyperframes/scripts/nuevo-hf.mjs 001 --canal ejemplo --formato 9:16 --fps 25 --duracion 12
+ *   node manuales/motor-hyperframes/scripts/nuevo-hf.mjs 001 --destino otra/carpeta   # fuera de proyectos/NNN/hf
  *
- * QUÉ DEJA MONTADO en `proyectos/NNN/hf/`:
+ * QUÉ DEJA MONTADO en `proyectos/NNN/hf/` (o en `--destino`):
  *   index.html   la plantilla ya validada, con dimensiones/fps/duración puestos
  *   marca.css    GENERADO desde src/marcas/<canal>.ts (no es una copia)
  *   vendor/      GSAP vendorizado — sin CDN, la pieza se re-renderiza en 2030
@@ -15,18 +16,25 @@
  * POR QUÉ UN SCAFFOLD Y NO UN `hyperframes init`. `init` scaffolda un proyecto
  * genérico: 16:9, 30 fps, GSAP desde jsdelivr y sin marca. Las tres cosas están
  * mal para este repo —el talking-head va a 25 porque manda el fps del clip de
- * HeyGen (R01), el b-roll enseñó que una URL de terceros no es un archivo, y la
+ * avatar (R01), el b-roll enseñó que una URL de terceros no es un archivo, y la
  * marca es un parámetro desde que dejó de ser un `export const`—. Esto pone las
  * tres bien de salida, que es más barato que arreglarlas en la puerta.
+ *
+ * El canal por defecto es `ejemplo`, la marca del producto
+ * (remotion/src/marcas/ejemplo.ts): un canal propio se pasa con `--canal`.
  */
-import { execFileSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 import path from "node:path";
+import { RAIZ, borrar, ejecutar, leerTexto, posix, relativa } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-const skillDir = path.resolve(aqui, "..");
-const root = path.resolve(skillDir, "..", ".."); // …/video-creator
+const skillDir = path.resolve(RAIZ, "manuales", "motor-hyperframes");
+const root = RAIZ;
+
+/** Una ruta para ENSEÑAR: relativa a la raíz si cae dentro, absoluta con «/» si no. */
+const muestra = (p) => {
+  const r = relativa(p);
+  return r.startsWith("..") ? posix(path.resolve(p)) : r;
+};
 
 /** Los formatos del repo. Mismos lienzos que `presets.ts`. */
 const FORMATOS = {
@@ -57,17 +65,18 @@ if (!nnn || !/^\d{3}$/.test(nnn)) {
   console.error(`
 ✖ Falta el número de proyecto (tres dígitos).
 
-  node manuales/motor-hyperframes/scripts/nuevo-hf.mjs 008 [--canal luxur] [--formato 9:16] [--fps 25] [--duracion 8]
+  node manuales/motor-hyperframes/scripts/nuevo-hf.mjs 001 [--canal ejemplo] [--formato 9:16] [--fps 25] [--duracion 8] [--destino carpeta]
 
   formatos: ${Object.keys(FORMATOS).join(" · ")}
 `);
   process.exit(1);
 }
 
-const canal = flag("canal", "luxur");
+const canal = flag("canal", "ejemplo");
 const formato = flag("formato", "9:16");
 const fps = Number(flag("fps", "25"));
 const duracion = Number(flag("duracion", "8"));
+const destinoPedido = flag("destino", undefined);
 
 if (!FORMATOS[formato]) {
   console.error(`\n✖ Formato «${formato}» desconocido. Hay: ${Object.keys(FORMATOS).join(" · ")}\n`);
@@ -93,16 +102,15 @@ if (!Number.isFinite(duracion) || duracion <= 0) {
 }
 
 const [ancho, alto] = FORMATOS[formato];
-const destino = path.join(root, "proyectos", nnn, "hf");
+const destino = destinoPedido ? path.resolve(process.cwd(), destinoPedido) : path.join(root, "proyectos", nnn, "hf");
 
 if (fs.existsSync(path.join(destino, "index.html"))) {
-  console.error(`\n✖ Ya existe ${path.relative(root, path.join(destino, "index.html"))}. No lo piso.\n`);
+  console.error(`\n✖ Ya existe ${muestra(path.join(destino, "index.html"))}. No lo piso.\n`);
   process.exit(1);
 }
 
 // El canal se comprueba ANTES de crear nada. Si no, un `--canal noexiste` deja
-// medio proyecto en disco y el mensaje limpio de marca-a-css.mjs queda sepultado
-// bajo el stack trace de node:internal que lanza `execFileSync` al ver exit≠0.
+// medio proyecto en disco y el mensaje limpio de marca-a-css.mjs queda sepultado.
 const marcasDir = path.join(root, "remotion", "src", "marcas");
 const canales = fs.existsSync(marcasDir)
   ? fs.readdirSync(marcasDir).filter((f) => f.endsWith(".ts")).map((f) => f.replace(/\.ts$/, ""))
@@ -112,28 +120,33 @@ if (!canales.includes(canal)) {
   process.exit(1);
 }
 
+// Si la carpeta ya existía (un --destino del usuario), al fallar se limpia solo
+// lo que este script creó, no la carpeta entera.
+const existia = fs.existsSync(destino);
+const limpia = () => {
+  if (!existia) return borrar(destino);
+  for (const p of ["vendor", "assets", "marca.css"]) borrar(path.join(destino, p));
+};
+
 fs.mkdirSync(path.join(destino, "vendor"), { recursive: true });
 fs.mkdirSync(path.join(destino, "assets"), { recursive: true });
 fs.writeFileSync(path.join(destino, "assets", ".gitkeep"), "");
 
-// 1. marca.css — generado, nunca copiado.
-try {
-  execFileSync(
-    process.execPath,
-    [path.join(skillDir, "scripts", "marca-a-css.mjs"), canal, path.join(destino, "marca.css")],
-    { stdio: "inherit" }
-  );
-} catch {
-  // marca-a-css.mjs ya imprimió el porqué (p. ej. un acento que no llega a 3:1
-  // sobre su papel). Aquí solo se limpia: un proyecto a medias es peor que ninguno.
-  fs.rmSync(destino, { recursive: true, force: true });
+// 1. marca.css — generado, nunca copiado. Sin `check`: marca-a-css.mjs ya
+//    imprime el porqué (p. ej. un acento que no llega a 3:1 sobre su papel) y
+//    aquí solo se limpia, porque un proyecto a medias es peor que ninguno.
+const r = ejecutar(process.execPath, [path.join(skillDir, "scripts", "marca-a-css.mjs"), canal, path.join(destino, "marca.css")], {
+  heredar: true,
+});
+if (r.status !== 0) {
+  limpia();
   console.error("✖ No se pudo generar la marca. No dejo el proyecto a medias.\n");
   process.exit(1);
 }
 
 // El sello sale de la marca ya generada: si el canal no lleva, la plantilla no
 // debe pintar píldora. Se lee del CSS para no volver a montar esbuild.
-const marcaCss = fs.readFileSync(path.join(destino, "marca.css"), "utf8");
+const marcaCss = leerTexto(path.join(destino, "marca.css"));
 const sello = /^\s*--sello:\s*"([^"]*)"/m.exec(marcaCss)?.[1] ?? null;
 
 // 2. GSAP vendorizado.
@@ -142,8 +155,10 @@ fs.copyFileSync(
   path.join(destino, "vendor", "gsap-3.14.2.min.js")
 );
 
-// 3. index.html con los tokens sustituidos.
-let html = fs.readFileSync(path.join(skillDir, "plantilla", "index.html"), "utf8");
+// 3. index.html con los tokens sustituidos. La plantilla se lee con `leerTexto`
+//    (sin BOM, con LF): en un clon con autocrlf llegaría con CRLF y la expresión
+//    que quita la píldora no casaría, dejando una cápsula vacía en pantalla.
+let html = leerTexto(path.join(skillDir, "plantilla", "index.html"));
 const id = `p${nnn}`;
 html = html
   .replaceAll("__ANCHO__", String(ancho))
@@ -157,18 +172,18 @@ html = html
 // Un canal sin sello no lleva píldora: se quita el bloque entero, no se deja
 // vacío. Un `<div class="sello"></div>` sin texto sigue pintando una cápsula.
 if (!sello) {
-  html = html.replace(/\n *<div class="sello">[^<]*<\/div>\n/, "\n");
+  html = html.replace(/\r?\n *<div class="sello">[^<]*<\/div>\r?\n/, "\n");
   html = html.replace(/<p id="kicker" class="kicker">[^<]*<\/p>/, '<p id="kicker" class="kicker">KICKER</p>');
 }
 
 fs.writeFileSync(path.join(destino, "index.html"), html);
 
-const rel = path.relative(root, destino);
+const rel = muestra(destino);
 console.log(`📁 ${rel}/`);
 console.log(`   ${formato} · ${ancho}×${alto} · ${fps} fps · ${duracion}s · id "${id}"`);
 console.log(`
    Siguiente:
-     node manuales/motor-hyperframes/scripts/revisar-hf.mjs ${nnn}
+     node manuales/motor-hyperframes/scripts/revisar-hf.mjs ${destinoPedido ? rel : nnn}
      npx hyperframes check ${rel}
      npx hyperframes preview ${rel}
 `);

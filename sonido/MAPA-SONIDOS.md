@@ -5,7 +5,7 @@ Carpeta: `video-creator/sonido/` · **1.231 archivos** · **846 MB** · 37 categ
 
 > Guía rápida para elegir el SFX correcto en cada momento de edición. La columna **"Uso en edición"** conecta cada categoría con los motion graphics y transiciones del sistema.
 >
-> 🔗 **Diseño sonoro (cuándo/cómo poner SFX):** [`manuales/diseno-sonoro/SKILL.md`](../manuales/diseno-sonoro/SKILL.md) · Catálogo por tipo de motion graphic: [`manuales/diseno-sonoro/recetario-motion-graphics.md`](../manuales/diseno-sonoro/recetario-motion-graphics.md). El motor de Remotion ya tiene **38 SFX base cableados** (una variante representativa por familia) en `remotion/public/sfx/`; se regeneran con `manuales/diseno-sonoro/copiar-sfx.sh`.
+> 🔗 **Diseño sonoro (cuándo/cómo poner SFX):** [`manuales/diseno-sonoro/SKILL.md`](../manuales/diseno-sonoro/SKILL.md) · Catálogo por tipo de motion graphic: [`manuales/diseno-sonoro/recetario-motion-graphics.md`](../manuales/diseno-sonoro/recetario-motion-graphics.md). El motor de Remotion tiene **55 SFX base cableados** (39 variantes + 16 de POOL, `remotion/src/motor/sound/cues.ts`) en `remotion/public/sfx/`; se reponen desde este banco con `node manuales/diseno-sonoro/scripts/sfx.mjs desde-banco` (mapa: `sonido/mapa-sfx.json`; procedencia: `sonido/ORIGEN-SFX.md`).
 
 ---
 

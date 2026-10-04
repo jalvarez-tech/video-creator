@@ -224,7 +224,7 @@ export type TomaNoticia = {
  * Builder breve, hermano de `cam()`, `gfx()` y `cue()`.
  *
  *   toma("t-hook", "titular", "gancho", [0, 90],
- *        { titular: "No es quien crees", kicker: "OpenAI" },
+ *        { titular: "No es quien crees", kicker: "TALVIA LABS" },
  *        "Contradice la creencia por defecto en los 3 primeros segundos")
  */
 export function toma(

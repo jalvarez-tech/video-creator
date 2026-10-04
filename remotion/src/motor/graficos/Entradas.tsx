@@ -23,7 +23,7 @@ import { EASE, Muelle, opacidadVentana, SPRING } from "../motion";
  * ENTRADAS Y SALIDAS — el "cuándo aparece" separado del "qué se ve".
  * Guía: manuales/motion-graphics/SKILL.md (§timing, §coreografía).
  *
- * Por qué existe este archivo: en Motion003/MotionApple002/MotionGraphicsFull
+ * Por qué existe este archivo: en las primeras piezas escritas a mano
  * cada escena repetía el mismo `interpolate(f, [0,7,len-8,len], [0,1,1,0])` y su
  * propio `spring` de entrada. Repetido, el timing DERIVA: dos gráficos que
  * deberían entrar igual acaban entrando distinto y la pieza pierde firma.

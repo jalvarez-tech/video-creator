@@ -12,7 +12,7 @@
  *      (glorieta → salón) cae en un corte y los ANCLAJES de contenido caen en
  *      su frame (el beso en el f1002, el cuchillo del pastel en el RELEVO)
  *   2. ningún corte pide más metraje del que tiene el archivo, CONTANDO el
- *      prerrollo y la cola de las disolvencias (formato)  → Remotion congela en
+ *      prerrollo de las disolvencias (formato)  → Remotion congela en
  *      silencio
  *   3. ningún tramo de vídeo se usa dos veces (formato)
  *   4. TODOS los archivos de la carpeta Boda salen al menos una vez (el encargo)

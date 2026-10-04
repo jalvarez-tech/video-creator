@@ -961,7 +961,7 @@ const veloProtege: ReglaN<PiezasNoticia> = (plan) => {
  * EL DIALECTO EDITORIAL, PARA UNA MARCA.
  *
  * Era `export const NOTICIAS = {...}`, y por eso el formato noticias no era «el
- * formato noticias» sino «el formato noticias de Propiedades Luxur»: la paleta
+ * formato noticias» sino «el formato noticias del primer canal»: la paleta
  * salía de un theme de módulo y el sello era una constante. Hermano de
  * `dialectoDe()` en `graficos/coreografia.ts`, que ya nacía como fábrica.
  *
@@ -1002,11 +1002,11 @@ export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaN
   paleta: PALETA_NOTICIA,
   // El amarillo de rotulador marca sobre la prueba y no colorea texto: eso lo
   // dice la paleta desde el primer día, en un comentario, y un comentario no es
-  // una regla. En el 006 la frase más crítica de seguridad de la pieza —«pueden
-  // fallar súbitamente sin dar previo aviso»— acabó en `resalte` sobre papel
-  // beige: el peor contraste de las seis tintas puesto en la única línea que hay
-  // que leer sí o sí. Declarado aquí, `revisaPlan` lo persigue en el `color` de
-  // un nodo, en la `tinta` de un trozo y en la tinta por defecto de un molde.
+  // una regla. En una pieza publicada, la advertencia de seguridad más crítica
+  // del guion acabó en `resalte` sobre papel beige: el peor contraste de las
+  // seis tintas puesto en la única línea que hay que leer sí o sí. Declarado
+  // aquí, `revisaPlan` lo persigue en el `color` de un nodo, en la `tinta` de
+  // un trozo y en la tinta por defecto de un molde.
   //
   // Sigue en la paleta, y debe seguir: es legítima donde SÍ marca (`Piel.tinta`,
   // `Envoltura.halo`, una trama de ambiente) y como color que un montador pide
@@ -1040,9 +1040,9 @@ export const NOTICIAS: Dialecto<PiezasNoticia, BeatNoticia, MoldeNoticia, TintaN
 // objeto y no una copia equivalente (ver la nota de la fábrica sobre por qué la
 // identidad importa).
 //
-// ⚠️ `dialectoEditorialDe(LUXUR)` es OTRO objeto, y debe serlo: LUXUR tiene sello
-// y `MARCA_BASE` no. Los proyectos publicados piden el suyo explícitamente
-// —`capa(dialectoEditorialDe(LUXUR), "noticia")`— y el memo se lo devuelve
+// ⚠️ `dialectoEditorialDe(MARCA)` es OTRO objeto, y debe serlo: una marca de canal
+// tiene sello y `MARCA_BASE` no. Los proyectos publicados piden el suyo explícitamente
+// —`capa(dialectoEditorialDe(MARCA), "noticia")`— y el memo se lo devuelve
 // estable. Si alguna vez ves un plan editorial atado a `NOTICIAS` a secas, está
 // compilando SIN canal: los colores coinciden hoy por herencia, pero el sello no.
 cacheDialecto.set(MARCA_BASE, NOTICIAS);

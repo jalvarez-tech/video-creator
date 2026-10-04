@@ -35,14 +35,11 @@
  * SALE CON 1 SI HAY AVISOS, para que sirva de puerta y no de informe.
  */
 import { createRequire } from "node:module";
-import { execFileSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { RAIZ, borrar, carpetaTemporal, ejecutar, leerTexto, plataforma, relativa } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(aqui, "..", "..", "..");
+const root = RAIZ;
 const remotionDir = path.join(root, "remotion");
 const publicDir = path.join(remotionDir, "public");
 
@@ -68,7 +65,7 @@ if (!proyecto) proyecto = planTs.match(/proyectos[/\\](\d{3})[/\\]/)?.[1] ?? nul
 const require = createRequire(path.join(remotionDir, "package.json"));
 const esbuild = require("esbuild");
 const srcDir = path.join(remotionDir, "src", "motor");
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "broll-"));
+const tmp = carpetaTemporal("broll-");
 const entry = path.join(tmp, "entry.ts");
 fs.writeFileSync(
   entry,
@@ -78,16 +75,20 @@ fs.writeFileSync(
     `export { ventanaAbs, recorre, esGrupo } from ${JSON.stringify(path.join(srcDir, "plan", "nucleo.ts"))};\n`
 );
 const bundle = path.join(tmp, "out.cjs");
-await esbuild.build({
-  entryPoints: [entry],
-  bundle: true,
-  platform: "node",
-  format: "cjs",
-  outfile: bundle,
-  logLevel: "error",
-});
-const mod = require(bundle);
-fs.rmSync(tmp, { recursive: true, force: true });
+let mod;
+try {
+  await esbuild.build({
+    entryPoints: [entry],
+    bundle: true,
+    platform: "node",
+    format: "cjs",
+    outfile: bundle,
+    logLevel: "error",
+  });
+  mod = require(bundle);
+} finally {
+  borrar(tmp);
+}
 
 const exports_ = Object.values(mod.plan);
 const tomas = exports_.find((v) => Array.isArray(v) && v.length && v[0]?.tipo && v[0]?.beat);
@@ -151,7 +152,8 @@ const rutaManifiesto = proyecto ? path.join(root, "proyectos", proyecto, "broll"
 let manifiesto = null;
 if (rutaManifiesto && fs.existsSync(rutaManifiesto)) {
   try {
-    manifiesto = JSON.parse(fs.readFileSync(rutaManifiesto, "utf8"));
+    // `leerTexto`: un manifiesto guardado con BOM (Bloc de notas) no es JSON válido para `JSON.parse`.
+    manifiesto = JSON.parse(leerTexto(rutaManifiesto));
   } catch (e) {
     console.error(`✖ manifiesto ilegible: ${e.message}`);
     process.exit(1);
@@ -160,22 +162,35 @@ if (rutaManifiesto && fs.existsSync(rutaManifiesto)) {
 
 /* ── Medir de verdad ─────────────────────────────────────────────────────── */
 
+// `ejecutar` busca ffprobe también en la carpeta de herramientas del usuario (la
+// que llena `node herramientas/setup.mjs`), no solo en el PATH.
 let hayFfprobe = true;
 function mide(archivo) {
-  try {
-    const salida = execFileSync(
-      "ffprobe",
-      ["-v", "error", "-select_streams", "v:0", "-show_entries",
-       "stream=width,height:format=duration", "-of", "json", archivo],
-      { encoding: "utf8" }
-    );
-    const j = JSON.parse(salida);
-    const s = (j.streams || [])[0] || {};
-    return { ancho: s.width, alto: s.height, dur: Number(j.format?.duration) || null };
-  } catch (e) {
-    if (e.code === "ENOENT") hayFfprobe = false;
+  const r = ejecutar("ffprobe", [
+    "-v", "error", "-select_streams", "v:0", "-show_entries",
+    "stream=width,height:format=duration", "-of", "json", archivo,
+  ]);
+  if (r.faltaBinario) {
+    hayFfprobe = false;
     return null;
   }
+  if (r.status !== 0) return null;
+  try {
+    const j = JSON.parse(r.stdout);
+    const s = (j.streams || [])[0] || {};
+    return { ancho: s.width, alto: s.height, dur: Number(j.format?.duration) || null };
+  } catch {
+    return null;
+  }
+}
+
+/** Cómo conseguir ffmpeg/ffprobe en esta máquina. Lo primero es siempre el instalador del repo. */
+function pistaFfmpeg() {
+  const { so } = plataforma();
+  const base = "node herramientas/setup.mjs (deja ffmpeg y ffprobe en la carpeta de herramientas del usuario)";
+  if (so === "windows") return `${base}, o winget install Gyan.FFmpeg`;
+  if (so === "mac") return `${base}, o el ffmpeg de Homebrew`;
+  return `${base}, o el paquete ffmpeg de tu distribución`;
 }
 
 /* ── El informe ──────────────────────────────────────────────────────────── */
@@ -184,7 +199,7 @@ const avisos = [];
 const comandos = [];
 let medidos = 0;
 
-console.log(`\n🎞  ${path.relative(root, planTs)}`);
+console.log(`\n🎞  ${relativa(planTs)}`);
 console.log(
   `   ${compilado.tomas.length} tomas · ${pedidos.length} hueco(s) de media · proyecto ${proyecto ?? "(sin detectar)"}\n`
 );
@@ -194,9 +209,11 @@ for (const p of pedidos) {
     const q = intenciones.get(p.toma);
     if (q && proyecto) {
       avisos.push(`[${p.toma}] declara \`buscarMedia\` pero no tiene media: falta traerla`);
+      // En UNA línea y con `uv run`: PowerShell no entiende la continuación `\`
+      // de bash, y `python3` en Windows suele ser el alias de la tienda.
       comandos.push(
-        `python3 manuales/edicion-video/scripts/bancos.py traer --proyecto ${proyecto} --toma ${p.toma} \\\n` +
-          `  --consulta "${q.consulta}" --para ${p.hueco === HUECOS.sangre ? "escenario" : "retrato"}` +
+        `uv run manuales/edicion-video/scripts/bancos.py traer --proyecto ${proyecto} --toma ${p.toma}` +
+          ` --consulta "${q.consulta}" --para ${p.hueco === HUECOS.sangre ? "escenario" : "retrato"}` +
           `${q.tipo === "video" ? " --tipo video" : ""}${q.indice ? ` --indice ${q.indice}` : ""}` +
           `${p.esVideo || q.tipo === "video" ? ` --duracion-min ${Math.ceil(p.frames / FPS)}` : ""}`
       );
@@ -210,7 +227,7 @@ for (const p of pedidos) {
   if (!fs.existsSync(archivo)) {
     avisos.push(`[${p.toma}] media "${p.src}" NO está en remotion/public/`);
     if (manifiesto?.assets?.[p.toma]) {
-      comandos.push(`python3 manuales/edicion-video/scripts/bancos.py reponer --proyecto ${proyecto}`);
+      comandos.push(`uv run manuales/edicion-video/scripts/bancos.py reponer --proyecto ${proyecto}`);
     }
     continue;
   }
@@ -254,7 +271,7 @@ for (const p of pedidos) {
   }
 }
 
-if (!hayFfprobe) console.log("⚠️  sin ffprobe en el PATH: no se ha medido ni un archivo (brew install ffmpeg)\n");
+if (!hayFfprobe) console.log(`⚠️  sin ffprobe: no se ha medido ni un archivo. Instálalo con ${pistaFfmpeg()}\n`);
 
 if (avisos.length === 0) {
   console.log(
@@ -268,8 +285,8 @@ if (avisos.length === 0) {
 console.log(`⚠️  b-roll — ${avisos.length} aviso(s):\n`);
 for (const a of avisos) console.log(`   · ${a}`);
 if (comandos.length) {
-  console.log("\n   Lo que falta por correr:\n");
-  for (const c of [...new Set(comandos)]) console.log(c.split("\n").map((l) => "     " + l).join("\n"));
+  console.log("\n   Lo que falta por correr (un comando por línea, vale en cualquier shell):\n");
+  for (const c of [...new Set(comandos)]) console.log(`     ${c}`);
 }
 console.log();
 process.exit(1);

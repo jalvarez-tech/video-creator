@@ -3,7 +3,7 @@
 revisar-bancos.py — EL TEST DE LAS PARTES DE `bancos.py` QUE NO TOCAN LA RED.
 
 Uso (desde cualquier sitio):
-  python3 manuales/edicion-video/scripts/revisar-bancos.py
+  uv run manuales/edicion-video/scripts/revisar-bancos.py
 
 POR QUE EXISTE. Lo que decide si el b-roll sale bien no es la descarga: es la
 CONSULTA. Y la consulta la construye un glosario que va a crecer a mano, con
@@ -23,11 +23,20 @@ candidatos no puede depender del orden en que los devuelva el banco.
 
 Sale con 1 si algo falla, para que sirva de puerta y no de informe.
 """
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+if any(a in ("-h", "--help") for a in sys.argv[1:]):
+    print(__doc__.strip())
+    sys.exit(0)
 
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+
+from _comun import binario, pista_instalacion, raiz_proyecto  # noqa: E402  (y pone la consola en UTF-8)
 from bancos import HUECOS, filtra, huella, normaliza, slug  # noqa: E402
 
 fallos = []
@@ -112,7 +121,7 @@ cierto("slug nunca vacio", slug("¿¡!?") == "toma")
 # aviso saldria despues de haber gastado la peticion y el disco. Ya paso una vez:
 # el retrato pedia 1280x1650 aqui y 702x904 alli, y con eso se rechazaba material
 # 1080x1920, que es el estandar del 9:16.
-RAIZ = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))
+RAIZ = raiz_proyecto()
 MJS = os.path.join(RAIZ, "manuales", "video-noticias", "scripts", "revisar-broll.mjs")
 if os.path.isfile(MJS):
     import re
@@ -139,14 +148,15 @@ import tempfile as _tf  # noqa: E402
 
 from bancos import IGUALES, dhash, distancia, sin_estructura  # noqa: E402
 
-if not _sh.which("ffmpeg"):
-    print("   ⚠️  sin ffmpeg: no se ha probado la huella perceptual")
+FFMPEG = binario("ffmpeg")
+if not FFMPEG:
+    print(f"   ⚠️  sin ffmpeg: no se ha probado la huella perceptual ({pista_instalacion('ffmpeg')})")
 else:
     tmp = _tf.mkdtemp(prefix="huella-")
 
     def _gen(nombre, filtro, extra=None):
         ruta = os.path.join(tmp, nombre)
-        _sp.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "lavfi", "-i", filtro]
+        _sp.run([FFMPEG, "-hide_banner", "-loglevel", "error", "-y", "-f", "lavfi", "-i", filtro]
                 + (extra or []) + ["-frames:v", "1", "-q:v", "3", ruta], check=True)
         return ruta
 
@@ -159,7 +169,7 @@ else:
     franjas = _gen("franjas.jpg", "rgbtestsrc=s=600x800")
     liso = _gen("liso.jpg", "color=c=0x9aa0a6:s=600x800")
     casi_a = os.path.join(tmp, "casi-a.jpg")
-    _sp.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", a,
+    _sp.run([FFMPEG, "-hide_banner", "-loglevel", "error", "-y", "-i", a,
              "-vf", "eq=brightness=-0.03", "-q:v", "12", casi_a], check=True)
 
     ha, hb, hf, hl, hc = (dhash(x) for x in (a, b, franjas, liso, casi_a))

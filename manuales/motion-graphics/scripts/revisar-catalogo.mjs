@@ -32,8 +32,8 @@
  *   5. El markdown publicado no está viejo.
  */
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { borrar, carpetaTemporal, leerTexto, relativa } from "../../../herramientas/comun.mjs";
 import { construyeMd, root, salidaMd, transpilaYCarga } from "./generar-catalogo.mjs";
 
 const graficos = path.join(root, "remotion", "src", "motor", "graficos");
@@ -42,7 +42,7 @@ const catalogoTsx = path.join(graficos, "Catalogo.tsx");
 
 /* ── Carga: catálogo + dialecto + núcleo, en un entry sintético ─────────── */
 
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "revisa-catalogo-"));
+const tmp = carpetaTemporal("revisa-catalogo-");
 const entry = path.join(tmp, "entry.ts");
 fs.writeFileSync(
   entry,
@@ -50,8 +50,12 @@ fs.writeFileSync(
     `export * as dialecto from ${JSON.stringify(path.join(graficos, "coreografia.ts"))};\n` +
     `export * as nucleo from ${JSON.stringify(nucleoTs)};\n`
 );
-const mod = await transpilaYCarga(entry);
-fs.rmSync(tmp, { recursive: true, force: true });
+let mod;
+try {
+  mod = await transpilaYCarga(entry);
+} finally {
+  borrar(tmp);
+}
 
 const { CATALOGO, EJES, SIN_RUTA } = mod.fichas;
 const { PIEZAS, MOLDES_GRAFICOS } = mod.dialecto;
@@ -61,9 +65,12 @@ const { NOMBRES_ENTRADA } = mod.nucleo;
  * Los tipos no existen en tiempo de ejecución: la única fuente independiente de
  * "qué envolturas hay" es el archivo donde se declaran. Si estos recortes dejan
  * de encontrar nada, el script FALLA (no pasa en silencio): un cero aquí sería
- * un verde falso, que es peor que un rojo molesto. */
+ * un verde falso, que es peor que un rojo molesto.
+ *
+ * Los archivos se leen con `leerTexto` (sin BOM, con LF): los recortes buscan
+ * `\n` literales y en un clon con autocrlf el fuente llega con CRLF. */
 
-const fuenteNucleo = fs.readFileSync(nucleoTs, "utf8");
+const fuenteNucleo = leerTexto(nucleoTs);
 
 const trozo = (desde, hasta) => {
   const a = fuenteNucleo.indexOf(desde);
@@ -135,7 +142,7 @@ for (const f of CATALOGO) {
 }
 
 // 3 · demos del contact sheet
-const fuenteCatalogo = fs.readFileSync(catalogoTsx, "utf8");
+const fuenteCatalogo = leerTexto(catalogoTsx);
 const iniDemos = fuenteCatalogo.indexOf("const DEMOS: Record<string, React.FC> = {");
 const finDemos = fuenteCatalogo.indexOf("\n};", iniDemos);
 if (iniDemos < 0 || finDemos < 0) {
@@ -154,12 +161,13 @@ for (const c of SIN_RUTA)
       if (f.nombre === nombre)
         falla(`SIN_RUTA lista "${nombre}", que YA tiene ficha (${f.id}): o gana ruta y sale de SIN_RUTA, o al revés`);
 
-// 5 · el markdown publicado
+// 5 · el markdown publicado. Se lee normalizado (sin BOM, con LF): con autocrlf
+// el archivo llega con CRLF y una comparación literal diría «viejo» siempre.
 const esperado = construyeMd({ CATALOGO, EJES, SIN_RUTA });
-const publicado = fs.existsSync(salidaMd) ? fs.readFileSync(salidaMd, "utf8") : "";
+const publicado = fs.existsSync(salidaMd) ? leerTexto(salidaMd) : "";
 if (publicado !== esperado)
   falla(
-    `${path.relative(root, salidaMd)} está viejo — regenéralo:\n` +
+    `${relativa(salidaMd)} está viejo — regenéralo:\n` +
       `     node manuales/motion-graphics/scripts/generar-catalogo.mjs`
   );
 

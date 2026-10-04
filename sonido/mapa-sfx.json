@@ -1,0 +1,284 @@
+{
+  "version": 1,
+  "descripcion": "Mapa del banco del estudio → remotion/public/sfx/. Lo consume «node manuales/diseno-sonoro/scripts/sfx.mjs desde-banco» (copia bytes tal cual y comprueba el sha256). Es un archivo del ESTUDIO: no va al producto. La procedencia y licencias están en sonido/ORIGEN-SFX.md.",
+  "banco": "sonido",
+  "destino": "remotion/public/sfx",
+  "entradas": [
+    {
+      "destino": "whoosh-light.wav",
+      "origen": "37-OTROS/Short Whoosh.mp3",
+      "sha256": "e717159f0b518455112d353b5c62c249d257affd6c31a5d0a8ded1b4d3021a3b"
+    },
+    {
+      "destino": "whoosh-whip.wav",
+      "origen": "37-OTROS/mixkit-arrow-whoosh-1491.wav",
+      "sha256": "c9aa08de97e5a1235f9b2b4eb7a1096f2fe09586995859e46aa83e9066badca2"
+    },
+    {
+      "destino": "whoosh-heavy.mp3",
+      "origen": "37-OTROS/swinging-staff-whoosh-strong-08-44658.mp3",
+      "sha256": "f7161aa136fffc9e89fb2c68e2a6a75d1175a68dde1cca184a2592ec8e7bd86c"
+    },
+    {
+      "destino": "whoosh-wind.wav",
+      "origen": "37-OTROS/mixkit-cinematic-wind-swoosh-1471.wav",
+      "sha256": "4b1372bb5caf024d854a657a23d6c55a0bf18b408785190acd937858cc3bd5bf"
+    },
+    {
+      "destino": "swoosh.mp3",
+      "origen": "37-OTROS/Swoosh.mp3",
+      "sha256": "492024e083edb87fda95f6892fc0626c534002d6014e7d04e2be74e58f06b664"
+    },
+    {
+      "destino": "whoosh-swoosh-07.wav",
+      "origen": "36-WHOOSH/7. Whoosh Swoosh Sound Effect ( By Ashish Editz )  .wav",
+      "sha256": "e9116305b6bee2cbea2e658f1d4b4e3e5ba50d05a70bf2934416bff7b2f207fc",
+      "nota": "no está en copiar-sfx.sh: copiado a mano en el 002 (proyectos/002/aprendizajes.md:40-43)"
+    },
+    {
+      "destino": "riser-low.mp3",
+      "origen": "37-OTROS/BUILD-UP.mp3",
+      "sha256": "d986d46059d1520d8eb30037e2ab090d0ed2ecd7037ebf2bf68655c465d6029d"
+    },
+    {
+      "destino": "riser-cymbal.mp3",
+      "origen": "37-OTROS/Ascending sound effect.mp3",
+      "sha256": "d97e98ae084a50e6f45786a3263d86c579406cde76d93cb91fbb44c571cf498f"
+    },
+    {
+      "destino": "impact-deep.mp3",
+      "origen": "37-OTROS/mixkit-big-cinematic-impact-788.mp3",
+      "sha256": "772e4afc9e793228f1c612a4d08f048ac1cd08d910023579842ed906bb4e9e6f"
+    },
+    {
+      "destino": "impact-sharp.wav",
+      "origen": "37-OTROS/mixkit-metal-hit-woosh-1485.wav",
+      "sha256": "706a25a0fba25d317071a441c1e09737aef64b4ac2618f59197d4ca735e6302f"
+    },
+    {
+      "destino": "metal.wav",
+      "origen": "26-METAL SLICE/Metal.Slice.1.wav",
+      "sha256": "4931616579ec35069e343096601b85b5fcd88cf98e6ca50700a1ef0a71089524"
+    },
+    {
+      "destino": "click-camera.wav",
+      "origen": "37-OTROS/camera-shutter-sound-effect.wav",
+      "sha256": "293cde93a52b318f1964bd498d62cc54a1b2acdcae2ef7e95c732ee955c21697"
+    },
+    {
+      "destino": "click-mouse.mp3",
+      "origen": "37-OTROS/Mouse Click.mp3",
+      "sha256": "e78a9be1ee1e4142575335a73e71884a73a71ab48cb4f41ef3591cdc02d1cd1d"
+    },
+    {
+      "destino": "click-pen.mp3",
+      "origen": "37-OTROS/click sound by 90 Creators.mp3",
+      "sha256": "f08ac4041b6c9239bbe3be9cede5ddec74c6272be3154f7da95c115b52b95f9a"
+    },
+    {
+      "destino": "ui.mp3",
+      "origen": "19-EXTRAS/SFX- Ui01.mp3",
+      "sha256": "c72ed3d4d8000a9e066ca697e9a6289bac165c85e3f02103fccc527d6203a6db"
+    },
+    {
+      "destino": "pop.mp3",
+      "origen": "37-OTROS/Pop.mp3",
+      "sha256": "539e0af59d8f9366002bf87151d0fb2b14c9b8c93c1fcadbe4c82e5f8113de95"
+    },
+    {
+      "destino": "boing.mp3",
+      "origen": "19-EXTRAS/Spring Pop up Sound Effect ( By Ashish Editz )_01.mp3",
+      "sha256": "47a9c2e93e067f45f00e9f7484c83b47a7ad12927b88024b703b51479012d991"
+    },
+    {
+      "destino": "notification.wav",
+      "origen": "37-OTROS/Apple Notification.wav",
+      "sha256": "35619efde96d261eb2b35389d8fc3d8eb704276b11553df02a792915aa122ea3"
+    },
+    {
+      "destino": "msg-send.wav",
+      "origen": "37-OTROS/Iphone Send.wav",
+      "sha256": "3d5faa102ff867d660db4024b164eb390389e291f5958915b3c38f31a378c283"
+    },
+    {
+      "destino": "data-count.mp3",
+      "origen": "37-OTROS/Digital counting.mp3",
+      "sha256": "29af593874a6b1e81b9092e9e346f5bac88ea2cd5ed4ca471635578734e2947d"
+    },
+    {
+      "destino": "digital.wav",
+      "origen": "37-OTROS/09 Data Transfer.wav",
+      "sha256": "20ad3216e9d9fca85282a84a61b46a7bea31d2f2af0094822bd51aaeaae22e33"
+    },
+    {
+      "destino": "glitch.wav",
+      "origen": "22-GLITCH/glitch 1.wav",
+      "sha256": "cfcded0eaade5919c01109dc29bb5120328631be4efdcec6077117c83363de57"
+    },
+    {
+      "destino": "electric.mp3",
+      "origen": "15-ELECTRICO/SFX- Electric1.mp3",
+      "sha256": "4c69b47e03e2c63a7fbd38ebb0c9dda4ceaf208392448e52646ab409991d04b3"
+    },
+    {
+      "destino": "spin.wav",
+      "origen": "37-OTROS/mixkit-bike-wheel-spinning-1613.wav",
+      "sha256": "39ce0e00fc2bf1be82eeb77ff825916245102d7a89633f96f2e375c20eeefd54"
+    },
+    {
+      "destino": "typing.mp3",
+      "origen": "37-OTROS/keyboard-typing-5997.mp3",
+      "sha256": "ac74e5a22d87e2617f5545d29d605774e4ddaca6de4551e61d004d3c0be80054"
+    },
+    {
+      "destino": "tick.mp3",
+      "origen": "37-OTROS/Clock Tick.mp3",
+      "sha256": "033907b793c826d9231c77b66b08efb2ea69a33a03ac3d882d71ce8c89f08cc8"
+    },
+    {
+      "destino": "chime.mp3",
+      "origen": "14-DING/Ding Sound Effect.mp3",
+      "sha256": "36310559a9c213101b2f47c47878a30b2bb096728ba976783a09b47bfe2ec60a"
+    },
+    {
+      "destino": "success.wav",
+      "origen": "14-DING/quick-win.mp3",
+      "sha256": "0773318d3d2dde630678ad3087c12a438f62c92306d945d3a6ddb0d9f3fa4614"
+    },
+    {
+      "destino": "error.mp3",
+      "origen": "37-OTROS/Wrong Answer.mp3",
+      "sha256": "946ec30e948a43f7a172b926cd6edb495f5c32ff1312b4c35a0173228633fd17"
+    },
+    {
+      "destino": "money.mp3",
+      "origen": "37-OTROS/cash ting.mp3",
+      "sha256": "7878ab2fa1f112274ada704aaca9b809837414357c850a69a3ee7cd0f4de0d00"
+    },
+    {
+      "destino": "coin.mp3",
+      "origen": "37-OTROS/Mario Coin Sound - Sound Effect (HD).mp3",
+      "sha256": "5fe5879c23690f5ea7d3ca891bb3104059fd629f6fd081b3df6ec94cfd0a026f"
+    },
+    {
+      "destino": "scribble.mp3",
+      "origen": "37-OTROS/WRITING Sound Effect 2.mp3",
+      "sha256": "d513e0fa6616db3c80116f77ee39479c411232dbd6f89bb8166d15e3b64405e9"
+    },
+    {
+      "destino": "paper.wav",
+      "origen": "28-PAPEL/Paper Flip 01.wav",
+      "sha256": "24b4238fae3cbbf4c7b7658afdb14be8f9c86a1ef748639c816ef59921193f67"
+    },
+    {
+      "destino": "liquid.mp3",
+      "origen": "24-LIQUIDO/SFX- Liquid1.mp3",
+      "sha256": "fd42113c8f1462a7338628695a3cd072ef4d5d98d2069d650fcff3caec1fb274"
+    },
+    {
+      "destino": "sparkle.mp3",
+      "origen": "19-EXTRAS/Fairy Glitter.mp3",
+      "sha256": "e15d9f9fbf98798d8e76b512289d893febde4c7930fdc0bbb861a60203c7b8a0"
+    },
+    {
+      "destino": "logo.mp3",
+      "origen": "03-ANIMACION LOGO/SFX- Animation1.mp3",
+      "sha256": "659c84f34b7abe727df99903cdd102c87080075c0014c2aa49363153c31a5463"
+    },
+    {
+      "destino": "reverse.mp3",
+      "origen": "37-OTROS/ES_Suction Pop 5 - SFX Producer.mp3",
+      "sha256": "41b1e90f3aab87c027d6589317ab6a95718c06e8b7fef63e18f727bcf23edb42"
+    },
+    {
+      "destino": "cartoon.mp3",
+      "origen": "21-FUNNY/Funny Effect 1.mp3",
+      "sha256": "19f3212b9828dda386f515117605c07246c1034adb1c16023c2d17e4d575aea1"
+    },
+    {
+      "destino": "ambient-wind.mp3",
+      "origen": "19-EXTRAS/SFX- Wind1.mp3",
+      "sha256": "55ed25b5324fa2e6ecb10b226865a9612265632d21312a1030efa1b468336679"
+    },
+    {
+      "destino": "pop-02.mp3",
+      "origen": "29-POP/pop-2.mp3",
+      "sha256": "f9ab70435aa5282102a9614140637e223bb511b1e9b02dcbfb083d06b05179bf"
+    },
+    {
+      "destino": "pop-03.mp3",
+      "origen": "29-POP/pop-3.mp3",
+      "sha256": "7edab7ca766d687ad04379782d02aae85ede96dded0ce316d4ca2e50ab49bafd"
+    },
+    {
+      "destino": "glitch-02.wav",
+      "origen": "22-GLITCH/glitch 2.wav",
+      "sha256": "e0659b9ca4aa482cfb42eee9d24a654eab2c8ea47733d603542ef4e37ae1640d"
+    },
+    {
+      "destino": "glitch-03.wav",
+      "origen": "22-GLITCH/glitch 3.wav",
+      "sha256": "0ed8758e60d66b5509f6a43f50c88eef606b3a902210da0ede10d480e0cba28a"
+    },
+    {
+      "destino": "whoosh-light-02.wav",
+      "origen": "36-WHOOSH/1. Whoosh Swoosh Sound Effect ( By Ashish Editz ) .wav",
+      "sha256": "2e0d29283624c00fe375acc8e2656dfa4b52fb9d4a9c270e74a8121f0b6d8a33"
+    },
+    {
+      "destino": "whoosh-light-03.wav",
+      "origen": "36-WHOOSH/3. Whoosh Swoosh Sound Effect ( By Ashish Editz ) .wav",
+      "sha256": "11f697def91b342a804d071f0e3e1c8e336c5056988ddfd3de7475acba371f84"
+    },
+    {
+      "destino": "swoosh-02.wav",
+      "origen": "32-SWOSH/5. Whoosh Swoosh.wav",
+      "sha256": "bef37213d758fb94272b1e389932ab3430cfd2abf1db805a3f64593c5b82a458"
+    },
+    {
+      "destino": "swoosh-03.wav",
+      "origen": "32-SWOSH/2. Whoosh Swoosh.wav",
+      "sha256": "8608d949283c983a6afa03f1dac37591239f25fca0b73a7315562702bbff0bc7"
+    },
+    {
+      "destino": "metal-02.wav",
+      "origen": "26-METAL SLICE/Metal.Slice.2.wav",
+      "sha256": "da013df18bfd41840f30bde26d06baedc945ae779a29c807eb4684b3af91145e"
+    },
+    {
+      "destino": "metal-03.wav",
+      "origen": "26-METAL SLICE/Metal.Slice.3.wav",
+      "sha256": "64fb677bb9214a8766062bb947a8ef6d81e77f0cc85ebb7e31dd834127e7b9ff"
+    },
+    {
+      "destino": "click-mouse-02.mp3",
+      "origen": "10-CLICK/Mouse Click Sound Effect.mp3",
+      "sha256": "3e7c6c817933acf1c1f0a69083158ab89fbec3ebcbae925feeac30b5ead4b2fd"
+    },
+    {
+      "destino": "click-mouse-03.mp3",
+      "origen": "10-CLICK/Mouse Click - Sound Effect (HD) (1).mp3",
+      "sha256": "734e4b7482235e9ba44ee4ca9b62f8696e2542c43274bfcf73b28a8e74bda0fd"
+    },
+    {
+      "destino": "sparkle-02.mp3",
+      "origen": "19-EXTRAS/Glitter.mp3",
+      "sha256": "ec47913c4b1c4e088958b16292379cf14b0f9e42cf2c2b15140e20b46fa995e7"
+    },
+    {
+      "destino": "sparkle-03.wav",
+      "origen": "19-EXTRAS/Highlight.wav",
+      "sha256": "46540ed9b38cf894d1f3ddcafc781c89c40a963f28333cc443d34175560b36ac"
+    },
+    {
+      "destino": "chime-02.mp3",
+      "origen": "14-DING/Ting.mp3",
+      "sha256": "9a065f319a7016dad1751b64df53755c545623c4656255f0eaacb1a2ddeb2933"
+    },
+    {
+      "destino": "chime-03.mp3",
+      "origen": "14-DING/Bells Sound Effect 2 ( By Ashish Editz )_01.mp3",
+      "sha256": "611b0545d5575745b58b6736a0c82b4f4d235e79c2e6d369c2dc947e16e9425b"
+    }
+  ]
+}

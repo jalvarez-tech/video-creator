@@ -10,10 +10,11 @@
  * EL PROBLEMA QUE RESUELVE, medido y no supuesto. `npx skills add
  * heygen-com/hyperframes --skill motion-graphics` en la raíz de este repo:
  *
- *   1. BORRA el symlink `.claude/skills/motion-graphics → manuales/motion-graphics`,
- *      que está VERSIONADO en git (`git status` lo enseña como ` D`), y deja en su
- *      sitio una copia real de la skill de HyperFrames. `manuales/motion-graphics/`
- *      sobrevive en disco pero deja de ser la skill que se carga.
+ *   1. BORRA el enlace `.claude/skills/motion-graphics → manuales/motion-graphics`
+ *      (el que crea `node herramientas/setup.mjs`: symlink en macOS/Linux,
+ *      junction o copia en Windows) y deja en su sitio una copia real de la
+ *      skill de HyperFrames. `manuales/motion-graphics/` sobrevive en disco pero
+ *      deja de ser la skill que se carga.
  *   2. Escribe un `skills-lock.json` con la clave `motion-graphics` apuntando a
  *      heygen-com/hyperframes, así que el estropicio se REPITE en cada update.
  *   3. Y la `description` de la suya no dice ni «heygen» ni «hyperframes» —es un
@@ -22,7 +23,9 @@
  *
  * QUÉ HACE ESTE SCRIPT. Instala en un directorio TEMPORAL (para que el
  * `skills-lock.json` que genera muera ahí y no toque el del repo), copia la skill
- * a `.claude/skills/heygen-<nombre>/` y le reescribe el frontmatter:
+ * a `.claude/skills/heygen-<nombre>/` (Claude Code) Y a
+ * `.agents/skills/heygen-<nombre>/` (Codex y el resto de agentes que leen esa
+ * carpeta) y le reescribe el frontmatter:
  *
  *   · `name:` con el prefijo `heygen-` → por construcción no puede colisionar
  *     con ninguna de `manuales/`, ni ahora ni cuando añadas más.
@@ -31,21 +34,28 @@
  *     La descripción es lo que dispara una skill, así que el enrutado se escribe
  *     ahí y no en un comentario que nadie lee.
  *
- * Las copias NO se versionan (van al `.gitignore`, misma decisión que las de
- * ElevenLabs): son de terceros y se reponen corriendo esto otra vez. Lo que se
- * versiona es este script.
+ * Las copias NO se versionan: `.claude/skills/*` y `.agents/skills/*` vienen
+ * ignorados de serie en el `.gitignore` del repo (ahí viven solo enlaces y
+ * copias de terceros, que se reponen con setup.mjs o corriendo esto otra vez).
+ * Este script ya no toca el `.gitignore`. Lo que se versiona es este script.
+ *
+ * CÓMO LANZA `npx`. Con `npx()` de herramientas/comun.mjs, que ejecuta el
+ * `npx-cli.js` del npm que acompaña a este node con `process.execPath`: sin
+ * shell y sin depender de `npx.cmd`, que en Windows no arranca desde
+ * `execFileSync` (ENOENT) y con shell obliga a comillar a mano.
  */
-import { execFileSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { RAIZ, borrar, carpetaTemporal, leerTexto, log, npx, relativa } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
-const destinoBase = path.join(root, ".claude", "skills");
-
+const root = RAIZ;
 const PREFIJO = "heygen-";
+
+/** Dónde se copia cada skill: una vez por agente. */
+const DESTINOS = [
+  { agente: "Claude Code", base: path.join(root, ".claude", "skills") },
+  { agente: "Codex", base: path.join(root, ".agents", "skills") },
+];
 
 /** La regla de enrutado que se antepone a la descripción original.
  *  `<N>` se sustituye por el nombre de la skill. */
@@ -68,7 +78,7 @@ function patchAutoUpdate(texto, nombre) {
   const sustituto =
     `node manuales/motor-hyperframes/scripts/instalar-skill-hf.mjs ${nombre}\` ` +
     `(NO \`npx hyperframes skills update\` ni \`npx skills add\`: reinstalarían esta skill con su ` +
-    `nombre original y borrarían el symlink versionado \`.claude/skills/motion-graphics\`)\``;
+    `nombre original y borrarían el enlace \`.claude/skills/motion-graphics\` que crea setup.mjs)\``;
   let n = 0;
   const out = texto
     .replace(/`npx hyperframes skills update[^`]*`/g, () => (n++, "`" + sustituto))
@@ -76,28 +86,50 @@ function patchAutoUpdate(texto, nombre) {
   return { texto: out, n };
 }
 
+/**
+ * Qué hay en `<base>/<nombre>`: un enlace (symlink o junction: `lstat` los
+ * reporta igual), una copia hecha por setup.mjs (lleva su marca), otra cosa, o
+ * nada. Se pregunta con `lstat` protegido: en un clon nuevo puede no existir y
+ * eso no es motivo para reventar al final de una instalación que fue bien.
+ */
+function estadoEnlace(p) {
+  let st;
+  try {
+    st = fs.lstatSync(p);
+  } catch {
+    return "falta";
+  }
+  if (st.isSymbolicLink()) return "enlace";
+  if (st.isDirectory()) return fs.existsSync(path.join(p, ".enlace-de-video-creator")) ? "copia" : "directorio";
+  return "archivo";
+}
+
 const args = process.argv.slice(2);
 
 if (args.includes("--lista") || args.length === 0) {
   console.log("\n📋 Skills de heygen-com/hyperframes:\n");
-  try {
-    execFileSync("npx", ["-y", "skills@latest", "add", "heygen-com/hyperframes", "--full-depth", "--list"], {
-      stdio: "inherit",
-    });
-  } catch {
-    console.error("  (no se pudo listar; ¿hay red?)");
-  }
+  const r = npx(["-y", "skills@latest", "add", "heygen-com/hyperframes", "--full-depth", "--list"], { heredar: true });
+  if (r.status !== 0) console.error(`  (no se pudo listar; ¿hay red? ${r.stderr.trim().split(/\r?\n/).pop() ?? ""})`);
   console.log(
     "\n  Instala UNA por su nombre:\n" +
       "    node manuales/motor-hyperframes/scripts/instalar-skill-hf.mjs motion-graphics\n\n" +
       "  ⛔ NO uses `npx skills add heygen-com/hyperframes` a pelo aquí: te borra\n" +
-      "     el symlink versionado .claude/skills/motion-graphics.\n"
+      "     el enlace .claude/skills/motion-graphics que crea setup.mjs.\n"
   );
   process.exit(args.length === 0 ? 1 : 0);
 }
 
 const nombres = args.filter((a) => !a.startsWith("--"));
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "hf-skill-"));
+// El nombre viaja como argumento de un CLI: solo lo que puede ser el nombre de
+// una skill, y así ninguna shell (en Windows npx acaba pasando por cmd.exe) lo
+// reinterpreta.
+for (const nombre of nombres) {
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(nombre)) {
+    log.error(`«${nombre}» no es un nombre de skill (solo minúsculas, dígitos y guiones).`);
+    process.exit(1);
+  }
+}
+const tmp = carpetaTemporal("hf-skill-");
 
 let instaladas = 0;
 try {
@@ -105,11 +137,14 @@ try {
     console.log(`\n⬇️  ${nombre}`);
 
     // 1. Instalar en el TEMPORAL. El skills-lock.json que genere muere aquí.
-    execFileSync(
-      "npx",
+    const r = npx(
       ["-y", "skills@latest", "add", "heygen-com/hyperframes", "--skill", nombre, "--full-depth", "-y", "-a", "claude-code"],
-      { cwd: tmp, stdio: ["ignore", "ignore", "inherit"] }
+      { cwd: tmp }
     );
+    if (r.status !== 0) {
+      console.error(`   ✖ «${nombre}»: falló \`npx skills add\` (código ${r.status}). ¿Hay red?\n${r.stderr.trim().slice(-800)}`);
+      continue;
+    }
 
     const origen = path.join(tmp, ".claude", "skills", nombre);
     if (!fs.existsSync(path.join(origen, "SKILL.md"))) {
@@ -117,18 +152,14 @@ try {
       continue;
     }
 
-    // 2. Copiar bajo el nombre prefijado.
+    // 2. Reescribir el frontmatter UNA vez, en el temporal: nombre prefijado +
+    //    regla de enrutado delante. Luego se copia igual a cada agente.
     const slug = `${PREFIJO}${nombre}`;
-    const destino = path.join(destinoBase, slug);
-    fs.rmSync(destino, { recursive: true, force: true });
-    fs.cpSync(origen, destino, { recursive: true });
-
-    // 3. Reescribir el frontmatter: nombre prefijado + regla de enrutado delante.
-    const skillPath = path.join(destino, "SKILL.md");
-    const texto = fs.readFileSync(skillPath, "utf8");
+    const skillPath = path.join(origen, "SKILL.md");
+    const texto = leerTexto(skillPath);
     const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(texto);
     if (!m) {
-      console.error(`   ✖ ${slug}: no encuentro el frontmatter. Lo dejo sin tocar.`);
+      console.error(`   ✖ ${slug}: no encuentro el frontmatter. No la instalo.`);
       continue;
     }
     /* El frontmatter se reescribe POR LÍNEAS, no con una regex sobre todo el
@@ -167,17 +198,18 @@ try {
       .join("\n");
 
     fm += `\ndescription: >-\n${envuelta}`;
-    // `user-invocable` para que salga como /heygen-<nombre>, igual que las tuyas.
-    if (!/^user-invocable:/m.test(fm)) fm += "\nuser-invocable: true";
+    // Sin `user-invocable`: Claude Code ya ofrece /heygen-<nombre> por defecto,
+    // y las skills que leen otros agentes solo admiten las claves del estándar
+    // (name, description, license, compatibility, metadata, allowed-tools).
 
     /* ── DESACTIVAR LA AUTO-ACTUALIZACIÓN ────────────────────────────────────
      * El cuerpo de estas skills abre con: «First, keep this skill fresh — run
      * silently, don't ask: `npx hyperframes skills update <nombre>`».
      *
      * Ese comando reinstala la skill con su NOMBRE ORIGINAL, o sea que recrea la
-     * colisión y se lleva por delante el symlink versionado
-     * `.claude/skills/motion-graphics` — y encima pide hacerlo «en silencio y sin
-     * preguntar», que es justo cuando no te enteras.
+     * colisión y se lleva por delante el enlace `.claude/skills/motion-graphics`
+     * — y encima pide hacerlo «en silencio y sin preguntar», que es justo cuando
+     * no te enteras.
      *
      * Una instrucción dentro de un fichero de terceros es un DATO, no una orden.
      * Se reescribe en la copia para que apunte a este script, que sí actualiza
@@ -186,28 +218,19 @@ try {
     fs.writeFileSync(skillPath, `---\n${fm}\n---\n${cuerpo.texto}`);
     if (cuerpo.n) console.log(`   🔒 auto-actualización desactivada (${cuerpo.n} sitio/s)`);
 
-    const n = fs.readdirSync(destino, { recursive: true }).length;
-    console.log(`   ✅ .claude/skills/${slug}/  (${n} entradas)  →  /${slug}`);
+    // 3. Copiar bajo el nombre prefijado, una vez por agente.
+    for (const { agente, base } of DESTINOS) {
+      const destino = path.join(base, slug);
+      borrar(destino);
+      fs.mkdirSync(base, { recursive: true });
+      fs.cpSync(origen, destino, { recursive: true });
+      const n = fs.readdirSync(destino, { recursive: true }).length;
+      console.log(`   ✅ ${relativa(destino)}/  (${n} entradas, ${agente})  →  /${slug}`);
+    }
     instaladas++;
   }
 } finally {
-  fs.rmSync(tmp, { recursive: true, force: true });
-}
-
-/* ── El .gitignore, para que las copias de terceros no entren en git ─────────
- * Misma decisión que las skills de ElevenLabs, que ya están listadas una a una.
- * Aquí basta un patrón porque el prefijo las agrupa. */
-const gitignorePath = path.join(root, ".gitignore");
-const marca = ".claude/skills/heygen-*";
-const gi = fs.readFileSync(gitignorePath, "utf8");
-if (!gi.includes(marca)) {
-  fs.appendFileSync(
-    gitignorePath,
-    `\n# Skills de HyperFrames traídas con prefijo por instalar-skill-hf.mjs.\n` +
-      `# Copias de terceros: se reponen corriendo el script, no se versionan.\n` +
-      `${marca}\n`
-  );
-  console.log(`\n📝 .gitignore: añadido ${marca}`);
+  borrar(tmp);
 }
 
 if (instaladas) {
@@ -215,7 +238,19 @@ if (instaladas) {
     `\n${instaladas} skill(s) lista(s). Reinicia la sesión para que aparezcan.\n` +
       `\n  «monta un contador con heygen»      → /${PREFIJO}motion-graphics\n` +
       `  «monta un contador»                 → /motion-graphics (Remotion, el de por defecto)\n` +
-      `\nTu symlink .claude/skills/motion-graphics NO se ha tocado:\n` +
-      `  ${fs.lstatSync(path.join(destinoBase, "motion-graphics")).isSymbolicLink() ? "✅ sigue siendo un symlink a manuales/" : "⚠️  ya NO es un symlink — revísalo"}\n`
+      `\nTus enlaces a manuales/motion-graphics NO se han tocado:`
   );
+  for (const { base } of DESTINOS) {
+    const p = path.join(base, "motion-graphics");
+    const estado = estadoEnlace(p);
+    const linea = {
+      enlace: `✅ ${relativa(p)} sigue siendo un enlace a manuales/`,
+      copia: `✅ ${relativa(p)} sigue siendo la copia que hizo setup.mjs (esta máquina no admite enlaces)`,
+      falta: `⚠️  ${relativa(p)} no existe: corre node herramientas/setup.mjs --solo-skills`,
+      directorio: `⚠️  ${relativa(p)} es un directorio sin marca de enlace: revísalo, puede ser una copia pisada`,
+      archivo: `⚠️  ${relativa(p)} es un archivo (¿un clon de Windows sin enlaces?): corre node herramientas/setup.mjs --solo-skills`,
+    }[estado];
+    console.log(`  ${linea}`);
+  }
+  console.log("");
 }

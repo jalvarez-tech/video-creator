@@ -7,7 +7,7 @@
 
 | | |
 |---|---|
-| Clip fuente | `avatar_N.mp4` — 1080×1920 · 25 fps · NNNN f (NN,NN s) |
+| Clip fuente | `proyectos/NNN/original.mp4` (o `proyectos/NNN/avatar/heygen.mp4`) — 1080×1920 · 25 fps · NNNN f (NN,NN s) |
 | Composición | 1080×1920 · **25 fps** · NNNN f *(el fps del clip manda — R01)* |
 | Formato | 9:16 vertical (`verticalSocial`) |
 | Estilo | educativo / redes / lujo / corporativo / cinematográfico / cómico — **uno solo** |
@@ -41,9 +41,9 @@ revelación · conclusión · cta.
 Se resuelve en el **paso 3·bis**, antes que cámara y gráficos, porque el resto del
 plan depende de su duración real. **Dos motores**, y cuál toca lo decide la
 honestidad de la pieza, no el coste (`manuales/director-video/SKILL.md` §3h):
-lo real se **trae** de un banco (`scripts/bancos.py`), lo que no existe se
-**genera** (`scripts/grok.py`), y lo que no tiene referente filmable no es b-roll
-sino un gráfico.
+lo real se **trae** de un banco (`manuales/edicion-video/scripts/bancos.py`), lo
+que no existe se **genera** (`manuales/edicion-video/scripts/grok.py`), y lo que
+no tiene referente filmable no es b-roll sino un gráfico.
 
 | Escena | Qué plano (una intención) | Motor | Dur. pedida | Archivo + procedencia | Dur. + resolución reales |
 |---|---|---|---|---|---|

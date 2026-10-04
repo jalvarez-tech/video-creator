@@ -24,13 +24,11 @@
  * que duplicar ni el bundle ni el formato.
  */
 import { createRequire } from "node:module";
-import { fileURLToPath, pathToFileURL } from "node:url";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
+import { RAIZ, borrar, carpetaTemporal, esMain, leerTexto, relativa } from "../../../herramientas/comun.mjs";
 
-const aqui = path.dirname(fileURLToPath(import.meta.url));
-export const root = path.resolve(aqui, "..", "..", ".."); // …/video-creator
+export const root = RAIZ;
 export const fichasTs = path.join(root, "remotion", "src", "motor", "graficos", "fichas.ts");
 export const salidaMd = path.join(root, "manuales", "motion-graphics", "catalogo-graficos.md");
 
@@ -44,21 +42,23 @@ export async function transpilaYCarga(entrada) {
   const require = createRequire(path.join(root, "remotion", "package.json"));
   const esbuild = require("esbuild");
 
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "catalogo-"));
+  const tmp = carpetaTemporal("catalogo-");
   const bundle = path.join(tmp, "out.cjs");
 
-  await esbuild.build({
-    entryPoints: [entrada],
-    bundle: true,
-    platform: "node",
-    format: "cjs",
-    outfile: bundle,
-    logLevel: "error",
-  });
-
-  const mod = require(bundle);
-  fs.rmSync(tmp, { recursive: true, force: true });
-  return mod;
+  try {
+    await esbuild.build({
+      entryPoints: [entrada],
+      bundle: true,
+      platform: "node",
+      format: "cjs",
+      outfile: bundle,
+      logLevel: "error",
+    });
+    return require(bundle);
+  } finally {
+    // `borrar` reintenta: en Windows el antivirus retiene un instante el .cjs recién creado.
+    borrar(tmp);
+  }
 }
 
 /** Los exports de `fichas.ts`: CATALOGO, EJES, SIN_RUTA. */
@@ -138,8 +138,8 @@ del molde—, así que su ficha es la de arriba. En un plan los monta el intérp
    montador en \`PistaGraficos.tsx\` y su demo en \`Catalogo.tsx\`. El catálogo se
    entera solo; el markdown se regenera con este script.
 
-El sonido de cada gráfico se declara aparte, en \`cues-00X.ts\`
-(ver \`manuales/diseno-sonoro/recetario-motion-graficos.md\`): la columna «Sonido»
+El sonido de cada gráfico se declara aparte, en el \`cues-NNN.ts\` de tu proyecto
+(ver \`manuales/diseno-sonoro/recetario-motion-graphics.md\`): la columna «Sonido»
 de estas tablas es solo la sugerencia de partida.
 `;
   return md;
@@ -147,26 +147,31 @@ de estas tablas es solo la sugerencia de partida.
 
 /* ── main ─────────────────────────────────────────────────────────────────
  * Solo escribe cuando se ejecuta directamente: importado (por
- * revisar-catalogo.mjs) no toca el disco. */
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+ * revisar-catalogo.mjs) no toca el disco. `esMain` compara rutas REALES: si el
+ * script llega por el enlace .claude/skills/… (symlink o junction), una
+ * comparación literal de import.meta.url diría «importado» y no haría nada. */
+if (esMain(import.meta.url)) {
   const mod = await cargaCatalogo();
   const md = construyeMd(mod);
   const soloComprobar = process.argv.indexOf("--check") >= 0;
 
   if (soloComprobar) {
-    const actual = fs.existsSync(salidaMd) ? fs.readFileSync(salidaMd, "utf8") : "";
+    // `leerTexto` quita BOM y CRLF: en un clon de Windows con autocrlf el markdown
+    // llega con CRLF y una comparación literal diría VIEJO siempre, aunque el
+    // contenido sea el mismo.
+    const actual = fs.existsSync(salidaMd) ? leerTexto(salidaMd) : "";
     if (actual === md) {
-      console.log(`✅ ${path.relative(root, salidaMd)} está al día (${mod.CATALOGO.length} entradas).`);
+      console.log(`✅ ${relativa(salidaMd)} está al día (${mod.CATALOGO.length} entradas).`);
       process.exit(0);
     }
-    console.error(`✖ ${path.relative(root, salidaMd)} está VIEJO. Regenéralo:`);
+    console.error(`✖ ${relativa(salidaMd)} está VIEJO. Regenéralo:`);
     console.error(`    node manuales/motion-graphics/scripts/generar-catalogo.mjs`);
     process.exit(1);
   }
 
   fs.writeFileSync(salidaMd, md, "utf8");
   console.log(
-    `✅ ${path.relative(root, salidaMd)} — ${mod.CATALOGO.length} entradas en ${mod.EJES.length} ejes` +
+    `✅ ${relativa(salidaMd)} — ${mod.CATALOGO.length} entradas en ${mod.EJES.length} ejes` +
       ` (+${mod.SIN_RUTA.length} componentes sin ruta)`
   );
 }

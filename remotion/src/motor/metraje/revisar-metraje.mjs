@@ -4,8 +4,8 @@
  *
  *   node remotion/src/motor/metraje/revisar-metraje.mjs <metraje-NNN.ts> [export] [--fps 30] [--ancho 1080] [--alto 1920]
  *
- * Genérica: sirve a cualquier `metraje-NNN.ts`. Nace de juntar `revisar-010.mjs`
- * y `revisar-011.mjs`, que ya eran casi iguales. Un proyecto la importa desde su
+ * Genérica: sirve a cualquier `metraje-NNN.ts`. Nace de juntar dos puertas de
+ * proyecto que ya eran casi iguales. Un proyecto la importa desde su
  * `proyectos/NNN/revisar-NNN.mjs` y le añade lo de SU encargo (subtítulos,
  * golpes de música, anclajes…). Lo de aquí es del formato, y cada comprobación
  * existe porque su fallo SOBREVIVE a una revisión por frames:
@@ -13,7 +13,7 @@
  *   lineaDeTiempo      sin huecos ni solapes → un hueco pinta negro un
  *                      instante, y si cae entre dos frames de revisión no lo ves
  *   metrajeDisponible  ningún corte pide más clip del que hay, contando la
- *                      velocidad y el prerrollo y la cola de las disolvencias →
+ *                      velocidad y el prerrollo de las disolvencias →
  *                      Remotion no falla: congela el último fotograma (R20), o
  *                      recorta el arranque a 0 y desplaza el plano entero
  *   tramosDisjuntos    ningún tramo de vídeo sale dos veces → la repetición se
@@ -22,6 +22,10 @@
  *                      el `pan` y el desplazamiento de las entradas propias
  *                      dentro de lo que la escala permite) → la franja negra
  *                      dura unos frames y no cae en el que revisas
+ *   colorCine          el `color` de cada plano (el efecto `colorCorrection()`) usa
+ *                      claves y rangos que el efecto admite → una clave mal escrita no
+ *                      da error en ningún sitio (no hace nada), y un valor fuera de
+ *                      rango es un render que se cae a mitad
  *   todosLosArchivos   si el encargo lo pide, todo el material sale en pantalla
  *
  * NO LLEVA SUS PROPIAS CUENTAS. Carga `corte.ts` —el mismo que usa el
@@ -35,17 +39,18 @@
  * fallo sale como ⚠️ con su motivo y no tumba la puerta. Una declaración que ya
  * no hace falta SÍ la tumba; si no, la lista de excusas sobreviviría al arreglo.
  *
+ * API PARA LAS PUERTAS DE PROYECTO (no se renombra: las importan desde
+ * proyectos/NNN/revisar-NNN.mjs): `abrePuerta`, `cargaTs`, `duracionDe`,
+ * `RAIZ`, `PUBLICO`.
+ *
  * Sale con 1 si algo falla.
  */
-import { execFileSync } from "node:child_process";
-import { existsSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { tmpdir } from "node:os";
-import { basename, dirname, isAbsolute, join, parse, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { basename, isAbsolute, join, parse, resolve } from "node:path";
+import { RAIZ as RAIZ_REPO, borrar, carpetaTemporal, ejecutar, esMain } from "../../../../herramientas/comun.mjs";
 
-const AQUI = dirname(fileURLToPath(import.meta.url));
-export const RAIZ = resolve(AQUI, "..", "..", "..", "..");
+export const RAIZ = RAIZ_REPO;
 export const PUBLICO = join(RAIZ, "remotion", "public");
 /** Segundos que dos cortes del mismo clip pueden compartir sin que se lea como repetición. */
 const TOLERANCIA_TRAMO = 0.15;
@@ -56,7 +61,7 @@ const absoluta = (ruta) => (isAbsolute(ruta) ? ruta : join(RAIZ, ruta));
 export async function cargaTs(modulos) {
   const require = createRequire(join(RAIZ, "remotion", "package.json"));
   const esbuild = require("esbuild");
-  const tmp = mkdtempSync(join(tmpdir(), "metraje-"));
+  const tmp = carpetaTemporal("metraje-");
   try {
     const entrada = join(tmp, "entrada.ts");
     const salida = join(tmp, "salida.cjs");
@@ -69,7 +74,8 @@ export async function cargaTs(modulos) {
     await esbuild.build({ entryPoints: [entrada], bundle: true, platform: "node", format: "cjs", outfile: salida, logLevel: "error" });
     return require(salida);
   } finally {
-    rmSync(tmp, { recursive: true, force: true });
+    // `borrar` reintenta: en Windows el antivirus retiene un instante el .cjs recién creado.
+    borrar(tmp);
   }
 }
 
@@ -77,15 +83,17 @@ const duraciones = new Map();
 /** Duración del stream de VÍDEO de un archivo de `public/` (la del contenedor si no hay vídeo, p. ej. un WAV). */
 export function duracionDe(src) {
   if (!duraciones.has(src)) {
-    const json = execFileSync(
+    // `ejecutar` localiza ffprobe también en la carpeta de herramientas del
+    // usuario (donde lo deja setup.mjs) y, si no está, lo dice con nombre en vez
+    // de un ENOENT. Su stderr se captura y no se enseña: hay MP4 de mensajería
+    // con NAL units rotas que hacen a ffprobe escupir cien líneas por lectura;
+    // se decodifican enteros igual, y aquí solo se quiere el número.
+    const r = ejecutar(
       "ffprobe",
       ["-v", "error", "-select_streams", "v:0", "-show_entries", "stream=duration:format=duration", "-of", "json", join(PUBLICO, src)],
-      // `stderr: "ignore"`: el MP4 original de `v-gracias` (010) trae NAL units
-      // rotas de mensajería y ffprobe escupe cien líneas por lectura. Se
-      // decodifica entero igual; aquí solo se quiere el número.
-      { stdio: ["ignore", "pipe", "ignore"] }
-    ).toString();
-    const { streams = [], format = {} } = JSON.parse(json);
+      { check: true, silencioso: true }
+    );
+    const { streams = [], format = {} } = JSON.parse(r.stdout);
     duraciones.set(src, Number(streams[0]?.duration ?? format.duration));
   }
   return duraciones.get(src);
@@ -172,14 +180,13 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
   function metrajeDisponible({ declarados = {} } = {}) {
     const [n, a] = [fallos.length, avisos.length];
     declara("metraje", declarados);
-    cortes.forEach((c, i) => {
+    cortes.forEach((c) => {
       if (!existsSync(join(PUBLICO, c.src))) {
         return mal(`${c.id}: no existe remotion/public/${c.src}${receta ? ` (${receta})` : ""}`);
       }
       if (c.tipo === "foto") return;
       const velocidad = c.velocidad ?? 1;
       const solape = F.solapeDe(c);
-      const cola = F.colaDe(cortes, i);
       const arranque = F.arranqueEnFuente(c, solape, fps);
       if (arranque < 0) {
         falla(
@@ -190,17 +197,18 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
       }
       // Tiempo de fuente del frame `f` del plano, como lo calcula Remotion
       // (`getExpectedMediaFrameUncorrected`): (trimBefore + f · velocidad) / fps.
-      const ultimo = (Math.max(0, arranque) + (solape + c.dur + cola - 1) * velocidad) / fps;
+      // Sin cola: el plano acaba en `en + dur` aunque el siguiente disuelva (ver `solapeDe`).
+      const ultimo = (Math.max(0, arranque) + (solape + c.dur - 1) * velocidad) / fps;
       const dura = duracionDe(c.src);
       if (!(ultimo < dura)) {
         falla(
           "metraje",
           [c.id],
-          `${c.id}: su último frame${cola ? " (con la cola de la disolvencia)" : ""} pide el ${ultimo.toFixed(2)} s de ${c.src}, que dura ${dura.toFixed(2)} s; Remotion congela el último fotograma`
+          `${c.id}: su último frame pide el ${ultimo.toFixed(2)} s de ${c.src}, que dura ${dura.toFixed(2)} s; Remotion congela el último fotograma`
         );
       }
     });
-    cierraSeccion(n, a, "ningún corte pide más metraje del que hay (velocidad, prerrollo y cola incluidos)");
+    cierraSeccion(n, a, "ningún corte pide más metraje del que hay (velocidad y prerrollo incluidos)");
   }
 
   /** Que ningún tramo OPACO de un clip salga en dos cortes (fotos aparte: volver a una foto es una decisión). */
@@ -241,7 +249,7 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
     const [n, a] = [fallos.length, avisos.length];
     declara("encuadre", declarados);
     const conocidas = new Set([...F.ENTRADAS_DEL_FORMATO, ...Object.keys(entradas)]);
-    cortes.forEach((c, i) => {
+    cortes.forEach((c) => {
       if (c.entra && !conocidas.has(c.entra)) {
         mal(`${c.id}: la entrada «${c.entra}» no es del formato y esta puerta no tiene su implementación (\`entradas\`): no puede medir su encuadre`);
       }
@@ -263,7 +271,7 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
       // §encuadre de corte.ts: con T·S el plano cubre en vertical mientras |pan| ≤ 50·(z−1).
       const pan = Math.abs(c.pan ?? 0);
       const vertical = pan
-        ? destapa(solape + c.dur + F.colaDe(cortes, i), (f) => ((pan - 50 * (escala(f) - 1)) / 100) * alto)
+        ? destapa(solape + c.dur, (f) => ((pan - 50 * (escala(f) - 1)) / 100) * alto)
         : null;
       if (vertical) {
         falla(
@@ -277,7 +285,7 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
       const propia = c.entra ? entradas[c.entra] : undefined;
       const x = (f) => propia(f).x ?? 0;
       const horizontal = propia
-        ? destapa(solape + c.dur + F.colaDe(cortes, i), (f) => Math.abs(x(f)) - ((escala(f) - 1) / 2) * ancho)
+        ? destapa(solape + c.dur, (f) => Math.abs(x(f)) - ((escala(f) - 1) / 2) * ancho)
         : null;
       if (horizontal) {
         const maximo = Math.max(...Array.from({ length: solape + c.dur }, (_, f) => Math.abs(x(f))));
@@ -289,6 +297,30 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
       }
     });
     cierraSeccion(n, a, `todos los planos cubren el cuadro${techoZoom !== undefined ? ` · zoom dentro de [1, ${techoZoom}]` : ""}`);
+  }
+
+  /**
+   * Que el `color` de cada plano que lo lleva (`ColorCine`) sea válido: solo claves del efecto,
+   * números finitos dentro de su rango, y nunca en una `foto` (el intérprete solo pasa el vídeo
+   * por el efecto: en una foto se quedaría sin hacer nada). Sin planos con color no imprime nada
+   * y devuelve 0. Con ellos, deja dicha la bandera del render: `--gl=angle`.
+   */
+  function colorCine() {
+    const conColor = cortes.filter((c) => c.color !== undefined);
+    if (!conColor.length) return 0;
+    const n = fallos.length;
+    for (const c of conColor) {
+      if (c.tipo === "foto") mal(`${c.id}: lleva \`color\` pero es una foto; solo el vídeo pasa por el efecto (la foto saldría sin corregir)`);
+      if (c.color === null || typeof c.color !== "object" || Array.isArray(c.color)) {
+        mal(`${c.id}: \`color\` tiene que ser un objeto con parámetros de colorCorrection()`);
+        continue;
+      }
+      for (const problema of F.revisaColorCine(c.color)) mal(`${c.id}: color ${problema}`);
+    }
+    if (fallos.length === n) {
+      ok(`${conColor.length} ${conColor.length === 1 ? "plano lleva" : "planos llevan"} color y todos están dentro de lo que el efecto admite · renderiza con --gl=angle`);
+    }
+    return conColor.length;
   }
 
   /** Que todo el material del encargo salga en pantalla. Contra la carpeta original si está; si no, contra `public/`. */
@@ -329,13 +361,15 @@ export async function abrePuerta({ proyecto, plan, cortes: nombre, fps = 30, anc
     metrajeDisponible,
     tramosDisjuntos,
     encuadre,
+    colorCine,
     todosLosArchivos,
     cierra,
   };
 }
 
-// Solo corre si se invoca directamente: las puertas de los proyectos importan `abrePuerta`.
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// Solo corre si se invoca directamente: las puertas de los proyectos importan
+// `abrePuerta`. `esMain` compara rutas reales (symlink o junction incluidos).
+if (esMain(import.meta.url)) {
   const args = process.argv.slice(2);
   const opcion = (bandera, defecto) => {
     const i = args.indexOf(bandera);
@@ -345,9 +379,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const ancho = opcion("--ancho", 1080);
   const alto = opcion("--alto", 1920);
   const [plan, nombre] = args;
-  if (!plan) {
+  if (!plan || plan === "--help" || plan === "-h") {
     console.error("uso: node remotion/src/motor/metraje/revisar-metraje.mjs <metraje-NNN.ts> [export] [--fps 30] [--ancho 1080] [--alto 1920]");
-    process.exit(1);
+    process.exit(plan ? 0 : 1);
   }
   const puerta = await abrePuerta({ proyecto: basename(plan, ".ts"), plan: resolve(plan), cortes: nombre, fps, ancho, alto });
   puerta.seccion("1. línea de tiempo");
@@ -358,5 +392,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   puerta.tramosDisjuntos();
   puerta.seccion("4. encuadre");
   puerta.encuadre();
+  if (puerta.cortes.some((c) => c.color !== undefined)) {
+    puerta.seccion("5. color");
+    puerta.colorCine();
+  }
   puerta.cierra();
 }

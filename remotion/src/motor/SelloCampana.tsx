@@ -44,8 +44,13 @@ export const SelloCampana: React.FC<{ marca: Marca }> = ({ marca }) => {
           borderRadius: 999,
           border: "2px solid rgba(255,255,255,0.55)",
           background: "rgba(0,0,0,0.35)",
-          fontFamily:
-            '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif',
+          // La letra de la MARCA y no una pila cableada. Aquí había una pila de
+          // sistema propia que ignoraba `marca.letra`: en un Mac las dos resuelven
+          // a la misma San Francisco (por `BlinkMacSystemFont`; 0 píxeles en
+          // 008, 010, 013 y 015, medido con la sonda), pero en Windows la cableada
+          // pintaba Segoe UI. Con una marca en `LETRA_INTER` el sello sale en la
+          // Inter empaquetada, en cualquier máquina.
+          fontFamily: marca.letra.texto,
           fontSize: 26,
           fontWeight: 800,
           letterSpacing: 2,

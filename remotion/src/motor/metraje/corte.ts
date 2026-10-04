@@ -39,13 +39,104 @@ export interface Grado {
 }
 
 /**
+ * COLOR CINE — la corrección de color de UN plano con el efecto `colorCorrection()` de
+ * Remotion (`@remotion/effects`, desde la 4.0.509): una sola pasada WebGL2 sobre el
+ * fotograma del clip, en el orden exposición → balance de blancos → tonos → contraste →
+ * saturación → vibrance. Es lo que el `grado` de arriba (un filtro CSS de tres números)
+ * no puede hacer: tocar las luces sin tocar las sombras, recuperar un cielo quemado o
+ * enfriar un interior sin teñir la piel.
+ *
+ * Las claves y los rangos son LOS DEL EFECTO —se pasan tal cual a `colorCorrection()`, así
+ * que su documentación vale al pie de la letra—:
+ *
+ *   exposure      pasos de diafragma, −5…5. +1 = el doble de luz; en pantalla ≈ 44 niveles de luma por paso
+ *   contrast      multiplicador ≥ 0 alrededor de `pivot`
+ *   pivot         0…1, el gris que el contraste no mueve (defecto 0,5)
+ *   shadows       −1…1, abre (+) o cierra (−) las sombras sin tocar los medios
+ *   highlights    −1…1, empuja (+) o recupera (−) las luces: lo que salva un cielo casi quemado
+ *   whites        −1…1, el punto blanco
+ *   blacks        −1…1, el punto negro: negativo lo hunde y da cuerpo; positivo lo levanta (lavado)
+ *   temperature   −1…1, azul ↔ ámbar
+ *   tint          −1…1, verde ↔ magenta
+ *   saturation    multiplicador ≥ 0 (1 = la del clip). La palanca SEGURA de la viveza
+ *   vibrance      −1…1, satura más lo apagado que lo vivo. MUY FUERTE: sobre hormigón gris amplifica el
+ *                 ruido de croma (un moteado de colores) y vuelve rosadas las nubes; en el 017 se quedó
+ *                 en 0–0,04 y la viveza se pide con `saturation`
+ *
+ * CÓMO SE PINTA. Un plano con `color` NO pasa por `<OffthreadVideo>` (que no admite efectos)
+ * sino por `<Video>` de `@remotion/media` (WebCodecs → canvas, al tamaño de la fuente). Los dos
+ * son exactos al frame en clips CFR a 30 fps, pero `<Video>` sale ≈ 2 niveles más claro y un pelo
+ * menos saturado en el mismo fotograma: las dos mitades de UNA misma toma partida en dos planos
+ * llevan el MISMO `color` (si no, el corte invisible se ve), y en una pieza graduada conviene que
+ * todos los planos de vídeo lo lleven (`{}` basta: no corrige, pero iguala el camino).
+ *
+ * EL RENDER NECESITA WebGL2: `--gl=angle` (o `swangle`) en la línea de comandos. Con el GL por
+ * defecto del render el efecto lanza «Failed to acquire WebGL2 context»; falla fuerte, no sale
+ * un plano sin corregir. No se pone en la configuración global: `--gl=angle` mueve unos niveles
+ * los píxeles del DOM de las piezas ya publicadas. El Studio no lo necesita (su Chrome ya lo tiene).
+ */
+export interface ColorCine {
+  readonly exposure?: number;
+  readonly contrast?: number;
+  readonly pivot?: number;
+  readonly shadows?: number;
+  readonly highlights?: number;
+  readonly whites?: number;
+  readonly blacks?: number;
+  readonly temperature?: number;
+  readonly tint?: number;
+  readonly saturation?: number;
+  readonly vibrance?: number;
+}
+
+/**
+ * El rango de cada parámetro, el mismo con el que el efecto lanza un `TypeError` al pintar. La
+ * puerta lo mide ANTES: un valor fuera de rango no sale en ningún fotograma de revisión, sale
+ * como un render que se cae a mitad.
+ */
+export const RANGOS_COLOR_CINE: Readonly<Record<keyof ColorCine, readonly [number, number]>> = {
+  exposure: [-5, 5],
+  contrast: [0, Infinity],
+  pivot: [0, 1],
+  shadows: [-1, 1],
+  highlights: [-1, 1],
+  whites: [-1, 1],
+  blacks: [-1, 1],
+  temperature: [-1, 1],
+  tint: [-1, 1],
+  saturation: [0, Infinity],
+  vibrance: [-1, 1],
+};
+
+/**
+ * Qué está mal en un `color`, o `[]`. Una clave que no existe no da error en el render ni en el
+ * Studio —TypeScript la caza en el `.ts`, pero la puerta carga el plan sin tipos—, así que un
+ * `saturacion` por `saturation` se quedaría sin hacer nada y nadie lo vería.
+ */
+export const revisaColorCine = (color: ColorCine): string[] => {
+  const mal: string[] = [];
+  for (const [clave, valor] of Object.entries(color)) {
+    const rango = (RANGOS_COLOR_CINE as Readonly<Record<string, readonly [number, number] | undefined>>)[clave];
+    if (rango === undefined) {
+      mal.push(`«${clave}» no es un parámetro de colorCorrection() (${Object.keys(RANGOS_COLOR_CINE).join(", ")})`);
+    } else if (typeof valor !== "number" || !Number.isFinite(valor)) {
+      mal.push(`«${clave}» tiene que ser un número finito, no ${JSON.stringify(valor)}`);
+    } else if (valor < rango[0] || valor > rango[1]) {
+      mal.push(`«${clave}» = ${valor} está fuera de ${rango[1] === Infinity ? `≥ ${rango[0]}` : `[${rango[0]}, ${rango[1]}]`}`);
+    }
+  }
+  return mal;
+};
+
+/**
  * §entra — cómo NACE un plano. El corte seco es el defecto y casi siempre lo
  * correcto: una transición en cada corte las anula todas.
  *
  *   corte     seco.
  *   disolver  funde sobre el anterior en `DISOLVER` frames: el plano entra ANTES
- *             de su `en` y el anterior se alarga una cola igual (`solapeDe`,
- *             `colaDe`), así que los dos clips tienen que tener ese metraje.
+ *             de su `en` (`solapeDe`), así que SU clip tiene que tener ese
+ *             metraje antes de `desde`. El anterior no se alarga: acaba en su
+ *             `en + dur`, que es el frame en que el entrante ya es opaco.
  *   negro     nace de negro en `DESDE_NEGRO` frames. Apertura de acto.
  *
  * Una pieza puede tener entradas PROPIAS (el 009: `whip` y `flash`): las nombra
@@ -127,6 +218,12 @@ export interface Corte<E extends string = EntradaDelFormato> {
   /** Frames de fundido a NEGRO al final del plano. Cierre de acto. */
   salidaNegro?: number;
   grado?: Grado;
+  /**
+   * Corrección de color del plano con `colorCorrection()` (ver `ColorCine`). Opcional, y sin ella
+   * el plano se pinta como siempre, por `<OffthreadVideo>`: lo ya publicado no cambia. Solo vídeo
+   * (la puerta rechaza un `color` en una `foto`). El render necesita `--gl=angle`.
+   */
+  color?: ColorCine;
   /** Por qué este plano, aquí y así. Obligatorio, como en toda capa de datos. */
   reason: string;
 }
@@ -196,16 +293,25 @@ export const DISOLVER = 12;
 /** Frames en que un plano nace de negro (`entra: "negro"`): 0,6 s. */
 export const DESDE_NEGRO = 18;
 
-/** Frames que un plano entra ANTES de su `en` para disolver sobre el anterior. */
-export const solapeDe = (corte: Corte<string>): number => (corte.entra === "disolver" ? DISOLVER : 0);
-
 /**
- * Frames que un plano sigue DESPUÉS de `en + dur` para que el SIGUIENTE pueda
- * disolver encima. Sin esta cola la disolvencia caería sobre negro, que es un
- * fundido a negro con otro nombre y no lo que se pidió.
+ * Frames que un plano entra ANTES de su `en` para disolver sobre el anterior.
+ *
+ * Es la ÚNICA ventana de la disolvencia, y la pone el que ENTRA. Hasta el 015
+ * el saliente llevaba además una «cola» de otros `DISOLVER` frames después de
+ * su `en + dur`, «para que la disolvencia no cayera sobre negro». No hacía
+ * falta: el entrante se monta DESPUÉS en el DOM (encima), empieza `solape`
+ * frames antes de su `en` y en su `en` ya es opaco, fondo negro incluido; el
+ * saliente sigue visible debajo hasta ese mismo frame sin alargar nada. La cola
+ * solo pintaba 12 frames que el plano opaco de encima tapaba enteros.
+ *
+ * Tapados, pero no gratis: la puerta los contaba como metraje que el clip tenía
+ * que tener. En el 015 (una presentadora grabada en nueve tomas, con la voz
+ * recortada al segundo) eso exigía 0,4 s de clip DESPUÉS de cada corte que
+ * nadie iba a ver, y seis de las ocho transiciones no los tenían. Quitarla no
+ * mueve un píxel de lo publicado —comprobado renderizando los f163-172 del 011
+ * (la cola de `c01` bajo `c02`) antes y después: idénticos byte a byte—.
  */
-export const colaDe = (cortes: readonly Corte<string>[], i: number): number =>
-  cortes[i + 1]?.entra === "disolver" ? DISOLVER : 0;
+export const solapeDe = (corte: Corte<string>): number => (corte.entra === "disolver" ? DISOLVER : 0);
 
 /**
  * El frame de la FUENTE en el que arranca el plano —lo que recibe `trimBefore`—

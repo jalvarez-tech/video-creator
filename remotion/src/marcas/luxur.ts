@@ -32,12 +32,25 @@
  *     graficos: { display: SF, texto: SF, tablas: { 500: "sf500", … } },
  *   }
  *
+ * EL TEXTO EN PANTALLA. Desde el 2026-09-30 las piezas con voz de este canal
+ * llevan por defecto subtítulos EDITORIALES (`modo: "editorial"`): todo lo dicho
+ * en trozos cortos, Montserrat para la línea normal y Playfair Display itálica
+ * para el acento, SIN sombra ni borde (`sombra: null`: si un plano no deja leer,
+ * lo arregla el velo de la composición). Es la segunda elección del cliente,
+ * el mismo día: la primera fue Quicksand + Lato, que sigue siendo la letra del
+ * motor. Van escritas aquí y no heredadas por lo mismo que `letra`: el día que
+ * el motor cambie su defecto, las piezas de este canal no se mueven con él.
+ * Es la costumbre de las piezas NUEVAS. Las publicadas (012-015) se planearon
+ * en modo banda y siguen así: este campo no lo lee ningún intérprete para
+ * decidir qué monta (ver `Marca.texto`), solo quien planifica y el propio
+ * `<SubtitulosEditoriales>` cuando una composición lo pone.
+ *
  * Lo que sigue siendo deuda de verdad es `ColorMarca.acentoOscuro`: el teal de
  * plantilla que la capa de gráficos usa como acento, distinto del naranja de
  * este canal. Unificarlos mueve píxeles de las piezas de avatar ya publicadas,
  * así que es una decisión de dirección y no un efecto colateral.
  */
-import { MARCA_BASE } from "../motor/marca";
+import { LETRA_SF_SISTEMA, MARCA_BASE, PILA_MONTSERRAT, PILA_PLAYFAIR } from "../motor/marca";
 import type { Marca } from "../motor/marca";
 
 export const LUXUR: Marca = {
@@ -45,4 +58,16 @@ export const LUXUR: Marca = {
   nombre: "Propiedades Luxur",
   /** El watermark de la píldora inferior, en TODOS los frames de la pieza. */
   sello: { texto: "PROPIEDADES LUXUR" },
+  // Explícita y no heredada: es la letra con la que están PUBLICADAS 004-007, 013
+  // y 015, y así el suelo del motor puede pasar a Inter sin arrastrarlas.
+  letra: LETRA_SF_SISTEMA,
+  texto: {
+    modo: "editorial",
+    letra: {
+      base: { familia: PILA_MONTSERRAT, peso: 500, italica: false, tabla: "montserrat500" },
+      acento: { familia: PILA_PLAYFAIR, peso: 600, italica: true, tabla: "playfair600i" },
+      dato: { familia: PILA_MONTSERRAT, peso: 700, italica: false, tabla: "montserrat700" },
+    },
+    sombra: null,
+  },
 };
