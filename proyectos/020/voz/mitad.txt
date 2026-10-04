@@ -1,0 +1,4 @@
+# MD14 · Medio14.MOV · «No estás viendo un apartamento sin terminar, estás viendo uno que todavía puedes definir.»
+# El reencuadre del hook: negar / afirmar, en dos bloques (pausa de 310 ms en 2,80-3,11 s). Un acento: «definir.» (la palabra que contesta al hook).
+No estás viendo / un apartamento / sin terminar,
+estás viendo uno / que todavía puedes / **definir.**
