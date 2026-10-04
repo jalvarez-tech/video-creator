@@ -32,7 +32,7 @@
  *
  * LA MÚSICA se decodifica ENTERA a WAV estéreo de 48 kHz y NADA MÁS (ni loudnorm): el MP3 arrastra
  * su retardo de códec y el corte al golpe se hace a la muestra, sobre el WAV. Su `desde`
- * (segundos) sale de `Music/catalogo-musica.md` y de la medida propia de `medir-pista.py`
+ * (segundos) sale de `archivos/musica/catalogo-musica.md` y de la medida propia de `medir-pista.py`
  * (`metraje-018.ts`), y el nivel es una ganancia del plan medida sobre el tramo que suena.
  *
  * LA TARJETA DEL CIERRE: `cierre-oscuro.png`, un negro liso (ver el final de este archivo). Nada se congela.
