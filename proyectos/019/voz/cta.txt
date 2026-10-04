@@ -1,0 +1,6 @@
+# CT05 · CTA5.MOV · «Si encaja con lo que estás buscando, escríbeme.»
+# POR CONFIRMAR AL OÍDO: «escríbeme». Whisper oye «escribe a mí» (confianza 0,30 en «es», 0,62 en «a»): el catálogo ya lo anotaba. Cortando la toma desde 2,45-2,50 s oye UNA palabra, «escríbeme».
+# MEDIDO (herramientas/formantes.py): tras la [e] de «-be» (2,84-2,92 s, F1 ≈ 540, F2 ≈ 2.000-2.350 Hz) viene directamente un murmullo nasal de ≈ 130 ms (2,93-3,06 s, F1 ≈ 430, F2 ≈ 700 Hz)
+# y se acaba: NO hay una /a/ (F1 ≈ 790 Hz en las de Isabella) entre «be» y la nasal, que es lo que tendría «escribe a mí». Coincide con «es-crí-be-me». Un acento: «escríbeme.».
+Si encaja con / lo que estás buscando,
+**escríbeme.**

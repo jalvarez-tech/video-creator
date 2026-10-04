@@ -21,6 +21,7 @@ Una fila por versión montada. Las siguientes se añaden aquí con sus cambios r
 | V1 rev. 2 | HK02 | MD09 | CT07 | RC25 · RC01 · RC02 · RC07 | RC08 continua · DR163 **desde 13,3 s** (a ras de suelo hacia la corrediza) | DR147 · DR163 | *Time*, 175,633 s | 45,8 s | sustituida por la rev. 3; su prueba: `pruebas-720p/017-recorrido-720p-rev2.mp4` |
 | V1 rev. 1 | HK02 | MD09 | CT07 | RC01 (501) · RC01 (puerta) · RC02 · RC07 | RC08 (2,6-6,4 s) · **RC10** · DR163 | DR147 · DR163 | *Time*, 175,633 s | 45,8 s | sustituida por la rev. 2; su prueba: `pruebas-720p/017-recorrido-720p-rev1.mp4` |
 | **V2 rev. 3** · «El espacio y cómo entra el exterior» (**proyecto 018**, `proyectos/018/combinaciones.md`) | **HK07** (`PATIO`) | **MD07** (`TERRAZA`) | **CT01** (`BALCON`) | RC11 · RC10 · RC11 → RC06 · RC05 · RC03 · **RC25** (la fachada, pedida por el usuario) · RC07 (sentido II del paseo) | DR155 2,3 s sin texto ni voz | ***Return to Oasis*** — Aleksey Chistilin, 142,967 s (acaba en el f1323) | **44,2 s** | **final exportado el 2026-10-04** (CRF 12 + CRF 16 + `.srt`), con el CTA «diferente *en* un apartamento» (medido, sin confirmar al oído); comparte con la V1 ≈ 3 s de RC07 y ≈ 1,5 s de RC25 |
+| **V3 rev. 1** · «Altura sin torre» (**proyecto 019**, `proyectos/019/combinaciones.md`) | **HK05** (`BARANDA`) | **MD08** (`TERRAZA`) | **CT05** (`INT-BLOQUES`) | RC09 · RC13 · RC16 (Sentido II) con **RC25 en el frame 0** (3,0-6,07 s) | **DR152** como primer plano del recorrido, tras el hook (no en el frame 0) | ***Flying Into the Sun*** — Aleksey Chistilin, 178,095 s (la primera canción SIN pulso: por frases; la caída a un lecho suave cae donde entra el CTA) | **39,7 s** | **prueba lista**; comparte con la V1 ≈ 0,1 s de RC25 |
 
 **Revisión 2** (2026-10-03, tras ver la prueba: «en el min 7 cambia la toma por *Exterior edificio4* y en el 31 por
 *Patio y Naturaleza*»). Cambian dos tomas (y `c08` empieza un segundo antes dentro de su clip); los tiempos de cada plano, la voz, la música y el texto no se mueven:
@@ -205,6 +206,21 @@ corte en el render**).
 
 ## 3. Tablero de variantes
 
+### Registro de lo ya elegido (lo ~~tachado~~ no se vuelve a elegir salvo que el usuario lo pida)
+
+Se mantiene a la vez aquí, en el `combinaciones.md` de cada versión y en [`archivos/musica/registro-de-uso.md`](../../archivos/musica/registro-de-uso.md) (el tablero de coordinación entre sesiones).
+
+| | V1 · 017 | V2 · 018 | V3 · 019 |
+|---|---|---|---|
+| Canción | ~~*Time* — Hans Zimmer~~ | ~~*Return to Oasis* — Aleksey Chistilin~~ | ~~*Flying Into the Sun* — Aleksey Chistilin~~ (entrada 178,095 s) |
+| Hook | ~~HK02~~ | ~~HK07~~ | ~~HK05~~ |
+| Mitad | ~~MD09~~ | ~~MD07~~ | ~~MD08~~ |
+| CTA | ~~CT07~~ | ~~CT01~~ | ~~CT05~~ |
+| Dron | ~~DR147~~ · ~~DR163~~ | ~~DR155~~ | ~~DR152~~ |
+| Recorridos | RC01 RC02 RC07 RC08 (+ RC25) | RC03 RC04 RC05 RC06 RC07 RC10 RC11 (+ RC25) | ver `proyectos/019/combinaciones.md` (RC25 en el frame 0, declarado) |
+
+Libres de aquí en adelante, entre las canciones medidas: *Deep Breath*, *Fortitude (Light Version)*, *In This Together*, *Luxury, Elegance, Refined* y *Heaven on Earth* (§3.6), y el resto de `archivos/musica/catalogo-musica.md`.
+
 Reglas del formato que acotan lo que se puede cambiar (las voces de TODAS las tomas, medidas, en §3.5):
 1. **Isabella, en tres sitios distintos** y el paseo no vuelve atrás: **Sentido I** (entrada → terraza) →
    hook en el interior, mitad en `INT-ABIERTO`, CTA en terraza o patio. Para el **Sentido II** (terraza →
@@ -224,15 +240,15 @@ de la tabla (§3.5) sirven para un J-cut, que ahora no se usa en el hook.
 
 | Código | Archivo | Lugar | Dice | Voz (s) | Cola | Notas para esta estructura |
 |---|---|---|---|---|---|---|
-| **HK02** ✔ | `Hook2+IA.MOV` | INT-ABIERTO | «Este apartamento aún no está terminado… y ahí está, precisamente, la oportunidad.» | 0,52-5,30 | — | **usado**. Plano fijo y ancho; ella camina hacia la cámara a los 5,5 s (el plano se enseña de 0,50 a 6,20 s) |
+| ~~**HK02**~~ ✔ V1 | `Hook2+IA.MOV` | INT-ABIERTO | «Este apartamento aún no está terminado… y ahí está, precisamente, la oportunidad.» | 0,52-5,30 | — | **usado**. Plano fijo y ancho; ella camina hacia la cámara a los 5,5 s (el plano se enseña de 0,50 a 6,20 s) |
 | HK01 | `Hook1.MOV` | INT-ABIERTO | «Lo más especial de este apartamento está adentro y fuera… ven, te enseño.» | 0,9-5,0 | 2,2 | curiosidad pura (control); «ven, te enseño» por confirmar |
 | HK01a | `Hook1.1.MOV` | TERRAZA | (igual) | 0,2-4,5 | 0,3 | sin colchón al inicio: entra a corte |
 | HK01b | `Hook1.2.MOV` | PATIO | (igual) | 0,6-4,4 | 0,4 | el mejor fondo para miniatura |
 | HK03 | `Hook3.MOV` | INT-BLOQUES | «Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.» | 0,8-6,0 | 0,4 | filtro; con él la pieza es P4 del catálogo |
 | HK04 | `Hook4.MOV` | INT-ABIERTO | «Si quieres diseñar 317 metros alrededor de tu forma de vivir, mira esto.» | 0,7-6,0 | **0,0** | corte a seco; **lleva «317»: entonces la mitad no puede ser MD09/MD10** |
-| HK05 | `Hook5.MOV` | BARANDA | «¿Y si pudieras vivir en altura sin sentir que vives dentro de una torre?» | 0,3-3,7 | 0,6 | encaja con el dron (ángulo E); sin colchón inicial |
+| ~~HK05~~ ✔ V3 | `Hook5.MOV` | BARANDA | «¿Y si pudieras vivir en altura sin sentir que vives dentro de una torre?» | 0,3-3,7 | 0,6 | encaja con el dron (ángulo E); sin colchón inicial |
 | HK06 | `Hook6.MOV` | TERRAZA | «Mira lo que ocurre cuando arquitectura y naturaleza dejan de estar separadas.» | 0,6-4,8 | 0,7 | cruza el umbral: muy cinematográfico; «Mira»/«Mirá» por confirmar |
-| HK07 | `Hook7.MOV` | PATIO | «El verdadero lujo puede ser simplemente tener espacio para respirar.» | 0,9-5,1 | 1,0 | frase de marca; fija y simétrica |
+| ~~HK07~~ ✔ V2 | `Hook7.MOV` | PATIO | «El verdadero lujo puede ser simplemente tener espacio para respirar.» | 0,9-5,1 | 1,0 | frase de marca; fija y simétrica |
 | HK08 | `Hook8.MOV` | ENTRADA | «3.550 millones. Ahora veamos realmente qué estás comprando.» | 1,5-6,4 | 0,2 | **precio**: el CTA no puede repetirlo (CT02/CT03); la puerta negra se abre a contraluz |
 | HK09 | `Hook9.MOV` | INT-VENTANAL | «Esta propiedad tiene sentido para un comprador muy específico.» | 0,9-4,1 | 0,5 | poca energía: mejor con el dron delante |
 | HK10 | `Hook10.MOV` | TERRAZA | «No necesito convencerte de los patios si llegaste hasta aquí.» | 0,8-4,1 | 1,6 | en frío suena raro (presupone que ya vio algo) |
@@ -244,14 +260,14 @@ terraza (CT07) —dos Isabella en el mismo decorado—: van con un CTA de patio 
 
 | Código | Archivo | Lugar | Dice | Voz (s) | Cola | Notas |
 |---|---|---|---|---|---|---|
-| **MD09** ✔ | `Medio9.MOV` | INT-ABIERTO | «Tienes 317 metros para desarrollar completamente el interior.» | 0,57-4,68 | 0,65 | **usado**; entra caminando desde el fondo |
+| ~~**MD09**~~ ✔ V1 | `Medio9.MOV` | INT-ABIERTO | «Tienes 317 metros para desarrollar completamente el interior.» | 0,57-4,68 | 0,65 | **usado**; entra caminando desde el fondo |
 | MD11 | `Medio11.MOV` | INT-ABIERTO | «¿Alguien que valora la arquitectura y prefiere crear sus propios acabados?» | 1,0-5,2 | 0,1 | pregunta de filtro (perfil D); arranque por confirmar; sale a corte |
 | MD13 | `Medio13.MOV` | TERRAZA | «(Los) materiales se pueden cambiar, pero proporciones, altura y arquitectura, no.» | 0,6-5,7 | 0,9 | la más persuasiva; pausa interna a los 2,3 s |
 | MD14 | `Medio14.MOV` | PATIO | «No estás viendo un apartamento sin terminar, estás viendo uno que todavía puedes definir.» | 0,6-5,7 | 0,8 | repite la idea del hook; la cámara retrocede hacia dentro a los 5 s |
 | MD02 | `Medio2.MOV` | TERRAZA | «La arquitectura ya está resuelta. El interior puede reflejar completamente tu personalidad.» | 0,3-5,8 | 1,1 | sin colchón inicial |
-| MD07 | `Medio7.MOV` | TERRAZA | «La respuesta no siempre está en los metros, a veces está en cómo entra el exterior.» | 0,7-5,5 | 0,6 | 3,3 palabras/s: subtítulos muy rápidos |
+| ~~MD07~~ ✔ V2 | `Medio7.MOV` | TERRAZA | «La respuesta no siempre está en los metros, a veces está en cómo entra el exterior.» | 0,7-5,5 | 0,6 | 3,3 palabras/s: subtítulos muy rápidos |
 | MD12 | `Medio12.MOV` | TERRAZA | «El interior puede llevar completamente tu personalidad.» | 0,7-3,9 | 0,5 | la más corta |
-| MD08 | `Medio8.MOV` | TERRAZA | «La doble altura permite que la luz y ventilación ingresen a la vivienda.» | 0,8-4,8 | 0,4 | pareja de un plano de techo de madera |
+| ~~MD08~~ ✔ V3 | `Medio8.MOV` | TERRAZA | «La doble altura permite que la luz y ventilación ingresen a la vivienda.» | 0,8-4,8 | 0,4 | pareja de un plano de techo de madera |
 | MD01 / MD01a | `Medio1.MOV` / `Medio1.1.MOV` | BARANDA / TERRAZA | «Los patios y vacíos hacen desaparecer esa frontera…» | 1,2-7,1 / 1,4-7,0 | 0,8 / 1,0 | tesis de diseño (ángulo B); elegir UNA |
 | MD03 / MD04 / MD05 / MD06 / MD10 | | | | | | **MD03** «piscina»/«cocina» por confirmar · **MD04 y MD10** nombran a ALH (sin confirmar que se pueda citar) · **MD05** «luego»→«lujo» por confirmar, sin cola · **MD06** chasquido a 0,2 s, recortar el inicio |
 
@@ -263,12 +279,12 @@ oscura del cierre, así que la cola ya no hace falta para el logo. Cuanta más t
 
 | Código | Archivo | Lugar | Dice | Voz (s) | Cola | Notas |
 |---|---|---|---|---|---|---|
-| **CT07** ✔ | `CTA7.MOV` | TERRAZA | «Necesitas saber si esta unidad en específico funciona para ti. Si es así, escríbeme y la recorremos juntos.» | 0,65-7,00 | **0,1** | **usado**; densa (2,8 pal/s); «línea» por confirmar |
-| CT01 | `CTA1.MOV` | BALCON | «Si buscas algo diferente **en** un apartamento convencional, escríbeme y conoce Los Patios.» (medido en el 018: era «a» en el catálogo; ver `proyectos/018/`) | 0,6-5,3 | 0,8 | sin cifras; nombra el edificio; sale en el balcón (Sentido II) |
+| ~~**CT07**~~ ✔ V1 | `CTA7.MOV` | TERRAZA | «Necesitas saber si esta unidad en específico funciona para ti. Si es así, escríbeme y la recorremos juntos.» | 0,65-7,00 | **0,1** | **usado**; densa (2,8 pal/s); «línea» por confirmar |
+| ~~CT01~~ ✔ V2 | `CTA1.MOV` | BALCON | «Si buscas algo diferente **en** un apartamento convencional, escríbeme y conoce Los Patios.» (medido en el 018: era «a» en el catálogo; ver `proyectos/018/`) | 0,6-5,3 | 0,8 | sin cifras; nombra el edificio; sale en el balcón (Sentido II) |
 | CT02 | `CTA2.MOV` | BALCON | «317 metros cuadrados en obra gris por 3.550 millones, escríbeme y ven a conocerlo.» | 0,6-7,5 | 0,5 | la mejor «recompensa» (barandilla, valle, montañas); **da el precio**: no con HK08 |
 | CT03 | `CTA3.MOV` | PATIO | «Está disponible por 3.550 millones, escríbeme y ven a conocerlo.» | 0,6-5,7 | 0,3 | plano frontal estático; precio |
 | CT04 | `CTA4.MOV` | PATIO | «Los Patios, arquitectura de ALH, escríbeme para conocer esta unidad.» | 0,4-4,9 | 0,6 | arranca con un helecho desenfocado (cortinilla natural); ALH sin confirmar |
-| CT05 | `CTA5.MOV` | INT-BLOQUES | «Si encaja con lo que estás buscando, escríbeme.» | 0,7-3,1 | 0,5 | el CTA más limpio y corto (3,6 s) |
+| ~~CT05~~ ✔ V3 | `CTA5.MOV` | INT-BLOQUES | «Si encaja con lo que estás buscando, escríbeme.» | 0,7-3,1 | 0,5 | el CTA más limpio y corto (3,6 s) |
 | CT06 | `CTA6.MOV` | INT-ABIERTO | «Si es el reto, escríbeme y agendamos una visita.» | 0,9-3,7 | 0,8 | cruza el umbral hacia el deck; «reto» por confirmar; pide agendar |
 
 ### 3.4 Recorrido y dron: qué hay en cada clip (para cambiar el arranque de un plano)
@@ -349,7 +365,8 @@ del catálogo). **Ninguna se ha montado ni escuchado**: la ficha es la del catá
 
 | Pista | Tonalidad · BPM | Sentimiento (catálogo) | `desde` (45 s) | Arco medido | Cómo casaría con V1 |
 |---|---|---|---|---|---|
-| **Return to Oasis** — Aleksey Chistilin | Re# menor · 110 | reencuentro, serenidad, añoranza luminosa | 140,82 (★★) | crescendo suave de −13 a −8 dB hasta +40 s y resolución a −19 dB | **la forma más parecida a Time** (sube hasta el patio y resuelve bajo el CTA); su gancho es ★★ |
+| ~~**Return to Oasis** — Aleksey Chistilin~~ (V2) | Re# menor · 110 | reencuentro, serenidad, añoranza luminosa | 140,82 (★★) | crescendo suave de −13 a −8 dB hasta +40 s y resolución a −19 dB | **la forma más parecida a Time** (sube hasta el patio y resuelve bajo el CTA); su gancho es ★★ |
+| ~~**Flying Into the Sun** — Aleksey Chistilin~~ (V3) | Do menor · 120 (o 60) | ascenso, libertad, esperanza | **178,095** (golpe de 10,1 dB tras un respiro; no es el `desde` del catálogo, que da ★ a los 172,37) | −12 → −7,8 LUFS con crescendo hasta +30 s y **caída de ≈ 20 dB en 4 s hacia +34,7 s** a un lecho suave de −21 a −23 LUFS (11 s más) | SIN pulso: va por frases (`rejilla.py`); la caída cae donde entra el CTA y el crescendo, en la vista (V3, medida con `buscar-entrada.py`) |
 | **Deep Breath** — Aleksey Chistilin | Do# menor · 122 | calma, introspección, alivio | 79,90 (★★★) | meseta de −10 dB hasta +35 s y cae a −25 dB | cae 3 s antes del CTA: hay que entrar ~3 s más tarde o acortar el recorrido |
 | **In This Together** | Mi menor · 120 (o 60) | unión, consuelo, esperanza solemne | 92,98 (★★) | meseta de −7 dB hasta +43 s y cae a silencio | la resolución llega demasiado tarde para un CTA a los 38 s |
 | **Fortitude (Light Version)** | Sol mayor · 128 (o 64) | fortaleza serena, esperanza | 105,23 (★★) | −15 dB plano, un respiro de silencio en +32,5 s y un «drop» a +33,4 s hacia −12 dB | el drop cae justo en el dron: más empuje, menos calma |

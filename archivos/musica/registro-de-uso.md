@@ -22,7 +22,7 @@ Cada sesión trabaja en su rama `feat/reel-NNN-…` (NNN = el número de proyect
 |---|---|---|---|---|---|---|
 | V1 | 017 | video-creator · PR #10 | Los Patios (apto 501) | final (CRF 12 y CRF 16) | 2026-10-03 | «La oportunidad»: HK02 · MD09 · CT07 · *Time* · dron DR147 al inicio |
 | V2 | 018 | video-creator · PR #10 | Los Patios (apto 501) | final (la «en» del CTA sin oír) | 2026-10-04 | HK07 · MD07 · CT01 · *Return to Oasis* · dron DR155 al inicio · RC25 en la rev. 2 |
-| V3 | 019 | video-creator · checkout del estudio (reserva publicada; el proyecto 019 sigue SIN commit: el usuario pidió no commitear) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Altura sin torre»: RC25 limpio en el frame 0 · HK05 · dron DR152 como 1.er plano del recorrido · MD08 · CT05 · *Flying Into the Sun* (entrada 178,095 s) · pendiente: el OK a la prueba; oír MD08 «y (la) ventilación» (≈ 21,1 s), CT05 «escríbeme» (≈ 36,6-37,2 s) y la canción |
+| V3 | 019 | video-creator · rama `feat/reel-019-altura-sin-torre` · PR #12 (borrador) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Altura sin torre»: RC25 limpio en el frame 0 · HK05 · dron DR152 como 1.er plano del recorrido · MD08 · CT05 · *Flying Into the Sun* (entrada 178,095 s) · pendiente: el OK a la prueba; oír MD08 «y (la) ventilación» (≈ 21,1 s), CT05 «escríbeme» (≈ 36,6-37,2 s) y la canción |
 | V4 | 020 | | Los Patios (apto 501) | **libre: es la siguiente** | | |
 
 El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V4 → 020…) para la que venga detrás.

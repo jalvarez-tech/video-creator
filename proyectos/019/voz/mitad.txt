@@ -1,0 +1,7 @@
+# MD08 · Medio8.MOV · «La doble altura permite que la luz y ventilación ingresen a la vivienda.»
+# POR CONFIRMAR AL OÍDO: «la luz y (la) ventilación». Whisper omite el 2.º «la» (el catálogo ya lo anotaba) y, cortando desde 2,70-2,85 s, oye «y ventilación».
+# MEDIDO (herramientas/formantes.py, onsets-voz.py): entre la «y» (una [i], F2 ≈ 2.340-2.460 Hz, a 2,85-2,89 s) y el «ven-» (3,05 s, tras el cierre de la /b/) NO hay una /a/ (las
+# de Isabella en esta toma miden F1 ≈ 790 Hz: la de «altura»; ahí F1 ≤ 540 Hz) ni una sílaba nueva (ningún onset entre 2,78 y 3,05 s). Se pinta «y ventilación», sin «la».
+# Si al oírla suena «y la ventilación»: el texto del 2.º trozo de m01 y este archivo. Un acento: «la luz».
+La doble altura / permite que / **la luz**
+y ventilación ingresen / a la vivienda.
