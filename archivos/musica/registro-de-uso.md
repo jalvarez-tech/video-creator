@@ -22,7 +22,8 @@ Cada sesión trabaja en su rama `feat/reel-NNN-…` (NNN = el número de proyect
 |---|---|---|---|---|---|---|
 | V1 | 017 | video-creator · PR #10 | Los Patios (apto 501) | final (CRF 12 y CRF 16) | 2026-10-03 | «La oportunidad»: HK02 · MD09 · CT07 · *Time* · dron DR147 al inicio |
 | V2 | 018 | video-creator · PR #10 | Los Patios (apto 501) | final (la «en» del CTA sin oír) | 2026-10-04 | HK07 · MD07 · CT01 · *Return to Oasis* · dron DR155 al inicio · RC25 en la rev. 2 |
-| V3 | 019 | | Los Patios (apto 501) | **libre: es la siguiente** | | |
+| V3 | 019 | video-creator · checkout del estudio (reserva publicada; el proyecto 019 sigue SIN commit: el usuario pidió no commitear) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Altura sin torre»: RC25 limpio en el frame 0 · HK05 · dron DR152 como 1.er plano del recorrido · MD08 · CT05 · *Flying Into the Sun* (entrada 178,095 s) · pendiente: el OK a la prueba; oír MD08 «y (la) ventilación» (≈ 21,1 s), CT05 «escríbeme» (≈ 36,6-37,2 s) y la canción |
+| V4 | 020 | | Los Patios (apto 501) | **libre: es la siguiente** | | |
 
 El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V4 → 020…) para la que venga detrás.
 
@@ -34,7 +35,7 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | Pista | sha256 (8) | Estado | V | Fecha | Notas |
 |---|---|---|---|---|---|
 | Aleksey Chistilin - Deep Breath | `abceb83c` | libre | | | Do# menor · 122 BPM · desde 79,90 (★★★, 45 s) · meseta de −10 dB hasta +35 s y cae a −25 dB: cae ~3 s antes del CTA (entrar ~3 s más tarde o acortar el recorrido). Medida, no montada. |
-| Aleksey Chistilin - Flying Into the Sun | `ca1f1cbf` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| ~~Aleksey Chistilin - Flying Into the Sun~~ | `ca1f1cbf` | **reservada** | V3 | 2026-10-04 | Do menor · «ascenso, libertad, esperanza» · entrada en 178,095 s (golpe de 10,1 dB tras un respiro) · SIN pulso: va por frases (`rejilla.py`: solo el 27 % de los golpes fuertes cae en la mejor recta) · crescendo suave hasta +30 s y CAÍDA de ≈ 20 dB en 4 s hacia +34,7 s (212,7 s) a un lecho suave estable: ahí entra el CTA · proyecto 019 (`buscar-entrada.py`, `proyectos/019/herramientas/`) |
 | Aleksey Chistilin - Overcoming the Impossible | `856aff24` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Aleksey Chistilin - Pictures from the Past | `aed6a3a3` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | ~~Aleksey Chistilin - Return to Oasis~~ | `55bf04c8` | **usada** | V2 | 2026-10-03 | Re# menor · 110 BPM · desde 142,967 s · rejilla de PULSO (una recta) · meseta de 37 s a −8,5 LUFS y caída a un piano (−20,5 LUFS) en 180,09 s, donde entra el CTA · proyecto 018 |
@@ -93,7 +94,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | ~~HK02~~ | `Hook2+IA.MOV` | INT-ABIERTO | «Este apartamento aún no está terminado… y ahí está, precisamente, la oportunidad.» | **usado** | V1 |  |
 | HK03 | `Hook3.MOV` | INT-BLOQUES | «Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.» | libre | |  |
 | HK04 | `Hook4.MOV` | INT-ABIERTO | «Si quieres diseñar 317 metros alrededor de tu forma de vivir, mira esto.» | libre | | lleva cifra («317 metros») |
-| HK05 | `Hook5.MOV` | BARANDA | «¿Y si pudieras vivir en altura sin sentir que vives dentro de una torre?» | libre | |  |
+| ~~HK05~~ | `Hook5.MOV` | BARANDA | «¿Y si pudieras vivir en altura sin sentir que vives dentro de una torre?» | **reservado** | V3 |  |
 | HK06 | `Hook6.MOV` | TERRAZA | «Mira lo que ocurre cuando arquitectura y naturaleza dejan de estar separadas.» | libre | |  |
 | ~~HK07~~ | `Hook7.MOV` | PATIO | «El verdadero lujo puede ser simplemente tener espacio para respirar.» | **usado** | V2 |  |
 | HK08 | `Hook8.MOV` | ENTRADA | «3.550 millones. Ahora veamos realmente qué estás comprando.» | libre | | lleva el PRECIO («3.550 millones»); el CTA no puede repetirlo |
@@ -112,7 +113,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | MD05 | `Medio5.MOV` | BARANDA | «Hay lujo que se muestra y hay otro que simplemente se siente.» | libre | | «luego»/«lujo» dudosa |
 | MD06 | `Medio6.MOV` | TERRAZA | «Diferentes materiales, combinados con vegetación y agua, construyen una experiencia, no… | libre | |  |
 | ~~MD07~~ | `Medio7.MOV` | TERRAZA | «La respuesta no siempre está en los metros, a veces está en cómo entra el exterior.» | **usado** | V2 |  |
-| MD08 | `Medio8.MOV` | TERRAZA | «La doble altura permite que la luz y ventilación ingresen a la vivienda.» | libre | |  |
+| ~~MD08~~ | `Medio8.MOV` | TERRAZA | «La doble altura permite que la luz y ventilación ingresen a la vivienda.» | **reservado** | V3 |  |
 | ~~MD09~~ | `Medio9.MOV` | INT-ABIERTO | «Tienes 317 metros para desarrollar completamente el interior.» | **usado** | V1 |  |
 | MD10 | `Medio10.MOV` | ENTRADA | «317 metros cuadrados diseñados por ALH y entregados en obra gris.» | libre | | nombra a ALH (sin confirmar que se pueda) |
 | MD11 | `Medio11.MOV` | INT-ABIERTO | «¿(Eres) alguien que valora la arquitectura y prefiere crear sus propios acabados?» | libre | | arranque con confianza 0,31 |
@@ -128,7 +129,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | CT02 | `CTA2.MOV` | BALCON | «317 metros cuadrados en obra gris por 3.550 millones, escríbeme y ven a conocerlo.» | libre | | lleva el PRECIO: no va en el bloque 6 |
 | CT03 | `CTA3.MOV` | PATIO | «Está disponible por 3.550 millones, escríbeme y ven a conocerlo.» | libre | | lleva el PRECIO: no va en el bloque 6 |
 | CT04 | `CTA4.MOV` | PATIO | «Los Patios, arquitectura de ALH, escríbeme para conocer esta unidad.» | libre | | nombra a ALH (sin confirmar que se pueda) |
-| CT05 | `CTA5.MOV` | INT-BLOQUES | «Si encaja con lo que estás buscando, escríbeme.» | libre | |  |
+| ~~CT05~~ | `CTA5.MOV` | INT-BLOQUES | «Si encaja con lo que estás buscando, escríbeme.» | **reservado** | V3 |  |
 | CT06 | `CTA6.MOV` | INT-ABIERTO | «Si es el reto, escríbeme y agendamos una visita.» | libre | | «reto»/«resto» dudosa (confianza 0,16) |
 | ~~CT07~~ | `CTA7.MOV` | TERRAZA | «Necesitas saber si esta unidad en específico funciona para ti. Si es así, escríbeme y l… | **usado** | V1 |  |
 
@@ -141,7 +142,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | DR149 | `DJI_20261001103219_0149_D.MP4` | 18,6 s | libre | |
 | DR150 | `DJI_20261001103247_0150_D.MP4` | 11,1 s | libre | |
 | DR151 | `DJI_20261001103323_0151_D.MP4` | 5,2 s | libre | |
-| DR152 | `DJI_20261001103352_0152_D.MP4` | 22,2 s | libre | |
+| ~~DR152~~ | `DJI_20261001103352_0152_D.MP4` | 22,2 s | **reservado** | V3 |
 | DR153 | `DJI_20261001103446_0153_D.MP4` | 7,9 s | libre | |
 | DR154 | `DJI_20261001103456_0154_D.MP4` | 16,7 s | libre | |
 | ~~DR155~~ | `DJI_20261001103603_0155_D.MP4` | 10,9 s | **usado** | V2 |
