@@ -1050,7 +1050,7 @@ Los tramos de recorrido y dron son orientativos (§9). Los de Isabella son los �
 
 ### 11.4 Música y sonido
 
-No he localizado el catálogo de música del estudio en este checkout (`catalogo-musica.md`), así que no propongo pista. *(Actualización del 2026-10-03: el catálogo existe, en `Music/catalogo-musica.md` de la biblioteca de música del estudio (fuera del repo); la V1 de este material usa «Time», de Hans Zimmer, desde 175,63 s, y el registro de la música y de las combinaciones está en `combinaciones.md`.)* El criterio del formato: instrumental inmersiva que suba en los bloques 1 y 3, baje bajo la voz, con el clímax en la vista, y sin transiciones sonoras (nada de whooshes). La voz de Isabella no se trata.
+No he localizado el catálogo de música del estudio en este checkout (`catalogo-musica.md`), así que no propongo pista. *(Actualización del 2026-10-03: el catálogo existe, en `archivos/musica/catalogo-musica.md` (el audio vive en la biblioteca de música del estudio, fuera del repo); la V1 de este material usa «Time», de Hans Zimmer, desde 175,63 s, y el registro de la música y de las combinaciones está en `combinaciones.md`.)* El criterio del formato: instrumental inmersiva que suba en los bloques 1 y 3, baje bajo la voz, con el clímax en la vista, y sin transiciones sonoras (nada de whooshes). La voz de Isabella no se trata.
 
 ---
 

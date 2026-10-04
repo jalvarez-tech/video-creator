@@ -32,7 +32,7 @@
  * LA MÚSICA se decodifica ENTERA a WAV estéreo de 48 kHz y NADA MÁS (ni loudnorm,
  * que le cambiaría la dinámica): el MP3 arrastra su retardo de códec y el corte
  * al golpe se hace a la muestra, sobre el WAV. Su `desde` (segundos) es el de
- * `Music/catalogo-musica.md`, y el nivel es una ganancia del plan medida sobre
+ * `archivos/musica/catalogo-musica.md`, y el nivel es una ganancia del plan medida sobre
  * el tramo que suena (`audio-017.ts`).
  *
  * LA TARJETA DEL CIERRE: `cierre-oscuro.png`, un negro liso (ver el final de este archivo). Desde la revisión 6 nada se congela.
