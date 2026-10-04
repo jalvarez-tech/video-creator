@@ -24,9 +24,10 @@ Cada sesión trabaja en su rama `feat/reel-NNN-…` (NNN = el número de proyect
 | V2 | 018 | video-creator · PR #10 | Los Patios (apto 501) | final (la «en» del CTA sin oír) | 2026-10-04 | HK07 · MD07 · CT01 · *Return to Oasis* · dron DR155 al inicio · RC25 en la rev. 2 |
 | V3 | 019 | video-creator · checkout del estudio (reserva publicada; el proyecto 019 sigue SIN commit: el usuario pidió no commitear) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Altura sin torre»: RC25 limpio en el frame 0 · HK05 · dron DR152 como 1.er plano del recorrido · MD08 · CT05 · *Flying Into the Sun* (entrada 178,095 s) · pendiente: el OK a la prueba; oír MD08 «y (la) ventilación» (≈ 21,1 s), CT05 «escríbeme» (≈ 36,6-37,2 s) y la canción |
 | V4 | 020 | video-creator · rama `feat/reel-020-definir` (worktree propio del estudio; el proyecto 020 SIN commit) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Lo que todavía puedes definir» (pedido: canción tipo jazz): la calle RC22 en el frame 0 · HK03 · MD14 · CT06 · dron DR156 como último plano del bloque 5 · *Sax for the Last Customer* (entrada 137,615 s; su acorde final en f1183 resuelve tras el CTA) · 1253 f · 41,8 s · sin cifras · sentido I · ni un segundo de metraje compartido · pendiente: el OK a la prueba; oír «terminado» (HK03, ≈ 4,3-5,2 s) y «reto» (CT06, ≈ 36,9-37,1 s), la canción y la licencia; canal del CTA y si Luxur puede agendar |
-| V5 | 021 | | Los Patios (apto 501) | **libre: es la siguiente** | | |
+| V5 | 021 | video-creator · rama `feat/reel-021-dentro-y-fuera` (worktree propio `.claude/worktrees/reel-021`; el proyecto 021 aún sin commit) | Los Patios (apto 501) | **reservada** | 2026-10-04 | «Dentro y fuera» (pedido: canción tipo piano): RC10 (0-3 s, el deck) en el frame 0 · HK06 · MD01 · **CT02 recortado a su 2.ª mitad «escríbeme y ven a conocerlo»** (decisión del usuario: sin precio ni «317») · dron DR154 como primer plano del bloque 5 · *Andrea Vanzo – Amélie (reimagined)* (entrada 135,009 s; decae sola hacia +40-45 s) · sentido II · sin cifras · pendiente: medir a fondo y montar |
+| V6 | 022 | | Los Patios (apto 501) | **libre: es la siguiente** | | |
 
-El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V4 → 020…) para la que venga detrás.
+El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V5 → 021…) para la que venga detrás.
 
 ## 2. Canciones (43)
 
@@ -40,18 +41,18 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | Aleksey Chistilin - Overcoming the Impossible | `856aff24` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Aleksey Chistilin - Pictures from the Past | `aed6a3a3` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | ~~Aleksey Chistilin - Return to Oasis~~ | `55bf04c8` | **usada** | V2 | 2026-10-03 | Re# menor · 110 BPM · desde 142,967 s · rejilla de PULSO (una recta) · meseta de 37 s a −8,5 LUFS y caída a un piano (−20,5 LUFS) en 180,09 s, donde entra el CTA · proyecto 018 |
-| Aleksey Chistilin - Utopia | `b5dc5f59` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Aleksey Chistilin - Utopia | `b5dc5f59` | libre | | | medida en la V3 y en la V5: entrada 141,808 s (golpe de 9,8 dB), caída de 21,2 dB a +33,3 s · descartada en la V3 por parecerse a *Return to Oasis* (misma artista y timbre) |
 | Aleksey Chistilin - We Are | `c5aea0ad` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Andrea Vanzo - Amélie - Comptine d’un autre été, l’après-midi (reimagined) | `8a845ebc` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Armin van Buuren - Children (from 'Piano' album) | `80bd8abe` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Armin van Buuren - Here For You (from 'Piano' album) | `6fbbe88d` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| ~~Andrea Vanzo - Amélie - Comptine d’un autre été, l’après-midi (reimagined)~~ | `8a845ebc` | **reservada** | V5 | 2026-10-04 | piano neoclásico · Mi menor · ~95 rubato · entrada en 135,009 s (golpe de 22,7 dB, el más fuerte de las libres) · SIN pulso: 53 % de los golpes fuertes a ≤ 15 ms de la mejor recta (0,316 s), desvío 33 ms → por golpes medidos (15 fuertes en 50 s) · meseta plana de −17 a −18 LUFS hasta +40 s y decae sola a −28,7 LUFS (+40-45 s) y a silencio (−47 LUFS, +45-50 s): su final natural es la resolución bajo el CTA · proyecto 021 (`buscar-entrada.py`, `rejilla.py`, `medir-pista.py`) |
+| Armin van Buuren - Children (from 'Piano' album) | `80bd8abe` | libre | | | piano · medida en la V5: entrada 175,883 s (golpe de 9,7 dB, en el umbral) y caída de 22,2 dB a +36,4 s a un lecho de −32 dB (o 170,965 s: caída a +41,3 s) · SIN pulso (31 % a ≤ 15 ms, desvío 60 ms; 13 golpes fuertes en 40 s, uno cada 3,6 s): por frases · el relevo de *Amélie* |
+| Armin van Buuren - Here For You (from 'Piano' album) | `6fbbe88d` | libre | | | piano · medida en la V5: caída de solo 8,0 dB a +40,3 s (entrada 146,098 s): sin caída. Descartada |
 | Becoming I Judah Earl | `fc80918e` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Begin Again | `70147fa2` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Begin Again | `70147fa2` | libre | | | medida en la V3 y en la V5: entrada 145,196 s (golpe de 12,7 dB), caída de 18,3 dB a +33 s a SILENCIO que a los 5 s vuelve a −7 dB con un golpe de 20,7 dB: caería bajo la voz del CTA. Descartada |
 | ByErik ヵ - desolate (Slowed) | `74195082` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Chill Music - F.G.G. - Chillin' (Chillstep Mix) | `6c9eb412` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Chill Music - F.G.G. - Chillin' (Chillstep Mix) | `6c9eb412` | libre | | | chillstep · medida en la V5: entrada 232,674 s (golpe de 16,6 dB), caída de 12,8 dB a +33 s · `rejilla.py`: 73 % de los fuertes a ≤ 15 ms de una recta de 130 BPM (0,4616 s) pero desvío medio de 52,8 ms: pulso dudoso |
 | Cornfield Chase | `e28cd1ab` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Daniel Armand — Street Level Sessions on the Green | `e428a369` | libre | | | lo-fi / chillhop · medida en la V4: entrada 165,232 s (golpe de 20,2 dB) y caída de 25,6 dB a +40 s: encaja en la medida, pero es hip hop y no jazz; la segunda opción técnica si se quiere otro color |
-| Emilio Piano ft. Lucie - Maison | `df2be878` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Emilio Piano ft. Lucie - Maison | `df2be878` | libre | | | piano · medida en la V5: entrada 44,128 s (golpe de 9,3 dB), caída de 10,2 dB a +33 s: floja, pocos golpes (12) |
 | Epic Inspirational and Cinematic Motivational - by AShamaluevMusic | `38c75296` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Fortitude (Light Version) | `493eeec6` | libre | | | Sol mayor · 128 (o 64) · desde 105,23 (★★) · −15 dB plano, un respiro de silencio en +32,5 s y un «drop» a +33,4 s hacia −12 dB (cae en el dron: más empuje, menos calma). Medida, no montada. |
 | Gary B.B. Coleman - The Sky is Crying | `b422686a` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
@@ -63,17 +64,17 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | L' Amour Toujours on SAXOPHONE | `951c5de2` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | La Isla Bonita (Saxophone 80 Mix) | `71321b4f` | libre | | | pop latino en saxofón · medida en la V4: entrada 179,834 s con un golpe de 9,7 dB (en el umbral) y caída de 14,3 dB a +40 s; no es jazz. Descartada |
 | Light Fills the Room | `b3c8b7c6` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Ludovico Einaudi - Einaudi Fly | `a7e0695e` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Ludovico Einaudi - Einaudi Fly | `a7e0695e` | libre | | | piano · medida en la V5: caída de 3,8 dB: sin caída. Descartada |
 | Ludovico Einaudi - Experience (Live from Teatro dal Verme, Milano) | `66858006` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Luxury, Elegance, Refined - Oficial Vídeo Clipe | `4d36ea48` | libre | | | lounge · plana · medida en la V4: entrada 128,141 s con un golpe de solo 10,5 dB y caída de 4,3 dB: sin caída. Descartada |
-| Nils Frahm - Familiar | `5ef30490` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Nils Frahm - Familiar | `5ef30490` | libre | | | piano y sintetizadores · medida en la V5: entrada 134,421 s (golpe de 9,5 dB), caída de 11,5 dB a +39 s, meseta irregular (σ 2,9): floja |
 | Nils Frahm - Says  | `990e04bd` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Oceans (Where Feet May Fail) | `f6cebfbd` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | ~~Sax for the Last Customer~~ | `7a1c2932` | **reservada** | V4 | 2026-10-04 | LA ÚNICA PISTA DE JAZZ del catálogo (género inferido †, sin oír) · La menor · 179,73 s · entrada en 137,615 s (golpe de 33,7 dB en 137,645 s tras un descenso a ≈ −45 dB) · SIN pulso: solo el 46 % de los golpes fuertes cae a ≤ 15 ms de la mejor recta (0,371 s), desvío 79,7 ms → por golpes medidos · pista plana y densa (−12 a −13 LUFS) · resolución = su acorde final en 176,986 s (a los 39,37 s de la pieza) y cola que muere hacia 179,1 s · proyecto 020 (`buscar-entrada.py`, `rejilla.py`) |
-| Silver Skies Cinematic Piano | `9c3a3dc3` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Silver Skies Cinematic Piano | `9c3a3dc3` | libre | | | piano · medida en la V5: entrada 38,381 s (golpe de 12,3 dB), caída de 10,6 dB a +41 s, meseta irregular (σ 3,2): floja |
 | Softly I Judah Earl & BRANDON BLACK #music #cinematic #orchestralmusic | `87d78dc2` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Some Say - Acoustic Sunsets (Nea Cover) | `b652ab54` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Spring is Coming | `fe252090` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Spring is Coming | `fe252090` | libre | | | neoclásico · medida en la V5: caída de 7,3 dB a +42 s (entrada 73,305 s): sin caída |
 | Tiesto pres. Allure - Somewhere inside οf me (Alexander Gorshkov chillout remix) | `96faa93f` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Tony Anderson - Dreamlife | `5e7dcd27` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Yeshua (Versión Piano) | `7bd0eb6f` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
@@ -96,7 +97,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | ~~HK03~~ | `Hook3.MOV` | INT-BLOQUES | «Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.» | **reservado** | V4 |  |
 | HK04 | `Hook4.MOV` | INT-ABIERTO | «Si quieres diseñar 317 metros alrededor de tu forma de vivir, mira esto.» | libre | | lleva cifra («317 metros») |
 | ~~HK05~~ | `Hook5.MOV` | BARANDA | «¿Y si pudieras vivir en altura sin sentir que vives dentro de una torre?» | **reservado** | V3 |  |
-| HK06 | `Hook6.MOV` | TERRAZA | «Mira lo que ocurre cuando arquitectura y naturaleza dejan de estar separadas.» | libre | |  |
+| ~~HK06~~ | `Hook6.MOV` | TERRAZA | «Mira lo que ocurre cuando arquitectura y naturaleza dejan de estar separadas.» | **reservado** | V5 | «Mira» sale «Mirá» (voseo, conf. 0,28): se mide (el catálogo de material lo anota; antes no figuraba aquí) |
 | ~~HK07~~ | `Hook7.MOV` | PATIO | «El verdadero lujo puede ser simplemente tener espacio para respirar.» | **usado** | V2 |  |
 | HK08 | `Hook8.MOV` | ENTRADA | «3.550 millones. Ahora veamos realmente qué estás comprando.» | libre | | lleva el PRECIO («3.550 millones»); el CTA no puede repetirlo |
 | HK09 | `Hook9.MOV` | INT-VENTANAL | «Esta propiedad tiene sentido para un comprador muy específico.» | libre | |  |
@@ -106,7 +107,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 
 | Código | Clip | Lugar | Dice | Estado | V | Aviso |
 |---|---|---|---|---|---|---|
-| MD01 | `Medio1.MOV` | BARANDA | «Los patios y vacíos hacen desaparecer esa frontera entre interior, paisaje y arquitectu… | libre | |  |
+| ~~MD01~~ | `Medio1.MOV` | BARANDA | «Los patios y vacíos hacen desaparecer esa frontera entre interior, paisaje y arquitectu… | **reservado** | V5 | «patios y vacíos» (whisper: «partidos ibasíos» en la primera pasada) y «entre interior» (conf. 0,25): se miden (el catálogo de material lo anota; antes no figuraba aquí) |
 | MD01a | `Medio1.1.MOV` | TERRAZA | «Los patios y vacíos hacen desaparecer esa frontera entre paisaje, vegetación y espacio.» | libre | |  |
 | MD02 | `Medio2.MOV` | TERRAZA | «La arquitectura ya está resuelta. El interior puede reflejar completamente tu personali… | libre | |  |
 | MD03 | `Medio3.MOV` | PATIO | «Una piscina privada en altura es interesante, pero no es lo mejor de este proyecto.» | libre | | «piscina»/«cocina» por confirmar |
@@ -127,7 +128,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | Código | Clip | Lugar | Dice | Estado | V | Aviso |
 |---|---|---|---|---|---|---|
 | ~~CT01~~ | `CTA1.MOV` | BALCON | «Si buscas algo diferente (a) un apartamento convencional, escríbeme y conoce Los Patios.» | **usado** | V2 | la vocal medida es «en» (F1 ≈ 605 / F2 ≈ 2.360 Hz), sin oír: se pintó «en»; ver `proyectos/018` del repo |
-| CT02 | `CTA2.MOV` | BALCON | «317 metros cuadrados en obra gris por 3.550 millones, escríbeme y ven a conocerlo.» | libre | | lleva el PRECIO: no va en el bloque 6 |
+| ~~CT02~~ | `CTA2.MOV` | BALCON | «317 metros cuadrados en obra gris por 3.550 millones, escríbeme y ven a conocerlo.» | **reservado** | V5 | lleva el PRECIO y el «317»: **la V5 usa solo su 2.ª mitad, «escríbeme y ven a conocerlo»** (decisión del usuario, 2026-10-04: ni el precio ni el «317» suenan, se leen ni se ven). La toma entera sigue sin poder ir en el bloque 6 |
 | CT03 | `CTA3.MOV` | PATIO | «Está disponible por 3.550 millones, escríbeme y ven a conocerlo.» | libre | | lleva el PRECIO: no va en el bloque 6 |
 | CT04 | `CTA4.MOV` | PATIO | «Los Patios, arquitectura de ALH, escríbeme para conocer esta unidad.» | libre | | nombra a ALH (sin confirmar que se pueda) |
 | ~~CT05~~ | `CTA5.MOV` | INT-BLOQUES | «Si encaja con lo que estás buscando, escríbeme.» | **reservado** | V3 |  |
@@ -145,7 +146,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | DR151 | `DJI_20261001103323_0151_D.MP4` | 5,2 s | libre | |
 | ~~DR152~~ | `DJI_20261001103352_0152_D.MP4` | 22,2 s | **reservado** | V3 |
 | DR153 | `DJI_20261001103446_0153_D.MP4` | 7,9 s | libre | |
-| DR154 | `DJI_20261001103456_0154_D.MP4` | 16,7 s | libre | |
+| ~~DR154~~ | `DJI_20261001103456_0154_D.MP4` | 16,7 s | **reservado** | V5 |
 | ~~DR155~~ | `DJI_20261001103603_0155_D.MP4` | 10,9 s | **usado** | V2 |
 | ~~DR156~~ | `DJI_20261001103635_0156_D.MP4` | 25,8 s | **reservado** | V4 |
 | ~~DR163~~ | `DJI_20261001104246_0163_D.MP4` | 19,1 s | **usado** | V1 |
