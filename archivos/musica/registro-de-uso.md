@@ -23,7 +23,7 @@ Cada sesión trabaja en su rama `feat/reel-NNN-…` (NNN = el número de proyect
 | V1 | 017 | video-creator · PR #10 | Los Patios (apto 501) | final (CRF 12 y CRF 16) | 2026-10-03 | «La oportunidad»: HK02 · MD09 · CT07 · *Time* · dron DR147 al inicio |
 | V2 | 018 | video-creator · PR #10 | Los Patios (apto 501) | final (la «en» del CTA sin oír) | 2026-10-04 | HK07 · MD07 · CT01 · *Return to Oasis* · dron DR155 al inicio · RC25 en la rev. 2 |
 | V3 | 019 | video-creator · checkout del estudio (reserva publicada; el proyecto 019 sigue SIN commit: el usuario pidió no commitear) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Altura sin torre»: RC25 limpio en el frame 0 · HK05 · dron DR152 como 1.er plano del recorrido · MD08 · CT05 · *Flying Into the Sun* (entrada 178,095 s) · pendiente: el OK a la prueba; oír MD08 «y (la) ventilación» (≈ 21,1 s), CT05 «escríbeme» (≈ 36,6-37,2 s) y la canción |
-| V4 | 020 | video-creator · rama `feat/reel-020-definir` (worktree propio del estudio; proyecto 020 commiteado en la rama, sin PR) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Lo que todavía puedes definir» (pedido: canción tipo jazz): la calle RC22 en el frame 0 · HK03 · MD14 · CT06 · dron DR156 como último plano del bloque 5 · *Sax for the Last Customer* (entrada 137,615 s; su acorde final en f1183 resuelve tras el CTA) · 1253 f · 41,8 s · sin cifras · sentido I · ni un segundo de metraje compartido · pendiente: el OK a la prueba; oír «terminado» (HK03, ≈ 4,3-5,2 s) y «reto» (CT06, ≈ 36,9-37,1 s), la canción y la licencia; canal del CTA y si Luxur puede agendar |
+| V4 | 020 | video-creator · rama `feat/reel-020-definir` (worktree propio del estudio; proyecto 020 commiteado en la rama, sin PR) | Los Patios (apto 501) | **final** (CRF 12 y CRF 16; «terminado» y «reto» medidas pero sin oír) | 2026-10-04 | «Lo que todavía puedes definir» (pedido: canción tipo jazz): la calle RC22 en el frame 0 · HK03 · MD14 · CT06 · dron DR156 como último plano del bloque 5 · *Sax for the Last Customer* (entrada 137,615 s; su acorde final en f1183 resuelve tras el CTA) · 1253 f · 41,8 s · sin cifras · sentido I · ni un segundo de metraje compartido · pendiente: oír «terminado» (HK03, ≈ 4,3-5,2 s) y «reto» (CT06, ≈ 36,9-37,1 s), la canción y la licencia; canal del CTA y si Luxur puede agendar |
 | V5 | 021 | | Los Patios (apto 501) | **libre: es la siguiente** | | |
 
 El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V4 → 020…) para la que venga detrás.
@@ -69,7 +69,7 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | Nils Frahm - Familiar | `5ef30490` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Nils Frahm - Says  | `990e04bd` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Oceans (Where Feet May Fail) | `f6cebfbd` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| ~~Sax for the Last Customer~~ | `7a1c2932` | **reservada** | V4 | 2026-10-04 | LA ÚNICA PISTA DE JAZZ del catálogo (género inferido †, sin oír) · La menor · 179,73 s · entrada en 137,615 s (golpe de 33,7 dB en 137,645 s tras un descenso a ≈ −45 dB) · SIN pulso: solo el 46 % de los golpes fuertes cae a ≤ 15 ms de la mejor recta (0,371 s), desvío 79,7 ms → por golpes medidos · pista plana y densa (−12 a −13 LUFS) · resolución = su acorde final en 176,986 s (a los 39,37 s de la pieza) y cola que muere hacia 179,1 s · proyecto 020 (`buscar-entrada.py`, `rejilla.py`) |
+| ~~Sax for the Last Customer~~ | `7a1c2932` | **usada** | V4 | 2026-10-04 | LA ÚNICA PISTA DE JAZZ del catálogo (género inferido †, sin oír) · La menor · 179,73 s · entrada en 137,615 s (golpe de 33,7 dB en 137,645 s tras un descenso a ≈ −45 dB) · SIN pulso: solo el 46 % de los golpes fuertes cae a ≤ 15 ms de la mejor recta (0,371 s), desvío 79,7 ms → por golpes medidos · pista plana y densa (−12 a −13 LUFS) · resolución = su acorde final en 176,986 s (a los 39,37 s de la pieza) y cola que muere hacia 179,1 s · proyecto 020 (`buscar-entrada.py`, `rejilla.py`) |
 | Silver Skies Cinematic Piano | `9c3a3dc3` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Softly I Judah Earl & BRANDON BLACK #music #cinematic #orchestralmusic | `87d78dc2` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Some Say - Acoustic Sunsets (Nea Cover) | `b652ab54` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
@@ -93,7 +93,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | HK01a | `Hook1.1.MOV` | TERRAZA | «Lo más especial de este apartamento, está dentro y fuera… ¡ven, te enseño!» | libre | | ídem; sin colchón al inicio (entra a corte) |
 | HK01b | `Hook1.2.MOV` | PATIO | «Lo más especial de este apartamento está dentro y fuera… ven, te enseño.» | libre | | ídem; el mejor fondo para miniatura |
 | ~~HK02~~ | `Hook2+IA.MOV` | INT-ABIERTO | «Este apartamento aún no está terminado… y ahí está, precisamente, la oportunidad.» | **usado** | V1 |  |
-| ~~HK03~~ | `Hook3.MOV` | INT-BLOQUES | «Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.» | **reservado** | V4 |  |
+| ~~HK03~~ | `Hook3.MOV` | INT-BLOQUES | «Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.» | **usado** | V4 |  |
 | HK04 | `Hook4.MOV` | INT-ABIERTO | «Si quieres diseñar 317 metros alrededor de tu forma de vivir, mira esto.» | libre | | lleva cifra («317 metros») |
 | ~~HK05~~ | `Hook5.MOV` | BARANDA | «¿Y si pudieras vivir en altura sin sentir que vives dentro de una torre?» | **reservado** | V3 |  |
 | HK06 | `Hook6.MOV` | TERRAZA | «Mira lo que ocurre cuando arquitectura y naturaleza dejan de estar separadas.» | libre | |  |
@@ -120,7 +120,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | MD11 | `Medio11.MOV` | INT-ABIERTO | «¿(Eres) alguien que valora la arquitectura y prefiere crear sus propios acabados?» | libre | | arranque con confianza 0,31 |
 | MD12 | `Medio12.MOV` | TERRAZA | «El interior puede llevar completamente tu personalidad.» | libre | |  |
 | MD13 | `Medio13.MOV` | TERRAZA | «(Los) materiales se pueden cambiar, pero proporciones, altura y arquitectura, no.» | libre | | primera palabra con confianza 0,41 |
-| ~~MD14~~ | `Medio14.MOV` | PATIO | «No estás viendo un apartamento sin terminar, estás viendo uno que todavía puedes defini… | **reservado** | V4 |  |
+| ~~MD14~~ | `Medio14.MOV` | PATIO | «No estás viendo un apartamento sin terminar, estás viendo uno que todavía puedes defini… | **usado** | V4 |  |
 
 ### CTA
 
@@ -131,7 +131,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | CT03 | `CTA3.MOV` | PATIO | «Está disponible por 3.550 millones, escríbeme y ven a conocerlo.» | libre | | lleva el PRECIO: no va en el bloque 6 |
 | CT04 | `CTA4.MOV` | PATIO | «Los Patios, arquitectura de ALH, escríbeme para conocer esta unidad.» | libre | | nombra a ALH (sin confirmar que se pueda) |
 | ~~CT05~~ | `CTA5.MOV` | INT-BLOQUES | «Si encaja con lo que estás buscando, escríbeme.» | **reservado** | V3 |  |
-| ~~CT06~~ | `CTA6.MOV` | INT-ABIERTO | «Si es el reto, escríbeme y agendamos una visita.» | **reservado** | V4 | «reto»/«resto» dudosa (confianza 0,16) y «agendamos» (0,04): se miden antes de la final; Luxur tiene que poder agendar |
+| ~~CT06~~ | `CTA6.MOV` | INT-ABIERTO | «Si es el reto, escríbeme y agendamos una visita.» | **usado** | V4 | «reto»/«resto» dudosa (confianza 0,16) y «agendamos» (0,04): se miden antes de la final; Luxur tiene que poder agendar |
 | ~~CT07~~ | `CTA7.MOV` | TERRAZA | «Necesitas saber si esta unidad en específico funciona para ti. Si es así, escríbeme y l… | **usado** | V1 |  |
 
 ### Drones
@@ -147,7 +147,7 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | DR153 | `DJI_20261001103446_0153_D.MP4` | 7,9 s | libre | |
 | DR154 | `DJI_20261001103456_0154_D.MP4` | 16,7 s | libre | |
 | ~~DR155~~ | `DJI_20261001103603_0155_D.MP4` | 10,9 s | **usado** | V2 |
-| ~~DR156~~ | `DJI_20261001103635_0156_D.MP4` | 25,8 s | **reservado** | V4 |
+| ~~DR156~~ | `DJI_20261001103635_0156_D.MP4` | 25,8 s | **usado** | V4 |
 | ~~DR163~~ | `DJI_20261001104246_0163_D.MP4` | 19,1 s | **usado** | V1 |
 
 ### Recorridos (se pueden repetir; se declara)
