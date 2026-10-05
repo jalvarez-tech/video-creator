@@ -73,4 +73,5 @@ Medido igual que las piezas aprobadas, sobre 10 fotogramas con texto de las tres
 
 - `node proyectos/020/revisar-020.mjs`: **verde**, con cuatro avisos «por confirmar al oído» a propósito («terminado» y «reto»; `--final` falla hasta que se oigan).
 - `npm --prefix remotion run lint`: limpio.
+- Final: `finales/020-recorrido.mp4` (CRF 12 `slower`, 173,2 MB), `finales/020-recorrido-crf16.mp4` (CRF 16 `slow`, 96,7 MB) y `finales/020.srt`: las dos con las etiquetas BT.709 completas y medidas contra stills; `--final` falla por las cinco notas «por confirmar al oído» (a propósito).
 - Prueba: `pruebas-720p/020-recorrido-720p.mp4` (540×960, BT.709 en las dos capas, 22 MB), hoja de contactos `hoja.png` y panel de color `panel-color.png`.
