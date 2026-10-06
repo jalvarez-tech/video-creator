@@ -25,9 +25,10 @@ Cada sesión trabaja en su rama `feat/reel-NNN-…` (NNN = el número de proyect
 | V3 | 019 | video-creator · checkout del estudio (reserva publicada; el proyecto 019 sigue SIN commit: el usuario pidió no commitear) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Altura sin torre»: RC25 limpio en el frame 0 · HK05 · dron DR152 como 1.er plano del recorrido · MD08 · CT05 · *Flying Into the Sun* (entrada 178,095 s) · pendiente: el OK a la prueba; oír MD08 «y (la) ventilación» (≈ 21,1 s), CT05 «escríbeme» (≈ 36,6-37,2 s) y la canción |
 | V4 | 020 | video-creator · rama `feat/reel-020-definir` (worktree propio del estudio; el proyecto 020 SIN commit) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Lo que todavía puedes definir» (pedido: canción tipo jazz): la calle RC22 en el frame 0 · HK03 · MD14 · CT06 · dron DR156 como último plano del bloque 5 · *Sax for the Last Customer* (entrada 137,615 s; su acorde final en f1183 resuelve tras el CTA) · 1253 f · 41,8 s · sin cifras · sentido I · ni un segundo de metraje compartido · pendiente: el OK a la prueba; oír «terminado» (HK03, ≈ 4,3-5,2 s) y «reto» (CT06, ≈ 36,9-37,1 s), la canción y la licencia; canal del CTA y si Luxur puede agendar |
 | V5 | 021 | video-creator · rama `feat/reel-021-dentro-y-fuera` (worktree propio `.claude/worktrees/reel-021`; el proyecto 021 SIN commit) | Los Patios (apto 501) | final (CRF 12 y CRF 16) | 2026-10-04 | «Dentro y fuera» (pedido: canción tipo piano): **sin apertura de la casa: el reel EMPIEZA CON EL HOOK** (rev. 2, pedido del usuario «elimina la primer toma y empieza con el hook»; rompe a propósito la regla fija «la primera toma sin texto ni voz»; la rev. 1 abría con el deck RC10) · HK06 · MD01 · **CT02 recortado a su 2.ª mitad «escríbeme y ven a conocerlo»** (decisión del usuario: ni el precio ni el «317» suenan, se leen ni se ven) · dron DR154 como plano CENTRAL del bloque 3 (no «primer plano del bloque 5», como decía la reserva) · *Andrea Vanzo – Amélie (reimagined)* (entrada 134,967 s; su decaimiento natural desde los 175 s resuelve bajo el CTA) · 1289 f · 43,0 s · sin cifras · sentido II · ni un segundo de metraje compartido · **FINAL EXPORTADO el 2026-10-04** por orden del usuario (`finales/021-recorrido.mp4` CRF 12, 160 MB, + `021-recorrido-crf16.mp4` + `021.srt`) con una palabra SIN cerrar: «Mira»/«Mirá» (HK06, 0,6 s del vídeo; el acento cae en la 2.ª sílaba: se oye «mirá», se pintó «Mira») · sigue por oír: la canción (medida, no oída; licencia no verificada), si 1,7 s de voz bastan como CTA, y el canal del CTA |
-| V6 | 022 | | Los Patios (apto 501) | **libre: es la siguiente** | | |
+| V6 | 022 | video-creator · rama `feat/reel-022-one-living` (worktree propio `.claude/worktrees/reel-022`; el proyecto 022 SIN commit) | One Living (Envigado) | **reservada** | 2026-10-06 | PRIMER reel de esta propiedad: apertura RC01 (balcón) · HK2 · MD1 · CT1 · *Some Say – Acoustic Sunsets (Nea Cover)* (entrada 139,053 s; su acorde final cae −15 → −29 dB en 1,5 s a +36,4 s bajo el CTA) · sin dron (no hay) · sin cifras · sentido I · pendiente: el OK a la prueba; cerrar al oído «habitación»/«vestier»/«balcón» (MD1), «balcón» (HK2) y «Escobero» (CT1); la música (medida, no oída; licencia no verificada); canal del CTA; la afirmación de MD1 «conectada con la zona social y el balcón» |
+| V7 | 023 | | One Living (Envigado) | **libre: es la siguiente** | | |
 
-El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V5 → 021…) para la que venga detrás.
+El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V6 → 022…) para la que venga detrás.
 
 ## 2. Canciones (43)
 
@@ -41,7 +42,7 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | Aleksey Chistilin - Overcoming the Impossible | `856aff24` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Aleksey Chistilin - Pictures from the Past | `aed6a3a3` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | ~~Aleksey Chistilin - Return to Oasis~~ | `55bf04c8` | **usada** | V2 | 2026-10-03 | Re# menor · 110 BPM · desde 142,967 s · rejilla de PULSO (una recta) · meseta de 37 s a −8,5 LUFS y caída a un piano (−20,5 LUFS) en 180,09 s, donde entra el CTA · proyecto 018 |
-| Aleksey Chistilin - Utopia | `b5dc5f59` | libre | | | medida en la V3 y en la V5: entrada 141,808 s (golpe de 9,8 dB), caída de 21,2 dB a +33,3 s · descartada en la V3 por parecerse a *Return to Oasis* (misma artista y timbre) |
+| Aleksey Chistilin - Utopia | `b5dc5f59` | libre | | | medida en la V3 y en la V5: entrada 141,808 s (golpe de 9,8 dB), caída de 21,2 dB a +33,3 s · descartada en la V3 por parecerse a *Return to Oasis* (misma artista y timbre); en la V6 (`rejilla.py`): 27 % a ≤ 15 ms, sin pulso |
 | Aleksey Chistilin - We Are | `c5aea0ad` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | ~~Andrea Vanzo - Amélie - Comptine d’un autre été, l’après-midi (reimagined)~~ | `8a845ebc` | **reservada** | V5 | 2026-10-04 | piano neoclásico · Mi menor · ~95 rubato · entrada en 135,009 s (golpe de 25,5 dB, el más fuerte de las libres) · SIN pulso: 53 % de los golpes fuertes a ≤ 15 ms de la mejor recta (0,316 s), desvío 33 ms → por golpes medidos (15 fuertes en 50 s) · meseta plana de −17 a −18 LUFS hasta +40 s y decae sola a −26,5 LUFS (+40-45 s) y a −40,4 (+45-50 s): su final natural es la resolución bajo el CTA · proyecto 021 (`buscar-entrada.py`, `rejilla.py`, `medir-pista.py`) |
 | Armin van Buuren - Children (from 'Piano' album) | `80bd8abe` | libre | | | piano · medida en la V5: entrada 175,883 s (golpe de 9,7 dB, en el umbral) y caída de 22,2 dB a +36,4 s a un lecho de −32 dB (o 170,965 s: caída a +41,3 s) · SIN pulso (31 % a ≤ 15 ms, desvío 60 ms; 13 golpes fuertes en 40 s, uno cada 3,6 s): por frases · el relevo de *Amélie* |
@@ -51,7 +52,7 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | ByErik ヵ - desolate (Slowed) | `74195082` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Chill Music - F.G.G. - Chillin' (Chillstep Mix) | `6c9eb412` | libre | | | chillstep · medida en la V5: entrada 232,674 s (golpe de 16,6 dB), caída de 12,8 dB a +33 s · `rejilla.py`: 73 % de los fuertes a ≤ 15 ms de una recta de 130 BPM (0,4616 s) pero desvío medio de 52,8 ms: pulso dudoso |
 | Cornfield Chase | `e28cd1ab` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Daniel Armand — Street Level Sessions on the Green | `e428a369` | libre | | | lo-fi / chillhop · medida en la V4: entrada 165,232 s (golpe de 20,2 dB) y caída de 25,6 dB a +40 s: encaja en la medida, pero es hip hop y no jazz; la segunda opción técnica si se quiere otro color |
+| Daniel Armand — Street Level Sessions on the Green | `e428a369` | libre | | | lo-fi / chillhop · medida en la V4: entrada 165,232 s (golpe de 20,2 dB) y caída de 25,6 dB a +40 s: encaja en la medida, pero es hip hop y no jazz; la segunda opción técnica si se quiere otro color · medida en la V6 (`curva.py`): su final es un desvanecimiento de −14 a −30 dB entre +40,3 y +41,8 s y silencio digital desde +43,8 s (entrada 165,232 s): el CTA tendría que entrar a +40 s, pieza de ≈ 48 s; sin pulso (32 %, desvío 79 ms). La segunda opción de la V6 |
 | Emilio Piano ft. Lucie - Maison | `df2be878` | libre | | | piano · medida en la V5: entrada 44,128 s (golpe de 9,3 dB), caída de 10,2 dB a +33 s: floja, pocos golpes (12) |
 | Epic Inspirational and Cinematic Motivational - by AShamaluevMusic | `38c75296` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Fortitude (Light Version) | `493eeec6` | libre | | | Sol mayor · 128 (o 64) · desde 105,23 (★★) · −15 dB plano, un respiro de silencio en +32,5 s y un «drop» a +33,4 s hacia −12 dB (cae en el dron: más empuje, menos calma). Medida, no montada. |
@@ -73,9 +74,9 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | ~~Sax for the Last Customer~~ | `7a1c2932` | **reservada** | V4 | 2026-10-04 | LA ÚNICA PISTA DE JAZZ del catálogo (género inferido †, sin oír) · La menor · 179,73 s · entrada en 137,615 s (golpe de 33,7 dB en 137,645 s tras un descenso a ≈ −45 dB) · SIN pulso: solo el 46 % de los golpes fuertes cae a ≤ 15 ms de la mejor recta (0,371 s), desvío 79,7 ms → por golpes medidos · pista plana y densa (−12 a −13 LUFS) · resolución = su acorde final en 176,986 s (a los 39,37 s de la pieza) y cola que muere hacia 179,1 s · proyecto 020 (`buscar-entrada.py`, `rejilla.py`) |
 | Silver Skies Cinematic Piano | `9c3a3dc3` | libre | | | piano · medida en la V5: entrada 38,381 s (golpe de 12,3 dB), caída de 10,6 dB a +41 s, meseta irregular (σ 3,2): floja |
 | Softly I Judah Earl & BRANDON BLACK #music #cinematic #orchestralmusic | `87d78dc2` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Some Say - Acoustic Sunsets (Nea Cover) | `b652ab54` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| ~~Some Say - Acoustic Sunsets (Nea Cover)~~ | `b652ab54` | **reservada** | V6 | 2026-10-06 | pop acústico (versión de Nea) · Do# mayor · ≈105 BPM · entrada en 139,053 s (golpe de 28,9 dB; el de 137,905 s es de 7,6) · SIN pulso: 50 % de los golpes fuertes a ≤ 15 ms de una recta de corcheas de 0,286 s (desvío 17 ms), pero con el pulso real (0,5715 s) solo 37 % → por golpes medidos (62 fuertes en 45 s) · meseta plana de −14 a −15 LUFS hasta +36 s y ACORDE FINAL en +36,4 s (−15,1 → −28,6 dB en 1,5 s, silencio desde +46 s): ahí entra el CTA · whisper no transcribe letra («[Music]»): probablemente instrumental, sin oír · proyecto 022 (`buscar-entrada.py`, `rejilla.py`, `medir-pista.py`, `curva.py`) |
 | Spring is Coming | `fe252090` | libre | | | neoclásico · medida en la V5: caída de 7,3 dB a +42 s (entrada 73,305 s): sin caída |
-| Tiesto pres. Allure - Somewhere inside οf me (Alexander Gorshkov chillout remix) | `96faa93f` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| Tiesto pres. Allure - Somewhere inside οf me (Alexander Gorshkov chillout remix) | `96faa93f` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) · medida en la V6: entrada 291,855 s (golpe de 9,8 dB), −9,4 → −13,2 → −41,7 dB en +40-50 s; pulso dudoso (61 %, desvío 57 ms); la otra entrada, 182,392 s, tiene solo 12 golpes fuertes |
 | Tony Anderson - Dreamlife | `5e7dcd27` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | Yeshua (Versión Piano) | `7bd0eb6f` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 | deadmau5 - Strobe | `de6df12a` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
@@ -181,5 +182,55 @@ Hooks, mitades, CTA y drones se TACHAN al usarlos. Los recorridos pueden repetir
 | RC24 | `Exterior edidficio3.MOV` | 5,9 s | sin usar |
 | RC25 | `Exterior edificio4.MOV` | 7,7 s | V1 (1,2-3,1 s) · V2 (0,0-2,7 s, rev. 2) |
 | RC26 | `Exterior edificio5.MOV` | 5,0 s | sin usar |
+
+## 4. Material de One Living (Envigado)
+
+Códigos y textos de `proyectos/022/catalogo-material.md` (cada propiedad tiene SUS códigos: `RC10` de aquí no es `RC10` de Los Patios). Los clips están en el disco del rodaje (no en git): `/Volumes/SSK SSD/Work/Propiedades Luxur/Apartamento - One Living - Envigado/Videos/` (`1 Hooks`, `2 Mitad`, `4 recorrido`, `5 Cta`; **no hay `3 Dron`**: esta propiedad no tiene dron). Ficha (leída el 2026-10-06): 76 m², 2 alcobas, 3 baños, piso 11 de la Torre 2, COP 843 millones, **venta por cesión de contrato**, entrega «en unos tres meses» según el asesor, rooftop y zonas comunes en la 2.ª etapa. Hooks, mitades y CTA se TACHAN al usarlos; los recorridos pueden repetirse y se declara. El aviso de «cumplimiento» es el de `proyectos/022/analisis-uso.md` §B.
+
+### Hooks
+
+| Código | Clip | Lugar | Dice | Estado | V | Aviso |
+|---|---|---|---|---|---|---|
+| HK1 | `hook1.MOV` | SALA | «76 metros pueden sentirse muy diferentes cuando están bien distribuidos.» | libre | | lleva la cifra «76»; cuadra con la ficha (76 m²) pero la tipología REFLEX publica 71-75: pregunta antes de usarlo |
+| ~~HK2~~ | `hook2.MOV` | BALCON | «Si para ti un apartamento sin balcón no es opción, mira esto.» | **reservado** | V6 | «balcón» (conf. 0,64): se mide |
+| HK3 | `hook3.MOV` | SALA | «Si quieres un apartamento para vivir o considerar para renta corta, mira esto.» | libre | | **no sin OK del usuario**: renta corta = vivienda turística (Ley 2068, RNT, y el reglamento de propiedad horizontal tiene que permitirla); no consta si el de One Living lo permite |
+| HK4 | `hook4.MOV` | COCINA/ENTRADA | «¿Vale la pena comprar ahora en vez de esperar la Torre 2? Claro que sí, ya que tienes una plusvalía segura de 94 millones de pesos.» | libre | | **NO**: promete valorización con cifra; y «esperar la Torre 2» choca con la ficha (esta unidad ESTÁ en la Torre 2) |
+
+### Mitades
+
+| Código | Clip | Lugar | Dice | Estado | V | Aviso |
+|---|---|---|---|---|---|---|
+| ~~MD1~~ | `medio1.MOV` | ALCOBA-SEC | «Aquí cada habitación tiene su baño y su vestier, además de estar conectada con la zona social y el balcón.» | **reservado** | V6 | «habitación» (0,39) y «vestier» (0,27) se miden; «conectada … con el balcón» no consta en la ficha: pendiente de confirmar |
+| MD2 | `medio2.MOV` | SALA/BALCON | «Aquí el balcón se convierte en una extensión de la zona social.» | libre | | «balcón» (0,43); el balcón mide 1,40 × 3,30 m |
+| MD3 | `medio3.MOV` | SALA | «Cuenta con dos habitaciones independientes, balcón y ubicación junto a City Plaza.» | libre | | «Balcón» (0,29), «ubicación» (0,20), «junto» (0,42); confirmar en la ficha lo de City Plaza |
+
+### CTA
+
+| Código | Clip | Lugar | Dice | Estado | V | Aviso |
+|---|---|---|---|---|---|---|
+| ~~CT1~~ | `cta1.MOV` | ALCOBA-PPAL | «Estamos en la Loma del Escobero, en Envigado. Si quieres más información, contáctame.» | **reservado** | V6 | «Escobero» (0,57); sin canal de contacto dicho |
+| CT2 | `cta2.mov` | BALCON | «Si te gusta esta vista, contáctanos y agendemos una visita.» | libre | | «contáctanos» (0,34) y «agendemos» (0,35); Luxur tiene que poder agendar; la voz empieza en 0,95 s (hay un clic en 0,03) |
+| CT3 | `cta3.MOV` | COCINA | «Si quieres ampliar tu portafolio y maximizar tu rentabilidad, te explico cómo.» | libre | | **NO**: promete rentabilidad |
+
+### Recorridos (se pueden repetir; se declara)
+
+| Código | Clip | Dura | Usado en |
+|---|---|---|---|
+| RC01 | `balcon - paneo.MOV` | 9,1 s | V6 (reservado: apertura) |
+| RC02 | `bano habitacion principal.MOV` | 4,1 s | V6 (reservado) |
+| RC03 | `bano habitacion secundaria, paneo hacia habitacion.MOV` | 7,2 s | sin usar |
+| RC04 | `bano habitacion secundaria.MOV` | 4,8 s | sin usar |
+| RC05 | `cocina, paneo a sala y balcon.MOV` | 10,3 s | V6 (reservado) |
+| RC06 | `cocina, sala, balcon.MOV` | 15,5 s | sin usar |
+| RC07 | `habitacion principal - entrando.MOV` | 8,6 s | V6 (reservado) |
+| RC08 | `habitacion principal - paneo 2.MOV` | 7,7 s | sin usar |
+| RC09 | `habitacion principal - paneo.MOV` | 63,2 s | sin usar (clip largo: caminata por toda la casa) |
+| RC10 | `habitacion principal.MOV` | 8,1 s | sin usar |
+| RC11 | `habitacion secundaria - paneo.MOV` | 14,6 s | sin usar |
+| RC12 | `habitacion secundaria - zoom in ventanal.MOV` | 11,3 s | V6 (reservado: la vista) |
+| RC13 | `habitacion secundaria.MOV` | 5,1 s | sin usar |
+| RC14 | `recorrido caminando.MOV` | 49,8 s | sin usar (HLG; lleva a Isabella en cuadro y hablando) |
+| RC15 | `sala, habitacion secundaria, vestier.MOV` | 17,7 s | V6 (reservado) |
+| RC16 | `vestier habitacion principal.MOV` | 2,0 s | V6 (reservado) |
 
 *Reglas del formato que pesan en la elección:* una sola cifra como mucho en toda la pieza y nunca en los bloques 5 y 6; Isabella en tres sitios distintos; ninguna palabra dudosa sin cerrar antes de la final.
