@@ -25,7 +25,7 @@ Cada sesión trabaja en su rama `feat/reel-NNN-…` (NNN = el número de proyect
 | V3 | 019 | video-creator · checkout del estudio (reserva publicada; el proyecto 019 sigue SIN commit: el usuario pidió no commitear) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Altura sin torre»: RC25 limpio en el frame 0 · HK05 · dron DR152 como 1.er plano del recorrido · MD08 · CT05 · *Flying Into the Sun* (entrada 178,095 s) · pendiente: el OK a la prueba; oír MD08 «y (la) ventilación» (≈ 21,1 s), CT05 «escríbeme» (≈ 36,6-37,2 s) y la canción |
 | V4 | 020 | video-creator · rama `feat/reel-020-definir` (worktree propio del estudio; el proyecto 020 SIN commit) | Los Patios (apto 501) | **en prueba** | 2026-10-04 | «Lo que todavía puedes definir» (pedido: canción tipo jazz): la calle RC22 en el frame 0 · HK03 · MD14 · CT06 · dron DR156 como último plano del bloque 5 · *Sax for the Last Customer* (entrada 137,615 s; su acorde final en f1183 resuelve tras el CTA) · 1253 f · 41,8 s · sin cifras · sentido I · ni un segundo de metraje compartido · pendiente: el OK a la prueba; oír «terminado» (HK03, ≈ 4,3-5,2 s) y «reto» (CT06, ≈ 36,9-37,1 s), la canción y la licencia; canal del CTA y si Luxur puede agendar |
 | V5 | 021 | video-creator · rama `feat/reel-021-dentro-y-fuera` (worktree propio `.claude/worktrees/reel-021`; el proyecto 021 SIN commit) | Los Patios (apto 501) | final (CRF 12 y CRF 16) | 2026-10-04 | «Dentro y fuera» (pedido: canción tipo piano): **sin apertura de la casa: el reel EMPIEZA CON EL HOOK** (rev. 2, pedido del usuario «elimina la primer toma y empieza con el hook»; rompe a propósito la regla fija «la primera toma sin texto ni voz»; la rev. 1 abría con el deck RC10) · HK06 · MD01 · **CT02 recortado a su 2.ª mitad «escríbeme y ven a conocerlo»** (decisión del usuario: ni el precio ni el «317» suenan, se leen ni se ven) · dron DR154 como plano CENTRAL del bloque 3 (no «primer plano del bloque 5», como decía la reserva) · *Andrea Vanzo – Amélie (reimagined)* (entrada 134,967 s; su decaimiento natural desde los 175 s resuelve bajo el CTA) · 1289 f · 43,0 s · sin cifras · sentido II · ni un segundo de metraje compartido · **FINAL EXPORTADO el 2026-10-04** por orden del usuario (`finales/021-recorrido.mp4` CRF 12, 160 MB, + `021-recorrido-crf16.mp4` + `021.srt`) con una palabra SIN cerrar: «Mira»/«Mirá» (HK06, 0,6 s del vídeo; el acento cae en la 2.ª sílaba: se oye «mirá», se pintó «Mira») · sigue por oír: la canción (medida, no oída; licencia no verificada), si 1,7 s de voz bastan como CTA, y el canal del CTA |
-| V6 | 022 | video-creator · rama `feat/reel-022-one-living` (worktree propio `.claude/worktrees/reel-022`; el proyecto 022 SIN commit) | One Living (Envigado) | **reservada** | 2026-10-06 | PRIMER reel de esta propiedad: apertura RC01 (balcón) · HK2 · MD1 · CT1 · *Some Say – Acoustic Sunsets (Nea Cover)* (entrada 139,053 s; su acorde final cae −15 → −29 dB en 1,5 s a +36,4 s bajo el CTA) · sin dron (no hay) · sin cifras · sentido I · pendiente: el OK a la prueba; cerrar al oído «habitación»/«vestier»/«balcón» (MD1), «balcón» (HK2) y «Escobero» (CT1); la música (medida, no oída; licencia no verificada); canal del CTA; la afirmación de MD1 «conectada con la zona social y el balcón» |
+| V6 | 022 | video-creator · rama `feat/reel-022-one-living` (worktree propio `.claude/worktrees/reel-022`; el proyecto 022 SIN commit) | One Living (Envigado) | **en prueba** | 2026-10-06 | PRIMER reel de esta propiedad, «El balcón y lo que hay detrás»: apertura RC13 (el ventanal, 1,8 s) · HK2 · MD1 · CT1 · *Some Say – Acoustic Sunsets (Nea Cover)* (entrada 139,0 s; golpe de 28,9 dB; su acorde final en +36,4 s cae bajo el CTA) · paseo RC06 · RC05 · RC15 → MD1 → RC10 · RC16 · RC02 · RC12 · 1300 f · 43,3 s · sin dron (no hay) · sin cifras · sentido I · pendiente: el OK a la prueba; cerrar al oído «habitación» (MD1, ≈ 19,7-20,2 s) y «Escobero» (CT1, ≈ 37,1-37,6 s); la música (medida, no oída; licencia no verificada); canal del CTA; la afirmación de MD1 «conectada con la zona social y el balcón» |
 | V7 | 023 | | One Living (Envigado) | **libre: es la siguiente** | | |
 
 El siguiente número de versión es el primero con estado `libre`; si lo reservas, añade una fila nueva (V6 → 022…) para la que venga detrás.
@@ -216,21 +216,21 @@ Códigos y textos de `proyectos/022/catalogo-material.md` (cada propiedad tiene 
 
 | Código | Clip | Dura | Usado en |
 |---|---|---|---|
-| RC01 | `balcon - paneo.MOV` | 9,1 s | V6 (reservado: apertura) |
-| RC02 | `bano habitacion principal.MOV` | 4,1 s | V6 (reservado) |
+| RC01 | `balcon - paneo.MOV` | 9,1 s | sin usar (probado como apertura y descartado: la baranda lleva una malla negra) |
+| RC02 | `bano habitacion principal.MOV` | 4,1 s | V6 (1,2-4,03 s) |
 | RC03 | `bano habitacion secundaria, paneo hacia habitacion.MOV` | 7,2 s | sin usar |
 | RC04 | `bano habitacion secundaria.MOV` | 4,8 s | sin usar |
-| RC05 | `cocina, paneo a sala y balcon.MOV` | 10,3 s | V6 (reservado) |
-| RC06 | `cocina, sala, balcon.MOV` | 15,5 s | sin usar |
-| RC07 | `habitacion principal - entrando.MOV` | 8,6 s | V6 (reservado) |
+| RC05 | `cocina, paneo a sala y balcon.MOV` | 10,3 s | V6 (4,5-7,93 s) |
+| RC06 | `cocina, sala, balcon.MOV` | 15,5 s | V6 (0,0-5,1 s) |
+| RC07 | `habitacion principal - entrando.MOV` | 8,6 s | sin usar (probado y descartado: sus primeros 4 s son una puerta y una columna) |
 | RC08 | `habitacion principal - paneo 2.MOV` | 7,7 s | sin usar |
 | RC09 | `habitacion principal - paneo.MOV` | 63,2 s | sin usar (clip largo: caminata por toda la casa) |
-| RC10 | `habitacion principal.MOV` | 8,1 s | sin usar |
+| RC10 | `habitacion principal.MOV` | 8,1 s | V6 (0,0-2,8 s) |
 | RC11 | `habitacion secundaria - paneo.MOV` | 14,6 s | sin usar |
-| RC12 | `habitacion secundaria - zoom in ventanal.MOV` | 11,3 s | V6 (reservado: la vista) |
-| RC13 | `habitacion secundaria.MOV` | 5,1 s | sin usar |
+| RC12 | `habitacion secundaria - zoom in ventanal.MOV` | 11,3 s | V6 (7,87-11,3 s: la vista) |
+| RC13 | `habitacion secundaria.MOV` | 5,1 s | V6 (0,0-1,8 s: la apertura) |
 | RC14 | `recorrido caminando.MOV` | 49,8 s | sin usar (HLG; lleva a Isabella en cuadro y hablando) |
-| RC15 | `sala, habitacion secundaria, vestier.MOV` | 17,7 s | V6 (reservado) |
-| RC16 | `vestier habitacion principal.MOV` | 2,0 s | V6 (reservado) |
+| RC15 | `sala, habitacion secundaria, vestier.MOV` | 17,7 s | V6 (0,4-4,97 s) |
+| RC16 | `vestier habitacion principal.MOV` | 2,0 s | V6 (0,0-1,77 s) |
 
 *Reglas del formato que pesan en la elección:* una sola cifra como mucho en toda la pieza y nunca en los bloques 5 y 6; Isabella en tres sitios distintos; ninguna palabra dudosa sin cerrar antes de la final.
