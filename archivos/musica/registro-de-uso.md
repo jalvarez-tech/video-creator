@@ -79,7 +79,7 @@ Los detalles de cada una (género, sentimiento, BPM, `desde` por duración) est�
 | Spring is Coming | `fe252090` | libre | | | neoclásico · medida en la V5: caída de 7,3 dB a +42 s (entrada 73,305 s): sin caída |
 | Tiesto pres. Allure - Somewhere inside οf me (Alexander Gorshkov chillout remix) | `96faa93f` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) · medida en la V6: entrada 291,855 s (golpe de 9,8 dB), −9,4 → −13,2 → −41,7 dB en +40-50 s; pulso dudoso (61 %, desvío 57 ms); la otra entrada, 182,392 s, tiene solo 12 golpes fuertes |
 | Tony Anderson - Dreamlife | `5e7dcd27` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
-| Yeshua (Versión Piano) | `7bd0eb6f` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
+| ~~Yeshua (Versión Piano)~~ | `7bd0eb6f` | **reservada** | V7 | 2026-10-06 | piano solo · 7:44 · se usa desde 419,37 s (el paseo empieza en el golpe de 424,837 s, 11,9 dB; la música suena desde el f0, baja bajo el hook) · SIN pulso: por golpes medidos · meseta de −14,8 LUFS sin crescendo y CAÍDA FINAL en 452,9 s (−14,5 → −25,2 → −37,4 LUFS en 5 y 10 s; silencio digital hacia los 460 s) bajo el CTA · la elegí entre todas las libres con un script que busca la rejilla de cortes de la pieza sobre los golpes medidos de cada una (la mayoría no deja ninguna) · medida, no oída · proyecto 023 |
 | deadmau5 - Strobe | `de6df12a` | libre | | | ver `catalogo-musica.md` (sin medir golpe a golpe) |
 
 ## 3. Material de Los Patios (apto 501): lo que ya usó cada versión
