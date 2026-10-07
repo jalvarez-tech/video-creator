@@ -1,0 +1,5 @@
+# HK05 · Hook5.MOV · «¿Y si pudieras vivir en altura sin sentir que vives dentro de una torre?»
+# Cerrada (no queda nada por oír): la «y» inicial existe. Whisper, cortando la toma desde 0,20 / 0,25 / 0,30 s, oye «y si pudieras vivir en»; desde 0,34 s, «si pudieras…»;
+# y la energía da tres arranques seguidos (0,255 · 0,355 · 0,480 s) = «y · si · pu-». Un acento: «torre?».
+¿Y si pudieras / vivir en altura
+sin sentir que vives / dentro de una / **torre?**
