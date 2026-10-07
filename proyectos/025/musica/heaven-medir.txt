@@ -1,0 +1,77 @@
+Installed 16 packages in 122ms
+
+proyectos/025/original/musica-heaven.mp3
+ventana 175.000-215.000 s · 58 golpes de ≥ 6 dB
+
+  golpe en la canción | en la ventana | fuerza (dB/15 ms)
+          176.193 s   |     1.193 s  |    8.0
+          176.805 s   |     1.805 s  |    6.7
+          178.043 s   |     3.043 s  |   10.2  ◀ fuerte
+          178.670 s   |     3.670 s  |   10.9  ◀ fuerte
+          179.584 s   |     4.584 s  |   15.8  ◀ fuerte
+          180.363 s   |     5.363 s  |    9.2  ◀ fuerte
+          180.820 s   |     5.820 s  |   11.5  ◀ fuerte
+          181.434 s   |     6.434 s  |    8.1
+          182.372 s   |     7.372 s  |    9.1  ◀ fuerte
+          182.995 s   |     7.995 s  |    9.2  ◀ fuerte
+          183.454 s   |     8.454 s  |    9.7  ◀ fuerte
+          183.916 s   |     8.916 s  |   17.5  ◀ fuerte
+          184.387 s   |     9.387 s  |   13.7  ◀ fuerte
+          184.846 s   |     9.846 s  |   11.6  ◀ fuerte
+          185.463 s   |    10.463 s  |    8.6
+          186.084 s   |    11.084 s  |   15.3  ◀ fuerte
+          186.698 s   |    11.698 s  |   13.1  ◀ fuerte
+          187.159 s   |    12.159 s  |   10.8  ◀ fuerte
+          188.401 s   |    13.401 s  |   22.2  ◀ fuerte
+          188.866 s   |    13.866 s  |   18.7  ◀ fuerte
+          189.490 s   |    14.490 s  |   17.9  ◀ fuerte
+          190.230 s   |    15.230 s  |   14.7  ◀ fuerte
+          190.716 s   |    15.716 s  |   11.4  ◀ fuerte
+          191.500 s   |    16.500 s  |   12.1  ◀ fuerte
+          191.962 s   |    16.962 s  |   14.6  ◀ fuerte
+          192.732 s   |    17.732 s  |   10.1  ◀ fuerte
+          193.193 s   |    18.193 s  |   13.3  ◀ fuerte
+          193.668 s   |    18.668 s  |    6.0
+          194.136 s   |    19.136 s  |    7.2
+          194.752 s   |    19.752 s  |   10.1  ◀ fuerte
+          195.199 s   |    20.199 s  |   11.0  ◀ fuerte
+          195.980 s   |    20.980 s  |   10.2  ◀ fuerte
+          196.601 s   |    21.601 s  |    7.5
+          197.216 s   |    22.216 s  |   12.4  ◀ fuerte
+          197.681 s   |    22.681 s  |   11.4  ◀ fuerte
+          198.456 s   |    23.456 s  |   12.8  ◀ fuerte
+          199.074 s   |    24.074 s  |   10.1  ◀ fuerte
+          199.681 s   |    24.681 s  |   13.5  ◀ fuerte
+          200.157 s   |    25.157 s  |   12.9  ◀ fuerte
+          200.617 s   |    25.617 s  |   15.5  ◀ fuerte
+          201.240 s   |    26.240 s  |   11.1  ◀ fuerte
+          201.859 s   |    26.859 s  |   10.4  ◀ fuerte
+          202.409 s   |    27.409 s  |   10.7  ◀ fuerte
+          203.015 s   |    28.015 s  |   10.3  ◀ fuerte
+          203.402 s   |    28.402 s  |   10.7  ◀ fuerte
+          203.909 s   |    28.909 s  |    6.1
+          204.287 s   |    29.287 s  |   13.6  ◀ fuerte
+          204.642 s   |    29.642 s  |   11.3  ◀ fuerte
+          205.259 s   |    30.259 s  |   10.9  ◀ fuerte
+          205.877 s   |    30.877 s  |   11.8  ◀ fuerte
+          206.279 s   |    31.279 s  |   10.9  ◀ fuerte
+          206.750 s   |    31.750 s  |   12.3  ◀ fuerte
+          207.118 s   |    32.118 s  |   13.9  ◀ fuerte
+          207.727 s   |    32.727 s  |   11.5  ◀ fuerte
+          208.365 s   |    33.365 s  |    6.0
+          211.616 s   |    36.616 s  |    8.5
+          212.089 s   |    37.089 s  |    6.6
+          212.549 s   |    37.549 s  |    6.7
+
+  sonoridad por tramos de 5 s:
+      0-  5 s   -12.7 LUFS · pico -2.4 dBFS
+      5- 10 s   -13.2 LUFS · pico -2.7 dBFS
+     10- 15 s   -16.0 LUFS · pico -2.9 dBFS
+     15- 20 s   -14.2 LUFS · pico -1.5 dBFS
+     20- 25 s   -13.0 LUFS · pico -3.1 dBFS
+     25- 30 s   -13.2 LUFS · pico -2.9 dBFS
+     30- 35 s   -14.2 LUFS · pico -2.7 dBFS
+     35- 40 s   -26.7 LUFS · pico -11.3 dBFS
+    ventana entera  -13.7 LUFS · pico -1.5 dBFS
+
+  imagen: proyectos/025/musica/heaven.png

@@ -1,0 +1,5 @@
+
+### Aleksey Chistilin - Overcoming the Impossible.mp3  (220 s)  caídas completas: 1
+  cae en   212.00 s  pre  -20.6 →  -30.3 →  -99.0 dB  ( 9.6/78.4)  golpes≥7,4 en 52 s:  66  soluciones: 944
+      · plano más corto = 84 f · disolvencia más débil 10.2 dB / corte seco 7.5 dB · cortes [172.272, 175.074, 179.844, 184.378, 188.757, 192.111, 197.642, 200.571, 203.775, 208.617] · planos [84, 143, 136, 131, 101, 166, 88, 96, 145] · dB [10.3, 10.3, 7.8, 8.0, 7.5, 10.2, 11.6, 7.5, 11.9, 10.7]
+      · plano más corto = 84 f · disolvencia más débil 10.2 dB / corte seco 7.5 dB · cortes [172.272, 175.074, 179.844, 184.378, 188.757, 192.111, 197.642, 200.571, 204.162, 208.617] · planos [84, 143, 136, 131, 101, 166, 88, 108, 134] · dB [10.3, 10.3, 7.8, 8.0, 7.5, 10.2, 11.6, 7.5, 10.5, 10.7]

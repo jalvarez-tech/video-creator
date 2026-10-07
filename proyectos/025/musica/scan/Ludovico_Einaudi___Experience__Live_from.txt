@@ -1,0 +1,5 @@
+
+### Ludovico Einaudi - Experience (Live from Teatro dal Verme, M  (383 s)  caídas completas: 1
+  cae en   377.75 s  pre  -17.3 →  -28.1 →  -99.0 dB  (10.8/81.7)  golpes≥7,4 en 52 s:  44  soluciones: 144
+      · plano más corto = 75 f · disolvencia más débil 10.6 dB / corte seco 7.5 dB · cortes [338.459, 340.952, 345.934, 350.828, 355.751, 360.024, 365.532, 368.064, 370.979, 375.24] · planos [75, 149, 147, 148, 128, 165, 76, 87, 128] · dB [10.6, 11.6, 8.5, 7.8, 9.5, 11.3, 12.3, 8.8, 7.5, 11.6]
+      · plano más corto = 75 f · disolvencia más débil 10.1 dB / corte seco 7.7 dB · cortes [338.459, 340.952, 345.934, 350.828, 355.751, 360.024, 365.532, 368.568, 372.2, 377.093] · planos [75, 149, 147, 148, 128, 165, 91, 109, 147] · dB [10.6, 11.6, 8.5, 7.8, 9.5, 11.3, 12.3, 7.7, 13.5, 10.1]

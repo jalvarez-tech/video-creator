@@ -1,0 +1,28 @@
+# Guion marcado — proyecto 025. Lo lee trozos-editoriales.mjs.
+#
+# UN ARCHIVO POR FUENTE DE VOZ (cada toma de Isabella y el off): copia este,
+# deja solo las líneas de esa fuente y guárdalo junto a su transcripción
+# (proyectos/025/voz/hook.txt + hook.json).
+#
+# Un BLOQUE por línea. Dentro, ` / ` separa las líneas que se acumulan (máx. 3).
+#   **texto**      acento: la palabra que se queda (uno por bloque)
+#   ==texto==      dato: una cifra sola, al centro
+#   {lo que dice}  justo detrás de una línea, cuando lo que se pinta no es lo que suena
+# Prefijo opcional entre corchetes: arriba | centro · xN (escala) · puesto (ya está en su primer frame)
+#
+# Las líneas que empiezan por # y las vacías no cuentan.
+#
+# NO van aquí los bloques que no se dicen: un dato que solo se enseña se escribe a
+# mano en subtitulos-025.ts. Metido en el guion de una toma, el alineador lo buscaría
+# en la voz. (Ya no hay hook escrito del frame 0 ni cuenta final: la primera toma sale
+# siempre sin texto y el cierre es el logo; recorrido-luxur, SKILL.md §0.) Dentro de las
+# llaves, las cifras en dígitos.
+
+# ── hook (toma de Isabella) ──
+Si estás cansado / **del ruido**
+mira esto.
+
+# ── off (bloque 5): una frase por plano, el acento al final ──
+Aquí desayunas / **mirando la montaña.**
+Aquí tus hijos / tienen / **dónde correr.**
+Y por la noche, / solo se oye / **el viento.**
