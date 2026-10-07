@@ -4,7 +4,7 @@
 
 43 pistas · 3 h 5 min en total · analizado el 2026-10-03.
 
-Carpeta de la biblioteca (el AUDIO vive fuera del repo y no se versiona: son canciones comerciales y este repo es público): `Propiedades Luxur/Music/` del estudio. En el repo quedan este catálogo y el [registro de uso](registro-de-uso.md), con el sha256 de cada pista.
+Carpeta de la biblioteca: `Propiedades Luxur/Music/` del estudio, y desde el 2026-10-07 una copia idéntica (los 43 MP3, mismo sha256) en esta misma carpeta del repo. Junto a ellos están este catálogo y el [registro de uso](registro-de-uso.md), con el sha256 de cada pista.
 
 ## 1. Reglas para usar la música en vídeos cortos (30–80 s)
 

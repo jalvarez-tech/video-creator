@@ -82,13 +82,7 @@ remotion/public/quien-soy-013/
 remotion/public/rd-016/
 # Marcador local de origen del set de SFX (lo escribe sfx.mjs desde-banco).
 remotion/public/sfx/.origen.json
-# La música NO se versiona: son canciones comerciales y el repo es público. Sí van su catálogo y el registro de uso (archivos/musica/*.md).
-archivos/musica/*.mp3
-archivos/musica/*.wav
-archivos/musica/*.m4a
-archivos/musica/*.flac
-archivos/musica/*.aac
-archivos/musica/*.ogg
+# La biblioteca de música (archivos/musica/*.mp3) SÍ se versiona, por decisión del dueño (2026-10-07). El audio no viaja al producto: archivos/ es zona de estudio en herramientas/zonas.mjs. Los WAV recortados y normalizados de cada reel se quedan fuera (proyectos/*/musica/*.wav, más abajo).
 # Material de terceros y vistas previas dentro de los proyectos.
 **/vistas-previas/
 proyectos/*/broll/cliente/
