@@ -1,0 +1,5 @@
+
+### I Feel It Coming - The Weeknd (Saxophone Cover).mp3  (272 s)  caídas completas: 1
+  cae en   261.00 s  pre  -17.1 →  -26.2 →  -45.1 dB  ( 9.1/28.0)  golpes≥7,4 en 52 s:  81  soluciones: 273956
+      · plano más corto = 77 f · disolvencia más débil 11.8 dB / corte seco 16.8 dB · cortes [221.297, 224.517, 229.683, 232.907, 237.428, 240.002, 246.46, 250.324, 253.553, 257.63] · planos [97, 155, 97, 136, 77, 194, 116, 97, 122] · dB [12.5, 12.4, 18.7, 24.3, 24.4, 13.3, 12.8, 16.8, 21.4, 11.8]
+      · plano más corto = 97 f · disolvencia más débil 11.8 dB / corte seco 16.8 dB · cortes [221.297, 224.517, 229.683, 232.907, 237.428, 240.648, 246.46, 250.324, 253.553, 257.63] · planos [97, 155, 97, 136, 97, 174, 116, 97, 122] · dB [12.5, 12.4, 18.7, 24.3, 24.4, 18.5, 12.8, 16.8, 21.4, 11.8]

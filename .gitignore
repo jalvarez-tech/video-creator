@@ -100,6 +100,7 @@ remotion/public/recorrido-021/
 remotion/public/recorrido-022/
 remotion/public/recorrido-023/
 remotion/public/recorrido-024/
+remotion/public/recorrido-025/
 # <<< SOLO ESTUDIO <<<
 
 # ─── 6. Material dentro de un proyecto ───────────────────────────────────────
@@ -118,6 +119,8 @@ proyectos/*/pruebas-720p/
 proyectos/*/vistas-previas/
 proyectos/*/vo/
 proyectos/*/musica/*.wav
+# Los extractos de canciones para oír (`mp3`): comerciales, y el repo es público (misma razón que la música de archivos/musica/).
+proyectos/*/musica/*.mp3
 proyectos/*/broll/*/raw/
 proyectos/*/broll/cache/
 proyectos/*/broll/contactos/

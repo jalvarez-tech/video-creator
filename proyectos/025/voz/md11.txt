@@ -1,0 +1,4 @@
+# MD11 (mitad): «¿Alguien que valora la arquitectura y prefiere crear sus propios acabados?»
+# POR CONFIRMAR AL OÍDO: «prefiere» (whisper la oye «prefiera», conf. 0,46; `formantes.py` mide una [e]: 19,1 s del vídeo) y el arranque «¿Alguien…» (medido: sin «eres», 16,9 s).
+¿Alguien que valora / **la arquitectura**
+y prefiere crear / sus propios / **acabados?**
