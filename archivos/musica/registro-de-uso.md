@@ -3,8 +3,8 @@
 > **Para qué sirve.** Los reels se hacen desde checkouts, worktrees o clones distintos y, a veces, a la vez. Este registro dice qué canción,
 > hook, mitad, CTA y dron usó cada versión de un reel de Los Patios, para no repetirlos: lo tachado (~~así~~) ya se usó o está reservado y no se
 > vuelve a elegir salvo que el usuario lo pida. **Vive en git** (`archivos/musica/`): cualquier checkout lo tiene y cada cambio queda versionado.
-> El AUDIO no está en el repo (son canciones comerciales y el repo es público): solo su catálogo (`catalogo-musica.md`), el sha256 de cada pista y este
-> registro. El historial detallado de cada versión vive además en su proyecto (`proyectos/NNN/combinaciones.md`); esto es el tablero de coordinación.
+> El AUDIO también está en el repo (los 43 MP3 de la biblioteca, desde el 2026-10-07: decisión del dueño, aunque el repo es público y son canciones
+> comerciales), junto a su catálogo (`catalogo-musica.md`), el sha256 de cada pista y este registro. El historial detallado de cada versión vive además en su proyecto (`proyectos/NNN/combinaciones.md`); esto es el tablero de coordinación.
 
 ## Cómo se usa (protocolo)
 
