@@ -144,3 +144,9 @@ El 017 pidió «colores vivos, balanceados y cinematográficos» y se resolvió 
 ## Revisiones
 
 **Revisión 1 (2026-10-04).** Primera versión (su prueba: `pruebas-720p/019-recorrido-720p.mp4`): 11 planos, 6 bloques de texto, 4 tramos de audio, color por plano con la base del 017 más el ajuste de cada toma (`03-timeline.md` y `combinaciones.md`). **A la espera del OK** para el final.
+
+## Revisión 2 (2026-10-04) — «renderiza en buena calidad»
+
+> «renderiza en buena calidad»
+
+La orden de exportar llegó con **dos palabras pendientes** que ya se le habían dicho al usuario en la entrega de la prueba: «y (la) ventilación» (MD08, ≈ 21,1 s) y «escríbeme» (CT05, ≈ 36,6-37,2 s). Como en el 018: no se bloquea la orden ni se exporta una apuesta; las dos están **medidas** (`formantes.py`, `onsets-voz.py`, `palabras-desde.py`; ver «Por confirmar» en `03-timeline.md`) y se pintan como se midieron, **la nota «POR CONFIRMAR AL OÍDO» se queda** y `revisar-019.mjs --final` sigue fallando por ella (a propósito: una medida no es un oído). «Buena calidad» = el master a CRF 12 `slower` y, aparte, la versión ligera a CRF 16 `slow`, con la misma imagen y el mismo audio. El plan, el color, la mezcla y los textos no cambiaron respecto de la rev. 1. Archivos y medidas: `03-timeline.md` («Finales exportados»).
