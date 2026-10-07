@@ -1,0 +1,7 @@
+# CT06 · CTA6.MOV · «Si es el reto, escríbeme y agendamos una visita.»
+# POR CONFIRMAR AL OÍDO: «reto». Whisper-small oye «resto» (conf. de la palabra 0,96, la del «el» 0,16: es el prior del modelo, no evidencia acústica); el catálogo ya lo anotaba (conf. 0,16-0,37).
+# Por contexto es «reto» (el reto de definir un apartamento sin terminar). Se mide la /s/ en esta toma; ver el plan.
+# También «agendamos» (whisper 0,04 en «ag»; «end» 0,84, «amos» 0,93): sin duda razonable, pero se mira en el mismo análisis.
+# Un acento: «escríbeme» (el verbo de la acción).
+Si es el reto,
+**escríbeme** / y agendamos una visita.

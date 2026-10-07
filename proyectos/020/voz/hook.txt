@@ -1,0 +1,7 @@
+# HK03 · Hook3.MOV · «Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.»
+# Descarte que selecciona (ángulo D «Filtro»). Voz 0,81 → 6,04 s; una pausa de 340 ms (3,34-3,68 s) entre las dos mitades: ahí se parte en dos bloques.
+# POR CONFIRMAR AL OÍDO: «terminado». El catálogo ya lo anotaba (whisper-small, sin vocabulario, oye «determinado»; con vocabulario, «terminado»). Medido en esta toma: cortada desde 2,05 y 2,20 s
+# oye «totalmente terminado», y la palabra dura 0,78 s (4 sílabas, no 5); ver `subtitulos-020.ts`.
+# Dos acentos (≥ 3 s entre ellos): «terminado,» y «para ti.» («totalmente terminado,» como acento era demasiado ancho: el motor lo encogía y no cabía la cursiva 8 px menor.)
+Si estás buscando / un apartamento totalmente / **terminado,**{terminado,}
+este probablemente / no es / **para ti.**
