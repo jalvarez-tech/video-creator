@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|---|---|---|
 | **V1 rev. 8** · «La oportunidad» (proyecto 017) | HK02 (`INT-ABIERTO`) | MD09 (`INT-ABIERTO`) | CT07 (`TERRAZA`) | RC25 · RC01 · RC02 · RC07 → RC08 continua → DR163 | DR147 | *Time* — Hans Zimmer, 175,633 s | 46,6 s | **final exportado el 2026-10-03** |
 | **V2 rev. 3** · «El espacio y cómo entra el exterior» (proyecto 018) | HK07 (`PATIO`) | MD07 (`TERRAZA`) | CT01 (`BALCON`) | RC11 · RC10 · RC11 → RC06 · RC05 · RC03 · RC25 · RC07 | DR155 | *Return to Oasis* — Aleksey Chistilin, 142,967 s | 44,2 s | **final exportado el 2026-10-04** (la «en» del CTA sin oír) |
-| **V3 rev. 1** · «Altura sin torre» (proyecto 019) | **HK05** (`BARANDA`) | **MD08** (`TERRAZA`) | **CT05** (`INT-BLOQUES`) | **RC25 en el frame 0** → hook → DR152 → RC09 (partida en dos) · mitad · RC13 · RC16 (partida en dos) | **DR152**, como primer plano del recorrido (no en el frame 0) | ***Flying Into the Sun*** — Aleksey Chistilin, 178,095 s | **39,7 s** | **prueba lista** (`pruebas-720p/019-recorrido-720p.mp4`); espera el OK y oír dos palabras |
+| **V3 rev. 1** · «Altura sin torre» (proyecto 019) | **HK05** (`BARANDA`) | **MD08** (`TERRAZA`) | **CT05** (`INT-BLOQUES`) | **RC25 en el frame 0** → hook → DR152 → RC09 (partida en dos) · mitad · RC13 · RC16 (partida en dos) | **DR152**, como primer plano del recorrido (no en el frame 0) | ***Flying Into the Sun*** — Aleksey Chistilin, 178,095 s | **39,7 s** | **final exportado el 2026-10-04 por orden del usuario («renderiza en buena calidad»)** (`finales/019-recorrido.mp4` CRF 12 + `019-recorrido-crf16.mp4` + `019.srt`), con «y (la) ventilación» y «escríbeme» **medidas pero sin confirmar al oído** |
 | V4 | | | | | | | | |
 
 Las tres versiones comparten: el formato (los seis bloques de `recorrido-luxur`), las reglas fijas del canal (la primera toma sin texto ni voz, nunca el sello, el cierre en una tarjeta oscura con el logo a 440 px y 60 % y `PropiedadesLuxur.com`, nada congelado), los subtítulos editoriales abajo al 90 % con la cursiva 8 px menor, el nivel de la voz (−21 LUFS) y de la música (−15 sola, −16 dB bajo la voz) y la base del color. **Lo que separa a la V3 de las otras:** las tres tomas de Isabella, la canción (la primera SIN pulso: por frases), la apertura (la fachada y no un dron), el dron (tras el hook y no antes), el sentido del paseo (II, como la V2) y casi todo el metraje de recorrido.
@@ -109,7 +109,7 @@ Receta completa y orden de pasos: `proyectos/017/combinaciones.md` §4 (las ruta
 
 ## 4. Por confirmar
 
-- **Dos palabras sin oír** (medidas, no confirmadas; `node proyectos/019/revisar-019.mjs --final` falla mientras las notas sigan):
+- **Dos palabras sin oír, YA en la final exportada** (medidas, no confirmadas; `node proyectos/019/revisar-019.mjs --final` falla mientras las notas sigan; cambiarlas pide re-exportar, ≈ 8 min):
   - **«y (la) ventilación»** (MD08, ≈ **21,1 s** del vídeo): se pinta «y ventilación». Whisper omite el segundo «la»; midiendo, entre la «y» y el «ven-» no hay una /a/ (F1 de sus /a/ ≈ 790 Hz; ahí ≤ 540) ni un onset nuevo. Si suena «y la ventilación»: el texto del 2.º trozo de `m02`, `voz/mitad.txt`, el `dice` de `c06-mitad` y el `.srt`.
   - **«escríbeme»** (CT05, ≈ **36,6-37,2 s**): se pinta «escríbeme.». Whisper oye «escribe a mí» (confianza 0,30-0,62); midiendo, tras la [e] de «-be» viene un murmullo nasal de ≈ 130 ms y no una /a/.
   - «¿Y si…?» (HK05) está **cerrada** (whisper la oye desde 0,20-0,30 s y la energía da tres arranques: y · si · pu-).
