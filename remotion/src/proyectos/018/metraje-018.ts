@@ -58,13 +58,13 @@ export const FPS_018 = 30;
 export type Entrada = "corte" | "disolver";
 export type Bloque = 1 | 2 | 3 | 4 | 5 | 6;
 
-/** Dónde habla Isabella en SU clip y a qué nivel. Medido con `limites-voz.py` y ebur128, no estimado. */
+/** Dónde habla Isabella en SU clip y a qué nivel. `s0`/`s1` medidos con `limites-voz.py` sobre el WAV crudo; `lufs`, con ebur128 sobre el WAV TRATADO que suena (ver `OBJETIVO_LUFS`). */
 export interface VozDelCorte {
   /** Segundo de la fuente en que empieza a hablar. */
   s0: number;
   /** Segundo de la fuente en que termina de hablar. */
   s1: number;
-  /** Sonoridad integrada de la voz (LUFS) en esa ventana. */
+  /** Sonoridad integrada de la voz TRATADA (LUFS) en esa ventana. */
   lufs: number;
   /** Lo que dice, tal como está en el guion. Solo para leer el plan. */
   dice: string;
@@ -75,17 +75,21 @@ export interface Corte extends CorteDelFormato<Entrada> {
   tipo: "video" | "foto";
   /** A qué bloque del guion pertenece: la puerta comprueba el orden y el tope de cada uno. */
   bloque: Bloque;
-  /** Solo las tomas de Isabella cuya voz entra con su imagen: el WAV de su voz, sin tratar. */
+  /** Solo las tomas de Isabella cuya voz entra con su imagen: el WAV de su voz, TRATADO (`<toma>-voz.wav`: ver `OBJETIVO_LUFS`). */
   audio?: string;
   voz?: VozDelCorte;
 }
 
 /**
- * EL NIVEL DE LA VOZ: una ganancia por toma hasta este objetivo y nada más (R29). Las tres tomas miden
- * −18,7 (HK07), −19,3 (MD07) y −22,1 LUFS (CT01, la más baja): −21 es el objetivo del 017 y se mantiene
- * para que las dos versiones suenen igual de fuertes (y la ganancia más alta, +1,1 dB, no sube el suelo de ruido).
+ * EL NIVEL DE LA VOZ: −15 LUFS, el de la música sola (REV. 4, pedido del usuario sobre la final ya exportada, 2026-10-08: «necesito que la voz cuando habla
+ * Isabella tenga más decibeles sin saturar»; hasta la rev. 3 la voz iba a −21, el objetivo del 017, y sonaba ≈ 6 dB por debajo del paseo). Con ganancia sola
+ * no se puede: las tres tomas crudas miden −18,7 (HK07), −19,3 (MD07) y −22,1 LUFS (CT01) con picos de −1,2, −1,4 y −4,3 dBTP, y llevarlas a −15 daría
+ * +2,5, +2,9 y +2,8 dBTP (saturan). Suena la voz TRATADA (`<toma>-voz.wav`: graves, puerta suave, compresión 3:1, +14,0 · +14,4 · +15,3 dB y limitador a −2,5 dBFS, en
+ * `proyectos/018/normalizar.mjs`), que ya llega a −15,0 LUFS con el pico real en −2,5 dBTP en las tres: la ganancia del plan queda en 0 dB. Excepción a R29
+ * («una ganancia por toma y nada más»), por encargo, declarada aquí y en la puerta (sección 3: pico real ≤ −1 dBTP con su ganancia). `s0` y `s1`
+ * salen del WAV crudo (`limites-voz.py`): el tratado no se desfasa (2-3 muestras).
  */
-export const OBJETIVO_LUFS = -21;
+export const OBJETIVO_LUFS = -15;
 
 /* ── La rejilla de la música ────────────────────────────────────────────────
  *
@@ -225,11 +229,11 @@ export const metraje018: readonly Corte[] = [
     bloque: 2,
     tipo: "video",
     src: v("hk07"),
-    audio: a("hk07"),
+    audio: a("hk07-voz"),
     voz: {
       s0: 0.95,
       s1: 5.11,
-      lufs: -18.7,
+      lufs: -15,
       dice: "El verdadero lujo puede ser simplemente tener espacio para respirar.",
     },
     // La voz empieza a los 0,95 s de su clip: `desde` es el frame anterior (28 = 0,933 s) para que su imagen sea
@@ -296,11 +300,11 @@ export const metraje018: readonly Corte[] = [
     bloque: 4,
     tipo: "video",
     src: v("md07"),
-    audio: a("md07"),
+    audio: a("md07-voz"),
     voz: {
       s0: 0.7,
       s1: 5.56,
-      lufs: -19.3,
+      lufs: -15,
       dice: "La respuesta no siempre está en los metros, a veces está en cómo entra el exterior.",
     },
     // La voz empieza a los 0,70 s: `desde` es 2 f antes (19 = 0,633 s) y no 1: el clip dura 6,10 s y con la
@@ -395,11 +399,11 @@ export const metraje018: readonly Corte[] = [
     bloque: 6,
     tipo: "video",
     src: v("ct01"),
-    audio: a("ct01"),
+    audio: a("ct01-voz"),
     voz: {
       s0: 0.95,
       s1: 5.36,
-      lufs: -22.1,
+      lufs: -15,
       dice: "Si buscas algo diferente en un apartamento convencional, escríbeme y conoce Los Patios.",
     },
     // Su voz empieza con una «s» (Si buscas…): los agudos suben desde los 0,90 s y la vocal llega a los 0,95. `desde`

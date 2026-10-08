@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|---|---|---|
 | **V1 rev. 8** · «La oportunidad» (proyecto 017) | HK02 (`INT-ABIERTO`) | MD09 (`INT-ABIERTO`) | CT07 (`TERRAZA`) | RC25 · RC01 · RC02 · RC07 → RC08 continua → DR163 | DR147 | *Time* — Hans Zimmer, 175,633 s | 46,6 s | **final exportado el 2026-10-03** |
 | **V2 rev. 3** · «El espacio y cómo entra el exterior» (proyecto 018) | HK07 (`PATIO`) | MD07 (`TERRAZA`) | CT01 (`BALCON`) | RC11 · RC10 · RC11 → RC06 · RC05 · RC03 · RC25 · RC07 | DR155 | *Return to Oasis* — Aleksey Chistilin, 142,967 s | 44,2 s | **final exportado el 2026-10-04** (la «en» del CTA sin oír) |
-| **V3 rev. 1** · «Altura sin torre» (proyecto 019) | **HK05** (`BARANDA`) | **MD08** (`TERRAZA`) | **CT05** (`INT-BLOQUES`) | **RC25 en el frame 0** → hook → DR152 → RC09 (partida en dos) · mitad · RC13 · RC16 (partida en dos) | **DR152**, como primer plano del recorrido (no en el frame 0) | ***Flying Into the Sun*** — Aleksey Chistilin, 178,095 s | **39,7 s** | **final exportado el 2026-10-04 por orden del usuario («renderiza en buena calidad»)** (`finales/019-recorrido.mp4` CRF 12 + `019-recorrido-crf16.mp4` + `019.srt`), con «y (la) ventilación» y «escríbeme» **medidas pero sin confirmar al oído** |
+| **V3 rev. 1** · «Altura sin torre» (proyecto 019) | **HK05** (`BARANDA`) | **MD08** (`TERRAZA`) | **CT05** (`INT-BLOQUES`) | **RC25 en el frame 0** → hook → DR152 → RC09 (partida en dos) · mitad · RC13 · RC16 (partida en dos) | **DR152**, como primer plano del recorrido (no en el frame 0) | ***Flying Into the Sun*** — Aleksey Chistilin, 178,095 s | **39,7 s** | **final exportado el 2026-10-04 por orden del usuario («renderiza en buena calidad»)** (`finales/019-recorrido.mp4` CRF 12 + `019-recorrido-crf16.mp4` + `019.srt`), con «y (la) ventilación» y «escríbeme» **medidas pero sin confirmar al oído**; **REV. 1 de los finales el 2026-10-08: la voz de Isabella a −15 LUFS sin saturar** (la rev. 0, como `…-rev0.mp4`) |
 | V4 | | | | | | | | |
 
 Las tres versiones comparten: el formato (los seis bloques de `recorrido-luxur`), las reglas fijas del canal (la primera toma sin texto ni voz, nunca el sello, el cierre en una tarjeta oscura con el logo a 440 px y 60 % y `PropiedadesLuxur.com`, nada congelado), los subtítulos editoriales abajo al 90 % con la cursiva 8 px menor, el nivel de la voz (−21 LUFS) y de la música (−15 sola, −16 dB bajo la voz) y la base del color. **Lo que separa a la V3 de las otras:** las tres tomas de Isabella, la canción (la primera SIN pulso: por frases), la apertura (la fachada y no un dron), el dron (tras el hook y no antes), el sentido del paseo (II, como la V2) y casi todo el metraje de recorrido.
@@ -69,15 +69,15 @@ Hashes (sha256, 8 primeros) de los originales, en `proyectos/019/normalizar.mjs`
 - **El sitio de cada cosa en la canción** (tabla completa en `artefactos/03-timeline.md`): golpe de entrada → la fachada; 181,08 → Isabella (hook); 184,98 → el dron; 189,02 · 192,28 → el patio y las plantas; 197,06 → la mitad; 201,44 · 204,56 → la alcoba y los bloques; 207,19 → la vista; **212,71 → la caída: el CTA**.
 - **Un tema por pieza, de principio a fin.** La música NO sale de una librería con licencia verificada (§4).
 
-### 2.4 La mezcla (medida sobre la prueba)
+### 2.4 La mezcla (medida sobre las finales rev. 1; la prueba y la rev. 0 llevaban la voz a −21)
 
 | Qué | Nivel |
 |---|---|
-| Voz de Isabella (hook · mitad · CTA) | −20,7 · −20,3 · −20,9 LUFS con la música debajo (objetivo −21; una ganancia por toma: −0,3 · −3,1 · −2,1 dB) |
+| Voz de Isabella (hook · mitad · CTA) | **−14,9 · −14,8 · −15,1 LUFS** con la música debajo (REV. 1, 2026-10-08: voz TRATADA a −15, pico real −2,5 dBFS; hasta la rev. 0, −20,7 · −20,3 · −20,9 a −21 sin tratar) |
 | Música sola | −18,9 (la apertura) · −16,3 (dron y patio) · −13,7 (alcoba → vista) LUFS: sube con el crescendo de la canción |
-| Música bajo la voz | hook y mitad: −16 dB (≈ −31 LUFS: **≈ 10 LU bajo ella**); **CTA: sigue la caída de la canción** (siempre ≈ 10 LU bajo su voz y sin perderse: −30,9 como mucho, −31,5 como poco) |
+| Música bajo la voz | hook y mitad: −16 dB (≈ −31 LUFS: **≈ 16 LU bajo ella** con la voz a −15; ≈ 10 LU en la rev. 0); **CTA: sigue la caída de la canción** (a −31 LUFS como mucho: −30,9 y −31,5; ≈ 16 LU bajo su voz y sin perderse). La música NO se tocó en la rev. 1 |
 | Música bajo la tarjeta | el lecho se apaga en línea recta del f1130 al f1188; la tarjeta mide −37,6 LUFS |
-| Pieza entera | **−16,1 LUFS** integrados · pico real −5,5 dBFS · LRA 8,5 LU |
+| Pieza entera | **−15,2 LUFS** integrados · pico real −4,7 dBFS · LRA 4,1 LU (rev. 0: −16,1 · −5,5 · 8,5) |
 
 ### 2.5 El texto
 
@@ -104,6 +104,7 @@ Hashes (sha256, 8 primeros) de los originales, en `proyectos/019/normalizar.mjs`
 | el **dron** | `c03-dron` (`src`, `desde`) | la puerta exige UN dron y que sea el primer plano del bloque 3 |
 | el **final del paseo / la vista** | `c08-bloques` y `c09-vista` (RC16) | la vista tiene que seguir siendo el plano más largo del bloque 5; acaba a los 28,77 s del clip, antes de que una cortina oscura tape el cuadro (≥ 29,5 s) |
 | la **música sí/no** | `HAY_MUSICA` en `audio-019.ts` | `false` = la pieza sale solo con voz, para subirla con el audio de la plataforma |
+| el **nivel de la voz** | `OBJETIVO_LUFS` y los `lufs` de cada `voz` en `metraje-019.ts`; `GANANCIA_VOZ` en `normalizar.mjs` (+14 · +13 · +14 dB, tras el compresor) | la voz que suena es `<toma>-voz.wav` (tratada); la ganancia se busca DESPUÉS del limitador midiendo la ventana de voz, y la puerta exige −15 y pico real ≤ −1 dBTP. `s0`/`s1` salen del WAV crudo. `MUSICA_BAJO_LA_VOZ` está FIJA en −31 LUFS: si se vuelve a mover la voz, la música no se mueve sola |
 
 Receta completa y orden de pasos: `proyectos/017/combinaciones.md` §4 (las rutas son las de este proyecto) y `.claude/skills/recorrido-luxur/montaje.md`.
 

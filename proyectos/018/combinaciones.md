@@ -60,11 +60,11 @@ Hashes (sha256, 8 primeros) de los originales, en `proyectos/018/normalizar.mjs`
 
 | Qué | Nivel |
 |---|---|
-| Voz de Isabella (hook · mitad · CTA) | −20,9 · −20,7 · −20,3 LUFS (objetivo −21; una ganancia por toma: −2,3 · −1,7 · +1,1 dB) |
+| Voz de Isabella (hook · mitad · CTA) | **−14,9 · −14,9 · −14,8 LUFS** (rev. 4: voz TRATADA, objetivo −15, ganancia del plan 0 dB, pico real −2,5 dBTP; hasta la rev. 3: −20,9 · −20,7 · −20,3 con objetivo −21 y una ganancia por toma) |
 | Música sola (recorridos) | −15,3 (bloque 3) · −14,5 (bloque 5) LUFS; el dron de apertura, sin voz: −17,3 |
-| Música bajo la voz | hook y mitad: −16 dB (≈ −31 LUFS: **≈ 10 LU bajo ella**), 12 f de bajada ANTES de la primera palabra y 12 f de subida tras la última. **CTA: −4,4 dB sobre un piano que ya es 12 LU más bajo** (−31,4 LUFS: 10,4 LU bajo su voz) |
+| Música bajo la voz | hook y mitad: −16 dB (≈ −31 LUFS: **≈ 16 LU bajo ella**; ≈ 10 hasta la rev. 3, con la voz a −21: la música no se tocó), 12 f de bajada ANTES de la primera palabra y 12 f de subida tras la última. **CTA: −4,4 dB sobre un piano que ya es 12 LU más bajo** (−31,4 LUFS: 16,4 LU bajo su voz; 10,4 hasta la rev. 3) |
 | Música bajo la tarjeta | el piano se apaga en línea recta del f1265 al f1323; la tarjeta mide −34,7 LUFS |
-| Pieza entera | **−16,0 LUFS** integrados · pico real −5,5 dBFS · LRA 8,1 LU |
+| Pieza entera | **−15,0 LUFS** integrados · pico real −3,6 dBTP · LRA 2,5 LU (rev. 4, medido sobre la final; hasta la rev. 3: −16,0 / −5,5 / 8,1) |
 
 ### 2.5 El texto
 

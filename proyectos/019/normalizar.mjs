@@ -64,6 +64,22 @@ const MATERIAL = [
   ["recorrido", "RC16.MOV", "rc16", "938b9b3a", "4 Recorrido/Recorrido Caminando.MOV"], // con Isabella de espaldas; su voz (0,4-3,9 s) no se usa: el plano va mudo
   ["dron", "DR152.MP4", "dr152", "91acff0e", "3 Dron/DJI_20261001103352_0152_D.MP4"],
 ];
+/**
+ * LA CADENA DE LA VOZ TRATADA (REV. 1, 2026-10-08, pedido del usuario tras la final: «necesito que la voz cuando habla Isabella tenga más decibeles sin saturar»).
+ * Es la de la V12 (`proyectos/028/normalizar.mjs`) y la V9 (`proyectos/025/normalizar.mjs`): sola, la ganancia no llega (las tres tomas crudas miden
+ * −20,7 · −17,9 · −18,9 LUFS con picos de −3,9 · −0,5 · −1,7 dBTP; llevarlas a −15 con ganancia sola daría +1,3 · +2,4 · +0,2 dBTP, que satura). Ver `vozTratada`.
+ * La ganancia es POR TOMA —+14 · +13 · +14 dB, tras el compresor— y se buscó midiendo cada ventana de voz (ebur128): −15,0 · −15,1 · −15,2 LUFS con el pico real en −2,5 dBFS.
+ */
+const GANANCIA_VOZ = { hk05: 14, md08: 13, ct05: 14 };
+const vozTratadaCadena = (db) =>
+  [
+    "highpass=f=100:poles=2",
+    "agate=threshold=0.0056:ratio=2:range=0.25:attack=5:release=200",
+    "acompressor=threshold=0.0501:ratio=3:attack=4:release=120:knee=6",
+    `volume=${db}dB`,
+    "alimiter=limit=0.75:attack=1:release=60:level=disabled:latency=1",
+  ].join(",");
+
 /** archivo en original/ · salida · sha256 (8) · origen (fuera del repo: la biblioteca de música de Luxur). */
 const MUSICA = ["musica-flying.mp3", "musica-019", "ca1f1cbf", "Music/Aleksey Chistilin - Flying Into the Sun.mp3"];
 
@@ -152,9 +168,31 @@ function voz(archivo, salidaNombre) {
   log.ok(`${path.basename(salida)} (la voz tal cual, mono 48 kHz)`);
 }
 
+/**
+ * LA VOZ TRATADA, la que suena en la pieza (`<toma>-voz.wav`). Excepción a R29 («una ganancia por toma y nada más»), por encargo: sola, la ganancia no llega a −15 LUFS sin pasar de 0 dBTP.
+ * En este orden:
+ *   highpass 100 Hz   los golpes graves del micro de solapa y los pasos; una voz femenina no baja de ahí
+ *   agate             puerta SUAVE (−12 dB como mucho, ratio 2, umbral −45 dBFS): el ambiente entre frases no sube con la compresión
+ *   acompressor       3:1 desde −26 dBFS, ataque 4 ms, relevo 120 ms, rodilla 6 dB: acerca el pico al nivel medio
+ *   volume +13/+14 dB la ganancia hasta ≈ −15 LUFS (`GANANCIA_VOZ`)
+ *   alimiter          techo −2,5 dBFS (sin nivelado automático, `latency=1`: compensa el ms de lookahead y la voz no se desfasa): lo que el compresor no alcanza
+ * Medido sobre el WAV: desfase de 2-4 muestras (0,04-0,08 ms) y la cola tras la última palabra sube de −57/−60 a −48/−54 dBFS de RMS (inaudible bajo la música). El WAV crudo sigue
+ * ahí para medir la voz (R29: `limites-voz.py`, `onsets-voz.py`, `palabras-desde.py`, `formantes.py`).
+ */
+function vozTratada(salidaNombre) {
+  const entrada = path.join(DESTINO, `${salidaNombre}.wav`);
+  const salida = path.join(DESTINO, `${salidaNombre}-voz.wav`);
+  if (fs.existsSync(salida) && !f.forzar) return;
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", vozTratadaCadena(GANANCIA_VOZ[salidaNombre]), "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
+  log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3:1, +${GANANCIA_VOZ[salidaNombre]} dB y limitador a −2,5 dBFS)`);
+}
+
 for (const [clase, archivo, salida] of MATERIAL) {
   video(clase, archivo, salida);
-  if (clase === "toma") voz(archivo, salida);
+  if (clase === "toma") {
+    voz(archivo, salida);
+    vozTratada(salida);
+  }
 }
 
 // La TARJETA OSCURA del cierre (plano `c12-cierre`): un PNG liso del negro de la marca. Hasta la revisión 5 lo que

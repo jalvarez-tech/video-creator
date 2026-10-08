@@ -54,13 +54,13 @@ export const FPS_019 = 30;
 export type Entrada = "corte" | "disolver";
 export type Bloque = 1 | 2 | 3 | 4 | 5 | 6;
 
-/** Dónde habla Isabella en SU clip y a qué nivel. Medido con `limites-voz.py` y ebur128, no estimado. */
+/** Dónde habla Isabella en SU clip y a qué nivel. `s0`/`s1` medidos con `limites-voz.py` sobre el WAV crudo; `lufs`, con ebur128 sobre el WAV TRATADO que suena (ver `OBJETIVO_LUFS`). */
 export interface VozDelCorte {
   /** Segundo de la fuente en que empieza a hablar. */
   s0: number;
   /** Segundo de la fuente en que termina de hablar. */
   s1: number;
-  /** Sonoridad integrada de la voz (LUFS) en esa ventana. */
+  /** Sonoridad integrada de la voz TRATADA (LUFS) en esa ventana. */
   lufs: number;
   /** Lo que dice, tal como está en el guion. Solo para leer el plan. */
   dice: string;
@@ -71,17 +71,20 @@ export interface Corte extends CorteDelFormato<Entrada> {
   tipo: "video" | "foto";
   /** A qué bloque del guion pertenece: la puerta comprueba el orden y el tope de cada uno. */
   bloque: Bloque;
-  /** Solo las tomas de Isabella cuya voz entra con su imagen: el WAV de su voz, sin tratar. */
+  /** Solo las tomas de Isabella cuya voz entra con su imagen: el WAV de su voz, TRATADO (`<toma>-voz.wav`: ver `OBJETIVO_LUFS`). */
   audio?: string;
   voz?: VozDelCorte;
 }
 
 /**
- * EL NIVEL DE LA VOZ: una ganancia por toma hasta este objetivo y nada más (R29). Las tres tomas miden −20,7 (HK05),
- * −17,9 (MD08) y −18,9 LUFS (CT05) en su ventana de voz: −21 es el objetivo del 017 y el 018 y se mantiene para que las
- * tres versiones suenen igual de fuertes (la mayor ganancia, −3,1 dB sobre MD08, baja su pico de −0,5 a −3,6 dBFS).
+ * EL NIVEL DE LA VOZ: −15 LUFS, el de la música sola (REV. 1, pedido del usuario tras la final, 2026-10-08: «necesito que la voz cuando habla Isabella tenga más decibeles sin
+ * saturar»; la rev. 0 y las versiones anteriores la llevaban a −21). Con ganancia sola no se puede: las tres tomas crudas miden −20,7 (HK05), −17,9 (MD08) y −18,9 LUFS (CT05) con picos de
+ * −3,9, −0,5 y −1,7 dBTP, y subirlas 5,7 · 2,9 · 3,9 dB las llevaría a +1,3 · +2,4 · +0,2 dBTP (saturan). Suena la voz TRATADA (`<toma>-voz.wav`: graves, puerta suave, compresión 3:1, +14 · +13 · +14 dB y
+ * limitador a −2,5 dBFS, en `proyectos/019/normalizar.mjs`), que ya llega a −15,0 · −15,1 · −15,2 LUFS con el pico real en −2,6 · −2,5 · −2,5 dBFS; la ganancia del plan solo iguala las tres (±0,2 dB).
+ * Excepción a R29 («una ganancia por toma y nada más»), por encargo, declarada aquí y en la puerta (sección 3: pico real ≤ −1 dBTP con su ganancia). Lo que mide `limites-voz.py` (R29),
+ * `s0` y `s1`, sale del WAV crudo: el tratado no se desfasa (2-4 muestras).
  */
-export const OBJETIVO_LUFS = -21;
+export const OBJETIVO_LUFS = -15;
 
 /* ── Los golpes de la música ────────────────────────────────────────────────
  *
@@ -230,11 +233,11 @@ export const metraje019: readonly Corte[] = [
     bloque: 2,
     tipo: "video",
     src: v("hk05"),
-    audio: a("hk05"),
+    audio: a("hk05-voz"),
     voz: {
       s0: 0.26,
       s1: 3.67,
-      lufs: -20.7,
+      lufs: -15.0,
       dice: "¿Y si pudieras vivir en altura sin sentir que vives dentro de una torre?",
     },
     // La voz empieza a los 0,26 s de su clip (7,8 f): el clip NO tiene los 12 f de aire que pide una disolvencia (el catálogo ya lo marcaba:
@@ -304,11 +307,11 @@ export const metraje019: readonly Corte[] = [
     bloque: 4,
     tipo: "video",
     src: v("md08"),
-    audio: a("md08"),
+    audio: a("md08-voz"),
     voz: {
       s0: 0.77,
       s1: 4.83,
-      lufs: -17.9,
+      lufs: -15.1,
       dice: "La doble altura permite que la luz y ventilación ingresen a la vivienda.",
     },
     // La voz empieza a los 0,77 s (23 f): `desde` es el frame anterior (22 = 0,733 s) para que su imagen sea opaca en el golpe y la primera palabra
@@ -378,11 +381,11 @@ export const metraje019: readonly Corte[] = [
     bloque: 6,
     tipo: "video",
     src: v("ct05"),
-    audio: a("ct05"),
+    audio: a("ct05-voz"),
     voz: {
       s0: 0.68,
       s1: 3.13,
-      lufs: -18.9,
+      lufs: -15.2,
       dice: "Si encaja con lo que estás buscando, escríbeme.",
     },
     // Su voz empieza a los 0,68 s (20,4 f): `desde` es el frame anterior (19 = 0,633 s), con 19 f de clip por delante para la disolvencia (pide 12). Es la toma

@@ -8,15 +8,18 @@
  *                que traen `audio` (`vocesDeCortes`): mismo arranque que su
  *                imagen, desclic de 3 f cuando su plano entra o sale a corte, cruce
  *                de 6 f cuando disuelve, y UNA ganancia por toma hasta `OBJETIVO_LUFS`.
+ *                Suena la voz TRATADA (`<toma>-voz.wav`: graves, puerta suave, compresión 3:1, +14 · +13 · +14 dB y limitador a −2,5 dBFS;
+ *                ver `OBJETIVO_LUFS` en metraje-019.ts).
  *                La primera toma sale sin voz: ella no habla hasta que su imagen es opaca.
  *   musica       «Flying Into the Sun», con una envolvente que BAJA mientras habla Isabella
  *                y sube en los recorridos. No es la de `envolventeBajoVoz`: el hook y la mitad
  *                necesitan rampas a medida (ver abajo) y el CTA, una que siga la caída de la canción.
  *
  * LA MEZCLA, en LUFS (medidos con ebur128 sobre cada fuente):
- *   voz de Isabella      −21 (sus tomas miden −20,7 · −17,9 · −18,9)
+ *   voz de Isabella      −15 (rev. 1, pedido del usuario: «más decibeles sin saturar»; hasta la rev. 0, −21). La voz tratada mide −15,0 · −15,1 · −15,2 LUFS con el pico real en −2,5 dBFS
  *   música SOLA          −15: arriba, en los recorridos y el golpe de apertura
- *   música BAJO LA VOZ   −31: ≈ 10 LU por debajo de ella (ALTO × 0,16 = −16 dB)
+ *   música BAJO LA VOZ   −31: ≈ 16 LU por debajo de ella (ALTO × 0,16 = −16 dB). La música NO se toca en la rev. 1: la voz sube 6 dB, la música no baja
+ *                        (con la rev. 0 quedaba a ≈ 10 LU)
  * La canción viene masterizada a −9,5 LUFS en la meseta (picos a 0 dBFS) y a −23 en el lecho: una ganancia (nunca un
  * loudnorm, que le cambiaría la dinámica) la lleva a su sitio. Como sube hasta −7,8 (crescendo), la música sola va de
  * ≈ −18,7 (la apertura) a ≈ −13,3 (la vista).
@@ -74,8 +77,11 @@ const OBJETIVO_MUSICA = -15;
 const ALTO = gananciaHasta(LUFS_MESETA, OBJETIVO_MUSICA);
 /** Mientras habla Isabella en el hook y la mitad: −16 dB más (≈ 10 LU bajo su voz). */
 const BAJO = ALTO * 0.16;
-/** La sonoridad a la que la música queda bajo la voz del CTA (LUFS): 10 LU bajo los −21 de Isabella. */
-const MUSICA_BAJO_LA_VOZ = OBJETIVO_LUFS - 10;
+/**
+ * La sonoridad a la que la música queda bajo la voz del CTA (LUFS): −31, como en la rev. 0 (10 LU bajo los −21 de Isabella de entonces). Con la voz a −15 (rev. 1) son 16 LU; se deja
+ * FIJA y no `OBJETIVO_LUFS − 10` porque el encargo es subir la voz, no tocar la música.
+ */
+const MUSICA_BAJO_LA_VOZ = -31;
 /** Frames que tarda la música en subir tras la última palabra del hook (hasta el golpe de entrada del dron) y en bajar antes de la mitad. */
 const RAMPA = 12;
 

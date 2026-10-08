@@ -231,6 +231,18 @@ donde empieza el otro. No es peor ni mejor: es otra elección, y el cambio es de
 - **«Nada roto» se prueba comparando las dos versiones fotograma a fotograma** (`ffmpeg -lavfi psnr=stats_file`): los 1.399 a ≥ 39,4 dB (medio 45,8). Un fotograma repetido o desfasado en una de las dos daría ≈ 20 dB.
 - **Un master a 34 Mb/s es un master, no el archivo que se sube:** las plataformas lo recomprimen, y 198 MB sube más lento. Los dos están hechos.
 
+## 16. Revisión 9: la voz a −15 LUFS sin saturar, sobre una final ya exportada
+
+> «Necesito que la voz cuando habla Isabella tenga más decibeles sin saturar a V1 y V2» (2026-10-08)
+
+La voz iba a −21 LUFS (la mediana de las tres tomas, sin filtro ni compresor: R29) y la música sola a −15: Isabella sonaba ≈ 6 dB por debajo del paseo. Con ganancia sola no se puede: las tres tomas miden −21,1 · −21,7 · −18,9 LUFS con picos de −3,1 · −3,0 · −2,0 dBTP, y llevarlas a −15 daría +3,0 · +3,7 · +1,9 dBTP. Se aplicó la cadena de la V9 (`VOZ_TRATADA`: highpass 100 Hz · puerta suave · compresor 3:1 · ganancia · limitador a −2,5 dBFS, ya en `normalizar.mjs`) con **una ganancia por toma**, buscada DESPUÉS del compresor midiendo la ventana de voz de cada una: +15,1 · +14,8 · +13,9 dB. Medido con ebur128 sobre los WAV que suenan: **−15,0 LUFS y pico real −2,5 dBTP en las tres**; el limitador quita 2,1 · 1,3 · 0,4 dB, lejos de los 5 dB en que empieza a oírse. El tratado no se desfasa (2-3 muestras), así que `s0`, `s1` y los subtítulos no se tocan. La música no se toca: queda ≈ 16 LU bajo la voz (antes ≈ 10), y bajo el CTA, donde la canción ya cae sola, 16,5 LU.
+
+**En la final** (sobre el audio mezclado, en las ventanas de voz del plan): voz −14,9 · −14,9 · −14,9 LUFS (antes −20,8 · −20,5 · −20,7), pieza −15,2 LUFS (antes −16,4), pico real −4,1 dBTP (antes −4,6) y LRA 2,6 LU (antes 7,8: la voz y la música sola ya suenan igual de fuertes y el paseo deja de saltar entre las dos).
+
+**Lo que cuesta.** La compresión sube también lo que hay entre palabras: en lo que suena, la voz sube +3 a +8 dB y el suelo (percentil 10 de tramos de 50 ms) +13 a +14, así que la distancia voz/suelo baja de 31-38 a 22-29 dB. La más justa es HK02 (22 dB, con un suelo crudo de −47 dBFS, el más alto de las tres). Queda al nivel de la música de fondo (≈ −31 LUFS mientras ella habla) o por debajo, pero es lo primero que se oiría si algo suena sucio: si pasa, se sube la puerta (`agate`) de esa toma.
+
+**Cómo se entregó sin tocar la imagen.** Solo cambia el audio, así que no se repitió ningún render de imagen: se renderizó SOLO el audio del plan (`npx remotion render … --codec=wav --gl=angle`) y se mezcló con el vídeo de los finales anteriores sin recodificarlo (`ffmpeg -c:v copy -c:a aac -b:a 320k`, con el mismo `h264_metadata` y los `-color_*` de R22): la imagen sale idéntica fotograma a fotograma (`framemd5` DECODIFICADO de los 1399 fotogramas, master y CRF 16) y las etiquetas siguen completas en las dos capas. El método se validó antes en el 018 (ver `proyectos/018/aprendizajes.md` §10). Los finales anteriores quedan como `017-recorrido-rev8.mp4` y `017-recorrido-crf16-rev8.mp4`. Como en el 018, el relleno del AAC (2048 muestras, ≈ 43 ms) que el render de Remotion dejaba sin descontar queda descontado en los finales nuevos: el audio llega alineado con la imagen.
+
 ## Entregables
 
 | Archivo | Qué es |
