@@ -5,31 +5,32 @@
  *   node proyectos/029/normalizar.mjs            (lee de proyectos/029/original/)
  *   node proyectos/029/normalizar.mjs --forzar   (rehace aunque ya exista la salida)
  *
- * PIEZA 029 · V13 · CASA CAMPESTRE GUARNE (Duglas Yovana). Se monta SOLO con las 19 tomas de `5 Cta`, que son
- * CLIPS 16:9 (1080p a 60/59,94 fps o 4K a 30 fps), SDR BT.709, sin rotación y con la voz de Isabella dentro. El
- * reel es 9:16: lo que hace distinto a este `normalizar.mjs` del de las otras piezas es el ENCUADRE.
+ * PIEZA 029 · V13 · CASA CAMPESTRE GUARNE (Duglas Yovana), rev. 1. Estructura del canal: DRON · HOOK · RECORRIDO · MITAD · RECORRIDO · CTA.
+ * (La rev. 0 era un montaje solo de las 19 tomas de `5 Cta`: demasiado diálogo; el usuario pidió volver a la estructura de siempre.)
+ * El material es de la propiedad y de la presentadora y no entra en git: aquí quedan la receta y los sha256 de los originales.
  *
- * EL ENCUADRE (pedido del usuario: «están en 16:9, necesito encuadrarlos en 9:16»). De cada fotograma apaisado solo
- * cabe una franja del 31,6 % del ancho a altura completa. La franja SIGUE a Isabella: sus claves (el borde izquierdo
- * de la ventana cada 0,25 s) salen de `proyectos/029/encuadre-029.json`, que calcula `herramientas/encuadre.py` desde
- * las medidas de Vision (`herramientas/seguir-sujeto.swift`: cara y cuerpo, 5 fotogramas por segundo, local). Aquí
- * solo se convierten en la expresión del filtro `crop`. El resultado es un clip VERTICAL de 1296×2304 como los del
- * resto de las piezas, y el plan (`metraje-029.ts`) lo trata igual: zoom, color, disolvencias.
- *   · 4K (3840×2160): la franja mide 1214×2160 y sube un 6,7 % a 1296×2304 (a 1080×1920 de la entrega, baja un 11 %): sobra nitidez.
- *   · 1080p (1920×1080): la franja mide 608×1080 y sube ×2,13. Es lo que da el material; se compensa con un
- *     realce suave (`unsharp`), que sin él el lanczos se ve blando. El zoom del plan en estos clips se queda en ≤ 1,08.
+ * TODO EL MATERIAL ES 16:9 (el dron, los recorridos y las tomas de Isabella: 1080p a 59,94/60 fps o 4K a 30; el dron, 4K a 29,97), SDR BT.709, sin
+ * rotación. El reel es 9:16: lo que hace distinto a este `normalizar.mjs` del de las otras piezas es el ENCUADRE.
  *
- * UN SOLO FPS. Los clips de 60 fps pasan a 30 quitando un fotograma de cada dos; los de 59,94 igual. Los 4K ya son 30.
- * LA APERTURA es la excepción: se hace a CÁMARA LENTA REAL (×0,5) con los 60 fps de la fuente, sin quitar ninguno ni
- * mezclar fotogramas, así que cada fotograma de la fuente es uno de la salida y se ve el paso de ella en suavidad.
+ * EL ENCUADRE (pedido del usuario: «están en 16:9, necesito encuadrarlos en 9:16»). De cada fotograma apaisado solo cabe una franja del 31,6 %
+ * del ancho a altura completa. Sus claves salen de `proyectos/029/encuadre-029.json`, que calcula `herramientas/encuadre.py`:
+ *   · en las tomas de Isabella, la ventana la SIGUE (Vision de Apple: `herramientas/seguir-sujeto.swift`, cara y cuerpo a 5 fotogramas por
+ *     segundo, local, sin descargas) con zona muerta y tope de velocidad; en los 4K de Hooks y Mitad, donde ella sale pequeña (la cara al 4 % del
+ *     alto), la ventana se CIERRA (62 % del alto en la mitad) y la sigue también en vertical;
+ *   · en el dron y en los recorridos, que no tienen a quién seguir, la ventana va a mano (`MANUAL` de `encuadre.py`, elegida mirando cuatro
+ *     ventanas de prueba por clip).
+ * Aquí solo se convierten en la expresión del filtro `crop`. El resultado es un clip VERTICAL de 1296×2304 como los del resto de las piezas, y el
+ * plano (`metraje-029.ts`) lo trata igual: zoom, color, disolvencias.
+ *   · 4K (3840×2160) a altura completa: la franja mide 1214×2160 y sube un 6,7 % a 1296×2304 (a 1080×1920 de la entrega, baja un 11 %).
+ *   · 1080p: la franja mide 606×1080 y sube ×2,13; se compensa con un realce suave (`unsharp`). El zoom del plan en estos clips se queda en ≤ 1,08.
  *
- * LA VOZ. Cada toma sale en DOS WAV (48 kHz mono, PCM, el AAC arrastra 1024 muestras de priming): `<toma>.wav` tal
- * cual y `<toma>-voz.wav` TRATADA (pedido del usuario: «sube la voz sin saturar»). Las voces de `5 Cta` llegan muy bajas
- * (−27 a −31 LUFS: ella habla a varios metros de un iPhone) y con una cresta de ≈ 17-20 dB; con ganancia sola los picos
- * saldrían a +5 dBFS. La cadena (`VOZ_TRATADA`) es la de la V9/V1/V2 con un compresor más firme (umbral −30 dBFS, 3,5:1)
- * y la ganancia de cada toma se BUSCA después del compresor (`herramientas/probar-voz.py`), hasta −15,0 LUFS en su ventana
- * de voz: el nivel de la música sola. Mide cuánto quita el limitador (≤ 1 dB salvo en la alcoba, 3,7) y el pico real
- * (≤ −2,5 dBFS). La puerta (`revisar-029.mjs`) vuelve a medirlo sobre estos archivos.
+ * UN SOLO FPS. Los clips de 60 y 59,94 fps pasan a 30 quitando un fotograma de cada dos; los de 29,97 y 31,58 (dos recorridos) pasan a 30 CFR.
+ *
+ * LA VOZ. Cada toma de Isabella sale en DOS WAV (48 kHz mono, PCM; el AAC arrastra 1024 muestras de priming): `<toma>.wav` tal cual y
+ * `<toma>-voz.wav` TRATADA (pedido del usuario: «sube la voz sin saturar»). Las voces llegan muy bajas (−27 a −32 LUFS: ella habla a varios
+ * metros de un iPhone) y con una cresta de ≈ 17-20 dB; con ganancia sola los picos saldrían a +5 dBFS. La cadena (`VOZ_TRATADA`) es la de la
+ * V9/V1/V2 con un compresor más firme (umbral −30 dBFS, 3,5:1) y la ganancia de cada toma se BUSCA después del compresor
+ * (`herramientas/probar-voz.py`), hasta −15,0 LUFS en su ventana de voz: el nivel de la música sola. La puerta (`revisar-029.mjs`) vuelve a medirlo.
  *
  * LA MÚSICA: WAV estéreo de 48 kHz decodificado ENTERO y nada más (ni `loudnorm`). La tarjeta del cierre: un negro liso.
  * Vídeo a 1296×2304 (1080 × 1,2: el techo del punch-in) · 30 fps · SIN audio.
@@ -46,24 +47,27 @@ const f = flags();
 
 /**
  * clase · archivo en original/ · nombre de salida (sin extensión) · sha256 (8) del original · origen en el disco del rodaje
- * (`/Volumes/SSK SSD/Work/Propiedades Luxur/Casa Campestre - Duglas Yovana/Videos/`).
- *   apertura   los primeros segundos MUDOS de una toma, a cámara lenta → MP4 mudo (sin voz)
+ * (`/Volumes/SSK SSD/Work/Propiedades Luxur/Casa Campestre - Duglas Yovana/Videos/`). Los códigos (DR · HK · RC · MD · CT) son los de
+ * `archivos/musica/registro-de-uso.md` §5: el orden alfabético de cada carpeta.
+ *   dron       un vuelo del DJI → MP4 mudo
+ *   recorrido  un plano de la casa sin nadie hablando → MP4 mudo
  *   toma       Isabella a cámara → MP4 mudo + WAV con su voz + WAV con su voz tratada
  */
 const MATERIAL = [
-  ["apertura", "IMG_9426.MOV", "apertura", "2338f1f0", "5 Cta/IMG_9426.MOV"],
-  ["toma", "IMG_9516.MOV", "ct14", "06269bc3", "5 Cta/IMG_9516.MOV"],
-  ["toma", "IMG_9436.MOV", "ct07", "0d36378c", "5 Cta/IMG_9436.MOV"],
-  ["toma", "IMG_9411.MOV", "ct01", "b940ac4a", "5 Cta/IMG_9411.MOV"],
-  ["toma", "IMG_9441.MOV", "ct09", "deeefbc2", "5 Cta/IMG_9441.MOV"],
-  ["toma", "IMG_9524.MOV", "ct16", "b02b1498", "5 Cta/IMG_9524.MOV"],
-  ["toma", "IMG_9531.MOV", "ct18", "0da4c156", "5 Cta/IMG_9531.MOV"],
+  ["dron", "DJI_20260414173106_0072_D.MP4", "dr72", "4250746c", "3 Dron/DJI_20260414173106_0072_D.MP4"],
+  ["toma", "IMG_9407.MOV", "hk04", "21fe7705", "1 Hooks/IMG_9407.MOV"],
+  ["recorrido", "IMG_9507.MOV", "rc25", "644a7ec2", "4 Recorrido/IMG_9507.MOV"],
+  ["recorrido", "IMG_9491.MOV", "rc16", "083e2157", "4 Recorrido/IMG_9491.MOV"],
+  ["recorrido", "IMG_9490.MOV", "rc15", "ecca7b06", "4 Recorrido/IMG_9490.MOV"],
+  ["toma", "IMG_9439.MOV", "md04", "e7b1e9d9", "2 Mitad/IMG_9439.MOV"],
+  ["recorrido", "IMG_9494.MOV", "rc19", "8d2349fc", "4 Recorrido/IMG_9494.MOV"],
+  ["recorrido", "IMG_9462.MOV", "rc03", "3da45d81", "4 Recorrido/IMG_9462.MOV"],
+  ["recorrido", "IMG_9471.MOV", "rc10", "36314129", "4 Recorrido/IMG_9471.MOV"],
+  ["recorrido", "IMG_9476.MOV", "rc12", "285d5a5b", "4 Recorrido/IMG_9476.MOV"],
+  ["toma", "IMG_9523.MOV", "ct15", "9eb86339", "5 Cta/IMG_9523.MOV"],
 ];
 /** La canción: archivo en original/ · salida · sha256 (8) · origen. Es la de `archivos/musica/` (el MISMO archivo que reserva el registro de uso). */
 const MUSICA = ["musica-029.mp3", "musica-029", "aed6a3a3", "archivos/musica/Aleksey Chistilin - Pictures from the Past.mp3"];
-
-/** Segundos de la fuente que se codifican de la APERTURA: hasta justo antes de que Isabella empiece a hablar (0,98 s). A ×0,5 son 60 fotogramas. */
-const APERTURA_FUENTE_S = 1.0;
 
 const sha8 = (archivo) => crypto.createHash("sha256").update(fs.readFileSync(archivo)).digest("hex").slice(0, 8);
 const sondea = (archivo, entradas, selector = "v:0") =>
@@ -95,13 +99,13 @@ if (malos) {
   process.exit(1);
 }
 
-/** La expresión de `x` del filtro `crop`: interpolación lineal entre las claves [t, borde izquierdo (fracción del ancho)]. */
-function expresionX(claves) {
-  let e = String(claves[claves.length - 1][1]);
+/** La expresión de una coordenada del filtro `crop`: interpolación lineal entre las claves [t, x, y] (`k` = 1 para x, 2 para y). */
+function expresion(claves, k) {
+  let e = String(claves[claves.length - 1][k]);
   for (let i = claves.length - 2; i >= 0; i--) {
-    const [t0, x0] = claves[i];
-    const [t1, x1] = claves[i + 1];
-    e = `if(lt(t,${t1}),${x0}+(${x1}-${x0})*(t-${t0})/${t1 - t0},${e})`;
+    const [t0, v0] = [claves[i][0], claves[i][k]];
+    const [t1, v1] = [claves[i + 1][0], claves[i + 1][k]];
+    e = `if(lt(t,${t1}),${v0}+(${v1}-${v0})*(t-${t0})/${t1 - t0},${e})`;
   }
   return e;
 }
@@ -126,26 +130,20 @@ function video(clase, archivo, salidaNombre) {
     log.error(`${clip}: sin encuadre en encuadre-029.json (uv run proyectos/029/herramientas/encuadre.py)`);
     process.exit(1);
   }
-  // La ventana: 9:16 a altura COMPLETA (ancho par, que yuv420p lo pide).
-  const ow = 2 * Math.floor((alto * 9) / 32);
-  const x = `clip((${expresionX(encuadre.claves)})*iw,0,iw-${ow})`;
-  const realce = alto <= 1080 ? ",unsharp=5:5:0.55:5:5:0.0" : "";
-  const filtros = [`crop=${ow}:${alto}:x='${x}':y=0`, `scale=1296:2304:flags=lanczos${realce}`];
-  const entradaArgs = ["-nostdin", "-y", "-v", "error", "-noautorotate"];
-  const comunes = [
+  // La ventana: 9:16, de la altura que diga el encuadre (1 = completa), con el alto y el ancho pares (yuv420p lo pide).
+  const oh = 2 * Math.round((alto * encuadre.alto) / 2);
+  const ow = 2 * Math.floor((oh * 9) / 32);
+  const x = `clip((${expresion(encuadre.claves, 1)})*iw,0,iw-${ow})`;
+  const y = encuadre.alto < 1 ? `clip((${expresion(encuadre.claves, 2)})*ih,0,ih-${oh})` : "0";
+  const realce = oh <= 1080 ? ",unsharp=5:5:0.55:5:5:0.0" : "";
+  const filtros = [`crop=${ow}:${oh}:x='${x}':y='${y}'`, `scale=1296:2304:flags=lanczos${realce}`, "fps=30"];
+  const args = [
+    "-nostdin", "-y", "-v", "error", "-noautorotate", "-i", entrada, "-vf", filtros.join(","),
     "-an", "-fps_mode", "cfr", "-r", "30", "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-pix_fmt", "yuv420p",
     "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-movflags", "+faststart", salida,
   ];
-  let args;
-  if (clase === "apertura") {
-    // Cámara lenta REAL: los fotogramas de la fuente (60 fps) se estiran al doble y salen a 30 fps, uno por uno.
-    args = [...entradaArgs, "-t", String(APERTURA_FUENTE_S), "-i", entrada, "-vf", [...filtros, "setpts=2.0*PTS", "fps=30"].join(","), ...comunes];
-  } else {
-    // Los 60 y 59,94 fps pasan a 30 quitando un fotograma de cada dos; los 4K ya van a 30.
-    args = [...entradaArgs, "-i", entrada, "-vf", [...filtros, "fps=30"].join(","), ...comunes];
-  }
   ejecutar("ffmpeg", args, { check: true });
-  log.ok(`${path.basename(salida)} (${clase} · ${ancho}×${alto} → ventana ${ow}×${alto} que sigue a Isabella → 1296×2304${clase === "apertura" ? " · cámara lenta ×0,5" : ""})`);
+  log.ok(`${path.basename(salida)} (${clase} · ${ancho}×${alto} → ventana ${ow}×${oh} → 1296×2304)`);
 }
 
 function voz(archivo, salidaNombre) {
@@ -175,18 +173,17 @@ const VOZ_TRATADA = (gananciaDb) =>
   ].join(",");
 
 /** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). */
-const GANANCIA_VOZ_DB = { ct14: 19.6, ct07: 20.4, ct01: 20.8, ct09: 19.6, ct16: 21.9, ct18: 21.0 };
+const GANANCIA_VOZ_DB = { hk04: 21.8, md04: 20.8, ct15: 21.5 };
 
 /**
  * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente,
- * medidos por energía (`limites-voz.py` y `envolvente-voz.py`; R29). Fuera de esta ventana la voz tratada es SILENCIO: en
- * `5 Cta` Isabella dice la frase y, casi sin pausa, empieza otra que aquí no entra («y se acabará…» tras «la infancia pasa
- * rápido» a 0,3 s; «haz clic en el enlace…» tras cada frase corta), y entre toma y toma el plan deja 0,8 s de hueco que, sin
- * esto, sonarían con esa frase, con una respiración (ct01, a −33 dB a 0,09 s de la primera palabra) o con 20 dB más de ruido de
- * sala que la voz tenía. Se apaga también, a propósito, el aire de antes y de después: la música lo cubre y un hueco con y sin
- * ruido de sala que va y viene se oiría más que la música.
+ * medidos por energía (`limites-voz.py` y `envolvente-voz.py`; R29). Fuera de esta ventana la voz tratada es SILENCIO: el WAV tratado sube
+ * la voz ≈ +20 dB y con ella cualquier respiración, clic o frase que la toma traiga antes o después (en `5 Cta` Isabella sigue, casi sin
+ * pausa, con otra frase; en CT15 hay un soplido a −31 dB a 0,1 s de la primera sílaba), y entre toma y toma el plan deja un hueco que, sin
+ * esto, sonaría con ese ruido de sala. La música lo cubre y un hueco con y sin ruido de sala que va y viene se oiría más que la música.
+ * El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
  */
-const VENTANA_VOZ = { ct14: [0.94, 2.4], ct07: [0.755, 2.88], ct01: [0.75, 3.3], ct09: [0.67, 2.66], ct16: [0.45, 2.92], ct18: [0.495, 7.39] };
+const VENTANA_VOZ = { hk04: [1.2, 3.42], md04: [0.55, 3.79], ct15: [0.66, 5.42, 0.04] };
 /** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
 const VOZ_ANTES = 0.07;
 const VOZ_DESPUES = 0.05;
@@ -203,7 +200,7 @@ function vozTratada(salidaNombre) {
     log.error(`${salidaNombre}: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ`);
     process.exit(1);
   }
-  const a = Math.max(0, ventana[0] - VOZ_ANTES);
+  const a = Math.max(0, ventana[0] - (ventana[2] ?? VOZ_ANTES));
   const b = ventana[1] + VOZ_DESPUES;
   // La ventana se aplica como una ENVOLVENTE por muestra (`aeval`): silencio fuera, fundido de entrada y de salida dentro. El WAV
   // dura lo mismo que el crudo y sus segundos son los de la fuente, así que `desde` y `voz.s0/s1` del plan valen para los dos.

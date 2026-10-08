@@ -33,32 +33,25 @@ RAIZ = Path(__file__).resolve().parents[3]
 VOCES = RAIZ / "remotion" / "public" / "recorrido-029"
 
 # toma → (en de su plano en la composición, `desde` de su plano en frames de la fuente a 30 fps), de metraje-029.ts
-TOMAS = {"ct14": (60, 27), "ct07": (128, 22), "ct01": (215, 22), "ct09": (315, 19), "ct16": (399, 13), "ct18": (497, 14)}
+TOMAS = {"hk04": (100, 35), "md04": (478, 16), "ct15": (916, 19)}
 
 # (toma, frame en que entra la línea, texto, segundo de la fuente en que empieza su primera palabra, nota)
 # El segundo de cada palabra sale de `onsets-voz.py` (energía de la voz sola) y de `palabras-desde.py` (qué palabra es la primera que oye
 # whisper desde ese instante; el «onset más cercano» NO es la palabra). Los de las líneas que abren una toma son su primera sílaba.
 LINEAS = [
-    ("ct14", 61, "La infancia", 0.945, "primera sílaba"),
-    ("ct14", 79, "pasa rápido.", 1.54, "«pasa»: whisper oye «para» desde 1,50 y «pasa» desde 1,53"),
-    ("ct07", 129, "Tu familia merece", 0.765, "primera sílaba"),
-    ("ct07", 159, "respirar distinto.", 1.81, "«respirar»: desde 1,70 y 1,76 oye «de respirar»; desde 1,80 «respirar»"),
-    ("ct01", 215, "Diseño moderno,", 0.745, "primera sílaba"),
-    ("ct01", 246, "naturaleza", 1.785, "onset de −74 dB"),
-    ("ct01", 258, "y privacidad.", 2.20, "desde 2,16 oye «alesa y privacidad»; desde 2,20 «y privacidad»"),
-    ("ct09", 315, "Una casa donde", 0.675, "primera sílaba"),
-    ("ct09", 346, "todos caben", 1.70, "desde 1,66 oye «de todos»; desde 1,70 «todos»"),
-    ("ct09", 361, "cómodos.", 2.19, "«cómodos»: desde 2,17 oye «incómodos», desde 2,22 «como»; vocal pegada a la «n» de «caben»: sin onset"),
-    ("ct16", 399, "Esta no es solo", 0.425, "primera sílaba"),
-    ("ct16", 426, "una casa,", 1.36, "desde 1,36 oye «una casa, es patrimonio»"),
-    ("ct16", 449, "es patrimonio.", 2.14, "desde 2,14 oye «es patrimonio»"),
-    ("ct18", 497, "Volver no es una idea,", 0.495, "primera sílaba: la imagen es opaca en f497 y su primer frame de voz es f498"),
-    ("ct18", 545, "es una dirección.", 2.13, "desde 2,13 oye «es una dirección»"),
-    ("ct18", 577, "Haz clic en el enlace", 3.17, "desde 3,14 oye «has clic»; desde 3,17 «haz clic»"),
-    ("ct18", 605, "y agendemos", 4.125, "desde 4,125 oye «y agendemos su visita»"),
-    ("ct18", 627, "su visita.", 4.84, "desde 4,78 oye «de Musubicita»; desde 4,83 «su visita»"),
-    ("ct18", 654, "Puede ser virtual", 5.775, "desde 5,775 oye «Puede ser virtual o»"),
-    ("ct18", 673, "o presencial.", 6.39, "desde 6,39 oye «o presencial»"),
+    ("hk04", 101, "La casa que", 1.21, "primera sílaba"),
+    ("hk04", 114, "tu familia va a", 1.70, "desde 1,565 oye «que tu familia»; desde 1,70 «tu familia va a»"),
+    ("hk04", 140, "recordar siempre.", 2.54, "desde 2,50 oye «para recordar»; desde 2,54 «recordar siempre»"),
+    ("md04", 479, "Pregúntate algo.", 0.555, "primera sílaba"),
+    ("md04", 511, "¿Qué recuerdos", 1.67, "desde 1,67 oye «que recuerdos de infancia»"),
+    ("md04", 527, "de infancia", 2.24, "desde 2,24 oye «de infancia les estamos»"),
+    ("md04", 544, "les estamos dando?", 2.77, "whisper no da la palabra desde aquí («que a las»); el onset es de −49 dB y cae a mitad de «infancia → les estamos»"),
+    ("ct15", 917, "Esta no es solo", 0.67, "primera sílaba (hay un soplido a −31 dB en 0,54-0,60 s que la compuerta de voz deja fuera)"),
+    ("ct15", 936, "una casa,", 1.32, "desde 1,32 oye «una casa es patrimonio»"),
+    ("ct15", 959, "es patrimonio.", 2.10, "desde 2,10 oye «es patrimonio, haz clic»; desde 1,72 «casa es patrimonio»"),
+    ("ct15", 987, "Haz clic en el enlace", 3.10, "whisper oye «las cliquen en el» desde 2,98 hasta 3,10: la palabra no se puede acotar así; el onset es de −67 dB a 3,105 s"),
+    ("ct15", 1029, "y agendemos", 4.425, "desde 4,425 oye «y agendemos su visita»"),
+    ("ct15", 1041, "tu visita.", 4.86, "desde 4,86 oye «su visita» (la «t» de «tu» suena «s»)"),
 ]
 ADELANTO_MIN, ADELANTO_MAX = -0.5, 3.0  # frames; −0,5 para la primera línea, que no puede preceder a su imagen
 

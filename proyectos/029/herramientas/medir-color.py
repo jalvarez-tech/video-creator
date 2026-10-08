@@ -34,16 +34,20 @@ from PIL import Image
 
 # fotograma a mitad de cada plano → su nombre (con texto en pantalla: la franja de subtítulos no cuenta, `estadisticas` mide el 72 % de arriba)
 PLANOS = {
-    30: "c01 apertura",
-    100: "c02 infancia",
-    190: "c03 familia",
-    290: "c04 diseño",
-    380: "c05 cómodos",
-    475: "c06 patrimonio",
-    570: "c07 cta (sol)",
+    50: "c01 dron",
+    130: "c02 hook",
+    230: "c03 sala",
+    330: "c04 comedor",
+    430: "c05 cocina",
+    540: "c06 mitad",
+    630: "c07 terraza",
+    705: "c08 baño",
+    780: "c09 ventana",
+    870: "c10 alcoba",
+    1000: "c11 cta",
 }
-# Todos los planos de esta pieza entran DISOLVIENDO (ningún corte seco): no hay empalmes que medir.
-EMPALMES: list[tuple[int, int, str]] = []
+# Los cortes SECOS de esta pieza (c04, c05, c08 y c09) son entre recorridos: el salto de luma medio entre el último fotograma de un plano y el primero del siguiente.
+EMPALMES: list[tuple[int, int, str]] = [(281, 282, "c03→c04 (sala → comedor)"), (380, 381, "c04→c05 (comedor → cocina)"), (663, 664, "c07→c08 (terraza → baño)"), (746, 747, "c08→c09 (baño → ventana)")]
 # La PIEL: la caja de cada fotograma sale de la cara que ve Vision sobre ESE still (`seguir-sujeto.swift` sobre la carpeta de «después»,
 # guardado en `proyectos/029/medidas/caras-stills1080.json`): el centro de la cara (frente y mejillas, sin pelo ni ojos).
 def _cajas() -> dict[int, tuple]:
@@ -55,6 +59,8 @@ def _cajas() -> dict[int, tuple]:
         if fila["cara"] is None:
             continue
         f = int(fila["f"].split("-f")[1].split(".")[0])
+        if f not in PLANOS:
+            continue
         x, y, w, h = fila["cara"]
         cajas[f] = (x + 0.2 * w, y + 0.3 * h, x + 0.8 * w, y + 0.8 * h)
     return cajas

@@ -1,36 +1,22 @@
 #!/usr/bin/env node
 /**
- * PUERTA DEL 029 — Casa Campestre Guarne (V13), reel hecho con las tomas de `5 Cta`.
+ * PUERTA DEL 029 — Casa Campestre Guarne (V13, rev. 1), reel con la estructura del canal: DRON · HOOK · RECORRIDO · MITAD · RECORRIDO · CTA.
  *
  *   node proyectos/029/revisar-029.mjs            (avisa de lo «por confirmar»)
  *   node proyectos/029/revisar-029.mjs --final    (lo «por confirmar» FALLA)
  *
- * Las comprobaciones del FORMATO salen de `revisar-metraje.mjs` (línea de
- * tiempo, metraje, tramos, encuadre). Encima, lo que esta pieza promete y
- * ningún frame enseña. Es la puerta del recorrido de seis bloques adaptada a
- * TRES (apertura muda · cinco frases de Isabella · CTA y cierre), sin voz en off:
+ * Las comprobaciones del FORMATO salen de `revisar-metraje.mjs` (línea de tiempo, metraje, tramos, encuadre). Encima, lo que el recorrido de
+ * seis bloques promete y ningún frame enseña (aquí sin voz en off: los dos recorridos van mudos, solo con la música):
  *
- *   2. la ESTRUCTURA: los bloques en orden, la apertura sola (a corte, sin
- *      voz), Isabella en seis tomas, el CTA como último plano con voz y el total
- *      dentro del tope.
- *   2b. las REGLAS FIJAS del canal (el usuario las pidió con «siempre» y «nunca»; skill
- *      `recorrido-luxur`, SKILL.md §0): la PRIMERA TOMA SALE SIN TEXTO (ningún bloque
- *      entra antes de que la imagen de Isabella sea opaca, ni en el frame 0), no hay
- *      texto arriba ni cuenta `@…`, y NUNCA el sello «PROPIEDADES LUXUR» (`SelloCampana`).
- *   2c. el CIERRE (`cierre-029.ts`): NADA SE CONGELA (la imagen de Isabella funde a negro y
- *      llega a negro exacto en su último fotograma), y sigue una TARJETA OSCURA (el último
- *      plano, un negro liso) con el LOGO —más pequeño y al 60 % de opacidad: 40 % de
- *      transparencia— y la WEB, que caben, caen en las zonas seguras y se leen enteros.
- *   3. la VOZ de sus tomas: el WAV existe y tiene el tramo que se lee, ninguna
- *      palabra suena dentro de una disolvencia, de un cruce ni de un desclic,
- *      queda aire tras la última palabra de la pieza y la ganancia por toma es
- *      sensata.
- *   4. el AUDIO entero (`revisaAudio`), cada archivo con su tramo, y la voz en
- *      off con su ventana MEDIDA: no se la comen sus fundidos, no pisa a una
- *      toma en la que ella habla y calla antes de que entre la siguiente.
- *   5. los SUBTÍTULOS: su validador sin un aviso, con las letras del canal; cada
- *      trozo dentro de una ventana de voz (salvo los declarados abajo); y ningún
- *      bloque `centro` encima de Isabella.
+ *   2. la ESTRUCTURA: los bloques en orden (1 dron · 2 hook · 3 recorrido · 4 mitad · 5 recorrido · 6 CTA y cierre), el dron en el frame 0 (solo,
+ *      a corte, sin voz), Isabella tres veces, la vista como último plano antes del CTA y el total dentro del tope.
+ *   2b. las REGLAS FIJAS del canal: la primera toma sin texto ni voz, sin texto arriba ni cuenta `@…`, nunca el sello.
+ *   2c. el CIERRE (`cierre-029.ts`): nada se congela, tarjeta oscura con el logo (440 px, 60 %) y la web.
+ *   2d. el COLOR de cada plano (R32).
+ *   3. la VOZ de las tres tomas: su WAV tratado a −15 LUFS en su frase, pico real ≤ −1 dBTP, silencio fuera de ella, ninguna palabra en un fundido.
+ *   4. el AUDIO entero (`revisaAudio`) y la MÚSICA: golpe en el frame 0-2, baja antes de la primera palabra, sube en los recorridos, resuelve
+ *      bajo el CTA y se apaga antes de su siguiente golpe; cada corte SECO cae sobre un golpe fuerte de la canción.
+ *   5. los SUBTÍTULOS: su validador sin un aviso, con las letras del canal; cada trozo dentro de una ventana de voz.
  *
  * Carga los módulos TypeScript DE VERDAD (`abrePuerta` → esbuild): lo que mide
  * es lo que se renderiza. Sale con 1 si algo falla.
@@ -40,14 +26,10 @@ import { join } from "node:path";
 import { ejecutar } from "../../herramientas/comun.mjs";
 import { abrePuerta, cargaTs, duracionDe, PUBLICO, RAIZ } from "../../remotion/src/motor/metraje/revisar-metraje.mjs";
 
-/**
- * Los bloques de ESTA pieza (no es el recorrido de seis: solo hay las tomas de `5 Cta`, que son todas de Isabella): 1 · la apertura
- * muda (la finca y ella llegando) · 2 · cinco frases suyas, una por plano · 6 · el CTA con la puesta de sol y la tarjeta del cierre.
- */
-const BLOQUES = [1, 2, 6];
-/** Los bloques en los que Isabella habla a cámara, y cuántas veces sale en total (cinco frases y el CTA). */
-const DE_ELLA = [2, 6];
-const VECES_ISABELLA = 6;
+/** Los seis bloques del formato (la versión corta no se usa). */
+const BLOQUES = [1, 2, 3, 4, 5, 6];
+/** Los bloques en los que Isabella habla a cámara: el hook, la mitad (las «objeciones» del formato) y el CTA. */
+const DE_ELLA = [2, 4, 6];
 const VOZ_OBJETIVO = -15; // LUFS de la voz (pedido del usuario: «sube la voz sin saturar»; en los reels de Los Patios sin tratar iba a −21)
 const TECHO_VOZ_DBTP = -1.0; // pico real de la voz en lo que suena
 const TOLERANCIA_LUFS = 0.6; // la voz de cada toma, en su ventana, a ±0,6 LU del objetivo
@@ -74,7 +56,7 @@ const HOLGURA_TROZO = 3; // f que un trozo puede adelantarse a su palabra
  */
 const VERSIONES_ANTERIORES = []; // las V1-V12 son de otras propiedades (Los Patios, One Living): no comparten ni un clip con esta casa
 
-const SIN_VOZ = {}; // todos los bloques de texto de esta pieza acompañan a una palabra dicha
+const SIN_VOZ = {}; // todos los bloques de texto de esta pieza acompañan a una palabra dicha (sin datos en pantalla)
 
 // Un plan que no carga (un corte con voz y velocidad distinta de 1, un import
 // roto) no deja una traza: dice qué pasa y sale con 1.
@@ -143,21 +125,25 @@ seccion("2. la estructura del recorrido");
   for (const b of BLOQUES) if (!cortes.some((c) => c.bloque === b)) mal(`falta el bloque ${b}`);
   const ultimo = cortes.at(-1);
   if (ultimo.bloque !== BLOQUES.at(-1)) mal(`${ultimo.id}: la pieza acaba en el bloque ${ultimo.bloque}; cierra Isabella con el CTA (bloque ${BLOQUES.at(-1)})`);
-  // Isabella, seis veces y cada vez en un sitio distinto de la finca (el `reason` de cada plano empieza por el sitio).
-  if (conVoz.length !== VECES_ISABELLA) mal(`Isabella sale ${conVoz.length} veces a cámara; esta pieza lleva ${VECES_ISABELLA} (cinco frases y el CTA)`);
-  const cta = cortes.filter((c) => c.bloque === 6 && c.audio);
-  if (cta.length !== 1) mal(`el bloque 6 lleva ${cta.length} tomas con voz; el CTA es una`);
-  else if (conVoz.at(-1) !== cta[0]) mal(`${cta[0].id}: el CTA no es la última toma con voz`);
-  // El CTA es la toma más larga (la dirección, el clic y la puesta de sol) y no hay otra con más frases que la suya.
-  const masLarga = [...conVoz].sort((x, y) => y.dur - x.dur)[0];
-  if (masLarga !== cta[0]) mal(`${masLarga.id} dura ${masLarga.dur} f, más que el CTA (${cta[0]?.dur} f): la última imagen es la más larga`);
+  // La recompensa se mira: la vista (el último plano del último recorrido) no dura menos que los planos de intimidad que la preceden en su bloque.
+  const ultimoRecorrido = cortes.filter((c) => c.bloque === BLOQUES.at(-2));
+  const vista = ultimoRecorrido.at(-1);
+  const masLargo = vista && ultimoRecorrido.find((c) => c.dur > vista.dur);
+  if (masLargo) mal(`${vista.id} (${vista.dur} f) es el clímax y ${masLargo.id} dura más (${masLargo.dur} f); la vista es el plano más largo de su bloque (viaje-emocional.md §1)`);
+  const antesDelCta = cortes.filter((c) => c.bloque < BLOQUES.at(-1)).at(-1);
+  if (antesDelCta && antesDelCta.bloque !== BLOQUES.at(-2)) {
+    mal(`${antesDelCta.id}: el plano anterior al CTA es del bloque ${antesDelCta.bloque}; tiene que ser el último recorrido (bloque ${BLOQUES.at(-2)}: la vista)`);
+  }
+  // Isabella, una vez por bloque suyo y cada vez en un sitio distinto.
+  const veces = DE_ELLA.filter((b) => BLOQUES.includes(b)).length;
+  if (conVoz.length !== veces) mal(`Isabella sale ${conVoz.length} veces a cámara; con los bloques ${BLOQUES.join(", ")} son ${veces}`);
   if (DURACION / fps > TOPE_SEGUNDOS) mal(`${(DURACION / fps).toFixed(1)} s: el formato no pasa de ${TOPE_SEGUNDOS} s`);
   if (fallos.length === n) {
     const porBloque = BLOQUES.map((b) => {
       const suyos = cortes.filter((c) => c.bloque === b);
       return `b${b} ${(suyos.reduce((s, c) => s + c.dur, 0) / fps).toFixed(1)} s`;
     });
-    ok(`${cortes.length} planos · ${(DURACION / fps).toFixed(1)} s · ${porBloque.join(" · ")} · Isabella ${conVoz.length} veces · todos con razón · el CTA, la toma más larga y la última con voz`);
+    ok(`${cortes.length} planos · ${(DURACION / fps).toFixed(1)} s · ${porBloque.join(" · ")} · Isabella ${conVoz.length} veces · todos con razón · la vista, el plano más largo de su bloque`);
   }
 }
 
@@ -445,6 +431,25 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     const fuertes = golpes.golpes.filter((g) => g.db >= 8 && Math.round(g.t * fps) - f0 > ultima);
     const suena = fuertes.filter((g) => vol(Math.round(g.t * fps) - f0) > alto * 0.02);
     if (suena.length) mal(`${suena.length} golpe(s) de la canción suenan tras la última palabra (f${suena.map((g) => Math.round(g.t * fps) - f0).join(", f")}): la música tiene que haberse apagado antes`);
+    // R33: cada corte SECO cae sobre un golpe FUERTE (≥ 9 dB) de la canción, a ≤ 1 f. La canción no tiene pulso fijo: se corta a los golpes medidos.
+    // Un golpe de la lista que, medido sobre el audio del RENDER, suena en otro frame (herramientas/golpes-render.py, ya quitado el 1,3 f del AAC de Remotion):
+    // el de 67,444 s (f664,3 en la lista) suena en f667,2 —un golpe doble: la subida empieza en f664 y el ataque llega 3 f después—.
+    const GOLPES_QUE_SUENAN_EN_OTRO_FRAME = new Map([[664.3, 667.2]]);
+    const fuertesTodos = golpes.golpes
+      .filter((g) => g.db >= 9)
+      .map((g) => {
+        const f = (g.t - musica.desde) * fps;
+        const sueltos = [...GOLPES_QUE_SUENAN_EN_OTRO_FRAME].find(([lista]) => Math.abs(lista - f) < 0.15);
+        return { f: sueltos ? sueltos[1] : f, db: g.db };
+      });
+    const secos = cortes.filter((c, i) => i > 0 && c.tipo !== "foto" && (c.entra ?? "corte") === "corte");
+    const lejos = [];
+    for (const c of secos) {
+      const cerca = fuertesTodos.reduce((mejor, g) => (Math.abs(g.f - c.en) < Math.abs(mejor.f - c.en) ? g : mejor), fuertesTodos[0]);
+      if (Math.abs(cerca.f - c.en) > 1.0) lejos.push(`${c.id} (f${c.en}, el golpe fuerte más cercano está en f${cerca.f.toFixed(1)})`);
+    }
+    if (lejos.length) mal(`corte seco fuera de un golpe fuerte de la canción: ${lejos.join(" · ")}`);
+    console.log(`  ·  ${secos.length} cortes secos (${secos.map((c) => c.id.split("-")[0]).join(", ")}) sobre golpes fuertes de la canción a ≤ 1 f`);
     const apertura = golpes.golpes.find((g) => Math.round((g.t - musica.desde) * fps) <= 2);
     if (!apertura || apertura.db < 9) mal("el golpe de entrada de la canción no cae en el frame 0-2 o mide menos de 9 dB: el reel tiene que impactar desde el primer segundo");
     console.log(`  ·  música: golpe de entrada de ${apertura ? apertura.db.toFixed(1) : "?"} dB en f${apertura ? Math.round((apertura.t - musica.desde) * fps) : "?"} · cama a ${(20 * Math.log10(razon)).toFixed(1)} dB bajo la música sola · apagada en f${fin} (${fuertes.length} golpes fuertes tras la última palabra, ninguno suena)`);
@@ -547,8 +552,8 @@ if (VERSIONES_ANTERIORES.length) {
 seccion("8. encuadre");
 puerta.encuadre({ techoZoom: TECHO_ZOOM });
 for (const c of cortes) {
-  // Los clips que salen de un 1080p (apertura, ct01, ct18) suben ×2,13 al cuadro: un acercamiento de más los ablanda.
-  if (/\/(apertura|ct01|ct18)\.mp4$/.test(c.src) && Math.max(...c.zoom) > TECHO_ZOOM_1080) mal(`${c.id}: zoom ${c.zoom.join("→")} sobre un clip de 1080p (techo ${TECHO_ZOOM_1080}): sube ×2,13 al cuadro y más zoom lo ablanda`);
+  // Los clips que salen de un 1080p (el hook hk04 y el recorrido rc03) suben ×2,13 al cuadro: un acercamiento de más los ablanda.
+  if (/\/(hk04|rc03)\.mp4$/.test(c.src) && Math.max(...c.zoom) > TECHO_ZOOM_1080) mal(`${c.id}: zoom ${c.zoom.join("→")} sobre un clip de 1080p (techo ${TECHO_ZOOM_1080}): sube ×2,13 al cuadro y más zoom lo ablanda`);
 }
 
 /* 11 · nada «por confirmar» en los planos (solo con --final) ───────────────── */
