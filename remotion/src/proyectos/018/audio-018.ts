@@ -16,16 +16,18 @@
  *                corte la mueve.
  *
  * LA MEZCLA, en LUFS (medidos con ebur128 sobre cada fuente):
- *   voz de Isabella      −21 (sus tomas miden −18,7 · −19,3 · −22,1)
+ *   voz de Isabella      −15 (rev. 4, pedido del usuario: «más decibeles sin saturar»; hasta la rev. 3, −21). Suena la voz TRATADA
+ *                        (`<toma>-voz.wav`; sus tomas crudas miden −18,7 · −19,3 · −22,1): −15,0 LUFS en las tres, pico real −2,5 dBTP
  *   música SOLA          −15: arriba, en los recorridos y el golpe de apertura
- *   música BAJO LA VOZ   −31: ≈ 10 LU por debajo de ella (ALTO × 0,16 = −16 dB)
+ *   música BAJO LA VOZ   −31: ≈ 16 LU por debajo de ella (ALTO × 0,16 = −16 dB; la música no se toca: la voz sube, no la música baja)
  * La canción viene masterizada a −8,5 LUFS en la meseta (picos a +1 dBFS) y a −20,5 en la resolución:
  * una ganancia (nunca un loudnorm, que le cambiaría la dinámica) la lleva a su sitio.
  *
  * LA RESOLUCIÓN BAJO EL CTA. En el pulso 68 (frame 1115) la canción cae 12 LU a un piano suelto, justo cuando
- * entra Isabella en el CTA. Con la ganancia de la música sola ese piano quedaría en −27 LUFS: 6 LU bajo su voz, poco
- * (en el 017, con «Time», eran 10,5). Así que la voz del CTA baja la música UN POCO más, −4,4 dB (`BAJO_CTA`):
- * −31,4 LUFS, 10,4 LU bajo ella, sin matar el lecho (con el −16 dB de las otras dos tomas quedaría inaudible).
+ * entra Isabella en el CTA. Con la ganancia de la música sola ese piano quedaría en −27 LUFS: con la voz a −21 (hasta la rev. 3)
+ * eran 6 LU bajo ella, poco (en el 017, con «Time», 10,5); con la voz a −15 serían 12. Así que la voz del CTA baja la música
+ * UN POCO más, −4,4 dB (`BAJO_CTA`): −31,4 LUFS, 16,4 LU bajo ella, sin matar el lecho (con el −16 dB de las otras dos tomas
+ * quedaría inaudible). La música no se toca en la rev. 4: la voz sube, no la música baja.
  *
  * EL FINAL. Tras la última palabra de Isabella la imagen funde a negro y sigue una tarjeta oscura con el logo y la
  * web. A diferencia de «Time», esta canción NO vuelve a pegar fuerte tras su resolución: el piano sigue de lecho bajo

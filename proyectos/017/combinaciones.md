@@ -178,12 +178,12 @@ corte en el render**).
 
 | Qué | Nivel |
 |---|---|
-| Voz de Isabella (hook · mitad · CTA) | −20,8 · −20,5 · −20,7 LUFS (objetivo −21, una ganancia por toma: +0,1 · +0,7 · −2,0 dB) |
+| Voz de Isabella (hook · mitad · CTA) | **−14,9 · −14,9 · −14,9 LUFS** (rev. 9: voz TRATADA, objetivo −15, ganancia del plan 0 dB, pico real −2,5 dBTP; hasta la rev. 8: −20,8 · −20,5 · −20,7 con objetivo −21 y una ganancia por toma) |
 | Música sola (recorridos) | −14,7 · −14,1 · −14,8 LUFS (el dron de apertura, sin voz: −17,9: la frase de subida es más baja) |
-| Música bajo la voz | −16 dB (≈ −31 LUFS: **≈ 10 LU bajo ella**), 12 f de bajada ANTES de la primera palabra y 12 f de subida tras la última |
+| Música bajo la voz | −16 dB (≈ −31 LUFS: **≈ 16 LU bajo ella**; ≈ 10 hasta la rev. 8, con la voz a −21: la música no se tocó), 12 f de bajada ANTES de la primera palabra y 12 f de subida tras la última |
 | Bajo el CTA | sin ducking: la canción ya cae 16,5 dB sola |
 | Música bajo la tarjeta | el piano se apaga en 32 f (f1339-f1371: pico −19,9 → −44,4 dBFS) y el golpe del pulso 48 (f1373) queda a −113 dBFS; los últimos 28 f (0,9 s) de la tarjeta, en silencio |
-| Pieza entera | **−16,4 LUFS** integrados · pico real −4,6 dBFS · LRA 7,8 LU |
+| Pieza entera | **−15,2 LUFS** integrados · pico real −4,1 dBTP · LRA 2,6 LU (rev. 9, medido sobre la final; hasta la rev. 8: −16,4 / −4,6 / 7,8) |
 
 ### 2.5 El texto
 

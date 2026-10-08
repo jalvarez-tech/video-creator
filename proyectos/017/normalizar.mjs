@@ -27,7 +27,9 @@
  *   · el audio de cada toma de Isabella: micro de solapa mono; sale en WAV PCM
  *     48 kHz mono, SIN filtro ni nivel (la ganancia vive en el plan, R29). WAV y
  *     no AAC: el AAC arrastra 1024 muestras de priming que desplazan la voz
- *     ~21 ms contra su imagen.
+ *     ~21 ms contra su imagen. Ese WAV crudo sigue siendo el que se mide (límites
+ *     y onsets de la voz, R29); desde la rev. 9 (2026-10-08) la que SUENA es la voz
+ *     TRATADA, `<toma>-voz.wav` (ver `vozTratada`): −15 LUFS sin saturar.
  *
  * LA MÚSICA se decodifica ENTERA a WAV estéreo de 48 kHz y NADA MÁS (ni loudnorm,
  * que le cambiaría la dinámica): el MP3 arrastra su retardo de códec y el corte
@@ -154,9 +156,55 @@ function voz(archivo, salidaNombre) {
   log.ok(`${path.basename(salida)} (la voz tal cual, mono 48 kHz)`);
 }
 
+/**
+ * LA CADENA DE LA VOZ TRATADA (`vozTratada`, abajo). Es la de la V9 (`proyectos/025/normalizar.mjs`): highpass → puerta
+ * suave → compresor → ganancia → limitador. La ganancia se busca DESPUÉS del compresor, midiendo la ventana de voz de
+ * cada toma con ebur128, y por eso es una por toma (`GANANCIA_VOZ_DB`).
+ */
+const VOZ_TRATADA = (gananciaDb) =>
+  [
+    "highpass=f=100:poles=2",
+    "agate=threshold=0.0056:ratio=2:range=0.25:attack=5:release=200",
+    "acompressor=threshold=0.0501:ratio=3:attack=4:release=120:knee=6",
+    `volume=${gananciaDb}dB`,
+    "alimiter=limit=0.75:attack=1:release=60:level=disabled:latency=1",
+  ].join(",");
+
+/** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`s0`-`s1` de `metraje-017.ts`). */
+const GANANCIA_VOZ_DB = { hk02: 15.1, md09: 14.8, ct07: 13.9 };
+
+/**
+ * LA VOZ TRATADA, la que suena en la pieza (rev. 9, pedido del usuario sobre la final ya exportada, 2026-10-08: «necesito que la voz cuando habla
+ * Isabella tenga más decibeles sin saturar»). Es una excepción a R29 (una ganancia por toma y nada más), por encargo: sola, la ganancia no llega.
+ * Las tres tomas miden −21,1 (HK02), −21,7 (MD09) y −18,9 LUFS (CT07) con picos de −3,1, −3,0 y −2,0 dBTP: llevarlas a −15 LUFS con ganancia
+ * sola daría picos de +3,0, +3,7 y +1,9 dBTP (saturan). Por eso, en este orden:
+ *   highpass 100 Hz   los golpes graves del micro de solapa y los pasos; una voz femenina no baja de ahí
+ *   agate             puerta SUAVE (−12 dB como mucho, ratio 2, umbral −45 dBFS): el ambiente entre frases no sube con la compresión
+ *   acompressor       3:1 desde −26 dBFS, ataque 4 ms, relevo 120 ms, rodilla 6 dB: acerca el pico al nivel medio
+ *   volume            la ganancia de `GANANCIA_VOZ_DB` hasta −15 LUFS
+ *   alimiter          techo −2,5 dBFS (sin nivelado automático, `latency=1`: compensa el ms de lookahead y la voz no se desfasa): lo que el compresor no alcanza
+ * Resultado medido (ebur128, ventana de voz): HK02, MD09 y CT07 a −15,0 LUFS, los tres con el pico real en −2,5 dBTP. El limitador quita
+ * 2,1 · 1,3 · 0,4 dB en los picos (la cadena sin él llegaría a −0,4 · −1,2 · −2,1 dBTP): lejos de los 5 dB en que empieza a oírse.
+ */
+function vozTratada(salidaNombre) {
+  const entrada = path.join(DESTINO, `${salidaNombre}.wav`);
+  const salida = path.join(DESTINO, `${salidaNombre}-voz.wav`);
+  if (fs.existsSync(salida) && !f.forzar) return;
+  const ganancia = GANANCIA_VOZ_DB[salidaNombre];
+  if (ganancia === undefined) {
+    log.error(`${salidaNombre}: no tiene ganancia de voz en GANANCIA_VOZ_DB`);
+    process.exit(1);
+  }
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", VOZ_TRATADA(ganancia), "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
+  log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3:1, +${ganancia} dB y limitador a −2,5 dBFS)`);
+}
+
 for (const [clase, archivo, salida] of MATERIAL) {
   video(clase, archivo, salida);
-  if (clase === "toma") voz(archivo, salida);
+  if (clase === "toma") {
+    voz(archivo, salida);
+    vozTratada(salida);
+  }
 }
 
 // La TARJETA OSCURA del cierre (plano `c12-cierre`): un PNG liso del negro de la marca. Hasta la revisión 5 lo que

@@ -21,8 +21,9 @@
  *   2e. el COLOR (R32): cada plano de vídeo lleva su `color` (`colorCorrection()`), dentro de lo que el efecto admite
  *      y de los topes de la pieza (nada de `vibrance` alto, exposiciones moderadas, la piel de Isabella donde estaba);
  *      la tarjeta del cierre no; y dos planos seguidos del mismo clip llevan el mismo color.
- *   3.  la VOZ de HK07, MD07 y CT01: su WAV, ninguna palabra dentro de un fundido ni de un desclic, la ganancia por
- *      toma, y la COLA de la pieza (45-120 f desde la última palabra del CTA hasta el final).
+ *   3.  la VOZ de HK07, MD07 y CT01: su WAV TRATADO a −15 LUFS (rev. 4) con el pico real ≤ −1 dBTP, ninguna palabra dentro de
+ *      un fundido ni de un desclic, la ganancia por toma, y la COLA de la pieza (45-120 f desde la última palabra del CTA
+ *      hasta el final).
  *   4.  el HOOK: su imagen es opaca ANTES de su primera palabra (no habla sobre el dron).
  *   5.  la MÚSICA y los PULSOS: «Return to Oasis» cortada a su rejilla (110 BPM: cada plano a ≤ 1 f de un pulso), los
  *      cortes grandes en los golpes más fuertes y la caída a un piano en el mismo frame en que entra el CTA.
@@ -47,6 +48,8 @@ const TOPE_SEGUNDOS = 55; // el formato apunta a 45-50 s; pasado de aquí ya es 
 const MARGEN_FUNDIDO = 2; // f entre la última palabra y el inicio de la disolvencia del siguiente
 const COLA_FINAL = [45, 90]; // f desde la última palabra del CTA hasta el final: la tarjeta con el logo y la web se lee, sin quedarse muerto
 const TARJETA_FRAMES = [45, 75]; // f que dura la tarjeta oscura del cierre (1,5-2,5 s)
+const VOZ_OBJETIVO = -15; // LUFS de la voz (rev. 4, pedido del usuario: «más decibeles sin saturar»; hasta la rev. 3, −21)
+const TECHO_VOZ_DBTP = -1.0; // pico real de la voz en lo que suena, con su ganancia
 const HOLGURA_TROZO = 3; // f que un trozo puede adelantarse a su palabra
 const TOLERANCIA_PULSO = 1; // f entre el `en` de un plano y el pulso al que cae
 const OPACIDAD_PEDIDA = 0.9; // «subtítulos… con opacidad al 90 %»
@@ -161,7 +164,7 @@ seccion("2b. las tres tomas de Isabella: tres sitios distintos y ninguna cifra")
    */
   const LUGAR = { hk07: "PATIO", md07: "TERRAZA", ct01: "BALCON" };
   const lugares = conVoz.map((c) => {
-    const codigo = /recorrido-018\/([a-z0-9]+)\.wav$/.exec(c.audio)?.[1];
+    const codigo = /recorrido-018\/([a-z0-9]+)(?:-voz)?\.wav$/.exec(c.audio)?.[1];
     return { id: c.id, codigo, lugar: LUGAR[codigo] };
   });
   for (const l of lugares) if (!l.lugar) mal(`${l.id}: la toma «${l.codigo}» no está en la tabla de lugares de esta puerta (LUGAR)`);
@@ -356,13 +359,26 @@ seccion("3. la voz de HK07, MD07 y CT01");
     if (Math.abs(g) > 6) mal(`${c.id}: ganancia de voz ${g.toFixed(1)} dB (|g| > 6: ¿es la misma voz, el mismo micro?)`);
     ganancias.push(`${c.id} ${g >= 0 ? "+" : ""}${g.toFixed(1)}`);
   });
+  // REV. 4 («necesito que la voz cuando habla Isabella tenga más decibeles sin saturar»): la voz a −15 LUFS (el nivel de la música sola) y, en lo que SUENA
+  // —el WAV tratado, en la ventana de su tramo, con su ganancia—, el pico real por debajo de −1 dBTP. Medido, no supuesto: ebur128. Excepción a R29 por encargo.
+  if (M.OBJETIVO_LUFS !== VOZ_OBJETIVO) mal(`OBJETIVO_LUFS = ${M.OBJETIVO_LUFS}; el usuario pidió la voz más fuerte: ${VOZ_OBJETIVO} LUFS`);
+  const picos = [];
+  for (const t of A.vocesTomas) {
+    if (!/-voz\.wav$/.test(t.src)) mal(`${t.id}: suena ${t.src}; la voz que suena es la tratada (<toma>-voz.wav), la cruda satura a −15 LUFS`);
+    const r = ejecutar("ffmpeg", ["-nostdin", "-hide_banner", "-ss", String(t.desde), "-t", String(t.dur / fps), "-i", join(PUBLICO, t.src), "-af", "ebur128=peak=true:framelog=quiet", "-f", "null", "-"]);
+    const tp = Number((/Peak:\s+(-?[\d.]+) dBFS/.exec(r.stderr ?? r.stdout) ?? [])[1]);
+    const gt = typeof t.ganancia === "number" ? t.ganancia : 1;
+    const pico = tp + 20 * Math.log10(gt);
+    if (!Number.isFinite(pico) || pico > TECHO_VOZ_DBTP) mal(`${t.id}: pico real ${Number.isFinite(pico) ? pico.toFixed(1) : "no medible"} dBTP con su ganancia; el techo es ${TECHO_VOZ_DBTP} (más, y satura)`);
+    else picos.push(pico.toFixed(1));
+  }
   // La cola de la PIEZA: desde la última palabra del CTA hasta el final quedan 45-90 f: lo que la tarjeta del cierre (el logo y la
   // web, sección 2d) necesita para leerse, sin quedarse muerto. Nada se congela.
   const cta = byId("c12-cta");
   const finCta = vozDe(cta).fin;
   const cola = DURACION - finCta;
   if (cola < COLA_FINAL[0] || cola > COLA_FINAL[1]) mal(`${cta.id}: ${cola} f entre la última palabra del CTA y el final de la pieza (entre ${COLA_FINAL[0]} y ${COLA_FINAL[1]})`);
-  if (fallos.length === n) ok(`${ganancias.length} tomas con su WAV y su tramo, ninguna palabra en un fundido · a ${M.OBJETIVO_LUFS} LUFS: ${ganancias.join(" · ")} dB · ${cola} f desde «Los Patios» hasta el final (la tarjeta del cierre)`);
+  if (fallos.length === n) ok(`${ganancias.length} tomas con su WAV y su tramo, ninguna palabra en un fundido · a ${M.OBJETIVO_LUFS} LUFS: ${ganancias.join(" · ")} dB · pico real ${picos.join(" · ")} dBTP (techo ${TECHO_VOZ_DBTP}) · ${cola} f desde «Los Patios» hasta el final (la tarjeta del cierre)`);
 }
 
 /* 4 · el hook, con su imagen ───────────────────────────────────────────── */

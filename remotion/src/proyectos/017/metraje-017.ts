@@ -59,13 +59,13 @@ export const FPS_017 = 30;
 export type Entrada = "corte" | "disolver";
 export type Bloque = 1 | 2 | 3 | 4 | 5 | 6;
 
-/** Dónde habla Isabella en SU clip y a qué nivel. Medido con `limites-voz.py` y ebur128, no estimado. */
+/** Dónde habla Isabella en SU clip y a qué nivel. `s0`/`s1` medidos con `limites-voz.py` sobre el WAV crudo; `lufs`, con ebur128 sobre el WAV TRATADO que suena (ver `OBJETIVO_LUFS`). */
 export interface VozDelCorte {
   /** Segundo de la fuente en que empieza a hablar. */
   s0: number;
   /** Segundo de la fuente en que termina de hablar. */
   s1: number;
-  /** Sonoridad integrada de la voz (LUFS) en esa ventana. */
+  /** Sonoridad integrada de la voz TRATADA (LUFS) en esa ventana. */
   lufs: number;
   /** Lo que dice, tal como está en el guion. Solo para leer el plan. */
   dice: string;
@@ -76,17 +76,21 @@ export interface Corte extends CorteDelFormato<Entrada> {
   tipo: "video" | "foto";
   /** A qué bloque del guion pertenece: la puerta comprueba el orden y el tope de cada uno. */
   bloque: Bloque;
-  /** Solo las tomas de Isabella cuya voz entra con su imagen: el WAV de su voz, sin tratar. */
+  /** Solo las tomas de Isabella cuya voz entra con su imagen: el WAV de su voz, TRATADO (`<toma>-voz.wav`: ver `OBJETIVO_LUFS`). */
   audio?: string;
   voz?: VozDelCorte;
 }
 
 /**
- * EL NIVEL DE LA VOZ: una ganancia por toma hasta este objetivo y nada más (R29).
- * Las tres tomas miden −21,1 (HK02), −21,7 (MD09) y −19,0 LUFS (CT07, la más
- * fuerte): la mediana es −21,1 y es lo que se toma. Sin filtro ni compresor.
+ * EL NIVEL DE LA VOZ: −15 LUFS, el de la música sola (REV. 9, pedido del usuario sobre la final ya exportada, 2026-10-08: «necesito que la voz cuando habla
+ * Isabella tenga más decibeles sin saturar»; hasta la rev. 8 la voz iba a −21, la mediana de las tres tomas, sin filtro ni compresor, y sonaba ≈ 6 dB por
+ * debajo del paseo). Con ganancia sola no se puede: las tres tomas crudas miden −21,1 (HK02), −21,7 (MD09) y −18,9 LUFS (CT07, la más fuerte) con picos de −3,1,
+ * −3,0 y −2,0 dBTP, y llevarlas a −15 daría +3,0, +3,7 y +1,9 dBTP (saturan). Suena la voz TRATADA (`<toma>-voz.wav`: graves, puerta suave, compresión 3:1,
+ * +15,1 · +14,8 · +13,9 dB y limitador a −2,5 dBFS, en `proyectos/017/normalizar.mjs`), que ya llega a −15,0 LUFS con el pico real en −2,5 dBTP en las tres: la ganancia
+ * del plan queda en 0 dB. Excepción a R29 («una ganancia por toma y nada más»), por encargo, declarada aquí y en la puerta (sección 3: pico real ≤ −1 dBTP con su
+ * ganancia). `s0` y `s1` salen del WAV crudo (`limites-voz.py`): el tratado no se desfasa (2-3 muestras).
  */
-export const OBJETIVO_LUFS = -21;
+export const OBJETIVO_LUFS = -15;
 
 /* ── La rejilla de la música ────────────────────────────────────────────────
  *
@@ -228,11 +232,11 @@ export const metraje017: readonly Corte[] = [
     bloque: 2,
     tipo: "video",
     src: v("hk02"),
-    audio: "recorrido-017/hk02.wav",
+    audio: "recorrido-017/hk02-voz.wav",
     voz: {
       s0: 0.52,
       s1: 5.3,
-      lufs: -21.1,
+      lufs: -15,
       dice: "Este apartamento aún no está terminado… y ahí está, precisamente, la oportunidad.",
     },
     // Revisión 4: la primera toma sale sin texto, así que ella NO habla sobre el dron (en la
@@ -316,8 +320,8 @@ export const metraje017: readonly Corte[] = [
     bloque: 4,
     tipo: "video",
     src: v("md09"),
-    audio: "recorrido-017/md09.wav",
-    voz: { s0: 0.57, s1: 4.68, lufs: -21.7, dice: "Tienes 317 metros para desarrollar completamente el interior." },
+    audio: "recorrido-017/md09-voz.wav",
+    voz: { s0: 0.57, s1: 4.68, lufs: -15, dice: "Tienes 317 metros para desarrollar completamente el interior." },
     desde: fr(16),
     en: P.mitad,
     dur: P.follaje - P.mitad,
@@ -384,11 +388,11 @@ export const metraje017: readonly Corte[] = [
     bloque: 6,
     tipo: "video",
     src: v("ct07"),
-    audio: "recorrido-017/ct07.wav",
+    audio: "recorrido-017/ct07-voz.wav",
     voz: {
       s0: 0.65,
       s1: 7.0,
-      lufs: -19.0,
+      lufs: -15,
       dice: "Necesitas saber si esta unidad en específico funciona para ti. Si es así, escríbeme y la recorremos juntos.",
     },
     desde: fr(19),

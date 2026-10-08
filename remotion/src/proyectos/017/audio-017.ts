@@ -17,17 +17,18 @@
  *                corte la mueve.
  *
  * LA MEZCLA, en LUFS (medidos con ebur128 sobre cada fuente):
- *   voz de Isabella      −21 (la mediana de sus tomas: −21,1 · −21,7 · −19,0)
+ *   voz de Isabella      −15 (rev. 9, pedido del usuario: «más decibeles sin saturar»; hasta la rev. 8, −21). Suena la voz TRATADA
+ *                        (`<toma>-voz.wav`; sus tomas crudas miden −21,1 · −21,7 · −18,9): −15,0 LUFS en las tres, pico real −2,5 dBTP
  *   música SOLA          −15: arriba, en los recorridos y el golpe de apertura
- *   música BAJO LA VOZ   −31: ≈ 10 LU por debajo de ella (ALTO × 0,16 = −16 dB)
+ *   música BAJO LA VOZ   −31: ≈ 16 LU por debajo de ella (ALTO × 0,16 = −16 dB; la música no se toca: la voz sube, no la música baja)
  * La canción viene masterizada a −7,7 LUFS en la meseta (picos a +0,1 dBFS) y a
  * −24,2 en la resolución final: una ganancia (nunca un loudnorm, que le cambiaría
  * la dinámica) la lleva a su sitio.
  *
  * LA RESOLUCIÓN BAJO EL CTA. Desde el pulso 40 (frame 1145) la canción cae por
  * sí misma 16,5 dB a un piano suelto, así que la voz de CT07 NO baja la música
- * una segunda vez: ya está en −31,5 LUFS, 10,5 LU bajo ella. Ducking encima la
- * dejaría inaudible.
+ * una segunda vez: ya está en −31,5 LUFS, 16,5 LU bajo ella (10,5 hasta la rev. 8,
+ * con la voz a −21). Ducking encima la dejaría inaudible.
  *
  * EL FINAL (revisión 6). Tras la última palabra de Isabella la imagen funde a negro y sigue
  * una tarjeta oscura con el logo y la web. El piano se apaga desde que acaba su toma (f1339,
