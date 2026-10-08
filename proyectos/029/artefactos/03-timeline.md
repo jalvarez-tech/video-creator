@@ -12,8 +12,8 @@
 | c04-comedor | 3 · comedor | dónde se reúne la familia | RC16 (15) | 282 | 99 | — | **corte sobre el golpe de f282** (10,6 dB) | 1,00 |
 | c05-cocina | 3 · cocina | acaba el paseo por dentro | RC15 (15) | 381 | 97 | — | **corte sobre f381** (11,1 dB) | 1,00 |
 | c06-mitad | 4 · terraza (sentada) | la pregunta | MD04 (16) | 478 | 118 | f479 → f576 | disolver | 1,00→1,06 |
-| c07-terraza | 5 · terraza (jacuzzi) | seguir donde estaba ella | RC19 (15) | 596 | 71 | — | disolver | 1,00 |
-| c08-bano | 5 · baño | lo íntimo | RC03 (15) | 667 | 80 | — | **corte sobre f667** (11,3 dB: la lista lo da en f664,3 y en el render suena en f667,2) | 1,00 |
+| c07-terraza | 5 · terraza (jacuzzi) | seguir donde estaba ella | RC19 (15) | 596 | 68 | — | disolver | 1,00 |
+| c08-bano | 5 · baño | lo íntimo | RC03 (15) | 664 | 83 | — | **corte sobre f664** (11,3 dB: ataque lento que arranca en f664,3 y sigue hasta f670) | 1,00 |
 | c09-ventana | 5 · alcoba de invitados: ventana y cortina | del paisaje a la habitación | RC10 (15) | 747 | 70 | — | **corte sobre f747** (9,2 dB) | 1,00 |
 | c10-alcoba | 5 · alcoba principal y ventanal | la vista (el plano más largo del bloque) | RC12 (15) | 817 | 99 | — | disolver (acaba en el golpe de f817, 12,4 dB) | 1,00 |
 | c11-cta | 6 · alcoba (la misma) | cerrar con lo que vale y la acción | CT15 (19) | 916 | 155 | f917 → f1060 | disolver | 1,00→1,10 |

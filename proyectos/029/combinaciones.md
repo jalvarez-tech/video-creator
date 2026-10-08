@@ -8,7 +8,20 @@ Rama `feat/reel-029-casa-campestre` (worktree `.claude/worktrees/reel-029-casa-c
 |---|---|---|---|
 | 0 | 2026-10-08 | Montaje de las 19 tomas de `5 Cta`: apertura muda a cámara lenta · CT14 · CT07 · CT01 · CT09 · CT16 · CT18 · *Pictures from the Past* desde 57,056 s · 783 f · 26,1 s. Seis frases de Isabella en 26 s | **descartada por el usuario** («tiene muchos diálogos, recuerda la estructura: dron, hook, recorrido, mitad, recorrido y CTA»); prueba en `pruebas-720p/029-recorrido-rev0.mp4`, plan en el commit `1d79608` |
 | 1a | 2026-10-08 | Estructura del canal, hilo de la familia: **DR71** · HK04 · RC25 · RC16 · RC15 · MD04 · RC19 · RC03 · RC10 · RC12 · CT15 · *Pictures from the Past* desde 45,30 s · 1137 f · 37,9 s | sustituida: «cambia la toma del dron»; prueba en `pruebas-720p/029-recorrido-rev1a.mp4` |
-| **1** | 2026-10-08 | Igual, con **DR72** (el dron se acerca a la casa) en lugar de DR71 (la fachada alejándose), el recorrido 2 en cuatro planos (la terraza acababa dentro de una palmera oscura y el corte al baño saltaba +44 niveles de luma: se acortó y se añadió la ventana RC10), el color equilibrado entre planos (σ de luma 17,4 → 12,2) y la música igualada entre recorridos (−15,2 LUFS en toda la pieza) | **en prueba** (`pruebas-720p/029-recorrido.mp4`, 540×960) — espera el OK del usuario; sin final |
+| **1** | 2026-10-08 | Igual que la 1a, con **DR72** (el dron se acerca a la casa) en lugar de DR71 (la fachada alejándose), el recorrido 2 en cuatro planos (la terraza acababa dentro de una palmera oscura y el corte al baño saltaba +44 niveles de luma: se acortó y se añadió la ventana RC10), el color equilibrado entre planos (σ de luma 17,4 → 12,2) y la música igualada entre recorridos (−15,2 LUFS en toda la pieza) | **final exportada** — `finales/029-recorrido.mp4` (CRF 12) y `finales/029-recorrido-crf16.mp4`; espera oír «solo» y la canción |
+
+## La final (2026-10-08, por orden del usuario: «exporta la final en buena calidad»)
+
+| Archivo | Qué | Tamaño |
+|---|---|---|
+| `finales/029-recorrido.mp4` | master: CRF 12 `slower`, 1080×1920, 30 fps, BT.709 limitado, AAC 320 kbps | 106 MB |
+| `finales/029-recorrido-crf16.mp4` | versión ligera: CRF 16 `slow`, misma imagen de plan y el mismo audio | 60 MB |
+| `finales/029.srt` | los captions de la plataforma (13 líneas, 3,4-35,4 s) | |
+| `finales/audio-029.wav` | el audio del plan renderizado (la mezcla de las dos finales sale de aquí) | 7 MB |
+
+Cómo se hizo: dos renders (`--color-space=bt709 --image-format=png --gl=angle`), un tercero solo de audio (`--codec=wav`) y el audio del WAV se mezcla con la imagen de cada render SIN recodificarla (`-c:v copy`), con las etiquetas de color completas en las dos capas (`h264_metadata` + `+write_colr`): el AAC que escribe Remotion llega 1,3 f tarde y con las primarias y la transferencia sin etiquetar en el master. Comprobado: imagen decodificada idéntica al render (md5 de 1137 fotogramas), 0 muestras de retardo del audio contra el WAV, mismo PCM en las dos finales, color medio ≤ 0,44 niveles del still (PSNR de baja frecuencia 52,3 dB el master y 50,1 el CRF 16), −15,2 LUFS y −3,5 dBFS de pico, voz de cada toma a −15 LUFS dentro de su frase, silencio tras la última palabra (−44 LUFS) y en la tarjeta (−70).
+
+**Una palabra sin oír: «solo»** (`Esta no es solo una casa`, subtítulo c01, entra en f917 = 30,6 s; la palabra suena ≈ 31,3 s). Whisper oye «esta no solo una casa» en esta toma y «no es la una casa» en su doble; el sentido y los formantes (F1 ≈ 390-440 Hz sostenida 0,4 s con un valle tipo [l] a 1,415 s: [o]-[l]-[o]) dicen «solo». Para cambiarla, si resulta ser otra palabra: el texto del trozo en `subtitulos-029.ts` (id `c01`), `dice` en `metraje-029.ts`, `voz/ct15.txt` y el `.srt` (`exportar-srt.mjs`), y volver a renderizar las dos finales (≈ 10 min).
 
 ## Qué hay en cada pieza
 

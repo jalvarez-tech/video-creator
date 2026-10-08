@@ -432,16 +432,7 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     const suena = fuertes.filter((g) => vol(Math.round(g.t * fps) - f0) > alto * 0.02);
     if (suena.length) mal(`${suena.length} golpe(s) de la canción suenan tras la última palabra (f${suena.map((g) => Math.round(g.t * fps) - f0).join(", f")}): la música tiene que haberse apagado antes`);
     // R33: cada corte SECO cae sobre un golpe FUERTE (≥ 9 dB) de la canción, a ≤ 1 f. La canción no tiene pulso fijo: se corta a los golpes medidos.
-    // Un golpe de la lista que, medido sobre el audio del RENDER, suena en otro frame (herramientas/golpes-render.py, ya quitado el 1,3 f del AAC de Remotion):
-    // el de 67,444 s (f664,3 en la lista) suena en f667,2 —un golpe doble: la subida empieza en f664 y el ataque llega 3 f después—.
-    const GOLPES_QUE_SUENAN_EN_OTRO_FRAME = new Map([[664.3, 667.2]]);
-    const fuertesTodos = golpes.golpes
-      .filter((g) => g.db >= 9)
-      .map((g) => {
-        const f = (g.t - musica.desde) * fps;
-        const sueltos = [...GOLPES_QUE_SUENAN_EN_OTRO_FRAME].find(([lista]) => Math.abs(lista - f) < 0.15);
-        return { f: sueltos ? sueltos[1] : f, db: g.db };
-      });
+    const fuertesTodos = golpes.golpes.filter((g) => g.db >= 9).map((g) => ({ f: (g.t - musica.desde) * fps, db: g.db }));
     const secos = cortes.filter((c, i) => i > 0 && c.tipo !== "foto" && (c.entra ?? "corte") === "corte");
     const lejos = [];
     for (const c of secos) {
