@@ -55,9 +55,9 @@ ANCHO_MAX_TEXTO = 840
 
 ISOTIPO = "remotion/public/marcas/luxur/Propiedades-Luxur-Isotipo.png"
 MONTSERRAT = "remotion/public/fuentes/montserrat/Montserrat-Variable.ttf"
-# Safira March es una letra COMERCIAL (Din Studio): no se versiona en un repo público.
-# Vive al lado de este script, en `fuentes/`, que .gitignore deja fuera.
-SAFIRA = "Safira-March-Medium.otf"
+# Safira March (Din Studio) es comercial y va versionada con la licencia del dueño (ver
+# fuentes/README.md). Vive con la skill y no en remotion/public/fuentes/, que viaja al producto.
+SAFIRA = os.path.join(AQUI, "..", "fuentes", "Safira-March-Medium.otf")
 
 NEGOCIOS = {"venta": "VENTA", "renta": "RENTA", "ambos": "VENTA & RENTA"}
 
@@ -71,19 +71,11 @@ CONTRASTE_MIN = {"texto": 4.5, "isotipo": 3.0}
 
 
 def fuente_safira():
-    """La Safira de la skill; si este checkout es un worktree y no la tiene, la del checkout principal."""
-    candidatas = [os.path.join(AQUI, "..", "fuentes", SAFIRA)]
-    try:
-        comun = subprocess.run(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
-                               cwd=RAIZ, capture_output=True, text=True, check=True).stdout.strip()
-        candidatas.append(os.path.join(os.path.dirname(comun), ".claude", "skills", "portada-luxur", "fuentes", SAFIRA))
-    except (OSError, subprocess.CalledProcessError):
-        pass
-    for c in candidatas:
-        if os.path.isfile(c):
-            return os.path.normpath(c)
-    sys.exit(f"ERROR: falta la letra de la locación, {SAFIRA}.\n"
-             f"  Es comercial y no está en git: cópiala a .claude/skills/portada-luxur/fuentes/ (ver SKILL.md §5).")
+    ruta = os.path.normpath(SAFIRA)
+    if not os.path.isfile(ruta):
+        sys.exit(f"ERROR: falta la letra de la locación, {ruta_visible(ruta)}.\n"
+                 f"  Va en git: `git checkout -- .claude/skills/portada-luxur/fuentes/` la repone.")
+    return ruta
 
 
 def fotograma(ffmpeg, video, t):

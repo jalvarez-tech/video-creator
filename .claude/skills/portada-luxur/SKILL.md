@@ -17,7 +17,7 @@ description: >-
 
 Skill del ESTUDIO (marca Propiedades Luxur): vive en `.claude/skills/` y no viaja
 al producto. A diferencia de `recorrido-luxur` y `guion-luxur`, esta SÍ está en
-git (excepción en el bloque de estudio de `.gitignore`), salvo su letra: ver §5.
+git (excepción en el bloque de estudio de `.gitignore`), con su letra: ver §5.
 
 Una pieza, una portada: cuando se exporta la final de un recorrido se genera su
 portada en el mismo paso, y se entregan juntas. El reel se sigue abriendo con la
@@ -121,12 +121,13 @@ hacer las demás.
 |---|---|---|
 | Isotipo `PL` | `remotion/public/marcas/luxur/Propiedades-Luxur-Isotipo.png` (224 × 235, blanco sobre transparente) | Sí, como el logo |
 | Montserrat | `remotion/public/fuentes/montserrat/Montserrat-Variable.ttf` (OFL, la del motor) | Sí |
-| Safira March Medium | `.claude/skills/portada-luxur/fuentes/Safira-March-Medium.otf` | **No**: es comercial (Din Studio, «Commercial use font») y el repo es público |
+| Safira March Medium | `.claude/skills/portada-luxur/fuentes/Safira-March-Medium.otf` | Sí, con la licencia del dueño (`fuentes/README.md`) |
 
-Si falta la Safira, el script lo dice y para. En un worktree la busca también en
-el checkout principal (`git rev-parse --git-common-dir`), así que basta con tenerla
-allí. Se repone copiándola desde la carpeta de fuentes del estudio a `fuentes/`;
-`.gitignore` ya la deja fuera.
+Safira March es comercial (Din Studio, «Commercial use font»). Entró en git el
+2026-10-11 porque el usuario tiene licencia y lo pidió. Vive con la skill y no en
+`remotion/public/fuentes/`, porque esa carpeta viaja al producto y esta no
+(`.claude/skills/` es zona de estudio). No se copia a otro sitio del repo ni se
+pasa a ninguna pieza que vaya al producto.
 
 El isotipo original mide 224 px: a 150 px se REDUCE y sale nítido. Si algún día
 se quiere más grande que 224, hace falta un SVG o un PNG mayor; ampliarlo lo
