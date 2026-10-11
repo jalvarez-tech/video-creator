@@ -95,6 +95,13 @@ remotion/public/recorrido-022/
 remotion/public/recorrido-023/
 remotion/public/recorrido-024/
 remotion/public/recorrido-025/
+# La skill de estudio de la portada de cada marca (`portada-<marca>`) SÍ se versiona
+# (las demás de .claude/skills/ son enlaces o copias que se reponen: sección 4), y su
+# enlace para Codex también; su carpeta fuentes/ no: las letras de marca suelen ser
+# comerciales y el repo es público. Va por patrón para no escribir aquí la marca.
+!.claude/skills/portada-*/
+.claude/skills/portada-*/fuentes/
+!.agents/skills/portada-*
 # <<< SOLO ESTUDIO <<<
 
 # ─── 6. Material dentro de un proyecto ───────────────────────────────────────
