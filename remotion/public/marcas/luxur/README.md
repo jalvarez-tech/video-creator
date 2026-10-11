@@ -15,3 +15,11 @@ al 60 % de opacidad, con `PropiedadesLuxur.com` debajo.
 - **Si cambia el logo,** se sustituye aquí con el mismo nombre y se vuelve a pasar la puerta de cada pieza
   (`node proyectos/NNN/revisar-NNN.mjs`, sección del cierre: mide el logo en px y que quepa en las zonas seguras). Un logo con
   otras proporciones mueve el bloque logo + web del cierre (`LOGO_PNG` en `cierre-NNN.ts`).
+
+## El isotipo
+
+`Propiedades-Luxur-Isotipo.png` es el monograma «PL» solo, sin «© Propiedades Luxur»: **blanco sobre transparente**, 224×235
+(RGBA), el mismo tamaño que tiene dentro del logo. Lo entregó el usuario el 2026-10-11 (carpeta de marca de su estudio); esta
+es una copia byte a byte (sha256 `0c4264e5…`). Lo usa la **portada** de los reels de propiedad (skill
+`.claude/skills/portada-luxur`): abajo, a 150 px de ancho y opaco. A 150 px se reduce y sale nítido; más grande que 224 px
+haría falta un SVG o un PNG mayor.
