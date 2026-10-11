@@ -11,6 +11,7 @@ Uso (desde la raíz del repo):
   uv run .claude/skills/portada-luxur/scripts/portada.py nitidez <video> <desde> <hasta> [--paso 0.2]
   uv run .claude/skills/portada-luxur/scripts/portada.py portada --proyecto 017 --t 0 --locacion "EL POBLADO" --negocio venta
   uv run .claude/skills/portada-luxur/scripts/portada.py portada --video <mp4> --t 9.4 --locacion "EL POBLADO" --negocio venta --salida <png>
+  … portada … --color-linea "#c6a878"     # la línea en ese color, opaca (sin él, blanca al 90 %)
 
   · `hoja`     una hoja de contactos con el segundo de cada miniatura: para ELEGIR el plano.
   · `nitidez`  la varianza del laplaciano de cada fotograma de un tramo: dentro del plano
@@ -66,6 +67,9 @@ LOCACION_PX, LOCACION_TRACKING = 84, 0.10      # tracking en em
 NEGOCIO_PX, NEGOCIO_TRACKING = 56, 0.30
 HUECO_LINEA, GROSOR_LINEA = 44, 2              # de la versal a la línea y de la línea a la versal
 ISOTIPO_ANCHO, ISOTIPO_MARGEN = 150, 40        # su borde inferior, a 40 px del límite del 3:4
+# La línea, blanca al 90 % en el diseño aprobado. Con `--color-linea` va OPACA en ese color:
+# un color de marca se pide para verse tal cual, no aguado.
+LINEA_BLANCA = (255, 255, 255, 230)
 # WCAG: 4,5:1 para el texto (el negocio es fino y es el mensaje); 3:1 para un gráfico (el isotipo).
 CONTRASTE_MIN = {"texto": 4.5, "isotipo": 3.0}
 
@@ -175,7 +179,14 @@ def contraste(fondo, mascara):
     return 1.05 / (float(np.percentile(lum, 90)) + 0.05)
 
 
-def componer(fondo, locacion, negocio, safira):
+def color_hex(valor):
+    v = valor.strip().lstrip("#")
+    if len(v) != 6 or any(c not in "0123456789abcdefABCDEF" for c in v):
+        raise argparse.ArgumentTypeError(f"«{valor}» no es un color #rrggbb")
+    return "#" + v.lower()
+
+
+def componer(fondo, locacion, negocio, safira, color_linea=None):
     velado = oscurecer(fondo)
     base = velado.convert("RGBA")
     texto = Image.new("RGBA", (ANCHO, ALTO), (0, 0, 0, 0))
@@ -189,7 +200,8 @@ def componer(fondo, locacion, negocio, safira):
     # La línea mide lo mismo que la locación, de la primera a la última letra.
     izq, der = texto_espaciado(texto, y, locacion, f_loc, tr_loc)
     y += alto_versal(f_loc) + HUECO_LINEA
-    ImageDraw.Draw(texto).rectangle((izq, y, der, y + GROSOR_LINEA), fill=(255, 255, 255, 230))
+    relleno = LINEA_BLANCA if color_linea is None else (*bytes.fromhex(color_linea[1:]), 255)
+    ImageDraw.Draw(texto).rectangle((izq, y, der, y + GROSOR_LINEA), fill=relleno)
     y += GROSOR_LINEA + HUECO_LINEA
     texto_espaciado(texto, y, NEGOCIOS[negocio], f_neg, tr_neg)
 
@@ -269,6 +281,7 @@ def cmd_portada(a):
     t = a.t if a.t is not None else receta.get("t")
     locacion = a.locacion or receta.get("locacion")
     negocio = a.negocio or receta.get("negocio")
+    color_linea = a.color_linea or receta.get("color_linea")
     faltan = [n for n, v in (("--t", t), ("--locacion", locacion), ("--negocio", negocio)) if v is None]
     if faltan:
         sys.exit(f"ERROR: falta {', '.join(faltan)} (y no hay receta guardada que lo diga)")
@@ -280,7 +293,7 @@ def cmd_portada(a):
     os.makedirs(os.path.dirname(ruta_salida) or ".", exist_ok=True)
 
     img, medidas, tamanos = componer(fotograma(herramienta("ffmpeg"), ruta_video, float(t)),
-                                     locacion.upper(), negocio, fuente_safira())
+                                     locacion.upper(), negocio, fuente_safira(), color_linea)
     img.save(ruta_salida, optimize=True)
 
     print(f"{ruta_visible(ruta_salida)}  ({ANCHO}×{ALTO}, fotograma {float(t):.2f} s de {ruta_visible(ruta_video)})")
@@ -292,9 +305,12 @@ def cmd_portada(a):
         print(f"  contraste del {elemento}: {c:.1f}:1{aviso}")
 
     if a.proyecto:
+        nueva = {"video": video, "t": float(t), "locacion": locacion.upper(), "negocio": negocio}
+        if color_linea:
+            nueva["color_linea"] = color_linea
+        nueva["fecha"] = datetime.date.today().isoformat()
         with open(ruta_receta, "w", encoding="utf-8") as f:
-            json.dump({"video": video, "t": float(t), "locacion": locacion.upper(), "negocio": negocio,
-                       "fecha": datetime.date.today().isoformat()}, f, ensure_ascii=False, indent=2)
+            json.dump(nueva, f, ensure_ascii=False, indent=2)
             f.write("\n")
         print(f"  receta: {ruta_visible(ruta_receta)}")
 
@@ -322,6 +338,7 @@ def main():
     o.add_argument("--t", type=float)
     o.add_argument("--locacion")
     o.add_argument("--negocio", choices=NEGOCIOS)
+    o.add_argument("--color-linea", type=color_hex, help="#rrggbb; sin él, la línea blanca del diseño")
     o.add_argument("--salida")
 
     a = p.parse_args()

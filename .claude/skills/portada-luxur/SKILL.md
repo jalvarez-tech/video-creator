@@ -34,7 +34,7 @@ en `scripts/portada.py` y esta tabla, y se regeneran las que haga falta.
 | Lienzo | 1080 × 1920 (9:16), PNG |
 | Fondo | Un fotograma de la FINAL (con su color), oscurecido: velo parejo del 38 %, una franja más oscura en la mitad (el texto), algo más de peso abajo (el isotipo) y viñeta suave |
 | Locación | Safira March Medium, 84 px, mayúsculas, interletrado 0,10 em, blanco |
-| Línea | 2 px, blanca, **del mismo ancho que la locación** (de la tinta de la primera letra a la de la última), a 44 px de la versal de arriba y de la de abajo |
+| Línea | 2 px, blanca al 90 %, **del mismo ancho que la locación** (de la tinta de la primera letra a la de la última), a 44 px de la versal de arriba y de la de abajo. Con `--color-linea "#rrggbb"` va opaca en ese color (la tanda dorada, `#c6a878`, §7) |
 | Tipo de negocio | Montserrat 500, 56 px, mayúsculas, interletrado 0,30 em, blanco: `VENTA`, `RENTA` o `VENTA & RENTA` |
 | Posición del texto | Los tres (locación, línea, negocio) como un bloque, **centrado en la mitad vertical** (su centro en y = 960) y en X por la tinta |
 | Isotipo | `PL` blanco y OPACO, 150 px de ancho, centrado, con su borde inferior en y = 1640 |
@@ -106,6 +106,10 @@ uv run .claude/skills/portada-luxur/scripts/portada.py portada --proyecto NNN --
 Suelta (un reel que no está en `proyectos/`): `--video <mp4> --salida <png>` con
 `--t`, `--locacion` y `--negocio`.
 
+`--color-linea "#c6a878"` pinta la línea en ese color, opaca; sin él sale blanca
+al 90 %, que es el diseño aprobado. Con `--proyecto` el color queda en la receta
+(`color_linea`) y se repite con ella.
+
 El script imprime el **contraste** del blanco contra el fondo ya oscurecido
 (percentil 90, WCAG) del texto y del isotipo, y avisa por debajo de 4,5:1 en el
 texto y de 3:1 en el isotipo. Las seis de Los Patios dieron 6,1-8,8:1 de texto y
@@ -154,3 +158,7 @@ receta en `proyectos/NNN/portada.json`:
 | 020 | 32,1 | jardines colgantes de la fachada |
 | 021 | 11,8 | fachada y calle desde arriba |
 | 025 | 25,3 | dron de la fachada con los edificios vecinos |
+
+Y la misma tanda con la línea en `#c6a878` (dorado, pedida el mismo día), en
+`Portadas/linea-c6a878/`, con los mismos segundos. Las recetas siguen con la
+línea blanca: la dorada se pidió como otra versión, no como cambio del diseño.
