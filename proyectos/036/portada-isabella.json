@@ -1,0 +1,9 @@
+{
+  "video": "proyectos/036/finales/036-recorrido.mp4",
+  "t": 16.1,
+  "locacion": "GUARNE",
+  "negocio": "venta",
+  "fecha": "2026-10-11",
+  "salida": "proyectos/036/finales/036-portada-isabella.png",
+  "nota": "Variante pedida por el usuario («haz otra foto de portada con Isabella»): la mitad (MD08) en la terraza al atardecer, el primer fotograma sin subtítulos con 0,3 s de margen del corte. Se genera suelta (--video … --t 16.1 --salida …) para no pisar portada.json, que es la de la casa sola."
+}

@@ -1,0 +1,7 @@
+# HK11 (IMG_9433), el HOOK. Tres frases: el dolor, la salida y la invitación; un acento: «todo cambia» (la promesa).
+# «afán»: sin vocabulario whisper oye «avan»; cortando desde 2,10 s oye «el afán. Llegas a tu hogar».
+# «Ven, te muestro»: whisper (con vocabulario) oye «me demuestro»; por cortes, «Vente, muestro por qué» desde 4,62 s y «Te muestro por qué»
+# desde 4,93 s: la «te» va pegada a «ven». «Ven, te muestro» POR CONFIRMAR AL OÍDO (HK11 4,68-5,10 s · en el vídeo ≈ 8,5-8,9 s).
+El ruido, / el tráfico, / el afán.
+Llegas a tu hogar / donde / **todo cambia.**
+Ven,{me} / te muestro{demuestro} / por qué.
