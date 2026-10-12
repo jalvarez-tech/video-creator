@@ -1,0 +1,132 @@
+
+/Users/nicecode/Work/Propiedades Luxur/Music/Daniel Armand — Street Level Sessions on the Green.mp3
+ventana 150.000-212.000 s · 109 golpes de ≥ 6 dB
+
+  golpe en la canción | en la ventana | fuerza (dB/15 ms)
+          150.012 s   |     0.012 s  |   13.6  ◀ fuerte
+          150.541 s   |     0.541 s  |   13.2  ◀ fuerte
+          151.070 s   |     1.070 s  |   14.0  ◀ fuerte
+          152.842 s   |     2.842 s  |   13.8  ◀ fuerte
+          153.923 s   |     3.923 s  |    6.5
+          154.614 s   |     4.614 s  |   16.4  ◀ fuerte
+          155.147 s   |     5.147 s  |   18.3  ◀ fuerte
+          155.679 s   |     5.679 s  |   18.6  ◀ fuerte
+          156.215 s   |     6.215 s  |   15.9  ◀ fuerte
+          156.743 s   |     6.743 s  |   15.5  ◀ fuerte
+          157.453 s   |     7.453 s  |   15.5  ◀ fuerte
+          157.983 s   |     7.983 s  |   19.4  ◀ fuerte
+          158.500 s   |     8.500 s  |   20.8  ◀ fuerte
+          158.876 s   |     8.876 s  |   17.3  ◀ fuerte
+          159.304 s   |     9.304 s  |    8.2
+          159.943 s   |     9.943 s  |   12.4  ◀ fuerte
+          160.470 s   |    10.470 s  |   14.2  ◀ fuerte
+          160.823 s   |    10.823 s  |   14.7  ◀ fuerte
+          161.354 s   |    11.354 s  |   21.7  ◀ fuerte
+          161.894 s   |    11.894 s  |   11.0  ◀ fuerte
+          162.408 s   |    12.408 s  |   23.0  ◀ fuerte
+          162.764 s   |    12.764 s  |   16.2  ◀ fuerte
+          163.249 s   |    13.249 s  |   10.4  ◀ fuerte
+          163.647 s   |    13.647 s  |   17.1  ◀ fuerte
+          163.998 s   |    13.998 s  |   16.1  ◀ fuerte
+          164.353 s   |    14.353 s  |    9.0
+          164.874 s   |    14.874 s  |    8.5
+          165.232 s   |    15.232 s  |   20.2  ◀ fuerte
+          165.583 s   |    15.583 s  |   20.4  ◀ fuerte
+          166.284 s   |    16.284 s  |   11.9  ◀ fuerte
+          166.643 s   |    16.643 s  |    6.2
+          166.994 s   |    16.994 s  |   15.8  ◀ fuerte
+          167.542 s   |    17.542 s  |   14.6  ◀ fuerte
+          167.898 s   |    17.898 s  |   13.0  ◀ fuerte
+          168.413 s   |    18.413 s  |   15.1  ◀ fuerte
+          169.313 s   |    19.313 s  |   14.5  ◀ fuerte
+          169.828 s   |    19.828 s  |   15.5  ◀ fuerte
+          170.362 s   |    20.362 s  |   18.6  ◀ fuerte
+          170.891 s   |    20.891 s  |   15.2  ◀ fuerte
+          171.245 s   |    21.245 s  |    6.5
+          171.783 s   |    21.783 s  |   13.3  ◀ fuerte
+          172.133 s   |    22.133 s  |    9.5  ◀ fuerte
+          172.492 s   |    22.492 s  |   16.0  ◀ fuerte
+          173.116 s   |    23.116 s  |   13.3  ◀ fuerte
+          173.557 s   |    23.557 s  |   16.1  ◀ fuerte
+          174.077 s   |    24.077 s  |   11.5  ◀ fuerte
+          174.430 s   |    24.430 s  |   10.6  ◀ fuerte
+          174.780 s   |    24.780 s  |   11.5  ◀ fuerte
+          175.147 s   |    25.147 s  |   13.5  ◀ fuerte
+          175.493 s   |    25.493 s  |    6.6
+          176.030 s   |    26.030 s  |   15.1  ◀ fuerte
+          176.552 s   |    26.552 s  |   21.0  ◀ fuerte
+          176.905 s   |    26.905 s  |   24.7  ◀ fuerte
+          177.273 s   |    27.273 s  |   16.9  ◀ fuerte
+          177.795 s   |    27.795 s  |   13.9  ◀ fuerte
+          178.191 s   |    28.191 s  |   11.7  ◀ fuerte
+          178.867 s   |    28.867 s  |   12.0  ◀ fuerte
+          179.398 s   |    29.398 s  |   16.0  ◀ fuerte
+          179.841 s   |    29.841 s  |    8.8
+          180.339 s   |    30.339 s  |    8.5
+          180.815 s   |    30.815 s  |   14.6  ◀ fuerte
+          181.175 s   |    31.175 s  |    9.6  ◀ fuerte
+          181.883 s   |    31.883 s  |   25.4  ◀ fuerte
+          182.403 s   |    32.403 s  |    9.0  ◀ fuerte
+          182.951 s   |    32.951 s  |    7.1
+          183.355 s   |    33.355 s  |   11.4  ◀ fuerte
+          183.720 s   |    33.720 s  |   17.5  ◀ fuerte
+          184.077 s   |    34.077 s  |   25.3  ◀ fuerte
+          184.717 s   |    34.717 s  |    6.8
+          185.160 s   |    35.160 s  |   15.6  ◀ fuerte
+          185.525 s   |    35.525 s  |   17.4  ◀ fuerte
+          186.062 s   |    36.062 s  |   13.0  ◀ fuerte
+          186.426 s   |    36.426 s  |    7.5
+          186.790 s   |    36.790 s  |   23.6  ◀ fuerte
+          187.521 s   |    37.521 s  |    6.4
+          188.051 s   |    38.051 s  |   13.3  ◀ fuerte
+          188.410 s   |    38.410 s  |   16.0  ◀ fuerte
+          188.972 s   |    38.972 s  |    7.2
+          189.332 s   |    39.332 s  |    6.3
+          189.866 s   |    39.866 s  |   22.0  ◀ fuerte
+          190.411 s   |    40.411 s  |    7.8
+          190.967 s   |    40.967 s  |   13.9  ◀ fuerte
+          191.560 s   |    41.560 s  |   10.3  ◀ fuerte
+          192.052 s   |    42.052 s  |   12.4  ◀ fuerte
+          192.431 s   |    42.431 s  |   11.0  ◀ fuerte
+          192.866 s   |    42.866 s  |   10.5  ◀ fuerte
+          193.989 s   |    43.989 s  |    7.5
+          194.532 s   |    44.532 s  |   18.4  ◀ fuerte
+          195.195 s   |    45.195 s  |    9.2  ◀ fuerte
+          196.356 s   |    46.356 s  |    8.0
+          197.064 s   |    47.064 s  |    6.4
+          197.723 s   |    47.723 s  |   10.7  ◀ fuerte
+          198.988 s   |    48.988 s  |   12.8  ◀ fuerte
+          199.630 s   |    49.630 s  |   13.4  ◀ fuerte
+          200.069 s   |    50.069 s  |    6.5
+          200.560 s   |    50.560 s  |    6.6
+          201.200 s   |    51.200 s  |    6.5
+          203.878 s   |    53.878 s  |    6.2
+          204.273 s   |    54.273 s  |    8.2
+          204.803 s   |    54.803 s  |    9.7  ◀ fuerte
+          205.334 s   |    55.334 s  |   12.7  ◀ fuerte
+          205.916 s   |    55.916 s  |   13.2  ◀ fuerte
+          206.330 s   |    56.330 s  |   12.6  ◀ fuerte
+          206.725 s   |    56.725 s  |   11.0  ◀ fuerte
+          207.080 s   |    57.080 s  |    9.1  ◀ fuerte
+          207.467 s   |    57.467 s  |   14.8  ◀ fuerte
+          207.857 s   |    57.857 s  |    6.4
+          208.423 s   |    58.423 s  |    6.7
+          209.529 s   |    59.529 s  |   18.2  ◀ fuerte
+
+  sonoridad por tramos de 5 s:
+      0-  5 s   -11.9 LUFS · pico -0.0 dBFS
+      5- 10 s   -11.6 LUFS · pico 1.5 dBFS
+     10- 15 s   -11.5 LUFS · pico 2.1 dBFS
+     15- 20 s   -11.0 LUFS · pico 1.4 dBFS
+     20- 25 s   -10.5 LUFS · pico 1.2 dBFS
+     25- 30 s   -9.7 LUFS · pico 2.3 dBFS
+     30- 35 s   -10.3 LUFS · pico 2.3 dBFS
+     35- 40 s   -10.5 LUFS · pico 1.6 dBFS
+     40- 45 s   -9.5 LUFS · pico 1.9 dBFS
+     45- 50 s   -13.2 LUFS · pico -0.1 dBFS
+     50- 55 s   -12.5 LUFS · pico -3.3 dBFS
+     55- 60 s   -18.7 LUFS · pico -5.1 dBFS
+     60- 65 s   -70.0 LUFS · pico -inf dBFS
+    ventana entera  -11.1 LUFS · pico 2.3 dBFS
+
+  imagen: proyectos/023/musica/armand.png
