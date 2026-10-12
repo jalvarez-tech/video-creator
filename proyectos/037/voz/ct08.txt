@@ -1,0 +1,5 @@
+# CT08 (IMG_9437), el CTA. Dos frases, un acento por frase: «el mismo error.» y la acción, «conocerla.».
+# «No» (1,80 s) 0,18-0,22 · «cometas» (1,995 s) 0,43-0,44 (whisper sin vocabulario «cometos») · «error» (≈ 2,71-2,84 s) 0,33-0,42 (whisper con vocabulario «horror», «radar»):
+# el reel editado `fam 1.mp4` subtitula «no cometas… haz clic en el enlace». POR CONFIRMAR AL OÍDO.
+No cometas{no cometos} / **el mismo error.**{el mismo error,}
+Haz clic en el enlace / y ven a / **conocerla.**
