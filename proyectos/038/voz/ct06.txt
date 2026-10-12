@@ -1,0 +1,6 @@
+# CT06 (IMG_9427), el CTA. Dos frases, un acento por frase: «privados» (lo exclusivo) y «enlace» (la acción).
+# «Recorridos» (≈ 1,1 s, la primera palabra): whisper 0,50 sin vocabulario. «disponibles» (≈ 2,3-2,8 s): 0,35-0,45. «tuyo» (≈ 3,5-3,7 s): 0,40-0,46. «enlace» 0,90+ en las dos pasadas. POR CONFIRMAR AL OÍDO.
+# Medido al exportar (2026-10-11, `herramientas/sibilantes.py`): antes de «tuyo» hay un cierre de 40 ms (3,50-3,55 s) y una explosión en 3,56 s, y la banda de las /s/ queda a −63 dB (la /s/ de «reserva» llega a −54 dB):
+# es una /t/, no una /s/ → «tuyo» y no «suyo». «Recorridos» y «disponibles» quedan POR CONFIRMAR AL OÍDO (≈ 31,3 s y 32,5 s del vídeo).
+Recorridos / **privados** / disponibles,
+reserva el tuyo / en el / **enlace.**

@@ -1,0 +1,6 @@
+# MD05 (IMG_9445), la MITAD. Una frase en dos bloques; acento: «total comodidad».
+# «Hijos» (≈ 0,7 s, la primera palabra): whisper 0,21-0,60. «visita» (≈ 2,9-3,4 s): 0,43-0,54. «comodidad» (≈ 4,7-5,3 s): 0,48-0,69 (la peor de las dos pasadas). POR CONFIRMAR AL OÍDO.
+# Medido al exportar (2026-10-11, `herramientas/sibilantes.py`): tras «Hijos» hay una /s/ final (1,06-1,12 s; razón /s/-voz −6,8 dB frente a −2,5 dB en la /s/ de «reserva» del CTA): es el plural «Hijos», no «Hijo».
+# «visita» y «comodidad» no tienen medida posible: sigue POR CONFIRMAR AL OÍDO (≈ 17,7 s y 19,8 s del vídeo).
+Hijos, abuelos, / amigos que / vienen de visita,
+todos pueden / estar aquí con / **total comodidad.**
