@@ -22,8 +22,9 @@
  *   2e. el COLOR (R32): cada plano de vídeo lleva su `color` (`colorCorrection()`), dentro de lo que el efecto admite
  *      y de los topes de la pieza (nada de `vibrance` alto, exposiciones moderadas, la piel de Isabella donde estaba);
  *      la tarjeta del cierre no; y dos planos seguidos del mismo clip llevan el mismo color.
- *   3.  la VOZ de HK03, MD14 y CT06: su WAV, ninguna palabra dentro de un fundido ni de un desclic, la ganancia por
- *      toma, y la COLA de la pieza (45-90 f desde la última palabra del CTA hasta el final).
+ *   3.  la VOZ de HK03, MD14 y CT06: su WAV TRATADO (`<toma>-alta.wav`: paso alto, compresor suave y limitador, a −15 LUFS), MEDIDO aquí (nivel de su ventana de voz a −15 ± 0,3 y
+ *      igual al `lufs` del plan, y pico real ≤ −1 dBTP en TODO el archivo: sin saturar), ninguna palabra dentro de un fundido ni de un desclic, la ganancia que le queda
+ *      al plan, y la COLA de la pieza (45-90 f desde la última palabra del CTA hasta el final).
  *   4.  el HOOK: su imagen es opaca ANTES de su primera palabra (no habla sobre la calle) y el golpe en que acaba su disolvencia suena antes de su voz.
  *   5.  la MÚSICA y los GOLPES: «Sax for the Last Customer» (jazz) NO tiene pulso (va por golpes de nota), así que no hay recta: cada plano entra en un GOLPE
  *      MEDIDO de la canción (`musica/golpes-020.json`, de `medir-pista.py --json`) a ≤ 1 f; los cortes secos, en golpes de ≥ 7,4 dB; y su ACORDE FINAL (la resolución,
@@ -173,7 +174,7 @@ seccion("2b. las tres tomas de Isabella: tres sitios distintos y ninguna cifra")
    */
   const LUGAR = { hk03: "INT-BLOQUES", md14: "PATIO", ct06: "INT-ABIERTO" };
   const lugares = conVoz.map((c) => {
-    const codigo = /recorrido-020\/([a-z0-9]+)\.wav$/.exec(c.audio)?.[1];
+    const codigo = /recorrido-020\/([a-z0-9]+)(?:-alta)?\.wav$/.exec(c.audio)?.[1];
     return { id: c.id, codigo, lugar: LUGAR[codigo] };
   });
   for (const l of lugares) if (!l.lugar) mal(`${l.id}: la toma «${l.codigo}» no está en la tabla de lugares de esta puerta (LUGAR)`);
@@ -356,6 +357,7 @@ seccion("3. la voz de HK03, MD14 y CT06");
 {
   const n = fallos.length;
   const ganancias = [];
+  const niveles = [];
   cortes.forEach((c, i) => {
     if (!c.audio || !c.voz) return;
     if (!existsSync(join(PUBLICO, c.audio))) return mal(`${c.id}: no existe remotion/public/${c.audio} (node proyectos/020/normalizar.mjs)`);
@@ -378,6 +380,22 @@ seccion("3. la voz de HK03, MD14 y CT06");
     const g = 20 * Math.log10(T.gananciaHasta(c.voz.lufs, M.OBJETIVO_LUFS));
     if (Math.abs(g) > 6) mal(`${c.id}: ganancia de voz ${g.toFixed(1)} dB (|g| > 6: ¿es la misma voz, el mismo micro?)`);
     ganancias.push(`${c.id} ${g >= 0 ? "+" : ""}${g.toFixed(1)}`);
+    // La voz TRATADA se MIDE, no se da por buena: su nivel en la ventana de voz y su pico real en todo el archivo (ebur128, como el render).
+    if (/-alta\.wav$/.test(c.audio)) {
+      const medida = (extra) => {
+        const r = ejecutar("ffmpeg", ["-nostdin", "-hide_banner", ...extra, "-i", join(PUBLICO, c.audio), "-af", "ebur128=peak=true", "-f", "null", "-"]);
+        return { lufs: Number(/Integrated loudness:[\s\S]*?I:\s+(-?[\d.]+) LUFS/.exec(r.stderr)?.[1]), pico: Number(/True peak:[\s\S]*?Peak:\s+(-?[\d.]+) dBFS/.exec(r.stderr)?.[1]) };
+      };
+      const ventana = medida(["-ss", String(Math.max(0, c.voz.s0 - 0.1)), "-t", String(c.voz.s1 - c.voz.s0 + 0.25)]);
+      const entera = medida([]);
+      if (!Number.isFinite(ventana.lufs) || !Number.isFinite(entera.pico)) mal(`${c.id}: no se pudo medir ${c.audio} con ffmpeg`);
+      else {
+        if (Math.abs(ventana.lufs - M.OBJETIVO_LUFS) > 0.3) mal(`${c.id}: la voz tratada mide ${ventana.lufs} LUFS en su ventana de voz y el objetivo es ${M.OBJETIVO_LUFS} ± 0,3 (¿se cambió la cadena? \`node proyectos/020/normalizar.mjs --forzar\`)`);
+        if (Math.abs(ventana.lufs - c.voz.lufs) > 0.2) mal(`${c.id}: el plan dice que la voz tratada mide ${c.voz.lufs} LUFS y mide ${ventana.lufs}`);
+        if (entera.pico > -1) mal(`${c.id}: el pico real de ${c.audio} es ${entera.pico} dBTP; tiene que ser ≤ −1 para que la voz no sature`);
+        niveles.push(`${c.id.replace(/^c\d+-/, "")} ${ventana.lufs} LUFS · pico ${entera.pico} dBTP`);
+      }
+    }
   });
   // La cola de la PIEZA: desde la última palabra del CTA hasta el final quedan 45-90 f: lo que la tarjeta del cierre (el logo y la
   // web, sección 2d) necesita para leerse, sin quedarse muerto. Nada se congela.
@@ -385,7 +403,7 @@ seccion("3. la voz de HK03, MD14 y CT06");
   const finCta = vozDe(cta).fin;
   const cola = DURACION - finCta;
   if (cola < COLA_FINAL[0] || cola > COLA_FINAL[1]) mal(`${cta.id}: ${cola} f entre la última palabra del CTA y el final de la pieza (entre ${COLA_FINAL[0]} y ${COLA_FINAL[1]})`);
-  if (fallos.length === n) ok(`${ganancias.length} tomas con su WAV y su tramo, ninguna palabra en un fundido · a ${M.OBJETIVO_LUFS} LUFS: ${ganancias.join(" · ")} dB · ${cola} f desde «visita» hasta el final (la tarjeta del cierre)`);
+  if (fallos.length === n) ok(`${ganancias.length} tomas con su WAV y su tramo, ninguna palabra en un fundido · voz tratada medida: ${niveles.join(" · ")} · ganancia que le queda al plan (objetivo ${M.OBJETIVO_LUFS} LUFS): ${ganancias.join(" · ")} dB · ${cola} f desde «visita» hasta el final (la tarjeta del cierre)`);
 }
 
 /* 4 · el hook, con su imagen ───────────────────────────────────────────── */

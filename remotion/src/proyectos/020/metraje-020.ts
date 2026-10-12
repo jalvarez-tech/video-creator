@@ -68,7 +68,7 @@ export const FPS_020 = 30;
 export type Entrada = "corte" | "disolver";
 export type Bloque = 1 | 2 | 3 | 4 | 5 | 6;
 
-/** Dónde habla Isabella en SU clip y a qué nivel. Medido con `limites-voz.py` y ebur128, no estimado. */
+/** Dónde habla Isabella en SU clip y a qué nivel. `s0` y `s1`, medidos con `limites-voz.py` sobre la voz SIN tratar; `lufs`, el de la voz TRATADA (ebur128 en su ventana), no estimado. */
 export interface VozDelCorte {
   /** Segundo de la fuente en que empieza a hablar. */
   s0: number;
@@ -91,12 +91,15 @@ export interface Corte extends CorteDelFormato<Entrada> {
 }
 
 /**
- * EL NIVEL DE LA VOZ: una ganancia por toma hasta este objetivo y nada más (R29). Las tres tomas miden −24,2 (HK03), −18,5 (MD14)
- * y −16,0 LUFS (CT06) en su ventana de voz: −21 es el objetivo de las tres versiones anteriores y se mantiene para que las cuatro
- * suenen igual de fuertes. La mayor ganancia es la de HK03, +3,2 dB (su pico de −6,0 pasa a −2,9 dBTP); la menor, −5,0 dB sobre CT06
- * (su pico de −0,4 baja a −5,4 dBTP).
+ * EL NIVEL DE LA VOZ: −15 LUFS, el de la música sola (revisión 1 del final: el usuario pidió «más decibeles sin saturar»; las tres versiones anteriores la dejaban a −21,
+ * sin tratar, y sonaba ≈ 6 dB por debajo de los recorridos). Ya NO es «una ganancia por toma» (R29): las tres tomas pasan por una cadena suave (paso alto 100 Hz ·
+ * compresor 2,5:1 con el umbral a 6 dB sobre el nivel de cada toma · ganancia · limitador a −2,5 dBFS con lookahead) que `proyectos/020/normalizar.mjs` deja en
+ * `<toma>-alta.wav` y mide `proyectos/020/herramientas/voz-tratada.py`: −15,0 · −15,1 · −15,0 LUFS en su ventana de voz, pico real −2,5 dBTP, compresión de 3,0-3,5 dB
+ * (p95) y limitación de 1,6-3,6 dB como mucho. Las tomas SIN tratar (`hk03.wav`, `md14.wav`, `ct06.wav`) siguen ahí: es sobre ellas donde se miden los límites de la voz
+ * (`limites-voz.py`, R29) y los arranques de sílaba de los subtítulos (R31), y miden −24,2 · −18,5 · −16,0 LUFS. La ganancia que le queda al plan sobre cada toma tratada es
+ * de ±0,1 dB (lo que separa su nivel medido de −15).
  */
-export const OBJETIVO_LUFS = -21;
+export const OBJETIVO_LUFS = -15;
 
 /* ── Los golpes de la música ────────────────────────────────────────────────
  *
@@ -243,11 +246,11 @@ export const metraje020: readonly Corte[] = [
     bloque: 2,
     tipo: "video",
     src: v("hk03"),
-    audio: a("hk03"),
+    audio: a("hk03-alta"),
     voz: {
       s0: 0.81,
       s1: 6.04,
-      lufs: -24.15,
+      lufs: -15.0,
       dice: "Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.",
     },
     // La voz empieza a los 0,81 s (24,3 f): `desde` es 3 f antes (21 = 0,70 s), con 21 f de clip por delante para la disolvencia (pide 12), de modo que su
@@ -317,11 +320,11 @@ export const metraje020: readonly Corte[] = [
     bloque: 4,
     tipo: "video",
     src: v("md14"),
-    audio: a("md14"),
+    audio: a("md14-alta"),
     voz: {
       s0: 0.57,
       s1: 5.77,
-      lufs: -18.51,
+      lufs: -15.1,
       dice: "No estás viendo un apartamento sin terminar, estás viendo uno que todavía puedes definir.",
     },
     // La voz empieza a los 0,57 s (17,1 f): `desde` es 2 f antes (15 = 0,50 s), con 15 f de clip por delante para la disolvencia (pide 12): su imagen es opaca en el golpe del
@@ -392,11 +395,11 @@ export const metraje020: readonly Corte[] = [
     bloque: 6,
     tipo: "video",
     src: v("ct06"),
-    audio: a("ct06"),
+    audio: a("ct06-alta"),
     voz: {
       s0: 0.86,
       s1: 3.7,
-      lufs: -16.03,
+      lufs: -15.0,
       dice: "Si es el reto, escríbeme y agendamos una visita.",
     },
     // Su voz empieza a los 0,86 s (25,8 f): `desde` es 3 f antes (23 = 0,767 s), con 23 f de clip por delante para la disolvencia (pide 12). Le quedan 111 f desde `desde` y se usan 104:
