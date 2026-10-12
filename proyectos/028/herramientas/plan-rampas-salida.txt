@@ -1,0 +1,18 @@
+coste 15.5
+49 cortes · 997 f (33.23 s) · la canción suena desde 174.833 s en el f0
+
+meseta            fuente (s)    ×     comp (f)     comp (s)   golpe en el arranque
+puerta          0.50- 1.33   2.0     0-  13   0.00- 0.43    +0.0 f · 174.780 s (11.5 dB)  la puerta se abre y ella asoma: el f0
+hook            1.33- 6.97   1.0    13- 182   0.43- 6.07    -2.0 f · 175.147 s (13.5 dB)  habla (1,82-6,31 s): velocidad 1, la voz manda
+sala            6.97- 9.77   3.0   182- 213   6.07- 7.10    -0.9 f · 180.815 s (14.6 dB)  detrás de ella por la sala hacia el balcón
+corredera       9.80-12.02   1.5   213- 258   7.10- 8.60    +0.1 f · 181.883 s (25.4 dB)  cruza la corredera y sale al balcón
+malla          12.00-13.55   2.5   258- 278   8.60- 9.27    -0.7 f · 183.355 s (11.4 dB)  el giro sobre la baranda con la malla negra
+vista          13.53-16.28   1.0   278- 360   9.27-12.00    +0.9 f · 184.077 s (25.3 dB)  LA VISTA: ciudad, montaña y cielo
+vuelta         16.27-19.88   3.0   360- 400  12.00-13.33    +0.3 f · 186.790 s (23.6 dB)  barrido de vuelta y la sala hasta la cocina
+isla           19.87-22.75   1.0   400- 486  13.33-16.20    -1.9 f · 188.051 s (13.3 dB)  su mano sobre la isla de la cocina
+puerta-bano    22.73-25.65   3.0   486- 518  16.20-17.27    -0.4 f · 190.967 s (13.9 dB)  el giro por la columna y la puerta
+bano-vestier   25.60-29.40   1.5   518- 593  17.27-19.77    +0.2 f · 192.052 s (12.4 dB)  el baño, el barrido y el vestier
+giro-alcoba    29.40-31.00   3.0   593- 612  19.77-20.40    -0.4 f · 194.532 s (18.4 dB)  el giro hacia la alcoba
+alcoba-sec     30.97-34.80   1.0   612- 726  20.40-24.20    +0.5 f · 195.195 s ( 9.2 dB)  la alcoba secundaria: ella ante el ventanal, viene hacia la cámara y pasa a su lado
+regreso        34.80-43.30   4.0   726- 801  24.20-26.70    +0.3 f · 198.988 s (12.8 dB)  vuelve por la cocina hasta la otra alcoba
+cta            43.33-49.83   1.0   801- 997  26.70-33.23   -55.5 f · 199.630 s (13.4 dB)  entra en la alcoba del ventanal de esquina, llega, se gira y habla: el CTA (45,22-49,35 s)
