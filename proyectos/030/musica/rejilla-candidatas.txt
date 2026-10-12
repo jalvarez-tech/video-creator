@@ -1,0 +1,57 @@
+Installed 2 packages in 74ms
+
+### Begin Again.mp3  (204 s)  caídas completas: 1
+  cae en   196.75 s  pre  -20.6 →  -29.9 →  -99.0 dB  ( 9.3/78.4)  golpes≥7,4 en 52 s:  48  soluciones: 0
+
+### Aleksey Chistilin - Utopia.mp3  (188 s)  caídas completas: 1
+  cae en   176.50 s  pre  -11.9 →  -27.8 →  -33.2 dB  (15.9/21.3)  golpes≥7,4 en 52 s:  54  soluciones: 0
+
+### Aleksey Chistilin - We Are.mp3  (282 s)  caídas completas: 1
+  cae en   268.75 s  pre  -35.7 →  -44.8 →  -57.9 dB  ( 9.2/22.2)  golpes≥7,4 en 52 s:  52  soluciones: 148
+      · plano más corto = 71 f · disolvencia más débil 9.4 dB / corte seco 8.7 dB · cortes [235.054, 238.378, 244.023, 247.417, 250.461, 254.327, 258.836, 261.217, 264.223, 268.71] · planos [100, 169, 102, 91, 116, 135, 71, 90, 135] · dB [9.4, 9.2, 42.6, 12.9, 11.5, 9.2, 8.7, 11.1, 9.1, 11.7]
+      · plano más corto = 71 f · disolvencia más débil 12.2 dB / corte seco 8.7 dB · cortes [235.531, 238.378, 244.023, 247.417, 250.461, 254.327, 258.836, 261.217, 264.223, 268.71] · planos [85, 169, 102, 91, 116, 135, 71, 90, 135] · dB [12.2, 9.2, 42.6, 12.9, 11.5, 9.2, 8.7, 11.1, 9.1, 11.7]
+      · plano más corto = 71 f · disolvencia más débil 12.2 dB / corte seco 8.7 dB · cortes [235.531, 238.847, 244.023, 247.417, 250.461, 254.327, 258.836, 261.217, 264.223, 268.71] · planos [99, 155, 102, 91, 116, 135, 71, 90, 135] · dB [12.2, 10.8, 42.6, 12.9, 11.5, 9.2, 8.7, 11.1, 9.1, 11.7]
+
+### Aleksey Chistilin - Overcoming the Impossible.mp3  (220 s)  caídas completas: 1
+  cae en   212.00 s  pre  -20.6 →  -30.3 →  -99.0 dB  ( 9.6/78.4)  golpes≥7,4 en 52 s:  66  soluciones: 205
+      · plano más corto = 79 f · disolvencia más débil 9.8 dB / corte seco 8.1 dB · cortes [174.109, 177.47, 182.773, 186.568, 190.723, 194.083, 199.259, 201.901, 204.902, 208.617] · planos [101, 159, 114, 125, 101, 155, 79, 90, 111] · dB [9.8, 8.3, 9.6, 10.9, 8.4, 8.1, 9.4, 9.4, 9.5, 10.7]
+      · plano más corto = 79 f · disolvencia más débil 9.8 dB / corte seco 8.1 dB · cortes [174.109, 177.47, 182.773, 186.568, 190.723, 194.083, 199.259, 201.901, 204.902, 209.556] · planos [101, 159, 114, 125, 101, 155, 79, 90, 140] · dB [9.8, 8.3, 9.6, 10.9, 8.4, 8.1, 9.4, 9.4, 9.5, 9.7]
+      · plano más corto = 90 f · disolvencia más débil 9.8 dB / corte seco 8.1 dB · cortes [174.109, 177.47, 182.773, 186.568, 190.723, 194.083, 199.259, 202.904, 205.89, 209.556] · planos [101, 159, 114, 125, 101, 155, 109, 90, 110] · dB [9.8, 8.3, 9.6, 10.9, 8.4, 8.1, 9.4, 8.1, 10.6, 9.7]
+
+### Armin van Buuren - Children (from 'Piano' album).mp3  (315 s)  caídas completas: 0
+
+### Becoming I Judah Earl.mp3  (184 s)  caídas completas: 1
+  cae en   164.00 s  pre  -18.8 →  -28.1 →  -40.4 dB  ( 9.3/21.7)  golpes≥7,4 en 52 s:  41  soluciones: 72
+      · plano más corto = 70 f · disolvencia más débil 15.0 dB / corte seco 8.3 dB · cortes [128.144, 131.388, 136.721, 139.056, 143.406, 146.76, 151.353, 153.72, 156.046, 160.726] · planos [97, 160, 70, 130, 101, 138, 71, 70, 140] · dB [15.0, 20.3, 8.3, 14.9, 20.4, 25.9, 8.6, 9.6, 13.6, 13.2]
+      · plano más corto = 70 f · disolvencia más débil 15.0 dB / corte seco 8.3 dB · cortes [128.144, 131.388, 136.721, 139.056, 143.406, 146.76, 151.353, 153.72, 156.969, 160.726] · planos [97, 160, 70, 130, 101, 138, 71, 97, 113] · dB [15.0, 20.3, 8.3, 14.9, 20.4, 25.9, 8.6, 9.6, 8.6, 13.2]
+      · plano más corto = 70 f · disolvencia más débil 15.0 dB / corte seco 8.3 dB · cortes [128.144, 131.388, 136.721, 139.056, 143.406, 146.76, 151.353, 154.205, 156.969, 160.726] · planos [97, 160, 70, 130, 101, 138, 86, 83, 113] · dB [15.0, 20.3, 8.3, 14.9, 20.4, 25.9, 8.6, 8.6, 8.6, 13.2]
+
+### Tony Anderson - Dreamlife.mp3  (242 s)  caídas completas: 1
+  cae en   218.25 s  pre   -9.9 →  -19.1 →  -30.4 dB  ( 9.2/20.5)  golpes≥7,4 en 52 s:  15  soluciones: 0
+
+### Fortitude (Light Version).mp3  (213 s)  caídas completas: 1
+  cae en   200.25 s  pre  -22.3 →  -31.3 →  -43.5 dB  ( 9.0/21.2)  golpes≥7,4 en 52 s:  34  soluciones: 0
+
+### Chill Music - F.G.G. - Chillin' (Chillstep Mix).mp3  (305 s)  caídas completas: 1
+  cae en   294.75 s  pre  -15.3 →  -25.7 →  -99.0 dB  (10.4/83.7)  golpes≥7,4 en 52 s:  64  soluciones: 413
+      · plano más corto = 59 f · disolvencia más débil 15.8 dB / corte seco 9.3 dB · cortes [264.978, 268.212, 273.414, 275.695, 278.833, 281.451, 286.213, 288.183, 290.464, 293.865] · planos [97, 156, 68, 94, 79, 143, 59, 68, 102] · dB [15.8, 9.8, 10.7, 10.4, 12.6, 9.3, 15.9, 10.3, 12.3, 9.6]
+      · plano más corto = 57 f · disolvencia más débil 15.8 dB / corte seco 9.3 dB · cortes [264.978, 268.212, 273.414, 275.695, 278.833, 281.451, 286.213, 288.183, 290.081, 293.865] · planos [97, 156, 68, 94, 79, 143, 59, 57, 114] · dB [15.8, 9.8, 10.7, 10.4, 12.6, 9.3, 15.9, 10.3, 10.9, 9.6]
+      · plano más corto = 59 f · disolvencia más débil 13.9 dB / corte seco 9.0 dB · cortes [263.127, 265.931, 271.456, 274.817, 278.833, 281.451, 286.213, 288.183, 290.464, 293.865] · planos [84, 166, 101, 120, 79, 143, 59, 68, 102] · dB [13.9, 9.0, 15.3, 10.0, 12.6, 9.3, 15.9, 10.3, 12.3, 9.6]
+
+### Ludovico Einaudi - Experience (Live from Teatro dal Verme, M  (383 s)  caídas completas: 1
+  cae en   377.75 s  pre  -17.3 →  -28.1 →  -99.0 dB  (10.8/81.7)  golpes≥7,4 en 52 s:  44  soluciones: 0
+
+### Softly I Judah Earl & BRANDON BLACK #music #cinematic #orche  (225 s)  caídas completas: 2
+  cae en   198.25 s  pre  -10.9 →  -20.4 →  -31.4 dB  ( 9.4/20.5)  golpes≥7,4 en 52 s:  37  soluciones: 0
+  cae en   217.25 s  pre  -34.5 →  -44.1 →  -99.0 dB  ( 9.6/64.5)  golpes≥7,4 en 52 s:  22  soluciones: 0
+
+### Silver Skies Cinematic Piano.mp3  (159 s)  caídas completas: 0
+
+### Light Fills the Room.mp3  (214 s)  caídas completas: 0
+
+### In This Together.mp3  (216 s)  caídas completas: 0
+
+### Spring is Coming.mp3  (122 s)  caídas completas: 0
+
+### Cornfield Chase.mp3  (127 s)  caídas completas: 1
+  cae en   119.25 s  pre  -10.9 →  -20.9 →  -99.0 dB  (10.0/88.1)  golpes≥7,4 en 52 s:  15  soluciones: 0
