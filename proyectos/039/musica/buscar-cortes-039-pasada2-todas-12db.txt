@@ -1,0 +1,42 @@
+
+### Aleksey Chistilin - Deep Breath.mp3  (140 s)  entradas del CTA con rejilla: 0
+
+### Aleksey Chistilin - Overcoming the Impossible.mp3  (220 s)  entradas del CTA con rejilla: 0
+
+### Armin van Buuren - Children (from 'Piano' album).mp3  (315 s)  entradas del CTA con rejilla: 0
+
+### Armin van Buuren - Here For You (from 'Piano' album).mp3  (235 s)  entradas del CTA con rejilla: 0
+
+### Cornfield Chase.mp3  (127 s)  entradas del CTA con rejilla: 0
+
+### Epic Inspirational and Cinematic Motivational - by AShamalue  (191 s)  entradas del CTA con rejilla: 0
+
+### Fortitude (Light Version).mp3  (213 s)  entradas del CTA con rejilla: 0
+
+### Gary B.B. Coleman - The Sky is Crying.mp3  (553 s)  entradas del CTA con rejilla: 0
+
+### In This Together.mp3  (216 s)  entradas del CTA con rejilla: 0
+
+### Light Fills the Room.mp3  (214 s)  entradas del CTA con rejilla: 43
+  cae en   123.60 s  pre  -10.7 →  -10.5 →  -11.0 dB  (-0.2/ 0.3)  golpes≥12 en 36 s:  49  soluciones: 76
+      · plano más corto = 30 f · disolvencia más débil 99 dB / corte seco 14.6 dB · cortes [93.935, 96.335, 100.785, 102.165, 103.528, 104.579, 105.59, 106.798, 109.704, 114.346, 115.881, 117.163, 120.675] · planos [72, 134, 41, 41, 32, 30, 36, 87, 139, 46, 38, 105] · dB [17.3, 15.8, 16.5, 20.7, 30.6, 18.7, 20.0, 19.9, 14.6, 15.1, 15.4, 16.4, 15.5]
+  cae en   124.11 s  pre  -10.7 →  -10.8 →  -10.7 dB  ( 0.1/-0.0)  golpes≥12 en 36 s:  50  soluciones: 76
+      · plano más corto = 30 f · disolvencia más débil 99 dB / corte seco 14.6 dB · cortes [93.935, 96.335, 100.785, 102.165, 103.528, 104.579, 105.59, 106.798, 109.704, 114.346, 115.881, 117.163, 120.675] · planos [72, 134, 41, 41, 32, 30, 36, 87, 139, 46, 38, 105] · dB [17.3, 15.8, 16.5, 20.7, 30.6, 18.7, 20.0, 19.9, 14.6, 15.1, 15.4, 16.4, 15.5]
+
+### Ludovico Einaudi - Einaudi Fly.mp3  (281 s)  entradas del CTA con rejilla: 0
+
+### Ludovico Einaudi - Experience (Live from Teatro dal Verme, M  (383 s)  entradas del CTA con rejilla: 0
+
+### Luxury, Elegance, Refined - Oficial Vídeo Clipe.mp3  (183 s)  entradas del CTA con rejilla: 0
+
+### Nils Frahm - Says .mp3  (499 s)  entradas del CTA con rejilla: 0
+
+### Oceans (Where Feet May Fail).mp3  (466 s)  entradas del CTA con rejilla: 0
+
+### Silver Skies Cinematic Piano.mp3  (159 s)  entradas del CTA con rejilla: 0
+
+### Softly I Judah Earl & BRANDON BLACK #music #cinematic #orche  (225 s)  entradas del CTA con rejilla: 0
+
+### Spring is Coming.mp3  (122 s)  entradas del CTA con rejilla: 0
+
+### Tony Anderson - Dreamlife.mp3  (242 s)  entradas del CTA con rejilla: 0

@@ -1,0 +1,20 @@
+Installed 2 packages in 37ms
+Aleksey Chistilin - Deep Breath.mp3                140s  ≥12dB: 24 ≥9dB: 70 máx 25.1  mejor40s: 10 golpes≥12 desde    10s  nivel(5s) med -13.2 máx  -8.4 dB
+Aleksey Chistilin - Overcoming the Impossible.mp   220s  ≥12dB: 21 ≥9dB:149 máx 41.4  mejor40s:  6 golpes≥12 desde    70s  nivel(5s) med -15.0 máx  -9.5 dB
+Armin van Buuren - Children (from 'Piano' album)   315s  ≥12dB: 54 ≥9dB:172 máx 32.8  mejor40s: 14 golpes≥12 desde   270s  nivel(5s) med -19.3 máx -10.1 dB
+Armin van Buuren - Here For You (from 'Piano' al   235s  ≥12dB: 25 ≥9dB:110 máx 42.2  mejor40s:  8 golpes≥12 desde   190s  nivel(5s) med -17.1 máx -11.6 dB
+Cornfield Chase.mp3                                127s  ≥12dB:  3 ≥9dB: 24 máx 62.1  mejor40s:  3 golpes≥12 desde     0s  nivel(5s) med -17.8 máx -11.2 dB
+Epic Inspirational and Cinematic Motivational -    191s  ≥12dB: 22 ≥9dB:105 máx 24.7  mejor40s: 12 golpes≥12 desde   150s  nivel(5s) med -11.8 máx  -8.2 dB
+Fortitude (Light Version).mp3                      213s  ≥12dB: 15 ≥9dB: 62 máx 25.1  mejor40s:  8 golpes≥12 desde    25s  nivel(5s) med -18.0 máx -11.8 dB
+Gary B.B. Coleman - The Sky is Crying.mp3          553s  ≥12dB:401 ≥9dB:599 máx 34.7  mejor40s: 38 golpes≥12 desde    15s  nivel(5s) med -16.5 máx -13.8 dB
+In This Together.mp3                               216s  ≥12dB: 50 ≥9dB:101 máx 97.7  mejor40s: 23 golpes≥12 desde     0s  nivel(5s) med -10.2 máx  -6.2 dB
+Light Fills the Room.mp3                           214s  ≥12dB:252 ≥9dB:311 máx 62.5  mejor40s: 58 golpes≥12 desde   105s  nivel(5s) med -11.1 máx  -9.5 dB
+Ludovico Einaudi - Einaudi Fly.mp3                 281s  ≥12dB: 17 ≥9dB: 97 máx 47.1  mejor40s:  9 golpes≥12 desde   240s  nivel(5s) med -17.7 máx -12.7 dB
+Ludovico Einaudi - Experience (Live from Teatro    383s  ≥12dB: 42 ≥9dB:179 máx 28.0  mejor40s: 15 golpes≥12 desde     0s  nivel(5s) med -24.5 máx -18.1 dB
+Luxury, Elegance, Refined - Oficial Vídeo Clipe.   183s  ≥12dB:104 ≥9dB:195 máx 71.1  mejor40s: 28 golpes≥12 desde    45s  nivel(5s) med -13.8 máx -13.1 dB
+Nils Frahm - Says .mp3                             499s  ≥12dB:110 ≥9dB:449 máx 58.8  mejor40s: 27 golpes≥12 desde     0s  nivel(5s) med -24.4 máx  -9.1 dB
+Oceans (Where Feet May Fail).mp3                   466s  ≥12dB:142 ≥9dB:316 máx 45.7  mejor40s: 50 golpes≥12 desde    85s  nivel(5s) med -13.5 máx -10.7 dB
+Silver Skies Cinematic Piano.mp3                   159s  ≥12dB: 26 ≥9dB: 93 máx 73.4  mejor40s: 12 golpes≥12 desde   115s  nivel(5s) med -16.2 máx -13.2 dB
+Softly I Judah Earl & BRANDON BLACK #music #cine   225s  ≥12dB:  9 ≥9dB: 46 máx 30.7  mejor40s:  5 golpes≥12 desde    25s  nivel(5s) med -19.4 máx -10.2 dB
+Spring is Coming.mp3                               122s  ≥12dB: 59 ≥9dB:138 máx 64.3  mejor40s: 24 golpes≥12 desde    20s  nivel(5s) med -16.2 máx -14.6 dB
+Tony Anderson - Dreamlife.mp3                      242s  ≥12dB: 35 ≥9dB:129 máx 26.1  mejor40s: 21 golpes≥12 desde     0s  nivel(5s) med -19.7 máx  -9.8 dB

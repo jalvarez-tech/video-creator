@@ -1,0 +1,58 @@
+
+### Aleksey Chistilin - Deep Breath.mp3  (140 s)  entradas del CTA con rejilla: 0
+
+### Aleksey Chistilin - Overcoming the Impossible.mp3  (220 s)  entradas del CTA con rejilla: 0
+
+### Armin van Buuren - Children (from 'Piano' album).mp3  (315 s)  entradas del CTA con rejilla: 0
+
+### Armin van Buuren - Here For You (from 'Piano' album).mp3  (235 s)  entradas del CTA con rejilla: 0
+
+### Cornfield Chase.mp3  (127 s)  entradas del CTA con rejilla: 0
+
+### Epic Inspirational and Cinematic Motivational - by AShamalue  (191 s)  entradas del CTA con rejilla: 0
+
+### Fortitude (Light Version).mp3  (213 s)  entradas del CTA con rejilla: 0
+
+### Gary B.B. Coleman - The Sky is Crying.mp3  (553 s)  entradas del CTA con rejilla: 15
+  cae en    64.88 s  pre  -17.0 →  -18.8 →  -18.5 dB  ( 1.9/ 1.5)  golpes≥10 en 36 s:  42  soluciones: 1
+      · plano más corto = 40 f · disolvencia más débil 99 dB / corte seco 11.8 dB · cortes [36.41, 38.571, 43.292, 44.675, 46.083, 47.515, 48.871, 50.257, 54.092, 58.434, 59.765, 61.15, 64.878] · planos [65, 142, 41, 42, 43, 41, 42, 115, 130, 40, 42, 112] · dB [18.2, 19.3, 13.3, 31.5, 19.1, 20.7, 12.2, 22.4, 15.9, 11.8, 19.4, 18.4, 12.7]
+  cae en    67.19 s  pre  -17.4 →  -19.5 →  -19.1 dB  ( 2.1/ 1.7)  golpes≥10 en 36 s:  41  soluciones: 1
+      · plano más corto = 40 f · disolvencia más débil 99 dB / corte seco 11.8 dB · cortes [36.41, 38.571, 43.292, 44.675, 46.083, 47.515, 48.871, 50.257, 54.092, 58.434, 59.765, 61.15, 64.878] · planos [65, 142, 41, 42, 43, 41, 42, 115, 130, 40, 42, 112] · dB [18.2, 19.3, 13.3, 31.5, 19.1, 20.7, 12.2, 22.4, 15.9, 11.8, 19.4, 18.4, 12.7]
+
+### In This Together.mp3  (216 s)  entradas del CTA con rejilla: 0
+
+### Light Fills the Room.mp3  (214 s)  entradas del CTA con rejilla: 96
+  cae en   124.11 s  pre  -10.7 →  -10.8 →  -10.7 dB  ( 0.1/-0.0)  golpes≥10 en 36 s:  58  soluciones: 142
+      · plano más corto = 30 f · disolvencia más débil 99 dB / corte seco 14.6 dB · cortes [93.935, 96.335, 100.785, 102.165, 103.528, 104.579, 105.59, 106.798, 109.704, 114.346, 115.881, 117.163, 120.675] · planos [72, 134, 41, 41, 32, 30, 36, 87, 139, 46, 38, 105] · dB [17.3, 15.8, 16.5, 20.7, 30.6, 18.7, 20.0, 19.9, 14.6, 15.1, 15.4, 16.4, 15.5]
+  cae en   123.60 s  pre  -10.7 →  -10.5 →  -11.0 dB  (-0.2/ 0.3)  golpes≥10 en 36 s:  57  soluciones: 138
+      · plano más corto = 30 f · disolvencia más débil 99 dB / corte seco 14.6 dB · cortes [93.935, 96.335, 100.785, 102.165, 103.528, 104.579, 105.59, 106.798, 109.704, 114.346, 115.881, 117.163, 120.675] · planos [72, 134, 41, 41, 32, 30, 36, 87, 139, 46, 38, 105] · dB [17.3, 15.8, 16.5, 20.7, 30.6, 18.7, 20.0, 19.9, 14.6, 15.1, 15.4, 16.4, 15.5]
+
+### Ludovico Einaudi - Einaudi Fly.mp3  (281 s)  entradas del CTA con rejilla: 0
+
+### Ludovico Einaudi - Experience (Live from Teatro dal Verme, M  (383 s)  entradas del CTA con rejilla: 0
+
+### Luxury, Elegance, Refined - Oficial Vídeo Clipe.mp3  (183 s)  entradas del CTA con rejilla: 4
+  cae en    75.23 s  pre  -14.1 →  -13.7 →  -13.6 dB  (-0.4/-0.5)  golpes≥10 en 36 s:  42  soluciones: 2
+      · plano más corto = 32 f · disolvencia más débil 99 dB / corte seco 10.4 dB · cortes [45.906, 47.895, 52.9, 54.183, 55.578, 57.087, 58.481, 59.556, 63.256, 67.796, 69.527, 71.437, 75.23] · planos [60, 150, 38, 42, 45, 42, 32, 111, 136, 52, 57, 114] · dB [16.1, 13.8, 17.0, 10.4, 14.8, 10.4, 13.6, 11.3, 11.1, 10.9, 13.4, 12.3, 11.9]
+  cae en    77.55 s  pre  -13.9 →  -13.7 →  -13.1 dB  (-0.3/-0.8)  golpes≥10 en 36 s:  41  soluciones: 2
+      · plano más corto = 32 f · disolvencia más débil 99 dB / corte seco 10.4 dB · cortes [45.906, 47.895, 52.9, 54.183, 55.578, 57.087, 58.481, 59.556, 63.256, 67.796, 69.527, 71.437, 75.23] · planos [60, 150, 38, 42, 45, 42, 32, 111, 136, 52, 57, 114] · dB [16.1, 13.8, 17.0, 10.4, 14.8, 10.4, 13.6, 11.3, 11.1, 10.9, 13.4, 12.3, 11.9]
+
+### Nils Frahm - Says .mp3  (499 s)  entradas del CTA con rejilla: 5
+  cae en    37.59 s  pre  -30.0 →  -29.9 →  -29.5 dB  (-0.2/-0.5)  golpes≥10 en 36 s:  49  soluciones: 6
+      · plano más corto = 32 f · disolvencia más débil 99 dB / corte seco 10.0 dB · cortes [9.271, 11.139, 16.481, 17.552, 18.888, 20.093, 21.296, 22.359, 25.3, 29.837, 31.317, 32.51, 36.522] · planos [56, 160, 32, 40, 36, 36, 32, 88, 136, 44, 36, 120] · dB [13.7, 11.4, 13.6, 12.9, 12.9, 10.0, 14.4, 15.1, 11.2, 10.4, 10.7, 10.6, 13.7]
+  cae en    39.06 s  pre  -30.3 →  -29.7 →  -29.6 dB  (-0.7/-0.7)  golpes≥10 en 36 s:  48  soluciones: 6
+      · plano más corto = 32 f · disolvencia más débil 99 dB / corte seco 10.0 dB · cortes [9.271, 11.139, 16.481, 17.552, 18.888, 20.093, 21.296, 22.359, 25.3, 29.837, 31.317, 32.51, 36.522] · planos [56, 160, 32, 40, 36, 36, 32, 88, 136, 44, 36, 120] · dB [13.7, 11.4, 13.6, 12.9, 12.9, 10.0, 14.4, 15.1, 11.2, 10.4, 10.7, 10.6, 13.7]
+
+### Oceans (Where Feet May Fail).mp3  (466 s)  entradas del CTA con rejilla: 30
+  cae en   133.78 s  pre  -12.0 →  -11.5 →  -12.5 dB  (-0.5/ 0.5)  golpes≥10 en 36 s:  58  soluciones: 14
+      · plano más corto = 41 f · disolvencia más débil 99 dB / corte seco 11.0 dB · cortes [101.282, 103.56, 108.103, 109.466, 110.832, 112.197, 113.559, 114.917, 117.647, 122.425, 124.014, 125.377, 130.377] · planos [68, 136, 41, 41, 41, 41, 41, 82, 143, 48, 41, 150] · dB [12.2, 14.4, 14.8, 12.3, 19.8, 11.0, 15.3, 13.5, 11.9, 14.4, 14.5, 18.1, 11.3]
+  cae en   130.38 s  pre  -11.6 →  -12.5 →  -11.6 dB  ( 1.0/ 0.0)  golpes≥10 en 36 s:  61  soluciones: 8
+      · plano más corto = 41 f · disolvencia más débil 99 dB / corte seco 11.0 dB · cortes [101.282, 103.56, 108.103, 109.466, 110.832, 112.197, 113.559, 114.917, 117.647, 122.425, 124.014, 125.377, 130.377] · planos [68, 136, 41, 41, 41, 41, 41, 82, 143, 48, 41, 150] · dB [12.2, 14.4, 14.8, 12.3, 19.8, 11.0, 15.3, 13.5, 11.9, 14.4, 14.5, 18.1, 11.3]
+
+### Silver Skies Cinematic Piano.mp3  (159 s)  entradas del CTA con rejilla: 0
+
+### Softly I Judah Earl & BRANDON BLACK #music #cinematic #orche  (225 s)  entradas del CTA con rejilla: 0
+
+### Spring is Coming.mp3  (122 s)  entradas del CTA con rejilla: 0
+
+### Tony Anderson - Dreamlife.mp3  (242 s)  entradas del CTA con rejilla: 0
