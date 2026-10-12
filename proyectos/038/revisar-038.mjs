@@ -1,0 +1,665 @@
+#!/usr/bin/env node
+/**
+ * PUERTA DEL 038 — Casa Campestre Guarne (V21; las anteriores de la misma casa: V13 = 029, V16 = 032, V17 = 033, V19 = 036, V20 = 037), reel con la estructura del canal: DRON · HOOK · RECORRIDO · MITAD · RECORRIDO · CTA.
+ *
+ *   node proyectos/038/revisar-038.mjs            (avisa de lo «por confirmar»)
+ *   node proyectos/038/revisar-038.mjs --final    (lo «por confirmar» FALLA)
+ *
+ * Las comprobaciones del FORMATO salen de `revisar-metraje.mjs` (línea de tiempo, metraje, tramos, encuadre). Encima, lo que el recorrido de
+ * seis bloques promete y ningún frame enseña (aquí sin voz en off: los dos recorridos van mudos, solo con la música):
+ *
+ *   2. la ESTRUCTURA: los bloques en orden (1 dron · 2 hook · 3 recorrido · 4 mitad · 5 recorrido · 6 CTA y cierre), el dron en el frame 0 (solo,
+ *      a corte, sin voz), Isabella tres veces, la vista como último plano antes del CTA y el total dentro del tope.
+ *   2b. las REGLAS FIJAS del canal: la primera toma sin texto ni voz, sin texto arriba ni cuenta `@…`, nunca el sello.
+ *   2c. el CIERRE (`cierre-038.ts`): nada se congela, tarjeta oscura con el logo (440 px, 60 %) y la web.
+ *   2d. el COLOR de cada plano (R32).
+ *   3. la VOZ de las tres tomas: su WAV tratado a −15 LUFS en su frase, pico real ≤ −1 dBTP, silencio fuera de ella, ninguna palabra en un fundido.
+ *   4. el AUDIO entero (`revisaAudio`) y la MÚSICA: golpe en el frame 0-2, baja antes de la primera palabra, sube en los recorridos, se funde bajo el CTA
+ *      y se apaga antes de su siguiente golpe; cada corte SECO cae sobre un golpe fuerte de la canción.
+ *   5. los SUBTÍTULOS: su validador sin un aviso, con las letras del canal; cada trozo dentro de una ventana de voz.
+ *   7b. NINGÚN PLANO REPETIDO de la V13, V16, V17, V19 ni V20 (pedido del usuario): ni un clip de dron, hook, mitad o CTA; y en los recorridos, que solo quedó
+ *       libre uno de los 28, ni un fotograma del mismo TRAMO (decisión del usuario, 2026-10-09).
+ *
+ * Carga los módulos TypeScript DE VERDAD (`abrePuerta` → esbuild): lo que mide
+ * es lo que se renderiza. Sale con 1 si algo falla.
+ */
+import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { ejecutar } from "../../herramientas/comun.mjs";
+import { abrePuerta, cargaTs, duracionDe, PUBLICO, RAIZ } from "../../remotion/src/motor/metraje/revisar-metraje.mjs";
+
+/** Los seis bloques del formato (la versión corta no se usa). */
+const BLOQUES = [1, 2, 3, 4, 5, 6];
+/** Los bloques en los que Isabella habla a cámara: el hook, la mitad (las «objeciones» del formato) y el CTA. */
+const DE_ELLA = [2, 4, 6];
+const VOZ_OBJETIVO = -15; // LUFS de la voz (pedido del usuario: «sube la voz sin saturar»; en los reels de Los Patios sin tratar iba a −21)
+const TECHO_VOZ_DBTP = -1.0; // pico real de la voz en lo que suena
+const TOLERANCIA_LUFS = 0.6; // la voz de cada toma, en su ventana, a ±0,6 LU del objetivo
+const SILENCIO_FUERA_DB = -60; // la voz tratada, FUERA de su frase (a 0,1 s de ella), por debajo de esto: no suena nada
+
+const TECHO_ZOOM = 1.2; // clips normalizados a 1296 px = 1080 × 1,2
+const TECHO_ZOOM_1080 = 1.08; // los clips que salen de un 1080p (la ventana vertical mide 606 px y sube ×2,13): más zoom los ablanda
+const TOPE_SEGUNDOS = 55; // el formato apunta a 45-50 s; pasado de aquí ya es otra pieza
+const MARGEN_FUNDIDO = 2; // f entre la última palabra y el inicio de la disolvencia del siguiente
+const COLA_FINAL = [45, 120]; // f desde la última palabra del CTA hasta el final (lo que le queda de toma + la tarjeta): la web se lee, sin quedarse muerto
+const TARJETA_FRAMES = [45, 75]; // f que dura la tarjeta oscura del cierre (1,5-2,5 s)
+const HOLGURA_TROZO = 3; // f que un trozo puede adelantarse a su palabra
+
+/**
+ * Bloques de subtítulos que NO acompañan a una palabra dicha, y por qué. Una
+ * excepción que sobra (el bloque ya no existe, o todos sus trozos caen sobre
+ * voz) tumba la puerta.
+ */
+/**
+ * Las versiones ANTERIORES del reel de esta casa, para la sección 7b: `{ nombre, plan, cortes, reservas? }`. `plan` es el `metraje-NNN.ts` de aquella (ruta desde la
+ * raíz de ESTE checkout; viven en worktrees hermanos, sin publicar) y `cortes` el nombre de su export. La V19 (036) estaba en marcha cuando se escribió esto y su plan aún
+ * no existía: mientras no exista, valen sus `reservas` (los clips y tramos que tachó en `archivos/musica/registro-de-uso.md`, en segundos de la fuente); cuando exista su
+ * `metraje-036.ts`, la puerta lo carga y las reservas dejan de usarse. Si de una versión no hay ni plan ni reservas, la puerta FALLA (sin ellos no puede comprobar nada).
+ */
+const VERSIONES_ANTERIORES = [
+  { nombre: "la V13 (029)", plan: "../reel-029-casa-campestre/remotion/src/proyectos/029/metraje-029.ts", cortes: "metraje029" },
+  { nombre: "la V16 (032)", plan: "../luxury-property-cinematic-reel-49ba5c/remotion/src/proyectos/032/metraje-032.ts", cortes: "metraje032" },
+  { nombre: "la V17 (033)", plan: "../casa-campestre-reel-4ce1d1/remotion/src/proyectos/033/metraje-033.ts", cortes: "metraje033" },
+  {
+    nombre: "la V19 (036)",
+    plan: "../reel-v19-luxur-cinematico-dcca76/remotion/src/proyectos/036/metraje-036.ts",
+    cortes: "metraje036",
+    // Reservado por la V19 el 2026-10-09 (su mensaje y su registro): hook HK11, mitad MD08, CTA CT07; drones DR75, DR81 y DR79; recorridos RC17, RC11 y RC05.
+    reservas: {
+      hk11: [[0, 99]],
+      md08: [[0, 99]],
+      ct07: [[0, 99]],
+      dr75: [[22.4, 26.17]],
+      dr81: [[8.4, 14.17], [17.3, 20.77]],
+      dr79: [[14.8, 18.37]],
+      rc17: [[6.9, 9.9]],
+      rc11: [[0.6, 4.6]],
+      rc05: [[1.5, 4.67]],
+    },
+  },
+  { nombre: "la V20 (037)", plan: "../reel-037-el-error/remotion/src/proyectos/037/metraje-037.ts", cortes: "metraje037" },
+];
+/** El tipo de plano de cada clip, por el prefijo de su código (los mismos códigos en todas las versiones de esta casa): solo los recorridos admiten otro tramo. */
+const CLASES = { dr: "dron", hk: "hook", md: "mitad", ct: "CTA", rc: "recorrido" };
+const SIN_REPETIR = true;
+
+const SIN_VOZ = {}; // todos los bloques de texto de esta pieza acompañan a una palabra dicha (sin datos en pantalla)
+
+/**
+ * Cortes SECOS que caen sobre un golpe MEDIO (≥ 8 dB, no ≥ 9) de la canción, y por qué. R33 pide que cada corte seco caiga en un golpe que SUENE;
+ * la puerta exige uno fuerte (≥ 9 dB) y aquí se declara la excepción. Una excepción que sobra (el corte ya no existe o ya cae en uno fuerte)
+ * tumba la puerta. Esta canción tiene un pulso de 0,645 s y todos los cortes caen en golpes de 10-25 dB: ninguna excepción.
+ */
+const GOLPE_MEDIO = {};
+
+/**
+ * Lo que la puerta da por bueno pero conviene tener a la vista: cortes cuyo golpe SUENA peor de lo que dice la tabla (R33, medido sobre el WAV del render con
+ * `herramientas/golpes-render.py`). Se imprimen siempre; una nota de un plano que ya no existe tumba la puerta.
+ */
+const DECLARADOS_DE_CORTE = {
+  "c03-patio":
+    "el golpe de f272 (hook → patio, 21,8 dB) suena con la música ABAJO: la toma del hook solo trae 13,8 f de aire tras su última palabra, la voz acaba 3,7 f antes del corte y la subida (21 f) empieza en la última palabra y acaba en el golpe de f289",
+  "c08-cocina":
+    "el golpe de f640 (mitad → cocina) mide 9,0 dB en la canción y 8,8 dB en el WAV del render: el más débil de los 11 cortes; la mitad no admite otro corte (los golpes fuertes vecinos están a −20 y +38 f, y a +8 f de la última palabra no cabe la subida de la música)",
+};
+
+// Un plan que no carga (un corte con voz y velocidad distinta de 1, un import
+// roto) no deja una traza: dice qué pasa y sale con 1.
+const puerta = await abrePuerta({
+  proyecto: "038",
+  plan: "remotion/src/proyectos/038/metraje-038.ts",
+  cortes: "metraje038",
+  receta: "node proyectos/038/normalizar.mjs",
+  extras: {
+    audio: "remotion/src/proyectos/038/audio-038.ts",
+    subtitulos: "remotion/src/proyectos/038/subtitulos-038.ts",
+    tramos: "remotion/src/motor/sound/tramos.ts",
+    editorial: "remotion/src/motor/subtitulos-editoriales.ts",
+    marca: "remotion/src/marcas/luxur.ts",
+    cierre: "remotion/src/proyectos/038/cierre-038.ts",
+  },
+}).catch((e) => {
+  console.log(`\n❌ el plan del 038 no carga: ${e.message}\n`);
+  process.exit(1);
+});
+const { cortes, fps, fallos, mal, ok, seccion } = puerta;
+const M = puerta.plan;
+const F = puerta.modulos.formato;
+const A = puerta.modulos.audio;
+const T = puerta.modulos.tramos;
+const E = puerta.modulos.editorial;
+const bloques = puerta.modulos.subtitulos.subtitulos038;
+const DURACION = M.DURACION_038;
+const CANAL = puerta.modulos.marca.LUXUR;
+
+/* 1 · línea de tiempo ───────────────────────────────────────────────────── */
+seccion("1. línea de tiempo");
+puerta.lineaDeTiempo({ duracion: DURACION });
+
+/** La voz de un corte en frames de la COMP (la misma cuenta que `frameDeFuente`). */
+const vozDe = (c) => ({
+  ini: T.frameDeFuente(c.en, c.desde, c.voz.s0, fps),
+  fin: T.frameDeFuente(c.en, c.desde, c.voz.s1, fps),
+});
+const conVoz = cortes.filter((c) => c.audio);
+/** La tarjeta oscura del cierre (el único plano `foto`): es del bloque 6 pero ella no habla en él. */
+const esTarjeta = (c) => c.tipo === "foto";
+/** El primer frame en que un plano se ve: si disuelve, antes de su `en`. */
+const visibleDesde = (c) => c.en - F.solapeDe(c);
+
+/* 2 · estructura ────────────────────────────────────────────────────────── */
+seccion("2. la estructura del recorrido");
+{
+  const n = fallos.length;
+  const primero = cortes[0];
+  if (primero.bloque !== 1) mal(`${primero.id}: el primer plano es del bloque ${primero.bloque}; la pieza abre con la casa (bloque 1)`);
+  if (primero.audio) mal(`${primero.id}: el primer plano lleva voz; la casa abre sola y ella entra después`);
+  if ((primero.entra ?? "corte") !== "corte") mal(`${primero.id}: entra con «${primero.entra}»; el frame 0 es la miniatura y no nace de un fundido`);
+  cortes.forEach((c, i) => {
+    if (!BLOQUES.includes(c.bloque)) mal(`${c.id}: bloque ${c.bloque}; esta pieza lleva los bloques ${BLOQUES.join(", ")}`);
+    if (i > 0 && c.bloque < cortes[i - 1].bloque) mal(`${c.id}: bloque ${c.bloque} después del ${cortes[i - 1].bloque}; los bloques van en orden`);
+    const deElla = DE_ELLA.includes(c.bloque) && !esTarjeta(c);
+    if (deElla && !c.audio) mal(`${c.id}: bloque ${c.bloque} sin \`audio\`; en los bloques ${DE_ELLA.join(", ")} habla Isabella a cámara`);
+    if (!deElla && c.audio) mal(`${c.id}: bloque ${c.bloque} con \`audio\`; en los recorridos la voz es en off y va en audio-038.ts`);
+    if (c.audio && !c.voz) mal(`${c.id}: tiene \`audio\` pero no \`voz\` (s0, s1, lufs medidos con limites-voz.py)`);
+    // El viaje emocional (viaje-emocional.md) casi no se puede medir; esto es lo
+    // poco que sí: un plano sin razón sobra, y solo se acelera la aproximación.
+    if (!c.reason || c.reason.trim().length < 15) mal(`${c.id}: sin \`reason\`; cada plano dice qué hace ahí (situar, revelar, mover, emocionar…) o sobra (viaje-emocional.md §4)`);
+    if ((c.velocidad ?? 1) !== 1 && c.bloque !== 3) mal(`${c.id}: velocidad ${c.velocidad} en el bloque ${c.bloque}; solo se acelera la aproximación (bloque 3), nunca la intimidad ni la recompensa (viaje-emocional.md §6)`);
+  });
+  for (const b of BLOQUES) if (!cortes.some((c) => c.bloque === b)) mal(`falta el bloque ${b}`);
+  const ultimo = cortes.at(-1);
+  if (ultimo.bloque !== BLOQUES.at(-1)) mal(`${ultimo.id}: la pieza acaba en el bloque ${ultimo.bloque}; cierra Isabella con el CTA (bloque ${BLOQUES.at(-1)})`);
+  // La recompensa se mira: la vista (el último plano del último recorrido) no dura menos que los planos de intimidad que la preceden en su bloque.
+  const ultimoRecorrido = cortes.filter((c) => c.bloque === BLOQUES.at(-2));
+  const vista = ultimoRecorrido.at(-1);
+  const masLargo = vista && ultimoRecorrido.find((c) => c.dur > vista.dur);
+  if (masLargo) mal(`${vista.id} (${vista.dur} f) es el clímax y ${masLargo.id} dura más (${masLargo.dur} f); la vista es el plano más largo de su bloque (viaje-emocional.md §1)`);
+  const antesDelCta = cortes.filter((c) => c.bloque < BLOQUES.at(-1)).at(-1);
+  if (antesDelCta && antesDelCta.bloque !== BLOQUES.at(-2)) {
+    mal(`${antesDelCta.id}: el plano anterior al CTA es del bloque ${antesDelCta.bloque}; tiene que ser el último recorrido (bloque ${BLOQUES.at(-2)}: la vista)`);
+  }
+  // Isabella, una vez por bloque suyo y cada vez en un sitio distinto.
+  const veces = DE_ELLA.filter((b) => BLOQUES.includes(b)).length;
+  if (conVoz.length !== veces) mal(`Isabella sale ${conVoz.length} veces a cámara; con los bloques ${BLOQUES.join(", ")} son ${veces}`);
+  if (DURACION / fps > TOPE_SEGUNDOS) mal(`${(DURACION / fps).toFixed(1)} s: el formato no pasa de ${TOPE_SEGUNDOS} s`);
+  if (fallos.length === n) {
+    const porBloque = BLOQUES.map((b) => {
+      const suyos = cortes.filter((c) => c.bloque === b);
+      return `b${b} ${(suyos.reduce((s, c) => s + c.dur, 0) / fps).toFixed(1)} s`;
+    });
+    ok(`${cortes.length} planos · ${(DURACION / fps).toFixed(1)} s · ${porBloque.join(" · ")} · Isabella ${conVoz.length} veces · todos con razón · la vista, el plano más largo de su bloque`);
+  }
+}
+
+/* 2b · las reglas fijas del canal ───────────────────────────────────────── */
+seccion("2b. reglas fijas del canal: la primera toma sin texto, nunca el sello ni la cuenta");
+{
+  const n = fallos.length;
+  const primera = cortes[0];
+  // La primera toma se ve hasta que la imagen de Isabella es opaca (su `en`): hasta entonces, ni texto ni voz.
+  const hook = conVoz[0];
+  if (!hook) mal("ninguna toma lleva voz: no hay hook de Isabella");
+  else if (bloques.length === 0) mal("no hay ningún subtítulo");
+  else {
+    const primerTexto = Math.min(...bloques.map((b) => b.trozos[0].desde));
+    if (primerTexto <= 0) mal(`el primer bloque de texto entra en el frame ${primerTexto}: la miniatura (frame 0) tiene que salir sin texto`);
+    if (primerTexto < hook.en) mal(`el primer texto entra en f${primerTexto}, antes de que acabe la primera toma (la imagen de Isabella es opaca en f${hook.en}): la primera toma sale SIEMPRE sin texto`);
+    if (vozDe(hook).ini < hook.en + 1) mal(`${hook.id} empieza a hablar en f${vozDe(hook).ini} y su imagen no es opaca hasta f${hook.en}: la primera toma sale sin voz`);
+  }
+  const hayArriba = bloques.filter((b) => b.posicion === "arriba");
+  if (hayArriba.length) mal(`hay texto arriba (${hayArriba.map((b) => b.id).join(", ")}): ni hook escrito ni cuenta; arriba no hay nada`);
+  if (bloques.some((b) => b.trozos.some((t) => /@/.test(t.texto)))) mal("hay una cuenta de texto (@…) en los subtítulos: el cierre lleva el logo y la web, no la cuenta");
+  // NUNCA el sello «PROPIEDADES LUXUR»: ni se importa ni se monta ni se escribe a mano.
+  const fuente = readFileSync(join(RAIZ, "remotion", "src", "proyectos", "038", "Recorrido038.tsx"), "utf8");
+  const sinComentarios = fuente.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+  if (/SelloCampana/.test(sinComentarios)) mal("la composición usa `SelloCampana`: el sello «PROPIEDADES LUXUR» no se pone NUNCA");
+  if (/PROPIEDADES LUXUR/.test(sinComentarios)) mal("la composición escribe «PROPIEDADES LUXUR» a mano: el sello no se pone NUNCA");
+  if (fallos.length === n) {
+    ok(`la primera toma (${primera.id}, f0-${hook ? hook.en : "?"}) sale SIN texto ni voz · nada arriba y ninguna cuenta · sin sello (no se usa \`SelloCampana\`)`);
+  }
+}
+
+/* 2c · el cierre: sin congelar, la tarjeta oscura con el logo y la web ──────── */
+seccion("2c. el cierre: nada se congela, y la tarjeta oscura con el logo (pequeño, al 60 %) y la web");
+{
+  const n = fallos.length;
+  const CI = puerta.modulos.cierre;
+  const cta = [...cortes].reverse().find((c) => c.audio);
+  const tarjeta = cortes.at(-1);
+  const vistaCuadro = { ancho: 1080, alto: 1920 };
+  const letraBase = E.letraSubtitulosDe(CANAL).base;
+  const fuente = readFileSync(join(RAIZ, "remotion", "src", "proyectos", "038", "Recorrido038.tsx"), "utf8");
+  const sinComentarios = fuente.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+  const png = (ruta) => {
+    const b = readFileSync(ruta);
+    const esPng = b.length > 26 && b.subarray(1, 4).toString() === "PNG";
+    return esPng ? { ancho: b.readUInt32BE(16), alto: b.readUInt32BE(20), color: b[25] } : null;
+  };
+
+  // «No dejes que el último fotograma se congele»: el CTA llega a su último fotograma y no se repite; sigue la tarjeta.
+  if (tarjeta.tipo !== "foto" || tarjeta.src !== CI.TARJETA) mal(`el último plano (${tarjeta.id}) tiene que ser la foto ${CI.TARJETA} (un negro liso), no ${tarjeta.tipo} ${tarjeta.src}`);
+  if (tarjeta.en !== cta.en + cta.dur) mal(`${tarjeta.id} entra en f${tarjeta.en} y la toma del CTA acaba en f${cta.en + cta.dur}: la tarjeta sigue a la toma sin hueco`);
+  const congelados = cortes.filter((c) => c !== tarjeta && (c.tipo === "foto" || /-cola\.mp4$/.test(c.src)));
+  if (congelados.length) mal(`se congela un fotograma (${congelados.map((c) => c.id).join(", ")}): el último fotograma NO se congela`);
+  if (tarjeta.dur !== CI.DUR_TARJETA) mal(`${tarjeta.id} dura ${tarjeta.dur} f y cierre-038.ts dice ${CI.DUR_TARJETA}`);
+  if (tarjeta.dur < TARJETA_FRAMES[0] || tarjeta.dur > TARJETA_FRAMES[1]) mal(`la tarjeta dura ${tarjeta.dur} f (entre ${TARJETA_FRAMES[0]} y ${TARJETA_FRAMES[1]}): la web se lee, sin quedarse muerto`);
+  const rutaTarjeta = join(PUBLICO, CI.TARJETA);
+  if (!existsSync(rutaTarjeta)) mal(`no existe remotion/public/${CI.TARJETA} (node proyectos/038/normalizar.mjs)`);
+  else {
+    const t = png(rutaTarjeta);
+    if (!t || t.ancho < 1296 || t.alto < 2304) mal(`${CI.TARJETA} mide ${t ? `${t.ancho}×${t.alto}` : "?"}; tiene que cubrir el cuadro como los clips (1296×2304)`);
+    // OSCURA: el máximo de luma de toda la imagen, medido, no supuesto.
+    const r = ejecutar("ffmpeg", ["-nostdin", "-v", "error", "-i", rutaTarjeta, "-vf", "signalstats,metadata=print:key=lavfi.signalstats.YMAX:file=-", "-f", "null", "-"]);
+    const mY = /YMAX=(\d+)/.exec(r.stdout);
+    if (!mY || Number(mY[1]) > 24) mal(`la tarjeta no es oscura: luma máxima ${mY ? mY[1] : "no medible"} (negro = 16; el tope son 24)`);
+  }
+  // El fundido a negro: llega a negro EXACTO en el último fotograma de la toma y empieza cuando ella casi ha acabado.
+  const ultimaDeIsabella = cta.en + cta.dur - 1;
+  if (!(CI.FUNDIDO_A_OSCURO >= 4 && CI.FUNDIDO_A_OSCURO <= 8)) mal(`FUNDIDO_A_OSCURO = ${CI.FUNDIDO_A_OSCURO} f; entre 4 y 8: más largo se come su última palabra, más corto es un parpadeo`);
+  if (ultimaDeIsabella - CI.FUNDIDO_A_OSCURO < vozDe(cta).fin - 6) mal(`el fundido a negro empieza en f${ultimaDeIsabella - CI.FUNDIDO_A_OSCURO}, más de 6 f antes de que ella acabe de hablar (f${vozDe(cta).fin})`);
+  if (!/<FundidoACierre\s*\/>/.test(sinComentarios) || !/interpolate\(frame,\s*\[ULTIMA_DE_ISABELLA\s*-\s*FUNDIDO_A_OSCURO,\s*ULTIMA_DE_ISABELLA\]/.test(sinComentarios)) {
+    mal("el fundido a negro no está montado, o su rampa no acaba en el último fotograma de Isabella (`<FundidoACierre />`)");
+  }
+  // El logo: más pequeño que la referencia («un poco»: entre el 65 y el 95 % de lo que era) y al 60 % de opacidad (40 % de transparencia).
+  const razon = CI.LOGO_ANCHO / CI.LOGO_ANCHO_REF;
+  if (!(razon >= 0.65 && razon <= 0.95)) mal(`el logo mide ${CI.LOGO_ANCHO} px de ancho (${(razon * 100).toFixed(0)} % de los ${CI.LOGO_ANCHO_REF} de referencia): «un poco más pequeño» es entre el 65 y el 95 %`);
+  if (Math.abs(CI.LOGO_TRANSPARENCIA - 0.4) > 1e-9 || Math.abs(CI.LOGO_OPACIDAD - 0.6) > 1e-9) mal(`el logo está a ${(CI.LOGO_TRANSPARENCIA * 100).toFixed(0)} % de transparencia (opacidad ${CI.LOGO_OPACIDAD}) y el canal pide 40 % (opacidad 0,6)`);
+  if (!/\*\s*LOGO_OPACIDAD/.test(sinComentarios)) mal("la composición no aplica LOGO_OPACIDAD al logo");
+  if (!/Propiedade-Luxur-Logo\.png$/.test(CI.LOGO)) mal(`el logo es ${CI.LOGO}: el del canal es Propiedade-Luxur-Logo.png`);
+  else if (!existsSync(join(PUBLICO, CI.LOGO))) mal(`no existe remotion/public/${CI.LOGO}`);
+  else {
+    const l = png(join(PUBLICO, CI.LOGO));
+    if (!l || l.ancho !== 1000 || l.alto !== 518 || l.color !== 6) mal(`${CI.LOGO} no es un PNG RGBA de 1000×518 (es ${l ? `${l.ancho}×${l.alto}, tipo de color ${l.color}` : "ilegible"})`);
+  }
+  if (!/<LogoCierre\s*\/>/.test(sinComentarios) || !/<Img\b[^>]*src=\{staticFile\(LOGO\)\}/.test(sinComentarios)) mal("el logo no está montado: falta <LogoCierre /> o su <Img src={staticFile(LOGO)}>");
+  // La web: montada, que cabe a su cuerpo y dentro de las zonas seguras.
+  if (CI.WEB !== "PropiedadesLuxur.com") mal(`la web es «${CI.WEB}»: la del canal es «PropiedadesLuxur.com» tal cual (si el canal cambia de web, cambia también esta puerta)`);
+  if (!/<WebCierre\s*\/>/.test(sinComentarios) || !/\{WEB\}/.test(sinComentarios)) mal("la web no está montada: falta <WebCierre /> o su {WEB}");
+  const anchoWeb = E.anchoLinea(CI.WEB, letraBase, CI.WEB_PX);
+  const util = vistaCuadro.ancho - 2 * E.margenDe(vistaCuadro);
+  if (anchoWeb === null) mal("la letra de la base no tiene tabla de avances: no se puede comprobar que la web cabe");
+  else if (anchoWeb > util) mal(`la web mide ≈ ${anchoWeb} px a ${CI.WEB_PX} px y el ancho útil son ${util}`);
+  // Zonas seguras (R14): nada por encima del 12,5 % ni por debajo del 88 %; la web, debajo del logo; ambos centrados.
+  const techo = Math.round(vistaCuadro.alto * 0.125);
+  const suelo = Math.round(vistaCuadro.alto * 0.88);
+  if (CI.LOGO_ENSI.arriba < techo) mal(`el logo empieza en y≈${CI.LOGO_ENSI.arriba.toFixed(0)} px, por encima de ${techo} (lo que tapa la interfaz de las plataformas)`);
+  if (CI.WEB_ARRIBA + CI.WEB_ALTO_LINEA > suelo) mal(`la web acaba en y≈${CI.WEB_ARRIBA + CI.WEB_ALTO_LINEA} px, por debajo de ${suelo}`);
+  if (!(CI.LOGO_ENSI.abajo < CI.WEB_ARRIBA)) mal(`la web (y≈${CI.WEB_ARRIBA}) tiene que ir debajo del logo (acaba en y≈${CI.LOGO_ENSI.abajo.toFixed(0)})`);
+  if (CI.LOGO_ENSI.ancho > util) mal(`el logo mide ≈ ${CI.LOGO_ENSI.ancho.toFixed(0)} px y el ancho útil son ${util}`);
+  // Tiempos: nada de esto aparece sobre la imagen de Isabella y todo se lee entero antes del final.
+  if (CI.LOGO_RETRASO < 0 || CI.WEB_RETRASO < 0) mal("el logo y la web entran en la tarjeta, no antes");
+  if (tarjeta.en + CI.LOGO_RETRASO + CI.LOGO_ENTRA + 20 > DURACION) mal("el logo no llega a estar entero 20 f antes del final");
+  if (tarjeta.en + CI.WEB_RETRASO + CI.WEB_ENTRA + 30 > DURACION) mal("la web no llega a estar entera 30 f (1 s) antes del final: no se lee");
+  if (bloques.some((b) => b.hasta > tarjeta.en + 4)) mal("hay subtítulos sobre la tarjeta: lo único que lleva es el logo y la web");
+  if (fallos.length === n) {
+    ok(`nada se congela: la imagen funde a negro en ${CI.FUNDIDO_A_OSCURO} f y llega a negro en f${ultimaDeIsabella} · tarjeta oscura de ${(tarjeta.dur / fps).toFixed(1)} s · logo ${CI.LOGO_ANCHO} px al ${CI.LOGO_OPACIDAD * 100} % de opacidad · «${CI.WEB}» a ${CI.WEB_PX} px, ≈ ${anchoWeb} de ${util} px útiles`);
+  }
+}
+
+/* 2d · el color de cada plano (R32): solo si el plan lleva `color` ─────────── */
+if (cortes.some((c) => c.color !== undefined)) {
+  seccion("2d. el color de cada plano (colorCorrection, R32)");
+  const n = fallos.length;
+  /**
+   * Los topes del color de Luxur, los del 017 (revisión 7): salieron de graduar y medir, no del efecto, que admite más.
+   * `vibrance` por encima de 0,05 pintó un moteado de colores sobre el hormigón gris y volvió rosadas las nubes; una
+   * exposición de más de ±0,4 pasos ya no es un ajuste sino otro clip mal expuesto (se vuelve a medir); la saturación
+   * global se queda entre 0,95 y 1,12; y la piel de Isabella (saturación ≤ 1,06, sin tirar de cálido ni de frío) donde estaba.
+   */
+  const TOPES_COLOR = { vibrance: 0.05, exposure: 0.4, contrast: 1.15, highlightsMin: -0.6, saturation: [0.95, 1.12] };
+  const TOPES_PIEL = { saturationMax: 1.06, temperature: 0.06, tint: 0.03 };
+  const videos = cortes.filter((c) => c.tipo !== "foto");
+  const tarjeta = cortes.at(-1);
+  // El formato: solo claves del efecto, números finitos dentro de su rango, y nunca en una foto.
+  puerta.colorCine();
+  // «Balanceado» es entre planos: TODOS los de vídeo pasan por el efecto (y por el mismo camino de decodificación).
+  const sinColor = videos.filter((c) => c.color === undefined);
+  if (sinColor.length) mal(`sin \`color\`: ${sinColor.map((c) => c.id).join(", ")}; en una pieza graduada TODOS los planos de vídeo lo llevan (\`color({})\` iguala el camino)`);
+  if (tarjeta.tipo === "foto" && tarjeta.color !== undefined) mal(`${tarjeta.id}: la tarjeta oscura no se gradúa (es un negro liso y es una foto)`);
+  // Dos planos SEGUIDOS del mismo clip son una toma partida: el mismo color en los dos, o el corte que no debe verse se ve.
+  const claves = (c) => JSON.stringify(Object.entries(c.color ?? {}).sort(([x], [y]) => x.localeCompare(y)));
+  for (let i = 1; i < videos.length; i++) {
+    const [a, b] = [videos[i - 1], videos[i]];
+    if (a.src === b.src && claves(a) !== claves(b)) mal(`${a.id} y ${b.id} son seguidos y del mismo clip (una toma partida) y llevan colores distintos: el empalme en f${b.en} dejaría de ser invisible`);
+  }
+  const piel = new Set(conVoz.map((c) => c.id));
+  for (const c of videos) {
+    const k = c.color ?? {};
+    const v = (clave, defecto) => k[clave] ?? defecto;
+    if (v("vibrance", 0) > TOPES_COLOR.vibrance) mal(`${c.id}: vibrance ${v("vibrance", 0)} > ${TOPES_COLOR.vibrance}: amplifica el ruido de croma del hormigón y vuelve rosadas las nubes; la viveza se pide con \`saturation\``);
+    if (Math.abs(v("exposure", 0)) > TOPES_COLOR.exposure) mal(`${c.id}: exposure ${v("exposure", 0)} fuera de ±${TOPES_COLOR.exposure}: es otro clip mal expuesto, no un ajuste; vuelve a medirlo`);
+    if (v("contrast", 1) > TOPES_COLOR.contrast) mal(`${c.id}: contrast ${v("contrast", 1)} > ${TOPES_COLOR.contrast}`);
+    if (v("highlights", 0) < TOPES_COLOR.highlightsMin) mal(`${c.id}: highlights ${v("highlights", 0)} < ${TOPES_COLOR.highlightsMin}: las luces se aplastan`);
+    const [sMin, sMax] = TOPES_COLOR.saturation;
+    if (v("saturation", 1) < sMin || v("saturation", 1) > sMax) mal(`${c.id}: saturation ${v("saturation", 1)} fuera de [${sMin}, ${sMax}]`);
+    if (piel.has(c.id)) {
+      if (v("saturation", 1) > TOPES_PIEL.saturationMax) mal(`${c.id}: Isabella con saturation ${v("saturation", 1)} > ${TOPES_PIEL.saturationMax}: la piel se pasa de viva`);
+      if (Math.abs(v("temperature", 0)) > TOPES_PIEL.temperature) mal(`${c.id}: Isabella con temperature ${v("temperature", 0)} fuera de ±${TOPES_PIEL.temperature}: la piel vira`);
+      if (Math.abs(v("tint", 0)) > TOPES_PIEL.tint) mal(`${c.id}: Isabella con tint ${v("tint", 0)}: la piel vira a verde o a magenta`);
+    }
+  }
+  if (fallos.length === n) {
+    ok(`${videos.length} planos de vídeo con color · vibrance ≤ ${TOPES_COLOR.vibrance} · |exposure| ≤ ${TOPES_COLOR.exposure} · las ${piel.size} tomas de Isabella con saturation ≤ ${TOPES_PIEL.saturationMax}`);
+  }
+}
+
+/* 3 · la voz de las tomas ───────────────────────────────────────────────── */
+seccion("3. la voz de las tomas a cámara");
+{
+  const n = fallos.length;
+  const ganancias = [];
+  cortes.forEach((c, i) => {
+    if (!c.audio || !c.voz) return;
+    if (!existsSync(join(PUBLICO, c.audio))) return mal(`${c.id}: no existe remotion/public/${c.audio} (node proyectos/038/normalizar.mjs)`);
+    const { ini, fin } = vozDe(c);
+    const disuelve = c.entra === "disolver";
+    const siguiente = cortes[i + 1];
+    const d0 = Math.round((c.desde ?? 0) * fps);
+    const antes = disuelve ? T.CRUCE_VOZ : 0;
+    if (d0 - antes < 0) mal(`${c.id}: el cruce de voz pide empezar ${antes - d0} f antes del principio de ${c.audio}`);
+    const dura = duracionDe(c.audio);
+    if ((d0 + c.dur) / fps > dura) mal(`${c.id}: la voz se lee hasta ${((d0 + c.dur) / fps).toFixed(2)} s y ${c.audio} dura ${dura.toFixed(2)} s`);
+    if (c.voz.s1 > dura) mal(`${c.id}: voz.s1 = ${c.voz.s1} s, fuera del WAV (${dura.toFixed(2)} s)`);
+    if (!(c.voz.s1 > c.voz.s0)) mal(`${c.id}: voz.s1 (${c.voz.s1}) no es posterior a voz.s0 (${c.voz.s0})`);
+    // Al entrar: con disolvencia, la primera palabra suena cuando su imagen ya es
+    // opaca; a corte, después del desclic (la voz sube en esos frames).
+    if (disuelve && ini < c.en + 1) mal(`${c.id}: empieza a hablar en f${ini} y su imagen no es opaca hasta f${c.en}: la primera palabra suena a medio fundir`);
+    if (!disuelve && ini < c.en + T.DESCLIC_VOZ) mal(`${c.id}: empieza a hablar en f${ini} y el desclic de entrada dura hasta f${c.en + T.DESCLIC_VOZ}: la primera palabra suena a medio subir`);
+    // Al salir: o cruza con el siguiente (y calla antes de que empiece su disolvencia) o baja en el desclic.
+    if (siguiente) {
+      const limite = siguiente.entra === "disolver" ? siguiente.en - F.DISOLVER - MARGEN_FUNDIDO : siguiente.en - T.DESCLIC_VOZ;
+      if (fin > limite) mal(`${c.id}: la última palabra acaba en f${fin} y tiene que callar en f${limite} (${siguiente.entra === "disolver" ? "empieza la disolvencia de" : "calla antes del corte a"} ${siguiente.id})`);
+    }
+    const g = 20 * Math.log10(T.gananciaHasta(c.voz.lufs, M.OBJETIVO_LUFS));
+    if (Math.abs(g) > 6) mal(`${c.id}: ganancia de voz ${g.toFixed(1)} dB (|g| > 6: ¿es la misma voz, el mismo micro?)`);
+    ganancias.push(`${c.id} ${g >= 0 ? "+" : ""}${g.toFixed(1)}`);
+  });
+  // «SUBE LA VOZ SIN SATURAR»: la voz a −15 LUFS (el nivel de la música sola) y, en lo que SUENA —el WAV tratado, en la ventana de su frase—, el pico
+  // real por debajo de −1 dBTP. Medido con ebur128, no supuesto. Y FUERA de su frase el WAV tratado es silencio: en `5 Cta` Isabella sigue, casi sin
+  // pausa, con otra frase («y se acabará…», «haz clic en el enlace…») y esa no puede sonar en el hueco entre dos tomas.
+  if (M.OBJETIVO_LUFS !== VOZ_OBJETIVO) mal(`OBJETIVO_LUFS = ${M.OBJETIVO_LUFS}; el usuario pidió la voz más fuerte: ${VOZ_OBJETIVO} LUFS`);
+  const medidas = [];
+  for (const c of conVoz) {
+    if (!/-voz\.wav$/.test(c.audio)) mal(`${c.id}: suena ${c.audio}; la voz que suena es la tratada (<toma>-voz.wav), la cruda a −15 LUFS satura`);
+    const ruta = join(PUBLICO, c.audio);
+    const ebur = (ss, t) => {
+      const r = ejecutar("ffmpeg", ["-nostdin", "-hide_banner", "-ss", String(ss), "-t", String(t), "-i", ruta, "-af", "ebur128=peak=true:framelog=quiet", "-f", "null", "-"]);
+      const txt = r.stderr ?? r.stdout ?? "";
+      return { lufs: Number((/\n\s+I:\s+(-?[\d.]+) LUFS/.exec(txt) ?? [])[1]), pico: Number((/Peak:\s+(-?[\d.]+) dBFS/.exec(txt) ?? [])[1]) };
+    };
+    const { lufs, pico } = ebur(c.voz.s0, c.voz.s1 - c.voz.s0);
+    if (!Number.isFinite(lufs) || Math.abs(lufs - VOZ_OBJETIVO) > TOLERANCIA_LUFS) mal(`${c.id}: la voz que suena mide ${Number.isFinite(lufs) ? lufs.toFixed(1) : "?"} LUFS en su frase; el objetivo es ${VOZ_OBJETIVO} ± ${TOLERANCIA_LUFS}`);
+    if (Math.abs(c.voz.lufs - lufs) > 0.6) mal(`${c.id}: \`voz.lufs\` dice ${c.voz.lufs} y el WAV tratado mide ${lufs.toFixed(1)} en su ventana`);
+    if (!Number.isFinite(pico) || pico > TECHO_VOZ_DBTP) mal(`${c.id}: pico real ${Number.isFinite(pico) ? pico.toFixed(1) : "no medible"} dBTP; el techo es ${TECHO_VOZ_DBTP} (más, y satura)`);
+    // Fuera de su frase, nada: ni 0,1 s antes de la primera sílaba ni 0,1 s después de la última (la compuerta deja 0,07 y 0,05).
+    const pico_de = (ss, t) => {
+      const r = ejecutar("ffmpeg", ["-nostdin", "-hide_banner", "-ss", String(ss), "-t", String(t), "-i", ruta, "-af", "astats=metadata=0", "-f", "null", "-"]);
+      const m = [...(r.stderr ?? r.stdout ?? "").matchAll(/Peak level dB:\s+(\S+)/g)].at(-1);
+      return m ? (m[1] === "-inf" ? -Infinity : Number(m[1])) : NaN;
+    };
+    const antes = c.voz.s0 - 0.1 > 0.05 ? pico_de(0, c.voz.s0 - 0.1) : -Infinity;
+    const despues = pico_de(c.voz.s1 + 0.1, Math.max(0.1, duracionDe(c.audio) - c.voz.s1 - 0.1));
+    if (!(antes <= SILENCIO_FUERA_DB)) mal(`${c.id}: suena algo ANTES de su primera sílaba (pico ${antes.toFixed(1)} dBFS a 0,1 s de ella): la compuerta de \`normalizar.mjs\` no está aplicada`);
+    if (!(despues <= SILENCIO_FUERA_DB)) mal(`${c.id}: suena algo DESPUÉS de su frase (pico ${despues.toFixed(1)} dBFS a 0,1 s de ella): la frase siguiente de la toma se colaría en el hueco`);
+    medidas.push(`${c.id} ${lufs.toFixed(1)} LUFS / ${pico.toFixed(1)} dBTP`);
+  }
+  if (fallos.length === n) console.log(`  ·  nivel de la voz tratada (ventana de su frase): ${medidas.join(" · ")} · silencio fuera de ella`);
+  // La cola de la PIEZA: desde la última palabra de la última toma (el CTA) hasta el final quedan 45-120 f: lo que la tarjeta del
+  // cierre (el logo y la web, sección 2c) necesita para leerse, sin quedarse muerto. Nada se congela.
+  const ultima = conVoz.at(-1);
+  const cola = DURACION - vozDe(ultima).fin;
+  if (cola < COLA_FINAL[0] || cola > COLA_FINAL[1]) mal(`${ultima.id}: ${cola} f entre su última palabra y el final de la pieza (entre ${COLA_FINAL[0]} y ${COLA_FINAL[1]})`);
+  if (fallos.length === n) ok(`${conVoz.length} tomas con su WAV y su tramo, ninguna palabra en un fundido · a ${M.OBJETIVO_LUFS} LUFS: ${ganancias.join(" · ")} dB · ${cola} f desde la última palabra hasta el final (la tarjeta del cierre)`);
+}
+
+/* 4 · el audio entero ───────────────────────────────────────────────────── */
+seccion("4. voz en off y música");
+const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...vozDe(c) }));
+{
+  const n = fallos.length;
+  for (const a of T.revisaAudio(A.audio038, { fps, duracion: DURACION })) mal(`revisaAudio: ${a}`);
+  for (const t of A.audio038) {
+    if (!existsSync(join(PUBLICO, t.src))) {
+      mal(`${t.id}: no existe remotion/public/${t.src}`);
+      continue;
+    }
+    if (t.bucle) continue;
+    const hasta = (Math.round((t.desde ?? 0) * fps) + t.dur) / fps;
+    const dura = duracionDe(t.src);
+    if (hasta > dura + 1 / fps) mal(`${t.id}: se lee hasta ${hasta.toFixed(2)} s y ${t.src} dura ${dura.toFixed(2)} s`);
+  }
+  for (const o of A.off038) {
+    const g = typeof o.ganancia === "number" ? 20 * Math.log10(o.ganancia) : 0;
+    if (Math.abs(g) > 6) mal(`${o.id}: ganancia ${g.toFixed(1)} dB (|g| > 6)`);
+    if (!o.voz || !(o.voz.s1 > o.voz.s0)) {
+      mal(`${o.id}: sin \`voz\` medida (s0, s1 de limites-voz.py): sin ella no se sabe dónde habla dentro del tramo`);
+      continue;
+    }
+    // El off se mide como una toma: por su ventana de voz, no por el tramo entero.
+    const ini = T.frameDeFuente(o.en, o.desde, o.voz.s0, fps);
+    const fin = T.frameDeFuente(o.en, o.desde, o.voz.s1, fps);
+    if (ini < o.en + (o.entra ?? 0)) mal(`${o.id}: empieza a hablar en f${ini}, dentro de su fundido de entrada (acaba en f${o.en + (o.entra ?? 0)})`);
+    if (fin > o.en + o.dur - (o.sale ?? 0)) mal(`${o.id}: la última palabra acaba en f${fin}, dentro de su fundido de salida (empieza en f${o.en + o.dur - (o.sale ?? 0)})`);
+    for (const v of ventanasDeVoz) {
+      if (ini < v.fin && fin > v.ini) mal(`${o.id}: el off habla (f${ini}-${fin}) mientras Isabella habla en ${v.id} (f${v.ini}-${v.fin})`);
+    }
+    // Y calla antes de que empiece a verse la toma siguiente en la que habla ella.
+    const despues = conVoz.find((c) => c.en > ini);
+    if (despues && fin > visibleDesde(despues) - MARGEN_FUNDIDO) {
+      mal(`${o.id}: la última palabra del off acaba en f${fin} y ${despues.id} empieza a verse en f${visibleDesde(despues)}: tiene que callar ${MARGEN_FUNDIDO} f antes`);
+    }
+    ventanasDeVoz.push({ id: o.id, ini, fin });
+  }
+  // La música (HAY_MUSICA): entra en su golpe, BAJA con curva y acaba de bajar ANTES de la primera sílaba, resuelve bajo el CTA, se apaga antes del
+  // siguiente golpe de la canción y la tarjeta del cierre queda en silencio. Los golpes salen de `medir-pista.py --json` (segundos de la CANCIÓN).
+  if (A.HAY_MUSICA) {
+    const musica = A.musica038[0];
+    const vol = (f) => T.volumenDe(musica, f - musica.en);
+    const alto = vol(8);
+    const primera = A.PRIMERA_PALABRA;
+    const ultima = A.ULTIMA_PALABRA;
+    if (!(alto > 0)) mal("la música no suena en el frame 8");
+    if (vol(primera - 11) < alto * 0.97) mal(`la música ya ha bajado en f${primera - 11}: la apertura (f0-${primera}) suena a su nivel y la bajada ACABA en la primera palabra`);
+    const razon = vol(primera) / alto;
+    if (razon > 0.4 || razon < 0.15) mal(`la cama queda a ${(20 * Math.log10(razon)).toFixed(1)} dB bajo la música sola en la primera palabra; entre −16 y −8 dB (≈ 10 LU bajo la voz)`);
+    // La bajada es un coseno de 10 f que ACABA en la primera palabra: 2 f antes ya está a ≤ 1,4 veces la cama, y en la palabra, en ella.
+    if (vol(primera - 2) > alto * razon * 1.4) mal(`en f${primera - 2} la música aún está a ${(vol(primera - 2) / alto).toFixed(2)} (la cama es ${razon.toFixed(2)}): la bajada acaba en la primera palabra, no después`);
+    if (!(musica.entra >= 1)) mal("la música entra sin ni un frame de desclic");
+    const tarjeta = cortes.at(-1);
+    // Se apaga con la última palabra (APAGADO f) y la tarjeta del cierre queda en silencio: sin música desde 0,5 s tras entrar.
+    const fin = ultima + 22;
+    if (vol(fin) > alto * 0.01) mal(`la música aún suena en f${fin}, 22 f tras la última palabra del CTA: se apaga ANTES del siguiente golpe de la canción`);
+    if (vol(tarjeta.en + 15) > 0) mal(`la tarjeta del cierre (f${tarjeta.en}) no queda en silencio: a f${tarjeta.en + 15} la música suena a ${vol(tarjeta.en + 15).toFixed(3)}`);
+    const golpes = JSON.parse(readFileSync(join(RAIZ, "proyectos", "038", "musica", "golpes-038.json"), "utf8"));
+    const f0 = Math.round(musica.desde * fps);
+    const fuertes = golpes.golpes.filter((g) => g.db >= 8 && Math.round(g.t * fps) - f0 > ultima);
+    const suena = fuertes.filter((g) => vol(Math.round(g.t * fps) - f0) > alto * 0.02);
+    if (suena.length) mal(`${suena.length} golpe(s) de la canción suenan tras la última palabra (f${suena.map((g) => Math.round(g.t * fps) - f0).join(", f")}): la música tiene que haberse apagado antes`);
+    // R33: cada corte SECO cae sobre un golpe FUERTE (≥ 9 dB) de la canción, a ≤ 1 f. La canción no tiene pulso fijo: se corta a los golpes medidos.
+    const fuertesTodos = golpes.golpes.filter((g) => g.db >= 9).map((g) => ({ f: (g.t - musica.desde) * fps, db: g.db }));
+    const secos = cortes.filter((c, i) => i > 0 && c.tipo !== "foto" && (c.entra ?? "corte") === "corte");
+    const medios = golpes.golpes.filter((g) => g.db >= 8).map((g) => ({ f: (g.t - musica.desde) * fps, db: g.db }));
+    const lejos = [];
+    for (const c of secos) {
+      const cerca = fuertesTodos.reduce((mejor, g) => (Math.abs(g.f - c.en) < Math.abs(mejor.f - c.en) ? g : mejor), fuertesTodos[0]);
+      if (Math.abs(cerca.f - c.en) <= 1.0) {
+        if (GOLPE_MEDIO[c.id]) mal(`sobra la excepción «${c.id}» de GOLPE_MEDIO: ya cae en un golpe fuerte (f${cerca.f.toFixed(1)})`);
+        continue;
+      }
+      const medio = medios.reduce((mejor, g) => (Math.abs(g.f - c.en) < Math.abs(mejor.f - c.en) ? g : mejor), medios[0]);
+      if (GOLPE_MEDIO[c.id] && Math.abs(medio.f - c.en) <= 1.0) {
+        console.log(`  ·  ${c.id} corta en un golpe MEDIO (${medio.db} dB en f${medio.f.toFixed(1)}), declarado: ${GOLPE_MEDIO[c.id]}`);
+        continue;
+      }
+      lejos.push(`${c.id} (f${c.en}, el golpe fuerte más cercano está en f${cerca.f.toFixed(1)})`);
+    }
+    for (const id of Object.keys(GOLPE_MEDIO)) if (!secos.some((c) => c.id === id)) mal(`sobra la excepción «${id}» de GOLPE_MEDIO: ese corte ya no es seco o no existe`);
+    if (lejos.length) mal(`corte seco fuera de un golpe fuerte de la canción: ${lejos.join(" · ")}`);
+    console.log(`  ·  ${secos.length} cortes secos (${secos.map((c) => c.id.split("-")[0]).join(", ")}) sobre golpes fuertes de la canción a ≤ 1 f`);
+    for (const [id, nota] of Object.entries(DECLARADOS_DE_CORTE)) {
+      if (!cortes.some((c) => c.id === id)) mal(`sobra la nota declarada de «${id}»: ese plano ya no existe`);
+      else console.log(`  ℹ️  ${id}: ${nota}`);
+    }
+    const apertura = golpes.golpes.find((g) => Math.round((g.t - musica.desde) * fps) <= 2);
+    if (!apertura || apertura.db < 9) mal("el golpe de entrada de la canción no cae en el frame 0-2 o mide menos de 9 dB: el reel tiene que impactar desde el primer segundo");
+    console.log(`  ·  música: golpe de entrada de ${apertura ? apertura.db.toFixed(1) : "?"} dB en f${apertura ? Math.round((apertura.t - musica.desde) * fps) : "?"} · cama a ${(20 * Math.log10(razon)).toFixed(1)} dB bajo la música sola · apagada en f${fin} (${fuertes.length} golpes fuertes tras la última palabra, ninguno suena)`);
+  }
+  if (fallos.length === n) {
+    ok(`${A.audio038.length} tramos (${A.voces038.length} de toma, ${A.off038.length} en off, ${A.musica038.length} de música) · ${A.HAY_MUSICA ? "con música en el render" : "SIN música en el render: se publica con audio en tendencia"}`);
+  }
+}
+
+/* 5 · subtítulos ────────────────────────────────────────────────────────── */
+seccion("5. subtítulos editoriales");
+{
+  const n = fallos.length;
+  if (E.modoTextoDe(CANAL) !== "editorial") mal(`el canal está en modo «${E.modoTextoDe(CANAL)}»: esta pieza monta subtítulos editoriales`);
+  const letra = E.letraSubtitulosDe(CANAL);
+  for (const a of E.revisaSubtitulosEditoriales(bloques, { fps, ancho: 1080, alto: 1920, duracion: DURACION, letra })) mal(`revisaSubtitulosEditoriales: ${a}`);
+  // La miniatura (frame 0) es la casa LIMPIA y nada va arriba: se comprueba en la sección 2b.
+  const enVoz = (t) => ventanasDeVoz.some((v) => t.desde >= v.ini - HOLGURA_TROZO && t.desde <= v.fin);
+  const usadas = new Set();
+  for (const b of bloques) {
+    const ini = b.trozos[0].desde;
+    // Nada encima de Isabella: arriba o al centro le tapa la cara. Una toma que
+    // disuelve ya se ve antes de su `en`: el texto sale, como tarde, a mitad de
+    // esa disolvencia, cuando ella aún es una sombra.
+    if ((b.posicion ?? "abajo") !== "abajo") {
+      for (const c of conVoz) {
+        const seVe = c.en - F.solapeDe(c) / 2;
+        if (ini < c.en + c.dur && b.hasta > seVe) mal(`[${b.id}] va ${b.posicion} y sale en f${b.hasta}; Isabella (${c.id}) ya se ve desde f${seVe}`);
+      }
+    }
+    if (SIN_VOZ[b.id]) {
+      usadas.add(b.id);
+      if (b.trozos.every(enVoz)) mal(`sobra la excepción «${b.id}» de SIN_VOZ: todos sus trozos caen sobre voz, quítala`);
+      continue;
+    }
+    for (const t of b.trozos) if (!enVoz(t)) mal(`[${b.id}] «${t.texto}» entra en f${t.desde}, donde nadie habla`);
+  }
+  for (const id of Object.keys(SIN_VOZ)) if (!usadas.has(id)) mal(`sobra la excepción «${id}» de SIN_VOZ: ese bloque ya no existe, quítala`);
+  // Los datos no interrumpen el clímax: una cifra grande solo en el recorrido
+  // inmersivo (bloque 3); en los bloques 5 y 6 la recompensa se mira.
+  const b3 = cortes.filter((c) => c.bloque === 3);
+  const ini3 = b3.length ? b3[0].en : 0;
+  const fin3 = b3.length ? b3.at(-1).en + b3.at(-1).dur : 0;
+  for (const b of bloques) {
+    if (!b.trozos.some((t) => t.estilo === "dato")) continue;
+    const ini = b.trozos[0].desde;
+    if (ini < ini3 || b.hasta > fin3) mal(`[${b.id}] lleva un dato y va de f${ini} a f${b.hasta}; el bloque 3 va de f${ini3} a f${fin3} y el dato solo va ahí (viaje-emocional.md §9)`);
+  }
+  const acentos = bloques.reduce((s, b) => s + b.trozos.filter((t) => t.estilo === "acento").length, 0);
+  if (fallos.length === n) ok(`${bloques.length} bloques, ${acentos} acentos · validador sin avisos con las letras del canal · nada encima de Isabella · el dato solo en el bloque 3 · ${usadas.size} sin voz, declarados`);
+}
+
+/* 6-8 · formato ─────────────────────────────────────────────────────────── */
+seccion("6. metraje disponible");
+puerta.metrajeDisponible();
+seccion("7. tramos disjuntos");
+puerta.tramosDisjuntos();
+
+/* 7b · ningún plano de las otras versiones ─────────────────────────────────── */
+{
+  // `tramosDisjuntos` solo mira DENTRO del proyecto. Aquí se comprueba contra las otras cinco versiones de la casa (V13, V16, V17, V19, V20). El encargo dice «ningún plano
+  // repetido» y la puerta FALLA, con una precisión que decidió el usuario (2026-10-09): de los 28 recorridos solo quedaba libre uno (V13/V16/V17/V19/V20 se llevaron el resto),
+  // así que el CLIP de un dron, un hook, una mitad o un CTA no puede salir en ninguna otra versión ni siquiera en otro tramo, y el de un RECORRIDO puede repetirse si su
+  // TRAMO (el opaco, en segundos de la fuente) no comparte ni un fotograma con el de otra versión. Los clips compartidos se listan: es una decisión declarada.
+  seccion("7b. ningún plano de las versiones anteriores (V13, V16, V17, V19, V20): ni el mismo clip (dron, hook, mitad, CTA) ni un fotograma del mismo tramo (recorridos)");
+  const n = fallos.length;
+  const tramosOpacos = (lista) => {
+    const porClip = new Map();
+    for (const c of lista) {
+      if (c.tipo === "foto") continue;
+      const velocidad = c.velocidad ?? 1;
+      const solape = F.solapeDe(c);
+      const inicio = Math.max(0, F.arranqueEnFuente(c, solape, fps)) + solape * velocidad;
+      const clip = c.src.split("/").pop();
+      if (!porClip.has(clip)) porClip.set(clip, []);
+      porClip.get(clip).push({ id: c.id, a: inicio / fps, b: (inicio + c.dur * velocidad) / fps });
+    }
+    return porClip;
+  };
+  const mios = tramosOpacos(cortes);
+  const segs = (x) => `${x.a.toFixed(2)}-${x.b.toFixed(2)} s`;
+  const compartidos = [];
+  for (const v of VERSIONES_ANTERIORES) {
+    let suyos;
+    let origen;
+    if (existsSync(resolve(RAIZ, v.plan))) {
+      const otra = await cargaTs({ v: resolve(RAIZ, v.plan) });
+      suyos = tramosOpacos(otra.v[v.cortes]);
+      origen = "su plan";
+    } else if (v.reservas) {
+      suyos = new Map(Object.entries(v.reservas).map(([clip, tramos]) => [`${clip}.mp4`, tramos.map(([a, b], i) => ({ id: `${clip}#${i + 1}`, a, b }))]));
+      origen = "sus reservas del registro (aún sin plan)";
+    } else if (SIN_REPETIR) {
+      mal(`no encuentro el plan de ${v.nombre} (${v.plan}) ni sus reservas: sin ellos no se puede comprobar que no se repite ningún plano`);
+      continue;
+    } else continue;
+    let malos = 0;
+    for (const [clip, lista] of mios) {
+      const otros = suyos.get(clip);
+      if (!otros) continue;
+      const clase = CLASES[clip.slice(0, 2)];
+      if (clase !== "recorrido") {
+        mal(`${clip} (${clase ?? "?"}) ya sale en ${v.nombre} (${otros.map((y) => y.id).join(", ")}): un ${clase ?? "clip"} no se repite, ni siquiera en otro tramo`);
+        malos++;
+        continue;
+      }
+      for (const x of lista) {
+        for (const y of otros) {
+          const seg = Math.min(x.b, y.b) - Math.max(x.a, y.a);
+          if (seg > 0.001) {
+            mal(`${clip}: ${x.id} (${segs(x)}) comparte ${seg.toFixed(2)} s con el ${y.id} de ${v.nombre} (${segs(y)}): el tramo de un recorrido no puede solaparse ni un fotograma`);
+            malos++;
+          }
+        }
+        compartidos.push(`${clip.replace(".mp4", "").toUpperCase()}: ${segs(x)} (el de ${v.nombre}: ${otros.map(segs).join(" · ")})`);
+      }
+    }
+    if (!malos) {
+      const clipsComunes = [...mios.keys()].filter((c) => suyos.has(c));
+      ok(`${v.nombre} (${origen}, ${suyos.size} clips): ningún fotograma ni clip en común${clipsComunes.length ? `; clips de recorrido compartidos en OTRO tramo: ${clipsComunes.map((c) => c.replace(".mp4", "").toUpperCase()).join(", ")}` : ""}`);
+    }
+  }
+  if (fallos.length === n && compartidos.length) {
+    console.log("  ℹ️  recorridos que repiten CLIP en otro tramo (decisión del usuario, 2026-10-09; declarado en `combinaciones.md`):");
+    for (const c of [...new Set(compartidos)]) console.log(`      · ${c}`);
+  }
+}
+seccion("8. encuadre");
+puerta.encuadre({ techoZoom: TECHO_ZOOM });
+for (const c of cortes) {
+  // Los clips que salen de un 1080p (el hook hk03 y el CTA ct06) suben ×2,13 al cuadro: un acercamiento de más los ablanda.
+  if (/\/(hk03|ct06)\.mp4$/.test(c.src) && Math.max(...c.zoom) > TECHO_ZOOM_1080) mal(`${c.id}: zoom ${c.zoom.join("→")} sobre un clip de 1080p (techo ${TECHO_ZOOM_1080}): sube ×2,13 al cuadro y más zoom lo ablanda`);
+}
+
+/* 11 · nada «por confirmar» en los planos (solo con --final) ───────────────── */
+{
+  // Una palabra, una cifra o un nombre que el plan lleva marcado «POR CONFIRMAR AL OÍDO» es un pendiente con el
+  // usuario, no un detalle: en el 017 «esta línea en específico» (whisper, confianza 0,06) estuvo marcada así desde
+  // la rev. 1 y llegó a la final exportada con la palabra equivocada («unidad»). Durante el montaje avisa; con
+  // `--final` es un fallo: antes de exportar se cierra cada uno con el usuario.
+  const final = process.argv.includes("--final");
+  const carpetas = [join(RAIZ, "remotion", "src", "proyectos", "038"), join(RAIZ, "proyectos", "038", "voz")];
+  const marcador = /por confirmar|confirmar al o[ií]do/i;
+  const pendientes = [];
+  for (const carpeta of carpetas) {
+    if (!existsSync(carpeta)) continue;
+    for (const nombre of readdirSync(carpeta)) {
+      if (!/\.(ts|tsx|txt)$/.test(nombre)) continue;
+      readFileSync(join(carpeta, nombre), "utf8")
+        .split("\n")
+        .forEach((linea, i) => {
+          if (marcador.test(linea)) pendientes.push(`${nombre}:${i + 1}: ${linea.trim().slice(0, 140)}`);
+        });
+    }
+  }
+  seccion(`11. nada por confirmar en los planos${final ? " (--final)" : " (avisa; con --final falla)"}`);
+  if (!pendientes.length) ok("ni un «por confirmar» en los planos ni en los guiones de voz");
+  else if (final) for (const p of pendientes) mal(`pendiente con el usuario: ${p}`);
+  else for (const p of pendientes) console.log(`  ⚠️  por confirmar: ${p}`);
+}
+
+puerta.cierra(`el 038 pasa la puerta: ${cortes.length} planos, ${bloques.length} bloques de texto, ${A.audio038.length} tramos de audio`);

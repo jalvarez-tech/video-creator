@@ -1,0 +1,5 @@
+# CT4 (CTA, la voz de RC14 44,8-49,84 s): «Si te gustó este apartamento y deseas tener más información, contáctame.»
+# Por oír: «gustó» (vocal /o/ medida) y la última sílaba de «contáctame» (una [e] a -55 dB; whisper oye «contactame»).
+Si te gustó / este apartamento
+y deseas tener / más información,
+**contáctame.**{contactame}

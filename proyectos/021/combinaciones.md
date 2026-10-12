@@ -77,11 +77,11 @@ Hashes (sha256, 8 primeros) de los originales, en `proyectos/021/normalizar.mjs`
 
 | Qué | Nivel |
 |---|---|
-| Voz de Isabella (hook · mitad · CTA) | −20,7 · −19,9 · −20,3 LUFS con la música debajo (objetivo −21; una ganancia por toma: +1,3 · +3,9 · +1,0 dB) |
+| Voz de Isabella (hook · mitad · CTA) | **−14,8 · −14,9 · −14,9 LUFS** con la música debajo (objetivo −15; la voz TRATADA: ver §2.7; hasta la rev. 3 de la final iba a −20,7 · −19,9 · −20,3, con ganancia sola de +1,3 · +3,9 · +1,0 dB) |
 | Música sola | −15,3 (bloque 3) · −14,8 (bloque 5) LUFS (plana, como la canción) |
-| Música bajo la voz | −16 dB (≈ −30,9 LUFS: 9,9 LU bajo ella) |
+| Música bajo la voz | −16 dB (≈ −30,9 LUFS: **15,9 LU bajo ella**; no se tocó al subir la voz) |
 | Música bajo la tarjeta | la cola del piano, −30,8 LUFS en los 1,9 s de tarjeta (el decaimiento y la envolvente a cero en f1287) |
-| Pieza entera | **−16,2 LUFS** integrados · pico real −1,8 dBFS · LRA 7,0 LU |
+| Pieza entera | **−15,2 LUFS** integrados (antes −16,2) · pico real −1,8 dBFS (el de la música sola del bloque 3: la voz no lo sube) · LRA 2,4 LU (antes 7,0: voz y música al mismo nivel) |
 
 ### 2.5 El texto
 
@@ -137,3 +137,14 @@ Receta completa y orden de pasos: `proyectos/017/combinaciones.md` §4 (las ruta
 - **El canal del CTA** (DM o WhatsApp).
 - **El color de la piel en la mitad:** Isabella está a contraluz (el cielo detrás): la caja de piel de la medida sólo recoge 20 píxeles, así que no hay medida fiable del tono; los otros dos planos con ella quedan a ≤ 0,6° de lo que eran.
 - **Un solo atajo de la puerta:** no cruza `lineas-vs-onsets.py` ni `medir-color.py` con el plan (como las anteriores): si cambia una línea o un plano, se cambian allí también.
+
+### 2.8 Revisión 3 de la final: la voz, a −15 LUFS sin saturar (2026-10-08)
+
+El usuario pidió «necesito que la voz cuando habla Isabella tenga más decibeles sin saturar» (lo mismo que ya pidió en la V9, la V11 y la V12). Hasta entonces la voz iba a −21 LUFS, 6 dB por debajo de la música sola (−15), y la ganancia sola no podía subirla: las tres tomas crudas miden −22,3 · −24,9 · −22,0 LUFS con picos de −3,5 · −4,0 · −5,9 dBFS.
+
+- **Cadena** (`proyectos/021/normalizar.mjs`, `vozTratada` y `GANANCIA_VOZ_DB`; la de la V12 y la V9): highpass 100 Hz → puerta suave (−12 dB como mucho) → compresor 3:1 desde −26 dBFS → ganancia POR TOMA (+15,6 · +16,2 · +14,8 dB; se busca DESPUÉS del limitador) → limitador a −2,5 dBFS. Genera `<toma>-voz.wav` junto al WAV crudo.
+- **Medido en lo que suena** (ebur128, su ventana de voz): −15,0 · −15,1 · −14,7 LUFS, pico real −2,5 · −2,5 · −2,9 dBFS; en la pieza, con la música debajo, **−14,8 · −14,9 · −14,9 LUFS** (+5,9 · +5,0 · +5,4 dB respecto de antes) y picos de −4,5 · −4,5 · −3,4 dBFS.
+- **Nada más cambió:** la imagen de las dos finales es la misma (PSNR medio 72 dB contra la anterior, mínimo 52 dB: las diferencias son del codificador), el color medido da lo mismo y la música no se tocó. El WAV tratado no se desfasa del crudo (2-3 muestras, < 0,1 ms), así que `s0`, `s1` y los subtítulos siguen valiendo.
+- **Excepción a R29** («una ganancia por toma y nada más»), por encargo, declarada en `metraje-021.ts` y en la puerta (sección 3: voz a −15 LUFS y pico real ≤ −1 dBTP con su ganancia).
+- **Las finales anteriores** (voz a −21) quedan como `finales/021-recorrido-rev0.mp4` y `021-recorrido-crf16-rev0.mp4`; la prueba anterior, como `pruebas-720p/021-recorrido-720p-rev2.mp4`. La nueva, `pruebas-720p/021-recorrido-720p.mp4` (540×960, del master).
+- **Por oír:** que la compresión no endurezca la voz y que los ruidos del micro tras la última palabra (la compresión los sube) no se oigan. Lo medido no es lo oído.

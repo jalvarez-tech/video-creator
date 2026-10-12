@@ -1,0 +1,11 @@
+/Users/nicecode/Work/Propiedades Luxur/Music/La Isla Bonita (Saxophone 80 Mix).mp3
+ventana 179.834-232.000 s · 87 golpes ≥ 6 dB (61 fuertes)
+
+  periodo (s) · BPM · puntos · fase (s) · golpes ≥ 9 dB a ≤ 15 ms de la recta · desvío medio de los fuertes
+     0.3904  · 153.67 ·  273.3 · 0.3151 ·  24/ 61 (  39 %) ·  38.7 ms
+     0.4681  · 128.16 ·  197.1 · 0.2790 ·  14/ 61 (  23 %) ·  96.8 ms
+     0.4387  · 136.75 ·  179.7 · 0.1187 ·  17/ 61 (  28 %) · 100.7 ms
+     0.2595  · 231.17 ·  177.0 · 0.0446 ·  13/ 61 (  21 %) ·  54.1 ms
+     0.2639  · 227.36 ·  164.1 · 0.0568 ·  11/ 61 (  18 %) ·  59.2 ms
+
+  intervalos entre golpes fuertes: mediana 0.729 s · p25 0.442 · p75 0.749

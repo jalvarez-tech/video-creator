@@ -154,9 +154,58 @@ function voz(archivo, salidaNombre) {
   log.ok(`${path.basename(salida)} (la voz tal cual, mono 48 kHz)`);
 }
 
+/**
+ * LA VOZ TRATADA (revisión 1 del final, pedido del usuario: «necesito que la voz cuando habla Isabella tenga más decibeles sin saturar»).
+ *
+ * La voz de las tres tomas va a −15 LUFS, el nivel de la música sola (antes −21, sin tratar: la regla R29 de «una ganancia por toma y nada más» la
+ * dejaba ≈ 6 dB por debajo de los recorridos). Una ganancia sola no llega: el micro de solapa tiene ≈ 18 dB entre su pico y su nivel medio, y subir
+ * a −15 con una ganancia sola obliga al limitador a bajar 6,3 · 3,4 · 5,5 dB (HK03 · MD14 · CT06: +9,4 · +4,1 · +2,7 dB). Así que la cadena reparte el trabajo y toda ella es suave (medido sobre cada toma, no puesto a ojo):
+ *
+ *   1. paso alto a 100 Hz        quita los golpes graves del micro y del cuerpo que la ganancia subiría;
+ *   2. compresor 2,5:1           con el UMBRAL a 6 dB por encima del nivel de ESA toma (una toma ya fuerte como CT06 no se comprime más que una baja como HK03):
+ *                                ataque 10 ms, relajación 150 ms, rodilla 4 dB; reduce los picos, no la voz: p95 de 2,6-3,7 dB;
+ *   3. ganancia                  la que lleva la toma a −15 LUFS (buscada por bisección sobre la cadena entera, con el limitador puesto);
+ *   4. limitador con lookahead   techo −2,5 dBFS, ataque 5 ms, relajación 50 ms, `latency=1` (desfase de 1-3 muestras, 0,02-0,06 ms): 3,6 · 1,6 · 2,8 dB como mucho.
+ *
+ * Sale en `<toma>-alta.wav` (el WAV de la toma, mono 48 kHz, intacto, sigue siendo el que mide `limites-voz.py`: R29 y R31 miden sobre la voz sin tratar). La música
+ * no se toca. El nivel de cada toma (`nivel`, LUFS integrados de su ventana de voz con ebur128) y la ganancia salen de `proyectos/020/herramientas/voz-tratada.py`.
+ */
+const VOZ_TRATADA = {
+  objetivo: -15,
+  techo: -2.5,
+  razon: 2.5,
+  umbralSobreElNivel: 6,
+  tomas: {
+    hk03: { nivel: -23.5, ganancia: 10.6 },
+    md14: { nivel: -18.7, ganancia: 5.3 },
+    ct06: { nivel: -15.7, ganancia: 3.8 },
+  },
+};
+
+function vozTratada(salidaNombre) {
+  const t = VOZ_TRATADA.tomas[salidaNombre];
+  if (!t) return;
+  const origen = path.join(DESTINO, `${salidaNombre}.wav`);
+  const salida = path.join(DESTINO, `${salidaNombre}-alta.wav`);
+  if (fs.existsSync(salida) && !f.forzar) return;
+  const umbral = 10 ** ((t.nivel + VOZ_TRATADA.umbralSobreElNivel) / 20);
+  const limite = 10 ** (VOZ_TRATADA.techo / 20);
+  const cadena = [
+    "highpass=f=100",
+    `acompressor=threshold=${umbral.toFixed(4)}:ratio=${VOZ_TRATADA.razon}:attack=10:release=150:knee=4:makeup=1`,
+    `volume=${t.ganancia}dB`,
+    `alimiter=limit=${limite.toFixed(4)}:attack=5:release=50:level=0:latency=1`,
+  ].join(",");
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", origen, "-af", cadena, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
+  log.ok(`${path.basename(salida)} (la voz tratada a ${VOZ_TRATADA.objetivo} LUFS: paso alto · compresor ${VOZ_TRATADA.razon}:1 · +${t.ganancia} dB · limitador ${VOZ_TRATADA.techo} dBFS)`);
+}
+
 for (const [clase, archivo, salida] of MATERIAL) {
   video(clase, archivo, salida);
-  if (clase === "toma") voz(archivo, salida);
+  if (clase === "toma") {
+    voz(archivo, salida);
+    vozTratada(salida);
+  }
 }
 
 // La TARJETA OSCURA del cierre (plano `c12-cierre`): un PNG liso del negro de la marca. Hasta la revisión 5 lo que

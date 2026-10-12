@@ -95,6 +95,19 @@ remotion/public/recorrido-022/
 remotion/public/recorrido-023/
 remotion/public/recorrido-024/
 remotion/public/recorrido-025/
+remotion/public/recorrido-026/
+remotion/public/recorrido-027/
+remotion/public/recorrido-028/
+remotion/public/recorrido-029/
+remotion/public/recorrido-030/
+remotion/public/recorrido-031/
+remotion/public/recorrido-032/
+remotion/public/recorrido-033/
+remotion/public/recorrido-034/
+remotion/public/recorrido-036/
+remotion/public/recorrido-037/
+remotion/public/recorrido-038/
+remotion/public/recorrido-039/
 # La skill de estudio de la portada de cada marca (`portada-<marca>`) SÍ se versiona
 # (las demás de .claude/skills/ son enlaces o copias que se reponen: sección 4), con su
 # letra y su enlace para Codex. La letra es comercial y entra por decisión del dueño,
@@ -117,6 +130,7 @@ proyectos/*/original/
 proyectos/*/avatar/
 proyectos/*/finales/
 proyectos/*/pruebas-720p/
+proyectos/*/publico/
 proyectos/*/vistas-previas/
 proyectos/*/vo/
 proyectos/*/musica/*.wav

@@ -48,9 +48,9 @@ Total: **976 f (32,5 s)**. La voz de cada toma, en frames de la comp (`en + roun
 
 | Qué | Nivel |
 |---|---|
-| Voz de Isabella (hook · mitad · CTA) | −21 LUFS (ganancias: −1,9 · −3,1 · −1,9 dB) |
+| Voz de Isabella (hook · mitad · CTA) | **−15 LUFS (rev. 1, pedido del usuario: «sube los decibeles sin saturar»; la rev. 0 iba a −21)**: la voz TRATADA (`<toma>-voz.wav`: graves, puerta suave, compresión 3:1, +14 dB, limitador a −2,5 dBFS) mide −14,9 · −15,3 · −14,6 LUFS con el pico real en −2,5 dBTP; ganancias −0,1 · +0,3 · −0,4 dB |
 | Música sola | −15 LUFS (meseta de la canción −13,7: ALTO −1,3 dB) |
-| Música bajo la voz | ALTO × 0,16 (−15,9 dB): ≈ −31 LUFS, ≥ 9 LU bajo ella (se mide con la sonoridad de la canción EN cada ventana de voz: hook −14,1, mitad −13,1, CTA −16,6) |
+| Música bajo la voz | ALTO × 0,16 (−15,9 dB): ≈ −30 LUFS, ≈ 15 LU bajo la voz de la rev. 1 (la música no se toca; se mide con la sonoridad de la canción EN cada ventana de voz: hook −14,1, mitad −13,1, CTA −16,6) |
 | Fundido de bajada | 10 f tras el golpe del hook (acaba en f115, 4,5 f antes de la primera palabra), 8 f tras el de la mitad (acaba en f503, 3 f antes) y 7 f tras el del CTA (acaba en f854, 0,8 f antes) |
 | Fundido de subida | 13 f tras el hook (lo que cabe hasta 2 f antes del golpe de f230); **en la mitad no cabe: el golpe de f634 suena con la música abajo y sube después (24 f)**; tras el CTA, 10 f |
 | Final | la canción cae sola dentro de la toma del CTA (f901) y se apaga en línea recta bajo la tarjeta hasta f974 |

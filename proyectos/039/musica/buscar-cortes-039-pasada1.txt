@@ -1,0 +1,121 @@
+Installed 2 packages in 40ms
+
+### Aleksey Chistilin - Deep Breath.mp3  (140 s)  caídas completas: 1
+  cae en   134.25 s  pre  -18.3 →  -27.4 →  -99.0 dB  ( 9.1/80.7)  golpes≥12 en 36 s:   5  soluciones: 0
+
+### Aleksey Chistilin - Flying Into the Sun.mp3  (253 s)  caídas completas: 1
+  cae en   246.75 s  pre  -22.4 →  -34.1 →  -99.0 dB  (11.7/76.6)  golpes≥12 en 36 s:  19  soluciones: 0
+
+### Aleksey Chistilin - Overcoming the Impossible.mp3  (220 s)  caídas completas: 1
+  cae en   212.00 s  pre  -20.6 →  -30.3 →  -99.0 dB  ( 9.6/78.4)  golpes≥12 en 36 s:   2  soluciones: 0
+
+### Aleksey Chistilin - Pictures from the Past.mp3  (201 s)  caídas completas: 1
+  cae en   184.25 s  pre  -21.7 →  -31.7 →  -42.1 dB  (10.0/20.5)  golpes≥12 en 36 s:   3  soluciones: 0
+
+### Aleksey Chistilin - Return to Oasis.mp3  (216 s)  caídas completas: 1
+  cae en   208.25 s  pre  -24.0 →  -33.4 →  -99.0 dB  ( 9.4/75.0)  golpes≥12 en 36 s:   3  soluciones: 0
+
+### Aleksey Chistilin - Utopia.mp3  (188 s)  caídas completas: 1
+  cae en   176.50 s  pre  -11.9 →  -27.8 →  -33.2 dB  (15.9/21.3)  golpes≥12 en 36 s:   4  soluciones: 0
+
+### Aleksey Chistilin - We Are.mp3  (282 s)  caídas completas: 1
+  cae en   268.75 s  pre  -35.7 →  -44.8 →  -57.9 dB  ( 9.2/22.2)  golpes≥12 en 36 s:   6  soluciones: 0
+
+### Andrea Vanzo - Amélie - Comptine d’un autre été, l’après-mid  (196 s)  caídas completas: 1
+  cae en   174.50 s  pre  -17.6 →  -27.7 →  -48.7 dB  (10.1/31.1)  golpes≥12 en 36 s:   3  soluciones: 0
+
+### Armin van Buuren - Children (from 'Piano' album).mp3  (315 s)  caídas completas: 0
+
+### Armin van Buuren - Here For You (from 'Piano' album).mp3  (235 s)  caídas completas: 1
+  cae en   221.50 s  pre  -21.7 →  -31.4 →  -62.6 dB  ( 9.7/40.9)  golpes≥12 en 36 s:   6  soluciones: 0
+
+### Becoming I Judah Earl.mp3  (184 s)  caídas completas: 1
+  cae en   164.00 s  pre  -18.8 →  -28.1 →  -40.4 dB  ( 9.3/21.7)  golpes≥12 en 36 s:  12  soluciones: 0
+
+### Begin Again.mp3  (204 s)  caídas completas: 1
+  cae en   196.75 s  pre  -20.6 →  -29.9 →  -99.0 dB  ( 9.3/78.4)  golpes≥12 en 36 s:   4  soluciones: 0
+
+### ByErik ヵ - desolate (Slowed).mp3  (126 s)  caídas completas: 1
+  cae en   117.75 s  pre  -12.8 →  -22.0 →  -99.0 dB  ( 9.2/86.2)  golpes≥12 en 36 s:  23  soluciones: 0
+
+### Chill Music - F.G.G. - Chillin' (Chillstep Mix).mp3  (305 s)  caídas completas: 1
+  cae en   294.75 s  pre  -15.3 →  -25.7 →  -99.0 dB  (10.4/83.7)  golpes≥12 en 36 s:  17  soluciones: 0
+
+### Cornfield Chase.mp3  (127 s)  caídas completas: 1
+  cae en   119.25 s  pre  -10.9 →  -20.9 →  -99.0 dB  (10.0/88.1)  golpes≥12 en 36 s:   0  soluciones: 0
+
+### Daniel Armand — Street Level Sessions on the Green.mp3  (233 s)  caídas completas: 1
+  cae en   205.00 s  pre  -10.8 →  -20.0 → -120.0 dB  ( 9.1/109.2)  golpes≥12 en 36 s:  32  soluciones: 0
+
+### Emilio Piano ft. Lucie - Maison.mp3  (175 s)  caídas completas: 1
+  cae en   168.00 s  pre  -18.9 →  -28.2 →  -99.0 dB  ( 9.3/80.1)  golpes≥12 en 36 s:  11  soluciones: 0
+
+### Epic Inspirational and Cinematic Motivational - by AShamalue  (191 s)  caídas completas: 0
+
+### Fortitude (Light Version).mp3  (213 s)  caídas completas: 1
+  cae en   200.25 s  pre  -22.3 →  -31.3 →  -43.5 dB  ( 9.0/21.2)  golpes≥12 en 36 s:   2  soluciones: 0
+
+### Gary B.B. Coleman - The Sky is Crying.mp3  (553 s)  caídas completas: 1
+  cae en   547.25 s  pre  -24.8 →  -37.1 →  -99.0 dB  (12.3/74.2)  golpes≥12 en 36 s:  28  soluciones: 0
+
+### Hans Zimmer - Time.mp3  (276 s)  caídas completas: 0
+
+### Heaven on Earth.mp3  (213 s)  caídas completas: 1
+  cae en   207.50 s  pre  -11.0 →  -20.6 →  -99.0 dB  ( 9.5/88.0)  golpes≥12 en 36 s:  21  soluciones: 0
+
+### I Feel It Coming - The Weeknd (Saxophone Cover).mp3  (272 s)  caídas completas: 1
+  cae en   261.00 s  pre  -17.1 →  -26.2 →  -45.1 dB  ( 9.1/28.0)  golpes≥12 en 36 s:  35  soluciones: 0
+
+### In This Together.mp3  (216 s)  caídas completas: 0
+
+### Ivory Skyline Reverie.mp3  (197 s)  caídas completas: 0
+
+### L' Amour Toujours on SAXOPHONE.mp3  (213 s)  caídas completas: 1
+  cae en   205.75 s  pre   -8.7 →  -18.5 →  -99.0 dB  ( 9.8/90.3)  golpes≥12 en 36 s:   1  soluciones: 0
+
+### La Isla Bonita (Saxophone 80 Mix).mp3  (234 s)  caídas completas: 1
+  cae en   219.00 s  pre  -11.0 →  -20.6 →  -35.9 dB  ( 9.6/25.0)  golpes≥12 en 36 s:  31  soluciones: 0
+
+### Light Fills the Room.mp3  (214 s)  caídas completas: 0
+
+### Ludovico Einaudi - Einaudi Fly.mp3  (281 s)  caídas completas: 1
+  cae en   261.75 s  pre  -17.1 →  -28.3 →  -37.1 dB  (11.3/20.0)  golpes≥12 en 36 s:   0  soluciones: 0
+
+### Ludovico Einaudi - Experience (Live from Teatro dal Verme, M  (383 s)  caídas completas: 1
+  cae en   377.75 s  pre  -17.3 →  -28.1 →  -99.0 dB  (10.8/81.7)  golpes≥12 en 36 s:   3  soluciones: 0
+
+### Luxury, Elegance, Refined - Oficial Vídeo Clipe.mp3  (183 s)  caídas completas: 0
+
+### Nils Frahm - Familiar.mp3  (339 s)  caídas completas: 1
+  cae en   329.25 s  pre  -39.1 →  -48.9 →  -99.0 dB  ( 9.7/59.9)  golpes≥12 en 36 s:  20  soluciones: 0
+
+### Nils Frahm - Says .mp3  (499 s)  caídas completas: 1
+  cae en   493.25 s  pre  -17.3 →  -26.9 →  -99.0 dB  ( 9.7/81.7)  golpes≥12 en 36 s:   0  soluciones: 0
+
+### Oceans (Where Feet May Fail).mp3  (466 s)  caídas completas: 1
+  cae en   452.25 s  pre  -25.3 →  -34.3 →  -46.2 dB  ( 9.0/20.9)  golpes≥12 en 36 s:   0  soluciones: 0
+
+### Sax for the Last Customer.mp3  (180 s)  caídas completas: 0
+
+### Silver Skies Cinematic Piano.mp3  (159 s)  caídas completas: 0
+
+### Softly I Judah Earl & BRANDON BLACK #music #cinematic #orche  (225 s)  caídas completas: 2
+  cae en   198.25 s  pre  -10.9 →  -20.4 →  -31.4 dB  ( 9.4/20.5)  golpes≥12 en 36 s:   1  soluciones: 0
+  cae en   217.25 s  pre  -34.5 →  -44.1 →  -99.0 dB  ( 9.6/64.5)  golpes≥12 en 36 s:   1  soluciones: 0
+
+### Some Say - Acoustic Sunsets (Nea Cover).mp3  (189 s)  caídas completas: 1
+  cae en   175.75 s  pre  -14.7 →  -24.3 →  -60.8 dB  ( 9.7/46.1)  golpes≥12 en 36 s:  51  soluciones: 0
+
+### Spring is Coming.mp3  (122 s)  caídas completas: 0
+
+### Tiesto pres. Allure - Somewhere inside οf me (Alexander Gors  (347 s)  caídas completas: 1
+  cae en   332.50 s  pre   -7.9 →  -18.4 →  -49.6 dB  (10.5/41.7)  golpes≥12 en 36 s:  22  soluciones: 0
+
+### Tony Anderson - Dreamlife.mp3  (242 s)  caídas completas: 1
+  cae en   218.25 s  pre   -9.9 →  -19.1 →  -30.4 dB  ( 9.2/20.5)  golpes≥12 en 36 s:   0  soluciones: 0
+
+### Yeshua (Versión Piano).mp3  (464 s)  caídas completas: 1
+  cae en   452.75 s  pre  -16.4 →  -27.6 →  -39.8 dB  (11.2/23.4)  golpes≥12 en 36 s:  23  soluciones: 0
+
+### deadmau5 - Strobe.mp3  (637 s)  caídas completas: 1
+  cae en   627.75 s  pre  -26.0 →  -35.1 →  -99.0 dB  ( 9.0/73.0)  golpes≥12 en 36 s:  35  soluciones: 0

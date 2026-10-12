@@ -1,0 +1,109 @@
+
+/Users/nicecode/Work/Propiedades Luxur/Music/ByErik ヵ - desolate (Slowed).mp3
+ventana 83.000-139.000 s · 87 golpes de ≥ 6 dB
+
+  golpe en la canción | en la ventana | fuerza (dB/15 ms)
+           83.052 s   |     0.052 s  |   10.0  ◀ fuerte
+           83.408 s   |     0.408 s  |   13.7  ◀ fuerte
+           83.767 s   |     0.767 s  |   11.1  ◀ fuerte
+           84.482 s   |     1.482 s  |   12.1  ◀ fuerte
+           85.192 s   |     2.192 s  |   12.2  ◀ fuerte
+           85.552 s   |     2.552 s  |    6.1
+           85.909 s   |     2.909 s  |   11.4  ◀ fuerte
+           86.268 s   |     3.268 s  |    8.7
+           86.626 s   |     3.626 s  |   14.3  ◀ fuerte
+           87.340 s   |     4.340 s  |   14.8  ◀ fuerte
+           87.698 s   |     4.698 s  |    6.9
+           88.060 s   |     5.060 s  |   13.4  ◀ fuerte
+           88.408 s   |     5.408 s  |    8.4
+           88.767 s   |     5.767 s  |   14.3  ◀ fuerte
+           89.491 s   |     6.491 s  |   15.9  ◀ fuerte
+           90.199 s   |     7.199 s  |   10.8  ◀ fuerte
+           90.564 s   |     7.564 s  |   12.8  ◀ fuerte
+           90.922 s   |     7.922 s  |   18.5  ◀ fuerte
+           91.281 s   |     8.281 s  |    6.5
+           91.637 s   |     8.637 s  |   15.9  ◀ fuerte
+           91.993 s   |     8.993 s  |   10.0  ◀ fuerte
+           92.346 s   |     9.346 s  |   15.3  ◀ fuerte
+           93.061 s   |    10.061 s  |   13.8  ◀ fuerte
+           93.784 s   |    10.784 s  |   14.4  ◀ fuerte
+           94.493 s   |    11.493 s  |    9.2  ◀ fuerte
+           95.574 s   |    12.574 s  |    8.6
+           96.373 s   |    13.373 s  |   10.0  ◀ fuerte
+           97.001 s   |    14.001 s  |    7.3
+           97.359 s   |    14.359 s  |   10.3  ◀ fuerte
+           97.867 s   |    14.867 s  |    9.6  ◀ fuerte
+           98.269 s   |    15.269 s  |    7.9
+           98.792 s   |    15.792 s  |   15.1  ◀ fuerte
+           99.324 s   |    16.324 s  |    7.2
+           99.765 s   |    16.765 s  |    7.0
+          100.220 s   |    17.220 s  |   10.9  ◀ fuerte
+          100.626 s   |    17.626 s  |    8.1
+          101.293 s   |    18.293 s  |    9.4  ◀ fuerte
+          101.653 s   |    18.653 s  |   13.0  ◀ fuerte
+          102.376 s   |    19.376 s  |   14.9  ◀ fuerte
+          103.002 s   |    20.002 s  |   11.1  ◀ fuerte
+          103.486 s   |    20.486 s  |   10.1  ◀ fuerte
+          103.873 s   |    20.873 s  |    6.2
+          104.244 s   |    21.244 s  |    6.7
+          104.690 s   |    21.690 s  |   10.1  ◀ fuerte
+          105.058 s   |    22.058 s  |    7.6
+          105.588 s   |    22.588 s  |    8.2
+          105.943 s   |    22.943 s  |   13.6  ◀ fuerte
+          106.298 s   |    23.298 s  |    8.1
+          106.864 s   |    23.864 s  |   11.4  ◀ fuerte
+          107.334 s   |    24.334 s  |    6.5
+          108.187 s   |    25.187 s  |    9.9  ◀ fuerte
+          108.810 s   |    25.810 s  |   13.2  ◀ fuerte
+          109.180 s   |    26.180 s  |   10.9  ◀ fuerte
+          109.886 s   |    26.886 s  |    8.5
+          110.238 s   |    27.238 s  |   10.7  ◀ fuerte
+          110.593 s   |    27.593 s  |    7.7
+          110.960 s   |    27.960 s  |   11.4  ◀ fuerte
+          111.310 s   |    28.310 s  |   15.9  ◀ fuerte
+          111.675 s   |    28.675 s  |    9.0  ◀ fuerte
+          112.245 s   |    29.245 s  |    7.6
+          112.741 s   |    29.741 s  |   10.9  ◀ fuerte
+          113.283 s   |    30.283 s  |   10.4  ◀ fuerte
+          113.823 s   |    30.823 s  |    7.3
+          114.177 s   |    31.177 s  |   10.2  ◀ fuerte
+          114.530 s   |    31.530 s  |    7.9
+          115.127 s   |    32.127 s  |    9.5  ◀ fuerte
+          115.489 s   |    32.489 s  |    9.5  ◀ fuerte
+          115.885 s   |    32.885 s  |    7.8
+          116.673 s   |    33.673 s  |    9.1  ◀ fuerte
+          117.032 s   |    34.032 s  |   20.2  ◀ fuerte
+          118.108 s   |    35.108 s  |   11.1  ◀ fuerte
+          118.825 s   |    35.825 s  |    8.1
+          119.185 s   |    36.185 s  |   13.0  ◀ fuerte
+          119.645 s   |    36.645 s  |    9.2  ◀ fuerte
+          120.010 s   |    37.010 s  |   14.9  ◀ fuerte
+          120.691 s   |    37.691 s  |   13.0  ◀ fuerte
+          121.162 s   |    38.162 s  |   10.7  ◀ fuerte
+          121.656 s   |    38.656 s  |   13.4  ◀ fuerte
+          122.215 s   |    39.215 s  |   10.9  ◀ fuerte
+          122.677 s   |    39.677 s  |    9.3  ◀ fuerte
+          123.105 s   |    40.105 s  |   11.1  ◀ fuerte
+          123.555 s   |    40.555 s  |    9.6  ◀ fuerte
+          124.217 s   |    41.217 s  |   11.8  ◀ fuerte
+          124.739 s   |    41.739 s  |   11.1  ◀ fuerte
+          125.325 s   |    42.325 s  |   11.2  ◀ fuerte
+          125.683 s   |    42.683 s  |    7.2
+          126.113 s   |    43.113 s  |    9.1  ◀ fuerte
+
+  sonoridad por tramos de 5 s:
+      0-  5 s   -9.6 LUFS · pico -0.6 dBFS
+      5- 10 s   -10.1 LUFS · pico -0.4 dBFS
+     10- 15 s   -10.9 LUFS · pico -0.7 dBFS
+     15- 20 s   -11.0 LUFS · pico -1.0 dBFS
+     20- 25 s   -11.3 LUFS · pico -1.0 dBFS
+     25- 30 s   -11.2 LUFS · pico -0.9 dBFS
+     30- 35 s   -11.6 LUFS · pico -1.1 dBFS
+     35- 40 s   -20.8 LUFS · pico -7.1 dBFS
+     40- 45 s   -31.8 LUFS · pico -20.5 dBFS
+     45- 50 s   -70.0 LUFS · pico 0.0 dBFS
+     50- 55 s   -70.0 LUFS · pico 0.0 dBFS
+     55- 60 s   -70.0 LUFS · pico 0.0 dBFS
+    ventana entera  -11.0 LUFS · pico -0.4 dBFS
+
+  imagen: proyectos/023/musica/desolate.png

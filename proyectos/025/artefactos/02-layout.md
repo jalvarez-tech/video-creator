@@ -13,7 +13,7 @@ Composición `Recorrido025` (`remotion/src/proyectos/025/`), 1080×1920 a 30 fps
 | 3 | `VeloSubtitulos` | degradado desde abajo, solo mientras hay subtítulos | luxur va sin sombra: el velo es lo único que sostiene el blanco |
 | 4 | `SubtitulosEditoriales` | todo lo que dice Isabella, en un grupo al 90 % y con la cursiva 8 px menor (99 → 91 px) | |
 | 5 | `LogoCierre` y `WebCierre` | logo (440 px, 60 %) y `PropiedadesLuxur.com` (Montserrat 500, 54 px) sobre la tarjeta | centrados |
-| 6 | `PistaAudio` | voz de las 3 tomas (a −21 LUFS) + música («Heaven on Earth», −15 LUFS sola, ≈ −31 bajo la voz) | en la RAÍZ |
+| 6 | `PistaAudio` | voz de las 3 tomas (TRATADA, a −15 LUFS desde la rev. 1; −21 en la rev. 0) + música («Heaven on Earth», −15 LUFS sola, ≈ −30 bajo la voz) | en la RAÍZ |
 
 ## Zonas (px de 1080×1920)
 

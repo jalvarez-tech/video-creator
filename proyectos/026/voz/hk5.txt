@@ -1,0 +1,5 @@
+# HK5 (hook, la voz de RC14 1,6-7,2 s): «Hay apartamentos para vivir y hay otros que te dan más posibilidad. Ven, te muestro.»
+# whisper-small oye «ven, te muestro» como «vente monstruo / bente muestro / hay 20 muestros» según el corte: la lectura que cuadra es «ven, te muestro» (por oír).
+Hay apartamentos / para vivir
+y hay otros / que te dan / **más posibilidad.**{mas posibilidad}
+Ven, / te muestro.{hay veinte muestros}

@@ -1,0 +1,11 @@
+/Users/nicecode/Work/Propiedades Luxur/Music/Chill Music - F.G.G. - Chillin' (Chillstep Mix).mp3
+ventana 255.746-300.746 s · 64 golpes ≥ 6 dB (33 fuertes)
+
+  periodo (s) · BPM · puntos · fase (s) · golpes ≥ 9 dB a ≤ 15 ms de la recta · desvío medio de los fuertes
+     0.3078  · 194.90 ·  197.9 · 0.2362 ·  15/ 33 (  45 %) ·  52.5 ms
+     0.4617  · 129.95 ·  185.9 · 0.4379 ·  12/ 33 (  36 %) ·  80.6 ms
+     0.9234  ·  64.97 ·  176.6 · 0.8736 ·  13/ 33 (  39 %) · 135.8 ms
+     0.2637  · 227.49 ·  150.5 · 0.0419 ·  11/ 33 (  33 %) ·  54.7 ms
+     0.2844  · 210.93 ·  123.4 · 0.2372 ·   8/ 33 (  24 %) ·  68.6 ms
+
+  intervalos entre golpes fuertes: mediana 1.156 s · p25 0.856 · p75 1.677

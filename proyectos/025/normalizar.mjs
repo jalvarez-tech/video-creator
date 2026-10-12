@@ -93,6 +93,18 @@ const MATERIAL = [
  */
 const MUSICA = ["musica-heaven.mp3", "musica-025", "acd99178", "Music/Heaven on Earth.mp3"]; // lounge / chill †; libre de uso en el registro hasta la V9
 
+/**
+ * LA CADENA DE LA VOZ TRATADA (ver `vozTratada`, abajo, por qué y qué mide cada paso). La ganancia es la de las tres tomas de la V9
+ * (−17,9 a −19,1 LUFS crudas, picos de −1,1 a −4,0 dBTP): +14 dB tras el compresor las deja en −14,6 a −15,3 LUFS con el pico real en −2,5 dBTP.
+ */
+const VOZ_TRATADA = [
+  "highpass=f=100:poles=2",
+  "agate=threshold=0.0056:ratio=2:range=0.25:attack=5:release=200",
+  "acompressor=threshold=0.0501:ratio=3:attack=4:release=120:knee=6",
+  "volume=14dB",
+  "alimiter=limit=0.75:attack=1:release=60:level=disabled:latency=1",
+].join(",");
+
 const sha8 = (archivo) => crypto.createHash("sha256").update(fs.readFileSync(archivo)).digest("hex").slice(0, 8);
 const sondea = (archivo, entradas, selector = "v:0") =>
   ejecutar("ffprobe", ["-v", "error", "-select_streams", selector, "-show_entries", entradas, "-of", "default=nw=1:nk=1", archivo], { check: true }).stdout.trim();
@@ -179,13 +191,37 @@ function voz(archivo, salidaNombre) {
   log.ok(`${path.basename(salida)} (la voz tal cual, mono 48 kHz)`);
 }
 
+/**
+ * LA VOZ TRATADA, la que suena en la pieza (rev. 1, pedido del usuario tras la final, 2026-10-08: «mientras habla Isabella sube los decibeles sin
+ * saturar para que se escuche más la voz»). Es una excepción a R29 (una ganancia por toma y nada más), por encargo: sola, la ganancia no llega.
+ * Las tres tomas miden −19,1 (HK09), −17,9 (MD11) y −19,1 LUFS (CT03) con picos de −4,0, −1,1 y −2,1 dBTP: llevarlas a −15 LUFS con ganancia
+ * sola daría picos de +0,1, +2,8 y +2,0 dBTP. Por eso, en este orden (la cadena de la V12, `proyectos/028/normalizar.mjs`):
+ *   highpass 100 Hz   los golpes graves del micro de solapa y los pasos; una voz femenina no baja de ahí
+ *   agate             puerta SUAVE (−12 dB como mucho, ratio 2, umbral −45 dBFS): el ambiente entre frases no sube con la compresión
+ *   acompressor       3:1 desde −26 dBFS, ataque 4 ms, relevo 120 ms, rodilla 6 dB: acerca el pico al nivel medio
+ *   volume +14 dB     la ganancia hasta ≈ −15 LUFS
+ *   alimiter          techo −2,5 dBFS (sin nivelado automático, `latency=1`: compensa el ms de lookahead y la voz no se desfasa): lo que el compresor no alcanza; el pico real queda en −2,5 dBTP
+ * Resultado medido (ebur128, ventana de voz): HK09 −14,9 · MD11 −15,3 · CT03 −14,6 LUFS, los tres con pico real −2,5 dBTP. El limitador apenas
+ * trabaja (el pico pasa de −4,4 a −2,5 solo en el hook, en 0,1 dB). El WAV crudo sigue ahí para medir la voz (R29: `limites-voz.py`, `onsets-voz.py`).
+ */
+function vozTratada(salidaNombre) {
+  const entrada = path.join(DESTINO, `${salidaNombre}.wav`);
+  const salida = path.join(DESTINO, `${salidaNombre}-voz.wav`);
+  if (fs.existsSync(salida) && !f.forzar) return;
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", VOZ_TRATADA, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
+  log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3:1, +14 dB y limitador a −2,5 dBFS)`);
+}
+
 for (const [clase, archivo, salida] of lista) {
   if (clase === "audio") {
     voz(archivo, salida);
     continue;
   }
   video(clase, archivo, salida);
-  if (clase === "toma") voz(archivo, salida);
+  if (clase === "toma") {
+    voz(archivo, salida);
+    vozTratada(salida);
+  }
 }
 
 // La TARJETA OSCURA del cierre (plano `c12-cierre`): un PNG liso del negro de la marca. Hasta la revisión 5 lo que

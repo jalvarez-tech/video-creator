@@ -1,0 +1,17 @@
+# Guion marcado — proyecto 027 (V11). Tres fuentes de voz, las tres YA PUBLICADAS (vía a): HK2 (V6), MD3 (V7) y CT4 = RC14 (V10).
+# Cada fuente tiene su archivo (hk2.txt, md3.txt, ct4.txt); este junta los tres para leerlos de un vistazo.
+
+# HK2 (hook): «Si para ti un apartamento sin balcón no es opción, mira esto.»
+Si para ti / un apartamento / **sin balcón,**
+no es opción,
+mira esto.
+
+# MD3 (mitad): «Cuenta con dos habitaciones independientes, balcón y ubicación junto a City Plaza.»
+Cuenta con / dos habitaciones / **independientes,**
+balcón / y ubicación junto a / **City Plaza.**
+
+# CT4 (CTA, la voz de RC14 44,8-49,84 s): «Si te gustó este apartamento y deseas tener más información, contáctame.»
+# Por oír: «gustó» (vocal /o/ medida) y la última sílaba de «contáctame» (una [e] a -55 dB; whisper oye «contactame»).
+Si te gustó / este apartamento
+y deseas tener / más información,
+**contáctame.**{contactame}

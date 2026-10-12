@@ -4,15 +4,16 @@
  * `<PistaMetraje>` pinta los planos MUDOS. Lo que se oye son dos cosas, y las dos pasan por `<PistaAudio>`:
  *
  *   vocesTomas   la voz de Isabella en HK09, MD11 y CT03 (2.ª mitad), derivada de los cortes que traen `audio` (`vocesDeCortes`): mismo arranque que su
- *                imagen, cruce de 6 f cuando disuelve, desclic de 3 f cuando entra a corte, y UNA ganancia por toma hasta `OBJETIVO_LUFS`.
+ *                imagen, cruce de 6 f cuando disuelve, desclic de 3 f cuando entra a corte, y UNA ganancia por toma hasta `OBJETIVO_LUFS`. Suena la voz TRATADA
+ *                (`<toma>-voz.wav`: graves, puerta suave, compresión 3:1, +14 dB y limitador a −2,5 dBFS; ver `OBJETIVO_LUFS` en metraje-025.ts).
  *   musica       «Heaven on Earth», con una envolvente que BAJA mientras habla Isabella y sube en los recorridos y bajo la tarjeta. No es la de
  *                `envolventeBajoVoz`: aquí el golpe en que entra cada toma (a corte, o en que acaba su disolvencia) tiene que sonar entero, la música baja
  *                con curva DESPUÉS y acaba ANTES de la primera palabra.
  *
  * LA MEZCLA, en LUFS (medidos con ebur128 sobre cada fuente):
- *   voz de Isabella      −21 (sus tomas miden −19,1 · −17,9 · −19,1)
+ *   voz de Isabella      −15 (rev. 1, pedido del usuario: «sube los decibeles sin saturar»; antes −21). La voz tratada mide −14,9 · −15,3 · −14,6 LUFS con el pico real en −2,5 dBTP
  *   música SOLA          −15: arriba, en los recorridos
- *   música BAJO LA VOZ   ≈ −31: ≥ 9 LU por debajo de ella (ALTO × 0,16 = −16 dB)
+ *   música BAJO LA VOZ   ≈ −30: ≈ 15 LU por debajo de ella (ALTO × 0,16 = −16 dB; la música no se toca: la voz sube, no la música baja)
  * La canción suena a −13,7 LUFS de meseta (179,6-207,0 s) con una variación de ±1 LU entre tramos (−12,8 la apertura, −15,0 el paseo, −13,1 el bloque 5), así que una sola ganancia (nunca un loudnorm, que le
  * cambiaría la dinámica) la lleva a −15 de media. Bajo la voz se mide con la sonoridad de la canción EN cada ventana de voz (`LUFS_CANCION_EN_VOZ`: −14,1 el hook, −13,1 la mitad, −16,6 el CTA, que ya cae) y el
  * oído decide si compite.
@@ -139,7 +140,7 @@ export const musica025: readonly TramoAudio[] = HAY_MUSICA
         desde: INICIO_MUSICA,
         ganancia: envolvente(),
         reason:
-          "«Heaven on Earth»: el golpe de 15,8 dB del f3 abre la casa, un golpe medido en que entra cada plano, y su caída a partir del f901 (los 209,5 s de la canción), con la voz del CTA empezada y la cola apagándose bajo la tarjeta del cierre; baja ≈ 9-10 LU bajo la voz de Isabella en el hook, la mitad y el CTA.",
+          "«Heaven on Earth»: el golpe de 15,8 dB del f3 abre la casa, un golpe medido en que entra cada plano, y su caída a partir del f901 (los 209,5 s de la canción), con la voz del CTA empezada y la cola apagándose bajo la tarjeta del cierre; baja ≈ 15 LU bajo la voz de Isabella (−15 LUFS) en el hook, la mitad y el CTA.",
       },
     ]
   : [];

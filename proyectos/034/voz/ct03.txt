@@ -1,0 +1,2 @@
+# CT03 (IMG_1604) RECORTADO a su segunda frase: la toma dice «Haz clic en el botón y agendemos una visita» y entre «botón» (acaba en 1,82 s) y «y» (1,945 s) hay 0,1 s de silencio a −65 dB; la «y» va pegada a «agendemos». Solo suena y se pinta «y agendemos una visita». Todas las palabras del recorte, oídas igual desde cuatro cortes.
+**Y agendemos** / una visita.

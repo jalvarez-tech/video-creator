@@ -1,0 +1,108 @@
+
+/Users/nicecode/Work/Propiedades Luxur/Music/La Isla Bonita (Saxophone 80 Mix).mp3
+ventana 179.834-231.834 s · 87 golpes de ≥ 6 dB
+
+  golpe en la canción | en la ventana | fuerza (dB/15 ms)
+          179.834 s   |     0.000 s  |    8.9
+          180.292 s   |     0.458 s  |    7.9
+          180.713 s   |     0.879 s  |   14.6  ◀ fuerte
+          181.449 s   |     1.615 s  |   10.1  ◀ fuerte
+          181.896 s   |     2.062 s  |    7.1
+          182.464 s   |     2.630 s  |   11.0  ◀ fuerte
+          183.052 s   |     3.218 s  |    8.6
+          183.790 s   |     3.956 s  |   15.1  ◀ fuerte
+          184.239 s   |     4.405 s  |    7.9
+          184.967 s   |     5.133 s  |   12.1  ◀ fuerte
+          185.390 s   |     5.556 s  |   11.7  ◀ fuerte
+          186.141 s   |     6.307 s  |   13.4  ◀ fuerte
+          186.574 s   |     6.740 s  |   10.4  ◀ fuerte
+          187.165 s   |     7.331 s  |   11.7  ◀ fuerte
+          187.729 s   |     7.895 s  |   10.3  ◀ fuerte
+          188.478 s   |     8.644 s  |   17.5  ◀ fuerte
+          189.232 s   |     9.398 s  |    7.4
+          190.093 s   |    10.259 s  |   14.4  ◀ fuerte
+          190.825 s   |    10.991 s  |   11.1  ◀ fuerte
+          191.262 s   |    11.428 s  |    7.8
+          191.994 s   |    12.160 s  |   10.6  ◀ fuerte
+          192.424 s   |    12.590 s  |   14.0  ◀ fuerte
+          193.156 s   |    13.322 s  |   18.7  ◀ fuerte
+          193.742 s   |    13.908 s  |    7.5
+          194.339 s   |    14.505 s  |    7.1
+          194.772 s   |    14.938 s  |    6.3
+          195.503 s   |    15.669 s  |   18.7  ◀ fuerte
+          195.945 s   |    16.111 s  |   11.6  ◀ fuerte
+          196.319 s   |    16.485 s  |    6.5
+          196.674 s   |    16.840 s  |   20.8  ◀ fuerte
+          197.118 s   |    17.284 s  |   16.3  ◀ fuerte
+          197.555 s   |    17.721 s  |   18.0  ◀ fuerte
+          198.270 s   |    18.436 s  |   12.8  ◀ fuerte
+          198.727 s   |    18.893 s  |   11.6  ◀ fuerte
+          199.489 s   |    19.655 s  |    7.3
+          200.190 s   |    20.356 s  |    8.2
+          200.628 s   |    20.794 s  |   20.6  ◀ fuerte
+          201.071 s   |    21.237 s  |   13.4  ◀ fuerte
+          201.438 s   |    21.604 s  |    6.7
+          201.792 s   |    21.958 s  |   16.3  ◀ fuerte
+          202.238 s   |    22.404 s  |    8.7
+          202.974 s   |    23.140 s  |   15.8  ◀ fuerte
+          203.406 s   |    23.572 s  |   21.1  ◀ fuerte
+          204.144 s   |    24.310 s  |    9.1  ◀ fuerte
+          204.878 s   |    25.044 s  |    9.9  ◀ fuerte
+          205.305 s   |    25.471 s  |   15.5  ◀ fuerte
+          206.044 s   |    26.210 s  |    8.5
+          206.479 s   |    26.645 s  |   13.8  ◀ fuerte
+          207.215 s   |    27.381 s  |   16.3  ◀ fuerte
+          207.644 s   |    27.810 s  |   16.2  ◀ fuerte
+          208.204 s   |    28.370 s  |   10.6  ◀ fuerte
+          208.821 s   |    28.987 s  |   16.8  ◀ fuerte
+          209.262 s   |    29.428 s  |   11.8  ◀ fuerte
+          209.994 s   |    30.160 s  |   14.7  ◀ fuerte
+          210.457 s   |    30.623 s  |   10.1  ◀ fuerte
+          210.857 s   |    31.023 s  |    6.1
+          211.608 s   |    31.774 s  |    7.3
+          212.342 s   |    32.508 s  |    9.9  ◀ fuerte
+          212.767 s   |    32.933 s  |   16.7  ◀ fuerte
+          213.506 s   |    33.672 s  |   17.9  ◀ fuerte
+          213.945 s   |    34.111 s  |   18.5  ◀ fuerte
+          214.673 s   |    34.839 s  |   13.4  ◀ fuerte
+          215.405 s   |    35.571 s  |   18.1  ◀ fuerte
+          215.983 s   |    36.149 s  |   10.1  ◀ fuerte
+          216.455 s   |    36.621 s  |   10.2  ◀ fuerte
+          217.021 s   |    37.187 s  |   14.5  ◀ fuerte
+          217.752 s   |    37.918 s  |   13.5  ◀ fuerte
+          218.194 s   |    38.360 s  |    8.8
+          218.917 s   |    39.083 s  |   12.9  ◀ fuerte
+          219.357 s   |    39.523 s  |   11.5  ◀ fuerte
+          220.720 s   |    40.886 s  |    6.4
+          222.049 s   |    42.215 s  |    8.6
+          222.433 s   |    42.599 s  |    8.1
+          222.905 s   |    43.071 s  |   11.6  ◀ fuerte
+          223.310 s   |    43.476 s  |   18.6  ◀ fuerte
+          224.047 s   |    44.213 s  |   11.2  ◀ fuerte
+          224.776 s   |    44.942 s  |    9.9  ◀ fuerte
+          225.212 s   |    45.378 s  |   14.4  ◀ fuerte
+          225.947 s   |    46.113 s  |   10.7  ◀ fuerte
+          226.380 s   |    46.546 s  |   14.1  ◀ fuerte
+          227.121 s   |    47.287 s  |    8.8
+          228.286 s   |    48.452 s  |   12.6  ◀ fuerte
+          228.722 s   |    48.888 s  |   16.2  ◀ fuerte
+          229.243 s   |    49.409 s  |    6.5
+          230.634 s   |    50.800 s  |    9.1  ◀ fuerte
+          231.068 s   |    51.234 s  |    6.7
+          231.801 s   |    51.967 s  |    6.8
+
+  sonoridad por tramos de 5 s:
+      0-  5 s   -10.3 LUFS · pico 0.4 dBFS
+      5- 10 s   -10.3 LUFS · pico 0.4 dBFS
+     10- 15 s   -10.5 LUFS · pico 0.8 dBFS
+     15- 20 s   -11.6 LUFS · pico 0.5 dBFS
+     20- 25 s   -11.4 LUFS · pico 0.9 dBFS
+     25- 30 s   -11.8 LUFS · pico 0.2 dBFS
+     30- 35 s   -10.8 LUFS · pico 0.7 dBFS
+     35- 40 s   -12.4 LUFS · pico -0.2 dBFS
+     40- 45 s   -23.1 LUFS · pico -8.8 dBFS
+     45- 50 s   -39.6 LUFS · pico -25.0 dBFS
+     50- 55 s   -52.7 LUFS · pico -40.0 dBFS
+    ventana entera  -11.2 LUFS · pico 0.9 dBFS
+
+  imagen: proyectos/023/musica/isla.png

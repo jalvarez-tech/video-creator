@@ -1,0 +1,8 @@
+# HK03 (IMG_9406), el HOOK. Dos frases en dos bloques (nunca más de tres líneas a la vez); acento: «incómodo?» (lo que se quiere evitar).
+# «incómodo» (≈ 5,4-6,2 s): whisper 0,39-0,54 y, cortando desde 5,5 s, oye «encomoro». POR CONFIRMAR AL OÍDO.
+# «Domingo» (primera palabra, ≈ 0,8 s): whisper 0,34-0,46 por ser la primera palabra; cortando desde 0,77 s la escribe «Domingo en familia, abuelos». «primos» (≈ 3,7 s): 0,40-0,61; cortando desde 3,70 s, «Primos, ¿cuántas veces alguien».
+# Medido por formantes al exportar (2026-10-11, la orden de exportar llegó con la duda abierta; `herramientas/formantes.py` sobre la voz sola): «incómodo» tiene 4 sílabas (in-có-mo-do);
+# la tónica «có» es una [o] (F1 ≈ 440-520, F2 ≈ 760-1.020), pero la primera vocal sale más abierta de lo que pide una /i/ (F1 ≈ 600-700, F2 ≈ 2.030-2.120 en 5,58-5,64 s; su /e/ de «veces«: F1 ≈ 540-580,
+# F2 ≈ 1.670-2.070): la medida NO distingue «in-» de «en-». Es la única palabra que cabe («encomoro» no existe). Una medida no es un oído: sigue POR CONFIRMAR AL OÍDO (≈ 8,3 s del vídeo).
+Domingo en familia: / abuelos, tíos, / primos.
+¿Cuántas veces / alguien queda / **incómodo?**

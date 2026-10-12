@@ -1,0 +1,72 @@
+
+/Users/nicecode/Work/Propiedades Luxur/Music/Tiesto pres. Allure - Somewhere inside οf me (Alexander Gorshkov chillout remix).mp3
+ventana 182.392-232.392 s · 52 golpes de ≥ 6 dB
+
+  golpe en la canción | en la ventana | fuerza (dB/15 ms)
+          182.392 s   |     0.000 s  |   10.1  ◀ fuerte
+          182.844 s   |     0.452 s  |    9.3  ◀ fuerte
+          183.579 s   |     1.187 s  |    8.3
+          184.024 s   |     1.632 s  |    6.9
+          185.518 s   |     3.126 s  |    7.3
+          186.253 s   |     3.861 s  |    7.7
+          186.850 s   |     4.458 s  |    8.3
+          187.291 s   |     4.899 s  |    6.3
+          187.894 s   |     5.502 s  |    9.3  ◀ fuerte
+          189.380 s   |     6.988 s  |    6.7
+          190.256 s   |     7.864 s  |    6.4
+          190.706 s   |     8.314 s  |   10.3  ◀ fuerte
+          191.115 s   |     8.723 s  |    7.2
+          191.752 s   |     9.360 s  |    6.3
+          192.341 s   |     9.949 s  |    7.4
+          193.082 s   |    10.690 s  |    7.1
+          193.685 s   |    11.293 s  |    7.1
+          195.024 s   |    12.632 s  |    6.6
+          196.061 s   |    13.669 s  |    7.2
+          196.802 s   |    14.410 s  |    6.3
+          197.685 s   |    15.293 s  |    8.1
+          199.181 s   |    16.789 s  |    9.7  ◀ fuerte
+          200.221 s   |    17.829 s  |    8.1
+          200.658 s   |    18.266 s  |    6.3
+          201.398 s   |    19.006 s  |   10.5  ◀ fuerte
+          201.855 s   |    19.463 s  |    8.0
+          202.589 s   |    20.197 s  |    9.7  ◀ fuerte
+          203.043 s   |    20.651 s  |    9.4  ◀ fuerte
+          203.785 s   |    21.393 s  |    6.1
+          204.225 s   |    21.833 s  |    8.1
+          204.979 s   |    22.587 s  |    6.1
+          207.348 s   |    24.956 s  |   13.6  ◀ fuerte
+          207.789 s   |    25.397 s  |    8.6
+          208.537 s   |    26.145 s  |    6.4
+          208.984 s   |    26.592 s  |    8.7
+          209.726 s   |    27.334 s  |    6.3
+          210.169 s   |    27.777 s  |    6.8
+          210.913 s   |    28.521 s  |   10.8  ◀ fuerte
+          211.360 s   |    28.968 s  |   12.2  ◀ fuerte
+          212.101 s   |    29.709 s  |    9.6  ◀ fuerte
+          212.547 s   |    30.155 s  |    7.1
+          213.736 s   |    31.344 s  |    7.4
+          214.307 s   |    31.915 s  |    7.1
+          215.667 s   |    33.275 s  |    6.4
+          216.110 s   |    33.718 s  |    7.6
+          217.297 s   |    34.905 s  |    8.5
+          218.049 s   |    35.657 s  |    7.7
+          220.174 s   |    37.782 s  |    7.3
+          223.712 s   |    41.320 s  |    7.0
+          225.901 s   |    43.509 s  |    7.0
+          227.898 s   |    45.506 s  |    6.6
+          230.731 s   |    48.339 s  |    6.2
+
+  sonoridad por tramos de 5 s:
+      0-  5 s   -7.7 LUFS · pico 0.7 dBFS
+      5- 10 s   -8.3 LUFS · pico 0.6 dBFS
+     10- 15 s   -7.6 LUFS · pico 1.0 dBFS
+     15- 20 s   -8.4 LUFS · pico 0.7 dBFS
+     20- 25 s   -9.7 LUFS · pico 0.3 dBFS
+     25- 30 s   -10.4 LUFS · pico 0.4 dBFS
+     30- 35 s   -9.6 LUFS · pico 0.5 dBFS
+     35- 40 s   -14.2 LUFS · pico 0.5 dBFS
+     40- 45 s   -24.5 LUFS · pico -13.2 dBFS
+     45- 50 s   -23.3 LUFS · pico -12.6 dBFS
+    ventana entera  -8.9 LUFS · pico 1.0 dBFS
+
+  imagen: proyectos/022/musica/tiesto1.png

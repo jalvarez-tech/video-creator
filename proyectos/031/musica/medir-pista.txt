@@ -1,0 +1,94 @@
+
+archivos/musica/Tiesto pres. Allure - Somewhere inside οf me (Alexander Gorshkov chillout remix).mp3
+ventana 298.000-340.000 s · 75 golpes de ≥ 6 dB
+
+  golpe en la canción | en la ventana | fuerza (dB/15 ms)
+          298.394 s   |     0.394 s  |   13.6  ◀ fuerte
+          298.832 s   |     0.832 s  |   13.8  ◀ fuerte
+          299.574 s   |     1.574 s  |   18.8  ◀ fuerte
+          300.169 s   |     2.169 s  |    8.3
+          300.761 s   |     2.761 s  |   13.9  ◀ fuerte
+          301.208 s   |     3.208 s  |   12.3  ◀ fuerte
+          301.673 s   |     3.673 s  |    8.1
+          302.393 s   |     4.393 s  |   17.1  ◀ fuerte
+          302.845 s   |     4.845 s  |   16.2  ◀ fuerte
+          303.436 s   |     5.436 s  |   10.2  ◀ fuerte
+          304.330 s   |     6.330 s  |   14.8  ◀ fuerte
+          304.776 s   |     6.776 s  |    9.7  ◀ fuerte
+          305.513 s   |     7.513 s  |   12.6  ◀ fuerte
+          306.106 s   |     8.106 s  |    9.5  ◀ fuerte
+          306.669 s   |     8.669 s  |    6.2
+          307.160 s   |     9.160 s  |    9.7  ◀ fuerte
+          307.596 s   |     9.596 s  |   13.2  ◀ fuerte
+          308.335 s   |    10.335 s  |   11.7  ◀ fuerte
+          309.081 s   |    11.081 s  |   16.8  ◀ fuerte
+          309.666 s   |    11.666 s  |    7.1
+          310.262 s   |    12.262 s  |   15.0  ◀ fuerte
+          310.707 s   |    12.707 s  |    7.0
+          311.160 s   |    13.160 s  |    8.1
+          311.902 s   |    13.902 s  |   15.4  ◀ fuerte
+          312.617 s   |    14.617 s  |   11.2  ◀ fuerte
+          313.151 s   |    15.151 s  |    8.1
+          313.533 s   |    15.533 s  |   11.9  ◀ fuerte
+          314.277 s   |    16.277 s  |   11.1  ◀ fuerte
+          315.022 s   |    17.022 s  |   13.6  ◀ fuerte
+          315.462 s   |    17.462 s  |   11.4  ◀ fuerte
+          315.832 s   |    17.832 s  |    8.5
+          316.207 s   |    18.207 s  |   10.8  ◀ fuerte
+          316.657 s   |    18.657 s  |    6.7
+          317.399 s   |    19.399 s  |   10.6  ◀ fuerte
+          317.843 s   |    19.843 s  |   11.2  ◀ fuerte
+          318.583 s   |    20.583 s  |   15.7  ◀ fuerte
+          319.178 s   |    21.178 s  |   10.3  ◀ fuerte
+          319.768 s   |    21.768 s  |   10.4  ◀ fuerte
+          320.363 s   |    22.363 s  |    9.0
+          320.963 s   |    22.963 s  |   16.7  ◀ fuerte
+          321.404 s   |    23.404 s  |   17.0  ◀ fuerte
+          322.142 s   |    24.142 s  |   17.8  ◀ fuerte
+          322.663 s   |    24.663 s  |    6.9
+          323.040 s   |    25.040 s  |   11.4  ◀ fuerte
+          323.483 s   |    25.483 s  |    9.9  ◀ fuerte
+          323.933 s   |    25.933 s  |   10.1  ◀ fuerte
+          324.527 s   |    26.527 s  |   12.7  ◀ fuerte
+          324.971 s   |    26.971 s  |   10.0  ◀ fuerte
+          325.411 s   |    27.411 s  |   10.2  ◀ fuerte
+          326.153 s   |    28.153 s  |   11.0  ◀ fuerte
+          326.899 s   |    28.899 s  |   13.4  ◀ fuerte
+          327.345 s   |    29.345 s  |   10.4  ◀ fuerte
+          328.091 s   |    30.091 s  |   13.4  ◀ fuerte
+          328.538 s   |    30.538 s  |    9.8  ◀ fuerte
+          328.901 s   |    30.901 s  |    7.0
+          329.276 s   |    31.276 s  |    9.1  ◀ fuerte
+          329.875 s   |    31.875 s  |   11.4  ◀ fuerte
+          330.465 s   |    32.465 s  |   11.1  ◀ fuerte
+          330.913 s   |    32.913 s  |   11.4  ◀ fuerte
+          331.651 s   |    33.651 s  |   11.9  ◀ fuerte
+          332.095 s   |    34.095 s  |    6.6
+          332.542 s   |    34.542 s  |   12.9  ◀ fuerte
+          333.281 s   |    35.281 s  |   11.0  ◀ fuerte
+          333.676 s   |    35.676 s  |    6.9
+          334.171 s   |    36.171 s  |   10.4  ◀ fuerte
+          334.773 s   |    36.773 s  |    9.4  ◀ fuerte
+          335.214 s   |    37.214 s  |   10.2  ◀ fuerte
+          335.734 s   |    37.734 s  |    7.5
+          336.389 s   |    38.389 s  |    7.7
+          337.447 s   |    39.447 s  |    9.2  ◀ fuerte
+          338.085 s   |    40.085 s  |   11.0  ◀ fuerte
+          338.452 s   |    40.452 s  |    7.7
+          338.929 s   |    40.929 s  |    6.7
+          339.474 s   |    41.474 s  |    9.1  ◀ fuerte
+          339.845 s   |    41.845 s  |    6.2
+
+  sonoridad por tramos de 5 s:
+      0-  5 s   -10.6 LUFS · pico 0.4 dBFS
+      5- 10 s   -10.5 LUFS · pico 0.4 dBFS
+     10- 15 s   -10.5 LUFS · pico 0.1 dBFS
+     15- 20 s   -9.6 LUFS · pico 0.5 dBFS
+     20- 25 s   -9.6 LUFS · pico 0.4 dBFS
+     25- 30 s   -9.7 LUFS · pico 0.6 dBFS
+     30- 35 s   -9.3 LUFS · pico 0.7 dBFS
+     35- 40 s   -18.2 LUFS · pico -1.0 dBFS
+     40- 45 s   -44.3 LUFS · pico -30.6 dBFS
+    ventana entera  -10.1 LUFS · pico 0.7 dBFS
+
+  imagen: proyectos/031/musica/energia-031.png

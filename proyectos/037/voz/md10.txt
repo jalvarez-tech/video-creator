@@ -1,0 +1,7 @@
+# MD10 (IMG_9528), la mitad. Una frase en tres bloques; dos acentos separados ≥ 2 s: «lejos» y «dos veces».
+# Lo que pinta lo que ella DICE según el reel editado `REDES/FAMILIA/fam 1.mp4` («compran lejos se cansan del viaje»), no el «aburren» del encargo ni el «acasan» de whisper:
+#   «Compran» (0,975 s) 0,12-0,29 en las dos pasadas · «cansan» (2,205 s; «se» desde ≈ 1,9 s) 0,22 (whisper «acasan», «alcanzan»; cortando desde 2,205 s oye «cansan del viaje»)
+#   «compran» (3,315 s) 0,39-0,46 · «tienen» (4,38 s) 0,46-0,52. POR CONFIRMAR AL OÍDO.
+Compran / **lejos,** / se cansan del viaje,{se acasan del viaje,}
+compran viejo / y tienen que pagar
+**dos veces** / en remodelación.

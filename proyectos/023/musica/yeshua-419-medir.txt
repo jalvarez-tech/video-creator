@@ -1,0 +1,86 @@
+
+/Users/nicecode/Work/Propiedades Luxur/Music/Yeshua (Versión Piano).mp3
+ventana 418.000-463.000 s · 67 golpes de ≥ 6 dB
+
+  golpe en la canción | en la ventana | fuerza (dB/15 ms)
+          418.331 s   |     0.331 s  |    9.3  ◀ fuerte
+          419.056 s   |     1.056 s  |    7.6
+          419.714 s   |     1.714 s  |    9.2  ◀ fuerte
+          420.153 s   |     2.153 s  |    8.8
+          420.533 s   |     2.533 s  |    6.7
+          420.966 s   |     2.966 s  |   10.8  ◀ fuerte
+          421.403 s   |     3.403 s  |    7.6
+          422.095 s   |     4.095 s  |    6.5
+          422.466 s   |     4.466 s  |    7.5
+          423.120 s   |     5.120 s  |    7.9
+          423.621 s   |     5.621 s  |    9.0  ◀ fuerte
+          423.996 s   |     5.996 s  |    9.0
+          424.426 s   |     6.426 s  |    6.7
+          424.837 s   |     6.837 s  |   11.9  ◀ fuerte
+          425.291 s   |     7.291 s  |    6.1
+          425.701 s   |     7.701 s  |    7.6
+          426.143 s   |     8.143 s  |    7.9
+          426.584 s   |     8.584 s  |   11.8  ◀ fuerte
+          427.019 s   |     9.019 s  |    9.3  ◀ fuerte
+          427.662 s   |     9.662 s  |   11.1  ◀ fuerte
+          428.287 s   |    10.287 s  |   13.6  ◀ fuerte
+          428.683 s   |    10.683 s  |    6.8
+          429.961 s   |    11.961 s  |    9.2  ◀ fuerte
+          430.366 s   |    12.366 s  |   15.3  ◀ fuerte
+          431.200 s   |    13.200 s  |   14.8  ◀ fuerte
+          432.053 s   |    14.053 s  |   12.2  ◀ fuerte
+          432.930 s   |    14.930 s  |    8.0
+          433.307 s   |    15.307 s  |   21.0  ◀ fuerte
+          433.754 s   |    15.754 s  |   17.9  ◀ fuerte
+          434.628 s   |    16.628 s  |   13.0  ◀ fuerte
+          435.097 s   |    17.097 s  |    9.8  ◀ fuerte
+          435.494 s   |    17.494 s  |    6.5
+          436.245 s   |    18.245 s  |    6.1
+          436.754 s   |    18.754 s  |   16.8  ◀ fuerte
+          437.191 s   |    19.191 s  |   13.6  ◀ fuerte
+          438.046 s   |    20.046 s  |   24.7  ◀ fuerte
+          438.957 s   |    20.957 s  |   12.4  ◀ fuerte
+          440.752 s   |    22.752 s  |    6.4
+          441.755 s   |    23.755 s  |   23.1  ◀ fuerte
+          442.239 s   |    24.239 s  |   11.9  ◀ fuerte
+          443.568 s   |    25.568 s  |   20.8  ◀ fuerte
+          444.007 s   |    26.007 s  |   13.0  ◀ fuerte
+          444.836 s   |    26.836 s  |   25.3  ◀ fuerte
+          445.575 s   |    27.575 s  |   14.5  ◀ fuerte
+          446.922 s   |    28.922 s  |   22.0  ◀ fuerte
+          447.360 s   |    29.360 s  |   14.6  ◀ fuerte
+          448.236 s   |    30.236 s  |   14.4  ◀ fuerte
+          448.727 s   |    30.727 s  |    6.1
+          449.188 s   |    31.188 s  |    8.8
+          449.807 s   |    31.807 s  |    7.8
+          450.412 s   |    32.412 s  |   18.1  ◀ fuerte
+          450.856 s   |    32.856 s  |   18.9  ◀ fuerte
+          451.669 s   |    33.669 s  |   19.6  ◀ fuerte
+          452.528 s   |    34.528 s  |   15.5  ◀ fuerte
+          454.810 s   |    36.810 s  |    9.0
+          455.346 s   |    37.346 s  |   27.3  ◀ fuerte
+          455.815 s   |    37.815 s  |   12.5  ◀ fuerte
+          456.738 s   |    38.738 s  |   14.2  ◀ fuerte
+          457.611 s   |    39.611 s  |   21.2  ◀ fuerte
+          458.489 s   |    40.489 s  |   22.6  ◀ fuerte
+          458.887 s   |    40.887 s  |    6.3
+          459.400 s   |    41.400 s  |   17.0  ◀ fuerte
+          460.214 s   |    42.214 s  |    7.0
+          460.798 s   |    42.798 s  |    6.9
+          461.389 s   |    43.389 s  |    9.1  ◀ fuerte
+          461.922 s   |    43.922 s  |    7.4
+          462.569 s   |    44.569 s  |    7.6
+
+  sonoridad por tramos de 5 s:
+      0-  5 s   -11.6 LUFS · pico -1.5 dBFS
+      5- 10 s   -12.6 LUFS · pico -2.1 dBFS
+     10- 15 s   -17.5 LUFS · pico -2.6 dBFS
+     15- 20 s   -16.0 LUFS · pico -1.7 dBFS
+     20- 25 s   -18.0 LUFS · pico -3.3 dBFS
+     25- 30 s   -19.5 LUFS · pico -3.2 dBFS
+     30- 35 s   -14.5 LUFS · pico -1.9 dBFS
+     35- 40 s   -25.2 LUFS · pico -5.6 dBFS
+     40- 45 s   -37.4 LUFS · pico -18.0 dBFS
+    ventana entera  -14.6 LUFS · pico -1.5 dBFS
+
+  imagen: proyectos/023/musica/yeshua-419.png

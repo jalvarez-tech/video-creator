@@ -1,0 +1,13 @@
+# MD06 (IMG_9448). Una frase en tres bloques (nunca más de tres líneas a la vez); un acento: «extrañas».
+# «trabajaste duro»: whisper oye «trabajas seguro» (0,36). La /t/ y la [e] de «-te» están antes de «du-» (medido) y el reel editado
+# EXTRANJEROS 1 lo subtitula «trabajaste duro». POR CONFIRMAR AL OÍDO (MD06, 2,52-3,30 s).
+# «diciembres» y «extrañas»: no hay /s/ final medible en ninguna de las dos (ella aspira las eses); se pinta la forma gramatical. POR CONFIRMAR AL OÍDO (4,98 y 5,28 s).
+# Medido por formantes al exportar (2026-10-09, la orden llegó con la duda abierta): la vocal antes de «lo» (5,80-5,96 s) da F1 ≈ 550-595 y
+# F2 ≈ 1.870-2.060, como su /e/ de «exterior» (F1 490-570, F2 2.030-2.450) y no como su /a/ de «ahorraste» (F1 630-685, F2 1.360-1.545):
+# la medida NO confirma «extrañas»; whisper sin vocabulario oye «extrañes» y, cortando desde 5,34 s, «extraño es lo mismo». El reel editado
+# EXTRANJEROS 1 subtitula «extrañas lo mismo» y es lo que se pinta. POR CONFIRMAR AL OÍDO (MD06 5,28-6,57 s · en el vídeo 18,7-19,4 s).
+# «trabajaste»: la vocal de 3,06-3,10 s es [e] (F1 ≈ 460, F2 ≈ 1.800) y antes hay una /s/ que se corta y una explosión de /t/ (2,95-3,01 s),
+# que es «-s-te» y no la /s/ continua de «trabajas seguro».
+Llevas años / en el exterior,
+trabajaste duro{trabajas seguro} / y ahorraste,
+pero todos los diciembres{pero todos los diciembre} / **extrañas** / lo mismo.

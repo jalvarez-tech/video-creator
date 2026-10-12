@@ -8,7 +8,7 @@
 
 | Versión | Apertura | Hook | Mitad | CTA | Recorrido | Música (`desde`) | Dura | Estado |
 |---|---|---|---|---|---|---|---|---|
-| **V6 rev. 4** · «El balcón y lo que hay detrás» (022) | **ninguna: abre el hook** (pedido del usuario; la rev. 1-3 abría con RC13, 1,8 s) | **HK2** (`BALCON`) | **MD1** (`ALCOBA-SEC`) | **CT1** (`ALCOBA-PPAL`) | RC06 · RC05 · RC15 → MD1 → RC10 · RC16 · RC02 · RC12 | *Some Say* (Nea cover) — 139,067 s (golpe de 28,9 dB en 139,053 s, f1) | 1301 f · 43,4 s | **en prueba** |
+| **V6 rev. 5 de la prueba / rev. 1 de la final (voz a −15 LUFS)** · rev. 4 · «El balcón y lo que hay detrás» (022) | **ninguna: abre el hook** (pedido del usuario; la rev. 1-3 abría con RC13, 1,8 s) | **HK2** (`BALCON`) | **MD1** (`ALCOBA-SEC`) | **CT1** (`ALCOBA-PPAL`) | RC06 · RC05 · RC15 → MD1 → RC10 · RC16 · RC02 · RC12 | *Some Say* (Nea cover) — 139,067 s (golpe de 28,9 dB en 139,053 s, f1) | 1301 f · 43,4 s | **en prueba** |
 | V7 | | | | | | | | libre |
 
 Sin dron (no hay). Sin cifras. Sentido de paseo I (entrada → fondo).
@@ -54,7 +54,7 @@ Tabla completa en [`artefactos/03-timeline.md`](artefactos/03-timeline.md). Resu
 
 *Some Say* (Nea): entrada 139,053 s (golpe de 28,9 dB tras un respiro), 105 BPM, sin pulso utilizable (53 % de los fuertes a ≤ 15 ms de una recta de corcheas con desvío de 17 ms; 43 % con el pulso real): cortes en **golpes medidos** (`musica/golpes-022.json`), comprobados sobre el audio del render con `golpes-render.py` (R33: los 8 cortes y disolvencias caen a ≤ 0,5 f de su golpe). Meseta plana de −14,1 LUFS y **acorde final en 175,5 s** (f1097, dentro del CTA): −15,4 → −24,4 → −57,5 LUFS en tramos de 5 s (−9,0 dB: justo el mínimo del formato). Medida, **no oída**; licencia no verificada.
 
-Mezcla (medida sobre la prueba): voz con música debajo ≈ −20/−21 LUFS; música sola ≈ −14,4 (recorridos del bloque 3) y −15,8 (bloque 5); bajo la voz ≈ −31 LUFS (≈ 10 LU por debajo).
+Mezcla (medida sobre la final rev. 1): voz con música debajo −15,0 · −14,9 · −14,9 LUFS (antes −19,7 · −20,9 · −20,3), con el WAV tratado en −15,0/−15,1/−15,1 y pico real −2,5 dBTP; música sola ≈ −13,8 (recorridos) y −15,8; bajo la voz ≈ −31 LUFS (≈ 16 LU por debajo); pieza −15,1 LUFS. La voz está TRATADA (compresión 3:1 + limitador): excepción declarada a R29, por encargo.
 
 ## 3. Cómo cambiar cada pieza
 

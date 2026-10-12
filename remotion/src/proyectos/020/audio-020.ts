@@ -4,22 +4,22 @@
  * `<PistaMetraje>` pinta los planos MUDOS. Lo que se oye son dos cosas, y las dos
  * pasan por `<PistaAudio>`:
  *
- *   vocesTomas   la voz de Isabella en HK03, MD14 y CT06, derivada de los cortes
+ *   vocesTomas   la voz de Isabella en HK03, MD14 y CT06 (sus WAV TRATADOS, `<toma>-alta.wav`), derivada de los cortes
  *                que traen `audio` (`vocesDeCortes`): mismo arranque que su
  *                imagen, cruce de 6 f cuando disuelve, desclic de 3 f cuando sale a corte,
- *                y UNA ganancia por toma hasta `OBJETIVO_LUFS`. La primera toma sale sin
+ *                y la ganancia (de ±0,1 dB) que la lleva a `OBJETIVO_LUFS`. La primera toma sale sin
  *                voz: ella no habla hasta que su imagen es opaca.
  *   musica       «Sax for the Last Customer», con una envolvente que BAJA mientras habla Isabella
  *                y sube en los recorridos y en el acorde final. No es la de `envolventeBajoVoz`: aquí
  *                el golpe en que acaba cada disolvencia tiene que sonar entero y la voz nace 2-3 f después.
  *
  * LA MEZCLA, en LUFS (medidos con ebur128 sobre cada fuente):
- *   voz de Isabella      −21 (sus tomas miden −24,2 · −18,5 · −16,0)
+ *   voz de Isabella      −15 (revisión 1 del final: tratada a −15 LUFS con paso alto + compresor + limitador, ver `metraje-020.ts`; antes −21 sin tratar)
  *   música SOLA          −15: arriba, en los recorridos y en el acorde final
- *   música BAJO LA VOZ   −31: ≈ 10 LU por debajo de ella (ALTO × 0,16 = −16 dB)
+ *   música BAJO LA VOZ   −31: ≈ 16 LU por debajo de ella (ALTO × 0,16 = −16 dB); la música no se tocó en la revisión 1
  * La canción es una pista plana de jazz: suena a −13,9 LUFS de principio a fin (137,6-177 s), sin crescendo ni lecho, así que una
  * sola ganancia (nunca un loudnorm, que le cambiaría la dinámica) la lleva a −15 y la música sola es plana: −15 en todos los
- * recorridos. Es una pista densa (saxofón continuo): bajo la voz se mide que quede ≥ 9 LU por debajo, y el oído decide si compite.
+ * recorridos. Con la voz a −15 LUFS, igual que la música sola, bajo la voz queda ≈ 16 LU por debajo; el oído decide si el saxo continuo compite.
  *
  * LAS RAMPAS DE LA MÚSICA bajo la voz:
  *   · Cada toma de Isabella entra con una disolvencia que ACABA en un golpe de la canción (f76, f565, f1089) y su primera palabra

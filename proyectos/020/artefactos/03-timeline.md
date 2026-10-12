@@ -28,11 +28,13 @@ La columna **espacio** leída de arriba abajo es el paseo (sentido I: entrada �
 
 ## La voz (frames de la composición)
 
-| Toma | Dice | Primera palabra | Última palabra | LUFS en la toma | Ganancia a −21 |
-|---|---|---|---|---|---|
-| HK03 | «Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.» | f79 (imagen opaca en f76) | f236 (el corte, en f242) | −24,15 | +3,1 dB |
-| MD14 | «No estás viendo un apartamento sin terminar, estás viendo uno que todavía puedes definir.» | f567 (imagen opaca en f565) | f723 (la disolvencia a la alcoba empieza en f726) | −18,51 | −2,5 dB |
-| CT06 | «Si es el reto, escríbeme y agendamos una visita.» | f1092 (imagen opaca en f1089) | f1177 (el acorde final, en f1183; el fundido a negro, en f1186) | −16,03 | −5,0 dB |
+| Toma | Dice | Primera palabra | Última palabra | Sin tratar (LUFS) | **Tratada** (LUFS · pico real) | Ganancia que le queda al plan |
+|---|---|---|---|---|---|---|
+| HK03 | «Si estás buscando un apartamento totalmente terminado, este probablemente no es para ti.» | f79 (imagen opaca en f76) | f236 (el corte, en f242) | −24,15 | **−15,0 · −2,5 dBTP** | +0,0 dB |
+| MD14 | «No estás viendo un apartamento sin terminar, estás viendo uno que todavía puedes definir.» | f567 (imagen opaca en f565) | f723 (la disolvencia a la alcoba empieza en f726) | −18,51 | **−15,1 · −2,5 dBTP** | +0,1 dB |
+| CT06 | «Si es el reto, escríbeme y agendamos una visita.» | f1092 (imagen opaca en f1089) | f1177 (el acorde final, en f1183; el fundido a negro, en f1186) | −16,03 | **−15,0 · −2,4 dBTP** | +0,0 dB |
+
+**La voz va tratada desde la revisión 2 (2026-10-08).** El primer final la llevaba a −21 LUFS, sin tratar (una ganancia por toma, R29), y sonaba ≈ 6 dB por debajo de los recorridos; el usuario pidió «más decibeles sin saturar». Ahora cada toma pasa por una cadena suave (`normalizar.mjs`, `VOZ_TRATADA`) y queda en `<toma>-alta.wav`: **paso alto 100 Hz → compresor 2,5:1 con el umbral 6 dB sobre el nivel de ESA toma → ganancia (+10,6 · +5,3 · +3,8 dB, buscada con el limitador puesto) → limitador con lookahead a −2,5 dBFS**. Medido (`herramientas/voz-tratada.py`): compresión de 3,0-3,5 dB (p95), limitación de 3,6 · 1,6 · 2,8 dB como máximo, pico real −2,5 · −2,5 · −2,4 dBTP y desfase de 1-3 muestras (0,02-0,06 ms: inaudible). Los límites de la voz y los arranques de sílaba de los subtítulos se siguen midiendo sobre la voz SIN tratar (`hk03.wav`…): nada del texto ni de los cortes se movió.
 
 Entre la última palabra del CTA y el final de la pieza quedan **76 f** (la puerta pide 45-90): la cara de Isabella 16 f, el fundido a negro y la tarjeta oscura 60 f.
 
@@ -55,15 +57,15 @@ Entre la última palabra del CTA y el final de la pieza quedan **76 f** (la puer
 
 Medido igual que las piezas aprobadas, sobre 10 fotogramas con texto de las tres tomas (franja y 1380-1640, sin los píxeles de texto): contraste **3,2-4,0 : 1 al p90 y 2,5-3,3 : 1 al p99** (017: 2,9-3,7 / 2,6-3,0 · 018: 2,8-4,1 / 2,3-3,5 · 019: 3,2-4,3 / 2,1-3,0). El peor, f710 (2,5 al p99): el último trozo de la mitad sobre el deck claro del patio, cuando ya empieza la disolvencia a la alcoba. Los alfas del velo (0,62 / 0,34) no se tocaron.
 
-## La música y la mezcla (medida sobre la prueba)
+## La música y la mezcla (medida sobre el final, rev. 2)
 
 | Qué | Nivel |
 |---|---|
-| Voz de Isabella (hook · mitad · CTA) | −20,0 · −20,9 · −20,3 LUFS con la música debajo (objetivo −21; una ganancia por toma: +3,1 · −2,5 · −5,0 dB) |
-| Música sola | −15,1 (la apertura) · −14,8 (bloque 3) · −15,0 (bloque 5) LUFS: plana, como la canción |
-| Música bajo la voz | hook, mitad y CTA: −16 dB (≈ −30,9 LUFS: **9,9 LU bajo ella**, en la cuenta del plan) |
+| Voz de Isabella (hook · mitad · CTA) | **−14,8 · −14,9 · −14,8 LUFS** con la música debajo (voz tratada a −15; en el primer final, sin tratar: −20,0 · −20,9 · −20,3), picos reales −4,3 · −4,5 · −4,5 dBFS |
+| Música sola | −14,8 (bloque 3) · −15,0 (bloque 5) LUFS: plana, como la canción; **no se tocó**: la voz queda a su nivel |
+| Música bajo la voz | hook, mitad y CTA: −16 dB (≈ −30,9 LUFS: **15,9 LU bajo ella**; con la voz a −21 eran 9,9) |
 | Música bajo la tarjeta | la cola del acorde y la envolvente a cero en f1251: −38,8 LUFS en la tarjeta |
-| Pieza entera | **−16,0 LUFS** integrados · pico real −3,6 dBFS · LRA 6,8 LU |
+| Pieza entera | **−15,0 LUFS** integrados · pico real −3,6 dBFS · LRA 2,0 LU (primer final, voz a −21: −16,0 · −3,6 · 6,8): sube 1 LU y el rango se cierra porque la voz ya no queda abajo |
 
 **El acorde final.** La canción acaba en seco (acorde de 20,9 dB en 176,986 s de la canción, f1183,2): la voz del CTA acaba en f1177 y la música sube de su nivel bajo al «solo» en esos 5 f (`SUBIDA_ACORDE`), así que el acorde suena entero sobre la imagen que funde a negro (f1186–1192), y su cola de 2 s se apaga bajo el logo y la web. Tiene el mismo papel que la caída del piano en el 017 y el 018: resolver bajo el CTA y dejar la tarjeta en silencio.
 

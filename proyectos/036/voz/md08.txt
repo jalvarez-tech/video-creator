@@ -1,0 +1,7 @@
+# MD08 (IMG_9514), la MITAD. Una frase en dos bloques; un acento: «la vista ideal» (lo que cambia aquí).
+# «asado»: whisper con vocabulario oye «asado» (0,92); sin él, «has dado», y en la doble MD09 «ha dado». Entre «Jacuzzi» y la vocal siguiente
+# hay una /s/ (1,44-1,54 s, banda de 4-9 kHz a −57/−62 dB, el nivel de la /s/ de «vista»): se pinta «asado». POR CONFIRMAR AL OÍDO
+# (MD08 1,36-1,86 s · en el vídeo ≈ 16,9-17,4 s).
+# «Jacuzzi»: confianza 0,16-0,29, pero escrito igual en las cuatro pasadas (MD08 y MD09, con y sin vocabulario).
+Jacuzzi, / asado / con tu familia
+y la / **vista ideal.**

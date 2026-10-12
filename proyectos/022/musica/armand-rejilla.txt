@@ -1,0 +1,11 @@
+/Users/nicecode/Work/Propiedades Luxur/Music/Daniel Armand — Street Level Sessions on the Green.mp3
+ventana 165.232-210.232 s · 81 golpes ≥ 6 dB (59 fuertes)
+
+  periodo (s) · BPM · puntos · fase (s) · golpes ≥ 9 dB a ≤ 15 ms de la recta · desvío medio de los fuertes
+     0.3546  · 169.18 ·  212.7 · 0.3027 ·  19/ 59 (  32 %) ·  79.0 ms
+     0.2650  · 226.42 ·  191.6 · 0.2368 ·  17/ 59 (  29 %) ·  56.2 ms
+     0.2761  · 217.27 ·  191.1 · 0.1743 ·  13/ 59 (  22 %) ·  56.8 ms
+     0.3616  · 165.93 ·  182.5 · 0.0227 ·  14/ 59 (  24 %) ·  74.7 ms
+     0.2820  · 212.77 ·  181.5 · 0.0444 ·  15/ 59 (  25 %) ·  57.1 ms
+
+  intervalos entre golpes fuertes: mediana 0.530 s · p25 0.381 · p75 0.723

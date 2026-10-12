@@ -1,0 +1,11 @@
+/Users/nicecode/Work/Propiedades Luxur/Music/Some Say - Acoustic Sunsets (Nea Cover).mp3
+ventana 139.053-184.000 s · 71 golpes ≥ 6 dB (60 fuertes)
+
+  periodo (s) · BPM · puntos · fase (s) · golpes ≥ 9 dB a ≤ 15 ms de la recta · desvío medio de los fuertes
+     0.2858  · 209.94 ·  471.3 · 0.1362 ·  32/ 60 (  53 %) ·  17.4 ms
+     0.5717  · 104.95 ·  403.9 · 0.1055 ·  26/ 60 (  43 %) ·  48.9 ms
+     0.2539  · 236.27 ·  261.7 · 0.1633 ·  15/ 60 (  25 %) ·  63.1 ms
+     0.2694  · 222.68 ·  181.6 · 0.2168 ·  11/ 60 (  18 %) ·  62.7 ms
+     0.2651  · 226.33 ·  177.2 · 0.2184 ·  12/ 60 (  20 %) ·  63.7 ms
+
+  intervalos entre golpes fuertes: mediana 0.581 s · p25 0.552 · p75 0.622

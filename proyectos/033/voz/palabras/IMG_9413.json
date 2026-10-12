@@ -1,0 +1,359 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/Users/nicecode/Work/jalvarez/video-creator/archivos/whisper/ggml-small.bin",
+		"language": "es",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:00,000"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 0
+			},
+			"text": "",
+			"tokens": [
+				{
+					"text": "[_BEG_]",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,000"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 0
+					},
+					"id": 50364,
+					"p": 0.952853,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:00,660"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 660
+			},
+			"text": " Extranes",
+			"tokens": [
+				{
+					"text": " Ext",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,250"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 250
+					},
+					"id": 9881,
+					"p": 0.108268,
+					"t_dtw": 164
+				},
+				{
+					"text": "ran",
+					"timestamps": {
+						"from": "00:00:00,250",
+						"to": "00:00:00,500"
+					},
+					"offsets": {
+						"from": 250,
+						"to": 500
+					},
+					"id": 4257,
+					"p": 0.868371,
+					"t_dtw": 174
+				},
+				{
+					"text": "es",
+					"timestamps": {
+						"from": "00:00:00,500",
+						"to": "00:00:00,660"
+					},
+					"offsets": {
+						"from": 500,
+						"to": 660
+					},
+					"id": 279,
+					"p": 0.736707,
+					"t_dtw": 186
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:00,660",
+				"to": "00:00:01,590"
+			},
+			"offsets": {
+				"from": 660,
+				"to": 1590
+			},
+			"text": " Colombia,",
+			"tokens": [
+				{
+					"text": " Colombia",
+					"timestamps": {
+						"from": "00:00:00,660",
+						"to": "00:00:01,320"
+					},
+					"offsets": {
+						"from": 660,
+						"to": 1320
+					},
+					"id": 22677,
+					"p": 0.57468,
+					"t_dtw": 222
+				},
+				{
+					"text": ",",
+					"timestamps": {
+						"from": "00:00:01,330",
+						"to": "00:00:01,490"
+					},
+					"offsets": {
+						"from": 1330,
+						"to": 1490
+					},
+					"id": 11,
+					"p": 0.574521,
+					"t_dtw": 252
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:01,590",
+				"to": "00:00:01,820"
+			},
+			"offsets": {
+				"from": 1590,
+				"to": 1820
+			},
+			"text": " esta",
+			"tokens": [
+				{
+					"text": " esta",
+					"timestamps": {
+						"from": "00:00:01,590",
+						"to": "00:00:01,820"
+					},
+					"offsets": {
+						"from": 1590,
+						"to": 1820
+					},
+					"id": 5283,
+					"p": 0.484198,
+					"t_dtw": 276
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:01,820",
+				"to": "00:00:01,980"
+			},
+			"offsets": {
+				"from": 1820,
+				"to": 1980
+			},
+			"text": " es",
+			"tokens": [
+				{
+					"text": " es",
+					"timestamps": {
+						"from": "00:00:01,820",
+						"to": "00:00:01,980"
+					},
+					"offsets": {
+						"from": 1820,
+						"to": 1980
+					},
+					"id": 785,
+					"p": 0.986833,
+					"t_dtw": 282
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:01,980",
+				"to": "00:00:02,140"
+			},
+			"offsets": {
+				"from": 1980,
+				"to": 2140
+			},
+			"text": " la",
+			"tokens": [
+				{
+					"text": " la",
+					"timestamps": {
+						"from": "00:00:01,980",
+						"to": "00:00:02,140"
+					},
+					"offsets": {
+						"from": 1980,
+						"to": 2140
+					},
+					"id": 635,
+					"p": 0.988329,
+					"t_dtw": 294
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:02,140",
+				"to": "00:00:02,720"
+			},
+			"offsets": {
+				"from": 2140,
+				"to": 2720
+			},
+			"text": " razón",
+			"tokens": [
+				{
+					"text": " razón",
+					"timestamps": {
+						"from": "00:00:02,140",
+						"to": "00:00:02,620"
+					},
+					"offsets": {
+						"from": 2140,
+						"to": 2620
+					},
+					"id": 38310,
+					"p": 0.991053,
+					"t_dtw": 316
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:02,720",
+				"to": "00:00:02,970"
+			},
+			"offsets": {
+				"from": 2720,
+				"to": 2970
+			},
+			"text": " para",
+			"tokens": [
+				{
+					"text": " para",
+					"timestamps": {
+						"from": "00:00:02,720",
+						"to": "00:00:02,970"
+					},
+					"offsets": {
+						"from": 2720,
+						"to": 2970
+					},
+					"id": 1690,
+					"p": 0.960809,
+					"t_dtw": 336
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:02,970",
+				"to": "00:00:03,960"
+			},
+			"offsets": {
+				"from": 2970,
+				"to": 3960
+			},
+			"text": " regresar.",
+			"tokens": [
+				{
+					"text": " regres",
+					"timestamps": {
+						"from": "00:00:02,970",
+						"to": "00:00:03,470"
+					},
+					"offsets": {
+						"from": 2970,
+						"to": 3470
+					},
+					"id": 47108,
+					"p": 0.962232,
+					"t_dtw": 362
+				},
+				{
+					"text": "ar",
+					"timestamps": {
+						"from": "00:00:03,470",
+						"to": "00:00:03,630"
+					},
+					"offsets": {
+						"from": 3470,
+						"to": 3630
+					},
+					"id": 289,
+					"p": 0.996137,
+					"t_dtw": 394
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:03,630",
+						"to": "00:00:03,900"
+					},
+					"offsets": {
+						"from": 3630,
+						"to": 3900
+					},
+					"id": 13,
+					"p": 0.940971,
+					"t_dtw": 394
+				},
+				{
+					"text": "[_TT_198]",
+					"timestamps": {
+						"from": "00:00:03,960",
+						"to": "00:00:03,960"
+					},
+					"offsets": {
+						"from": 3960,
+						"to": 3960
+					},
+					"id": 50562,
+					"p": 0.164732,
+					"t_dtw": -1
+				}
+			]
+		}
+	]
+}
