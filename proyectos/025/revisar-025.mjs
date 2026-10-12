@@ -56,6 +56,8 @@ const TOPE_SEGUNDOS = 55; // el formato apunta a 45-50 s; pasado de aquí ya es 
 const MARGEN_FUNDIDO = 2; // f entre la última palabra y el inicio de la disolvencia del siguiente
 const COLA_FINAL = [45, 120]; // f desde la última palabra del CTA hasta el final (lo que le queda de toma + la tarjeta): la web se lee, sin quedarse muerto
 const TARJETA_FRAMES = [45, 75]; // f que dura la tarjeta oscura del cierre (1,5-2,5 s)
+const VOZ_OBJETIVO = -15; // LUFS de la voz (rev. 1, pedido del usuario: «sube los decibeles sin saturar»; hasta la rev. 0, −21)
+const TECHO_VOZ_DBTP = -1.0; // pico real de la voz en lo que suena, con su ganancia
 const HOLGURA_TROZO = 3; // f que un trozo puede adelantarse a su palabra
 const TOLERANCIA_GOLPE = 1; // f entre el `en` de un plano y el frame en que suena el golpe de la canción en que entra
 const FUERZA_MIN_CORTE_SECO = 7.4; // dB por 15 ms: un corte seco cae en un golpe de al menos esto
@@ -337,7 +339,7 @@ seccion("2e. el CTA: la 2.ª mitad de CT03 (recortada), declarado");
   const textoSubs = bloques.flatMap((b) => b.trozos.map((t) => t.texto)).join(" ");
   if (/disponible|millones|3\.?550|precio/i.test(textoSubs)) mal("hay un subtítulo con el precio o «disponible»: la 1.ª mitad de CT03 se corta y no suena");
   // La voz del CTA tiene que arrancar tras la pausa: ni un fotograma del WAV anterior a `desde` entra en el tramo.
-  const tramoCta = A.audio025.find((t) => t.src === "recorrido-025/ct03.wav");
+  const tramoCta = A.audio025.find((t) => t.src === "recorrido-025/ct03-voz.wav");
   if (!tramoCta) mal("no hay tramo de audio de CT03");
   else if ((tramoCta.desde ?? 0) < FIN_PRIMERA_MITAD) mal(`el tramo de voz del CTA lee el WAV desde ${tramoCta.desde} s y «millones» acaba a los ${FIN_PRIMERA_MITAD} s: se oiría el precio`);
   if (fallos.length === n) ok(`CT03 recortada a su 2.ª mitad: el clip entra a los ${cta.desde.toFixed(3)} s (la 1.ª acaba a los ${FIN_PRIMERA_MITAD} s), la voz va de ${cta.voz.s0} a ${cta.voz.s1} s (${(cta.voz.s1 - cta.voz.s0).toFixed(2)} s) · entra a corte (${((cta.voz.s0 - FIN_PRIMERA_MITAD) * fps).toFixed(1)} f de aire: no cabe una disolvencia) · ni precio, ni «disponible», ni cifra en la voz ni en pantalla · REPITE la frase de la V5 (otra toma, otro sitio)`);
@@ -421,6 +423,18 @@ seccion("3. la voz de las tomas a cámara");
     if (Math.abs(g) > 6) mal(`${c.id}: ganancia de voz ${g.toFixed(1)} dB (|g| > 6: ¿es la misma voz, el mismo micro?)`);
     ganancias.push(`${c.id} ${g >= 0 ? "+" : ""}${g.toFixed(1)}`);
   });
+  // REV. 1 («mientras habla Isabella sube los decibeles sin saturar»): la voz a −15 LUFS (el nivel de la música sola) y, en lo que SUENA —el WAV tratado, en la
+  // ventana de su tramo, con su ganancia—, el pico real por debajo de −1 dBTP. Medido, no supuesto: ebur128. Es una excepción a R29 por encargo.
+  if (M.OBJETIVO_LUFS !== VOZ_OBJETIVO) mal(`OBJETIVO_LUFS = ${M.OBJETIVO_LUFS}; el usuario pidió la voz más fuerte: ${VOZ_OBJETIVO} LUFS`);
+  for (const t of A.vocesTomas) {
+    if (!/-voz\.wav$/.test(t.src)) mal(`${t.id}: suena ${t.src}; la voz que suena es la tratada (<toma>-voz.wav), la cruda satura a −15 LUFS`);
+    const r = ejecutar("ffmpeg", ["-nostdin", "-hide_banner", "-ss", String(t.desde), "-t", String(t.dur / fps), "-i", join(PUBLICO, t.src), "-af", "ebur128=peak=true:framelog=quiet", "-f", "null", "-"]);
+    const tp = Number((/Peak:\s+(-?[\d.]+) dBFS/.exec(r.stderr ?? r.stdout) ?? [])[1]);
+    const g = typeof t.ganancia === "number" ? t.ganancia : 1;
+    const pico = tp + 20 * Math.log10(g);
+    if (!Number.isFinite(pico) || pico > TECHO_VOZ_DBTP) mal(`${t.id}: pico real ${Number.isFinite(pico) ? pico.toFixed(1) : "no medible"} dBTP con su ganancia; el techo es ${TECHO_VOZ_DBTP} (más, y satura)`);
+    else ganancias.push(`pico ${pico.toFixed(1)} dBTP`);
+  }
   // La cola de la PIEZA: desde la última palabra de la última toma (el CTA) hasta el final quedan 45-120 f: lo que la tarjeta del
   // cierre (el logo y la web, sección 2c) necesita para leerse, sin quedarse muerto. Nada se congela.
   const ultima = conVoz.at(-1);

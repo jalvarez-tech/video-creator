@@ -41,8 +41,23 @@ Decisiones del usuario (2026-10-06): **CTA = opción a (CT03 recortada)** y **ca
 
 - **Etiquetas de color** arregladas SIN pérdida en cada vídeo por separado (`h264_metadata` + `+write_colr`): el md5 del vídeo decodificado (`3edbc19b…` el master, `dd6b838b…` el CRF 16) y el del PCM (`babddfe3…`, el mismo en los dos) son idénticos antes y después.
 - **El color de la final contra stills a escala 1** (`medir-final.py`, 12 fotogramas; `finales/medir-final.txt`): master Δ color medio ≤ 0,51 niveles y PSNR de baja frecuencia ≥ 47,7 dB (bruto medio 44,3 dB, mín 39,1); CRF 16: ≤ 0,98 y ≥ 45,1 dB (bruto 42,2, mín 36,3). Ningún fotograma fuera de los topes.
-- **Sonoridad:** −16,2 LUFS integrados · pico −2,9 dBFS · LRA 7,8 LU, igual que la prueba.
+- **Sonoridad (rev. 0):** −16,2 LUFS integrados · pico −2,9 dBFS · LRA 7,8 LU, igual que la prueba; la voz, a −21 LUFS. **Superada por la rev. 1 (§2c).**
 - **Dos palabras sin oír** (`revisar-025.mjs --final` falla SOLO por la nota «POR CONFIRMAR AL OÍDO»; se avisó al usuario en la entrega de la prueba y contestó «renderiza»: no se bloqueó la orden): **«prefiere»** (MD11, ≈ 19,1 s del vídeo; whisper oye «prefiera», la vocal final mide una [e]) y el arranque **«¿Alguien…»** (≈ 16,9 s; medido sin «eres» delante). Si suena «prefiera» o «¿Eres alguien…»: el texto del trozo en `subtitulos-025.ts`, `voz/md11.txt`, el `dice` de `c06-mitad` en `metraje-025.ts`, el `.srt` y repetir los dos renders (≈ 5 min).
+
+## 2c. Rev. 1 del final (2026-10-08, pedido: «mientras habla Isabella sube los decibeles sin saturar para que se escuche más la voz»)
+
+**La voz de Isabella pasa de −21 a −15 LUFS** (el nivel de la música sola) **sin saturar**; la imagen no cambia (el md5 del vídeo decodificado es el mismo que el de la rev. 0: `3edbc19b…` el master, `dd6b838b…` el CRF 16) y la música tampoco.
+
+| | rev. 0 | rev. 1 |
+|---|---|---|
+| Voz en el hook · la mitad · el CTA (con la música debajo, en el render) | −21,2 · −21,3 · −20,8 LUFS | **−15,0 · −15,0 · −14,9 LUFS** (+6,2 · +6,3 · +5,9 dB) |
+| Pico real de esos tramos | −8,8 · −7,2 · −6,6 dBFS | −5,0 · −4,5 · −5,5 dBFS |
+| Pieza entera | −16,2 LUFS · LRA 7,8 | **−15,3 LUFS · LRA 5,2** · pico real −2,9 dBFS · 0 muestras a fondo de escala |
+| Música sola (casa · paseo · bloque 5) | −14,0 · −16,3 · −14,5 LUFS | igual |
+
+**Cómo (la cadena de la V12, `proyectos/028/normalizar.mjs`, con la ganancia de estas tomas):** las tres voces crudas miden −19,1 · −17,9 · −19,1 LUFS con picos de −4,0 · −1,1 · −2,1 dBTP: subirlas a −15 con ganancia sola daba +0,1 · +2,8 · +2,0 dBTP (saturan). El paso `vozTratada` de `normalizar.mjs` deja `<toma>-voz.wav`: highpass 100 Hz · puerta suave (−12 dB como mucho) · compresor 3:1 desde −26 dBFS · **+14 dB** · limitador a −2,5 dBFS (`latency=1`: el desfase con la voz cruda es de 1-2 muestras). Resultado medido (ebur128, ventana de voz): −14,9 · −15,3 · −14,6 LUFS con el pico real en −2,5 dBTP; el limitador apenas trabaja (0,1 dB en el hook). Excepción a R29 por encargo, declarada en `metraje-025.ts` y en la puerta (sección 3: `OBJETIVO_LUFS` −15 y pico real ≤ −1 dBTP con su ganancia: −2,6 · −2,2 · −2,9 dBTP). El WAV crudo sigue ahí para medir la voz (`s0`, `s1`).
+
+La música baja ahora ≈ 15 LU bajo la voz (antes ≈ 9-10): no se tocó, así que la voz gana sitio sin que la música cambie en los recorridos. Archivos: `finales/025-recorrido.mp4` (CRF 12) y `025-recorrido-crf16.mp4` son la rev. 1; la rev. 0 queda como `…-rev0.mp4`. Etiquetas de color arregladas sin pérdida otra vez (md5 de vídeo y PCM iguales antes y después; el PCM es el mismo en los dos archivos y distinto del de la rev. 0). El color no se vuelve a medir: la imagen es idéntica.
 
 ## 3. Cómo cambiarlo
 

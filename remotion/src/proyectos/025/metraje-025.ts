@@ -66,13 +66,13 @@ export const FPS_025 = 30;
 export type Entrada = "corte" | "disolver";
 export type Bloque = 1 | 2 | 3 | 4 | 5 | 6;
 
-/** Dónde habla Isabella en SU clip y a qué nivel. Medido con `limites-voz.py` y ebur128, no estimado. */
+/** Dónde habla Isabella en SU clip y a qué nivel. `s0`/`s1` medidos con `limites-voz.py` sobre el WAV crudo; `lufs`, con ebur128 sobre el WAV TRATADO que suena (ver `OBJETIVO_LUFS`). */
 export interface VozDelCorte {
   /** Segundo de la fuente en que empieza a hablar. */
   s0: number;
   /** Segundo de la fuente en que termina de hablar. */
   s1: number;
-  /** Sonoridad integrada de la voz (LUFS) en esa ventana. */
+  /** Sonoridad integrada de la voz TRATADA (LUFS) en esa ventana. */
   lufs: number;
   /** Lo que dice, tal como está en el guion. Solo para leer el plan. */
   dice: string;
@@ -83,16 +83,20 @@ export interface Corte extends CorteDelFormato<Entrada> {
   tipo: "video" | "foto";
   /** A qué bloque del guion pertenece: la puerta comprueba el orden y el tope de cada uno. */
   bloque: Bloque;
-  /** Solo las tomas de Isabella cuya voz entra con su imagen: el WAV de su voz, sin tratar. */
+  /** Solo las tomas de Isabella cuya voz entra con su imagen: el WAV de su voz, TRATADO (`<toma>-voz.wav`: ver `OBJETIVO_LUFS`). */
   audio?: string;
   voz?: VozDelCorte;
 }
 
 /**
- * EL NIVEL DE LA VOZ: una ganancia por toma hasta este objetivo y nada más (R29). Las tres tomas miden −19,1 (HK09), −17,9 (MD11) y −19,1 LUFS (la 2.ª mitad de CT03) en su ventana de voz (`ebur128` sobre el WAV):
- * −21 es el objetivo de las ocho versiones anteriores y se mantiene para que el canal suene igual de fuerte. Las ganancias son −1,9 · −3,1 · −1,9 dB (los picos de −4,0, −1,1 y −2,1 dBFS bajan).
+ * EL NIVEL DE LA VOZ: −15 LUFS, el de la música sola (REV. 1, pedido del usuario tras la final, 2026-10-08: «mientras habla Isabella sube los decibeles sin saturar para que se escuche más
+ * la voz»; la rev. 0 y las ocho versiones anteriores la llevaban a −21). Con ganancia sola no se puede: las tres tomas crudas miden −19,1 (HK09), −17,9 (MD11) y −19,1 LUFS (CT03) con picos de
+ * −4,0, −1,1 y −2,1 dBTP, y subirlas 4-3 dB las llevaría a +0,1, +2,8 y +2,0 dBTP (saturan). Suena la voz TRATADA (`<toma>-voz.wav`: graves, puerta suave, compresión 3:1, +14 dB y limitador
+ * a −2,5 dBFS, en `proyectos/025/normalizar.mjs`), que ya llega a −14,9 · −15,3 · −14,6 LUFS con el pico real en −2,5 dBTP; la ganancia del plan solo iguala las tres (−0,1 · +0,3 · −0,4 dB).
+ * Excepción a R29 («una ganancia por toma y nada más»), por encargo, declarada aquí y en la puerta (sección 3: pico real ≤ −1 dBTP con su ganancia). Lo que mide `limites-voz.py` (R29), `s0` y `s1`,
+ * sale del WAV crudo: el tratado no se desfasa (0-2 muestras).
  */
-export const OBJETIVO_LUFS = -21;
+export const OBJETIVO_LUFS = -15;
 
 /* ── Los golpes de la música ────────────────────────────────────────────────
  *
@@ -231,11 +235,11 @@ export const metraje025: readonly Corte[] = [
     bloque: 2,
     tipo: "video",
     src: v("hk09"),
-    audio: a("hk09"),
+    audio: a("hk09-voz"),
     voz: {
       s0: 0.95,
       s1: 4.12,
-      lufs: -19.1,
+      lufs: -14.9,
       dice: "Esta propiedad tiene sentido para un comprador muy específico.",
     },
     // La voz empieza a los 0,95 s (28,5 f) y acaba a los 4,12 s (123,6 f); el clip dura 4,63 s (139 f). `desde` 14 f (0,47 s) deja 14 f de clip por delante para la disolvencia (pide 12): su imagen es opaca en el golpe del f105
@@ -303,11 +307,11 @@ export const metraje025: readonly Corte[] = [
     bloque: 4,
     tipo: "video",
     src: v("md11"),
-    audio: a("md11"),
+    audio: a("md11-voz"),
     voz: {
       s0: 1.0,
       s1: 5.16,
-      lufs: -17.9,
+      lufs: -15.3,
       dice: "¿Alguien que valora la arquitectura y prefiere crear sus propios acabados?",
     },
     // La voz empieza a los 1,00 s (30 f) y acaba a los 5,16 s (154,8 f); el clip dura 5,27 s (158 f): deja 0,10 s (3 f) tras la última palabra, así que el plano siguiente corta ahí. `desde` 19 f (0,63 s) deja 19 f de clip para la
@@ -375,11 +379,11 @@ export const metraje025: readonly Corte[] = [
     bloque: 6,
     tipo: "video",
     src: v("ct03"),
-    audio: a("ct03"),
+    audio: a("ct03-voz"),
     voz: {
       s0: 3.96,
       s1: 5.67,
-      lufs: -19.1,
+      lufs: -14.6,
       dice: "Escríbeme y ven a conocerlo.",
     },
     // CT03 RECORTADA a su 2.ª mitad (decisión del usuario, 2026-10-06): la 1.ª, «Está disponible por 3.550 millones,», acaba a los 3,56 s del clip y la 2.ª empieza a los 3,96 s (0,40 s de silencio real). `desde` 111 f (3,70 s): entra
