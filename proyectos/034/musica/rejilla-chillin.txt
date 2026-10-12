@@ -1,0 +1,4 @@
+
+### Chill Music - F.G.G. - Chillin' (Chillstep Mix).mp3  (305 s)  caídas completas: 1
+  cae en   294.75 s  pre  -15.3 →  -25.7 →  -99.0 dB  (10.4/83.7)  golpes≥7,4 en 52 s:  64  soluciones: 1
+      · plano más corto = 55 f · disolvencia más débil 15.8 dB / corte seco 8.7 dB · cortes [264.978, 268.212, 273.819, 276.99, 278.833, 281.451, 286.213, 288.183, 290.464, 292.919] · planos [97, 168, 95, 55, 79, 143, 59, 68, 74] · dB [15.8, 9.8, 8.7, 20.8, 12.6, 9.3, 15.9, 10.3, 12.3, 10.6]

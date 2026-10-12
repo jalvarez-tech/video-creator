@@ -1,0 +1,81 @@
+
+### Aleksey Chistilin - Deep Breath.mp3  (140 s)  caídas completas: 1
+  cae en   134.25 s  pre  -18.3 →  -27.4 →  -99.0 dB  ( 9.1/80.7)  golpes≥7,4 en 52 s:  43  soluciones: 0
+
+### Aleksey Chistilin - Overcoming the Impossible.mp3  (220 s)  caídas completas: 1
+  cae en   212.00 s  pre  -20.6 →  -30.3 →  -99.0 dB  ( 9.6/78.4)  golpes≥7,4 en 52 s:  66  soluciones: 0
+
+### Aleksey Chistilin - Utopia.mp3  (188 s)  caídas completas: 1
+  cae en   176.50 s  pre  -11.9 →  -27.8 →  -33.2 dB  (15.9/21.3)  golpes≥7,4 en 52 s:  54  soluciones: 0
+
+### Armin van Buuren - Children (from 'Piano' album).mp3  (315 s)  caídas completas: 0
+
+### Armin van Buuren - Here For You (from 'Piano' album).mp3  (235 s)  caídas completas: 1
+  cae en   221.50 s  pre  -21.7 →  -31.4 →  -62.6 dB  ( 9.7/40.9)  golpes≥7,4 en 52 s:  37  soluciones: 0
+
+### Begin Again.mp3  (204 s)  caídas completas: 1
+  cae en   196.75 s  pre  -20.6 →  -29.9 →  -99.0 dB  ( 9.3/78.4)  golpes≥7,4 en 52 s:  48  soluciones: 0
+
+### Chill Music - F.G.G. - Chillin' (Chillstep Mix).mp3  (305 s)  caídas completas: 1
+  cae en   294.75 s  pre  -15.3 →  -25.7 →  -99.0 dB  (10.4/83.7)  golpes≥7,4 en 52 s:  64  soluciones: 0
+
+### Cornfield Chase.mp3  (127 s)  caídas completas: 1
+  cae en   119.25 s  pre  -10.9 →  -20.9 →  -99.0 dB  (10.0/88.1)  golpes≥7,4 en 52 s:  15  soluciones: 0
+
+### Epic Inspirational and Cinematic Motivational - by AShamalue  (191 s)  caídas completas: 0
+
+### Fortitude (Light Version).mp3  (213 s)  caídas completas: 1
+  cae en   200.25 s  pre  -22.3 →  -31.3 →  -43.5 dB  ( 9.0/21.2)  golpes≥7,4 en 52 s:  34  soluciones: 0
+
+### Gary B.B. Coleman - The Sky is Crying.mp3  (553 s)  caídas completas: 1
+  cae en   547.25 s  pre  -24.8 →  -37.1 →  -99.0 dB  (12.3/74.2)  golpes≥7,4 en 52 s:  69  soluciones: 0
+
+### I Feel It Coming - The Weeknd (Saxophone Cover).mp3  (272 s)  caídas completas: 1
+  cae en   261.00 s  pre  -17.1 →  -26.2 →  -45.1 dB  ( 9.1/28.0)  golpes≥7,4 en 52 s:  81  soluciones: 0
+
+### In This Together.mp3  (216 s)  caídas completas: 0
+
+### L' Amour Toujours on SAXOPHONE.mp3  (213 s)  caídas completas: 1
+  cae en   205.75 s  pre   -8.7 →  -18.5 →  -99.0 dB  ( 9.8/90.3)  golpes≥7,4 en 52 s:  53  soluciones: 0
+
+### La Isla Bonita (Saxophone 80 Mix).mp3  (234 s)  caídas completas: 1
+  cae en   219.00 s  pre  -11.0 →  -20.6 →  -35.9 dB  ( 9.6/25.0)  golpes≥7,4 en 52 s:  78  soluciones: 0
+
+### Light Fills the Room.mp3  (214 s)  caídas completas: 0
+
+### Ludovico Einaudi - Einaudi Fly.mp3  (281 s)  caídas completas: 1
+  cae en   261.75 s  pre  -17.1 →  -28.3 →  -37.1 dB  (11.3/20.0)  golpes≥7,4 en 52 s:  20  soluciones: 0
+
+### Ludovico Einaudi - Experience (Live from Teatro dal Verme, M  (383 s)  caídas completas: 1
+  cae en   377.75 s  pre  -17.3 →  -28.1 →  -99.0 dB  (10.8/81.7)  golpes≥7,4 en 52 s:  44  soluciones: 0
+
+### Luxury, Elegance, Refined - Oficial Vídeo Clipe.mp3  (183 s)  caídas completas: 0
+
+### Nils Frahm - Familiar.mp3  (339 s)  caídas completas: 1
+  cae en   329.25 s  pre  -39.1 →  -48.9 →  -99.0 dB  ( 9.7/59.9)  golpes≥7,4 en 52 s:  77  soluciones: 2
+      · plano más corto = 49 f · disolvencia más débil 9.8 dB / corte seco 8.0 dB · cortes [302.999, 306.043, 311.25, 313.572, 315.731, 317.932, 322.938, 324.651, 326.27, 328.137] · planos [91, 156, 70, 65, 66, 150, 51, 49, 56] · dB [9.8, 11.7, 8.0, 11.6, 11.4, 11.2, 9.8, 14.5, 16.5, 14.9]
+      · plano más corto = 45 f · disolvencia más débil 9.8 dB / corte seco 8.0 dB · cortes [302.999, 306.043, 311.25, 313.572, 315.731, 318.587, 323.852, 325.65, 327.147, 329.016] · planos [91, 156, 70, 65, 86, 158, 54, 45, 56] · dB [9.8, 11.7, 8.0, 11.6, 11.4, 11.2, 10.7, 11.2, 11.4, 10.7]
+
+### Nils Frahm - Says .mp3  (499 s)  caídas completas: 1
+  cae en   493.25 s  pre  -17.3 →  -26.9 →  -99.0 dB  ( 9.7/81.7)  golpes≥7,4 en 52 s:  15  soluciones: 0
+
+### Oceans (Where Feet May Fail).mp3  (466 s)  caídas completas: 1
+  cae en   452.25 s  pre  -25.3 →  -34.3 →  -46.2 dB  ( 9.0/20.9)  golpes≥7,4 en 52 s:  39  soluciones: 0
+
+### Silver Skies Cinematic Piano.mp3  (159 s)  caídas completas: 0
+
+### Softly I Judah Earl & BRANDON BLACK #music #cinematic #orche  (225 s)  caídas completas: 2
+  cae en   198.25 s  pre  -10.9 →  -20.4 →  -31.4 dB  ( 9.4/20.5)  golpes≥7,4 en 52 s:  37  soluciones: 0
+  cae en   217.25 s  pre  -34.5 →  -44.1 →  -99.0 dB  ( 9.6/64.5)  golpes≥7,4 en 52 s:  22  soluciones: 0
+
+### Spring is Coming.mp3  (122 s)  caídas completas: 0
+
+### Tony Anderson - Dreamlife.mp3  (242 s)  caídas completas: 1
+  cae en   218.25 s  pre   -9.9 →  -19.1 →  -30.4 dB  ( 9.2/20.5)  golpes≥7,4 en 52 s:  15  soluciones: 0
+
+### deadmau5 - Strobe.mp3  (637 s)  caídas completas: 1
+  cae en   627.75 s  pre  -26.0 →  -35.1 →  -99.0 dB  ( 9.0/73.0)  golpes≥7,4 en 52 s: 100  soluciones: 4
+      · plano más corto = 48 f · disolvencia más débil 13.4 dB / corte seco 7.4 dB · cortes [600.346, 603.626, 608.783, 610.812, 612.809, 615.81, 621.519, 623.39, 624.987, 626.999] · planos [98, 155, 61, 60, 90, 171, 56, 48, 60] · dB [13.4, 18.4, 13.2, 11.9, 10.5, 10.7, 9.1, 7.4, 10.7, 12.7]
+      · plano más corto = 48 f · disolvencia más débil 13.4 dB / corte seco 7.4 dB · cortes [600.346, 603.626, 609.165, 611.208, 613.263, 615.81, 621.519, 623.39, 624.987, 626.999] · planos [98, 166, 61, 62, 76, 171, 56, 48, 60] · dB [13.4, 18.4, 10.3, 9.5, 11.8, 10.7, 9.1, 7.4, 10.7, 12.7]
+      · plano más corto = 48 f · disolvencia más débil 11.7 dB / corte seco 7.4 dB · cortes [600.814, 603.626, 608.783, 610.812, 612.809, 615.81, 621.519, 623.39, 624.987, 626.999] · planos [84, 155, 61, 60, 90, 171, 56, 48, 60] · dB [11.7, 18.4, 13.2, 11.9, 10.5, 10.7, 9.1, 7.4, 10.7, 12.7]
+      · plano más corto = 48 f · disolvencia más débil 11.7 dB / corte seco 7.4 dB · cortes [600.814, 603.626, 609.165, 611.208, 613.263, 615.81, 621.519, 623.39, 624.987, 626.999] · planos [84, 166, 61, 62, 76, 171, 56, 48, 60] · dB [11.7, 18.4, 10.3, 9.5, 11.8, 10.7, 9.1, 7.4, 10.7, 12.7]
