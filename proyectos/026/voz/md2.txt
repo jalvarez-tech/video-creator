@@ -1,0 +1,4 @@
+# MD2 (mitad, repetida de la V8): «Aquí el balcón se convierte en una extensión de la zona social.»
+# Un solo acento por frase (dos a menos de 2 s no pasan el validador). «balcón»: whisper lo oye «Balfolcín»/«Valkulcian»; la vocal tónica mide una /o/ (V8), por oír.
+Aquí el balcón / se convierte en / una extensión
+de la / **zona social.**
