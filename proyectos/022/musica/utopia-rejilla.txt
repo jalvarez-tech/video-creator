@@ -1,0 +1,11 @@
+/Users/nicecode/Work/Propiedades Luxur/Music/Aleksey Chistilin - Utopia.mp3
+ventana 141.808-186.808 s · 81 golpes ≥ 6 dB (33 fuertes)
+
+  periodo (s) · BPM · puntos · fase (s) · golpes ≥ 9 dB a ≤ 15 ms de la recta · desvío medio de los fuertes
+     0.2545  · 235.71 ·  121.9 · 0.0109 ·   9/ 33 (  27 %) ·  50.2 ms
+     0.2780  · 215.79 ·  121.7 · 0.0964 ·   6/ 33 (  18 %) ·  55.6 ms
+     0.3656  · 164.11 ·  109.7 · 0.3384 ·  11/ 33 (  33 %) ·  64.7 ms
+     0.3020  · 198.64 ·  108.2 · 0.0624 ·   8/ 33 (  24 %) ·  63.1 ms
+     0.3776  · 158.90 ·  106.6 · 0.1174 ·   9/ 33 (  27 %) ·  90.7 ms
+
+  intervalos entre golpes fuertes: mediana 0.738 s · p25 0.526 · p75 1.319

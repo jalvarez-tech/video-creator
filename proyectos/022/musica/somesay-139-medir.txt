@@ -1,0 +1,91 @@
+
+/Users/nicecode/Work/Propiedades Luxur/Music/Some Say - Acoustic Sunsets (Nea Cover).mp3
+ventana 139.053-189.053 s · 71 golpes de ≥ 6 dB
+
+  golpe en la canción | en la ventana | fuerza (dB/15 ms)
+          139.060 s   |     0.007 s  |    9.0
+          139.597 s   |     0.544 s  |   10.2  ◀ fuerte
+          140.194 s   |     1.141 s  |   15.4  ◀ fuerte
+          140.733 s   |     1.680 s  |   13.1  ◀ fuerte
+          141.608 s   |     2.555 s  |   16.4  ◀ fuerte
+          141.987 s   |     2.934 s  |    7.0
+          142.484 s   |     3.431 s  |   12.4  ◀ fuerte
+          143.032 s   |     3.979 s  |   18.7  ◀ fuerte
+          143.632 s   |     4.579 s  |   24.0  ◀ fuerte
+          144.164 s   |     5.111 s  |   20.8  ◀ fuerte
+          144.787 s   |     5.734 s  |   21.9  ◀ fuerte
+          145.300 s   |     6.247 s  |   12.3  ◀ fuerte
+          145.650 s   |     6.597 s  |    6.6
+          146.192 s   |     7.139 s  |   16.9  ◀ fuerte
+          146.784 s   |     7.731 s  |   13.2  ◀ fuerte
+          147.578 s   |     8.525 s  |   15.8  ◀ fuerte
+          148.154 s   |     9.101 s  |   17.1  ◀ fuerte
+          148.735 s   |     9.682 s  |   14.1  ◀ fuerte
+          149.330 s   |    10.277 s  |    9.6  ◀ fuerte
+          149.882 s   |    10.829 s  |   14.7  ◀ fuerte
+          150.754 s   |    11.701 s  |   16.0  ◀ fuerte
+          151.632 s   |    12.579 s  |   14.9  ◀ fuerte
+          152.181 s   |    13.128 s  |   22.1  ◀ fuerte
+          152.773 s   |    13.720 s  |   15.0  ◀ fuerte
+          153.314 s   |    14.261 s  |   20.2  ◀ fuerte
+          153.893 s   |    14.840 s  |   16.9  ◀ fuerte
+          154.747 s   |    15.694 s  |   14.1  ◀ fuerte
+          155.324 s   |    16.271 s  |   23.7  ◀ fuerte
+          156.194 s   |    17.141 s  |   13.9  ◀ fuerte
+          156.833 s   |    17.780 s  |    8.0
+          157.317 s   |    18.264 s  |    9.2  ◀ fuerte
+          157.871 s   |    18.818 s  |   17.0  ◀ fuerte
+          158.473 s   |    19.420 s  |   12.9  ◀ fuerte
+          158.869 s   |    19.816 s  |    6.8
+          159.328 s   |    20.275 s  |   11.6  ◀ fuerte
+          159.731 s   |    20.678 s  |    6.7
+          160.160 s   |    21.107 s  |   22.8  ◀ fuerte
+          160.775 s   |    21.722 s  |   11.6  ◀ fuerte
+          161.332 s   |    22.279 s  |   14.0  ◀ fuerte
+          161.918 s   |    22.865 s  |   22.5  ◀ fuerte
+          162.451 s   |    23.398 s  |   24.8  ◀ fuerte
+          163.072 s   |    24.019 s  |   15.4  ◀ fuerte
+          163.587 s   |    24.534 s  |   13.1  ◀ fuerte
+          164.199 s   |    25.146 s  |   12.2  ◀ fuerte
+          164.751 s   |    25.698 s  |   17.3  ◀ fuerte
+          165.336 s   |    26.283 s  |   14.3  ◀ fuerte
+          165.904 s   |    26.851 s  |   13.0  ◀ fuerte
+          166.451 s   |    27.398 s  |   11.9  ◀ fuerte
+          167.016 s   |    27.963 s  |   24.6  ◀ fuerte
+          167.647 s   |    28.594 s  |   14.2  ◀ fuerte
+          168.201 s   |    29.148 s  |   12.1  ◀ fuerte
+          168.770 s   |    29.717 s  |   11.7  ◀ fuerte
+          169.342 s   |    30.289 s  |   25.0  ◀ fuerte
+          169.913 s   |    30.860 s  |   13.3  ◀ fuerte
+          170.464 s   |    31.411 s  |   26.4  ◀ fuerte
+          171.059 s   |    32.006 s  |   14.7  ◀ fuerte
+          171.596 s   |    32.543 s  |   21.4  ◀ fuerte
+          172.178 s   |    33.125 s  |   12.7  ◀ fuerte
+          172.703 s   |    33.650 s  |   12.0  ◀ fuerte
+          173.342 s   |    34.289 s  |   17.0  ◀ fuerte
+          173.894 s   |    34.841 s  |   19.1  ◀ fuerte
+          174.488 s   |    35.435 s  |   13.8  ◀ fuerte
+          175.061 s   |    36.008 s  |   14.6  ◀ fuerte
+          175.628 s   |    36.575 s  |   15.1  ◀ fuerte
+          176.169 s   |    37.116 s  |   16.2  ◀ fuerte
+          179.182 s   |    40.129 s  |    6.6
+          180.754 s   |    41.701 s  |    6.1
+          181.671 s   |    42.618 s  |    8.3
+          182.320 s   |    43.267 s  |    9.9  ◀ fuerte
+          182.709 s   |    43.656 s  |    7.6
+          183.541 s   |    44.488 s  |    6.7
+
+  sonoridad por tramos de 5 s:
+      0-  5 s   -13.6 LUFS · pico -0.8 dBFS
+      5- 10 s   -13.3 LUFS · pico -0.7 dBFS
+     10- 15 s   -13.7 LUFS · pico -0.9 dBFS
+     15- 20 s   -13.4 LUFS · pico -0.8 dBFS
+     20- 25 s   -14.8 LUFS · pico -1.0 dBFS
+     25- 30 s   -14.7 LUFS · pico -0.9 dBFS
+     30- 35 s   -15.2 LUFS · pico -1.1 dBFS
+     35- 40 s   -15.9 LUFS · pico -1.2 dBFS
+     40- 45 s   -49.4 LUFS · pico -33.1 dBFS
+     45- 50 s   -70.0 LUFS · pico -86.9 dBFS
+    ventana entera  -14.2 LUFS · pico -0.7 dBFS
+
+  imagen: proyectos/022/musica/somesay-139.png

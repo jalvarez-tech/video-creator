@@ -1,0 +1,11 @@
+/Users/nicecode/Work/Propiedades Luxur/Music/Tiesto pres. Allure - Somewhere inside οf me (Alexander Gorshkov chillout remix).mp3
+ventana 182.392-227.392 s · 50 golpes ≥ 6 dB (12 fuertes)
+
+  periodo (s) · BPM · puntos · fase (s) · golpes ≥ 9 dB a ≤ 15 ms de la recta · desvío medio de los fuertes
+     0.3967  · 151.23 ·   57.9 · 0.2723 ·   2/ 12 (  17 %) ·  38.3 ms
+     0.2967  · 202.22 ·   54.6 · 0.0839 ·   3/ 12 (  25 %) ·  83.3 ms
+     0.2681  · 223.80 ·   50.6 · 0.0939 ·   5/ 12 (  42 %) ·  53.5 ms
+     0.2850  · 210.49 ·   46.8 · 0.1321 ·   2/ 12 (  17 %) ·  67.3 ms
+     0.4754  · 126.21 ·   45.8 · 0.0652 ·   4/ 12 (  33 %) · 108.4 ms
+
+  intervalos entre golpes fuertes: mediana 2.217 s · p25 0.598 · p75 3.935

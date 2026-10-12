@@ -1,0 +1,12 @@
+Installed 2 packages in 28ms
+/Users/nicecode/Work/Propiedades Luxur/Music/Tiesto pres. Allure - Somewhere inside οf me (Alexander Gorshkov chillout remix).mp3
+ventana 291.855-336.855 s · 81 golpes ≥ 6 dB (59 fuertes)
+
+  periodo (s) · BPM · puntos · fase (s) · golpes ≥ 9 dB a ≤ 15 ms de la recta · desvío medio de los fuertes
+     0.2970  · 202.02 ·  296.9 · 0.1944 ·  36/ 59 (  61 %) ·  56.9 ms
+     0.3953  · 151.76 ·  169.5 · 0.3528 ·  15/ 59 (  25 %) ·  50.6 ms
+     0.2508  · 239.23 ·  145.2 · 0.1278 ·  12/ 59 (  20 %) ·  56.9 ms
+     0.3240  · 185.16 ·  138.9 · 0.1540 ·  15/ 59 (  25 %) ·  73.5 ms
+     0.2740  · 218.94 ·  137.5 · 0.0459 ·  13/ 59 (  22 %) ·  63.0 ms
+
+  intervalos entre golpes fuertes: mediana 0.738 s · p25 0.448 · p75 0.747
