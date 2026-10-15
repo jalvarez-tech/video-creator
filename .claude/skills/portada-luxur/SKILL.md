@@ -164,3 +164,16 @@ receta en `proyectos/NNN/portada.json`:
 Hay dos tandas, con los mismos segundos: la primera, con la línea BLANCA, en
 `Portadas/`, y la dorada, que es el diseño vigente, en `Portadas/linea-c6a878/`.
 Las recetas no guardan color, así que hoy reproducen la DORADA.
+
+One Living (ENVIGADO, venta: «venta por cesión de contrato» en su ficha; la
+locación, la del nombre de la carpeta, como en Los Patios), 2026-10-11, línea
+dorada, en `…/Apartamento - One Living - Envigado/Videos Social Media/Portadas/`.
+Sin dron ni fachada: cada reel, un espacio distinto del piso.
+
+| Pieza | Segundo | Plano |
+|---|---|---|
+| 022 | 5,5 | el balcón con la panorámica (el tema de su hook) |
+| 024 | 10,8 | la sala abierta al balcón |
+| 026 | 32,8 | la alcoba principal con el ventanal |
+| 027 | 10,2 | la cocina con la isla |
+| 028 | 10,0 | la vista desde el balcón |
