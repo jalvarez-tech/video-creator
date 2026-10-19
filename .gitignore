@@ -115,6 +115,10 @@ remotion/public/recorrido-039/
 # aquí la marca.
 !.claude/skills/portada-*/
 !.agents/skills/portada-*
+# Lo mismo para la ficha fija de cada marca (`ficha-<marca>`): el tipo, el lugar y el precio
+# sobre los reels ya exportados (2026-10-17). Sus JSON son datos públicos de la web.
+!.claude/skills/ficha-*/
+!.agents/skills/ficha-*
 # <<< SOLO ESTUDIO <<<
 
 # ─── 6. Material dentro de un proyecto ───────────────────────────────────────
