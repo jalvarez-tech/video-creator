@@ -226,14 +226,21 @@ const WebCierre: React.FC = () => {
   );
 };
 
-export const Recorrido036: React.FC = () => (
+/**
+ * `sinSubtitulos` deja la pieza SIN los subtítulos ni su velo: es la base de la versión con la
+ * ficha de la propiedad (skill `ficha-luxur`), que va sobre el vídeo limpio. Por defecto es false
+ * y la salida publicada no cambia ni un píxel.
+ */
+export const Recorrido036: React.FC<{ sinSubtitulos?: boolean }> = ({ sinSubtitulos = false }) => (
   <AbsoluteFill style={{ backgroundColor: LOOK_036.negro }}>
     <PistaMetraje cortes={metraje036} look={LOOK_036} />
     <FundidoACierre />
-    <VeloSubtitulos />
-    <AbsoluteFill style={{ opacity: OPACIDAD_SUBTITULOS, pointerEvents: "none" }}>
-      <SubtitulosEditoriales bloques={subtitulos036} marca={LUXUR} acentoMenos={ACENTO_MENOS_036} />
-    </AbsoluteFill>
+    {sinSubtitulos ? null : <VeloSubtitulos />}
+    {sinSubtitulos ? null : (
+      <AbsoluteFill style={{ opacity: OPACIDAD_SUBTITULOS, pointerEvents: "none" }}>
+        <SubtitulosEditoriales bloques={subtitulos036} marca={LUXUR} acentoMenos={ACENTO_MENOS_036} />
+      </AbsoluteFill>
+    )}
     <LogoCierre />
     <WebCierre />
     <PistaAudio tramos={audio036} />
