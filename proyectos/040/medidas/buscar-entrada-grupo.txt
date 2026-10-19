@@ -1,0 +1,23 @@
+Installed 2 packages in 62ms
+CTA entre 28 y 36 s tras la entrada · golpe de entrada ≥ 9 dB · 5 pistas
+
+pista                                                       entrada  golpe  cae en  caída  meseta σ   antes→tras golpes   pts
+Cornfield Chase                                              42.313   9.7d   33.1s   0.1d      1.0d -17.4→-17.5d      4  -0.1
+                                                             65.231   9.4d   28.0s   0.6d      1.8d -13.7→-14.3d      3  -0.4
+                                                             68.608   9.7d   30.8s  -0.1d      1.7d -14.2→-14.1d      2  -1.1
+Tony Anderson - Dreamlife                                    52.737  11.0d   31.5s  11.4d      1.9d -17.2→-28.5d     17  11.7
+                                                            183.388   9.7d   36.0s  11.5d      1.4d -10.4→-21.9d      2  10.7
+                                                             45.897  11.3d   36.0s   5.8d      1.9d -17.5→-23.4d     18   6.1
+                                                             58.606  11.2d   28.0s   6.6d      2.9d -21.9→-28.5d     15   5.3
+Oceans (Where Feet May Fail)                                149.470  11.4d   35.9s  12.7d      1.0d -13.4→-26.1d     50  13.6
+                                                            146.740  14.5d   36.0s   6.6d      0.7d -11.7→-18.2d     53   7.8
+                                                            159.467  14.5d   28.0s   9.9d      2.1d -16.3→-26.1d     39   7.7
+                                                            381.742  10.4d   35.8s   7.0d      1.4d -13.9→-20.9d     39   7.7
+Softly I Judah Earl & BRANDON BLACK #music #cinematic #orc   67.212   9.2d   36.0s  13.9d      2.7d -11.0→-24.9d      8  12.9
+                                                             69.644  10.4d   35.6s  14.8d      3.0d -15.5→-30.4d      7  12.5
+                                                            164.548   9.7d   35.2s  11.9d      1.7d -11.7→-23.6d      4  11.1
+                                                             50.204  10.0d   29.3s   3.0d      2.9d -11.3→-14.3d     17   2.5
+Aleksey Chistilin - Overcoming the Impossible               174.109   9.8d   28.1s  10.5d      1.0d  -9.7→-20.3d     19  11.5
+                                                             26.475   9.7d   28.1s   8.0d      1.9d -14.3→-22.3d     15   8.3
+                                                             68.293  11.1d   33.5s   6.7d      1.6d -12.0→-18.7d     12   7.3
+                                                             16.046  10.3d   36.0s   3.0d      1.9d -16.5→-19.5d     17   3.3

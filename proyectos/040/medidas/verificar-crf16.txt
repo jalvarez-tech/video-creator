@@ -1,0 +1,6 @@
+== 040-recorrido-crf16.mp4
+fotogramas: 1118 · md5 de los fotogramas: a26ea29b6d032f3f5256bc708b551f74
+MD5=c30d206b23693a8c53b5336b7f9d712e
+== 040-recorrido-crf16.arreglado.mp4
+fotogramas: 1118 · md5 de los fotogramas: a26ea29b6d032f3f5256bc708b551f74
+MD5=c30d206b23693a8c53b5336b7f9d712e
