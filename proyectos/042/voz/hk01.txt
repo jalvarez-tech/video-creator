@@ -1,0 +1,5 @@
+# HK01 (IMG_1587). Lo que se OYE, comprobado por cortes (palabras-desde.py): POR CONFIRMAR AL OÍDO «Encontré» (whisper oye «Encontro»: la -é final; medida por formantes en `combinaciones.md`) y «y dos accesos» (la «y» suena pegada a «naturaleza»).
+**Encontré** / un lote / donde puedes tener
+privacidad, / naturaleza
+y dos accesos,
+y está en / El Carmen de Viboral.

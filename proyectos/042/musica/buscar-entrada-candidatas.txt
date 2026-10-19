@@ -1,0 +1,44 @@
+######## Armin van Buuren - Children (from 'Piano' album)
+Installed 2 packages in 35ms
+CTA entre 31 y 35 s tras la entrada · golpe de entrada ≥ 9 dB · 1 pistas
+
+pista                                                       entrada  golpe  cae en  caída  meseta σ   antes→tras golpes   pts
+Armin van Buuren - Children (from 'Piano' album)            175.883   9.7d   35.0s  17.0d      1.0d -10.2→-27.1d     10  14.7
+                                                             90.331  10.0d   35.0s  14.7d      4.4d -20.7→-35.4d     19  12.3
+                                                             81.176  10.3d   32.6s  11.9d      2.9d  -9.7→-21.6d     15  11.4
+######## Silver Skies Cinematic Piano
+CTA entre 31 y 35 s tras la entrada · golpe de entrada ≥ 9 dB · 1 pistas
+
+pista                                                       entrada  golpe  cae en  caída  meseta σ   antes→tras golpes   pts
+Silver Skies Cinematic Piano                                 46.648  10.7d   32.9s  10.6d      3.7d -14.0→-24.6d     12   9.5
+                                                             15.094  10.0d   35.0s   6.2d      1.5d -15.9→-22.1d     18   6.8
+                                                            100.271  11.0d   35.0s   4.9d      1.7d -14.9→-19.8d      8   4.7
+######## Spring is Coming
+CTA entre 31 y 35 s tras la entrada · golpe de entrada ≥ 9 dB · 1 pistas
+
+pista                                                       entrada  golpe  cae en  caída  meseta σ   antes→tras golpes   pts
+Spring is Coming                                             79.774  12.2d   35.0s   5.0d      2.0d -16.7→-21.8d     42   5.2
+                                                             55.019   9.2d   34.8s   4.1d      2.0d -16.0→-20.1d     39   4.3
+                                                             60.918  12.1d   31.0s   3.2d      2.1d -16.3→-19.5d     33   3.3
+######## Ludovico Einaudi - Einaudi Fly
+CTA entre 31 y 35 s tras la entrada · golpe de entrada ≥ 9 dB · 1 pistas
+
+pista                                                       entrada  golpe  cae en  caída  meseta σ   antes→tras golpes   pts
+Ludovico Einaudi - Einaudi Fly                               84.724   9.8d   32.1s   3.8d      1.4d -15.2→-19.0d     11   4.2
+                                                             64.825  12.0d   34.8s   3.0d      1.1d -15.9→-18.9d     12   3.9
+                                                            144.498  14.7d   33.9s   1.6d      1.5d -16.2→-17.7d     13   2.2
+######## Ludovico Einaudi - Experience (Live from Teatro dal Verme, Milano)
+CTA entre 31 y 35 s tras la entrada · golpe de entrada ≥ 9 dB · 1 pistas
+
+pista                                                       entrada  golpe  cae en  caída  meseta σ   antes→tras golpes   pts
+Ludovico Einaudi - Experience (Live from Teatro dal Verme,  143.416   9.8d   34.6s  10.2d      1.3d -19.2→-29.4d     17  11.0
+                                                            340.952  11.6d   35.0s   9.3d      1.3d -18.7→-28.0d     15  10.0
+                                                            265.580   9.2d   32.7s   6.8d      1.1d -19.0→-25.8d     15   7.7
+######## Nils Frahm - Says 
+CTA entre 31 y 35 s tras la entrada · golpe de entrada ≥ 9 dB · 1 pistas
+
+pista                                                       entrada  golpe  cae en  caída  meseta σ   antes→tras golpes   pts
+Nils Frahm - Says                                           169.041   9.7d   32.8s   3.8d      1.5d -23.7→-27.5d     32   4.4
+                                                            173.317  11.8d   31.4s   2.2d      1.4d -26.0→-28.1d     30   2.8
+                                                            151.132   9.4d   31.4s   1.8d      1.2d -26.2→-27.9d     29   2.6
+FIN

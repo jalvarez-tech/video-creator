@@ -1,0 +1,54 @@
+
+042 · 11 cortes
+
+1. línea de tiempo
+  ✅ sin huecos ni solapes · 1081 f (36.03 s)
+2. la estructura del recorrido
+  ✅ 11 planos · 36.0 s · b1 2.5 s · b2 6.4 s · b3 8.1 s · b4 4.6 s · b5 8.5 s · b6 6.0 s · Isabella 3 veces · todos con razón · la vista, el plano más largo de su bloque
+2a. Isabella en tres fondos distintos del lote y ninguna cifra en pantalla
+  ✅ LOMA-ABIERTA-PERRO → LADERA-PINO-VALLE → LOMA-CABAÑA-PINOS: tres fondos distintos del lote · ninguna cifra en pantalla ni en voz
+2b. reglas fijas del canal: la primera toma sin texto, nunca el sello ni la cuenta
+  ✅ la primera toma (c01-apertura, f0-75) sale SIN texto ni voz · nada arriba y ninguna cuenta · sin sello (no se usa `SelloCampana`)
+2c. el cierre: nada se congela, y la tarjeta oscura con el logo (pequeño, al 60 %) y la web
+  ✅ nada se congela: la imagen funde a negro en 6 f y llega a negro en f1020 · tarjeta oscura de 2.0 s · logo 440 px al 60 % de opacidad · «PropiedadesLuxur.com» a 54 px, ≈ 651 de 842 px útiles
+2e. el CTA: CT04, una sola acción («escríbeme»), sin precio ni cifra ni «botón»
+  ✅ CT04 (voz 0.47-3.98 s): «escríbeme» como única acción, con su acento · sin precio ni cifra · el plano usa 0.43-4.43 de 5.10 s del clip y nada se congela
+2d. el color de cada plano (colorCorrection, R32)
+  ✅ 10 planos llevan color y todos están dentro de lo que el efecto admite · renderiza con --gl=angle
+  ✅ 10 planos de vídeo con color · vibrance ≤ 0.05 · |exposure| ≤ 0.4 · las 3 tomas de Isabella con saturation ≤ 1.06
+2f. el ángulo «Encontré»: el acento en el hallazgo y en la acción · dos cortes secos · todo a velocidad 1
+  ✅ acentos: encontré · acabas de encontrarlo. · escríbeme · cortes secos: c02-hook y c03-palmas · ningún plano a otra velocidad
+3. la voz de las tomas a cámara
+  ✅ 3 tomas con su WAV y su tramo, ninguna palabra en un fundido · a -15 LUFS: c02-hook +0.1 · c06-mitad +0.1 · c10-cta +0.1 dB · 74 f desde la última palabra hasta el final (la tarjeta del cierre)
+4. la música: «Silver Skies Cinematic Piano», el corte seco del paseo en su golpe del retorno y apagada bajo la tarjeta
+  ✅ «Silver Skies Cinematic Piano» desde el 46.967 s, una sola canción · golpe de apertura en f2.6 (12.3 dB) · el paseo entra a corte en el golpe del retorno (17.4 dB, +0.2 f) · el hook entra a corte 18 f después del último golpe (declarado) · se apaga en f1066, antes del golpe de f1074
+4b. la música baja bajo su voz, con curva y antes de la primera palabra
+  ✅ la música baja a mitad -11.0 dB sobre el archivo · cta -9.9 dB sobre el archivo · hook ≤ -25 LUFS en sus tres tercios durante su voz, a -25.8 LUFS como mucho: 10.8 LU bajo ella · la curva de cada bajada acaba antes de la primera palabra (en el hook, en el corte) · sube con fundido tras la mitad y vuelve arriba en el golpe del retorno
+5. subtítulos editoriales
+  ✅ 9 bloques, 3 acentos · validador sin avisos con las letras del canal · todo lo de Isabella abajo, a 90 % · la cursiva 8 px menor (99 → 91 px) · sin cifras ni datos
+6. metraje disponible
+  ✅ ningún corte pide más metraje del que hay (velocidad y prerrollo incluidos)
+7. tramos disjuntos
+  ✅ ningún tramo de vídeo se usa dos veces
+7b. metraje que comparte con las versiones anteriores (informa; repetirlo es una decisión)
+  ✅ ni un segundo de metraje en común con la V14 (030)
+  ℹ️  ct04.mp4: c10-cta (0.4-4.4 s) y el c10-cta de la V15 (031) (0.2-4.4 s) comparten 4.0 s
+  ℹ️  md03.mp4: c06-mitad (0.5-5.1 s) y el c06-mitad de la V18 (034) (0.2-5.0 s) comparten 4.5 s
+  ✅ ni un segundo de metraje en común con la V22 (039)
+  ℹ️  la V23 (040): su plan está en …/reel-040-el-carmen-vista-f04689/remotion/src/proyectos/040/metraje-040.ts
+  ✅ ni un segundo de metraje en común con la V23 (040)
+  ℹ️  la V24 (041): su plan está en …/reel-041-el-carmen-compras-aed14a/remotion/src/proyectos/041/metraje-041.ts
+  ✅ ni un segundo de metraje en común con la V24 (041)
+  ℹ️  la V26 (043): su plan está en …/reel-043-el-carmen-resuelto-afac55/remotion/src/proyectos/043/metraje-043.ts
+  ✅ ni un segundo de metraje en común con la V26 (043)
+8. encuadre
+  ✅ todos los planos cubren el cuadro · zoom dentro de [1, 1.2]
+11. nada por confirmar en los planos (avisa; con --final falla)
+  ⚠️  por confirmar: metraje-042.ts:199: // POR CONFIRMAR AL OÍDO (ver `subtitulos-042.ts`): «Encontré» (whisper oye «Encontro»: la -é final) y «naturaleza» / «dos accesos» (whisper
+  ⚠️  por confirmar: metraje-042.ts:273: // POR CONFIRMAR AL OÍDO (ver `subtitulos-042.ts`): «acabas» (f600 = 20,0 s del vídeo; whisper oye «acabas» y «acaba»; en la banda de las /s
+  ⚠️  por confirmar: subtitulos-042.ts:19: * POR CONFIRMAR AL OÍDO (R31; la orden de exportar, si llega con estas sin oír, no se bloquea: se mide, se dice con el segundo y la nota se 
+  ⚠️  por confirmar: hk01.txt:1: # HK01 (IMG_1587). Lo que se OYE, comprobado por cortes (palabras-desde.py): POR CONFIRMAR AL OÍDO «Encontré» (whisper oye «Encontro»: la -é
+  ⚠️  por confirmar: md03.txt:1: # MD03 (IMG_1600). Lo que se OYE, comprobado por cortes: POR CONFIRMAR AL OÍDO «acabas» (whisper oye «acabas» desde 2,2-2,4 y 3,64 s, y «aca
+
+✅ el 042 pasa la puerta: 11 planos, 9 bloques de texto, 8 tramos de audio
+

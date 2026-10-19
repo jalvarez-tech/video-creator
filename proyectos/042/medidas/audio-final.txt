@@ -1,0 +1,10 @@
+== 042-recorrido
+hook          2.600-   8.650 s   -14.7 LUFS  pico   -3.2 dBFS
+mitad        17.000-  21.000 s   -14.7 LUFS  pico   -4.2 dBFS
+cta          30.100-  33.500 s   -14.6 LUFS  pico   -4.1 dBFS
+final         0.000-  36.000 s   -15.1 LUFS  pico   -3.2 dBFS
+== 042-recorrido-crf16
+hook          2.600-   8.650 s   -14.7 LUFS  pico   -3.2 dBFS
+mitad        17.000-  21.000 s   -14.7 LUFS  pico   -4.2 dBFS
+cta          30.100-  33.500 s   -14.6 LUFS  pico   -4.1 dBFS
+final         0.000-  36.000 s   -15.1 LUFS  pico   -3.2 dBFS
