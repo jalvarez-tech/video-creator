@@ -1,0 +1,3 @@
+# CT03 (IMG_1604), ENTERA (la V18 la recortó a «y agendemos una visita»): «Haz clic en el botón y agendemos una visita.» Entre «botón» (acaba en 1,82 s) y «y» (1,945 s) hay 0,1 s de silencio a −65 dB; la «y» va pegada a «agendemos».
+Haz clic / en el botón
+**y agendemos** / una visita.

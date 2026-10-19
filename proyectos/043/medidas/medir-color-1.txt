@@ -1,0 +1,44 @@
+Installed 2 packages in 42ms
+1 · por plano (a mitad de cada uno)
+  plano                           luma   p5  p50  p95 |   sat |   R/G   B/G |  ≥250    ≤8
+  c01 apertura (DR203) antes     133.5   21  160  220 | 0.310 |  0.96  1.07 |  4.7%  0.2%
+  c01 apertura (DR203) después   133.2   12  165  219 | 0.387 |  0.96  1.08 |  6.2%  2.9%
+  c02 hook (HK06)      antes     131.9   68  137  175 | 0.147 |  1.01  0.92 |  0.1%  0.3%
+  c02 hook (HK06)      después   133.2   62  139  179 | 0.163 |  1.02  0.92 |  0.0%  0.6%
+  c03 vegetación (DR211) antes     130.9   17  148  252 | 0.299 |  1.02  0.93 | 13.6%  0.5%
+  c03 vegetación (DR211) después   130.2   12  160  245 | 0.387 |  1.04  0.91 |  2.6%  2.6%
+  c04 terrazas (DR207) antes     132.0   19  152  233 | 0.306 |  0.98  1.04 |  4.7%  0.4%
+  c04 terrazas (DR207) después   134.2   13  163  226 | 0.379 |  0.98  1.05 |  2.3%  2.7%
+  c05 árbol y cabaña (DR203) antes     133.0   20  158  224 | 0.305 |  0.95  1.08 |  5.1%  0.3%
+  c05 árbol y cabaña (DR203) después   132.8   11  164  218 | 0.379 |  0.94  1.09 |  2.7%  3.2%
+  c06 mitad (MD06)     antes     138.3   34  152  217 | 0.268 |  0.92  0.98 |  0.1%  1.2%
+  c06 mitad (MD06)     después   137.0   29  154  208 | 0.290 |  0.92  0.97 |  0.0%  1.6%
+  c07 portón (RC04)    antes     110.2   34  111  182 | 0.366 |  0.81  1.15 |  0.6%  0.8%
+  c07 portón (RC04)    después   105.9   24  108  178 | 0.406 |  0.79  1.17 |  0.0%  1.8%
+  c08 terrazas doradas (DR211) antes     135.4   15  154  253 | 0.274 |  1.03  0.96 | 14.2%  0.4%
+  c08 terrazas doradas (DR211) después   135.3    9  166  245 | 0.360 |  1.04  0.95 |  3.3%  3.9%
+  c09 vista (DR207)    antes     133.1   18  160  224 | 0.310 |  0.95  1.08 |  5.0%  0.7%
+  c09 vista (DR207)    después   133.1   10  165  218 | 0.385 |  0.95  1.10 |  8.6%  3.9%
+  c10 cta (CT03)       antes     135.0   42  146  200 | 0.383 |  0.80  1.16 |  0.5%  1.9%
+  c10 cta (CT03)       después   135.2   38  148  196 | 0.406 |  0.79  1.17 |  0.0%  2.2%
+
+  entre planos (σ = dispersión; menos es más balanceado):
+  antes    luma media 131.3 (σ  7.3) · saturación media 0.297 (σ 0.061) · p5 medio 28.8 · p95 medio 218.0 · quemado máx 14.2% · aplastado máx 1.9%
+  después  luma media 131.0 (σ  8.5) · saturación media 0.354 (σ 0.071) · p5 medio 22.2 · p95 medio 213.3 · quemado máx 8.6% · aplastado máx 3.9%
+
+2 · empalmes: salto de luma media (último fotograma de un plano → primero del siguiente)
+  f99→f100  c01→c02 (apertura → hook):  antes   +0.3 · después   +2.2
+  f266→f267  c02→c03 (hook → vegetación):  antes   -2.5 · después   -4.4
+  f336→f337  c03→c04 (vegetación → terrazas):  antes   +1.0 · después   +3.3
+  f434→f435  c04→c05 (terrazas → árbol y cabaña):  antes   +1.7 · después   -1.3
+  f515→f516  c05→c06 (árbol y cabaña → mitad):  antes   +7.1 · después   +6.1
+  f671→f672  c06→c07 (mitad → portón):  antes  -33.6 · después  -36.4
+  f727→f728  c07→c08 (portón → terrazas doradas):  antes  +23.6 · después  +27.7
+  f797→f798  c08→c09 (terrazas doradas → vista):  antes   -3.5 · después   -3.2
+  f936→f937  c09→c10 (vista → cta):  antes   +5.1 · después   +5.4
+
+3 · la piel de Isabella (tono en grados, saturación y valor HSV de los píxeles de piel)
+  f183 c02 hook (HK06)      antes    (sin píxeles de piel en la caja)
+  f183 c02 hook (HK06)      después  (sin píxeles de piel en la caja)
+  f990 c10 cta (CT03)       antes      529 px · tono   8.0° · sat 0.33 · val 0.62 · luma 124.9
+  f990 c10 cta (CT03)       después    529 px · tono   7.7° · sat 0.36 · val 0.64 · luma 127.4
