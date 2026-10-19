@@ -1,0 +1,39 @@
+1 · por plano (a mitad de cada uno)
+  plano                           luma   p5  p50  p95 |   sat |   R/G   B/G |  ≥250    ≤8
+  c01 lote (DR233)     antes     109.6   54  112  163 | 0.271 |  1.07  0.83 |  0.0%  0.0%
+  c01 lote (DR233)     después   116.4   52  119  177 | 0.333 |  1.10  0.79 |  0.0%  0.0%
+  c02 hook (HK07)      antes     125.5   27  114  215 | 0.230 |  0.97  0.92 |  0.1%  1.8%
+  c02 hook (HK07)      después   124.2   24  117  204 | 0.244 |  0.98  0.91 |  0.0%  2.4%
+  c03 cabaña (DR96)    antes     124.2   56  104  237 | 0.130 |  0.96  0.97 |  4.3%  0.0%
+  c03 cabaña (DR96)    después   126.1   53  110  230 | 0.188 |  0.95  0.95 |  0.0%  0.0%
+  c04 alta (DR210)     antes     125.9   67  127  186 | 0.224 |  1.03  0.84 |  0.0%  0.0%
+  c04 alta (DR210)     después   131.9   64  136  193 | 0.299 |  1.05  0.79 |  0.0%  0.0%
+  c05 terrazas (DR201) antes     135.1   42  107  229 | 0.314 |  0.99  0.94 |  1.5%  0.1%
+  c05 terrazas (DR201) después   129.9   33  110  216 | 0.376 |  1.01  0.93 |  0.0%  0.7%
+  c06 mitad (MD01)     antes     109.0   32  115  167 | 0.358 |  0.85  1.20 |  0.5%  1.3%
+  c06 mitad (MD01)     después   109.6   29  117  167 | 0.368 |  0.86  1.20 |  0.1%  1.9%
+  c07 portón (RC04)    antes     110.7   31  114  182 | 0.393 |  0.80  1.16 |  1.9%  0.8%
+  c07 portón (RC04)    después   111.2   28  116  180 | 0.402 |  0.80  1.16 |  0.0%  1.4%
+  c08 vía (DR233)      antes     107.7   54  110  159 | 0.276 |  1.08  0.84 |  0.0%  0.0%
+  c08 vía (DR233)      después   114.3   52  117  172 | 0.337 |  1.11  0.80 |  0.0%  0.0%
+  c09 vista (DR201)    antes     133.2   18  156  231 | 0.337 |  0.97  1.05 |  3.9%  1.2%
+  c09 vista (DR201)    después   127.1   11  156  209 | 0.388 |  0.98  1.05 |  0.0%  3.8%
+  c10 cta (CT01)       antes     130.8   23  162  222 | 0.266 |  0.89  1.06 |  0.0%  1.2%
+  c10 cta (CT01)       después   127.0   20  162  207 | 0.280 |  0.89  1.06 |  0.0%  1.6%
+
+  entre planos (σ = dispersión; menos es más balanceado):
+  antes    luma media 121.2 (σ 10.3) · saturación media 0.280 (σ 0.072) · p5 medio 40.5 · p95 medio 199.0 · quemado máx 4.3% · aplastado máx 1.8%
+  después  luma media 121.8 (σ  7.7) · saturación media 0.321 (σ 0.065) · p5 medio 36.5 · p95 medio 195.6 · quemado máx 0.1% · aplastado máx 3.8%
+
+2 · empalmes: salto de luma media (último fotograma de un plano → primero del siguiente)
+  f114→f115  c01→c02 (lote → hook):  antes  +16.7 · después   +8.8
+  f306→f307  c02→c03 (hook → cabaña):  antes   -3.3 · después   +0.1
+  f362→f363  c03→c04 (cabaña → alta):  antes   +1.8 · después   +5.3
+  f432→f433  c04→c05 (alta → terrazas):  antes   +6.7 · después   -4.8
+  f518→f519  c05→c06 (terrazas → mitad):  antes  -17.1 · después  -11.8
+  f686→f687  c06→c07 (mitad → portón):  antes   -1.3 · después   -1.7
+  f782→f783  c07→c08 (portón → vía):  antes   -2.5 · después   +3.7
+  f847→f848  c08→c09 (vía → vista):  antes  +26.1 · después  +13.4
+  f985→f986  c09→c10 (vista → cta):  antes   +2.7 · después   +4.8
+
+3 · la piel de Isabella (tono en grados, saturación y valor HSV de los píxeles de piel)

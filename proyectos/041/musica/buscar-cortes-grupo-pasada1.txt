@@ -1,0 +1,11 @@
+Installed 2 packages in 78ms
+
+### Fortitude (Light Version).mp3  (213 s)  caídas completas: 1
+  cae en   200.25 s  pre  -22.3 →  -31.3 →  -43.5 dB  ( 9.0/21.2)  golpes≥9 en 38 s:  12  soluciones: 0
+
+### In This Together.mp3  (216 s)  caídas completas: 0
+
+### Epic Inspirational and Cinematic Motivational - by AShamalue  (191 s)  caídas completas: 0
+
+### Aleksey Chistilin - Deep Breath.mp3  (140 s)  caídas completas: 1
+  cae en   134.25 s  pre  -18.3 →  -27.4 →  -99.0 dB  ( 9.1/80.7)  golpes≥9 en 38 s:  18  soluciones: 0

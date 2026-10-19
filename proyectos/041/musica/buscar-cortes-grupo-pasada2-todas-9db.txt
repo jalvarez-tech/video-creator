@@ -1,0 +1,22 @@
+
+### Fortitude (Light Version).mp3  (213 s)  entradas del CTA con rejilla: 0
+
+### In This Together.mp3  (216 s)  entradas del CTA con rejilla: 0
+
+### Epic Inspirational and Cinematic Motivational - by AShamalue  (191 s)  entradas del CTA con rejilla: 0
+
+### Aleksey Chistilin - Deep Breath.mp3  (140 s)  entradas del CTA con rejilla: 0
+
+### deadmau5 - Strobe.mp3  (637 s)  entradas del CTA con rejilla: 178
+  cae en   306.91 s  pre   -7.1 →   -7.4 →  -13.3 dB  ( 0.3/ 6.2)  golpes≥9 en 38 s:  81  soluciones: 2076
+      · plano más corto = 53 f · disolvencia más débil 99 dB / corte seco 14.0 dB · cortes [275.033, 278.314, 284.523, 286.284, 288.219, 290.618, 296.128, 298.003, 299.876, 303.629] · planos [98, 186, 53, 58, 72, 165, 56, 56, 113] · dB [23.1, 17.5, 14.1, 14.0, 14.8, 18.2, 15.7, 18.1, 18.1, 17.5]
+      · plano más corto = 53 f · disolvencia más débil 99 dB / corte seco 14.0 dB · cortes [275.033, 278.314, 284.523, 286.284, 288.219, 290.618, 296.128, 298.003, 299.876, 304.156] · planos [98, 186, 53, 58, 72, 165, 56, 56, 128] · dB [23.1, 17.5, 14.1, 14.0, 14.8, 18.2, 15.7, 18.1, 18.1, 16.4]
+  cae en   307.38 s  pre   -7.1 →   -7.8 →  -13.5 dB  ( 0.6/ 6.4)  golpes≥9 en 38 s:  81  soluciones: 2019
+      · plano más corto = 53 f · disolvencia más débil 99 dB / corte seco 14.0 dB · cortes [275.033, 278.314, 284.523, 286.284, 288.219, 290.618, 296.128, 298.003, 299.876, 304.156] · planos [98, 186, 53, 58, 72, 165, 56, 56, 128] · dB [23.1, 17.5, 14.1, 14.0, 14.8, 18.2, 15.7, 18.1, 18.1, 16.4]
+      · plano más corto = 53 f · disolvencia más débil 99 dB / corte seco 14.0 dB · cortes [275.033, 278.314, 284.523, 286.284, 288.219, 290.618, 296.128, 298.003, 300.406, 304.156] · planos [98, 186, 53, 58, 72, 165, 56, 72, 112] · dB [23.1, 17.5, 14.1, 14.0, 14.8, 18.2, 15.7, 18.1, 15.3, 16.4]
+  cae en   306.44 s  pre   -7.1 →   -7.2 →  -12.8 dB  ( 0.0/ 5.7)  golpes≥9 en 38 s:  81  soluciones: 1992
+      · plano más corto = 53 f · disolvencia más débil 99 dB / corte seco 14.0 dB · cortes [275.033, 278.314, 284.523, 286.284, 288.219, 290.618, 296.128, 298.003, 299.876, 303.629] · planos [98, 186, 53, 58, 72, 165, 56, 56, 113] · dB [23.1, 17.5, 14.1, 14.0, 14.8, 18.2, 15.7, 18.1, 18.1, 17.5]
+      · plano más corto = 53 f · disolvencia más débil 99 dB / corte seco 14.0 dB · cortes [275.033, 278.314, 284.523, 286.284, 288.219, 290.618, 296.128, 298.003, 299.876, 304.156] · planos [98, 186, 53, 58, 72, 165, 56, 56, 128] · dB [23.1, 17.5, 14.1, 14.0, 14.8, 18.2, 15.7, 18.1, 18.1, 16.4]
+  cae en   307.85 s  pre   -7.1 →   -8.1 →  -13.9 dB  ( 1.0/ 6.8)  golpes≥9 en 38 s:  81  soluciones: 1833
+      · plano más corto = 53 f · disolvencia más débil 99 dB / corte seco 14.0 dB · cortes [275.033, 278.314, 284.523, 286.284, 288.219, 290.618, 296.128, 298.003, 300.406, 304.566] · planos [98, 186, 53, 58, 72, 165, 56, 72, 125] · dB [23.1, 17.5, 14.1, 14.0, 14.8, 18.2, 15.7, 18.1, 15.3, 19.6]
+      · plano más corto = 53 f · disolvencia más débil 99 dB / corte seco 14.0 dB · cortes [275.033, 278.314, 284.523, 286.284, 288.219, 290.618, 296.128, 298.003, 300.814, 304.566] · planos [98, 186, 53, 58, 72, 165, 56, 84, 113] · dB [23.1, 17.5, 14.1, 14.0, 14.8, 18.2, 15.7, 18.1, 17.6, 19.6]
