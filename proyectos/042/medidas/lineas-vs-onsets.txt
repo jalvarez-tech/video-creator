@@ -1,0 +1,20 @@
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+Encontré                      75 |   0.075s → f   77.2 |    +2.2 f |  0.075 s (  +0 ms)
+un lote                       92 |   0.595s → f   92.8 |    +0.8 f |  0.595 s (  +0 ms)
+donde puedes tener           106 |   1.065s → f  107.0 |    +1.0 f |  1.065 s (  +0 ms)
+privacidad,                  134 |   1.985s → f  134.6 |    +0.6 f |  1.985 s (  +0 ms)
+naturaleza                   157 |   2.770s → f  158.1 |    +1.1 f |  2.770 s (  +0 ms)
+y dos accesos,               184 |   3.655s → f  184.6 |    +0.6 f |  3.655 s (  +0 ms)
+y está en                    213 |   4.635s → f  214.0 |    +1.0 f |  4.635 s (  +0 ms)
+El Carmen de Viboral.        233 |   5.290s → f  233.7 |    +0.7 f |  5.405 s (+115 ms) · ⚠ a 115 ms («el» sin onset propio (vocal pegada a «en»); desde 5,25-5,33 oye «El Carmen de»)
+Si llevas meses              509 |   0.505s → f  509.1 |    +0.1 f |  0.505 s (  +0 ms)
+buscando tu lugar            535 |   1.385s → f  535.5 |    +0.5 f |  1.410 s ( +25 ms)
+para tu casa campestre,      556 |   2.115s → f  557.5 |    +1.5 f |  2.115 s (  +0 ms)
+acabas de encontrarlo.       600 |   3.560s → f  600.8 |    +0.8 f |  3.560 s (  +0 ms)
+Si tienes un proyecto        901 |   0.470s → f  902.1 |    +1.1 f |  0.480 s ( +10 ms)
+en mente,                    922 |   1.165s → f  923.0 |    +1.0 f |  1.165 s (  +0 ms)
+escríbeme                    948 |   2.030s → f  948.9 |    +0.9 f |  2.030 s (  +0 ms)
+y hablamos más               976 |   2.970s → f  977.1 |    +1.1 f |  2.970 s (  +0 ms)
+sobre este lote.             992 |   3.500s → f  993.0 |    +1.0 f |  3.500 s (  +0 ms)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

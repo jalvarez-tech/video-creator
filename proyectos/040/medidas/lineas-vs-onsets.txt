@@ -1,0 +1,18 @@
+Installed 6 packages in 58ms
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+Imagina despertar            116 |   0.305s → f  117.2 |    +1.2 f |  0.305 s (  +0 ms)
+todos los días con           143 |   1.205s → f  144.2 |    +1.2 f |  1.205 s (  +0 ms)
+esta vista                   164 |   1.900s → f  165.0 |    +1.0 f |  2.040 s (+140 ms) · ⚠ a 140 ms («con» acaba hacia 1,90 s; la «t» de «esta» cierra de 1,95 a 2,04 s: desde 1,92 oye «esta vista y tener»)
+y tener más de               188 |   2.700s → f  189.0 |    +1.0 f |  2.715 s ( +15 ms)
+3.000 metros cuadrados       217 |   3.655s → f  217.6 |    +0.6 f |  3.655 s (  +0 ms)
+para tu proyecto.            256 |   4.960s → f  256.8 |    +0.8 f |  4.960 s (  +0 ms)
+Este es el tipo              594 |   0.950s → f  594.5 |    +0.5 f |  0.950 s (  +0 ms)
+de lote que compras          611 |   1.500s → f  611.0 |    +0.0 f |  1.500 s (  +0 ms)
+para construir tu            646 |   2.710s → f  647.3 |    +1.3 f |  2.710 s (  +0 ms)
+casa soñada.                 669 |   3.470s → f  670.1 |    +1.1 f |  3.470 s (  +0 ms)
+Si quieres conocerlo,        943 |   0.400s → f  944.0 |    +1.0 f |  0.400 s (  +0 ms)
+escríbeme lote               979 |   1.605s → f  980.1 |    +1.1 f |  1.605 s (  +0 ms)
+y te envío                  1009 |   2.595s → f 1009.9 |    +0.9 f |  2.595 s (  +0 ms)
+toda la información.        1024 |   3.085s → f 1024.5 |    +0.5 f |  3.085 s (  +0 ms)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

@@ -1,0 +1,8 @@
+apertura      0.330-   3.500 s   -15.0 LUFS  pico   -3.3 dBFS
+hookvoz       3.900-   9.330 s   -14.8 LUFS  pico   -4.4 dBFS
+paseo        10.400-  19.300 s   -15.0 LUFS  pico   -5.9 dBFS
+mitadvoz     19.850-  23.000 s   -14.7 LUFS  pico   -4.3 dBFS
+palmas       23.900-  26.500 s   -15.1 LUFS  pico   -5.6 dBFS
+vista        26.900-  31.000 s   -15.3 LUFS  pico   -1.9 dBFS
+ctavoz       31.500-  34.950 s   -14.6 LUFS  pico   -4.8 dBFS
+pieza         0.000-  37.300 s   -15.1 LUFS  pico   -1.9 dBFS
