@@ -463,8 +463,6 @@ Códigos de `proyectos/030/` (cada propiedad tiene SUS códigos: el orden de cad
 ## 7. Material de Tierra Grata Bosque Santo (El Poblado, ARRIENDO)
 
 Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del disco el 2026-10-19). Los clips están en el disco del rodaje (no en git): `/Volumes/SSK SSD/Work/Propiedades Luxur/Apartamento - Tierra Grata - Las Palmas/Videos/`. **No hay dron.** Los 26 clips del 2-sep son ANAMÓRFICOS (1920×1080 con SAR 81:256, DAR 9:16 = 608×1080 vertical efectivo): se escalan ENTEROS con `setsar=1`, sin recorte (catálogo §7; la primera versión decía «horizontal» y mandaba recortar: error corregido el mismo 2026-10-19). El reparto de las seis versiones (V27-V32, proyectos 045-050) está en `proyectos/044/reparto-045-050.md` y es FIJO: cada sesión monta la suya.
-Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del disco el 2026-10-19). Los clips están en el disco del rodaje (no en git): `/Volumes/SSK SSD/Work/Propiedades Luxur/Apartamento - Tierra Grata - Las Palmas/Videos/`. **No hay dron.** El recorrido son verticales anamórficos (1920×1080, SAR 81:256 → DAR 9:16): se escala SIN recorte (catálogo §7, corregido el 2026-10-19). El reparto de las seis versiones (V27-V32, proyectos 045-050) está en `proyectos/044/reparto-045-050.md` y es FIJO: cada sesión monta la suya.
-Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del disco el 2026-10-19). Los clips están en el disco del rodaje (no en git): `/Volumes/SSK SSD/Work/Propiedades Luxur/Apartamento - Tierra Grata - Las Palmas/Videos/`. **No hay dron.** El recorrido (y las 4 tomas del 2-sep) son ANAMÓRFICOS 9:16 (1920×1080 con SAR 81:256): se estiran a su cuadro entero, SIN recorte (catálogo §7, corregido el 2026-10-19). El reparto de las seis versiones (V27-V32, proyectos 045-050) está en `proyectos/044/reparto-045-050.md` y es FIJO: cada sesión monta la suya.
 
 ### Hooks (`1 Hooks`)
 
@@ -497,8 +495,6 @@ Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del d
 | CT05 | `Img 9501.mp4` | SALA (2-sep, ANAMÓRFICO) | «Si buscas más que un apartamento para vivir, escríbenos.» | libre | | otro vestuario |
 
 ### Recorridos (`4 Recorrido`; ANAMÓRFICOS, verticales de 608×1080 efectivos; se pueden repetir, se declara)
-### Recorridos (`4 Recorrido`; verticales anamórficos, SAR 81:256; se pueden repetir, se declara)
-### Recorridos (`4 Recorrido`; ANAMÓRFICOS 9:16; se pueden repetir, se declara)
 
 Apertura y clímax son EXCLUSIVOS de su versión; el resto, libre para todas (declarando el tramo). Detalle de cada clip en el catálogo §6.
 
@@ -521,7 +517,4 @@ Apertura y clímax son EXCLUSIVOS de su versión; el resto, libre para todas (de
 | RC21 | `Img 9537 (1).mp4` | 11,1 s | balcón del apto al atardecer: las luces de la ciudad → **el JACUZZI PRIVADO** (de ≈ 8,3 s al final) | **clímax V27** (con el jacuzzi privado) |
 | RC22 | `Img 9538.mp4` | 3,2 s | el bar con el neón, de noche | libre |
 
-**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) está en RC10 (`Img 9509.mp4`, clímax del 050 por decisión del usuario) y en RC21 (`Img 9537 (1).mp4`, clímax del 045). Nota original: la sesión que lo encuentre lo anota aquí (clip y tramo) y lo usa de clímax; las demás no lo tocan hasta entonces.
-**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) **está en RC03 (`Img 9464.mp4`), de 5,8 a 6,9 s** (al fondo del balcón, la caja de madera con la banca delante, pequeño y lejano; encontrado por la V29 el 2026-10-19). RC03 ya es el clímax de la V29, así que **el tramo 4,3-10,3 s de RC03 es de la V29**; las demás no lo tocan. No se miró RC02 ni RC21 más allá de eso.
-**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) **está en RC21, de ≈ 8,3 s al final** (hallazgo de la sesión de la V27/045, 2026-10-19; detalle en el catálogo §6): la V27 lo usa de clímax (RC21 ya era el suyo). Las demás sesiones: RC21 es exclusivo de la V27; si lo vuelven a encontrar en otro clip (RC02/RC03 son el otro extremo del balcón, con las camas), lo anotan aquí.
-**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) **está en RC10, de los 8 a los 10,7 s** (lo encontró la sesión 048 el 2026-10-19; RC10 ya era su clímax, así que no cambia el reparto): ninguna otra pieza lo usa. A cuadro entero se ve el balcón con el jacuzzi, el escalón y la ciudad (los clips son anamórficos 9:16: sin recorte).
+**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) está en **RC21** (`Img 9537 (1).mp4`, de ≈ 8,3 s al final; clímax de la V27), en **RC10** (`Img 9509.mp4`, 8,0-10,7 s; clímax de la V30 y del 050, que comparten 2,7 s, declarado) y en **RC03** (`Img 9464.mp4`, 5,8-6,9 s, pequeño y lejano; el tramo 4,3-10,3 s es de la V29). Detalle en `proyectos/044/catalogo-material.md` §6.
