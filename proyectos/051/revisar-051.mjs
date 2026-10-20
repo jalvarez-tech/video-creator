@@ -8,7 +8,7 @@
  * tiempo, metraje, tramos, encuadre). Encima, lo que el formato del recorrido
  * promete y ningún frame enseña:
  *
- *   2. la ESTRUCTURA de una RÉPLICA SIN LOCUCIÓN (reparto 051-053 §5): bloques 2 (el hook, Isabella a cámara en el frame 0, a corte: DOS planos del mismo clip), 3 (el recorrido, con un rótulo
+ *   2. la ESTRUCTURA de una RÉPLICA SIN LOCUCIÓN (reparto 051-053 §5): bloques 2 (el hook, Isabella a cámara en el frame 0, a corte: UN plano de HK05 desde el segundo «Deseas»), 3 (el recorrido, con un rótulo
  *      encima de cada tramo) y 6 (el CTA: Isabella, muda, con su rótulo, y la tarjeta); el total dentro de los 55 s del formato.
  *   2b. las REGLAS FIJAS del canal (el usuario las pidió con «siempre» y «nunca»; skill
  *      `recorrido-luxur`, SKILL.md §0): la primera toma sale sin texto NI VOZ → AQUÍ ES UNA EXCEPCIÓN DECLARADA (`ABRE_CON_EL_HOOK`: el original abre con Isabella); no hay
@@ -48,8 +48,8 @@ const ABRE_CON_EL_HOOK = true;
 const BLOQUES = [2, 3, 6];
 /** Los bloques en los que Isabella habla a cámara (el 6 la enseña, muda: la voz es la locución). */
 const DE_ELLA = [2];
-/** El hook son DOS planos del mismo clip (HK05): «¿Deseas» | «arrendar amoblado en Medellín? Ven, te muestro» (el original quitó la pausa de 1,1 s entre las dos). */
-const PLANOS_DEL_HOOK = 2;
+/** El hook es UN plano de HK05 desde el SEGUNDO «Deseas» (26,1 s): Isabella se equivoca al empezar (24,74 s) y el usuario pidió empezar en la segunda vez (2026-10-20). */
+const PLANOS_DEL_HOOK = 1;
 
 const TECHO_ZOOM = 1.2; // clips normalizados a 1296 px = 1080 × 1,2
 const TOPE_SEGUNDOS = 55; // el formato apunta a 45-50 s y no pasa de 55 (la réplica, sin locución, recorta los planos del original de 64 s a ≈ 49 s)
@@ -84,8 +84,8 @@ const SIN_VOZ = Object.fromEntries(
 );
 /** Los rótulos: uno a la vez, de 2,4 a 4,4 s (el reparto pide 2,5-3,5 s por rótulo; con la primera línea y la salida caben 3-4 s), dentro del recorrido. */
 const ROTULO_FRAMES = [72, 132];
-/** Los rótulos que entran SIN golpe, y por qué: la canción no suena ni uno entre los 251,9 y los 258,6 s (los f1186-f1386 de la pieza). */
-const ROTULO_SIN_GOLPE = { r10: "la canción no suena ningún golpe entre los 251,9 y los 258,6 s (f1186-f1386): la imagen de Isabella entra con una disolvencia libre" };
+/** Los rótulos que entran SIN golpe, y por qué: la canción no suena ni uno entre los 251,9 y los 258,6 s (los f1162-f1362 de la pieza). */
+const ROTULO_SIN_GOLPE = { r10: "la canción no suena ningún golpe entre los 251,9 y los 258,6 s (f1162-f1362): la imagen de Isabella entra con una disolvencia libre" };
 /** Un cambio cae en un golpe si está a ≤ 1 f del frame en que SUENA (el del instante medido + ataque + retardo del render) y mide ≥ FUERZA_MIN dB por 15 ms. */
 const TOLERANCIA_GOLPE = 1;
 const FUERZA_MIN = 6.0;
@@ -140,7 +140,7 @@ seccion("2. la estructura del recorrido");
   const n = fallos.length;
   const primero = cortes[0];
   if (ABRE_CON_EL_HOOK) {
-    if (primero.id !== "c01-hook-deseas") mal(`${primero.id}: con ABRE_CON_EL_HOOK el primer plano es c01-hook-deseas`);
+    if (primero.id !== "c01-hook") mal(`${primero.id}: con ABRE_CON_EL_HOOK el primer plano es c01-hook`);
     if (cortes.some((c) => c.bloque === 1)) mal("hay un plano del bloque 1: la réplica abre con Isabella, sin «casa» delante");
   } else {
     if (primero.bloque !== 1) mal(`${primero.id}: el primer plano es del bloque ${primero.bloque}; la pieza abre con la casa (bloque 1)`);
@@ -171,14 +171,14 @@ seccion("2. la estructura del recorrido");
   }
   // Isabella, una vez por bloque suyo y cada vez en un sitio: si el guion pide
   // dos tomas en un bloque (una objeción por toma), se sube este número a sabiendas.
-  if (conVoz.length !== PLANOS_DEL_HOOK) mal(`Isabella habla en ${conVoz.length} planos; el hook son ${PLANOS_DEL_HOOK} (dos tomas de HK05) y el CTA es muda`);
+  if (conVoz.length !== PLANOS_DEL_HOOK) mal(`Isabella habla en ${conVoz.length} planos; el hook es ${PLANOS_DEL_HOOK} (HK05, desde el segundo «Deseas») y el CTA es muda`);
   if (DURACION / fps > TOPE_SEGUNDOS) mal(`${(DURACION / fps).toFixed(1)} s: el formato no pasa de ${TOPE_SEGUNDOS} s`);
   if (fallos.length === n) {
     const porBloque = BLOQUES.map((b) => {
       const suyos = cortes.filter((c) => c.bloque === b);
       return `b${b} ${(suyos.reduce((s, c) => s + c.dur, 0) / fps).toFixed(1)} s`;
     });
-    ok(`${cortes.length} planos · ${(DURACION / fps).toFixed(1)} s · ${porBloque.join(" · ")} · el hook en ${conVoz.length} planos · todos con razón · dentro de los ${TOPE_SEGUNDOS} s del formato`);
+    ok(`${cortes.length} planos · ${(DURACION / fps).toFixed(1)} s · ${porBloque.join(" · ")} · el hook en ${conVoz.length} plano · todos con razón · dentro de los ${TOPE_SEGUNDOS} s del formato`);
   }
 }
 
@@ -402,7 +402,7 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
   // Sin locución: lo único hablado es el hook, y NO hay ningún tramo de voz en off (el encargo cambió: reparto 051-053 §5).
   if (A.off051 !== undefined) mal("audio-051.ts exporta `off051`: la réplica va SIN locución en off");
   if (fallos.length === n) {
-    ok(`${A.audio051.length} tramos (${A.voces051.length} de voz en directo —el hook, en dos planos— y ${A.musica051.length} de música) · ${A.HAY_MUSICA ? "con música en el render" : "SIN música en el render: se publica con audio en tendencia"} · sin locución`);
+    ok(`${A.audio051.length} tramos (${A.voces051.length} de voz en directo —el hook, en un plano— y ${A.musica051.length} de música) · ${A.HAY_MUSICA ? "con música en el render" : "SIN música en el render: se publica con audio en tendencia"} · sin locución`);
   }
 }
 
@@ -465,7 +465,7 @@ seccion("4c. cada cambio de plano y de rótulo cae en un golpe MEDIDO de la canc
     // Los cambios de plano: el `en` de cada plano del recorrido y la tarjeta (el primero, el del hook, es el frame 0).
     for (const c of cortes.filter((x) => x.bloque !== 2)) {
       const m = mejor(c.en);
-      const declarado = c.id === "c13-cta";
+      const declarado = c.id === "c12-cta";
       if (declarado) {
         sinGolpe.push(`${c.id} (f${c.en}: el golpe más cercano está a ${m.d.toFixed(0)} f; la canción no suena ninguno entre los 251,9 y los 258,6 s)`);
         continue;

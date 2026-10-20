@@ -199,7 +199,7 @@ const VOZ_TRATADA = (gananciaDb) =>
   ].join(",");
 
 /** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). */
-const GANANCIA_VOZ_DB = { hk05: 19.75 }; // buscada con la cadena y las dos ventanas puestas: −15,0 LUFS integrados, limitador −0,7 dB, pico real −2,5 dBFS
+const GANANCIA_VOZ_DB = { hk05: 20.0 }; // buscada con la cadena y la ventana puestas: −15,0 LUFS integrados, pico real −2,9 dBFS
 
 /**
  * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente, medidos por energía
@@ -211,11 +211,9 @@ const GANANCIA_VOZ_DB = { hk05: 19.75 }; // buscada con la cadena y las dos vent
  * El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
  */
 const VENTANA_VOZ = {
-  // HK05 lleva DOS ventanas: «Deseas» (24,74-25,30 s) y, tras una pausa de 1,1 s, «arrendar amoblado en Medellín? Ven, te muestro» (26,38-29,48 s). El plan las corta en dos planos (el salto de la pausa, como el original).
-  hk05: [
-    [24.74, 25.3],
-    [26.38, 29.48],
-  ],
+  // HK05: la voz del hook es la SEGUNDA vez que Isabella dice «Deseas…» (26,38-29,48 s: «Deseas arrendar amoblado en Medellín? Ven, te muestro»). La primera tentativa («Deseas», 24,74-25,30 s) fue un error suyo: el original empieza en la segunda y el
+  // usuario lo pidió así (2026-10-20: «Isabella se equivoca al principio, empieza el video desde donde ella dice la segunda vez “deseas”»): esa primera sílaba no suena en ninguna parte.
+  hk05: [26.38, 29.48],
 };
 /** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
 const VOZ_ANTES = 0.07;
