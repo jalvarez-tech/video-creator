@@ -4,11 +4,11 @@
  *
  *   node proyectos/053/normalizar.mjs            (lee de proyectos/053/original/)
  *   node proyectos/053/normalizar.mjs --forzar   (rehace aunque ya exista la salida)
- *   node proyectos/053/normalizar.mjs --solo ct05,off   (solo esos nombres de salida; no toca la música ni la tarjeta)
+ *   node proyectos/053/normalizar.mjs --solo ct05   (solo esos nombres de salida; no toca la música ni la tarjeta)
  *
- * PIEZA 053 · V35 · TIERRA GRATA BOSQUE SANTO (El Poblado), ARRIENDO: «¿PAGARÍAS 14 MILLONES?», la RÉPLICA de `videos editados/03.mp4` (el tercero de los tres vídeos que otro editor hizo el 15-sep con el material del 2-sep):
- * las mismas tomas, en el mismo orden y con el mismo texto, en el formato del canal. Isabella caminando en el balcón (HK05, mudo) con la locución en off encima, el recorrido (RC10 · RC01 · RC22 · RC03 · RC05 · RC04 · RC16) y su
- * CTA a cámara (CT05) con «Softly». Reparto en `proyectos/044/reparto-051-053.md`; material catalogado en `proyectos/044/catalogo-material.md`, de `Apartamento - Tierra Grata - Las Palmas/Videos/`.
+ * PIEZA 053 · V35 · TIERRA GRATA BOSQUE SANTO (El Poblado), ARRIENDO: «¿PAGARÍAS $14.800.000?», la RÉPLICA de `videos editados/03.mp4` (el tercero de los tres vídeos que otro editor hizo el 15-sep con el material del 2-sep):
+ * las mismas tomas en el mismo orden, SIN voz en off y con un guion nuevo EN PANTALLA (reparto §5c, cambio de encargo del 2026-10-20). Isabella caminando en el balcón (HK05, mudo, con su rótulo), el recorrido (RC10 · RC01 · RC22 · RC03 ·
+ * RC05 · RC04 · RC16) con un rótulo por tramo y su CTA a cámara (CT05) con «Softly». Reparto en `proyectos/044/reparto-051-053.md`; material catalogado en `proyectos/044/catalogo-material.md`, de `Apartamento - Tierra Grata - Las Palmas/Videos/`.
  *
  * POR QUÉ EXISTE. El material es de la propiedad y de la presentadora y no entra en git: en el repo quedan esta receta, el plan y los sha256 de los originales. Con la carpeta delante, un clon repone la pieza entera. Es un
  * script de Node (con `ejecutar()` de `herramientas/comun.mjs`) y no un `.sh` porque el sistema pide recetas que corran igual en macOS y en Windows; la ÚNICA excepción declarada es la rama HDR (HLG → BT.709 con
@@ -27,13 +27,10 @@
  * CLASES de archivo, y cada una sale distinta:
  *   toma       la presentadora a cámara con voz → MP4 mudo + WAV con su voz + WAV con su voz tratada
  *   recorrido  planos de la propiedad (y los tramos mudos de las tomas de Isabella) → MP4 mudo (anamórficos: escalados enteros, `setsar=1`)
- *   audio      la LOCUCIÓN en off (un solo archivo: gancho + las cinco frases) → WAV mono sin tratar + WAV con la voz tratada. NO existe en el SSD: o la entrega el usuario o se genera con la voz clonada de Isabella
- *              (`generar-vo.mjs --motor elevenlabs`), y entra aquí como `original/off.wav`. Mientras no haya decisión, `off.wav` es una PISTA GUÍA con la voz de sistema `Paulina` (macOS `say`, estirada a 1,085×
- *              para igualar el ritmo del original), que sirve para calibrar los tiempos y NO es la locución final; su sha se marca con `guia`.
  *   (música)   la canción → WAV estéreo de 48 kHz decodificado ENTERO y NADA MÁS (ni loudnorm): el MP3 arrastra su retardo de códec y el corte al golpe se hace a la muestra sobre el WAV. Su `desde` sale de la medida de la pista y el
  *              nivel es una ganancia del plan.
  *
- * LA VOZ TRATADA. Las voces llegan a −20…−30 LUFS (ella habla a unos metros de un móvil) y con una cresta de ≈ 17-20 dB: con ganancia sola los picos saldrían a +5 dBFS. La cadena (`VOZ_TRATADA`) es la de la V13/V18/V22/V26: graves fuera,
+ * LA VOZ TRATADA (solo CT05). La voz llega a −20…−30 LUFS (ella habla a unos metros de un móvil) y con una cresta de ≈ 17-20 dB: con ganancia sola los picos saldrían a +5 dBFS. La cadena (`VOZ_TRATADA`) es la de la V13/V18/V22/V26: graves fuera,
  * puerta suave, compresor 3,5:1 desde −30 dBFS, ganancia buscada DESPUÉS del compresor (`herramientas/probar-voz.py --umbral 0.0316 --razon 3.5`) hasta −15,0 LUFS en su ventana de voz (el nivel de la música sola) y limitador a
  * −2,5 dBFS. Fuera de la ventana de voz el WAV tratado es SILENCIO. La puerta (`revisar-053.mjs`) vuelve a medirlo.
  *
@@ -68,8 +65,6 @@ const MATERIAL = [
   ["recorrido", "rc05.mp4", "rc05", "931b51dd", "4 Recorrido/Img 9477.mp4"],
   ["recorrido", "rc04.mp4", "rc04", "c6cd691d", "4 Recorrido/Img 9469.mp4"],
   ["recorrido", "rc16.mp4", "rc16", "7cdf817e", "4 Recorrido/Img 9525.mp4"],
-  // La locución. PISTA GUÍA (sha `guia`: no se comprueba): se sustituye por la real y se rellena su sha.
-  ["audio", "off.wav", "off", "guia", "proyectos/053/voz/ (pista guía, `generar-vo.mjs --motor say`)"],
 ];
 /**
  * La canción: archivo en original/ · salida · sha256 (8) · origen (la biblioteca de música del repo, el MISMO archivo que reserva el registro de uso).
@@ -101,10 +96,6 @@ for (const [, archivo, , esperado] of [...lista, ...(MUSICA && !solo ? [["", MUS
   if (!fs.existsSync(abs)) {
     log.error(`falta ${archivo}`);
     malos++;
-    continue;
-  }
-  if (esperado === "guia") {
-    log.aviso(`${archivo}: es una PISTA GUÍA (sha «guia»): no es la locución final; cuando haya la real, sustitúyela y pon su sha`);
     continue;
   }
   const real = sha8(abs);
@@ -193,16 +184,15 @@ const VOZ_TRATADA = (gananciaDb) =>
     "alimiter=limit=0.75:attack=1:release=60:level=disabled:latency=1",
   ].join(",");
 
-/** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). CT05 cruda mide −28,6 LUFS (+20,4 dB; el limitador quita 0,5 dB); `off` es la pista guía (se mide de nuevo con la real). */
-const GANANCIA_VOZ_DB = { ct05: 20.4, off: 16.6 };
+/** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). CT05 cruda mide −28,6 LUFS (+20,4 dB; el limitador quita 0,5 dB)(`probar-voz.py --umbral 0.0316 --razon 3.5`). */
+const GANANCIA_VOZ_DB = { ct05: 20.4 };
 
 /**
  * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente, medidos por energía
  * (`limites-voz.py --margen 40`; R29). Fuera de esta ventana la voz tratada es SILENCIO: la compresión y la ganancia suben ≈ +17 dB cualquier ruido de la toma, y entre toma y toma el plan deja un hueco que, sin esto, sonaría con ese ruido de sala.
  * CT05: la voz empieza a 1,31 s («Si», una subida de −57 a −25 dB en 0,1 s) y acaba a 4,07 s («escríbenos»); la toma sigue hasta 7,2 s sin voz. El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
- * `off`: la locución entera (gancho + cinco frases): de la primera a la última palabra del archivo (medido con `limites-voz.py`).
  */
-const VENTANA_VOZ = { ct05: [1.31, 4.07], off: [0.04, 52.67] };
+const VENTANA_VOZ = { ct05: [1.31, 4.07] };
 /** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
 const VOZ_ANTES = 0.07;
 const VOZ_DESPUES = 0.05;
@@ -232,8 +222,8 @@ function vozTratada(salidaNombre) {
 }
 
 for (const [clase, archivo, salida] of lista) {
-  if (clase !== "audio") video(clase, archivo, salida);
-  if (clase === "toma" || clase === "audio") {
+  video(clase, archivo, salida);
+  if (clase === "toma") {
     voz(archivo, salida);
     vozTratada(salida);
   }

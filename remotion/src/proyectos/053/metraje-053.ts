@@ -1,31 +1,32 @@
 /**
- * EL RECORRIDO 053 — «Tierra Grata Bosque Santo (El Poblado), ARRIENDO», V35 del registro, «¿PAGARÍAS 14 MILLONES?» — los planos, como DATOS.
+ * EL RECORRIDO 053 — «Tierra Grata Bosque Santo (El Poblado), ARRIENDO», V35 del registro, «¿PAGARÍAS $14.800.000?» — los planos, como DATOS.
  *
- * Encargo (2026-10-20): replicar el tercero de los tres vídeos que otro editor hizo el 15-sep con el material del 2-sep (`videos editados/03.mp4`, 56,43 s) con las MISMAS tomas, en el mismo orden y con el mismo
- * texto, en el formato del canal y en sus dos formatos (orgánico con subtítulos editoriales y funnel con ficha). Reparto en `proyectos/044/reparto-051-053.md` (tabla «03»); análisis del original y decisiones en
- * `proyectos/053/artefactos/01-plan.md`. Es la V35 del registro; la canción (*Softly*, Judah Earl & Brandon Black) estaba reservada para ella.
+ * Encargo (2026-10-20): replicar el tercero de los tres vídeos que otro editor hizo el 15-sep con el material del 2-sep (`videos editados/03.mp4`, 56,43 s) con las MISMAS TOMAS en el mismo orden, en el formato del canal y en sus dos
+ * formatos (orgánico con rótulos editoriales y funnel con ficha). **CAMBIO DE ENCARGO ese mismo día** (reparto §5c): el vídeo va SIN voz en off y lo que decía la locución se sustituye por un guion NUEVO EN PANTALLA que resalta las
+ * plusvalías del arriendo (aseo semanal incluido, acompañamiento personalizado, chef privado, conductor, la mejor asesoría), un rótulo por tramo y sincronizado a los planos y a los golpes de la música, no a una voz. Es la V35 del
+ * registro; la canción (*Softly*, Judah Earl & Brandon Black) estaba reservada para ella. Análisis del original y decisiones en `proyectos/053/artefactos/01-plan.md`.
  *
- *   gancho   HK05  Isabella caminando hacia cámara en el balcón, SIN VOZ PROPIA (la frase «¿Pagarías 14 millones al mes por vivir aquí?» es LOCUCIÓN EN OFF sobre su imagen, como en el original)
- *   off      la locución entera (gancho + cinco frases): `original/off.wav`. NO existe en el SSD: la decide el usuario (reparto §3); mientras tanto es una PISTA GUÍA (voz de sistema, `say`)
+ *   gancho   HK05  Isabella caminando hacia cámara en el balcón, SIN VOZ, con el rótulo «¿Pagarías $14.800.000 al mes por vivir aquí?» (la ÚNICA cifra de la pieza: el canon real, no los «14 millones» del original)
+ *   rótulos  los nueve del reparto §5c, uno por tramo, en el orden del original (`subtitulos-053.ts`)
  *   CTA      CT05  «Si buscas más que un apartamento para vivir, escríbenos.»                                              (sentada en la silla de la sala; la MISMA toma cierra la 052: declarado)
  *
- * LA IDEA EN UNA LÍNEA. ¿Cuánto vale vivir aquí? Catorce millones al mes por un apartamento amoblado con jacuzzi privado, cocina equipada, lavadora y secadora, amenidades y seguridad 24/7, a pocos metros de Las
- * Palmas. No se afirma nada que la ficha no diga salvo lo que dice la voz del original, que es del usuario (lavadora y secadora, seguridad 24/7, cancha de squash, «completamente amoblado»: se repite tal cual).
+ * LA IDEA EN UNA LÍNEA. ¿Cuánto vale vivir aquí? $14.800.000 al mes por un apartamento amoblado de 113 m² con jacuzzi privado… y lo que viene con él: aseo semanal, acompañamiento personalizado, chef y conductor, la mejor asesoría. Lo que
+ * prometen los rótulos lo dio el usuario; ninguno dice que el chef o el transporte vayan incluidos en el canon.
  *
- *   bloque 2  c01                  Isabella caminando hacia cámara en el balcón (HK05, mudo): el frame 0, con la pregunta en off y su subtítulo (EXCEPCIÓN DECLARADA a la regla fija 1: la réplica abre así)
- *   bloque 5  c02 … c08            el recorrido en el ORDEN DEL ORIGINAL, con la locución encima: el cielo, las torres y el JACUZZI PRIVADO (RC10) → la cocina, la sala con la palma y la puerta del balcón (RC01) → el bar (RC22)
- *                                  → el balcón con las camas, las torres y el cielo (RC03) → la alcoba y su pared con el televisor (RC05) → la sala con el sofá (RC04) → el carril de nado (RC16)
+ *   bloque 2  c01                  Isabella caminando hacia cámara en el balcón (HK05, mudo), con el rótulo del gancho (EXCEPCIÓN DECLARADA a la regla fija 1: la réplica abre así)
+ *   bloque 5  c02 … c08            el recorrido en el ORDEN DEL ORIGINAL, con un rótulo por tramo: el cielo y el JACUZZI PRIVADO (RC10) → la cocina y la sala con la palma (RC01) → el bar (RC22) → el balcón con las camas y las torres
+ *                                  (RC03) → la alcoba y su pared con el televisor (RC05) → la sala con el sofá (RC04) → el carril de nado (RC16)
  *   bloque 6  c09 c10              Isabella sentada: el CTA a cámara (CT05); y la tarjeta oscura del cierre (nada se congela)
  *
- * LO QUE NO CUMPLE EL FORMATO Y SE DECLARA (la réplica manda). (1) La pieza abre con Isabella y su voz en off desde el f8, no con la casa limpia y sin voz (regla fija 1). (2) Dura ≈ 59 s (la réplica dura 56,4 s
- * y se le suma la tarjeta): más que los 55 s del formato. (3) La voz en off es continua desde el gancho hasta la piscina: el formato la limita al bloque 5. (4) El último plano del bloque 5 no es la vista sino el carril de
- * nado (el orden del original) y no es el más largo de su bloque: el balcón (RC03) lo es. (5) Isabella solo habla a cámara una vez (el CTA). (6) La cifra del gancho dice «14 millones»: el canon es 14,8 y va en la ficha.
+ * LO QUE NO CUMPLE EL FORMATO Y SE DECLARA (la réplica manda). (1) La pieza abre con Isabella y su rótulo, no con la casa limpia (regla fija 1). (2) No hay voz en off ni «recorrido mudo»: el texto de cada tramo es un rótulo que no acompaña a
+ * ninguna voz (`SIN_VOZ` en la puerta). (3) El último plano del bloque 5 es el carril de nado y el más largo, el de las camas con las torres (RC03): el orden del original. (4) Isabella solo habla a cámara una vez (el CTA). (5) Los bloques son 2-5-6.
  *
- * LO QUE EL MATERIAL NO DA. (1) La ALCOBA del original no coincide con ninguno de los 22 clips del SSD (el editor tuvo otro): se usa RC05, el más parecido. (2) Los recorridos son anamórficos (608×1080 efectivos
- * ×2,13) y salen más blandos que Isabella en 4K. (3) No hay dron. (4) El original acelera RC10 ×1,4 y RC01 ×1,45; aquí van a ×1 (`velocidad` solo se admite en el bloque 3) y los tramos se ajustan a la locución.
+ * LO QUE EL MATERIAL NO DA. (1) La ALCOBA del original no coincide con ninguno de los 22 clips del SSD (el editor tuvo otro): se usa RC05, el más parecido. (2) Los recorridos son anamórficos (608×1080 efectivos ×2,13) y salen más blandos que Isabella
+ * en 4K. (3) No hay dron. (4) El original acelera RC10 ×1,4 y RC01 ×1,45; aquí van a ×1 (`velocidad` solo se admite en el bloque 3) y los tramos se recortan a lo que dura cada rótulo.
  *
- * QUIÉN MARCA EL TIEMPO: LA LOCUCIÓN. Cada cambio de plano cae en una palabra de la frase que lo explica («Imagina» → el cielo; «Viene» → la cocina; «equipada» → el bar; «secadora» → el balcón; «salón social»
- * → la alcoba; «en el sector» → la sala; «Todo» → la piscina). Todas las entradas son DISOLVENCIAS de 12 f: *Softly* es una orquesta en crescendo sin pulso (R33: no hay golpe donde cortar en seco).
+ * QUIÉN MARCA EL TIEMPO: LA MÚSICA. «Softly» (orquestal, sin pulso) entra a los 47,367 s de la canción: cae en su calma (−24 LUFS) y su GOLPE DE ENTRADA al tramo fuerte (50,93 s, 12,2 dB, tras un respiro de −28 LUFS) cae en el cambio del gancho al cielo
+ * (f108). Los demás cambios de rótulo y de plano caen en golpes MEDIDOS de la canción (`GOLPES`, `musica/golpes-softly-*.json`): cinco de 9,5-15,7 dB y cuatro de 6,5-6,9 dB (una canción sin pulso no da una rejilla más densa: la mejor
+ * combinación posible de planos de 3,0-5,3 s se buscó con un DP sobre sus golpes). Todas las entradas son DISOLVENCIAS de 12 f: no piden golpe (R33), pero el plano es opaco justo en él.
  *
  * UNIDADES. `desde` va en SEGUNDOS de la fuente, escrito como frame exacto (`fr(12)` = 12/30 s); `en` y `dur`, en frames de la composición. Los planos son CONTIGUOS.
  *
@@ -64,23 +65,23 @@ export interface Corte extends CorteDelFormato<Entrada> {
   voz?: VozDelCorte;
 }
 
-/** EL NIVEL DE LA VOZ: −15 LUFS, el de la música sola (pedido del usuario desde la V9). Cada voz pasa por la cadena de `normalizar.mjs` (graves, puerta suave, compresor 3,5:1, ganancia y limitador a −2,5 dBFS). Excepción declarada a R29, por encargo. */
+/** EL NIVEL DE LA VOZ: −15 LUFS, el de la música sola (pedido del usuario desde la V9). La de CT05 pasa por la cadena de `normalizar.mjs` (graves, puerta suave, compresor 3,5:1, ganancia y limitador a −2,5 dBFS). Excepción declarada a R29, por encargo. */
 export const OBJETIVO_LUFS = -15;
 
 /* ── La música: «Softly» (Judah Earl & Brandon Black) ───────────────────────
  *
  * `archivos/musica/Softly I Judah Earl & BRANDON BLACK #music #cinematic #orchestralmusic.mp3` (sha 8 `87d78dc2`), orquestal, 3:45, Do mayor, sin pulso fijo. Medida (ebur128 por 1 s y `medir-pista.py`,
- * `proyectos/053/musica/`): dos tramos fuertes (50-105 s y 145-195 s) y, entre ellos, una calma; el segundo es el clímax y acaba con una CAÍDA:
+ * `proyectos/053/musica/`): una calma de −22…−24 LUFS hasta los 50 s, un respiro de −28 LUFS a los 50,1 s y el PRIMER TRAMO FUERTE (de 50,9 a 105 s, −14,4 LUFS de media, con golpes de hasta 15,7 dB) que cae a los 105 s.
  *
- *   hasta 146 s      la subida: −19 → −15 LUFS (una calma que crece)                                  ← el gancho
- *   147,33 s         el golpe de entrada del clímax (10,6 dB)                                          ← el cielo del RC10
- *   147,5 – 195,5 s  MESETA: −11,5 LUFS (pico −0,2 dBFS), con golpes de ≤ 13,5 dB                      ← el recorrido y la locución
- *   196,1 s          LA CAÍDA: −10,7 → −14 → −17,5 → −23 LUFS en 4 s, y de ahí un lecho de −23 → −26     ← el CTA
+ *   47,4 – 50,3 s    la calma: −23,9 LUFS (pico −12,6)                                                      ← el gancho (Isabella caminando)
+ *   50,1 s           el respiro: −28 LUFS
+ *   50,93 s          el golpe de entrada del tramo fuerte (12,2 dB; −16,5 LUFS a los 51,1 s)               ← el cielo (f108)
+ *   51,5 – 87,3 s    el tramo fuerte: −14,4 LUFS (pico −0,4), con golpes de 6,5-15,7 dB                      ← el recorrido
+ *   87,3 s           golpe de 10,5 dB                                                                      ← entra la toma del CTA (f1199)
  *
- * Se entra a los 143,167 s (el frame 4295 de la canción a 30 fps): la caída (196,2 s) cae en el f1592, entre la última palabra de la locución (f1586) y la primera del CTA (f1604); la meseta cubre el recorrido.
- * Como la locución es CONTINUA, la música es un lecho bajo la voz casi todo el rato: la canción sube y baja por su cuenta (calma → meseta → caída) y no hay tramo en que suene sola hasta la tarjeta.
+ * Se entra a los 47,367 s (el frame 1421 de la canción a 30 fps). La música pesa más que en las piezas con locución: solo baja bajo la voz del CTA.
  */
-export const INICIO_MUSICA = 4295 / FPS_053;
+export const INICIO_MUSICA = 1421 / FPS_053;
 
 /**
  * Lo que el audio del render llega TARDE respecto de su fuente: 42 ms, medido en el 016 por correlación entre la prueba 720p y el WAV (y confirmado desde el 017). Se suma para que lo que la música hace en un
@@ -91,8 +92,27 @@ export const RETARDO_AUDIO = 0.042;
 /** El frame del vídeo en que SUENA un instante de la canción (sin redondear). */
 export const frameDeCancion = (tCancion: number): number => (tCancion - INICIO_MUSICA + RETARDO_AUDIO) * FPS_053;
 
-/** Dónde empieza la caída de la canción (s de la canción, medido con ebur128 momentáneo: −10,7 → −11,8 → −14,0 entre 195,6 y 196,6 s). */
-export const CAIDA_CANCION = 196.2;
+/**
+ * LOS GOLPES en que cae cada cambio (segundo de la CANCIÓN y fuerza en dB por 15 ms, de `musica/golpes-softly-*.json`: `medir-pista.py --json`). Cada plano entra, y cada rótulo empieza, en el frame en que SUENA el suyo
+ * (±1 f: la puerta lo comprueba). `rotulo` = el cambio es de TEXTO sobre el mismo plano. Cuatro son de 6,5-6,9 dB: la canción no tiene golpes más fuertes en esos 4 s y entre dos fuertes caben planos de 5-6 s (se prefirió el
+ * rótulo a tiempo, con una nota de la canción, a uno de 6 s en pantalla).
+ */
+export const GOLPES = {
+  cielo: { t: 50.929, db: 12.2 }, //   «Mira lo que incluye:» sobre el cielo, tras el respiro
+  jacuzzi: { t: 55.182, db: 10.2, rotulo: true }, // «Jacuzzi privado con vista a Medellín» (la tina entra en cuadro)
+  cocina: { t: 59.083, db: 6.9 }, //   «113 m² amoblados y equipados»
+  bar: { t: 63.224, db: 15.7 }, //     «Piscina, gimnasio, spa y coworking» sobre el bar
+  camas: { t: 65.669, db: 9.5 }, //    el balcón con las camas (mismo rótulo)
+  torres: { t: 67.914, db: 6.6, rotulo: true }, // «Y lo que no esperabas:»
+  alcoba: { t: 71.774, db: 6.7 }, //   «Aseo semanal incluido»
+  acompanamiento: { t: 75.255, db: 14.4, rotulo: true }, // «Acompañamiento personalizado»
+  sala: { t: 78.254, db: 6.5 }, //     «Chef privado y conductor a tu medida»
+  piscina: { t: 82.424, db: 6.7 }, //  «Con la mejor asesoría de la ciudad»
+  cta: { t: 87.297, db: 10.5 }, //     entra Isabella con el CTA
+} as const;
+
+/** El frame (entero) en que suena el golpe `g` de `GOLPES`. */
+export const golpeExacto = (t: number): number => frameDeCancion(t);
 
 /** Un frame del clip fuente, en segundos (la unidad de `desde`). */
 const fr = (n: number): number => n / FPS_053;
@@ -123,146 +143,145 @@ const COLOR_BASE: ColorCine = {
 const color = (ajuste: ColorCine = {}): ColorCine => ({ ...COLOR_BASE, ...ajuste });
 
 /**
- * El frame de cada cambio de plano (el frame en que el plano es OPACO; su disolvencia empieza 12 f antes). Cada uno cae en una palabra de la locución (`voz/off.json`, `lineas-vs-onsets.py`) y
- * la imagen cambia con ella. SON LOS DE LA PISTA GUÍA: con la locución real se vuelven a calcular (`proyectos/053/artefactos/03-timeline.md`).
+ * El frame de cada cambio de plano (el frame en que el plano es OPACO; su disolvencia empieza 12 f antes): el del golpe de la canción en que cae (`GOLPES`).
  */
 const P = {
-  cielo: 112, //    «Imagina» (f109): el cielo y el jacuzzi privado
-  cocina: 406, //   «Viene» (f404): la cocina, la sala con la palma, la puerta del balcón
-  bar: 602, //      «equipada» (f602): el bar
-  balcon: 686, //   «secadora» (f686): el balcón con las camas, las torres y el cielo
-  alcoba: 1078, //  «salón social» (f1074): la alcoba
-  sala: 1298, //    «en el sector» (f1294): la sala con el sofá
-  piscina: 1457, // «Todo» (f1453): el carril de nado
-  cta: 1603, //     Isabella: primera sílaba en el f1604, 18 f tras la última palabra de la locución (f1586)
+  cielo: 108, //    el respiro acaba y entra el tramo fuerte (50,93 s): el cielo y el jacuzzi privado
+  cocina: 353, //   la cocina y la sala con la palma
+  bar: 477, //      el bar
+  balcon: 550, //   el balcón con las camas, las torres y el cielo
+  alcoba: 734, //   la alcoba y su pared con el televisor
+  sala: 928, //     la sala con el sofá
+  piscina: 1053, // el carril de nado
+  cta: 1199, //     Isabella con el CTA (la toma entra en el golpe de 87,3 s; su primera sílaba suena en el f1214, 15 f después)
 } as const;
 
-/** Frames que dura la toma del CTA: el clip dura 7,2 s; su voz va de 1,31 a 4,07 s (f1604-f1687 de la comp) y la toma se corta 19 f después (los últimos 6 funden a negro). Nada se congela. */
-const DUR_CTA = 103;
+/** Frames que dura la toma del CTA: la voz va de 1,31 a 4,07 s del clip (f1214-f1297 de la comp) y la toma se corta 19 f después de la última palabra (los últimos 6 funden a negro). Nada se congela. */
+const DUR_CTA = 117;
 
 /** Dónde acaba la música (frame de la comp): se apaga bajo la tarjeta y llega a cero 2 f antes del final de la pieza. */
 export const FIN_MUSICA_053 = P.cta + DUR_CTA + DUR_TARJETA - 2;
 
 export const metraje053: readonly Corte[] = [
-  // ── Bloque 2 · el gancho: Isabella caminando (HK05, mudo), con la pregunta en off ──
+  // ── Bloque 2 · el gancho: Isabella caminando (HK05, mudo), con su rótulo ──
   {
     id: "c01-hook",
     bloque: 2,
     tipo: "video",
     src: v("hk05"),
-    // HK05 (`Img 9508.mp4`, 2-sep, anamórfico: se escala entero), de 4,3 a 8,0 s: Isabella (chaqueta de flores) camina hacia cámara por el balcón con la vista detrás, abre los brazos y se acerca hasta el torso. Es el tramo mudo del
-    // clip (la voz del hook del 051 está en 22,5-29,5 s). El frame 0 ES ELLA: excepción declarada a la regla fija 1 (la réplica abre así). La locución en off dice «¿Pagarías 14 millones al mes por vivir aquí?» desde el f8.
-    desde: fr(128),
+    // HK05 (`Img 9508.mp4`, 2-sep, anamórfico: se escala entero), de 4,3 a 7,9 s: Isabella (chaqueta de flores) camina hacia cámara por el balcón con la vista detrás, abre los brazos y se acerca hasta el torso. Es el tramo mudo del
+    // clip (la voz del hook del 051 está en 22,5-29,5 s). El frame 0 ES ELLA: excepción declarada a la regla fija 1 (la réplica abre así). El rótulo del gancho entra en el f6 (el f0 sale limpio) y dura hasta el cambio al cielo.
+    desde: fr(129),
     en: 0,
     dur: P.cielo,
     zoom: QUIETO,
     entra: "corte",
     color: color({ exposure: 0.1, shadows: 0.2, highlights: -0.35, whites: -0.2, saturation: 1.02, contrast: 1.06 }),
-    reason: "Balcón (la promesa): Isabella camina hacia cámara con la ciudad detrás mientras una voz pregunta cuánto pagarías por vivir aquí; el frame 0 es ella (la réplica abre así).",
+    reason: "Balcón (la promesa): Isabella camina hacia cámara con la ciudad detrás y el rótulo pregunta cuánto pagarías por vivir aquí; el frame 0 es ella (la réplica abre así).",
   },
-  // ── Bloque 5 · el recorrido con la locución, en el orden del original ──
+  // ── Bloque 5 · el recorrido con un rótulo por tramo, en el orden del original ──
   {
     id: "c02-cielo",
     bloque: 5,
     tipo: "video",
     src: v("rc10"),
-    // RC10 (`Img 9509.mp4`, 31-ago/2-sep, anamórfico), de 0,5 a 10,3 s a ×1: el cielo con nubes y el sol entre ellas → las torres y la ciudad → el JACUZZI PRIVADO del balcón (la tina cuadrada con listones de madera y su escalón, de 8,0 s al
-    // final). El original lo usa a ×1,4 (de 0,4 a 10,2 s en 7 s); aquí, a ×1, cubre los 9,8 s de «Imagina terminar tu día … la mejor vista de la ciudad de Medellín» y el jacuzzi llega al final de la frase.
-    desde: 0.5,
+    // RC10 (`Img 9509.mp4`, 31-ago/2-sep, anamórfico), de 2,5 a 10,67 s a ×1: el cielo con nubes y el sol entre ellas → las torres y la ciudad → el JACUZZI PRIVADO del balcón (la tina cuadrada con listones de madera y su escalón, de 7,2 s al
+    // final). El original lo usa a ×1,4 (de 0,4 a 10,2 s en 7 s); aquí, a ×1, cubre DOS rótulos: «Mira lo que incluye:» sobre el cielo y la ciudad (hasta el f236) y «Jacuzzi privado con vista a Medellín» cuando la tina entra en cuadro.
+    desde: 2.5,
     en: P.cielo,
     dur: P.cocina - P.cielo,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: -0.05, highlights: -0.45, whites: -0.25, shadows: 0.35, saturation: 1.06 }),
-    reason: "Balcón (la recompensa, avanzada): el cielo, las torres y el jacuzzi privado con la primera frase: «imagina terminar tu día relajándote en tu jacuzzi privado… con la mejor vista de la ciudad».",
+    reason: "Balcón: el cielo, las torres y el jacuzzi privado con «mira lo que incluye» y «jacuzzi privado con vista a Medellín»: lo que el original enseña primero.",
   },
   {
     id: "c03-cocina",
     bloque: 5,
     tipo: "video",
     src: v("rc01"),
-    // RC01 (`Img 9461.mp4`, anamórfico), de 0,6 a 7,1 s a ×1: de la isla de la cocina con sus banquetas, la luz de los focos y la madera, a la sala con la palma y el ventanal, hasta la puerta corredera negra del balcón. El original lo usa a ×1,45.
-    // Con «Viene completamente amoblado: dos habitaciones, dos baños, cocina integral».
-    desde: 0.6,
+    // RC01 (`Img 9461.mp4`, anamórfico), de 2,4 a 6,53 s a ×1: la isla de la cocina con sus banquetas, la luz de los focos, la sala con la palma y el ventanal, hasta que asoma la puerta corredera negra del balcón. El original lo usa a ×1,45.
+    // Con «113 m² amoblados y equipados».
+    desde: 2.4,
     en: P.cocina,
     dur: P.bar - P.cocina,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.05, highlights: -0.3, whites: -0.2, shadows: 0.12 }),
-    reason: "Cocina y sala: la isla, la sala con la palma y la puerta del balcón: lo amoblado y la cocina integral que dice la voz, la casa vista por dentro tras la vista.",
+    reason: "Cocina y sala: la isla, la sala con la palma y la puerta del balcón con «113 m² amoblados y equipados»: la casa vista por dentro tras la vista.",
   },
   {
     id: "c04-bar",
     bloque: 5,
     tipo: "video",
     src: v("rc22"),
-    // RC22 (`Img 9538.mp4`, anamórfico), de 0,4 a 3,1 s a ×1: el bar con su estante iluminado, la banqueta y el letrero de neón verde, de noche. El clip dura 3,2 s: se usa casi entero. El original lo usa de 0,3 a 2,8 s.
+    // RC22 (`Img 9538.mp4`, anamórfico), de 0,4 a 2,83 s a ×1: el bar con su estante iluminado, la banqueta y el letrero de neón verde, de noche. El clip dura 3,2 s: se usa casi entero (el original, de 0,3 a 2,8 s). Con «Piscina, gimnasio, spa y coworking».
     desde: fr(12),
     en: P.bar,
     dur: P.balcon - P.bar,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.4, shadows: 0.3, saturation: 0.95, temperature: -0.04 }),
-    reason: "Bar: el estante iluminado y el neón, con «totalmente equipada y zona de lavandería con lavadora y secadora»: el apartamento listo para vivir.",
+    reason: "Bar: el estante iluminado y el neón, con «piscina, gimnasio, spa y coworking»: lo que trae la unidad, a la altura de un bar.",
   },
   {
     id: "c05-balcon",
     bloque: 5,
     tipo: "video",
     src: v("rc03"),
-    // RC03 (`Img 9464.mp4`, anamórfico), de 2,0 a 15,1 s a ×1: el balcón con las camas blancas sobre la baldosa negra → el paneo a la baranda, las torres y la ciudad → las nubes. El original lo usa de 3,1 a 13,6 s a ×1. Es el plano más largo de la pieza
-    // (13,1 s): «Listo para mudarte. Además, puedes disfrutar de excelentes amenidades: …» hasta «salón social».
+    // RC03 (`Img 9464.mp4`, anamórfico), de 2,0 a 8,13 s a ×1: el balcón con las camas blancas sobre la baldosa negra → el paneo a la baranda y a las torres. El original lo usa de 3,1 a 13,6 s a ×1 (hasta el cielo con nubes); aquí se corta donde acaba «Y lo que no esperabas:»
+    // (6,1 s: el rótulo cambia sobre el mismo plano en el f618).
     desde: 2.0,
     en: P.balcon,
     dur: P.alcoba - P.balcon,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.05, shadows: 0.25, highlights: -0.35, whites: -0.2, saturation: 1.0 }),
-    reason: "Balcón: las camas, la baranda, las torres y el cielo con «listo para mudarte» y las amenidades; la vista que acompaña la lista de lo que trae la unidad.",
+    reason: "Balcón: las camas, la baranda y las torres con «y lo que no esperabas»: la vista que prepara lo que viene (aseo, acompañamiento, chef, asesoría).",
   },
   {
     id: "c06-alcoba",
     bloque: 5,
     tipo: "video",
     src: v("rc05"),
-    // RC05 (`Img 9477.mp4`, anamórfico), de 0,4 a 7,7 s a ×1: la cama con los cojines negros y la lámpara colgante → el paneo a la pared del televisor. **La alcoba del original NO coincide con ninguno de los clips del SSD** (la búsqueda de
-    // fotogramas da error 0,3 frente a ≈ 0 en los demás): el editor tuvo otro clip; este es el más parecido.
+    // RC05 (`Img 9477.mp4`, anamórfico), de 0,4 a 6,87 s a ×1: la cama con los cojines negros y la lámpara colgante → el paneo a la pared del televisor. **La alcoba del original NO coincide con ninguno de los clips del SSD** (la búsqueda de
+    // fotogramas da error 0,3 frente a ≈ 0 en los demás): el editor tuvo otro clip; este es el más parecido. Cubre «Aseo semanal incluido» y «Acompañamiento personalizado» (el texto cambia sobre el mismo plano en el f838).
     desde: 0.4,
     en: P.alcoba,
     dur: P.sala - P.alcoba,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: -0.15, blacks: 0, shadows: 0.25, highlights: -0.4, whites: -0.3, saturation: 1.04 }),
-    reason: "Alcoba principal: la cama y la pared del televisor con «salón social y zonas de bienestar… y lo mejor es que cuentas con seguridad 24/7»: lo privado, lo seguro.",
+    reason: "Alcoba principal: la cama y la pared del televisor con «aseo semanal incluido» y «acompañamiento personalizado»: lo privado, lo que viene con el arriendo.",
   },
   {
     id: "c07-sala",
     bloque: 5,
     tipo: "video",
     src: v("rc04"),
-    // RC04 (`Img 9469.mp4`, anamórfico), de 0,5 a 5,8 s a ×1: la sala con el sofá gris, la pared de listones con sus luces y la mesa redonda, hasta el ventanal con el balcón al fondo. Con «en el sector de Las Palmas y la privacidad que buscas en un entorno natural».
+    // RC04 (`Img 9469.mp4`, anamórfico), de 0,5 a 4,67 s a ×1: la sala con el sofá gris, la pared de listones con sus luces y la mesa redonda, hasta el ventanal. Con «Chef privado y conductor a tu medida».
     desde: 0.5,
     en: P.sala,
     dur: P.piscina - P.sala,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: -0.1, shadows: 0.12 }),
-    reason: "Sala: el sofá gris, los listones y el ventanal con «la mejor ubicación en el sector de Las Palmas y la privacidad que buscas»: el estar de la casa, abierto al entorno.",
+    reason: "Sala: el sofá gris, los listones y el ventanal con «chef privado y conductor a tu medida»: el estar de la casa, con quien lo atiende.",
   },
   {
     id: "c08-piscina",
     bloque: 5,
     tipo: "video",
     src: v("rc16"),
-    // RC16 (`Img 9525.mp4`, anamórfico), de 4,2 a 9,1 s a ×1: el carril de nado turquesa entre los árboles bajo el cielo gris del atardecer, con un paneo a la derecha hasta la ciudad. El original lo usa de 4,1 a 9,1 s. Con «Todo en este
-    // apartamento está pensado para tu tranquilidad y comodidad». No es la vista (el clímax de la réplica está a mitad de pieza) sino el cierre de la locución, como en el original.
-    desde: 4.2,
+    // RC16 (`Img 9525.mp4`, anamórfico), de 4,3 a 9,17 s a ×1: el carril de nado turquesa entre los árboles bajo el cielo gris del atardecer, con un paneo a la derecha hasta la ciudad. El original lo usa de 4,1 a 9,1 s. Con «Con la mejor asesoría de la ciudad».
+    // No es la vista (el clímax de la réplica está a mitad de pieza) sino el cierre del recorrido, como en el original.
+    desde: 4.3,
     en: P.piscina,
     dur: P.cta - P.piscina,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.15, shadows: 0.35, blacks: 0, highlights: -0.2, saturation: 1.0 }),
-    reason: "Piscina: el carril de nado entre los árboles con «todo en este apartamento está pensado para tu tranquilidad y comodidad»: la unidad, antes de que ella hable.",
+    reason: "Piscina: el carril de nado entre los árboles con «con la mejor asesoría de la ciudad»: la unidad, antes de que ella hable.",
   },
   // ── Bloque 6 · el CTA ──
   {
@@ -273,9 +292,9 @@ export const metraje053: readonly Corte[] = [
     audio: a("ct05-voz"),
     voz: { s0: 1.31, s1: 4.07, lufs: -15.0, dice: "Si buscas más que un apartamento para vivir, escríbenos." },
     // La voz empieza a los 1,31 s («Si», una subida de −57 a −25 dB en 0,1 s) y acaba a los 4,07 s; la toma sigue hasta los 7,2 s (ella sonríe y alarga el brazo hacia la cámara): se corta 19 f después de la última palabra.
-    // `desde` 38 f es el frame anterior a la primera palabra (1,31 × 30 = 39,3) y deja los 12 f de clip que pide la disolvencia: Isabella es opaca en el f1603 y su primera sílaba suena en el f1604.
-    // Isabella está SENTADA en la silla de la sala (la de la foto `1-Sala`), con la ventana y el bosque detrás.
-    desde: fr(38),
+    // La toma entra en el GOLPE de 87,3 s (f1199, 10,5 dB) y la música baja DESPUÉS, con curva (la bajada acaba 4 f antes de la primera palabra): `desde` 24 f deja la primera sílaba en el f1214, 15 f tras el golpe, y deja los 12 f de clip que
+    // pide la disolvencia. Isabella está SENTADA en la silla de la sala (la de la foto `1-Sala`), con la ventana y el bosque detrás.
+    desde: fr(24),
     en: P.cta,
     dur: DUR_CTA,
     zoom: QUIETO,

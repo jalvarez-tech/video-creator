@@ -1,6 +1,0 @@
-file '/Users/nicecode/Work/jalvarez/video-creator/.claude/worktrees/reel-053-pagarias-14-ee774e/proyectos/053/voz/vo/.partes/001.wav'
-file '/Users/nicecode/Work/jalvarez/video-creator/.claude/worktrees/reel-053-pagarias-14-ee774e/proyectos/053/voz/vo/.partes/002.wav'
-file '/Users/nicecode/Work/jalvarez/video-creator/.claude/worktrees/reel-053-pagarias-14-ee774e/proyectos/053/voz/vo/.partes/003.wav'
-file '/Users/nicecode/Work/jalvarez/video-creator/.claude/worktrees/reel-053-pagarias-14-ee774e/proyectos/053/voz/vo/.partes/004.wav'
-file '/Users/nicecode/Work/jalvarez/video-creator/.claude/worktrees/reel-053-pagarias-14-ee774e/proyectos/053/voz/vo/.partes/005.wav'
-file '/Users/nicecode/Work/jalvarez/video-creator/.claude/worktrees/reel-053-pagarias-14-ee774e/proyectos/053/voz/vo/.partes/006.wav'

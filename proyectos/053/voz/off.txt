@@ -1,9 +1,0 @@
-# La locución en off de la réplica del 03.mp4 (texto del original, verificado con whisper sobre su audio el 2026-10-20).
-# Una línea por frase, `id|texto`. Lo que se DICE va como se pronuncia (cifras con letras): «catorce millones», «veinticuatro siete».
-# Lo que se PINTA («14 millones», «24/7») está en voz/guion-marcado.txt.
-h|¿Pagarías catorce millones al mes por vivir aquí?
-f1|Imagina terminar tu día relajándote en tu jacuzzi privado, preparando un trago en tu propio hogar y disfrutando de la mejor vista de la ciudad de Medellín.
-f2|Viene completamente amoblado: dos habitaciones, dos baños, cocina integral totalmente equipada y zona de lavandería con lavadora y secadora. Listo para mudarte.
-f3|Además, puedes disfrutar de excelentes amenidades: piscina, gimnasio, zonas húmedas, coworking, cancha de squash, zona de barbecue, salón social y zonas de bienestar.
-f4|Y lo mejor es que cuentas con seguridad veinticuatro siete, la mejor ubicación en el sector de Las Palmas y la privacidad que buscas en un entorno natural.
-f5|Todo en este apartamento está pensado para tu tranquilidad y comodidad.

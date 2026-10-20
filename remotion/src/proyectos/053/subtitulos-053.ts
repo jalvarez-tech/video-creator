@@ -1,20 +1,30 @@
 /**
- * LOS SUBTÍTULOS EDITORIALES DEL RECORRIDO 053 — `BloqueEditorial[]`.
+ * LOS RÓTULOS EDITORIALES DEL RECORRIDO 053 — `BloqueEditorial[]`.
  *
- * Todo lo que SUENA —la locución en off entera y el CTA de Isabella—, en trozos de una a cuatro palabras, con UN acento por bloque como mucho (skill `recorrido-luxur`, `subtitulos-editoriales.md`). Frames ABSOLUTOS de
- * la composición, a 30 fps. El texto sale de los guiones marcados (`proyectos/053/voz/off-marcado.txt` y `ct05.txt`: lo que se OYE) y los tiempos, de la voz: cada línea llevada al arranque MEDIDO de su palabra sobre la voz
- * sola (`onsets-voz.py` + `palabras-desde.py`), no al DTW de whisper (R31). Cada línea entra 0-3 f ANTES de su palabra (`herramientas/lineas-vs-onsets.py`).
+ * **NO HAY VOZ EN OFF** (cambio de encargo del 2026-10-20, `proyectos/044/reparto-051-053.md` §5 y §5c): lo que decía la locución del original lo dicen estos rótulos, el guion NUEVO en pantalla que resalta las plusvalías del arriendo, con las letras
+ * del texto editorial del canal (Montserrat y Playfair Display itálica en la palabra marcada, blanco sin sombra, banda inferior al 90 %; skill `recorrido-luxur`, `subtitulos-editoriales.md`). Un rótulo por tramo, UNO a la vez, sincronizado a los
+ * planos y a los golpes de la música (`GOLPES` en `metraje-053.ts`), NO a una voz: cada rótulo entra en el frame en que suena el golpe de su tramo (su primera línea, 1 f antes; la del acento, 7-8 f después). Frames ABSOLUTOS de la composición, a 30 fps.
+ * Solo el CTA lleva voz (CT05): sus dos bloques (`z01`, `z02`) salen de `trozos-editoriales.mjs` sobre su transcripción por palabra y siguen a su voz (R31).
  *
- * **LOS TIEMPOS DE LA LOCUCIÓN SON LOS DE LA PISTA GUÍA** (voz de sistema, `original/off.wav`): con la locución real se repite `trozos-editoriales.mjs` sobre su transcripción (`proyectos/053/artefactos/03-timeline.md`).
+ * LOS NUEVE RÓTULOS, tal cual los dio el usuario (reparto §5c; tuteo, sin exclamaciones, una palabra acentuada por rótulo):
+ *   gancho   ¿Pagarías **$14.800.000** al mes por vivir aquí?        sobre Isabella caminando (HK05, sin voz)
+ *   1        Mira lo que **incluye**:                                  cielo y ciudad (RC10)
+ *   2        **Jacuzzi** privado con vista a Medellín                  el jacuzzi privado (RC10, 8-10,7 s)
+ *   3        113 m² **amoblados** y equipados                          cocina y sala con la palma (RC01)
+ *   4        Piscina, gimnasio, spa y **coworking**                    el bar (RC22) y el balcón con las camas (RC03)
+ *   5        Y lo que no esperabas:                                    las torres (RC03)
+ *   6        **Aseo** semanal incluido                                 la alcoba (RC05)
+ *   7        **Acompañamiento** personalizado                          la pared del televisor (RC05)
+ *   8        **Chef** privado y conductor a tu medida                  la sala con el sofá (RC04)
+ *   9        Con la mejor **asesoría** de la ciudad                    el carril de nado (RC16)
+ * Lo que prometen lo dio el usuario (aseo semanal incluido, acompañamiento personalizado, chef privado, transporte/conductor, «la mejor asesoría de la ciudad»); **ninguno dice que el chef o el transporte vayan incluidos en el canon**.
  *
- * NO HAY `portada` NI `cuenta` (reglas fijas del canal, `SKILL.md` §0). EXCEPCIÓN DECLARADA a la regla fija 1 (la réplica abre con Isabella y su pregunta): el primer subtítulo entra en el f8, con la primera palabra de la
- * locución. El cierre lleva el LOGO, que es una imagen (`LogoCierre` en `Recorrido053.tsx`) y no un bloque de texto.
+ * NO HAY `portada` NI `cuenta` (reglas fijas del canal, `SKILL.md` §0). EXCEPCIÓN DECLARADA a la regla fija 1 (la réplica abre con Isabella): el primer rótulo entra en el f6, con el f0 limpio. El cierre lleva el LOGO, que es una imagen
+ * (`LogoCierre` en `Recorrido053.tsx`) y no un bloque de texto.
  *
- * UNA SOLA CIFRA EN TODA LA PIEZA: «14 millones», en el gancho (lo dicho es «catorce millones»; el canon de la ficha es 14,8 y va en la versión con ficha: se declara). Va como ACENTO (la cursiva, abajo) y no como dato grande al
- * centro. «24/7» se pinta con letras («seguridad veinticuatro siete»): ninguna otra cifra en pantalla.
+ * CIFRAS EN PANTALLA: «$14.800.000» (el canon real, del gancho: el original decía «14 millones») y «113 m²» (el área, en el rótulo 3: es el texto del usuario). Ninguna otra.
  *
- * POR CONFIRMAR AL OÍDO (la puerta con `--final` falla SOLO por ello):
- *   · «en tu propio hogar» (≈ f265, 8,6 s): mi transcripción por palabra del audio del original dice «hogar» y el rótulo automático del original dice «propio bar». Se pinta «hogar» (lo que dice el reparto) y se pregunta antes de la final.
+ * EL ACENTO MARCA LO QUE SE LLEVA UNO (uno por rótulo, ≥ 2 s entre dos): $14.800.000 · incluye · Jacuzzi · amoblados · coworking · Aseo · Acompañamiento · Chef · asesoría · escríbenos.
  */
 
 import { segmentosDe } from "../../motor/subtitulos-editoriales";
@@ -28,149 +38,104 @@ import { FPS_053 } from "./metraje-053";
 export const ACENTO_MENOS_053 = 8;
 
 export const subtitulos053: readonly BloqueEditorial[] = [
-  // ── Bloque 2 · el gancho DICHO EN OFF (la imagen de Isabella, opaca desde el f0; primera palabra en el f8) y la locución ──
+  // ── Bloque 2 · el gancho: Isabella caminando (HK05, sin voz): el f0 sale limpio y el rótulo entra en el f6 ──
   {
-    id: "o01",
-    hasta: 103,
+    id: "r00",
+    hasta: 106,
     trozos: [
-      { desde: 8, texto: "¿Pagarías" },
-      { desde: 21, texto: "14 millones", estilo: "acento" },
-      { desde: 48, texto: "al mes por vivir aquí?" },
+      { desde: 6, texto: "¿Pagarías" },
+      { desde: 16, texto: "$14.800.000", estilo: "acento" },
+      { desde: 28, texto: "al mes por vivir aquí?" },
     ],
   },
+  // ── Bloque 5 · un rótulo por tramo, cada uno en el golpe de su cambio ──
+  // 1 · el cielo y la ciudad (c02, el golpe de 50,93 s: f108)
   {
-    id: "o02",
-    hasta: 229,
+    id: "r01",
+    hasta: 233,
     trozos: [
-      { desde: 109, texto: "Imagina terminar tu día" },
-      { desde: 155, texto: "relajándote en tu" },
-      { desde: 188, texto: "jacuzzi privado,", estilo: "acento" },
+      { desde: 107, texto: "Mira lo que" },
+      { desde: 116, texto: "incluye:", estilo: "acento" },
     ],
   },
+  // 2 · el jacuzzi privado (el golpe de 55,18 s: f236; la tina entra en cuadro)
   {
-    id: "o03",
-    hasta: 295,
+    id: "r02",
+    hasta: 351,
     trozos: [
-      { desde: 231, texto: "preparando un trago" },
-      { desde: 265, texto: "en tu propio hogar" },
+      { desde: 235, texto: "Jacuzzi", estilo: "acento" },
+      { desde: 244, texto: "privado con vista a Medellín" },
     ],
   },
+  // 3 · la cocina y la sala con la palma (c03, el golpe de 59,08 s: f353)
   {
-    id: "o04",
-    hasta: 400,
+    id: "r03",
+    hasta: 475,
     trozos: [
-      { desde: 295, texto: "y disfrutando de la" },
-      { desde: 326, texto: "mejor vista", estilo: "acento" },
-      { desde: 348, texto: "de la ciudad de Medellín." },
+      { desde: 352, texto: "113 m²" },
+      { desde: 360, texto: "amoblados", estilo: "acento" },
+      { desde: 370, texto: "y equipados" },
     ],
   },
+  // 4 · el bar y el balcón con las camas (c04, el golpe de 63,22 s: f477)
   {
-    id: "o05",
-    hasta: 469,
+    id: "r04",
+    hasta: 616,
     trozos: [
-      { desde: 404, texto: "Viene completamente" },
-      { desde: 436, texto: "amoblado:", estilo: "acento" },
+      { desde: 476, texto: "Piscina, gimnasio, spa y" },
+      { desde: 486, texto: "coworking", estilo: "acento" },
     ],
   },
-  { id: "o06", hasta: 545, trozos: [{ desde: 470, texto: "dos habitaciones," }, { desde: 515, texto: "dos baños," }] },
+  // 5 · las torres (sobre el mismo plano, el golpe de 67,91 s: f618)
+  { id: "r05", hasta: 732, trozos: [{ desde: 617, texto: "Y lo que no esperabas:" }] },
+  // 6 · la alcoba (c06, el golpe de 71,77 s: f734)
   {
-    id: "o07",
-    hasta: 619,
+    id: "r06",
+    hasta: 836,
     trozos: [
-      { desde: 550, texto: "cocina integral" },
-      { desde: 578, texto: "totalmente equipada" },
+      { desde: 733, texto: "Aseo", estilo: "acento" },
+      { desde: 742, texto: "semanal incluido" },
     ],
   },
+  // 7 · la pared del televisor (sobre el mismo plano, el golpe de 75,26 s: f838)
   {
-    id: "o08",
-    hasta: 707,
+    id: "r07",
+    hasta: 926,
     trozos: [
-      { desde: 619, texto: "y zona de lavandería" },
-      { desde: 656, texto: "con lavadora y secadora." },
+      { desde: 837, texto: "Acompañamiento", estilo: "acento" },
+      { desde: 846, texto: "personalizado" },
     ],
   },
-  { id: "o09", hasta: 752, trozos: [{ desde: 708, texto: "Listo para mudarte.", estilo: "acento" }] },
+  // 8 · la sala con el sofá (c07, el golpe de 78,25 s: f928)
   {
-    id: "o10",
-    hasta: 866,
+    id: "r08",
+    hasta: 1051,
     trozos: [
-      { desde: 758, texto: "Además, puedes disfrutar" },
-      { desde: 812, texto: "de excelentes" },
-      { desde: 836, texto: "amenidades:", estilo: "acento" },
+      { desde: 927, texto: "Chef", estilo: "acento" },
+      { desde: 936, texto: "privado y conductor" },
+      { desde: 948, texto: "a tu medida" },
     ],
   },
-  { id: "o11", hasta: 928, trozos: [{ desde: 875, texto: "piscina, gimnasio," }] },
-  { id: "o12", hasta: 994, trozos: [{ desde: 928, texto: "zonas húmedas, coworking," }] },
+  // 9 · el carril de nado (c08, el golpe de 82,42 s: f1053)
   {
-    id: "o13",
-    hasta: 1075,
+    id: "r09",
+    hasta: 1196,
     trozos: [
-      { desde: 1000, texto: "cancha de squash," },
-      { desde: 1037, texto: "zona de barbecue," },
+      { desde: 1052, texto: "Con la mejor" },
+      { desde: 1061, texto: "asesoría", estilo: "acento" },
+      { desde: 1072, texto: "de la ciudad" },
     ],
   },
+  // ── Bloque 6 · el CTA DICHO (CT05): imagen opaca en el f1199, primera palabra en el f1214 (el cierre es el logo, no un bloque de texto) ──
   {
-    id: "o14",
-    hasta: 1148,
+    id: "z01",
+    hasta: 1275,
     trozos: [
-      { desde: 1075, texto: "salón social" },
-      { desde: 1101, texto: "y zonas de bienestar." },
+      { desde: 1214, texto: "Si buscas más que un" },
+      { desde: 1237, texto: "apartamento para vivir," },
     ],
   },
-  {
-    id: "o15",
-    hasta: 1267,
-    trozos: [
-      { desde: 1156, texto: "Y lo mejor es que" },
-      { desde: 1183, texto: "cuentas con seguridad" },
-      { desde: 1220, texto: "veinticuatro siete,", estilo: "acento" },
-    ],
-  },
-  {
-    id: "o16",
-    hasta: 1348,
-    trozos: [
-      { desde: 1268, texto: "la mejor ubicación" },
-      { desde: 1303, texto: "en el sector" },
-      { desde: 1324, texto: "de Las Palmas" },
-    ],
-  },
-  {
-    id: "o17",
-    hasta: 1444,
-    trozos: [
-      { desde: 1348, texto: "y la" },
-      { desde: 1357, texto: "privacidad que buscas", estilo: "acento" },
-      { desde: 1396, texto: "en un entorno natural." },
-    ],
-  },
-  {
-    id: "o18",
-    hasta: 1531,
-    trozos: [
-      { desde: 1453, texto: "Todo en este apartamento" },
-      { desde: 1496, texto: "está pensado para" },
-    ],
-  },
-  {
-    id: "o19",
-    hasta: 1590,
-    trozos: [
-      { desde: 1531, texto: "tu" },
-      { desde: 1537, texto: "tranquilidad", estilo: "acento" },
-      { desde: 1558, texto: "y comodidad." },
-    ],
-  },
-  // ── Bloque 6 · el CTA DICHO (CT05): imagen opaca en el f1603, primera palabra en el f1604 (el cierre es el logo, no un bloque de texto) ──
-  {
-    id: "c01",
-    hasta: 1665,
-    trozos: [
-      { desde: 1604, texto: "Si buscas más que un" },
-      { desde: 1627, texto: "apartamento para vivir," },
-    ],
-  },
-  { id: "c02", hasta: 1696, trozos: [{ desde: 1675, texto: "escríbenos.", estilo: "acento" }] },
+  { id: "z02", hasta: 1306, trozos: [{ desde: 1285, texto: "escríbenos.", estilo: "acento" }] },
 ];
 
 /** El mismo plan en segundos, para `exportar-srt.mjs`: la pista de captions de la plataforma (R14). */

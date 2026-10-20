@@ -1,27 +1,26 @@
 #!/usr/bin/env node
 /**
- * PUERTA DEL 053 — «¿Pagarías 14 millones?», la RÉPLICA de `videos editados/03.mp4` (V35 del registro, Tierra Grata, ARRIENDO): recorrido con presentadora que ABRE CON ELLA y lleva una locución en off continua.
+ * PUERTA DEL 053 — «¿Pagarías $14.800.000?», la RÉPLICA de `videos editados/03.mp4` (V35 del registro, Tierra Grata, ARRIENDO) SIN voz en off y con un guion nuevo EN PANTALLA (cambio de encargo del 2026-10-20, reparto §5c).
  *
  *   node proyectos/053/revisar-053.mjs            (avisa de lo «por confirmar al oído»)
- *   node proyectos/053/revisar-053.mjs --final    (falla mientras quede una palabra por confirmar o la locución sea la pista guía)
+ *   node proyectos/053/revisar-053.mjs --final    (falla mientras quede algo por confirmar)
  *
  * Las comprobaciones del FORMATO salen de `revisar-metraje.mjs` (línea de tiempo, metraje, tramos, encuadre). Encima, lo que el formato del recorrido promete y ningún frame enseña:
  *
- *   2. la ESTRUCTURA de la réplica: los bloques 2-5-6 (el gancho con Isabella caminando, el recorrido con la locución, el CTA a cámara), LAS MISMAS TOMAS EN EL MISMO ORDEN que el original (`ORDEN_DEL_ORIGINAL`),
- *      Isabella a cámara una vez (el CTA) y el total dentro del tope DECLARADO (la réplica dura más que los 55 s del formato).
- *   2a. LA ÚNICA CIFRA de la pieza: «14 millones» en el gancho, y ninguna otra en pantalla (ni «24/7»: se pinta con letras).
- *   2b. las REGLAS FIJAS del canal (skill `recorrido-luxur`, SKILL.md §0) y la EXCEPCIÓN DECLARADA: la pieza abre con Isabella (el f0 es ella, su imagen sin voz propia) y su primera palabra —la locución— suena ≥ 3 f
- *      después, con su subtítulo; no hay texto arriba ni cuenta `@…`, y NUNCA el sello «PROPIEDADES LUXUR» (`SelloCampana`).
+ *   2. la ESTRUCTURA de la réplica: los bloques 2-5-6 (el gancho con Isabella caminando, el recorrido con un rótulo por tramo, el CTA a cámara), LAS MISMAS TOMAS EN EL MISMO ORDEN que el original (`ORDEN_DEL_ORIGINAL`),
+ *      Isabella a cámara una vez (el CTA) y el total dentro del tope del formato.
+ *   2a. LAS CIFRAS: «$14.800.000» en el gancho (el canon real, no los «14 millones» del original) y «113 m²» en el rótulo 3 (el texto del usuario); ninguna otra.
+ *   2b. las REGLAS FIJAS del canal (skill `recorrido-luxur`, SKILL.md §0) y la EXCEPCIÓN DECLARADA: la pieza abre con Isabella (el f0 sale limpio y su rótulo entra unos frames después); no hay texto arriba ni cuenta `@…`, y NUNCA el
+ *      sello «PROPIEDADES LUXUR» (`SelloCampana`).
  *   2c. el CIERRE (`cierre-053.ts`): NADA SE CONGELA (la imagen de Isabella funde a negro y llega a negro exacto en su último fotograma), y sigue una TARJETA OSCURA (el último plano, un negro liso) con el LOGO —más pequeño y al
  *      60 % de opacidad: 40 % de transparencia— y la WEB, que caben, caen en las zonas seguras y se leen enteros.
  *   2d. el COLOR de cada plano (R32).
- *   2f. TODAS las entradas son disolvencias (salvo el f0: *Softly* no da golpes en que cortar en seco).
+ *   2f. TODAS las entradas son disolvencias (salvo el f0).
  *   3. la VOZ de la toma del CTA: el WAV existe y tiene el tramo que se lee, ninguna palabra suena dentro de un desclic, queda aire tras la última palabra de la pieza.
- *   4. el AUDIO entero (`revisaAudio`) y la LOCUCIÓN en off con su ventana MEDIDA (no se la comen sus fundidos, calla antes de que entre el CTA); la MÚSICA («Softly»): una curva y no una rejilla, y su caída entre la
- *      última palabra de la locución y la primera del CTA.
- *   4b. la música es un LECHO: ≥ 9 LU por debajo de la voz (−15) en todo el recorrido, medida con la sonoridad momentánea de la canción promediada en 1 s (`musica/sonoridad-softly.json`), y SIGUE la caída bajo el CTA.
- *   5. los SUBTÍTULOS: su validador sin un aviso, con las letras del canal; cada trozo dentro de una ventana de voz; nada encima de Isabella.
- *  11. nada «por confirmar» (con `--final` falla) y la locución no es la pista guía.
+ *   4. la MÚSICA («Softly»): una curva, y CADA plano y CADA rótulo cae en un golpe MEDIDO (`GOLPES`), la toma del CTA entra en el golpe de 87,3 s y la música baja DESPUÉS, con curva, y se apaga bajo la tarjeta.
+ *   4b. la música bajo la voz del CTA: ≥ 9 LU por debajo de ella (−15), con la sonoridad momentánea de la canción promediada en 1 s (`musica/sonoridad-softly.json`); el pico real de la música sola ≤ −2,5 dBFS.
+ *   5. los RÓTULOS: su validador sin un aviso, con las letras del canal; el texto de cada uno es el del reparto §5c TAL CUAL; UNO a la vez, cada uno el tiempo que se lee; los del CTA, dentro de su voz.
+ *  11. nada «por confirmar» (con `--final` falla).
  *
  * Carga los módulos TypeScript DE VERDAD (`abrePuerta` → esbuild): lo que mide es lo que se renderiza. Sale con 1 si algo falla.
  */
@@ -31,25 +30,48 @@ import { ejecutar } from "../../herramientas/comun.mjs";
 import { abrePuerta, cargaTs, duracionDe, PUBLICO, RAIZ } from "../../remotion/src/motor/metraje/revisar-metraje.mjs";
 
 /**
- * EXCEPCIONES POR RÉPLICA (2026-10-20: el usuario pidió replicar `03.mp4` con las mismas tomas y el mismo texto): (1) la pieza ABRE con Isabella, sin plano de la casa delante; (2) el total pasa de los 55 s del formato
- * (`TOPE_SEGUNDOS`: la réplica dura 56,4 s y se le suma la tarjeta); (3) la voz en off es continua desde el gancho (el formato la limita al bloque 5); (4) el último plano del bloque 5 es el carril de nado (el orden del
- * original) y el más largo es el balcón (RC03), no el último. El resto de reglas fijas (nunca el sello, nada arriba, el cierre en la tarjeta oscura, nada se congela) se siguen comprobando.
+ * EXCEPCIONES POR RÉPLICA (2026-10-20: el usuario pidió replicar `03.mp4` con las mismas tomas): (1) la pieza ABRE con Isabella, sin plano de la casa delante; (2) NO hay voz en off: el texto de cada tramo es un rótulo que no acompaña a
+ * ninguna voz (`SIN_VOZ`); (3) el último plano del bloque 5 es el carril de nado (el orden del original) y el más largo, el cielo con el jacuzzi (RC10, que cubre dos rótulos). El resto de reglas fijas (nunca el sello, nada arriba, el cierre
+ * en la tarjeta oscura, nada se congela) se siguen comprobando.
  */
 const BLOQUES = [2, 5, 6];
-/** Los bloques en los que Isabella habla a cámara: solo el CTA (el gancho es una locución sobre su imagen). */
+/** Los bloques en los que Isabella habla a cámara: solo el CTA (el gancho es un rótulo sobre su imagen, sin voz). */
 const DE_ELLA = [6];
 /** Las MISMAS TOMAS en el MISMO ORDEN que el original (`03.mp4`, identificadas por búsqueda de fotogramas en `proyectos/053/medidas/`): el clip de cada plano de vídeo, en orden. */
 const ORDEN_DEL_ORIGINAL = ["hk05", "rc10", "rc01", "rc22", "rc03", "rc05", "rc04", "rc16", "ct05"];
-/** El plano más largo del bloque 5 (la vista de la réplica: el balcón con las camas, las torres y el cielo); el último del bloque es el carril de nado, como en el original. */
-const PLANO_MAS_LARGO = "c05-balcon";
+/** El plano más largo del bloque 5 (cubre DOS rótulos: «Mira lo que incluye:» y «Jacuzzi privado…»); el último del bloque es el carril de nado, como en el original. */
+const PLANO_MAS_LARGO = "c02-cielo";
 
 const TECHO_ZOOM = 1.2; // clips normalizados a 1296 px = 1080 × 1,2
-const TOPE_SEGUNDOS = 60; // DECLARADO: la réplica (56,4 s del original + la tarjeta del cierre) pasa de los 55 s del formato
+const TOPE_SEGUNDOS = 55; // el del formato: sin locución la réplica cabe (≈ 46 s)
 const MARGEN_FUNDIDO = 2; // f entre la última palabra y el inicio de la disolvencia del siguiente
 const COLA_FINAL = [45, 120]; // f desde la última palabra del CTA hasta el final (lo que le queda de toma + la tarjeta): la web se lee, sin quedarse muerto
 const TARJETA_FRAMES = [45, 75]; // f que dura la tarjeta oscura del cierre (1,5-2,5 s)
 const HOLGURA_TROZO = 3; // f que un trozo puede adelantarse a su palabra
-const MIN_LU_BAJO_VOZ = 9; // la música bajo la voz queda al menos esto por debajo de ella (corto plazo, 3 s)
+const TOLERANCIA_GOLPE = 1; // f entre el `en` de un plano y el frame en que suena el golpe de la canción en que entra
+const TOLERANCIA_ROTULO = 2; // f entre la primera línea de un rótulo y el frame en que suena su golpe
+const FUERZA_MIN_GOLPE = 6.4; // dB por 15 ms: una canción sin pulso no da más; cinco de los diez son de ≥ 9,5 dB (se informa)
+const MIN_LU_BAJO_VOZ = 9; // la música bajo la voz queda al menos esto por debajo de ella
+const LECTURA = { minF: 75, maxF: 165, maxPalabrasPorSegundo: 3.0 }; // un rótulo se lee entre 2,5 y 5,5 s, a ≤ 3 palabras por segundo
+
+/**
+ * LOS RÓTULOS TAL CUAL los dio el usuario (reparto §5c): id del bloque → texto (las líneas unidas con un espacio). Si el plan se aparta, falla.
+ */
+const ROTULOS = {
+  r00: "¿Pagarías $14.800.000 al mes por vivir aquí?",
+  r01: "Mira lo que incluye:",
+  r02: "Jacuzzi privado con vista a Medellín",
+  r03: "113 m² amoblados y equipados",
+  r04: "Piscina, gimnasio, spa y coworking",
+  r05: "Y lo que no esperabas:",
+  r06: "Aseo semanal incluido",
+  r07: "Acompañamiento personalizado",
+  r08: "Chef privado y conductor a tu medida",
+  r09: "Con la mejor asesoría de la ciudad",
+};
+/** Qué golpe de `GOLPES` abre cada rótulo y cada plano (el cambio cae en él). */
+const GOLPE_DE_ROTULO = { r01: "cielo", r02: "jacuzzi", r03: "cocina", r04: "bar", r05: "torres", r06: "alcoba", r07: "acompanamiento", r08: "sala", r09: "piscina" };
+const GOLPE_DE_PLANO = { "c02-cielo": "cielo", "c03-cocina": "cocina", "c04-bar": "bar", "c05-balcon": "camas", "c06-alcoba": "alcoba", "c07-sala": "sala", "c08-piscina": "piscina", "c09-cta": "cta" };
 
 /**
  * Bloques de subtítulos que NO acompañan a una palabra dicha, y por qué. Una
@@ -64,7 +86,7 @@ const MIN_LU_BAJO_VOZ = 9; // la música bajo la voz queda al menos esto por deb
  */
 const VERSIONES_ANTERIORES = [];
 
-const SIN_VOZ = {};
+const SIN_VOZ = Object.fromEntries(Object.keys(ROTULOS).map((id) => [id, "rótulo del guion en pantalla (reparto §5c): sin voz en off, sincronizado a los planos y a los golpes de la música"]));
 
 // Un plan que no carga (un corte con voz y velocidad distinta de 1, un import
 // roto) no deja una traza: dice qué pasa y sale con 1.
@@ -116,7 +138,7 @@ const esTarjeta = (c) => c.tipo === "foto";
 const visibleDesde = (c) => c.en - F.solapeDe(c);
 
 /* 2 · estructura ────────────────────────────────────────────────────────── */
-seccion("2. la estructura de la réplica (bloques 2-5-6): Isabella caminando con la pregunta en off, el recorrido del original con la locución, el CTA a cámara");
+seccion("2. la estructura de la réplica (bloques 2-5-6): Isabella caminando con su rótulo, el recorrido del original con un rótulo por tramo, el CTA a cámara");
 {
   const n = fallos.length;
   const primero = cortes[0];
@@ -139,7 +161,7 @@ seccion("2. la estructura de la réplica (bloques 2-5-6): Isabella caminando con
   // La vista de la réplica es el balcón (el plano más largo del bloque 5); el carril de nado cierra la locución, como en el original.
   const recorrido = cortes.filter((c) => c.bloque === 5);
   const masLargo = recorrido.reduce((a, b) => (b.dur > a.dur ? b : a));
-  if (masLargo.id !== PLANO_MAS_LARGO) mal(`el plano más largo del bloque 5 es ${masLargo.id} (${masLargo.dur} f) y tiene que ser ${PLANO_MAS_LARGO}: la vista de la réplica`);
+  if (masLargo.id !== PLANO_MAS_LARGO) mal(`el plano más largo del bloque 5 es ${masLargo.id} (${masLargo.dur} f) y tiene que ser ${PLANO_MAS_LARGO}: el cielo con el jacuzzi, que cubre dos rótulos`);
   if (recorrido.at(-1).id !== "c08-piscina") mal(`el último plano del bloque 5 es ${recorrido.at(-1).id}; en el original acaba en el carril de nado (c08-piscina)`);
   for (const b of BLOQUES) if (!cortes.some((c) => c.bloque === b)) mal(`falta el bloque ${b}`);
   const ultimo = cortes.at(-1);
@@ -149,49 +171,47 @@ seccion("2. la estructura de la réplica (bloques 2-5-6): Isabella caminando con
   // Isabella a cámara, una vez (el CTA).
   const veces = DE_ELLA.filter((b) => BLOQUES.includes(b)).length;
   if (conVoz.length !== veces) mal(`Isabella sale ${conVoz.length} veces a cámara; con los bloques ${BLOQUES.join(", ")} son ${veces}`);
-  if (DURACION / fps > TOPE_SEGUNDOS) mal(`${(DURACION / fps).toFixed(1)} s: pasa del tope declarado de la réplica (${TOPE_SEGUNDOS} s)`);
+  if (DURACION / fps > TOPE_SEGUNDOS) mal(`${(DURACION / fps).toFixed(1)} s: el formato no pasa de ${TOPE_SEGUNDOS} s`);
   if (fallos.length === n) {
     const porBloque = BLOQUES.map((b) => `b${b} ${(cortes.filter((c) => c.bloque === b).reduce((s, c) => s + c.dur, 0) / fps).toFixed(1)} s`);
-    console.log(`  ℹ️  EXCEPCIONES DECLARADAS (réplica de 03.mp4): abre con Isabella (no con la casa limpia) · ${(DURACION / fps).toFixed(1)} s, más de los 55 s del formato (tope declarado ${TOPE_SEGUNDOS} s) · locución en off continua desde el gancho · el último plano del bloque 5 es el carril de nado y el más largo, el balcón`);
+    console.log("  ℹ️  EXCEPCIONES DECLARADAS (réplica de 03.mp4): abre con Isabella (no con la casa limpia) · sin voz en off: los rótulos no acompañan a ninguna voz · el último plano del bloque 5 es el carril de nado y el más largo, el cielo con el jacuzzi (dos rótulos)");
     ok(`${cortes.length} planos · ${(DURACION / fps).toFixed(1)} s · ${porBloque.join(" · ")} · las tomas del original en su orden (${ORDEN_DEL_ORIGINAL.length}) · Isabella a cámara ${conVoz.length} vez · todos con razón`);
   }
 }
 
-/* 2a · la única cifra ───────────────────────────────────────────────────── */
-seccion("2a. la única cifra de la pieza: «14 millones» en el gancho, y ninguna otra en pantalla");
+/* 2a · las cifras ───────────────────────────────────────────────────────── */
+seccion("2a. las cifras: «$14.800.000» en el gancho (el canon real) y «113 m²» en el rótulo 3 (el texto del usuario); ninguna otra");
 {
   const n = fallos.length;
   const conCifra = [];
   for (const b of bloques) for (const t of b.trozos) if (/\d/.test(t.texto)) conCifra.push({ b: b.id, t });
   const hook = byId("c01-hook");
   const cielo = byId("c02-cielo");
-  if (conCifra.length !== 1) mal(`hay ${conCifra.length} trozos con cifras en pantalla (${conCifra.map((x) => `[${x.b}] «${x.t.texto}»`).join(" · ")}): la pieza lleva UNA, la del gancho (el 24/7 se pinta con letras)`);
-  else {
-    const { b, t } = conCifra[0];
-    if (t.texto !== "14 millones") mal(`la cifra de la pantalla es «${t.texto}»: tiene que ser «14 millones» (lo que dice el gancho; el canon, 14,8, va en la ficha de la versión con ficha)`);
-    if (t.desde < hook.en || t.desde >= cielo.en) mal(`[${b}] la cifra entra en f${t.desde}, fuera del gancho (f${hook.en}-${cielo.en})`);
-    if (t.estilo === "dato") mal(`[${b}] la cifra va como dato grande al centro: el dato solo vive en el bloque 3; aquí es un acento`);
+  const esperadas = { r00: "$14.800.000", r03: "113 m²" };
+  const halladas = Object.fromEntries(conCifra.map((x) => [x.b, x.t.texto]));
+  if (JSON.stringify(halladas) !== JSON.stringify(esperadas)) mal(`cifras en pantalla: ${JSON.stringify(halladas)}; tiene que ser exactamente ${JSON.stringify(esperadas)} (el 24/7 y las demás, ni una)`);
+  const h = conCifra.find((x) => x.b === "r00");
+  if (h) {
+    if (h.t.desde < hook.en || h.t.desde >= cielo.en) mal(`[r00] la cifra entra en f${h.t.desde}, fuera del gancho (f${hook.en}-${cielo.en})`);
+    if (h.t.estilo === "dato") mal("[r00] la cifra va como dato grande al centro: el dato solo vive en el bloque 3; aquí es un acento");
   }
   for (const c of conVoz) if (/\d/.test(c.voz.dice)) mal(`${c.id}: su \`dice\` lleva cifras en dígitos («${c.voz.dice}»)`);
-  if (fallos.length === n) ok(`una sola cifra en pantalla, «${conCifra[0]?.t.texto}», en el gancho (f${conCifra[0]?.t.desde}); «24/7» con letras; el canon (14,8) va en la ficha`);
+  if (fallos.length === n) ok("«$14.800.000» (acento del gancho: el canon real de la ficha, no los 14 millones del original) y «113 m²» (el área, en el rótulo 3); ninguna otra en pantalla");
 }
 
 /* 2b · las reglas fijas del canal ───────────────────────────────────────── */
-seccion("2b. reglas fijas del canal (la primera toma sin texto ni voz: EXCEPCIÓN DECLARADA, abre Isabella), nunca el sello ni la cuenta");
+seccion("2b. reglas fijas del canal (la primera toma sin texto ni voz: EXCEPCIÓN DECLARADA, abre Isabella con su rótulo), nunca el sello ni la cuenta");
 {
   const n = fallos.length;
   const hook = byId("c01-hook");
-  const off = A.off053[0];
-  if (!off || !off.voz) mal("no hay locución en off (off053) con su ventana de voz");
-  else if (bloques.length === 0) mal("no hay ningún subtítulo");
+  if (hook.en !== 0 || (hook.entra ?? "corte") !== "corte") mal(`${hook.id}: tiene que estar en el f0 y entrar a corte (la pieza abre con Isabella)`);
+  if (hook.audio) mal(`${hook.id}: lleva voz; el gancho es un rótulo sobre su imagen, sin voz`);
+  if (bloques.length === 0) mal("no hay ningún subtítulo");
   else {
-    // La pieza ABRE con Isabella (c01-hook, a corte en el f0); la primera palabra de la locución suena ≥ DESCLIC_VOZ f después y el primer subtítulo entra con ella.
-    const ini = T.frameDeFuente(off.en, off.desde, off.voz.s0, fps);
+    // El f0 (la miniatura) sale limpio; el rótulo del gancho entra entre el f3 y el f12 y es el primer texto de la pieza.
     const primerTexto = Math.min(...bloques.map((b) => b.trozos[0].desde));
-    if (hook.en !== 0) mal(`${hook.id}: tiene que estar en el f0 (la pieza abre con Isabella)`);
-    if (ini < hook.en + T.DESCLIC_VOZ) mal(`la locución empieza en f${ini}, antes de que acabe el desclic de entrada (f${hook.en + T.DESCLIC_VOZ}): la primera palabra suena a medio subir`);
-    if (primerTexto > ini + 1 || primerTexto < ini - HOLGURA_TROZO) mal(`el primer texto entra en f${primerTexto} y la primera palabra suena en f${ini}: tiene que ir con ella (−${HOLGURA_TROZO}…+1 f)`);
-    if (primerTexto <= 0) mal(`el primer texto entra en el frame ${primerTexto}: el f0 sale sin texto (la voz empieza unos frames después)`);
+    if (primerTexto <= 0) mal(`el primer texto entra en el frame ${primerTexto}: el f0 sale sin texto`);
+    if (primerTexto < 3 || primerTexto > 12) mal(`el primer texto entra en f${primerTexto}; el rótulo del gancho entra entre el f3 y el f12 (el f0 limpio, sin hacerla esperar)`);
   }
   const hayArriba = bloques.filter((b) => b.posicion === "arriba");
   if (hayArriba.length) mal(`hay texto arriba (${hayArriba.map((b) => b.id).join(", ")}): ni hook escrito ni cuenta; arriba no hay nada`);
@@ -202,8 +222,8 @@ seccion("2b. reglas fijas del canal (la primera toma sin texto ni voz: EXCEPCIÓ
   if (/SelloCampana/.test(sinComentarios)) mal("la composición usa `SelloCampana`: el sello «PROPIEDADES LUXUR» no se pone NUNCA");
   if (/PROPIEDADES LUXUR/.test(sinComentarios)) mal("la composición escribe «PROPIEDADES LUXUR» a mano: el sello no se pone NUNCA");
   if (fallos.length === n) {
-    console.log("  ℹ️  EXCEPCIÓN DECLARADA (réplica de 03.mp4): el f0 es Isabella y la locución con su subtítulo empieza unos frames después; la regla fija «la primera toma sale sin texto ni voz» no se cumple en esta pieza");
-    ok(`la pieza ABRE con Isabella (excepción declarada): su primer subtítulo entra en f${bloques[0].trozos[0].desde}, con la primera palabra de la locución · nada arriba y ninguna cuenta · sin sello (no se usa \`SelloCampana\`)`);
+    console.log("  ℹ️  EXCEPCIÓN DECLARADA (réplica de 03.mp4): el f0 es Isabella y el rótulo del gancho entra unos frames después; la regla fija «la primera toma sale sin texto ni voz» no se cumple en esta pieza");
+    ok(`la pieza ABRE con Isabella (excepción declarada): el f0 sale limpio y su rótulo entra en f${Math.min(...bloques.map((b) => b.trozos[0].desde))} · nada arriba y ninguna cuenta · sin sello (no se usa \`SelloCampana\`)`);
   }
 }
 
@@ -331,6 +351,17 @@ if (cortes.some((c) => c.color !== undefined)) {
   }
 }
 
+/* 2f · las entradas ─────────────────────────────────────────────────────── */
+seccion("2f. todas las entradas son disolvencias (salvo el f0): «Softly» no tiene golpes seguidos donde cortar en seco");
+{
+  const n = fallos.length;
+  for (const c of cortes.slice(1)) {
+    if (c.tipo === "foto") continue;
+    if (c.entra !== "disolver") mal(`${c.id}: entra con «${c.entra}»; todas las entradas de esta pieza son disolvencias`);
+  }
+  if (fallos.length === n) ok("todos los planos de vídeo, salvo el primero, entran con una disolvencia de 12 f (opacos en el golpe de su cambio)");
+}
+
 /* 3 · la voz de las tomas ───────────────────────────────────────────────── */
 seccion("3. la voz de las tomas a cámara");
 {
@@ -370,8 +401,8 @@ seccion("3. la voz de las tomas a cámara");
   if (fallos.length === n) ok(`${conVoz.length} tomas con su WAV y su tramo, ninguna palabra en un fundido · a ${M.OBJETIVO_LUFS} LUFS: ${ganancias.join(" · ")} dB · ${cola} f desde la última palabra hasta el final (la tarjeta del cierre)`);
 }
 
-/* 4 · el audio entero y la música ──────────────────────────────────────── */
-seccion("4. voz en off y música: «Softly», una curva y no una rejilla; la caída cae entre la locución y el CTA");
+/* 4 · la música, a sus golpes ───────────────────────────────────────────── */
+seccion("4. la música: «Softly», cada plano y cada rótulo en un golpe medido; el CTA entra en el golpe de 87,3 s y la música baja DESPUÉS, con curva, y se apaga bajo la tarjeta");
 const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...vozDe(c) }));
 {
   const n = fallos.length;
@@ -386,34 +417,11 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     const dura = duracionDe(t.src);
     if (hasta > dura + 1 / fps) mal(`${t.id}: se lee hasta ${hasta.toFixed(2)} s y ${t.src} dura ${dura.toFixed(2)} s`);
   }
-  for (const o of A.off053) {
-    const g = typeof o.ganancia === "number" ? 20 * Math.log10(o.ganancia) : 0;
-    if (Math.abs(g) > 6) mal(`${o.id}: ganancia ${g.toFixed(1)} dB (|g| > 6)`);
-    if (!o.voz || !(o.voz.s1 > o.voz.s0)) {
-      mal(`${o.id}: sin \`voz\` medida (s0, s1 de limites-voz.py): sin ella no se sabe dónde habla dentro del tramo`);
-      continue;
-    }
-    // El off se mide como una toma: por su ventana de voz, no por el tramo entero.
-    const ini = T.frameDeFuente(o.en, o.desde, o.voz.s0, fps);
-    const fin = T.frameDeFuente(o.en, o.desde, o.voz.s1, fps);
-    if (ini < o.en + (o.entra ?? 0)) mal(`${o.id}: empieza a hablar en f${ini}, dentro de su fundido de entrada (acaba en f${o.en + (o.entra ?? 0)})`);
-    if (fin > o.en + o.dur - (o.sale ?? 0)) mal(`${o.id}: la última palabra acaba en f${fin}, dentro de su fundido de salida (empieza en f${o.en + o.dur - (o.sale ?? 0)})`);
-    for (const v of ventanasDeVoz) {
-      if (ini < v.fin && fin > v.ini) mal(`${o.id}: el off habla (f${ini}-${fin}) mientras Isabella habla en ${v.id} (f${v.ini}-${v.fin})`);
-    }
-    // Y calla antes de que empiece a verse la toma siguiente en la que habla ella.
-    const despues = conVoz.find((c) => c.en > ini);
-    if (despues && fin > visibleDesde(despues) - MARGEN_FUNDIDO) {
-      mal(`${o.id}: la última palabra del off acaba en f${fin} y ${despues.id} empieza a verse en f${visibleDesde(despues)}: tiene que callar ${MARGEN_FUNDIDO} f antes`);
-    }
-    ventanasDeVoz.push({ id: o.id, ini, fin });
-  }
+  if (A.audio053.some((t) => /off/.test(t.id))) mal("hay un tramo de voz en off: la pieza no lleva locución (cambio de encargo del 2026-10-20)");
   const musica = A.audio053.find((t) => t.id === "musica");
   const cta = byId("c09-cta");
-  const cielo = byId("c02-cielo");
-  const off = ventanasDeVoz.find((v) => v.id === "off-locucion");
   if (!musica || musica.src !== "recorrido-053/musica-053.wav") mal("no suena «Softly» (recorrido-053/musica-053.wav)");
-  else if (off) {
+  else {
     if (Math.abs(musica.desde - M.INICIO_MUSICA) > 1e-9) mal(`la música arranca en ${musica.desde} s y INICIO_MUSICA dice ${M.INICIO_MUSICA}`);
     // Una sola canción, del frame 0 hasta FIN_MUSICA_053: se apaga con curva tras la última palabra del CTA y llega a cero 2 f antes del final de la pieza (la tarjeta va en silencio).
     if (musica.en !== 0 || musica.dur !== M.FIN_MUSICA_053) mal(`la música ocupa f${musica.en}-${musica.en + musica.dur} y tiene que ir de 0 a FIN_MUSICA_053 (f${M.FIN_MUSICA_053})`);
@@ -421,34 +429,74 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     const g = Array.isArray(musica.ganancia) ? musica.ganancia : [];
     const ultimoPunto = g.at(-1);
     if (!ultimoPunto || ultimoPunto[0] !== M.FIN_MUSICA_053 || ultimoPunto[1] !== 0) mal(`la envolvente de la música no acaba en silencio en f${M.FIN_MUSICA_053}`);
-    // Entra EN el f0, con un fundido corto (la canción arranca en mitad de su subida: una entrada a pelo daría un clic).
+    // Entra EN el f0, con un fundido corto: arranca en mitad de la calma de la canción (una entrada a pelo daría un clic).
     if (T.volumenDe(musica, 0) !== 0) mal(`la música no arranca en silencio en el f0 (×${T.volumenDe(musica, 0).toFixed(3)}): el fundido de entrada evita el clic`);
-    if (T.volumenDe(musica, A.FADE_ENTRADA) < A.BAJO * 0.98) mal(`la música no ha llegado a su nivel en el f${A.FADE_ENTRADA}`);
-    // LA CURVA: el golpe de entrada del clímax (147,33 s) suena sobre el cielo (c02) y la CAÍDA (196,2 s) cae entre la última palabra de la locución y la primera del CTA.
-    const golpeF = M.frameDeCancion(147.332);
-    if (golpeF < cielo.en || golpeF > byId("c03-cocina").en) mal(`el golpe de entrada del clímax (147,33 s) suena en f${golpeF.toFixed(0)}; tiene que caer en el cielo y el jacuzzi (f${cielo.en}-${byId("c03-cocina").en})`);
-    const caidaF = M.frameDeCancion(M.CAIDA_CANCION);
-    if (!(caidaF > off.fin && caidaF < vozDe(cta).ini)) mal(`la caída de la canción suena en f${caidaF.toFixed(1)}; tiene que caer entre la última palabra de la locución (f${off.fin}) y la primera del CTA (f${vozDe(cta).ini})`);
-    const ultimaPalabra = vozDe(cta).fin;
+    if (T.volumenDe(musica, A.FADE_ENTRADA) < A.ALTO * 0.98) mal(`la música no ha llegado a su nivel en el f${A.FADE_ENTRADA}`);
+    // LA MÚSICA PESA MÁS: arriba (a ALTO) desde que llega a su nivel hasta el golpe del CTA.
+    for (let f = A.FADE_ENTRADA; f <= A.INICIO_BAJADA; f += 5) {
+      if (Math.abs(T.volumenDe(musica, f) - A.ALTO) > 0.02 * A.ALTO) mal(`la música no está a su nivel en f${f} (×${T.volumenDe(musica, f).toFixed(3)}, ALTO ×${A.ALTO.toFixed(3)}): esta pieza no la baja salvo bajo la voz del CTA`);
+    }
+    if (M.INICIO_MUSICA * fps !== Math.round(M.INICIO_MUSICA * fps)) mal(`INICIO_MUSICA (${M.INICIO_MUSICA}) no es un frame exacto de la canción`);
+  }
+  // CADA cambio cae en un golpe MEDIDO (`musica/golpes-softly-*.json`, de `medir-pista.py --json`): ±4 ms y ±0,5 dB frente a lo medido; cada plano entra a ≤ 1 f de donde SUENA y cada rótulo empieza a ≤ 2 f.
+  const medidos = [
+    ...JSON.parse(readFileSync(join(RAIZ, "proyectos", "053", "musica", "golpes-softly-0-90.json"), "utf8")).golpes,
+    ...JSON.parse(readFileSync(join(RAIZ, "proyectos", "053", "musica", "golpes-softly-90-225.json"), "utf8")).golpes,
+  ];
+  const golpes = M.GOLPES;
+  for (const [clave, gp] of Object.entries(golpes)) {
+    const real = medidos.find((x) => Math.abs(x.t - gp.t) <= 0.004);
+    if (!real) mal(`el golpe «${clave}» (${gp.t} s de la canción) no está entre los medidos (musica/golpes-softly-*.json)`);
+    else if (Math.abs(real.db - gp.db) > 0.5) mal(`el golpe «${clave}» mide ${real.db} dB y metraje-053.ts dice ${gp.db}`);
+    if (gp.db < FUERZA_MIN_GOLPE) mal(`el golpe «${clave}» mide ${gp.db} dB: el mínimo de esta pieza es ${FUERZA_MIN_GOLPE}`);
+  }
+  const filas = [];
+  for (const [id, clave] of Object.entries(GOLPE_DE_PLANO)) {
+    const c = byId(id);
+    const gp = golpes[clave];
+    const d = c.en - M.golpeExacto(gp.t);
+    if (Math.abs(d) > TOLERANCIA_GOLPE) mal(`${id} entra en f${c.en} y el golpe «${clave}» suena en f${M.golpeExacto(gp.t).toFixed(1)} (${d >= 0 ? "+" : ""}${d.toFixed(1)} f)`);
+    filas.push(`${id.replace(/^c\d+-/, "")} ${gp.db}`);
+  }
+  const frasesRotulo = [];
+  for (const [id, clave] of Object.entries(GOLPE_DE_ROTULO)) {
+    const b = bloques.find((x) => x.id === id);
+    if (!b) { mal(`falta el rótulo ${id}`); continue; }
+    const gp = golpes[clave];
+    const d = b.trozos[0].desde - M.golpeExacto(gp.t);
+    if (Math.abs(d) > TOLERANCIA_ROTULO) mal(`el rótulo ${id} empieza en f${b.trozos[0].desde} y el golpe «${clave}» suena en f${M.golpeExacto(gp.t).toFixed(1)} (${d >= 0 ? "+" : ""}${d.toFixed(1)} f)`);
+    frasesRotulo.push(`${id} ${gp.db}`);
+  }
+  // El golpe del tramo fuerte (50,93 s: tras el respiro) cae en el cambio del gancho al cielo; el del CTA (87,3 s) lo abre.
+  const fuertes = Object.values(golpes).filter((x) => x.db >= 9.5).length;
+  // El plano del CTA entra en su golpe y la música baja DESPUÉS: el golpe suena entero y la bajada acaba ≥ 4 f antes de la primera palabra.
+  if (musica) {
+    const gF = M.golpeExacto(golpes.cta.t);
+    const vcta = vozDe(cta);
+    if (T.volumenDe(musica, Math.round(gF) - 1) < A.ALTO * 0.98 || T.volumenDe(musica, Math.round(gF) + 2) < A.ALTO * 0.98) mal(`la música ya baja antes de que suene el golpe del CTA (f${gF.toFixed(1)}): tiene que sonar entero y bajar DESPUÉS`);
+    if (A.INICIO_BAJADA < Math.round(gF) + A.DESPUES_DEL_GOLPE) mal(`la bajada empieza en f${A.INICIO_BAJADA}, menos de ${A.DESPUES_DEL_GOLPE} f después del golpe (f${gF.toFixed(1)})`);
+    if (vcta.ini - A.INICIO_BAJADA < 8) mal(`entre el inicio de la bajada (f${A.INICIO_BAJADA}) y la primera palabra del CTA (f${vcta.ini}) no caben 8 f de curva`);
+    if (T.volumenDe(musica, vcta.ini - A.ANTES_DE_HABLAR) > A.BAJO * 1.02) mal(`la bajada no ha acabado ${A.ANTES_DE_HABLAR} f antes de la primera palabra (f${vcta.ini - A.ANTES_DE_HABLAR}): ×${T.volumenDe(musica, vcta.ini - A.ANTES_DE_HABLAR).toFixed(3)} frente a ×${A.BAJO.toFixed(3)}`);
+    const ultimaPalabra = vcta.fin;
     const nivelFin = T.volumenDe(musica, DURACION - 1 - musica.en);
     const nivelUltima = T.volumenDe(musica, ultimaPalabra - musica.en);
     if (!(nivelUltima > 0 && nivelFin < nivelUltima * 0.05)) mal(`la música no se apaga tras la última palabra del CTA (f${ultimaPalabra}): ×${nivelUltima.toFixed(3)} → ×${nivelFin.toFixed(3)} al final`);
   }
   if (fallos.length === n) {
-    ok(`${A.audio053.length} tramos (${A.voces053.length} de toma, ${A.off053.length} en off, ${A.musica053.length} de música) · «Softly» desde el ${M.INICIO_MUSICA.toFixed(3)} s, entra en el f0 · el golpe del clímax (f${M.frameDeCancion(147.332).toFixed(0)}) cae en el cielo · la caída (f${M.frameDeCancion(M.CAIDA_CANCION).toFixed(1)}) entre la locución (f${off?.fin}) y el CTA (f${vozDe(cta).ini}) · se apaga bajo la tarjeta`);
+    console.log(`  ℹ️  ${fuertes} de los ${Object.keys(golpes).length} golpes son de ≥ 9,5 dB; los demás miden ${Math.min(...Object.values(golpes).map((x) => x.db))}-${Math.max(...Object.values(golpes).filter((x) => x.db < 9.5).map((x) => x.db))} dB (una canción sin pulso no da una rejilla más densa: declarado en metraje-053.ts)`);
+    ok(`${A.audio053.length} tramos (${A.voces053.length} de toma, ${A.musica053.length} de música, 0 en off) · «Softly» desde el ${M.INICIO_MUSICA.toFixed(3)} s, entra en el f0 · ${Object.keys(GOLPE_DE_PLANO).length} planos en un golpe (${filas.join(" · ")} dB) y ${Object.keys(GOLPE_DE_ROTULO).length} rótulos en el suyo · el CTA entra en el golpe y la música baja después, con curva · se apaga bajo la tarjeta`);
   }
 }
 
-/* 4b · la música es un lecho ───────────────────────────────────────────── */
-seccion(`4b. la música bajo la voz: ≥ ${MIN_LU_BAJO_VOZ} LU por debajo de ella (−15) en TODO el recorrido (sonoridad momentánea de la canción, promediada en 1 s) y sigue la caída bajo el CTA`);
+/* 4b · la música bajo la voz del CTA ────────────────────────────────────── */
+seccion(`4b. la música bajo la voz del CTA: ≥ ${MIN_LU_BAJO_VOZ} LU por debajo de ella (−15) y el pico real de la música sola ≤ −2,5 dBFS`);
 {
   const n = fallos.length;
   const musica = A.audio053.find((t) => t.id === "musica");
-  const off = ventanasDeVoz.find((v) => v.id === "off-locucion");
   const cta = ventanasDeVoz.find((v) => v.id === "c09-cta");
-  if (musica && off && cta) {
+  if (musica && cta) {
     const tabla = JSON.parse(readFileSync(join(RAIZ, "proyectos", "053", "musica", "sonoridad-softly.json"), "utf8")).datos; // [t, M (400 ms), S (3 s)] cada 0,25 s
-    // La sonoridad de la canción en un instante: la MOMENTÁNEA (400 ms) promediada en 1 s (±0,5 s), como hizo el 047 con «Dreamlife». La de 3 s se queda corta en la caída: arrastra lo que sonaba antes.
+    // La sonoridad de la canción en un instante: la MOMENTÁNEA (400 ms) promediada en 1 s (±0,5 s), como hizo el 047 con «Dreamlife».
     const lufsCancion = (t) => {
       const cerca = tabla.filter(([x]) => Math.abs(x - t) <= 0.5);
       if (!cerca.length) return -90;
@@ -456,38 +504,60 @@ seccion(`4b. la música bajo la voz: ≥ ${MIN_LU_BAJO_VOZ} LU por debajo de ell
     };
     const enCancion = (f) => M.INICIO_MUSICA + f / fps - M.RETARDO_AUDIO;
     let peor = -Infinity;
-    let peorF = 0;
-    for (let f = off.ini; f <= cta.fin; f++) {
+    for (let f = cta.ini; f <= cta.fin; f++) {
       const g = T.volumenDe(musica, f - musica.en);
       if (g <= 0) continue;
-      const l = lufsCancion(enCancion(f)) + 20 * Math.log10(g);
-      if (l > peor) { peor = l; peorF = f; }
+      peor = Math.max(peor, lufsCancion(enCancion(f)) + 20 * Math.log10(g));
     }
     const bajoVoz = M.OBJETIVO_LUFS - peor;
-    if (bajoVoz < MIN_LU_BAJO_VOZ) mal(`bajo la voz la música llega a ${peor.toFixed(1)} LUFS (f${peorF}), ${bajoVoz.toFixed(1)} LU bajo ella (${M.OBJETIVO_LUFS}); tiene que ser ≥ ${MIN_LU_BAJO_VOZ} LU en TODO su recorrido`);
-    // La envolvente SIGUE la caída: la ganancia sube conforme la canción baja (no baja ni se queda plana bajo el CTA).
-    const gCta = [];
-    for (let f = cta.ini; f <= cta.fin; f += 6) gCta.push(T.volumenDe(musica, f - musica.en));
-    for (let i = 1; i < gCta.length; i++) if (gCta[i] < gCta[i - 1] - 1e-9) mal(`la ganancia de la música BAJA bajo el CTA (f${cta.ini + 6 * i}): tiene que seguir la caída de la canción (subir conforme ella baja)`);
-    if (fallos.length === n) ok(`la música llega a ${peor.toFixed(1)} LUFS como mucho bajo la voz (f${peorF}): ${bajoVoz.toFixed(1)} LU por debajo de ella en todo su recorrido (locución f${off.ini}-${off.fin}, CTA f${cta.ini}-${cta.fin}) · bajo el CTA la ganancia sigue la caída de la canción`);
+    if (bajoVoz < MIN_LU_BAJO_VOZ) mal(`bajo la voz del CTA la música llega a ${peor.toFixed(1)} LUFS, ${bajoVoz.toFixed(1)} LU bajo ella (${M.OBJETIVO_LUFS}); tiene que ser ≥ ${MIN_LU_BAJO_VOZ} LU`);
+    // El pico real de la música sola: la canción llega a −0,4 dBFS en su tramo fuerte; con ALTO no pasa de −2,5 dBFS.
+    const picoSola = -0.4 + 20 * Math.log10(A.ALTO);
+    if (picoSola > -2.49) mal(`el pico de la música sola llega a ${picoSola.toFixed(1)} dBFS (> −2,5)`);
+    // En el tramo del golpe: la sonoridad de la música sola queda cerca de −15 LUFS (−16,5 con el pico como tope).
+    const sola = M.LUFS_FUERTE_REF ?? A.LUFS_FUERTE;
+    const lufsSola = sola + 20 * Math.log10(A.ALTO);
+    if (lufsSola < -17.5 || lufsSola > -14.5) mal(`la música sola queda a ${lufsSola.toFixed(1)} LUFS en su tramo fuerte: tiene que estar entre −17,5 y −14,5 (objetivo −15)`);
+    if (fallos.length === n) ok(`bajo la voz del CTA la música llega a ${peor.toFixed(1)} LUFS como mucho (${bajoVoz.toFixed(1)} LU bajo ella, f${cta.ini}-${cta.fin}) · sola, a ${lufsSola.toFixed(1)} LUFS en su tramo fuerte con el pico real en ${picoSola.toFixed(1)} dBFS`);
   }
 }
 
-/* 5 · subtítulos ────────────────────────────────────────────────────────── */
-seccion("5. subtítulos editoriales");
+/* 5 · los rótulos ──────────────────────────────────────────────────────── */
+seccion("5. rótulos editoriales: el texto del reparto §5c tal cual, uno a la vez, cada uno el tiempo que se lee; los del CTA, dentro de su voz");
 {
   const n = fallos.length;
-  if (E.modoTextoDe(CANAL) !== "editorial") mal(`el canal está en modo «${E.modoTextoDe(CANAL)}»: esta pieza monta subtítulos editoriales`);
+  if (E.modoTextoDe(CANAL) !== "editorial") mal(`el canal está en modo «${E.modoTextoDe(CANAL)}»: esta pieza monta rótulos editoriales`);
   const letra = E.letraSubtitulosDe(CANAL);
   for (const a of E.revisaSubtitulosEditoriales(bloques, { fps, ancho: 1080, alto: 1920, duracion: DURACION, letra })) mal(`revisaSubtitulosEditoriales: ${a}`);
-  // La miniatura (frame 0) es la casa LIMPIA y nada va arriba: se comprueba en la sección 2b.
+  // El TEXTO de cada rótulo es el del reparto, tal cual (las líneas unidas con un espacio).
+  const textoDe = (b) => b.trozos.map((t) => t.texto).join(" ");
+  for (const [id, esperado] of Object.entries(ROTULOS)) {
+    const b = bloques.find((x) => x.id === id);
+    if (!b) mal(`falta el rótulo ${id} («${esperado}»)`);
+    else if (textoDe(b) !== esperado) mal(`el rótulo ${id} dice «${textoDe(b)}» y el reparto §5c dice «${esperado}»`);
+  }
+  const extra = bloques.filter((b) => !ROTULOS[b.id] && !/^z\d+$/.test(b.id));
+  if (extra.length) mal(`bloques sin sitio en el reparto: ${extra.map((b) => b.id).join(", ")}`);
+  // UNO a la vez: cada bloque acaba (`hasta`) antes de que empiece el siguiente (±2 f de solape de los fundidos), y el que más dura se lee.
+  for (let i = 1; i < bloques.length; i++) {
+    const [x, y] = [bloques[i - 1], bloques[i]];
+    if (y.trozos[0].desde < x.hasta - 2) mal(`[${x.id}] y [${y.id}] se pisan: ${x.id} acaba en f${x.hasta} y ${y.id} empieza en f${y.trozos[0].desde}: un rótulo cada vez`);
+  }
+  // Cada rótulo se lee: de 2,5 a 5,5 s en pantalla y ≤ 3 palabras por segundo.
+  const lectura = [];
+  for (const b of bloques) {
+    if (!ROTULOS[b.id]) continue;
+    const dur = b.hasta - b.trozos[0].desde;
+    const palabras = textoDe(b).split(/\s+/).length;
+    if (dur < LECTURA.minF || dur > LECTURA.maxF) mal(`[${b.id}] está ${dur} f (${(dur / fps).toFixed(1)} s) en pantalla; un rótulo se lee entre ${LECTURA.minF} y ${LECTURA.maxF} f`);
+    if (palabras / (dur / fps) > LECTURA.maxPalabrasPorSegundo) mal(`[${b.id}] lleva ${palabras} palabras en ${(dur / fps).toFixed(1)} s (${(palabras / (dur / fps)).toFixed(1)} por segundo; máximo ${LECTURA.maxPalabrasPorSegundo})`);
+    lectura.push(`${b.id} ${(dur / fps).toFixed(1)} s`);
+  }
   const enVoz = (t) => ventanasDeVoz.some((v) => t.desde >= v.ini - HOLGURA_TROZO && t.desde <= v.fin);
   const usadas = new Set();
   for (const b of bloques) {
     const ini = b.trozos[0].desde;
-    // Nada encima de Isabella: arriba o al centro le tapa la cara. Una toma que
-    // disuelve ya se ve antes de su `en`: el texto sale, como tarde, a mitad de
-    // esa disolvencia, cuando ella aún es una sombra.
+    // Nada encima de Isabella: arriba o al centro le tapa la cara.
     if ((b.posicion ?? "abajo") !== "abajo") {
       for (const c of conVoz) {
         const seVe = c.en - F.solapeDe(c) / 2;
@@ -502,10 +572,14 @@ seccion("5. subtítulos editoriales");
     for (const t of b.trozos) if (!enVoz(t)) mal(`[${b.id}] «${t.texto}» entra en f${t.desde}, donde nadie habla`);
   }
   for (const id of Object.keys(SIN_VOZ)) if (!usadas.has(id)) mal(`sobra la excepción «${id}» de SIN_VOZ: ese bloque ya no existe, quítala`);
-  // Esta pieza no lleva dato grande (la única cifra, «14 millones», es un acento del gancho): el dato solo vive en el bloque 3, que aquí no existe.
+  // Esta pieza no lleva dato grande: el dato solo vive en el bloque 3, que aquí no existe.
   for (const b of bloques) if (b.trozos.some((t) => t.estilo === "dato")) mal(`[${b.id}] lleva un dato grande: el dato solo vive en el bloque 3 y esta pieza no lo lleva`);
+  // Los rótulos van sobre los planos de recorrido y el gancho; los del CTA, sobre Isabella.
+  const hasta = Math.max(...bloques.map((b) => b.hasta));
+  const tarjeta = cortes.at(-1);
+  if (hasta > tarjeta.en + 4) mal(`hay texto sobre la tarjeta (hasta f${hasta}): lo único que lleva es el logo y la web`);
   const acentos = bloques.reduce((s, b) => s + b.trozos.filter((t) => t.estilo === "acento").length, 0);
-  if (fallos.length === n) ok(`${bloques.length} bloques, ${acentos} acentos · validador sin avisos con las letras del canal · nada encima de Isabella · ${usadas.size} sin voz, declarados`);
+  if (fallos.length === n) ok(`${bloques.length} bloques (${Object.keys(ROTULOS).length} rótulos tal cual el reparto + el CTA), ${acentos} acentos · validador sin avisos con las letras del canal · uno a la vez · se leen (${lectura.join(" · ")}) · ${usadas.size} sin voz, declarados`);
 }
 
 /* 6-8 · formato ─────────────────────────────────────────────────────────── */
@@ -579,9 +653,6 @@ puerta.encuadre({ techoZoom: TECHO_ZOOM });
         });
     }
   }
-  // La locución tiene que ser la REAL: mientras `original/off.wav` sea la pista guía (sha «guia» en `normalizar.mjs`), nada se exporta.
-  const receta = readFileSync(join(RAIZ, "proyectos", "053", "normalizar.mjs"), "utf8");
-  if (/\["audio",\s*"off\.wav",\s*"off",\s*"guia"/.test(receta)) pendientes.push("normalizar.mjs: `off.wav` es la PISTA GUÍA (voz de sistema), no la locución final: la decide el usuario (reparto §3)");
   seccion(`11. nada por confirmar en los planos${final ? " (--final)" : " (avisa; con --final falla)"}`);
   if (!pendientes.length) ok("ni un «por confirmar» en los planos ni en los guiones de voz");
   else if (final) for (const p of pendientes) mal(`pendiente con el usuario: ${p}`);
