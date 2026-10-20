@@ -26,10 +26,7 @@
  *
  * CIFRA EN PANTALLA: «113 m²» (el área, en el rótulo 3: es el texto del usuario). Ninguna otra (el gancho ya no lleva la de $14.800.000).
  *
- * POR CONFIRMAR AL OÍDO (la puerta con `--final` falla SOLO por ello; el usuario va a oír la voz en la prueba): el gancho, «¿Deseas arrendar **amoblado** en **Medellín**? Ven, te muestro.» (HK05, 26,36-29,4 s, la segunda toma). El texto es el del reparto
- * y el del vídeo editado `01.mp4`; whisper small oye, sobre el audio de la toma (a −26 dBFS, con eco de sala), «desearas a rendar a moblado en» y «de la media» donde va «Medellín»: las dos palabras no se han cerrado con una pasada limpia.
- *
- * EL ACENTO MARCA LO QUE SE LLEVA UNO (uno por rótulo, ≥ 2 s entre dos): amoblado · incluye · Jacuzzi · amoblados · coworking · Aseo · Acompañamiento · Chef · asesoría · escríbenos.
+ * CERRADO CON EL USUARIO (2026-10-20, tras oír la prueba 3): «amoblado» y «Medellín» del gancho (HK05, 26,36-29,4 s) son correctos: «oigo bien «amoblado» y «Medellín» en el gancho». Whisper small los oía como «a moblado en» y «de la media» (toma a −26 dBFS, con eco de sala).
  */
 
 import { segmentosDe } from "../../motor/subtitulos-editoriales";

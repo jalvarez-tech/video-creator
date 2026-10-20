@@ -1,6 +1,6 @@
 # HK05 (Img 9508, 2-sep), SEGUNDA toma, 26,36-29,4 s: Isabella camina hacia cámara en el balcón y dice «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.» (la misma voz que usa el gancho del 051).
 # Se equivoca al principio («¿Desea-», 24,65-25,25 s) y, tras 1,0 s de pausa, lo repite: el vídeo empieza en esa segunda vez (orden del usuario, 2026-10-20). Silencio de 0,5 s tras «Medellín».
 # Cada línea entra en su palabra (arranques medidos con `onsets-voz.py` y `palabras-desde.py`, R31): «deseas» 26,38 · «amoblado» 27,00 · «en Medellín» 27,45 · «Ven» 28,69 · «te muestro» 28,95.
-# POR CONFIRMAR AL OÍDO: «amoblado» y «Medellín» (whisper small oye «a moblado en» y «de la media»): el texto es el del reparto y el de `01.mp4`; el usuario lo oirá en la prueba.
+# CERRADO CON EL USUARIO (2026-10-20, tras oír la prueba 3): «amoblado» y «Medellín» son correctos (whisper small oía «a moblado en» y «de la media»).
 ¿Deseas arrendar / **amoblado** / en Medellín?
 Ven, / te muestro.
