@@ -17,7 +17,7 @@ Composición `Recorrido053` (`remotion/src/proyectos/053/`), 1080×1920 a 30 fps
 
 ## Zonas (px de 1080×1920)
 
-- **Rótulos:** abajo (borde superior ≈ 74,5 %, nunca por debajo del 88 %; y 1430-1640 px). Arriba **no hay nada** en ningún frame. Se pintan sobre las piernas de Isabella en el gancho y sobre la ropa/la mesa en el CTA: nunca sobre la cara. **En la versión con ficha** la ficha va en y ≈ 1220-1420 y el rótulo debajo (1430-1640): se comprueba en la hoja que no se toquen.
+- **Rótulos:** abajo (borde superior ≈ 74,5 %, nunca por debajo del 88 %; y 1430-1640 px). Arriba **no hay nada** en ningún frame. Se pintan sobre las piernas de Isabella en el gancho y sobre la ropa/la mesa en el CTA: nunca sobre la cara. **La versión con ficha va SIN rótulos ni subtítulos** (regla de `ficha-luxur`; corrección del usuario del 2026-10-20): solo la ficha fija (y ≈ 1220-1420) y la tarjeta del cierre; `sinSubtitulos` apaga el velo y todo el texto editorial.
 - **Isabella:** HK05 (de pie, de cuerpo entero a torso, caminando hacia cámara) y CT05 (sentada, plano medio). Los dos son anamórficos del 2-sep (chaqueta de flores): una sola pieza entera del mismo vestuario, como pide el catálogo.
 - **Recorridos:** los 7 son ANAMÓRFICOS (1920×1080 con SAR 81:256 / DAR 9:16 = verticales de 608×1080 comprimidos a lo ancho) y se escalan ENTEROS a 1296×2304 con `setsar=1`, SIN recorte. El texto de cada tramo es su rótulo.
 - **Cierre:** tarjeta negra lisa; logo y web centrados, un poco por encima del centro.
