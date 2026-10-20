@@ -1,0 +1,8 @@
+# Las seis frases de la locución del 051 (réplica del 01.mp4), una por línea con su id (formato de `generar-vo.mjs`: `id|texto`).
+# Es el texto de `proyectos/044/reparto-051-053.md` §1b. La tercera lleva «:» y las demás comas: el ritmo es el del original.
+o1|Este espectacular apartamento de 113 metros, ubicado en Las Palmas, combina amplitud, comodidad y naturaleza en un solo lugar.
+o2|Cuenta con dos habitaciones, dos baños, una amplia sala comedor, cocina integral y zona de ropas con lavadora y secadora.
+o3|Y uno de sus mayores diferenciales está aquí: un balcón con jacuzzi privado, perfecto para relajarte, disfrutar una copa de vino o simplemente regalarte un momento de tranquilidad.
+o4|Además, el proyecto cuenta con piscina, gimnasio, zonas húmedas, coworking, cancha de squash, Spa Romano, zona de barbecue y muchos espacios de bienestar.
+o5|Todo esto en Las Palmas, uno de los sectores más privilegiados de Medellín.
+o6|Escríbeme, agenda tu visita y descubre lo que es vivir con tu propio jacuzzi privado.

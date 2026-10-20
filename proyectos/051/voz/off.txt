@@ -1,0 +1,24 @@
+# Guion marcado de la LOCUCIÓN EN OFF del 051 (réplica del 01.mp4): lo que dice, en trozos de 1-4 palabras, un acento por bloque (≥ 2 s entre dos).
+# El texto es el de `proyectos/044/reparto-051-053.md` §1b. SIN cifras en pantalla: «113 metros» se pinta en letra («ciento trece metros») y se alinea con lo que suena ({113 metros}).
+Este espectacular / apartamento
+de ciento trece metros,{de 113 metros,} / ubicado en / **Las Palmas,**
+combina amplitud, / comodidad y / **naturaleza**
+en un solo lugar.
+Cuenta con / **dos habitaciones,**
+dos baños, / una amplia sala comedor,
+cocina integral / y zona de ropas / con lavadora y secadora.
+Y uno de sus / mayores diferenciales / está aquí:
+un balcón con / **jacuzzi privado,**
+perfecto para / relajarte,
+disfrutar una copa / de vino o simplemente
+regalarte un momento / **de tranquilidad.**
+Además, el proyecto cuenta con / **piscina,**
+gimnasio, / zonas húmedas,
+coworking, / cancha de squash,
+Spa Romano, / zona de barbecue
+y muchos espacios / **de bienestar.**
+Todo esto en / **Las Palmas,**
+uno de los sectores / **más privilegiados** / de Medellín.
+**Escríbeme,** / agenda tu visita
+y descubre / lo que es vivir
+con tu propio / **jacuzzi privado.**
