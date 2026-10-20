@@ -1,0 +1,8 @@
+    f  PSNR dB baja freq. |     ΔR     ΔG     ΔB (vídeo − still, color medio) | |Δ| máx
+  100    43.79      51.94 |  +0.06  -0.01  +0.10                              |      27
+  512    42.69      50.60 |  +0.07  +0.04  +0.14                              |      36
+  811    45.37      51.06 |  +0.09  +0.05  +0.23                              |      16
+  889    44.20      50.31 |  +0.19  +0.05  +0.26                              |      23
+ 1010    41.19      48.47 |  +0.30  +0.12  +0.44                              |      37
+
+PSNR bruto medio 43.45 dB (mín 41.19) · de baja frecuencia medio 50.48 dB (mín 48.47) · ✅ 0 fotograma(s) fuera de [|Δ color medio| ≤ 1.5, baja frecuencia ≥ 40.0 dB, bruto ≥ 30.0 dB]

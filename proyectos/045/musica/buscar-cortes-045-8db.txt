@@ -1,0 +1,6 @@
+
+### Fortitude (Light Version).mp3  (213 s)  entradas del CTA con rejilla: 2
+  cae en    46.87 s  pre  -20.1 →  -20.0 →  -20.2 dB  (-0.1/ 0.1)  golpes≥8 en 42 s:  27  soluciones: 1
+      · plano más corto = 82 f · disolvencia más débil 6.1 dB / corte seco 8.3 dB · cortes [9.834, 13.435, 20.18, 23.548, 27.116, 30.512, 35.382, 38.5, 41.235, 46.873] · planos [108, 202, 101, 107, 102, 146, 94, 82, 169] · dB [11.3, 8.0, 6.1, 8.8, 8.3, 8.3, 13.5, 10.5, 11.2, 15.5]
+  cae en    49.71 s  pre  -23.4 →  -18.9 →  -19.5 dB  (-4.5/-3.8)  golpes≥8 en 42 s:  25  soluciones: 1
+      · plano más corto = 82 f · disolvencia más débil 6.1 dB / corte seco 8.3 dB · cortes [9.834, 13.435, 20.18, 23.548, 27.116, 30.512, 35.382, 38.5, 41.235, 46.873] · planos [108, 202, 101, 107, 102, 146, 94, 82, 169] · dB [11.3, 8.0, 6.1, 8.8, 8.3, 8.3, 13.5, 10.5, 11.2, 15.5]

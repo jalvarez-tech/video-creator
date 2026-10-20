@@ -96,15 +96,23 @@ function leePropiedad(nombre) {
   return p;
 }
 
-/** 3550 → «3.550»: el separador de miles colombiano, sin depender del ICU de cada Node. */
-const miles = (n) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+/**
+ * 3550 → «3.550» y 14.8 → «14,8»: miles con punto y decimales con coma (Colombia), sin depender del
+ * ICU de cada Node. Los decimales existen por los cánones de arriendo (14,8 M al mes): redondearlos
+ * a «15» sería publicar un precio falso.
+ */
+const miles = (n) => {
+  const [entera, decimal] = String(n).split(".");
+  return entera.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (decimal ? `,${decimal}` : "");
+};
 
 function textos(p) {
   return {
     tipo: `${p.tipo} ${NEGOCIOS[p.negocio]}`.toUpperCase(),
     lugar: p.lugar,
     precio: `$ ${miles(p.precio)} M`,
-    moneda: "COP",
+    // En renta el precio es el canon MENSUAL: sin «/ MES» se lee como un precio de venta.
+    moneda: p.negocio === "renta" ? "COP / MES" : "COP",
   };
 }
 

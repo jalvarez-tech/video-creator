@@ -1,0 +1,8 @@
+{
+  "video": "/private/tmp/remotion-047/limpio/047-limpio.mp4",
+  "t": 16.6,
+  "locacion": "EL POBLADO",
+  "negocio": "renta",
+  "fecha": "2026-10-19",
+  "nota": "El fotograma sale del render SIN subtítulos (`npx remotion render … Recorrido047 --props={\"sinSubtitulos\":true}`, el `047-limpio.mp4` temporal de la versión con ficha, ya borrado): en el vídeo final los subtítulos están quemados. Para repetirla hay que volver a renderizarlo y pasar `--video`. Excepción declarada de portada-luxur §3: no hay fotograma de solo la propiedad (la pieza son las tomas de Isabella): se eligió el de las escaleras con la fachada del edificio y ella pequeña, el más nítido del tramo (16,0-17,2 s)."
+}

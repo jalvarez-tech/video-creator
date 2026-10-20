@@ -78,6 +78,7 @@ número) y de dónde salió cada dato:
 | One Living (Envigado) | `one-living` | APARTAMENTO EN VENTA · Loma del Escobero · One Living · $ 843 M COP (lugar a 52 px) |
 | Casa campestre (Guarne) | `casa-campestre-guarne` | CASA CAMPESTRE EN VENTA · Guarne · Antioquia · $ 3.000 M COP |
 | Lote campestre (El Carmen) | `lote-el-carmen` | LOTE CAMPESTRE EN VENTA · El Carmen de Viboral · $ 800 M COP |
+| Tierra Grata (El Poblado), ARRIENDO | `tierra-grata` | APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES (desde el 2026-10-19: en renta el precio es el canon mensual y lleva decimales: `miles()` pinta «14,8» y la moneda dice «COP / MES») |
 
 ## 3. Hacerla
 
