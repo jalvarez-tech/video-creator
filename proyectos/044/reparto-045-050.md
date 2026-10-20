@@ -44,7 +44,7 @@ Isabella está en la unidad; el apartamento solo existe en el recorrido. Paseo p
 1. Las de `recorrido-luxur` §0 (nunca el sello; cierre = tarjeta oscura con el logo a 440 px al 60 % y `PropiedadesLuxur.com`; nada se congela; primera toma sin texto ni voz **salvo** en las tres que abren con el hook, por encargo).
 2. Texto `editorial` (Montserrat + Playfair itálica, blanco sin sombra); la cifra `$14.800.000` solo en el subtítulo de MD04; ninguna otra cifra.
 3. Voz a **−15 LUFS** tratada (`VOZ_TRATADA` del 025: compresor + limitador, fundido de 40-60 ms tras la última palabra), música a −15 sola y con curva coseno que acaba ANTES de la primera palabra; sin SFX.
-4. Color: `COLOR_BASE` + ajuste por plano medido (R32: `--gl=angle`, `vibrance` ≤ 0,05, piel ≤ 1,06). El recorrido es SDR 1080p: no inventar nitidez.
+4. Color: `COLOR_BASE` + ajuste por plano medido (R32: `--gl=angle`, `vibrance` ≤ 0,05, piel ≤ 1,06). El recorrido es SDR de 608×1080 efectivos: no inventar nitidez.
 5. Palabras dudosas (`POR CONFIRMAR AL OÍDO`: «aseo», «amoblado», «asesor/aseo»…) se preguntan ANTES de la final; la puerta falla con `--final` mientras queden.
 6. **Nada de drones, nada del libreto 044 como si se hubiera grabado, nada que la ficha no diga** (administración, contrato, qué se paga aparte).
 7. Caption según `libreto-isabella.md` §8, con el canon, «aseo semanal incluido» y «apartamento amoblado» (dicho por Isabella), 5 hashtags.
@@ -53,18 +53,18 @@ Isabella está en la unidad; el apartamento solo existe en el recorrido. Paseo p
 
 1. **Prepara el worktree** (no vienen de git): `ln -sfn /Users/nicecode/Work/jalvarez/video-creator/remotion/node_modules remotion/node_modules` · `ln -sfn /Users/nicecode/Work/jalvarez/video-creator/archivos/whisper archivos/whisper` · `node herramientas/doctor.mjs` (el Chrome de Remotion se baja en el primer render si falta).
 2. **Un TMPDIR propio para Remotion** (seis sesiones renderizan a la vez y cada render deja un bundle de 2-2,5 GB): antes de cada `npx remotion still|render`, `export TMPDIR=/private/tmp/remotion-NNN` (créalo), y al acabar cada render borra `/private/tmp/remotion-NNN/remotion-webpack-bundle-*`. **Nunca** borres bundles fuera de tu TMPDIR: son de otra sesión. Quedan ≈ 75 GB en el disco para las seis.
-3. `node manuales/director-video/scripts/artefactos.mjs NNN` → los tres artefactos desde este reparto y el catálogo → `node .claude/skills/recorrido-luxur/scripts/nuevo-recorrido.mjs NNN` → copiar el material a `proyectos/NNN/original/` con los códigos (`hk01.mov`, `rc01.mp4`…) y rellenar `normalizar.mjs` (con el `crop` de §7 del catálogo para cada recorrido) → medir voz y canción → planes → puertas → **frames** → prueba 720p → **esperar el OK del usuario** → final (CRF 12 + CRF 16 + `.srt`) → portada → **versión con ficha** (`ficha-luxur` §3: render `sinSubtitulos` + `ficha.mjs video tierra-grata …`) → caption → copiar al SSD (`Videos Social Media/`) → `combinaciones.md`, `aprendizajes.md`, la fila en `.claude/skills/guion-luxur/registro/piezas.csv` y la fila de la versión en `archivos/musica/registro-de-uso.md` (solo TU fila: las demás son de las otras sesiones).
+3. `node manuales/director-video/scripts/artefactos.mjs NNN` → los tres artefactos desde este reparto y el catálogo → `node .claude/skills/recorrido-luxur/scripts/nuevo-recorrido.mjs NNN` → copiar el material a `proyectos/NNN/original/` con los códigos (`hk01.mov`, `rc01.mp4`…) y rellenar `normalizar.mjs` (los recorridos del 2-sep son ANAMÓRFICOS: `scale=1296:2304:flags=lanczos,setsar=1` SIN crop, catálogo §7) → medir voz y canción → planes → puertas → **frames** → prueba 720p → **esperar el OK del usuario** → final (CRF 12 + CRF 16 + `.srt`) → portada → **versión con ficha** (`ficha-luxur` §3: render `sinSubtitulos` + `ficha.mjs video tierra-grata …`) → caption → copiar al SSD (`Videos Social Media/`) → `combinaciones.md`, `aprendizajes.md`, la fila en `.claude/skills/guion-luxur/registro/piezas.csv` y la fila de la versión en `archivos/musica/registro-de-uso.md` (solo TU fila: las demás son de las otras sesiones).
 4. **No cambies** tomas, apertura, clímax ni canción sin un motivo técnico declarado; si cambias la canción, SOLO a tu alternativa. Si necesitas un recorrido que otra pieza tiene de apertura o clímax, no lo uses.
 5. Commits en tu rama (en español, el porqué); **nada de push** sin que el usuario lo pida. Tu rama parte de `claude/tierra-grata-promo-videos-0ead0e`, que ya trae el catálogo, este reparto, la ficha y las reservas.
-6. Al terminar, deja en tu informe: los archivos entregados (ruta en el repo y en el SSD), lo declarado (tomas repetidas, el recorte horizontal, la apertura con hook), las palabras sin oír con su segundo, y lo que te quedó pendiente.
+6. Al terminar, deja en tu informe: los archivos entregados (ruta en el repo y en el SSD), lo declarado (tomas repetidas, el escalado del material anamórfico (608×1080 efectivos), la apertura con hook), las palabras sin oír con su segundo, y lo que te quedó pendiente.
 
 ## 6. Qué puede salir mal (y qué hacer)
 
 | Problema | Qué hacer |
 |---|---|
-| `scale=1296:2304` deforma un recorrido | falta el `crop=608:1080:X:0` antes (catálogo §7) |
+| Un recorrido sale «ampliado» o deformado | el clip es anamórfico (SAR 81:256): va SIN crop, `scale=1296:2304:flags=lanczos,setsar=1` (catálogo §7). El `crop=608:1080` de la primera versión de este reparto era un error |
 | HK03 / CT03 a 29,97 fps con `avg_frame_rate` raro | `fps=30` tras el tone-map, contar los frames del MP4 normalizado, nunca los del original |
 | La voz empieza en el f0 (HK01) | medir con `onsets-voz.py`; si no hay 12 f de aire, Isabella entra a corte en un golpe (`montaje.md`) |
-| El recorrido se ve blando en la prueba | es el material (1080p recortado ×1,78): decirlo; no filtrar |
+| El recorrido se ve blando en la prueba | es el material (608×1080 efectivos escalados ×2,13): decirlo; no filtrar |
 | Chrome no arranca / render muere | `cd remotion` · `npx remotion browser ensure`; comprobar el TMPDIR propio y el disco (`df -h /`) |
 | Quedan menos de 15 GB en el disco | parar, borrar TUS bundles y avisar al usuario antes de seguir |
