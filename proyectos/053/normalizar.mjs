@@ -185,14 +185,14 @@ const VOZ_TRATADA = (gananciaDb) =>
   ].join(",");
 
 /** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). CT05 cruda mide −28,6 LUFS (+20,4 dB; el limitador quita 0,5 dB)(`probar-voz.py --umbral 0.0316 --razon 3.5`). */
-const GANANCIA_VOZ_DB = { ct05: 20.4, hk05: 19.3 };
+const GANANCIA_VOZ_DB = { ct05: 20.4, hk05: 19.7 };
 
 /**
  * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente, medidos por energía
  * (`limites-voz.py --margen 40`; R29). Fuera de esta ventana la voz tratada es SILENCIO: la compresión y la ganancia suben ≈ +17 dB cualquier ruido de la toma, y entre toma y toma el plan deja un hueco que, sin esto, sonaría con ese ruido de sala.
  * CT05: la voz empieza a 1,31 s («Si», una subida de −57 a −25 dB en 0,1 s) y acaba a 4,07 s («escríbenos»); la toma sigue hasta 7,2 s sin voz. El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
  */
-const VENTANA_VOZ = { ct05: [1.31, 4.07], hk05: [24.65, 29.4] };
+const VENTANA_VOZ = { ct05: [1.31, 4.07], hk05: [26.36, 29.4] };
 /** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
 const VOZ_ANTES = 0.07;
 const VOZ_DESPUES = 0.05;

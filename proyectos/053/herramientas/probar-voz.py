@@ -31,7 +31,7 @@ CRUDO = RAIZ / "remotion" / "public" / "recorrido-053"  # el WAV crudo de cada t
 # toma → (s0, s1) de la ventana de voz que se USA (límites medidos por energía, `limites-voz.py`)
 TOMAS = {
     "ct05": (1.31, 4.07),
-    "hk05": (24.65, 29.4),  # el gancho: su voz en directo de HK05 (24,65-29,4 s; la misma que usa el 051)
+    "hk05": (26.36, 29.4),  # el gancho: su voz en directo de HK05, la SEGUNDA toma (26,36-29,4 s; la primera, 24,65-25,25 s, es un falso arranque)
 }
 
 

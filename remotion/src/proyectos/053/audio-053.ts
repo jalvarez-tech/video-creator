@@ -3,7 +3,7 @@
  *
  * `<PistaMetraje>` pinta los planos MUDOS. Lo que se oye son dos cosas, y las dos pasan por `<PistaAudio>`:
  *
- *   voces053   la voz de Isabella en sus DOS tomas que hablan: el gancho (HK05, «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.», entra a corte en el f0) y el CTA (CT05, entra con una disolvencia), derivada de los cortes que
+ *   voces053   la voz de Isabella en sus DOS tomas que hablan: el gancho (HK05, «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.», su segunda toma; entra a corte en el f0) y el CTA (CT05, entra con una disolvencia), derivada de los cortes que
  *              traen `audio` (`vocesDeCortes`): mismo arranque que su imagen y, como el WAV es el TRATADO de `normalizar.mjs` (`<toma>-voz.wav`: graves fuera, puerta suave, compresor 3,5:1, ganancia y limitador, ya a ≈ −15 LUFS
  *              en su ventana), UNA ganancia de ±0,1 dB.
  *   musica053  «Softly», con una envolvente que la deja ARRIBA casi toda la pieza (el recorrido no lleva voz) y la baja bajo la voz del gancho y, con curva, bajo la del CTA.
@@ -18,9 +18,9 @@
  *
  * LAS RAMPAS DE LA MÚSICA (revisión del 022: «la curva debe ser ANTES de que hable», ya regla del canal):
  *   · ENTRADA: la canción arranca en el f0, ya a su nivel bajo la voz del gancho, con un fundido de coseno de 8 f (la primera sílaba de Isabella suena en el f7).
- *   · SUBIDA TRAS EL GANCHO: la voz acaba en el f149 y la música sube 24 f de coseno hasta el f173, 3 f ANTES del golpe del cielo (f176): el golpe suena a su nivel.
- *   · BAJADA ANTES DE LA VOZ DEL CTA: la toma entra en el GOLPE de 87,3 s (f1267, 10,5 dB), que suena entero; la bajada, de coseno, va DESPUÉS (empieza 4 f tras el golpe) y ACABA 4 f antes de la primera palabra (f1282).
- *   · SUBIDA TRAS LA VOZ: de coseno, 24 f desde su última palabra (f1365), y de ahí la música se APAGA bajo la tarjeta del cierre con otra curva de coseno hasta llegar a cero 2 f antes del final de la pieza.
+ *   · SUBIDA TRAS EL GANCHO: la voz acaba en el f98 y la música sube 24 f de coseno hasta el f122, 4 f ANTES del golpe del cielo (f126): el golpe suena a su nivel.
+ *   · BAJADA ANTES DE LA VOZ DEL CTA: la toma entra en el GOLPE de 87,3 s (f1217, 10,5 dB), que suena entero; la bajada, de coseno, va DESPUÉS (empieza 4 f tras el golpe) y ACABA 4 f antes de la primera palabra (f1232).
+ *   · SUBIDA TRAS LA VOZ: de coseno, 24 f desde su última palabra (f1315), y de ahí la música se APAGA bajo la tarjeta del cierre con otra curva de coseno hasta llegar a cero 2 f antes del final de la pieza.
  *
  * Datos puros: la puerta lo carga con node.
  */
@@ -61,7 +61,7 @@ const OBJETIVO_MUSICA_SOLA = -15;
 /** Ganancia lineal de la música sola: a su objetivo, sin pasar de `TECHO_PICO`. */
 export const ALTO = Math.min(gananciaHasta(LUFS_FUERTE, OBJETIVO_MUSICA_SOLA), Math.pow(10, (TECHO_PICO - PICO_FUERTE) / 20));
 /**
- * La sonoridad de la canción mientras habla Isabella (ebur128 a 1 s sobre la fuente): en el gancho, la calma de la canción (45,3-50,1 s; la más alta, a los 47-48 s: −21,0) y en el CTA, el tramo fuerte (87,8-90,5 s: −12,6); y el
+ * La sonoridad de la canción mientras habla Isabella (ebur128 a 1 s sobre la fuente): en el gancho, la calma de la canción (46,9-50,1 s; la más alta, a los 47-48 s: −21,0) y en el CTA, el tramo fuerte (87,8-90,5 s: −12,6); y el
  * nivel al que la música baja bajo su voz: −26 LUFS, 11 LU bajo su voz de −15.
  */
 export const LUFS_CANCION_EN_VOZ = { hook: -21.0, cta: -12.6 } as const;
@@ -118,7 +118,7 @@ export const musica053: readonly TramoAudio[] = HAY_MUSICA
         desde: INICIO_MUSICA,
         ganancia: envolvente(),
         reason:
-          "«Softly» entra en el frame 0 sobre su calma, su golpe de entrada (50,93 s) cae en el cambio del gancho al cielo (f176), cada cambio de rótulo cae en un golpe medido, baja tras el golpe en que entra la toma del CTA y se apaga bajo la tarjeta.",
+          "«Softly» entra en el frame 0 sobre su calma, su golpe de entrada (50,93 s) cae en el cambio del gancho al cielo (f126), cada cambio de rótulo cae en un golpe medido, baja tras el golpe en que entra la toma del CTA y se apaga bajo la tarjeta.",
       },
     ]
   : [];
