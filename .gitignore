@@ -146,6 +146,9 @@ proyectos/*/original.*
 proyectos/*/original/
 proyectos/*/avatar/
 proyectos/*/finales/
+# Las revisiones guardadas de una final (finales-rev1/, finales-rev2/…) son vídeo igual: la 051 metió 250 MB
+# de MP4 de la propiedad por no estar cubiertas (2026-10-20).
+proyectos/*/finales-*/
 proyectos/*/pruebas-720p/
 proyectos/*/publico/
 proyectos/*/vistas-previas/
