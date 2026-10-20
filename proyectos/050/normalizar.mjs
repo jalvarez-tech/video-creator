@@ -74,7 +74,11 @@ const MATERIAL = [
   ["recorrido", "rc12.mp4", "rc12", "7bc5ad03", "4 Recorrido/Img 9514.mp4", 656],
   ["recorrido", "rc06.mp4", "rc06", "556bee38", "4 Recorrido/Img 9479.mp4", 656],
   ["recorrido", "rc09.mp4", "rc09", "8b1031a3", "4 Recorrido/Img 9484.mp4", 656],
-  ["recorrido", "rc02.mp4", "rc02", "d49b8a0b", "4 Recorrido/Img 9463.mp4", 500], // x=500 y no el centro (656): en el último fotograma deja las camas enteras y el cristal con la ciudad; con 656 se corta la cama de la izquierda
+  // Añadidos a petición del usuario tras la prueba rev. 1 (2026-10-19: «incluye tomas Img 9538, Img 9536, Img 9509»): la sala a la hora azul (RC20, apertura asignada a la V29), el bar de noche (RC22) y el balcón con el JACUZZI PRIVADO (RC10,
+  // clímax asignado a la V30: lo ve en sus últimos segundos; x=1000 y no el centro, que lo deja en el borde del 9:16). RC02 (el balcón de las camas, el clímax asignado a esta pieza) ya no entra.
+  ["recorrido", "rc20.mp4", "rc20", "eed9445e", "4 Recorrido/Img 9536.mp4", 656],
+  ["recorrido", "rc22.mp4", "rc22", "33ac8ce2", "4 Recorrido/Img 9538.mp4", 656],
+  ["recorrido", "rc10.mp4", "rc10", "e7e4ee8b", "4 Recorrido/Img 9509.mp4", 1000],
 ];
 /**
  * La canción: archivo en original/ · salida · sha256 (8) · origen (la biblioteca de música del repo, el MISMO archivo que reserva el registro de uso).

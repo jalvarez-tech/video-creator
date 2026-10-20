@@ -14,21 +14,24 @@
  * oscura con el logo y la web, nada se congela) se siguen comprobando.
  *
  * LA IDEA EN UNA LÍNEA. Esta pieza es PARA QUIEN LLEGA A UNA CIUDAD QUE NO ES LA SUYA Y NO QUIERE PERDER SU TIEMPO: el hook le promete lo que más vale (su tiempo, con un aseo semanal incluido); el paseo por la unidad le
- * enseña dónde pasará ese tiempo (la piscina, el gimnasio, la Social Kitchen); la mitad le da la cifra y lo que incluye; el apartamento (la alcoba, el baño y, al fondo, el balcón) le enseña el sitio; y el CTA le pide
+ * enseña dónde pasará ese tiempo (la piscina, el gimnasio, la Social Kitchen); la mitad le da la cifra y lo que incluye; el apartamento (la sala a la hora azul, el bar de noche, la alcoba, el baño y, de clímax, el balcón con el jacuzzi privado) le enseña el sitio; y el CTA le pide
  * una acción («escríbeme»). Ninguna otra cifra, ni administración, ni contrato, ni qué se paga aparte: la ficha no lo dice.
  *
  *   bloque 2  c01                  Isabella sentada en el sillón de la terraza común: el hook (HK02), A CORTE EN EL FRAME 0
  *   bloque 3  c02 c03 c04          el paseo por LA UNIDAD: la piscina (RC17) → el gimnasio (RC14) → la Social Kitchen (RC12), donde espera Isabella
  *   bloque 4  c05                  Isabella en la Social Kitchen: la mitad (MD04) con el precio, A CORTE EN UN GOLPE
- *   bloque 5  c06 c07 c08          el paseo por EL APARTAMENTO: la alcoba principal (RC06) → el baño principal (RC09) → el balcón con las camas, la palma y la ciudad al fondo (RC02, su tramo FINAL: el clímax)
- *   bloque 6  c09 c10              Isabella en el jardín: el CTA (CT02); y la tarjeta oscura del cierre (nada se congela)
+ *   bloque 5  c06 c07 c08 c09 c10  el paseo por EL APARTAMENTO: la sala a la hora azul (RC20) → el bar de noche (RC22) → la alcoba principal (RC06) → el baño principal (RC09) → el balcón con el JACUZZI PRIVADO y la ciudad al fondo
+ *                                  (RC10, su tramo final: el clímax). Rev. 2 (pedido del usuario tras ver la prueba: «incluye tomas Img 9538, Img 9536, Img 9509»): entran RC22, RC20 y RC10; RC02 (el balcón de las camas, el clímax que había
+ *                                  asignado el reparto) sale, y el jacuzzi —el argumento de la ficha— ocupa su sitio, como prevé el reparto si el jacuzzi aparece en algún clip.
+ *   bloque 6  c11 c12              Isabella en el jardín: el CTA (CT02); y la tarjeta oscura del cierre (nada se congela)
  *
  * QUIÉN MARCA EL TIEMPO: LA MÚSICA, POR GOLPES. «Spring is Coming» (neoclásico / ambient suave, plana, biblioteca del repo) tiene un pulso suave (≈ 128 BPM) con golpes de ≥ 6 dB cada 0,46 s y ninguna caída: no resuelve
- * sola, y la curva bajo la voz la hace el ducking con coseno de `audio-050.ts`. Los ocho cortes de la pieza caen cada uno en un golpe MEDIDO de ≥ 11,7 dB (`musica/golpes-050.json`, `herramientas/rejilla-050.py`
- * y `buscar-cortes-043.py`): el paseo entra en un «drop» de 16,5 dB. La música suena DESDE EL FRAME 0, baja bajo la voz del hook (la canción entra en su segundo 34,1, 6,8 s antes de ese golpe).
+ * sola, y la curva bajo la voz la hace el ducking con coseno de `audio-050.ts`. Los diez cortes de la pieza caen cada uno en un golpe MEDIDO de ≥ 10,3 dB (`musica/golpes-050.json`, `herramientas/rejilla-050.py`): el paseo entra en un «drop» de
+ * 16,7 dB. La música suena DESDE EL FRAME 0, baja bajo la voz del hook (la canción entra en su segundo 39,2, 6,8 s antes de ese golpe). Con los nueve planos de recorrido de la rev. 2 no sale ninguna rejilla de golpes de ≥ 10,5 dB: el
+ * más débil, el del baño (10,3 dB), es 1,4 dB más flojo que el de la rev. 1 (11,7).
  *
- * LOS RECORRIDOS SON HORIZONTALES (1920×1080, SDR, 2-sep): se recortan al centro a 608×1080 y se escalan ×2,13 (`normalizar.mjs`): salen más blandos que Isabella en 4K. Se dice en la prueba y no se compensa con filtros.
- * Los seis tramos son disjuntos entre sí y los usa solo esta pieza de apertura/clímax: RC02 solo su tramo final; RC01, RC04 y RC20 (aperturas) y RC03, RC10, RC18, RC19 y RC21 (clímax de otras piezas) NO entran.
+ * LOS RECORRIDOS SON HORIZONTALES (1920×1080, SDR, 2-sep): se recortan al centro a 608×1080 (RC10, a la derecha: x=1000) y se escalan ×2,13 (`normalizar.mjs`): salen más blandos que Isabella en 4K. Se dice en la prueba y no se compensa con filtros.
+ * Los ocho tramos son disjuntos entre sí. RC20 (apertura de la V29) y RC10 (clímax de la V30) entran por PEDIDO EXPRESO del usuario y dejan de ser exclusivos de esas piezas; RC01, RC04, RC03, RC18, RC19 y RC21 no entran.
  *
  * UNIDADES. `desde` va en SEGUNDOS de la fuente, escrito como frame exacto (`fr(9)` = 9/30 s) donde el corte es en la muestra; `en` y `dur`, en frames de la composición. Los planos son CONTIGUOS.
  *
@@ -76,34 +79,38 @@ export const OBJETIVO_LUFS = -15;
 
 /* ── Los golpes de la música ────────────────────────────────────────────────
  *
- * «Spring is Coming» — `archivos/musica/Spring is Coming.mp3` (sha 8 `fe252090`), neoclásico / ambient suave, 2:02, plana (−15,1 LUFS de media: sin crescendo ni caída hasta su fundido final de 118 s). Se usa desde su segundo 34,1
- * y de ahí suena a −15 LUFS (±1) durante los 35 s de la pieza. Los golpes de abajo son los MEDIDOS (banda 80-3000 Hz, subida de ≥ 6 dB en 15 ms; el instante es el de «empieza a subir») en que entra cada plano, con su
- * fuerza en dB por 15 ms: `proyectos/050/musica/golpes-050.json` (`medir-pista.py --json`). Salen de `herramientas/rejilla-050.py` (la rejilla de cortes con la mitad de ≥ 128 f).
+ * «Spring is Coming» — `archivos/musica/Spring is Coming.mp3` (sha 8 `fe252090`), neoclásico / ambient suave, 2:02, plana (−15,1 LUFS de media: sin crescendo ni caída hasta su fundido final de 118 s). Se usa desde su segundo 39,2
+ * y de ahí suena a −15 LUFS (±1) durante los 38 s de la pieza. Los golpes de abajo son los MEDIDOS (banda 80-3000 Hz, subida de ≥ 6 dB en 15 ms; el instante es el de «empieza a subir») en que entra cada plano, con su
+ * fuerza en dB por 15 ms: `proyectos/050/musica/golpes-050.json` (`medir-pista.py --json`). Salen de `herramientas/rejilla-050.py` (la rejilla de cortes con la mitad de ≥ 126 f y el clímax más largo que los demás planos del bloque 5).
  */
 export const GOLPE = {
-  /** El «drop» donde entra el paseo, tras el hook: el golpe más fuerte de la rejilla tras el de 27 dB del segundo 35 (bajo la voz del hook). */
-  paseo: { t: 40.857, db: 16.5 },
+  /** El «drop» donde entra el paseo, tras el hook: de los más fuertes de la rejilla (un golpe de 27 dB, en el segundo 35,1 de la canción, queda fuera: sonaría bajo la voz del hook). */
+  paseo: { t: 45.932, db: 16.7 },
   /** El gimnasio. */
-  gimnasio: { t: 43.345, db: 13.2 },
+  gimnasio: { t: 48.767, db: 13.9 },
   /** La Social Kitchen, donde espera Isabella. */
-  cocina: { t: 45.932, db: 16.7 },
+  cocina: { t: 51.203, db: 13.9 },
   /** Isabella entra A CORTE con la mitad; su primera sílaba suena 11 f después. */
-  mitad: { t: 48.767, db: 13.9 },
-  /** La alcoba principal (entra el apartamento). */
-  alcoba: { t: 53.056, db: 12.3 },
-  /** El baño principal. */
-  bano: { t: 55.696, db: 15.0 },
-  /** EL CLÍMAX: el balcón (RC02, tramo final). */
-  balcon: { t: 58.821, db: 12.9 },
+  mitad: { t: 54.087, db: 13.2 },
+  /** La sala a la hora azul (entra el apartamento). */
+  sala: { t: 58.349, db: 11.8 },
+  /** El bar de noche. */
+  bar: { t: 60.918, db: 12.1 },
+  /** La alcoba principal. */
+  alcoba: { t: 62.588, db: 11.7 },
+  /** El baño principal: el golpe más débil de la rejilla. */
+  bano: { t: 65.001, db: 10.3 },
+  /** EL CLÍMAX: el balcón con el jacuzzi privado (RC10, tramo final). */
+  jacuzzi: { t: 67.35, db: 13.0 },
   /** Isabella entra A CORTE con el CTA; su primera sílaba suena 14 f después. */
-  cta: { t: 62.165, db: 11.7 },
+  cta: { t: 70.21, db: 10.9 },
 } as const;
 
 /**
- * Dónde empieza a sonar la canción, en segundos de la fuente: el segundo 34,1, redondeado a un frame (1023/30) para que `trimBefore` no lo mueva. La música suena desde el frame 0 (el hook abre la pieza) y el «drop»
- * del paseo (40,857 s) cae en el f204, cuando acaba el plano del hook.
+ * Dónde empieza a sonar la canción, en segundos de la fuente: el segundo 39,2, redondeado a un frame (1176/30) para que `trimBefore` no lo mueva. La música suena desde el frame 0 (el hook abre la pieza) y el «drop»
+ * del paseo (45,932 s) cae en el f204, cuando acaba el plano del hook.
  */
-export const INICIO_MUSICA = 1023 / FPS_050;
+export const INICIO_MUSICA = 1176 / FPS_050;
 
 /**
  * Lo que el audio del render llega TARDE respecto de su fuente: 42 ms, medido en el 016 por correlación entre la prueba 720p y el WAV (y confirmado desde el 017). Se suma aquí y en la puerta para que el corte
@@ -155,17 +162,19 @@ const color = (ajuste: ColorCine = {}): ColorCine => ({ ...COLOR_BASE, ...ajuste
  */
 const P = {
   paseo: golpe(GOLPE.paseo), //       204 · acaba el hook; entra el paseo (el «drop»)
-  gimnasio: golpe(GOLPE.gimnasio), // 279
-  cocina: golpe(GOLPE.cocina), //     357
-  mitad: golpe(GOLPE.mitad), //       442 · Isabella entra a corte con la mitad; su primera palabra, 11 f después
-  alcoba: golpe(GOLPE.alcoba), //     570 · el apartamento
-  bano: golpe(GOLPE.bano), //         650
-  balcon: golpe(GOLPE.balcon), //     743 · el clímax (101 f, el plano más largo del bloque 5)
-  cta: golpe(GOLPE.cta), //           844 · Isabella entra a corte con el CTA; su primera palabra, 14 f después
+  gimnasio: golpe(GOLPE.gimnasio), // 289
+  cocina: golpe(GOLPE.cocina), //     362
+  mitad: golpe(GOLPE.mitad), //       448 · Isabella entra a corte con la mitad; su primera palabra, 11 f después
+  sala: golpe(GOLPE.sala), //         576 · el apartamento
+  bar: golpe(GOLPE.bar), //           653
+  alcoba: golpe(GOLPE.alcoba), //     703
+  bano: golpe(GOLPE.bano), //         776
+  jacuzzi: golpe(GOLPE.jacuzzi), //   846 · el clímax (86 f, el plano más largo del bloque 5)
+  cta: golpe(GOLPE.cta), //           932 · Isabella entra a corte con el CTA; su primera palabra, 14 f después
 } as const;
 
 /**
- * Frames que dura la toma del CTA: el clip dura 5,57 s (167 f) y desde `desde` (9 f) le quedan 158. Su voz va de 0,78 a 4,99 s (f858-985 de la comp): 17 f (0,6 s) de su cara tras la última palabra, en los que la
+ * Frames que dura la toma del CTA: el clip dura 5,57 s (167 f) y desde `desde` (9 f) le quedan 158. Su voz va de 0,78 a 4,99 s (f946-1073 de la comp): 17 f (0,6 s) de su cara tras la última palabra, en los que la
  * imagen funde a negro (los últimos 6). Nada se congela: el plano acaba en el último fotograma del clip.
  */
 const DUR_CTA = 158;
@@ -265,26 +274,58 @@ export const metraje050: readonly Corte[] = [
       dice: "Catorce millones ochocientos que incluyen experiencias pensadas para ti.",
     },
     // MD04 (IMG_4296, 4,87 s = 146 f): Isabella en la Social Kitchen (lámparas verdes, mural). La voz empieza a los 0,555 s (onset «Ca», subida de 32,9 dB sobre un suelo de −55 dB) y acaba a los 4,17 s («ti.», el pico de
-    // −21 dB a 4,10 s; detrás, el ruido de sala a −40 dB, que la ventana de voz tratada apaga). La voz de esta toma es la más baja de las tres (−23,3 LUFS crudos). `desde` 6 f entra A CORTE en el golpe de 13,9 dB del f442 (suena entero:
-    // la música baja con curva DESPUÉS) y la primera sílaba suena a los 11 f del golpe. El plano dura 128 f (hasta el golpe del f570): 9 f tras la última palabra (el clip da 134 f desde `desde`).
+    // −21 dB a 4,10 s; detrás, el ruido de sala a −40 dB, que la ventana de voz tratada apaga). La voz de esta toma es la más baja de las tres (−23,3 LUFS crudos). `desde` 6 f entra A CORTE en el golpe de 13,2 dB del f448 (suena entero:
+    // la música baja con curva DESPUÉS) y la primera sílaba suena a los 11 f del golpe. El plano dura 128 f (hasta el golpe del f576): 9 f tras la última palabra (el clip da 134 f desde `desde`).
     // Whisper (con contexto) oyó «catorce millones DE ochocientos»; sin contexto, «14 millones 800». «de» es un error de contexto y el catálogo dice «catorce millones ochocientos»: POR CONFIRMAR AL OÍDO. La cifra en pantalla sale
     // del catálogo (COP 14.800.000 al mes), no de whisper.
     desde: fr(6),
     en: P.mitad,
-    dur: P.alcoba - P.mitad,
+    dur: P.sala - P.mitad,
     zoom: EMPUJE,
     entra: "corte",
     color: color({ contrast: 1.06, exposure: 0.2, shadows: 0.25, blacks: 0, highlights: -0.3, whites: -0.15, saturation: 1.04 }),
     reason:
       "La Social Kitchen (el precio): Isabella dice «catorce millones ochocientos que incluyen experiencias pensadas para ti»: la única cifra de la pieza, dicha donde se reúne la unidad. Entra a corte en un golpe.",
   },
-  // ── Bloque 5 · el apartamento: la alcoba, el baño y el balcón ──
+  // ── Bloque 5 · el apartamento: la sala, el bar, la alcoba, el baño y el balcón con el jacuzzi ──
   {
-    id: "c06-alcoba",
+    id: "c06-sala",
+    bloque: 5,
+    tipo: "video",
+    src: v("rc20"),
+    // RC20 (Img 9536, 2-sep, 18,5 s = 556 f): la sala a la HORA AZUL: el panel curvo de madera con su luz cálida, el sofá gris con las tiras de luz verticales, la mesa de centro y el ventanal con la ciudad azul detrás; la cámara
+    // avanza y gira a la derecha. Del 6,0 al 8,57 s: el sofá y las luces (después, el ventanal y la isla). Recorte central (x=656). Entra por PEDIDO EXPRESO del usuario (es la apertura asignada a la V29, 047): deja de ser exclusiva.
+    desde: 6.0,
+    en: P.sala,
+    dur: P.bar - P.sala,
+    zoom: QUIETO,
+    entra: "corte",
+    color: color({ exposure: 0.3, shadows: 0.15 }),
+    reason:
+      "La sala a la hora azul (el apartamento: estar): tras la cifra, por fin dentro del apartamento; el sofá, las tiras de luz y la ciudad azul en el ventanal. Entra a corte en un golpe.",
+  },
+  {
+    id: "c07-bar",
+    bloque: 5,
+    tipo: "video",
+    src: v("rc22"),
+    // RC22 (Img 9538, 2-sep, 3,2 s = 96 f): el bar de noche, la estantería con su luz cálida, la barra y el letrero de neón verde; la cámara avanza a la derecha. Del 1,53 al 3,2 s (50 f, el final del clip: el neón entra a la derecha).
+    // Entra por PEDIDO EXPRESO del usuario. Es el plano más corto de la pieza (1,7 s): un acento nocturno, del que el siguiente plano (la alcoba, de día) se separa con un salto de luma grande (se mide en `combinaciones.md`).
+    desde: fr(46),
+    en: P.bar,
+    dur: P.alcoba - P.bar,
+    zoom: QUIETO,
+    entra: "corte",
+    color: color({ exposure: -0.2, saturation: 0.98, temperature: -0.04 }),
+    reason:
+      "El bar de noche (el apartamento: reunirse): de la sala a la barra y su neón; la luz cálida de la noche entre dos planos de día.",
+  },
+  {
+    id: "c08-alcoba",
     bloque: 5,
     tipo: "video",
     src: v("rc06"),
-    // RC06 (Img 9479, 2-sep, 8,6 s): la alcoba principal desde el otro lado, la cama con sus cojines y la lámpara colgante; la cámara gira a la derecha. Del 0,0 al 2,63 s: la cama y los cojines, la ventana y la lámpara que entra. Se eligió RC06 y no
+    // RC06 (Img 9479, 2-sep, 8,6 s): la alcoba principal desde el otro lado, la cama con sus cojines y la lámpara colgante; la cámara gira a la derecha. Del 0,0 al 2,43 s: la cama y los cojines, la ventana y la lámpara que entra. Se eligió RC06 y no
     // RC05 (la cama de frente) porque las V27, V28, V29 y V30 ya usan RC05 (7b de la puerta). Se probó el tramo 3,4-6,0 s (la cama y la puerta del baño) y se descartó: enseña una cruz de pared (adorno de la alcoba) durante todo el plano.
     desde: 0.0,
     en: P.alcoba,
@@ -293,17 +334,17 @@ export const metraje050: readonly Corte[] = [
     entra: "corte",
     color: color({ exposure: -0.4, highlights: -0.4, whites: -0.3 }),
     reason:
-      "La alcoba principal (el apartamento: descanso): tras la cifra, por fin dentro del apartamento; la cama hecha, la luz baja de la lámpara; es lo que se alquila amoblado.",
+      "La alcoba principal (el apartamento: descanso): de la noche del bar a la cama hecha y la luz baja de la lámpara; es lo que se alquila amoblado.",
   },
   {
-    id: "c07-bano",
+    id: "c09-bano",
     bloque: 5,
     tipo: "video",
     src: v("rc09"),
-    // RC09 (Img 9484, 2-sep, 8,2 s): el baño principal, el mueble de madera con el lavamanos de vasija, el espejo y, al fondo, la mampara de la ducha; la cámara avanza a la derecha. Del 1,5 al 4,63 s.
-    desde: 1.5,
+    // RC09 (Img 9484, 2-sep, 8,2 s): el baño principal, el mueble de madera con el lavamanos de vasija, el espejo y, al fondo, la mampara de la ducha; la cámara avanza a la derecha. Del 1,7 al 4,03 s.
+    desde: 1.7,
     en: P.bano,
-    dur: P.balcon - P.bano,
+    dur: P.jacuzzi - P.bano,
     zoom: QUIETO,
     entra: "corte",
     color: color({ exposure: -0.4, highlights: -0.4, whites: -0.2 }),
@@ -311,25 +352,25 @@ export const metraje050: readonly Corte[] = [
       "El baño principal (el apartamento: cuidado): de la alcoba al baño, el paso natural del paseo; el mueble de madera, el espejo y la mampara.",
   },
   {
-    id: "c08-balcon",
+    id: "c10-jacuzzi",
     bloque: 5,
     tipo: "video",
-    src: v("rc02"),
-    // RC02 (Img 9463, 2-sep, 29,4 s = 881 f normalizados; `avg_frame_rate` irregular): se usa SOLO su tramo final, del 26,0 s al último fotograma (29,37 s). El clip empieza en la sala (esa parte queda libre para otra pieza),
-    // sube al cielo y SALE AL BALCÓN; de 21 a 26 s la cámara baja al suelo, hay un dedo en el objetivo (21,0 s) y gira mucho: se evita. De 26,0 a 27,3 s un paneo de la pared y la palma a las camas blancas con el cristal
-    // al fondo (la ciudad y las montañas reflejadas) y de 27,3 a 29,37 s casi quieto: las camas blancas sobre la baldosa negra. Recorte en x=500 y no al centro (656): en el último fotograma deja las dos camas enteras y el cristal con las montañas y la ciudad. NO es el jacuzzi privado (que está en RC21, de la V27): aquí no aparece.
-    desde: fr(780),
-    en: P.balcon,
-    dur: P.cta - P.balcon,
+    src: v("rc10"),
+    // RC10 (Img 9509, 2-sep, 10,7 s = 322 f; `avg_frame_rate` irregular): el balcón del apartamento al atardecer temprano: el cielo con nubes, las torres y la ciudad, y —de los 7,3 s al final— el JACUZZI PRIVADO (la tina cuadrada con listones de
+    // madera y su escalón, la baldosa negra y la baranda de cristal: el de la foto `3-Jacuzzi.png` de la ficha). La cámara avanza a la derecha y acaba con la tina entera y centrada. Del 7,87 s al último fotograma (10,73 s, 86 f). Recorte
+    // en x=1000: con el centro (656) la tina queda en el borde. NO es la terraza común (el catálogo lo describía así): lo midió la sesión de la V30. Entra por PEDIDO EXPRESO del usuario (era el clímax asignado a la V30, 048).
+    desde: fr(236),
+    en: P.jacuzzi,
+    dur: P.cta - P.jacuzzi,
     zoom: [1.0, 1.04], // un empuje mínimo: el final es casi un plano fijo y la cámara a mano se queda inerte
     entra: "corte",
-    color: color({ exposure: 0.05, shadows: 0.2, highlights: -0.25 }),
+    color: color({ exposure: -0.4, highlights: -0.5, whites: -0.3 }),
     reason:
-      "El balcón (el clímax): del baño al exterior del apartamento, las camas blancas sobre la baldosa negra y la palma, con la ciudad en el cristal: lo que se ve al salir. El plano más largo del bloque 5. Entra a corte en un golpe.",
+      "El balcón con el jacuzzi privado (el clímax): de la ciudad al jacuzzi de madera de la ficha, la baldosa negra y la baranda: lo que se ve al salir y el argumento de la propiedad. El plano más largo del bloque 5. Entra a corte en un golpe.",
   },
   // ── Bloque 6 · el CTA ──
   {
-    id: "c09-cta",
+    id: "c11-cta",
     bloque: 6,
     tipo: "video",
     src: v("ct02"),
@@ -341,7 +382,7 @@ export const metraje050: readonly Corte[] = [
       dice: "Si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme.",
     },
     // CT02 (IMG_4294, 5,57 s = 167 f): Isabella en el jardín con árboles y plantas. La voz empieza a los 0,78 s («Si», subida de 41 dB; hay un chasquido a −62 dB a los 0,08 s y una respiración a los 0,425 s que la ventana de voz
-    // tratada no deja sonar) y acaba a los 4,99 s («escríbeme.»). `desde` 9 f entra A CORTE en el golpe de 11,7 dB del f844 y la primera sílaba suena a los 14 f. El plano dura 158 f (hasta el último fotograma del clip): 17 f tras
+    // tratada no deja sonar) y acaba a los 4,99 s («escríbeme.»). `desde` 9 f entra A CORTE en el golpe de 10,9 dB del f932 y la primera sílaba suena a los 14 f. El plano dura 158 f (hasta el último fotograma del clip): 17 f tras
     // la última palabra, en los que la imagen funde a negro (los últimos 6).
     // «amoblado» (whisper: «movilado», «movelado», «moblado»; p 0,27 en la primera sílaba) POR CONFIRMAR AL OÍDO (ver `subtitulos-050.ts`).
     desde: fr(9),
@@ -357,11 +398,11 @@ export const metraje050: readonly Corte[] = [
   // La imagen de Isabella funde a negro en la composición (`FundidoACierre`, hasta negro exacto en el último fotograma de su toma) y sigue este plano: un negro liso (`foto`) que sostiene el logo y la web
   // (`cierre-050.ts`). Entra a corte donde acaba la toma. El PNG lo genera `normalizar.mjs`.
   {
-    id: "c10-cierre",
+    id: "c12-cierre",
     bloque: 6,
     tipo: "foto",
     src: "recorrido-050/cierre-oscuro.png",
-    en: P.cta + DUR_CTA, // = el `en` + `dur` de c09
+    en: P.cta + DUR_CTA, // = el `en` + `dur` de c11
     dur: DUR_TARJETA,
     zoom: [1.0, 1.0],
     entra: "corte",
@@ -370,5 +411,5 @@ export const metraje050: readonly Corte[] = [
   },
 ];
 
-/** Frames de la composición: el fin de la tarjeta del cierre (`en` + `dur` de c10). */
+/** Frames de la composición: el fin de la tarjeta del cierre (`en` + `dur` de c12). */
 export const DURACION_050 = P.cta + DUR_CTA + DUR_TARJETA;

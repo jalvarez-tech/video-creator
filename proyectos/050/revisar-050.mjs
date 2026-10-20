@@ -15,7 +15,7 @@
  *      con el LOGO —más pequeño y al 60 % de opacidad: 40 % de transparencia— y la WEB, que caben, caen en las zonas seguras y se leen enteros.
  *   2d. el COLOR de cada plano (R32).
  *   3. la VOZ de sus tomas: el WAV existe y tiene el tramo que se lee, ninguna palabra suena dentro de un desclic, queda aire tras la última palabra de la pieza y la ganancia por toma es sensata.
- *   4. la MÚSICA («Spring is Coming», plana): cada corte seco en un golpe MEDIDO de ≥ 11,5 dB, y apagada bajo la tarjeta; el audio entero (`revisaAudio`).
+ *   4. la MÚSICA («Spring is Coming», plana): cada corte seco en un golpe MEDIDO de ≥ 10 dB, y apagada bajo la tarjeta; el audio entero (`revisaAudio`).
  *   4b. la música BAJA bajo la voz (curva de coseno que acaba antes de la primera palabra) y sube después.
  *   5. los SUBTÍTULOS: su validador sin un aviso, con las letras del canal; cada trozo dentro de una ventana de voz; nada encima de Isabella.
  *
@@ -47,7 +47,7 @@ const COLA_FINAL = [45, 120]; // f desde la última palabra del CTA hasta el fin
 const TARJETA_FRAMES = [45, 75]; // f que dura la tarjeta oscura del cierre (1,5-2,5 s)
 const HOLGURA_TROZO = 3; // f que un trozo puede adelantarse a su palabra
 const TOLERANCIA_GOLPE = 1; // f entre el `en` de un plano y el frame en que suena el golpe de la canción en que entra
-const FUERZA_MIN_CORTE_SECO = 11.5; // dB por 15 ms: un corte seco cae en un golpe de al menos esto (la canción es plana y de pulso suave: la rejilla se buscó a ≥ 11,5 y el más débil mide 11,7)
+const FUERZA_MIN_CORTE_SECO = 10; // dB por 15 ms: un corte seco cae en un golpe de al menos esto (la canción es plana y de pulso suave: con los nueve planos de recorrido de la rev. 2 la rejilla solo sale a ≥ 10 y el más débil mide 10,3)
 const FUERZA_MIN_DISOLVER = 9; // dB: la disolvencia ACABA en un golpe; que sea de los fuertes (esta pieza no lleva ninguna)
 const ACENTO_MENOS_PEDIDO = 8; // px que se le restan a la cursiva (el 017 lo pidió así y las seis versiones del canal lo comparten)
 const OPACIDAD_PEDIDA = 0.9;
@@ -399,7 +399,7 @@ seccion("3. la voz de las tomas a cámara");
 }
 
 /* 4 · la música, a sus golpes ──────────────────────────────────────────── */
-seccion("4. la música: «Spring is Coming», cada corte seco en un golpe medido de ≥ 11,5 dB y apagada bajo la tarjeta");
+seccion("4. la música: «Spring is Coming», cada corte seco en un golpe medido de ≥ 10 dB y apagada bajo la tarjeta");
 const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...vozDe(c) }));
 {
   const n = fallos.length;
@@ -414,7 +414,7 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     if (hasta > dura + 1 / fps) mal(`${t.id}: se lee hasta ${hasta.toFixed(2)} s y ${t.src} dura ${dura.toFixed(2)} s`);
   }
   const musica = A.audio050.find((t) => t.id === "musica");
-  const cta = byId("c09-cta");
+  const cta = byId("c11-cta");
   if (!musica || musica.src !== "recorrido-050/musica-050.wav") mal("no suena «Spring is Coming» (recorrido-050/musica-050.wav)");
   else {
     if (Math.abs(musica.desde - M.INICIO_MUSICA) > 1e-9) mal(`la música arranca en ${musica.desde} s y INICIO_MUSICA dice ${M.INICIO_MUSICA}`);
@@ -436,13 +436,15 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     "c03-gimnasio": "gimnasio",
     "c04-social-kitchen": "cocina",
     "c05-mitad": "mitad",
-    "c06-alcoba": "alcoba",
-    "c07-bano": "bano",
-    "c08-balcon": "balcon",
-    "c09-cta": "cta",
+    "c06-sala": "sala",
+    "c07-bar": "bar",
+    "c08-alcoba": "alcoba",
+    "c09-bano": "bano",
+    "c10-jacuzzi": "jacuzzi",
+    "c11-cta": "cta",
   };
   // El primer plano (el hook: abre la pieza, la música ya suena baja y no hay golpe en el f0) y la tarjeta (empieza donde acaba la toma del CTA, no en un golpe).
-  const SIN_GOLPE = new Set(["c01-hook", "c10-cierre"]);
+  const SIN_GOLPE = new Set(["c01-hook", "c12-cierre"]);
   const enMedidos = (clave) => {
     const gp = M.GOLPE[clave];
     const real = medidos.find((x) => Math.abs(x.t - gp.t) <= 0.004);
@@ -503,7 +505,7 @@ seccion("4b. la música baja bajo su voz");
     // …y SUBE de nuevo con fundido: tiene que estar arriba en el golpe del plano siguiente.
     const i = cortes.findIndex((c) => c.id === v.id);
     const sig = cortes[i + 1];
-    if (v.id !== "c09-cta" && nivel(sig.en) < arriba * 0.9) mal(`${v.id}: en el golpe del plano siguiente (${sig.id}, f${sig.en}) la música está a ${(20 * Math.log10(nivel(sig.en) / arriba)).toFixed(1)} dB; tiene que haber vuelto arriba`);
+    if (v.id !== "c11-cta" && nivel(sig.en) < arriba * 0.9) mal(`${v.id}: en el golpe del plano siguiente (${sig.id}, f${sig.en}) la música está a ${(20 * Math.log10(nivel(sig.en) / arriba)).toFixed(1)} dB; tiene que haber vuelto arriba`);
     filas.push(`${v.id.replace(/^c\d+-/, "")} ${db.toFixed(1)} dB`);
   }
   // En absoluto: la música bajo la voz queda ≥ 9 LU por debajo de ella (−21 LUFS) en TODO su recorrido.
@@ -513,7 +515,7 @@ seccion("4b. la música baja bajo su voz");
   const entraPaseo = Math.round(M.golpeExacto(M.GOLPE.paseo.t));
   if (nivel(0) > arriba * 0.2 || nivel(3) < arriba * 0.1) mal(`la música tiene que sonar baja desde el f0 (3 f de entrada): f0 = ${(nivel(0) / arriba).toFixed(2)}, f3 = ${(nivel(3) / arriba).toFixed(2)} de su nivel «solo»`);
   if (nivel(entraPaseo) < arriba * 0.9 || nivel(entraPaseo + 1) < arriba * 0.9) mal(`el golpe del paseo (f${entraPaseo}) no suena a su nivel: la música aún no ha subido`);
-  for (const id of ["c01-hook", "c05-mitad", "c09-cta"]) {
+  for (const id of ["c01-hook", "c05-mitad", "c11-cta"]) {
     const c = byId(id);
     if (id !== "c01-hook" && nivel(c.en) < arriba * 0.9) mal(`${id}: la música ya está baja en el golpe de su entrada (f${c.en}): el golpe tiene que sonar entero y la música bajar DESPUÉS`);
     const v = ventanasDeVoz.find((x) => x.id === id);

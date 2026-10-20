@@ -33,7 +33,7 @@ RAIZ = Path(__file__).resolve().parents[3]
 VOCES = RAIZ / "remotion" / "public" / "recorrido-050"
 
 # toma → (en de su plano en la composición, `desde` de su plano en frames de la fuente a 30 fps), de metraje-050.ts
-TOMAS = {"hk02": (0, 9), "md04": (442, 6), "ct02": (844, 9)}
+TOMAS = {"hk02": (0, 9), "md04": (448, 6), "ct02": (932, 9)}
 
 # (toma, frame en que entra la línea, texto, segundo de la fuente en que empieza su primera palabra, nota)
 # El segundo de cada palabra sale de `onsets-voz.py` (energía de la voz sola) y de `palabras-desde.py` (qué palabra es la primera que oye
@@ -45,13 +45,13 @@ LINEAS = [
     ("hk02", 90, "Te ayudamos a optimizarlo,", 3.300, "«Te» suave tras la pausa de 2,95-3,28 s: onset de solo 13 dB a 3,28 s; desde 3,20 y 3,28 oye «Ya ayudamos», desde 3,50 «Te ayudamos a optimizarlo»"),
     ("hk02", 137, "incluyéndote un", 4.870, "tras «optimizarlo,»; desde 4,80 oye «incluyéndote un aseo semanal.», desde 4,87 «Incluyéndote»; desde 5,04 pierde la primera sílaba («Incluso llenéote»)"),
     ("hk02", 166, "aseo semanal.", 5.830, "desde 5,70 oye «un aseo semanal.», desde 5,80 «Naseo semanal» (pierde la «a»), desde 5,93 «de Manal»: «aseo» empieza a ≈ 5,83 s"),
-    ("md04", 451, "$14.800.000", 0.555, "«Ca-» (subida de 32,9 dB sobre un suelo de −55 dB); la línea entra 2 f antes (el acento va 60 f antes de «experiencias»)"),
-    ("md04", 496, "que incluyen", 2.040, "desde 2,0 oye «que incluyen experiencias»; desde 2,10 «incluyen»"),
-    ("md04", 511, "experiencias", 2.490, "desde 2,40 oye «de experiencias» (resto de «incluyen»), desde 2,50 «experiencias pensadas para ti»"),
-    ("md04", 539, "pensadas para ti.", 3.430, "desde 3,10 y 3,20 oye «pensadas para ti», desde 3,43 «pensadas para ti.», desde 3,50 «para ti.»"),
-    ("ct02", 858, "Si quieres un apartamento amoblado", 0.780, "primera sílaba (41 dB desde −68 dB); el onset de 0,425 s (15 dB) es una respiración"),
-    ("ct02", 907, "que tenga acompañamiento personalizado,", 2.430, "tras la pausa de 2,20-2,44 s (onset de 51 dB desde −68 dB)"),
-    ("ct02", 967, "escríbeme.", 4.430, "«es-» (−15 dB a 4,45 s, onset de 44 dB a 4,41 s), un valle y «crí» a 4,605 s; desde 4,41 oye «Escribí.», desde 4,50 «Escribeme.»"),
+    ("md04", 457, "$14.800.000", 0.555, "«Ca-» (subida de 32,9 dB sobre un suelo de −55 dB); la línea entra 2 f antes (el acento va 60 f antes de «experiencias»)"),
+    ("md04", 502, "que incluyen", 2.040, "desde 2,0 oye «que incluyen experiencias»; desde 2,10 «incluyen»"),
+    ("md04", 517, "experiencias", 2.490, "desde 2,40 oye «de experiencias» (resto de «incluyen»), desde 2,50 «experiencias pensadas para ti»"),
+    ("md04", 545, "pensadas para ti.", 3.430, "desde 3,10 y 3,20 oye «pensadas para ti», desde 3,43 «pensadas para ti.», desde 3,50 «para ti.»"),
+    ("ct02", 946, "Si quieres un apartamento amoblado", 0.780, "primera sílaba (41 dB desde −68 dB); el onset de 0,425 s (15 dB) es una respiración"),
+    ("ct02", 995, "que tenga acompañamiento personalizado,", 2.430, "tras la pausa de 2,20-2,44 s (onset de 51 dB desde −68 dB)"),
+    ("ct02", 1055, "escríbeme.", 4.430, "«es-» (−15 dB a 4,45 s, onset de 44 dB a 4,41 s), un valle y «crí» a 4,605 s; desde 4,41 oye «Escribí.», desde 4,50 «Escribeme.»"),
 ]
 ADELANTO_MIN, ADELANTO_MAX = -0.5, 3.0  # frames; −0,5 para la primera línea, que no puede preceder a su imagen
 

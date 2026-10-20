@@ -47,7 +47,7 @@ import { ACENTO_MENOS_050, subtitulos050 } from "./subtitulos-050";
  * NI SELLO, NUNCA (revisión 4, pedido del usuario): el sello «PROPIEDADES LUXUR» (`SelloCampana`, la píldora de arriba) no se pone en esta pieza ni en ninguna de este formato, y tampoco la cuenta de texto `@propiedadesluxur`.
  *
  * EL CIERRE (revisión 6, pedido del usuario): NADA SE CONGELA. Tras la última palabra de Isabella su imagen funde a negro (`FundidoACierre`, que llega a negro EXACTO en el último fotograma de la toma) y sigue una
- * TARJETA OSCURA (el plano `c10-cierre`, un negro liso) con el LOGO —más pequeño y al 60 % de opacidad, o sea 40 % de transparencia— y, debajo, la web `PropiedadesLuxur.com`. Sus números están en
+ * TARJETA OSCURA (el plano `c12-cierre`, un negro liso) con el LOGO —más pequeño y al 60 % de opacidad, o sea 40 % de transparencia— y, debajo, la web `PropiedadesLuxur.com`. Sus números están en
  * `cierre-050.ts`, que lee también la puerta.
  *
  * LA VERSIÓN CON FICHA (skill `ficha-luxur`): `sinSubtitulos` apaga los subtítulos y su velo y no toca nada más; es la base sobre la que `ficha.mjs` pone el tipo, el lugar y el precio fijos en el tercio bajo del 1:1.
@@ -87,9 +87,9 @@ export const OPACIDAD_SUBTITULOS = 0.9;
  * La TOMA del CTA y la TARJETA del cierre, tal como las deja el plan. La imagen de Isabella
  * acaba en el último fotograma de la toma (`ULTIMA_DE_ISABELLA`); la tarjeta empieza justo después.
  */
-const CTA = metraje050.find((c) => c.id === "c09-cta");
-const CIERRE = metraje050.find((c) => c.id === "c10-cierre");
-if (!CTA || !CIERRE) throw new Error("Recorrido050: faltan c09-cta o c10-cierre en metraje-050.ts");
+const CTA = metraje050.find((c) => c.id === "c11-cta");
+const CIERRE = metraje050.find((c) => c.id === "c12-cierre");
+if (!CTA || !CIERRE) throw new Error("Recorrido050: faltan c11-cta o c12-cierre en metraje-050.ts");
 const ULTIMA_DE_ISABELLA = CTA.en + CTA.dur - 1;
 
 /**

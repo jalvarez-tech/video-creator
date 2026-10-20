@@ -10,7 +10,7 @@
  *
  * LA MEZCLA, en LUFS (medidos con ebur128 sobre cada fuente):
  *   voz de Isabella      −15 (tratada: −15,0 en su ventana de voz; cruda, −19,4 · −23,3 · −20,5)
- *   música SOLA          −15: arriba, en los recorridos (la canción mide −15,2 de media en los 35 s que se usan: −16,3 en el paseo de la unidad y −14,2 en el del apartamento)
+ *   música SOLA          −15: arriba, en los recorridos (la canción mide −15,0 de media en los 36,5 s que se usan: −16,4 bajo el hook, −14,9 en el paseo de la unidad y −15,1 en el del apartamento)
  *   música BAJO LA VOZ   ≈ −31: ≈ 16 LU por debajo de ella (ALTO × 0,16 = −16 dB)
  * La canción es plana (sin crescendo ni caída: −15,1 LUFS de media) y no se normaliza (un loudnorm le cambiaría la dinámica): una sola ganancia la lleva a −15 y la música sola es plana en todos los recorridos.
  * Bajo la voz se mide que quede ≥ 9 LU por debajo, y el oído decide si compite.
@@ -42,7 +42,7 @@ const plano = (id: string) => {
 };
 
 /** El fin de la toma del CTA: ahí empieza la tarjeta del cierre y la música tiene que estar a su nivel «solo», apagándose desde aquí. */
-const CTA = plano("c09-cta");
+const CTA = plano("c11-cta");
 export const FIN_CTA_050 = CTA.en + CTA.dur;
 
 /** La ventana de voz de un corte, en frames de la comp (la misma cuenta que usa la puerta). */
@@ -63,10 +63,10 @@ const ventanaDe = (id: string): { en: number; dur: number; fin: number } => {
 export const HAY_MUSICA = true;
 
 /** Sonoridad de «Spring is Coming» entre los 34,1 y los 69,6 s (los 35 s que se usan; ebur128, LRA 2,8 LU): lo que suena en los recorridos. */
-export const LUFS_MESETA = -15.2;
+export const LUFS_MESETA = -15.0;
 /** La música SOLA. */
 const OBJETIVO_MUSICA = -15;
-/** Ganancia lineal de la música sola: +0,2 dB sobre el archivo (la canción es plana, una sola ganancia). */
+/** Ganancia lineal de la música sola: 0 dB sobre el archivo (la canción es plana, una sola ganancia). */
 const ALTO = gananciaHasta(LUFS_MESETA, OBJETIVO_MUSICA);
 /** Mientras habla Isabella: −16 dB más (≈ 14 LU bajo su voz, medido). */
 const BAJO = ALTO * 0.16;
@@ -84,11 +84,11 @@ const fundido = (f0: number, n: number, de: number, a: number): [number, number]
 const envolvente = (): [number, number][] => {
   const hook = ventanaDe("c01-hook");
   const mitad = ventanaDe("c05-mitad");
-  const cta = ventanaDe("c09-cta");
+  const cta = ventanaDe("c11-cta");
   const paseo = plano("c02-piscina");
   const mitadPlano = plano("c05-mitad");
-  const alcoba = plano("c06-alcoba");
-  const ctaPlano = plano("c09-cta");
+  const sala = plano("c06-sala");
+  const ctaPlano = plano("c11-cta");
 
   const p: [number, number][] = [
     // HOOK: la música suena DESDE EL PRINCIPIO, ya baja bajo la voz. 3 f de entrada para no meter un clic; sin golpe en el f0.
@@ -101,7 +101,7 @@ const envolvente = (): [number, number][] => {
     [mitadPlano.en, ALTO],
     ...fundido(mitadPlano.en, FADE_OUT.mitad, ALTO, BAJO),
     [mitad.fin, BAJO],
-    ...fundido(mitad.fin, Math.min(FADE_IN, alcoba.en - mitad.fin - 2), BAJO, ALTO),
+    ...fundido(mitad.fin, Math.min(FADE_IN, sala.en - mitad.fin - 2), BAJO, ALTO),
     // CTA: igual...
     [ctaPlano.en, ALTO],
     ...fundido(ctaPlano.en, FADE_OUT.cta, ALTO, BAJO),
