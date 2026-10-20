@@ -26,7 +26,9 @@
  *     esta toma, «asesor semanal»). La frase de la ficha y del catálogo dice «aseo semanal» (el aseo semanal incluido); se pinta eso y se oye antes de publicar.
  */
 
+import { segmentosDe } from "../../motor/subtitulos-editoriales";
 import type { BloqueEditorial } from "../../motor/subtitulos-editoriales";
+import { FPS_048 } from "./metraje-048";
 
 /**
  * LA CURSIVA, 8 PX MÁS PEQUEÑA, como en las versiones anteriores (el 017 lo pidió así: «reduce el tamaño de la cursiva 8px»): los px de la composición (1080×1920) que se le restan a las líneas de acento, de 99 px a
@@ -109,3 +111,6 @@ export const subtitulos048: readonly BloqueEditorial[] = [
     ],
   },
 ];
+
+/** El mismo plan en segundos, para `exportar-srt.mjs`: la pista de captions de la plataforma (R14). */
+export const subtitulos048Srt = segmentosDe(subtitulos048, FPS_048);
