@@ -23,12 +23,17 @@
  *   CTA (en 1086, desde 22 f)    «Si» 0,78 s · «que» 2,43 (tras la pausa de 2,20-2,44) · «es(críbeme)» 4,40
  *
  * POR CONFIRMAR AL OÍDO (R31; la orden de exportar, si llega con esta sin oír, no se bloquea: se mide, se dice con el segundo y la nota se queda; la puerta con `--final` falla SOLO por ella):
- *   · «amoblado» (CT02, f1110-f1127 = 37,0-37,6 s del vídeo): whisper oye «movilado» (conf. 0,27 en «mov») en todos los cortes; el catálogo y el registro dicen «amoblado». Desde 1,25 s oye «apartamento movilado, que
- *     tenga…» y desde 1,40 s ya empieza en «que tenga»: las trece sílabas de «si quieres un apartamento amoblado» caben en 1,4 s (0,78-2,2 s), así que se dicen muy deprisa y la a-m-o- se funde con «apartamento».
- *     Se pinta «amoblado» (lo que dice la ficha: apartamento AMOBLADO); se oye antes de publicar. «apartamento» lo oye whisper como «aportamento» (conf. 0,45): es la pronunciación, no otra palabra.
+ *   · «amueblado» (CT02, f1110-f1127 = 37,0-37,6 s del vídeo): whisper oye «movilado» (conf. 0,27 en «mov»), «molado» y «en un lado» según dónde se corte; el catálogo y el registro decían «amoblado». Las trece sílabas de
+ *     «si quieres un apartamento amueblado» caben en 1,4 s (0,78-2,2 s): se dicen muy deprisa. **MEDIDO con `herramientas/formantes.py` (LPC, 10 ms) sobre la voz sola, 1,30-2,30 s:** la secuencia de vocales es /a/ (1,78-1,82 s: F1 ≈ 650-720,
+ *     F2 ≈ 1.100; igual que su /a/ de «apar-», 1,20 s: F1 ≈ 675, F2 ≈ 1.040-1.220) → una vocal anterior [e] (1,875-1,94 s, a −14 dB, estable: F1 ≈ 420-435, F2 ≈ 1.750-1.880) → /a/ (1,96-2,14 s: F1 ≈ 740-780, F2 ≈ 900-1.000) → /o/
+ *     (2,17-2,30 s: F1 ≈ 520, F2 ≈ 750-1.050; la /o/ de «to» en 1,67-1,70 s da F1 ≈ 525-540, F2 ≈ 800-850). «amoblado» pide /a/-/o/-/a/-/o/ y la segunda vocal NO es una /o/ (F2 de 1.880 frente a ≈ 800); «amueblado» pide /a/-[we]-/a/-/o/
+ *     y encaja (la /w/ baja la F2 de la [e] desde los ≈ 2.300 de su «quieres», 0,95 s). Se pinta «amueblado» (lo medido; es la forma de la RAE y la que usan quienes la dicen entera); el caption deja «amoblado», el término de búsqueda.
+ *     Una medida no es un oído: se oye antes de publicar y, si dice «amoblado», se cambia el texto del primer trozo de `z01`, `voz/ct02.txt`, el `dice` de `c11-cta`, `lineas-vs-onsets.py` y el `.srt`. «apartamento» lo oye whisper como «aportamento» (conf. 0,45): es la pronunciación, no otra palabra.
  */
 
+import { segmentosDe } from "../../motor/subtitulos-editoriales";
 import type { BloqueEditorial } from "../../motor/subtitulos-editoriales";
+import { FPS_046 } from "./metraje-046";
 
 /**
  * LA CURSIVA, 8 PX MÁS PEQUEÑA, como en las versiones anteriores (el 017 lo pidió así: «reduce el tamaño de la cursiva 8px»): los px de la composición (1080×1920) que se le restan a las líneas de acento, de 99 px a
@@ -96,10 +101,13 @@ export const subtitulos046: readonly BloqueEditorial[] = [
     id: "z01",
     hasta: 1220,
     trozos: [
-      // POR CONFIRMAR AL OÍDO: «amoblado» (f1110-f1127 = 37,0-37,6 s del vídeo; ver arriba).
-      { desde: 1087, texto: "Si quieres un apartamento amoblado" },
+      // POR CONFIRMAR AL OÍDO: «amueblado» (f1110-f1127 = 37,0-37,6 s del vídeo; medido por formantes, ver arriba).
+      { desde: 1087, texto: "Si quieres un apartamento amueblado" },
       { desde: 1136, texto: "que tenga acompañamiento personalizado," },
       { desde: 1196, texto: "escríbeme.", estilo: "acento" },
     ],
   },
 ];
+
+/** El mismo plan en segundos, para `exportar-srt.mjs`: la pista de captions de la plataforma (R14). */
+export const subtitulos046Srt = segmentosDe(subtitulos046, FPS_046);

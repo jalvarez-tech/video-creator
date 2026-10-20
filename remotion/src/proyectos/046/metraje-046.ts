@@ -8,10 +8,10 @@
  *   hook   HK03  «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía indispensable.»      (escaleras exteriores; 29,97 fps)
  *   mitad  MD02  «Te acompañamos desde el día uno con atención personalizada.»                                                        (terraza común, la pérgola con las plantas)
  *          MD03  «Contamos con chef privado, tours, masajes y transporte y las mejores experiencias de la ciudad de Medellín.»          (la misma terraza, camina bajo la pérgola)
- *   CTA    CT02  «Si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme.»                              (jardín; «amoblado» POR CONFIRMAR AL OÍDO)
+ *   CTA    CT02  «Si quieres un apartamento amueblado que tenga acompañamiento personalizado, escríbeme.»                             (jardín; «amueblado» MEDIDO por formantes, POR CONFIRMAR AL OÍDO: el catálogo decía «amoblado»)
  *
- * LA IDEA EN UNA LÍNEA. Este apartamento amoblado es PARA QUIEN LLEGA A MEDELLÍN Y NO TIENE A NADIE: el hook pone la necesidad (una ciudad que no es la tuya), la mitad dice qué trae el acompañamiento
- * (desde el día uno · chef privado, tours, masajes, transporte) y el CTA lo cierra con lo que se ofrece (un apartamento amoblado, con acompañamiento). Ninguna cifra en pantalla ni en voz: el canon
+ * LA IDEA EN UNA LÍNEA. Este apartamento amueblado es PARA QUIEN LLEGA A MEDELLÍN Y NO TIENE A NADIE: el hook pone la necesidad (una ciudad que no es la tuya), la mitad dice qué trae el acompañamiento
+ * (desde el día uno · chef privado, tours, masajes, transporte) y el CTA lo cierra con lo que se ofrece (un apartamento amueblado, con acompañamiento). Ninguna cifra en pantalla ni en voz: el canon
  * ($14,8 M al mes) va a la ficha de la versión de anuncios y al caption. Nada que la ficha no diga (administración, contrato, qué se paga aparte).
  *
  *   bloque 2  c02                  Isabella en las escaleras exteriores, el edificio detrás: el hook, desde el frame 0 (a corte; el golpe de la canción suena en el f3)
@@ -342,11 +342,11 @@ export const metraje046: readonly Corte[] = [
       s0: 0.76,
       s1: 4.98,
       lufs: -15.0,
-      dice: "Si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme.",
+      dice: "Si quieres un apartamento amueblado que tenga acompañamiento personalizado, escríbeme.",
     },
     // CT02 (IMG_4294, 5,57 s = 167 f): Isabella en el jardín con árboles y plantas. La voz va de 0,76 a 4,98 s («Si» sube a los 0,78 s; «escríbeme» acaba a los 5,0 s). `desde` 22 f (hay 22 f antes: la disolvencia pide 12):
     // su primera palabra suena en el f1087, con la canción ya cayendo, y la última en el f1213. Entra con una disolvencia desde el clímax. Nada se congela: el plano acaba en el último fotograma del clip.
-    // POR CONFIRMAR AL OÍDO (ver `subtitulos-046.ts`): «amoblado» (f1129 = 37,6 s; whisper oye «movilado»).
+    // POR CONFIRMAR AL OÍDO (ver `subtitulos-046.ts`): «amueblado» (f1110-f1127 = 37,0-37,6 s; whisper oye «movilado»; la segunda vocal mide [e], no /o/: ver formantes).
     desde: fr(22),
     en: P.cta,
     dur: DUR_CTA,
@@ -354,7 +354,7 @@ export const metraje046: readonly Corte[] = [
     entra: "disolver",
     color: color({ contrast: 1.06, highlights: -0.25, saturation: 1.03 }),
     reason:
-      "El jardín con árboles y plantas (la invitación): Isabella dice «si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme». Tras su última palabra funde a negro y entra la tarjeta del cierre.",
+      "El jardín con árboles y plantas (la invitación): Isabella dice «si quieres un apartamento amueblado que tenga acompañamiento personalizado, escríbeme». Tras su última palabra funde a negro y entra la tarjeta del cierre.",
   },
   // ── El cierre: la tarjeta oscura (nada se congela) ──
   // La imagen de Isabella funde a negro en la composición (`FundidoACierre`, hasta negro exacto en el último fotograma de su toma) y sigue este plano: un negro liso (`foto`) que sostiene el logo y la web

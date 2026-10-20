@@ -55,7 +55,7 @@ LINEAS = [
     ("md03", 662, "y las", 4.595, "desde 4,50 oye «y las mejores experiencias de»"),
     ("md03", 668, "mejores experiencias", 4.820, "desde 4,70 oye «las mejores experiencias de la»; onset de 4,82 s"),
     ("md03", 692, "de la ciudad de Medellín.", 5.595, "desde 5,60 oye «de la ciudad de Medellín.»"),
-    ("ct02", 1087, "Si quieres un apartamento amoblado", 0.780, "primera sílaba (onset de 41 dB desde −68 dB); POR CONFIRMAR AL OÍDO «amoblado»"),
+    ("ct02", 1087, "Si quieres un apartamento amueblado", 0.780, "primera sílaba (onset de 41 dB desde −68 dB); POR CONFIRMAR AL OÍDO «amueblado»"),
     ("ct02", 1136, "que tenga acompañamiento personalizado,", 2.430, "tras la pausa de 2,20-2,44 s; desde 2,40 oye «que tenga acompañamiento»"),
     ("ct02", 1196, "escríbeme.", 4.400, "la «es» sube a 4,40 s antes de la pausa corta; la «crí» a 4,605 s (desde 4,60 oye «cría mi»)"),
 ]

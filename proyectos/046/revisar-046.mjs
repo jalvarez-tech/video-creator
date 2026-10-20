@@ -324,7 +324,7 @@ seccion("2e. el CTA: CT02, una sola acción («escríbeme»), sin precio ni cifr
   const n = fallos.length;
   const cta = byId("c11-cta");
   if (cta.src !== "recorrido-046/ct02.mp4") mal(`${cta.id}: el CTA de esta pieza es CT02; es ${cta.src}`);
-  if (!/apartamento amoblado.*acompa[ñn]amiento personalizado.*escr[ií]beme/i.test(cta.voz.dice)) mal(`${cta.id}: dice «${cta.voz.dice}»; el CTA es «si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme»`);
+  if (!/apartamento am(o|ue)blado.*acompa[ñn]amiento personalizado.*escr[ií]beme/i.test(cta.voz.dice)) mal(`${cta.id}: dice «${cta.voz.dice}»; el CTA es «si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme»`);
   // La toma entera: su voz empieza donde empieza «Si quieres» (≤ 1 s).
   if (cta.voz.s0 > 1.0) mal(`${cta.id}: la voz empieza en ${cta.voz.s0} s: la toma va entera, desde «Si quieres»`);
   // Una sola acción: escribirle. Nada de «llama», «haz clic», precio ni cifras.

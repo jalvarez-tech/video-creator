@@ -1,2 +1,2 @@
-# CT02 (IMG_4294): «Si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme.» POR CONFIRMAR AL OÍDO: «amoblado» (whisper oye «movilado», p 0,27 en «mov»; el catálogo dice «amoblado»).
-Si quieres un apartamento amoblado / que tenga acompañamiento personalizado, / **escríbeme.**
+# CT02 (IMG_4294): «Si quieres un apartamento amueblado que tenga acompañamiento personalizado, escríbeme.» POR CONFIRMAR AL OÍDO: «amueblado» (MEDIDO por formantes: la 2.ª vocal es [e], no /o/; whisper oye «movilado», p 0,27 en «mov»; el catálogo decía «amoblado»).
+Si quieres un apartamento amueblado / que tenga acompañamiento personalizado, / **escríbeme.**
