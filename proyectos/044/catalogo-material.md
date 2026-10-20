@@ -98,6 +98,8 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip, SACADAS SIN CORRE
 
 **El jacuzzi PRIVADO del balcón (la foto `3-Jacuzzi.png`: cuadrado, de madera, con las torres detrás) SÍ está: las sesiones lo encontraron en RC10 (`Img 9509.mp4`, lo usa el 050 de clímax) y en RC21 (`Img 9537 (1).mp4`, el 045).** Lo de abajo es la nota original de la mañana, ya resuelta: El vídeo editado del 15-sep (`videos editados/01.mp4`, 0:22) sí lo enseña, así que está en algún tramo: candidatos RC02 (29 s), RC21, y los tramos mudos de HK04 (8-52 s) y HK05 (7-32 s). Quien lo encuentre lo anota aquí y lo usa de clímax: es el argumento de la ficha («balcón con jacuzzi privado»). Si no aparece, el clímax es la terraza al atardecer (RC18/RC21) o el balcón con las camas (RC02/RC03), y se dice.
 
+**✅ Hallazgo (V29 / 047, 2026-10-19): el jacuzzi PRIVADO aparece en RC03 (`Img 9464.mp4`), de 5,8 a 6,9 s**, al fondo del balcón: la caja de madera con la banca delante, en el centro del cuadro horizontal (x ≈ 690-1050 de 1920; entra entero en el recorte 608×1080 de x=656), pequeño y lejano (≈ 90 px de la ventana de 608); sigue a la vista, tras el paneo a la derecha, hasta los 8 s detrás del cristal. RC03 es el clímax asignado a la V29, así que no hay que mover nada: **ese tramo (4,3-10,3 s de RC03) es de la V29**. No se ha mirado RC02 (29 s) ni RC21 más allá de eso: si alguna otra pieza lo busca más cerca, ahí es donde habría que mirar.
+
 **No hay puentes humanos** (una mano, una taza, una llave) ni voz en off.
 
 ## 7. Cómo entra el material ANAMÓRFICO del 2-sep en el 9:16 (CORREGIDO el 2026-10-19 por la sesión 050)
