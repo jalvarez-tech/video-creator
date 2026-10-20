@@ -83,7 +83,8 @@ const MATERIAL = [
   ["recorrido", "rc12.mp4", "rc12", "7bc5ad03", "4 Recorrido/Img 9514.mp4"],
   // La LOCUCIÓN en off (la que dice el texto de `proyectos/052/voz/off.txt`): NO existe como archivo (solo está mezclada con la música vieja dentro de `02.mp4`). Entra aquí cuando el usuario la entregue o se genere
   // (`generar-vo.mjs … --motor elevenlabs`): se copia a `proyectos/052/original/off.wav` y se rellena su sha.
-  // ["audio", "off.wav", "off", "00000000", "(la entrega el usuario, o la genera `generar-vo.mjs`)"],
+  // La locución GENERADA con ElevenLabs (2026-10-20, voz de stock «Bella», eleven_multilingual_v2, preset narracion; 1.101 caracteres; las 10 frases de `voz/off-guion.txt` montadas con las pausas del original por `herramientas/montar-locucion.py`).
+  ["audio", "off.wav", "off", "a860025e", "proyectos/052/voz/off-partes/*.mp3 → herramientas/montar-locucion.py"],
 ];
 /** Los recorridos que salen AL REVÉS (`reverse`): el nombre de salida es el que usa el plan. */
 const INVERTIDOS = new Set(["rc21r"]);
@@ -198,17 +199,22 @@ function voz(archivo, salidaNombre) {
  *   volume            la ganancia de `GANANCIA_VOZ_DB`, buscada DESPUÉS del compresor hasta −15,0 LUFS en la ventana de voz
  *   alimiter          techo −2,5 dBFS (`latency=1`: compensa el ms de lookahead y la voz no se desfasa): lo que el compresor no alcanza
  */
-const VOZ_TRATADA = (gananciaDb) =>
+const VOZ_TRATADA = (gananciaDb, [ataque, relevo] = [4, 120]) =>
   [
     "highpass=f=100:poles=2",
     "agate=threshold=0.0056:ratio=2:range=0.25:attack=5:release=200",
-    "acompressor=threshold=0.0316:ratio=3.5:attack=4:release=120:knee=6",
+    `acompressor=threshold=0.0316:ratio=3.5:attack=${ataque}:release=${relevo}:knee=6`,
     `volume=${gananciaDb}dB`,
     "alimiter=limit=0.75:attack=1:release=60:level=disabled:latency=1",
   ].join(",");
 
 /** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). */
-const GANANCIA_VOZ_DB = { hk04: 19.4, ct05: 20.4 };
+const GANANCIA_VOZ_DB = { hk04: 19.4, ct05: 20.4, off: 18.0 };
+/**
+ * Ataque y relevo del compresor (ms) por fuente. La LOCUCIÓN generada llega con una cresta de 17 dB en ráfagas de pocos ms (sibilantes y oclusivas de una voz de TTS): con el ataque de 4 ms de las tomas
+ * el limitador tenía que quitar 5,3 dB (+17,6 dB de ganancia, pico previo +3,5 dBFS) y eso se oye; con 1 ms y 80 ms de relevo el pico previo es +0,2 dBFS y el limitador quita 2,0 dB, a −15,1 LUFS.
+ */
+const COMPRESOR_ATAQUE = { off: [1, 80] };
 
 /**
  * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente, medidos por energía
@@ -219,7 +225,7 @@ const GANANCIA_VOZ_DB = { hk04: 19.4, ct05: 20.4 };
  * otras; los inicios de abajo son los del perfil de energía a 20 ms, banda de voz: la primera subida a más de −40 dB.)
  * El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
  */
-const VENTANA_VOZ = { hk04: [2.9, 7.17], ct05: [1.3, 4.08] };
+const VENTANA_VOZ = { hk04: [2.9, 7.17], ct05: [1.3, 4.08], off: [0.04, 71.1] };
 /** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
 const VOZ_ANTES = 0.07;
 const VOZ_DESPUES = 0.05;
@@ -244,7 +250,7 @@ function vozTratada(salidaNombre) {
   const e = VOZ_FUNDIDO_ENTRA;
   const o = VOZ_FUNDIDO_SALE;
   const compuerta = `aeval='val(0)*if(lt(t,${a.toFixed(3)}),0,if(lt(t,${(a + e).toFixed(3)}),(t-${a.toFixed(3)})/${e},if(lt(t,${(b - o).toFixed(3)}),1,if(lt(t,${b.toFixed(3)}),(${b.toFixed(3)}-t)/${o},0))))':c=same`;
-  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", `${VOZ_TRATADA(ganancia)},${compuerta}`, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", `${VOZ_TRATADA(ganancia, COMPRESOR_ATAQUE[salidaNombre])},${compuerta}`, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
   log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3,5:1, +${ganancia} dB y limitador a −2,5 dBFS; solo suena de ${a.toFixed(2)} a ${b.toFixed(2)} s)`);
 }
 

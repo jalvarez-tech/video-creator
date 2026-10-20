@@ -8,11 +8,11 @@
  *
  *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/hk04.txt proyectos/052/voz/hk04.json --en 0 --desde 2.7333 --s0 2.9 --audio remotion/public/recorrido-052/hk04.wav --prefijo h --tabla
  *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/ct05.txt proyectos/052/voz/ct05.json --en 2247 --desde 1.2667 --s0 1.305 --audio remotion/public/recorrido-052/ct05.wav --prefijo z --tabla
- *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/off-marcado.txt proyectos/052/voz/off-provisional.json --en 164 --desde 3.73 --s0 3.73 --prefijo o --tabla
+ *   uv run proyectos/052/herramientas/alinear-locucion.py > /tmp/off-bloques.txt   (la locución, frase a frase: cada una se corta de `off.wav`, se transcribe sola y se alinea con su arranque y su energía)
+ *   uv run proyectos/052/herramientas/armar-subtitulos.py /tmp/off-bloques.txt       (arma este archivo con los bloques del hook y del CTA de arriba)
  *
- * ⚠️ LOS BLOQUES `o01`-`o26` SON PROVISIONALES: salen del audio de `02.mp4` (`off-provisional.json`: whisper por palabra sobre el audio con la música vieja debajo, el reloj de la locución del original) porque la
- * locución propia NO existe todavía (`OFF_PENDIENTE` en `audio-052.ts`). Cuando exista se transcribe SU archivo con `transcribir.mjs --palabras` y se vuelve a correr `trozos-editoriales.mjs` con su `--s0`, su `--audio` y
- * su `--en`/`--desde`; cada línea se lleva a su palabra con la voz SOLA (`onsets-voz.py`, `lineas-vs-onsets.py`: R31).
+ * LOS BLOQUES `o01`-`o26` salen de la locución GENERADA (ElevenLabs, voz de stock «Bella», 2026-10-20; `OFF_PENDIENTE = false` en `audio-052.ts`): el DTW de whisper sobre los 71 s enteros se desvió hasta 0,5 s en
+ * medio de una frase; sobre cada frase sola concuerda con los arranques de sílaba (`onsets-voz.py`) a ±3 f. No se han llevado línea a línea a su palabra con `lineas-vs-onsets.py` (R31): se oye en la prueba.
  *
  * POR CONFIRMAR AL OÍDO (la puerta con `--final` falla mientras queden):
  *   · «amoblado,» (h02, f64, 4,92 s de HK04): whisper oye «a mi lado» y el original (`02.mp4`) arranca su audio justo ahí; con 4 sílabas y lo que se oye, «a-mo-bla-do».

@@ -8,11 +8,11 @@
  *
  *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/hk04.txt proyectos/052/voz/hk04.json --en 0 --desde 2.7333 --s0 2.9 --audio remotion/public/recorrido-052/hk04.wav --prefijo h --tabla
  *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/ct05.txt proyectos/052/voz/ct05.json --en 2247 --desde 1.2667 --s0 1.305 --audio remotion/public/recorrido-052/ct05.wav --prefijo z --tabla
- *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/off-marcado.txt proyectos/052/voz/off-provisional.json --en 164 --desde 3.73 --s0 3.73 --prefijo o --tabla
+ *   uv run proyectos/052/herramientas/alinear-locucion.py > /tmp/off-bloques.txt   (la locución, frase a frase: cada una se corta de `off.wav`, se transcribe sola y se alinea con su arranque y su energía)
+ *   uv run proyectos/052/herramientas/armar-subtitulos.py /tmp/off-bloques.txt       (arma este archivo con los bloques del hook y del CTA de arriba)
  *
- * ⚠️ LOS BLOQUES `o01`-`o26` SON PROVISIONALES: salen del audio de `02.mp4` (`off-provisional.json`: whisper por palabra sobre el audio con la música vieja debajo, el reloj de la locución del original) porque la
- * locución propia NO existe todavía (`OFF_PENDIENTE` en `audio-052.ts`). Cuando exista se transcribe SU archivo con `transcribir.mjs --palabras` y se vuelve a correr `trozos-editoriales.mjs` con su `--s0`, su `--audio` y
- * su `--en`/`--desde`; cada línea se lleva a su palabra con la voz SOLA (`onsets-voz.py`, `lineas-vs-onsets.py`: R31).
+ * LOS BLOQUES `o01`-`o26` salen de la locución GENERADA (ElevenLabs, voz de stock «Bella», 2026-10-20; `OFF_PENDIENTE = false` en `audio-052.ts`): el DTW de whisper sobre los 71 s enteros se desvió hasta 0,5 s en
+ * medio de una frase; sobre cada frase sola concuerda con los arranques de sílaba (`onsets-voz.py`) a ±3 f. No se han llevado línea a línea a su palabra con `lineas-vs-onsets.py` (R31): se oye en la prueba.
  *
  * POR CONFIRMAR AL OÍDO (la puerta con `--final` falla mientras queden):
  *   · «amoblado,» (h02, f64, 4,92 s de HK04): whisper oye «a mi lado» y el original (`02.mp4`) arranca su audio justo ahí; con 4 sílabas y lo que se oye, «a-mo-bla-do».
@@ -36,223 +36,233 @@ export const subtitulos052: readonly BloqueEditorial[] = [
       { desde: 113, texto: "pregúntate esto.", estilo: "acento" },
     ],
   },
-  // ── Bloque 5 · la locución en off (PROVISIONAL: tiempos del audio de `02.mp4`) ──
+  // ── Bloque 5 · la locución en off ──
   {
     id: "o01",
-    hasta: 225,
+    hasta: 242,
     trozos: [
       { desde: 164, texto: "¿Estás buscando simplemente" },
-      { desde: 188, texto: "un lugar donde dormir," },
+      { desde: 198, texto: "un lugar donde dormir," },
     ],
   },
   {
     id: "o02",
-    hasta: 321,
+    hasta: 323,
     trozos: [
-      { desde: 225, texto: "o un lugar donde realmente" },
-      { desde: 279, texto: "disfrutes vivir?", estilo: "acento" },
+      { desde: 249, texto: "o un lugar donde realmente" },
+      { desde: 287, texto: "disfrutes vivir?", estilo: "acento" },
     ],
   },
+
   {
     id: "o03",
-    hasta: 393,
+    hasta: 397,
     trozos: [
-      { desde: 324, texto: "Porque cuando eliges" },
-      { desde: 346, texto: "un apartamento" },
-      { desde: 365, texto: "amoblado,", estilo: "acento" },
+      { desde: 327, texto: "Porque cuando eliges" },
+      { desde: 348, texto: "un apartamento" },
+      { desde: 371, texto: "amoblado,", estilo: "acento" },
     ],
   },
   {
     id: "o04",
-    hasta: 453,
+    hasta: 475,
     trozos: [
-      { desde: 394, texto: "no estás pagando solamente" },
-      { desde: 417, texto: "por una cama," },
+      { desde: 400, texto: "no estás pagando solamente" },
+      { desde: 438, texto: "por una cama," },
     ],
   },
-  { id: "o05", hasta: 503, trozos: [{ desde: 455, texto: "una sala" }, { desde: 466, texto: "y una cocina." }] },
+  { id: "o05", hasta: 537, trozos: [{ desde: 478, texto: "una sala" }, { desde: 496, texto: "y una cocina." }] },
+
   {
     id: "o06",
-    hasta: 551,
+    hasta: 586,
     trozos: [
-      { desde: 508, texto: "Estás pagando por" },
-      { desde: 530, texto: "la comodidad", estilo: "acento" },
+      { desde: 547, texto: "Estás pagando por" },
+      { desde: 568, texto: "la comodidad", estilo: "acento" },
     ],
   },
   {
     id: "o07",
-    hasta: 648,
+    hasta: 670,
     trozos: [
-      { desde: 551, texto: "de llegar a casa" },
-      { desde: 579, texto: "y sentir que" },
-      { desde: 614, texto: "todo tiene sentido." },
+      { desde: 586, texto: "de llegar a casa" },
+      { desde: 609, texto: "y sentir que" },
+      { desde: 634, texto: "todo tiene sentido." },
     ],
   },
+
   {
     id: "o08",
-    hasta: 725,
+    hasta: 742,
     trozos: [
-      { desde: 660, texto: "Y si vas a invertir" },
-      { desde: 686, texto: "en un arriendo premium," },
+      { desde: 680, texto: "Y si vas a invertir" },
+      { desde: 705, texto: "en un arriendo premium," },
     ],
   },
   {
     id: "o09",
-    hasta: 785,
+    hasta: 806,
     trozos: [
-      { desde: 728, texto: "los detalles deben estar" },
-      { desde: 762, texto: "a la altura.", estilo: "acento" },
+      { desde: 748, texto: "los detalles deben estar" },
+      { desde: 782, texto: "a la altura.", estilo: "acento" },
     ],
   },
+
   {
     id: "o10",
-    hasta: 881,
+    hasta: 907,
     trozos: [
-      { desde: 795, texto: "Imagina terminar el día," },
-      { desde: 845, texto: "salir al balcón," },
+      { desde: 820, texto: "Imagina terminar el día," },
+      { desde: 870, texto: "salir al balcón," },
     ],
   },
   {
     id: "o11",
-    hasta: 941,
+    hasta: 970,
     trozos: [
-      { desde: 888, texto: "desconectarte en tu" },
-      { desde: 912, texto: "jacuzzi privado", estilo: "acento" },
+      { desde: 910, texto: "desconectarte en tu" },
+      { desde: 942, texto: "jacuzzi privado", estilo: "acento" },
     ],
   },
   {
     id: "o12",
-    hasta: 1029,
+    hasta: 1068,
     trozos: [
-      { desde: 941, texto: "y disfrutar de un entorno" },
-      { desde: 990, texto: "rodeado de naturaleza," },
+      { desde: 970, texto: "y disfrutar de un entorno" },
+      { desde: 1014, texto: "rodeado de naturaleza," },
     ],
   },
   {
     id: "o13",
-    hasta: 1106,
+    hasta: 1148,
     trozos: [
-      { desde: 1029, texto: "sin dejar de estar" },
-      { desde: 1064, texto: "conectado con" },
-      { desde: 1083, texto: "Medellín.", estilo: "acento" },
+      { desde: 1069, texto: "sin dejar de estar" },
+      { desde: 1096, texto: "conectado con" },
+      { desde: 1123, texto: "Medellín.", estilo: "acento" },
     ],
   },
+
   {
     id: "o14",
-    hasta: 1185,
+    hasta: 1232,
     trozos: [
-      { desde: 1111, texto: "Aquí tienes dos habitaciones," },
-      { desde: 1166, texto: "dos baños" },
+      { desde: 1158, texto: "Aquí tienes dos habitaciones," },
+      { desde: 1216, texto: "dos baños" },
     ],
   },
   {
     id: "o15",
-    hasta: 1288,
+    hasta: 1341,
     trozos: [
-      { desde: 1185, texto: "y espacios pensados" },
-      { desde: 1220, texto: "para vivir con" },
-      { desde: 1241, texto: "amplitud y comodidad.", estilo: "acento" },
+      { desde: 1232, texto: "y espacios pensados" },
+      { desde: 1269, texto: "para vivir con" },
+      { desde: 1292, texto: "amplitud y comodidad.", estilo: "acento" },
     ],
   },
+
   {
     id: "o16",
-    hasta: 1371,
+    hasta: 1437,
     trozos: [
-      { desde: 1300, texto: "Cuando quieres salir de casa," },
-      { desde: 1348, texto: "el proyecto te ofrece" },
+      { desde: 1358, texto: "Cuando quieres salir de casa," },
+      { desde: 1407, texto: "el proyecto te ofrece" },
     ],
   },
   {
     id: "o17",
-    hasta: 1465,
+    hasta: 1559,
     trozos: [
-      { desde: 1371, texto: "gimnasio, zonas húmedas," },
-      { desde: 1424, texto: "coworking, Spa Romano" },
+      { desde: 1437, texto: "gimnasio, zonas húmedas," },
+      { desde: 1507, texto: "coworking, Spa Romano" },
     ],
   },
   {
     id: "o18",
-    hasta: 1513,
+    hasta: 1624,
     trozos: [
-      { desde: 1465, texto: "y espacios para" },
-      { desde: 1490, texto: "compartir.", estilo: "acento" },
+      { desde: 1559, texto: "y espacios para" },
+      { desde: 1598, texto: "compartir.", estilo: "acento" },
     ],
   },
+
   {
     id: "o19",
-    hasta: 1598,
+    hasta: 1694,
     trozos: [
-      { desde: 1535, texto: "¿Para qué pagar un" },
-      { desde: 1570, texto: "arriendo premium" },
+      { desde: 1655, texto: "¿Para qué pagar un" },
+      { desde: 1673, texto: "arriendo premium" },
     ],
   },
   {
     id: "o20",
-    hasta: 1643,
+    hasta: 1743,
     trozos: [
-      { desde: 1599, texto: "si no puedes" },
-      { desde: 1614, texto: "disfrutarlo?", estilo: "acento" },
+      { desde: 1694, texto: "si no puedes" },
+      { desde: 1713, texto: "disfrutarlo?", estilo: "acento" },
     ],
   },
+
   {
     id: "o21",
-    hasta: 1750,
+    hasta: 1853,
     trozos: [
-      { desde: 1665, texto: "Este apartamento en Las Palmas" },
-      { desde: 1718, texto: "es para quienes quieren" },
+      { desde: 1783, texto: "Este apartamento en Las Palmas" },
+      { desde: 1821, texto: "es para quienes quieren" },
     ],
   },
   {
     id: "o22",
-    hasta: 1832,
+    hasta: 1942,
     trozos: [
-      { desde: 1750, texto: "que su hogar sea" },
-      { desde: 1781, texto: "mucho más que", estilo: "acento" },
-      { desde: 1800, texto: "un lugar de paso:" },
+      { desde: 1853, texto: "que su hogar sea" },
+      { desde: 1879, texto: "mucho más que", estilo: "acento" },
+      { desde: 1906, texto: "un lugar de paso:" },
     ],
   },
   {
     id: "o23",
-    hasta: 1938,
+    hasta: 2061,
     trozos: [
-      { desde: 1832, texto: "un espacio para descansar," },
-      { desde: 1885, texto: "trabajar, recibir invitados" },
+      { desde: 1951, texto: "un espacio para descansar," },
+      { desde: 2005, texto: "trabajar, recibir invitados" },
     ],
   },
   {
     id: "o24",
-    hasta: 2010,
+    hasta: 2139,
     trozos: [
-      { desde: 1938, texto: "y disfrutar de una" },
-      { desde: 1966, texto: "calidad de vida" },
-      { desde: 1986, texto: "diferente.", estilo: "acento" },
+      { desde: 2061, texto: "y disfrutar de una" },
+      { desde: 2093, texto: "calidad de vida" },
+      { desde: 2116, texto: "diferente.", estilo: "acento" },
     ],
   },
+
   {
     id: "o25",
-    hasta: 2112,
+    hasta: 2243,
     trozos: [
-      { desde: 2019, texto: "Un lugar donde vivir bien" },
-      { desde: 2060, texto: "no sea un plan" },
-      { desde: 2086, texto: "para después," },
+      { desde: 2154, texto: "Un lugar donde vivir bien" },
+      { desde: 2189, texto: "no sea un plan" },
+      { desde: 2214, texto: "para después," },
     ],
   },
   {
     id: "o26",
-    hasta: 2175,
+    hasta: 2300,
     trozos: [
-      { desde: 2118, texto: "sino parte de tu" },
-      { desde: 2151, texto: "día a día.", estilo: "acento" },
+      { desde: 2246, texto: "sino parte de tu" },
+      { desde: 2273, texto: "día a día.", estilo: "acento" },
     ],
   },
+
   // ── Bloque 6 · el CTA (el cierre es el logo, no un bloque de texto) ──
   {
     id: "z01",
-    hasta: 2340,
+    hasta: 2461,
     trozos: [
-      { desde: 2248, texto: "Si buscas más que un" },
-      { desde: 2281, texto: "apartamento para vivir," },
-      { desde: 2312, texto: "escríbenos.", estilo: "acento" },
+      { desde: 2369, texto: "Si buscas más que un" },
+      { desde: 2402, texto: "apartamento para vivir," },
+      { desde: 2433, texto: "escríbenos.", estilo: "acento" },
     ],
   },
 ];

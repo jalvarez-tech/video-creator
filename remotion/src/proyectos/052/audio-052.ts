@@ -50,16 +50,17 @@ const ventanaDe = (id: string): { en: number; dur: number; fin: number } => {
 /* ── La locución ───────────────────────────────────────────────────────────── */
 
 /**
- * ¿La locución todavía NO existe? Con `true` no hay tramo de off y los subtítulos y los planos van contra el reloj del propio `02.mp4` (`metraje-052.ts`). Con `false` hay que rellenar `LOCUCION` con lo medido sobre su archivo
- * (`recorrido-052/off.wav` y `off-voz.wav`, de `normalizar.mjs`). La puerta con `--final` FALLA mientras sea `true`.
+ * ¿La locución todavía NO existe? Con `true` no hay tramo de off y los subtítulos y los planos van contra el reloj del propio `02.mp4` (`metraje-052.ts`). Desde el 2026-10-20 SÍ existe: la generó ElevenLabs
+ * (voz de stock «Bella», `eleven_multilingual_v2`, preset `narracion`, 1.101 caracteres: el usuario descartó clonar a Isabella —no hay clon suyo en la cuenta— y pidió una voz de stock femenina) y se montó con
+ * `proyectos/052/herramientas/montar-locucion.py` en `original/off.wav`. La puerta con `--final` falla mientras sea `true`.
  */
-export const OFF_PENDIENTE = true;
+export const OFF_PENDIENTE = false;
 
 /**
- * Lo que se mide sobre la locución cuando existe (`limites-voz.py` y `onsets-voz.py` sobre `off.wav`; la ganancia, con `probar-voz.py`): dónde habla en su archivo, qué sonoridad tiene su voz TRATADA en esa ventana y
- * cuánto aire hay antes y después. NÚMEROS DE EJEMPLO hasta entonces: el tramo no se monta con `OFF_PENDIENTE`.
+ * Lo que se midió sobre la locución (`montar-locucion.py` da la primera y la última sílaba por energía; la ganancia sale de `probar-voz.py` con el compresor de 1 ms de ataque de `normalizar.mjs`): dónde habla en su
+ * archivo (de 0,04 a 71,08 s), qué sonoridad tiene su voz TRATADA en esa ventana (`off-voz.wav`: −15,1 LUFS, pico −1,8 dBTP) y cuánto aire se deja detrás.
  */
-const LOCUCION = { s0: OFF_S0, s1: 70.7, lufs: -15.0, aireAntes: 6, aireDespues: 12 } as const;
+const LOCUCION = { s0: OFF_S0, s1: 71.08, lufs: -15.1, aireDespues: 12 } as const;
 
 /** Un tramo de voz en off: un `TramoAudio` que además sabe dónde se habla en su fuente. */
 export interface TramoOff extends TramoAudio {
@@ -67,8 +68,11 @@ export interface TramoOff extends TramoAudio {
   voz: { s0: number; s1: number };
 }
 
-/** La ventana de la locución en frames de la comp: de su primera a su última palabra. Con `OFF_PENDIENTE`, la del original. */
+/** La ventana de la locución en frames de la comp: de su primera a su última palabra. */
 export const VENTANA_OFF = { ini: OFF_EN0, fin: ancla(LOCUCION.s1) } as const;
+
+/** El frame de la comp en que suena el segundo 0 del archivo de la locución (la primera palabra empieza en el 0,04). */
+const EN_OFF = OFF_EN0 - Math.round(OFF_S0 * FPS_052);
 
 export const off052: readonly TramoOff[] = OFF_PENDIENTE
   ? []
@@ -77,13 +81,12 @@ export const off052: readonly TramoOff[] = OFF_PENDIENTE
         id: "off",
         src: "recorrido-052/off-voz.wav",
         voz: { s0: LOCUCION.s0, s1: LOCUCION.s1 },
-        en: OFF_EN0 - LOCUCION.aireAntes,
-        dur: VENTANA_OFF.fin - OFF_EN0 + LOCUCION.aireAntes + LOCUCION.aireDespues,
-        desde: LOCUCION.s0 - LOCUCION.aireAntes / FPS_052,
+        en: EN_OFF,
+        dur: VENTANA_OFF.fin - EN_OFF + LOCUCION.aireDespues,
+        desde: 0,
         ganancia: gananciaHasta(LOCUCION.lufs, OBJETIVO_LUFS),
-        entra: 3,
         sale: 8,
-        reason: "La locución del original (`02.mp4`), dicha por la voz clonada de Isabella o entregada por el usuario: cuenta qué se paga cuando se arrienda amueblado y es lo que manda los cambios de plano.",
+        reason: "La locución del original (`02.mp4`), con una voz de stock femenina de ElevenLabs: cuenta qué se paga cuando se arrienda amueblado y es lo que manda los cambios de plano.",
       },
     ];
 

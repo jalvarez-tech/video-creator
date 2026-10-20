@@ -1,0 +1,11 @@
+# La locución en off, UNA LÍNEA POR FRASE (`id|texto`), el formato de `elevenlabs.py guion` (request stitching). El texto es el de `off.txt`.
+f01|¿Estás buscando simplemente un lugar donde dormir, o un lugar donde realmente disfrutes vivir?
+f02|Porque cuando eliges un apartamento amoblado, no estás pagando solamente por una cama, una sala y una cocina.
+f03|Estás pagando por la comodidad de llegar a casa y sentir que todo tiene sentido.
+f04|Y si vas a invertir en un arriendo premium, los detalles deben estar a la altura.
+f05|Imagina terminar el día, salir al balcón, desconectarte en tu jacuzzi privado y disfrutar de un entorno rodeado de naturaleza, sin dejar de estar conectado con Medellín.
+f06|Aquí tienes dos habitaciones, dos baños y espacios pensados para vivir con amplitud y comodidad.
+f07|Cuando quieres salir de casa, el proyecto te ofrece gimnasio, zonas húmedas, coworking, Spa Romano y espacios para compartir.
+f08|¿Para qué pagar un arriendo premium si no puedes disfrutarlo?
+f09|Este apartamento en Las Palmas es para quienes quieren que su hogar sea mucho más que un lugar de paso: un espacio para descansar, trabajar, recibir invitados y disfrutar de una calidad de vida diferente.
+f10|Un lugar donde vivir bien no sea un plan para después, sino parte de tu día a día.

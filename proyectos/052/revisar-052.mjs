@@ -9,7 +9,7 @@
  * Las comprobaciones del FORMATO salen de `revisar-metraje.mjs` (línea de tiempo, metraje, tramos, encuadre). Encima, lo que el formato del recorrido promete y ningún frame enseña:
  *
  *   2. la ESTRUCTURA: hook (bloque 2), recorrido con la locución (5) y CTA (6), en el ORDEN del original (`ORDEN_DEL_ORIGINAL`), con Isabella dos veces a cámara, todos los planos disueltos entre sí (la
- *      canción no tiene golpes donde cortar en seco) y el total dentro del tope DECLARADO de la réplica (no pasa de 82 s: el formato pide 55 y el original dura 77,6).
+ *      canción no tiene golpes donde cortar en seco) y el total dentro del tope DECLARADO de la réplica (no pasa de 86 s: el formato pide 55 y el original dura 77,6).
  *   2b. las REGLAS FIJAS del canal (skill `recorrido-luxur`, SKILL.md §0) y la EXCEPCIÓN DECLARADA: la pieza abre con el hook (el f0 es Isabella, su primera palabra suena ≥ 3 f después y lleva su
  *      subtítulo); no hay texto arriba ni cuenta `@…`, y NUNCA el sello «PROPIEDADES LUXUR» (`SelloCampana`). La regla «sin cifras en pantalla» se comprueba aquí también.
  *   2c. el CIERRE (`cierre-052.ts`): NADA SE CONGELA (la imagen de Isabella funde a negro y llega a negro exacto en su último fotograma), y sigue una TARJETA OSCURA (el último plano, un negro liso)
@@ -44,7 +44,7 @@ const DE_ELLA = [2, 6];
 const ORDEN_DEL_ORIGINAL = ["hk04", "rc21r", "rc22", "rc06", "rc01", "rc03", "rc15", "ct04", "rc16", "rc17", "rc13", "rc12", "ct05", "cierre-oscuro"];
 
 const TECHO_ZOOM = 1.2; // clips normalizados a 1296 px = 1080 × 1,2
-const TOPE_SEGUNDOS = 82; // DECLARADO: la réplica dura lo que dura el original (77,6 s) más la tarjeta; el formato apunta a 45-50 s
+const TOPE_SEGUNDOS = 86; // DECLARADO: la réplica dura lo que dura el original (77,6 s) más lo que alarga el hook entero (+2,3 s), la voz generada (≈ 5 % más lenta) y la tarjeta; el formato apunta a 45-50 s
 const MARGEN_FUNDIDO = 2; // f entre la última palabra y el inicio de la disolvencia del siguiente
 const COLA_FINAL = [45, 120]; // f desde la última palabra del CTA hasta el final (lo que le queda de toma + la tarjeta): la web se lee, sin quedarse muerto
 const TARJETA_FRAMES = [45, 75]; // f que dura la tarjeta oscura del cierre (1,5-2,5 s)

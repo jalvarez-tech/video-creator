@@ -16,6 +16,8 @@ import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[3]
+# Frame en que entra la toma del CTA (`P.cta` de metraje-052.ts): los números del CTA de abajo son suyos + el desplazamiento medido sobre CT05.
+CTA_EN = 2368
 lineas = Path(sys.argv[1]).read_text(encoding="utf8").split("\n")
 fin = next(i for i, l in enumerate(lineas) if l.startswith("o01  sale en"))
 inicio = next(i for i, l in enumerate(lineas) if l == "  {")
@@ -40,11 +42,11 @@ export const subtitulos052: readonly BloqueEditorial[] = [
   // ── Bloque 6 · el CTA (el cierre es el logo, no un bloque de texto) ──
   {{
     id: "z01",
-    hasta: 2340,
+    hasta: {CTA_EN + 93},
     trozos: [
-      {{ desde: 2248, texto: "Si buscas más que un" }},
-      {{ desde: 2281, texto: "apartamento para vivir," }},
-      {{ desde: 2312, texto: "escríbenos.", estilo: "acento" }},
+      {{ desde: {CTA_EN + 1}, texto: "Si buscas más que un" }},
+      {{ desde: {CTA_EN + 34}, texto: "apartamento para vivir," }},
+      {{ desde: {CTA_EN + 65}, texto: "escríbenos.", estilo: "acento" }},
     ],
   }},
 ];

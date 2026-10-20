@@ -16,9 +16,9 @@
  * Los dos planos que faltan se sustituyen por el más parecido y se declara (`01-plan.md`): Isabella caminando hacia cámara en la sala con la palma (CT04, sin voz) y el carril de nado entre árboles y cielo (RC17).
  * El original acelera RC21 (×1,6), RC01 (×1,1) y RC03 (×1,5): aquí cada plano va a SU tiempo (la `velocidad` solo se admite en el bloque 3) y, donde el original pasaba el clip entero, aquí se elige un tramo.
  *
- * LA LOCUCIÓN MANDA. Cada plano entra donde el original lo cambia respecto de lo que dice la voz: sus `en` salen de las PALABRAS de la locución (`ancla`, abajo), no de segundos sueltos. Mientras la locución no existe
- * (`OFF_PENDIENTE` en `audio-052.ts`: no hay archivo, el usuario decide si la entrega o se genera), el reloj es el del propio `02.mp4`: los tiempos de abajo son los de su transcripción (`proyectos/052/medidas/orig02.json`).
- * Cuando llegue la locución real se cambian `OFF_S0` y `PALABRAS_OFF` por lo que se mida en ella y todo se mueve con ellas.
+ * LA LOCUCIÓN MANDA. Cada plano entra donde el original lo cambia respecto de lo que dice la voz: sus `en` salen de las PALABRAS de la locución (`ancla`, abajo), no de segundos sueltos. La locución no existía como
+ * archivo (el original la lleva mezclada con la música vieja): el usuario eligió generarla con una voz de stock femenina de ElevenLabs (2026-10-20), y `OFF_S0` y `PALABRAS_OFF` son lo medido sobre ella. Si cambia (otra
+ * voz, los audios del usuario), se cambian esos números y todo se mueve con ellos.
  *
  * TRANSICIONES. Disolvencias de 12 f entre todos los planos (como el original: no hay un solo corte seco). La canción es un piano sin pulso: no tiene golpes donde cortar en seco y con una disolvencia no hace falta
  * (R33 solo lo pide a los cortes secos). Un plano que disuelve necesita 12 frames de clip ANTES de su `desde`; el saliente no se alarga. Por eso RC22, RC06, RC01 y RC15 duran 1-3 s menos que en el original: tienen
@@ -76,22 +76,27 @@ const QUIETO: readonly [number, number] = [1.0, 1.0];
 /* ── La locución como reloj ──────────────────────────────────────────────────
  *
  * `OFF_S0` es el segundo de la locución en que suena su PRIMERA palabra («¿Estás…»), `OFF_EN0` el frame de la composición en que suena, y `PALABRAS_OFF` el segundo de la locución en que empieza cada palabra
- * que manda un cambio de plano. TODO PROVISIONAL: son los del audio de `02.mp4` (whisper por palabra, `proyectos/052/medidas/orig02.json`; el arranque de «Estás», 3,73 s, es el de `onsets-voz.py`, porque whisper lo
- * pone a 3,56 s). La locución real los sustituye. El primer plano de la locución entra ya con el hook acabado (f147) y ≈ 0,6 s antes de su primera palabra, como en el original.
+ * que manda un cambio de plano. Son los de la locución generada (`proyectos/052/original/off.wav`): sus arranques de sílaba, por energía (`onsets-voz.py`), y su transcripción por palabra (`voz/off.json`). Cada
+ * palabra manda el plano que entra con ella (aquí, en la locución, no en el audio de `02.mp4`: las palabras de las dos voces no caen en los mismos segundos). El hook acaba en el f133 (+ 2 f + 12 de disolvencia)
+ * y la primera palabra de la locución suena en el f164, como en el original (0,6-1 s después de que empiece el primer plano de recorrido).
  */
-export const OFF_S0 = 3.73;
+export const OFF_S0 = 0.04;
 export const OFF_EN0 = 164;
 export const PALABRAS_OFF = {
-  /** «…un [apartamento] amoblado»: el bar. */
-  apartamento: 10.14,
-  /** «…coworking»: el sauna. */
-  coworking: 45.64,
-  /** Tras «…un lugar de paso,»: los árboles. */
-  paso: 59.1,
-  /** «…y disfrutar de una calidad de vida»: el gimnasio. */
-  disfrutar: 63.08,
-  /** «Un lugar [donde] vivir bien…»: la Social Kitchen. */
-  donde: 66.2,
+  /** «…un [apartamento] amoblado»: el bar (RC22). */
+  apartamento: 6.5,
+  /** «…zonas húmedas, [coworking]…»: el sauna (RC15), un poco antes de la palabra. */
+  coworking: 44.6,
+  /** «¿[Para] qué pagar un arriendo premium…?»: entra Isabella caminando (CT04), 0,2 s antes de la pregunta. */
+  pregunta: 48.35,
+  /** «[Este] apartamento en Las Palmas…»: la piscina (RC16), 0,8 s antes de la frase (como el original: 1 s). */
+  este: 53.2,
+  /** Tras «…un lugar de paso,» y antes de «un espacio para descansar»: los árboles (RC17). */
+  paso: 59.4,
+  /** «…y [disfrutar] de una calidad de vida diferente»: el gimnasio (RC13). */
+  disfrutar: 63.2,
+  /** «Un lugar [donde] vivir bien…»: la Social Kitchen (RC12). */
+  donde: 66.55,
 } as const;
 
 /** El frame de la composición en que suena un instante de la locución. */
@@ -154,9 +159,8 @@ const P = {
   /** RC01 tiene 386 f: 12 + 374. */
   camas: ancla(PALABRAS_OFF.apartamento) + 84 + 245 + 374,
   sauna: ancla(PALABRAS_OFF.coworking),
-  /** RC15 tiene 137 f: 12 + 125. */
-  isabella: ancla(PALABRAS_OFF.coworking) + 125,
-  piscina: ancla(PALABRAS_OFF.coworking) + 125 + 99,
+  isabella: ancla(PALABRAS_OFF.pregunta),
+  piscina: ancla(PALABRAS_OFF.este),
   arboles: ancla(PALABRAS_OFF.paso),
   gimnasio: ancla(PALABRAS_OFF.disfrutar),
   social: ancla(PALABRAS_OFF.donde),
@@ -262,7 +266,7 @@ export const metraje052: readonly Corte[] = [
     src: v("rc15"),
     desde: fr(12),
     en: P.sauna,
-    dur: 125,
+    dur: P.isabella - P.sauna, // RC15 tiene 137 f: 12 + hasta 125
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.12 }),
@@ -275,7 +279,7 @@ export const metraje052: readonly Corte[] = [
     src: v("ct04"),
     desde: fr(75),
     en: P.isabella,
-    dur: 99,
+    dur: P.piscina - P.isabella,
     zoom: QUIETO,
     entra: "disolver",
     // Isabella en cuadro, aunque aquí no habla: la piel se queda donde estaba.
@@ -288,7 +292,7 @@ export const metraje052: readonly Corte[] = [
     bloque: 5,
     tipo: "video",
     src: v("rc16"),
-    desde: 3.0,
+    desde: 2.6,
     en: P.piscina,
     dur: P.arboles - P.piscina,
     zoom: QUIETO,

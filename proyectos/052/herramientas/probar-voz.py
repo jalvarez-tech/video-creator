@@ -32,6 +32,7 @@ CRUDO = RAIZ / "remotion" / "public" / "recorrido-052"  # el WAV crudo de cada t
 TOMAS = {
     "hk04": (2.90, 7.17),
     "ct05": (1.30, 4.08),
+    "off": (0.04, 71.10),
 }
 
 
