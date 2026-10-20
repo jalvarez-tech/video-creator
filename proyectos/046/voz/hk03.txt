@@ -1,0 +1,4 @@
+# HK03 (IMG_4304): «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía indispensable.» Whisper ve todas las palabras con confianza ≥ 0,68; su DTW alarga «indispensable» hasta los 5,99 s y la energía dice que acaba a los 5,62 s.
+Cuando llegas a una ciudad / que no es / **la tuya,**
+el acompañamiento / personalizado es una
+**plusvalía** / indispensable.
