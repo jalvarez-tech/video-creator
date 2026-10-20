@@ -33,31 +33,31 @@ RAIZ = Path(__file__).resolve().parents[3]
 VOCES = RAIZ / "remotion" / "public" / "recorrido-047"
 
 # toma → (en de su plano en la composición, `desde` de su plano en frames de la fuente a 30 fps), de metraje-047.ts
-TOMAS = {"hk02": (90, 12), "md04": (534, 15), "md05": (657, 17), "ct03": (1168, 17)}
+TOMAS = {"hk02": (0, 0), "md04": (216, 15), "md05": (347, 17), "ct03": (459, 17)}
 
 # (toma, frame en que entra la línea, texto, segundo de la fuente en que empieza su primera palabra, nota)
 # El segundo de cada palabra sale de `onsets-voz.py` (energía de la voz sola) y de `palabras-desde.py` (qué palabra es la primera que oye
 # whisper desde ese instante; el «onset más cercano» NO es la palabra). Los de las líneas que abren una toma son su primera sílaba.
 LINEAS = [
-    ("hk02", 91, "El tiempo es el activo", 0.44, "primera sílaba, suave (−22 dB; «tiem-» sube a 0,465 s con 43 dB); whisper la pone en 0,00 s"),
-    ("hk02", 120, "más valioso", 1.45, "tras un valle de −56 dB; desde 1,45 oye «más valioso de los»; el DTW la daba en 1,56 s"),
-    ("hk02", 139, "de los seres humanos.", 2.09, "desde 2,09 oye «de los seres humanos.»"),
-    ("hk02", 183, "Te ayudamos a optimizarlo,", 3.55, "tras la pausa de 3,14-3,54 s (el DTW ponía «Te» en 3,28 s: es ruido a −50 dB)"),
-    ("hk02", 222, "incluyéndote", 4.87, "tras la pausa de 4,80-4,87 s; desde 4,87 oye «Incluyéndote un aseo semanal.»"),
-    ("hk02", 247, "un aseo semanal.", 5.70, "desde 5,70 oye «un aseo semanal.» (el DTW la daba en 5,54 s)"),
-    ("md04", 535, "$14.800.000", 0.54, "primera sílaba («Ca-»); desde 0,54 oye «14 millones 800 que»"),
-    ("md04", 578, "que incluyen experiencias", 2.04, "desde 2,04 oye «que incluyen experiencias pensadas»"),
-    ("md04", 610, "pensadas para ti.", 3.115, "desde 3,115 oye «pensadas para ti.» (el alineador la daba en 3,43 s tomando una oclusiva por una pausa)"),
-    ("md05", 658, "Además, esta unidad cuenta con", 0.585, "primera sílaba («A-»); desde 0,585 oye «Además, esta unidad cuenta»"),
-    ("md05", 703, "diferentes tipos de", 2.16, "desde 2,16 oye «diferentes tipos de amenidades.»"),
-    ("md05", 727, "amenidades.", 2.955, "onset de 2,955 s; desde 2,85 y 2,955 whisper inventa texto (queda muy poca voz)"),
-    ("ct03", 1169, "Cuando llegas a una ciudad", 0.60, "primera sílaba (onset desde el silencio)"),
-    ("ct03", 1189, "que no es la tuya,", 1.325, "desde 1,325 oye «que no es la»"),
-    ("ct03", 1213, "el acompañamiento", 2.13, "tras la coma de 2,00-2,20 s; desde 2,13 oye «el acompañamiento personalizado es»"),
-    ("ct03", 1243, "personalizado", 3.12, "desde 3,12 oye «personalizado, es una plusvalía»"),
-    ("ct03", 1270, "es una plusvalía", 4.025, "tras la coma de 4,00 s; desde 4,025 oye «es una plusvalía que»"),
-    ("ct03", 1302, "que vale la pena", 5.09, "el cierre de la «k» de «que» (0,12 s sin voz) antecede al estallido de 5,09 s; desde 5,09 oye «que vale la pena»"),
-    ("ct03", 1316, "conocer.", 5.56, "desde 5,495 «para conocer» (inventa «para»); whisper pone «conocer» en 5,58 s"),
+    ("hk02", 13, "El tiempo es el activo", 0.44, "primera sílaba, suave (−22 dB; «tiem-» sube a 0,465 s con 43 dB); whisper la pone en 0,00 s"),
+    ("hk02", 42, "más valioso", 1.45, "tras un valle de −56 dB; desde 1,45 oye «más valioso de los»; el DTW la daba en 1,56 s"),
+    ("hk02", 61, "de los seres humanos.", 2.09, "desde 2,09 oye «de los seres humanos.»"),
+    ("hk02", 105, "Te ayudamos a optimizarlo,", 3.55, "tras la pausa de 3,14-3,54 s (el DTW ponía «Te» en 3,28 s: es ruido a −50 dB)"),
+    ("hk02", 144, "incluyéndote", 4.87, "tras la pausa de 4,80-4,87 s; desde 4,87 oye «Incluyéndote un aseo semanal.»"),
+    ("hk02", 169, "un aseo semanal.", 5.70, "desde 5,70 oye «un aseo semanal.» (el DTW la daba en 5,54 s)"),
+    ("md04", 217, "$14.800.000", 0.54, "primera sílaba («Ca-»); desde 0,54 oye «14 millones 800 que»"),
+    ("md04", 260, "que incluyen experiencias", 2.04, "desde 2,04 oye «que incluyen experiencias pensadas»"),
+    ("md04", 292, "pensadas para ti.", 3.115, "desde 3,115 oye «pensadas para ti.» (el alineador la daba en 3,43 s tomando una oclusiva por una pausa)"),
+    ("md05", 348, "Además, esta unidad cuenta con", 0.585, "primera sílaba («A-»); desde 0,585 oye «Además, esta unidad cuenta»"),
+    ("md05", 393, "diferentes tipos de", 2.16, "desde 2,16 oye «diferentes tipos de amenidades.»"),
+    ("md05", 417, "amenidades.", 2.955, "onset de 2,955 s; desde 2,85 y 2,955 whisper inventa texto (queda muy poca voz)"),
+    ("ct03", 460, "Cuando llegas a una ciudad", 0.60, "primera sílaba (onset desde el silencio)"),
+    ("ct03", 480, "que no es la tuya,", 1.325, "desde 1,325 oye «que no es la»"),
+    ("ct03", 504, "el acompañamiento", 2.13, "tras la coma de 2,00-2,20 s; desde 2,13 oye «el acompañamiento personalizado es»"),
+    ("ct03", 534, "personalizado", 3.12, "desde 3,12 oye «personalizado, es una plusvalía»"),
+    ("ct03", 561, "es una plusvalía", 4.025, "tras la coma de 4,00 s; desde 4,025 oye «es una plusvalía que»"),
+    ("ct03", 593, "que vale la pena", 5.09, "el cierre de la «k» de «que» (0,12 s sin voz) antecede al estallido de 5,09 s; desde 5,09 oye «que vale la pena»"),
+    ("ct03", 607, "conocer.", 5.56, "desde 5,495 «para conocer» (inventa «para»); whisper pone «conocer» en 5,58 s"),
 ]
 ADELANTO_MIN, ADELANTO_MAX = -0.5, 3.0  # frames; −0,5 para la primera línea, que no puede preceder a su imagen
 

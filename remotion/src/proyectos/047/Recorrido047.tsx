@@ -29,25 +29,24 @@ import { ACENTO_MENOS_047, subtitulos047 } from "./subtitulos-047";
 /**
  * Proyecto 047 — «Tierra Grata Bosque Santo (El Poblado)», Propiedades Luxur: V29 del registro de reels, «LO QUE INCLUYE» (el sexto del lote de ARRIENDO 045-050; reparto en `proyectos/044/reparto-045-050.md`).
  *
- * Reel de renta con Isabella Cadavid, con la estructura del canal (apartamento · hook · recorrido · mitad · recorrido · CTA) y el ángulo del acompañamiento personalizado: la sala a la hora azul (sin texto ni voz),
- * Isabella sentada en la terraza común («el tiempo es el activo más valioso… te ayudamos a optimizarlo, incluyéndote un aseo semanal»), el paseo por la unidad —el carril de nado y la Social Kitchen—, ella en la Social Kitchen
- * («catorce millones ochocientos que incluyen experiencias pensadas para ti», con la única cifra de la pieza) y en el gimnasio («además, esta unidad cuenta con diferentes tipos de amenidades»), el paseo por el apartamento
- * —la alcoba, el baño y el balcón con el jacuzzi privado y la vista— y su CTA en las escaleras («cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer»).
- * Cuatro tomas suyas (HK02, MD04, MD05, CT03) y «Dreamlife». Encargo, decisiones y por qué cada plano: proyectos/047/artefactos/. Cómo cambiar el hook, la mitad, el CTA, los planos o la música: proyectos/047/combinaciones.md.
+ * Reel de renta con Isabella Cadavid y el ángulo del acompañamiento personalizado, SIN RECORRIDOS (decisión del usuario, 2026-10-19: los recorridos son horizontales y recortados salían pixelados): cuatro tomas suyas
+ * seguidas con disolvencias —sentada en la terraza común («el tiempo es el activo más valioso… te ayudamos a optimizarlo, incluyéndote un aseo semanal»), en la Social Kitchen («catorce millones ochocientos que incluyen
+ * experiencias pensadas para ti», con la única cifra de la pieza), en el gimnasio («además, esta unidad cuenta con diferentes tipos de amenidades») y en las escaleras («cuando llegas a una ciudad que no es la tuya,
+ * el acompañamiento personalizado es una plusvalía que vale la pena conocer»)— y «Dreamlife» como lecho. Encargo, decisiones y por qué cada plano: proyectos/047/artefactos/. Cómo cambiar el hook, la mitad, el CTA o la
+ * música: proyectos/047/combinaciones.md.
  *
- * ES UN MONTAJE (director §3i): once planos con disolvencias (la canción no da golpes en que cortar en seco). El vídeo va MUDO en `<PistaMetraje>` y todo lo que suena —la voz de las cuatro tomas y la música, que baja cuando
- * ella habla— va en `<PistaAudio>`, cortado con los mismos números que la imagen.
+ * ES UN MONTAJE (director §3i): cinco planos con disolvencias (la canción no da golpes en que cortar). El vídeo va MUDO en `<PistaMetraje>` y todo lo que suena —la voz de las cuatro tomas y la música— va en `<PistaAudio>`,
+ * cortado con los mismos números que la imagen.
  *
  * TEXTO EN MODO EDITORIAL, que es el del canal (`LUXUR.texto.modo`): solo lo que dice Isabella, abajo y a 90 % de opacidad (pedido del encargo). Por eso no hay `<PistaGraficos>`: la banda inferior y los subtítulos
  * editoriales viven en el mismo sitio (R14). La versión CON FICHA (`ficha-luxur`) se renderiza con `--props={"sinSubtitulos":true}`: apaga los subtítulos y su velo y no toca nada más.
  *
- * LA PRIMERA TOMA SALE SIEMPRE SIN TEXTO NI VOZ (regla fija del canal): el frame 0 es la sala limpia (RC20, a la hora azul). Isabella entra con una disolvencia y su primer subtítulo entra con su voz (1 f después de que
- * su imagen sea opaca). Esta pieza NO rompe la regla.
+ * LA PIEZA ABRE CON ISABELLA, a corte, en el f0 (declarado: sin recorrido no hay otra primera toma; como el 021 y el 022): los 13 primeros fotogramas salen sin texto ni voz y el primer subtítulo entra con su primera sílaba.
  *
  * NI SELLO, NUNCA (revisión 4, pedido del usuario): el sello «PROPIEDADES LUXUR» (`SelloCampana`, la píldora de arriba) no se pone en esta pieza ni en ninguna de este formato, y tampoco la cuenta de texto `@propiedadesluxur`.
  *
  * EL CIERRE (revisión 6, pedido del usuario): NADA SE CONGELA. Tras la última palabra de Isabella su imagen funde a negro (`FundidoACierre`, que llega a negro EXACTO en el último fotograma de la toma) y sigue una TARJETA
- * OSCURA (el plano `c11-cierre`, un negro liso) con el LOGO —más pequeño y al 60 % de opacidad, o sea 40 % de transparencia— y, debajo, la web `PropiedadesLuxur.com`. Sus números están en `cierre-047.ts`, que lee también la puerta.
+ * OSCURA (el plano `c05-cierre`, un negro liso) con el LOGO —más pequeño y al 60 % de opacidad, o sea 40 % de transparencia— y, debajo, la web `PropiedadesLuxur.com`. Sus números están en `cierre-047.ts`, que lee también la puerta.
  *
  * Z-ORDER (director §3b), de atrás a delante:
  *   1. PistaMetraje           los planos mudos y sus disolvencias (sin velos propios), con la tarjeta al final
@@ -84,9 +83,9 @@ export const OPACIDAD_SUBTITULOS = 0.9;
  * La TOMA del CTA y la TARJETA del cierre, tal como las deja el plan. La imagen de Isabella
  * acaba en el último fotograma de la toma (`ULTIMA_DE_ISABELLA`); la tarjeta empieza justo después.
  */
-const CTA = metraje047.find((c) => c.id === "c10-cta");
-const CIERRE = metraje047.find((c) => c.id === "c11-cierre");
-if (!CTA || !CIERRE) throw new Error("Recorrido047: faltan c10-cta o c11-cierre en metraje-047.ts");
+const CTA = metraje047.find((c) => c.id === "c04-cta");
+const CIERRE = metraje047.find((c) => c.id === "c05-cierre");
+if (!CTA || !CIERRE) throw new Error("Recorrido047: faltan c04-cta o c05-cierre en metraje-047.ts");
 const ULTIMA_DE_ISABELLA = CTA.en + CTA.dur - 1;
 
 /**
