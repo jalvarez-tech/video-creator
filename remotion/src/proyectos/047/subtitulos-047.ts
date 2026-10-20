@@ -27,7 +27,7 @@
  *   CTA (en 1168, desde 17 f)      «Cuando» 0,60 · «que no» 1,325 · «el» 2,13 · «personalizado» 3,12 · «es una» 4,025 · «que» 5,09 (tras el cierre de la «k») · «conocer» 5,56
  *
  * POR CONFIRMAR AL OÍDO (R31; la orden de exportar, si llega con esto sin oír, no se bloquea: se mide, se dice con el segundo y la nota se queda; la puerta con `--final` falla SOLO por ella):
- *   · «incluyéndote un aseo semanal.» (HK02, «aseo» hacia el f270 = 9,0 s del vídeo): whisper oye «inclu-y-énd-ote un as-e-o semanal» (la «e» con p 0,24; «énd» p 0,62; «inclu» p 0,72) y, en otras pasadas de la
+ *   · «incluyéndote un aseo semanal.» (HK02, «aseo» hacia el f256 = 8,5 s del vídeo): whisper oye «inclu-y-énd-ote un as-e-o semanal» (la «e» con p 0,24; «énd» p 0,62; «inclu» p 0,72) y, en otras pasadas de la
  *     misma frase, «asesor»; desde 4,87 s vuelve «Incluyéndote un aseo semanal.» y desde 5,70, «un aseo semanal.». El catálogo y el reparto dicen «aseo». Se pinta «aseo» (lo que dice la frase y lo que la ficha
  *     anuncia: aseo semanal incluido) y se oye antes de publicar: es la promesa de la pieza y una palabra que cambia lo que se ofrece.
  *   (Cerradas con una pasada limpia, sin nota: «catorce millones ochocientos» —desde 0,54 s whisper oye «14 millones 800 que»—, «que incluyen» —desde 2,04 s «que incluyen experiencias pensadas»—, «esta unidad» y «llegas».)
