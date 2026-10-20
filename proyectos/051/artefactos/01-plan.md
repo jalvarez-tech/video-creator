@@ -1,84 +1,88 @@
-# 01 · Plan narrativo — proyecto 051 · Tierra Grata Bosque Santo (El Poblado), apartamento en ARRIENDO, V33 del registro («VEN, TE MUESTRO»; réplica de `videos editados/01.mp4`)
+# 01 · Plan narrativo — proyecto 051 · Tierra Grata Bosque Santo (El Poblado), apartamento en ARRIENDO, V33 del registro («VEN, TE MUESTRO»; réplica de `videos editados/01.mp4`, SIN locución y con el guion nuevo en pantalla)
 
-> Paso 1 de 3. Escrito con el reparto de las réplicas (`proyectos/044/reparto-051-053.md`, §1b y §2), el catálogo del material (`proyectos/044/catalogo-material.md`), las skills `recorrido-luxur`, `ficha-luxur` y `portada-luxur` y la pieza más reciente con los recorridos anamórficos bien normalizados (047, 050), y **antes** del primer render. Siguiente: [02-layout.md](02-layout.md).
+> Paso 1 de 3. Escrito con el reparto de las réplicas (`proyectos/044/reparto-051-053.md`, §1b, §2, **§5 y §5a**), el catálogo del material (`proyectos/044/catalogo-material.md`), las skills `recorrido-luxur`, `ficha-luxur` y `portada-luxur` y la pieza más reciente con los recorridos anamórficos bien normalizados (047, 050), y **antes** del primer render. Siguiente: [02-layout.md](02-layout.md).
 
 ## Cabecera (los supuestos declarados)
 
 | | |
 |---|---|
 | Pedido | «Monta el proyecto 051 (V33, «Ven, te muestro»): la RÉPLICA de `videos editados/01.mp4` (64,0 s) con las mismas tomas y el mismo texto, en el formato del canal y en sus DOS formatos (orgánico y con ficha).» Una de las tres sesiones (051-053) que replican los tres vídeos que otro editor hizo el 15-sep con el material del 2-sep (encargo del usuario, 2026-10-20: *«Analiza los vídeos que hay en `videos editados` y replícalos con las mismas tomas, pero con los 2 formatos. Selecciona música diferente a los 6 pasados»*). |
+| **Cambio de encargo (2026-10-20, después del primer montaje)** | El usuario decidió: *«crea el vídeo sin la voz en off; cuando esté listo me dices para subirlo; y aprovechando esto cambiamos el guion a algo más impactante que resalte las plusvalías del apartamento: aseo semanal incluido, acompañamiento personalizado, acceso a chef privado, alquiler de transporte y la mejor asesoría de la ciudad»* (reparto §5). Por eso: **SIN locución** (la del original no existía como archivo: ya no hay nada que resolver) y **un rótulo EN PANTALLA por tramo** con el guion de §5a, en las letras del texto editorial del canal y sincronizado a los planos y a los golpes de la música. Se conserva el hook a cámara con su voz en directo. El primer montaje (con una voz guía de macOS y la locución subtitulada) está en el commit `3763e9d`. |
 | Numeración | **V33 / 051.** La V34 (052) y la V35 (053) son las otras dos réplicas, en worktrees hermanos. Las V27-V32 (045-050) son los seis reels de arriendo ya en main. |
-| La propiedad y la ficha | Apartamento amoblado de 113 m² en Tierra Grata Bosque Santo, El Poblado (Medellín), a pocos metros de la Av. Las Palmas. Ficha de la web (leída el 2026-10-19): **ARRIENDO** · COP 14.800.000 al mes · 2 habitaciones · 2 baños · balcón con **jacuzzi privado** · la unidad: carril de nado, zonas húmedas, gimnasio, Social Kitchen, coworking… El usuario ya publicó (y la locución del original repite) lo que la ficha no da: lavadora y secadora, cancha de squash, Spa Romano, zona de barbecue. Se repite tal cual: **son suyos** (reparto §1). |
-| El original | `videos editados/01.mp4`: 1080×1920, HEVC, 30 fps, 64,0 s, AAC estéreo; subtítulos automáticos en minúscula sobre el recorrido y una **locución en off** continua con música antigua debajo. Hecho el 15-sep con el material del 2-sep. **No es del sistema.** |
+| La propiedad y la ficha | Apartamento amoblado de 113 m² en Tierra Grata Bosque Santo, El Poblado (Medellín), a pocos metros de la Av. Las Palmas. Ficha de la web (leída el 2026-10-19): **ARRIENDO** · COP 14.800.000 al mes · 2 habitaciones · 2 baños · balcón con **jacuzzi privado** · la unidad: carril de nado, zonas húmedas, gimnasio, Social Kitchen, coworking… Lo que prometen los rótulos (aseo semanal, acompañamiento, chef, transporte, asesoría) lo dio el usuario (y Isabella dijo el aseo, el acompañamiento, el chef y el transporte el 17-oct); la ficha no lo dice. **Ninguno dice que el chef o el transporte vayan incluidos en el canon**: el rótulo «Aseo semanal incluido» es el único «incluido». |
+| El original | `videos editados/01.mp4`: 1080×1920, HEVC, 30 fps, 64,0 s, AAC estéreo; subtítulos automáticos en minúscula sobre el recorrido y una locución en off continua con música antigua debajo. Hecho el 15-sep con el material del 2-sep. **No es del sistema.** |
 | Material | TODO del 2-sep (`…/Apartamento - Tierra Grata - Las Palmas/Videos/`): `1 Hooks/Img 9508.mp4` (HK05, el hook), `4 Recorrido/` (RC01, RC05, RC10, RC11, RC12, RC13, RC16, RC20, RC21, RC22) y `5 Cta/Img 9492.mp4` (CT04, el último plano), copiados a `proyectos/051/original/` con el CÓDIGO del catálogo. sha256 en `normalizar.mjs`. **ANAMÓRFICO** (1920×1080, SAR 81:256, DAR 9:16 = verticales de 608×1080 comprimidos a lo ancho): se escalan ENTEROS a 1296×2304 con `setsar=1`, sin recorte (catálogo §7). Isabella lleva la chaqueta de flores del 2-sep. |
-| Composición | `Recorrido051` · 1080×1920 · **30 fps** · **1978 f (65,9 s)**: 4,9 s de hook, 54,5 s de recorrido con locución, 6,5 s de CTA (4,5 s de imagen + la tarjeta de 2,0 s). |
-| Formato | 9:16 vertical · `recorrido-luxur` adaptado a una réplica: **hook (HK05) · recorrido con la locución en off · CTA en off sobre Isabella · tarjeta oscura**. Dos entregas: **orgánico** (`051-recorrido.mp4` CRF 12 + CRF 16 + `.srt` + portada + caption) y **funnel** (la versión con ficha, `051-recorrido-ficha.mp4`, sin subtítulos). |
-| Marca / texto | Luxur, texto **editorial** (abajo, 90 %, cursiva 8 px menor) de TODO lo que suena, en trozos de 1-4 palabras; **sin cifras en pantalla** («113 metros» se pinta «ciento trece metros»); **sin sello**; cierre = tarjeta oscura con el logo (440 px, 60 %) y `PropiedadesLuxur.com`. Sin SFX. |
-| Música | ***Ludovico Einaudi - Einaudi Fly*** (`archivos/musica/`, sha `a7e0695e`; reservada para esta pieza; la alternativa del reparto, *Deep Breath*, no hizo falta). Piano en Do# menor, 4:41, 112 BPM, **sin pulso**; final natural de −14 a −30 LUFS entre el 261,0 y el 265 s. Medida con `medir-pista.py`, no oída; licencia sin verificar. Ver `audio-051.ts`. |
+| Composición | `Recorrido051` · 1080×1920 · **30 fps** · **1461 f (48,7 s)**: 5,0 s de hook, 36,7 s de recorrido con rótulos, 7,1 s de CTA (4,6 s de imagen + la tarjeta de 2,5 s). Dentro de los 55 s del formato (el original dura 64 s: los planos se RECORTAN al ritmo de lectura, no se quitan). |
+| Formato | 9:16 vertical · `recorrido-luxur` adaptado a una réplica sin locución: **hook (HK05) · recorrido con un rótulo por tramo · CTA (Isabella muda, con su rótulo) · tarjeta oscura**. Dos entregas: **orgánico** (`051-recorrido.mp4` CRF 12 + CRF 16 + `.srt` + portada + caption) y **funnel** (la versión con ficha, `051-recorrido-ficha.mp4`, **que CONSERVA los rótulos**: aquí el texto es el mensaje). |
+| Marca / texto | Luxur, texto **editorial** (abajo, 90 %, cursiva 8 px menor): el hook dicho (3 bloques) y los 10 rótulos del usuario TAL CUAL, uno a la vez, de 3-4 s, una palabra acentuada por rótulo; **la única cifra es «113 m²»**; **sin sello**; cierre = tarjeta oscura con el logo (440 px, 60 %) y `PropiedadesLuxur.com`. Sin SFX. |
+| Música | ***Ludovico Einaudi - Einaudi Fly*** (`archivos/musica/`, sha `a7e0695e`; reservada para esta pieza; la alternativa del reparto, *Deep Breath*, no hizo falta). Piano en Do# menor, 4:41, 112 BPM, **sin pulso** (golpes de 6-13 dB); final natural de −14 a −30 LUFS entre el 261,0 y el 265 s. **Pesa más: solo baja bajo el hook.** Entrada en 212,43 s para que casi todos los cambios caigan en un golpe y la caída natural caiga sobre la tarjeta. Medida, no oída; licencia sin verificar. Ver `audio-051.ts`. |
 | Destino | Reels · Shorts · TikTok (orgánico) · Meta Ads / feed 1:1 (funnel). |
 | Presentadora | Isabella Cadavid. |
 
 ## Qué es una réplica y qué hereda (y qué no)
 
-**Replicar = las mismas tomas en el mismo orden, con el mismo texto, en el formato del canal** (reparto §1). Del original se hereda: el orden de los planos, el texto de la locución, el hook a cámara abriendo la pieza, la duración (~64 s) y los datos que dice la voz. Del canal se pone: los subtítulos editoriales (en vez de los automáticos), el color por plano, la música de la reserva, la voz tratada a −15 LUFS, el cierre con la tarjeta oscura (sin sello) y las dos versiones.
+**Replicar = las mismas tomas en el mismo orden** (reparto §1) **con el guion nuevo del usuario en pantalla**. Del original se hereda: el orden de los planos, el hook a cámara abriendo la pieza y los datos del apartamento que enseñan los planos. Del canal se pone: los rótulos editoriales, el color por plano, la música de la reserva, la voz del hook tratada a −15 LUFS, el cierre con la tarjeta oscura (sin sello) y las dos versiones.
 
-Las **excepciones al formato** que esto obliga (declaradas en `revisar-051.mjs`): (1) abre con Isabella hablando (excepción a la regla fija 1, como el 021, el 023 y los 046/048/050); (2) dura 65,9 s (el formato pide ≤ 55); (3) la locución cubre todo el recorrido (el formato la limita al bloque 5); (4) no hay los seis bloques sino tres (2 · 3 · 6); (5) el recorrido admite `velocidad` ×1,5 en dos planos (el original acelera ×1,9 y ×2).
+Las **excepciones al formato** que esto obliga (declaradas en `revisar-051.mjs`): (1) abre con Isabella hablando (excepción a la regla fija 1, como el 021, el 023 y los 046/048/050); (2) no hay los seis bloques sino tres (2 · 3 · 6); (3) el texto del recorrido son **rótulos sin voz debajo** (`SIN_VOZ`, con su propia comprobación: uno a la vez, 2,4-4,4 s, en un golpe y con el texto del usuario tal cual); (4) el recorrido admite `velocidad` ×1,5 en RC01 (el original la acelera ×1,9); (5) los cambios caen en golpes de la canción, que no tiene pulso (golpes de 6,1-9,1 dB, no de ≥ 10).
 
 ## Los planos del original, comprobados contra los clips (hojas de contactos a su 9:16 real + correlación de fotogramas)
 
 El reparto da una lectura aproximada (§1b); esta es la medida (cada plano del original cotejado fotograma a fotograma con todos los clips del 2-sep; la tabla de `combinaciones.md` la recoge):
 
-| s (original) | Qué enseña | Clip y tramo | Cómo lo usa el original | Qué hace la réplica |
+| s (original) | Qué enseña | Clip y tramo del original | Cómo lo usa el original | Qué hace la réplica (rótulo) |
 |---|---|---|---|---|
-| 0,0-4,9 | Isabella camina hacia cámara por el balcón con la vista | HK05 (`Img 9508`) 26,2-30,2 s | la voz de «Deseas» (24,7 s) pegada sobre el vídeo de 26,2 s, sin la pausa de 1,1 s | **DOS planos de HK05**: 24,5-25,5 s («¿Deseas») y 26,1-30,0 s («arrendar amoblado en Medellín? Ven, te muestro»), imagen y voz a la vez |
-| 4,9-10,4 | de la isla de la cocina a la sala con la palma y las correderas | RC01 (`Img 9461`) 0-8,4 s | acelerado ×1,9 | RC01 0-8,25 s a ×1,5 |
-| 10,4-21,6 | el cielo, las torres y la ciudad hasta el jacuzzi | RC10 (`Img 9509`) 0-10,8 s | 1:1 | RC10 0,4-10,7 s |
-| 21,6-26,6 | el jacuzzi privado de cerca, que se aleja hacia la ciudad | RC21 (`Img 9537 (1)`) 11,1 → 7,6 s **AL REVÉS** y ampliado ×1,35 | reproducido hacia atrás | RC21 5,2-10,9 s **hacia delante**: de la ciudad al jacuzzi, que queda entero en «está aquí» |
-| 26,6-34,2 | la alcoba: la cama → la pared del televisor | RC05 (`Img 9477`) 0,4-7,6 s | 1:1 | RC05 0,4-8,2 s |
-| 34,2-37,6 | el bar con el neón, de noche | RC22 (`Img 9538`) 0-3,2 s | el clip entero | RC22 0,4-3,1 s |
-| 37,6-45,0 | la sala a la hora azul: el panel curvo → el sofá → el ventanal | RC20 (`Img 9536`) 3,8-11,0 s | 1:1 | RC20 3,8-11,5 s |
-| 45,0-50,0 | la piscina con los pinos | RC16 (`Img 9525`) 0-4,5 s y RC17 (`Img 9527`) 0-6 s | acelerado ×2 | RC16 0,6-8,6 s a ×1,5 (RC17 sale: bañistas) |
-| 50,0-52,8 | el gimnasio (la pared a rayas) | RC13 (`Img 9516`) 0,2-2,6 s | 1:1 | RC13 0,4-3,2 s |
-| 52,8-59,4 | la Social Kitchen con las lámparas verdes y el mural | RC11 (`Img 9513`) 0,2-6,8 s | 1:1 (sale gente al fondo) | RC11 0,4-4,0 s + RC12 (`Img 9514`) 0,6-3,6 s |
-| 59,4-64,0 | **Isabella de pie, junto a la pared de listones y los armarios de madera, camina hacia cámara** | **NO ESTÁ EN EL MATERIAL** (el clip que lo tenga no está en `Videos/`) | — | **CT04** (`Img 9492`, la sala con la palma, camina hacia cámara) 3,0-7,5 s, MUDO |
+| 0,0-4,9 | Isabella camina hacia cámara por el balcón con la vista | HK05 26,2-30,2 s | la voz de «Deseas» (24,7 s) pegada sobre el vídeo de 26,2 s, sin la pausa de 1,1 s | **DOS planos de HK05**: 24,5-25,5 s y 26,1-30,07 s, imagen y voz a la vez (hook dicho, con su subtítulo) |
+| 4,9-10,4 | de la isla de la cocina a la sala con la palma | RC01 0-8,4 s | acelerado ×1,9 | RC01 0-7,35 s a ×1,5 — «113 m² **amoblados**, listos para ti» |
+| 10,4-21,6 | el cielo, las torres y la ciudad hasta el jacuzzi | RC10 0-10,8 s | 1:1 | RC10 2,8-6,53 s — «En Las Palmas, con la **ciudad** a tus pies» |
+| 21,6-26,6 | el jacuzzi privado de cerca, que se aleja hacia la ciudad | RC21 11,1 → 7,6 s **AL REVÉS** y ampliado ×1,35 | reproducido hacia atrás | RC21 6,3-11,0 s **hacia delante** — «Tu **jacuzzi** privado en el balcón» |
+| 26,6-34,2 | la alcoba: la cama → la pared del televisor | RC05 0,4-7,6 s | 1:1 | RC05 0,4-5,87 s — «Y lo que viene con él:» → «**Aseo** semanal incluido» |
+| 34,2-37,6 | el bar con el neón, de noche | RC22 0-3,2 s | el clip entero | RC22 0,4-3,0 s — sigue «**Aseo** semanal incluido» |
+| 37,6-45,0 | la sala a la hora azul | RC20 3,8-11,0 s | 1:1 | RC20 3,8-7,93 s — «**Acompañamiento** personalizado desde el día uno» |
+| 45,0-50,0 | la piscina con los pinos | RC16 0-4,5 s y RC17 0-6 s | acelerado ×2 | RC16 0,4-3,9 s a ×1 (RC17 sale: bañistas) — «**Chef** privado cuando quieras» |
+| 50,0-52,8 | el gimnasio (la pared a rayas) | RC13 0,2-2,6 s | 1:1 | RC13 0,4-2,47 s — «**Conductor** y transporte a tu medida» |
+| 52,8-59,4 | la Social Kitchen con las lámparas verdes y el mural | RC11 0,2-6,8 s | 1:1 (sale gente al fondo) | RC11 0,4-2,5 s + RC12 0,6-4,07 s — sigue «Conductor…» y «La mejor **asesoría** de la ciudad» |
+| 59,4-64,0 | **Isabella de pie, junto a la pared de listones y los armarios de madera, camina hacia cámara** | **NO ESTÁ EN EL MATERIAL** (el clip que lo tenga no está en `Videos/`) | — | **CT04** (`Img 9492`, la sala con la palma, camina hacia cámara) 3,0-7,57 s, MUDO — «**Escríbeme** y agenda tu visita» |
 
 ## El ángulo y el texto
 
-**La idea en una línea (la del original):** este apartamento es para quien busca arrendar amoblado en Medellín: la pregunta que abre, el apartamento recorrido con la voz de quien lo presenta, el balcón con el jacuzzi privado como «diferencial», las amenidades de la unidad y la invitación a escribir.
+**La idea en una línea:** este apartamento es para quien busca arrendar amoblado en Medellín: la pregunta que abre, el apartamento con su balcón y su jacuzzi privado y, escrito en pantalla, lo que viene con él.
 
-**El texto** (reparto §1b; whisper sobre el MP4 editado, corregido a mano donde era obvio):
+**El texto** (reparto §5a, TAL CUAL, tuteo, sin exclamaciones):
 
-| s (original) | Quién | Texto |
+| Cuándo | Qué | Texto |
 |---|---|---|
-| 0,0-3,5 | Isabella (HK05, voz en directo) | ¿Deseas arrendar amoblado en Medellín? Ven, te muestro. |
-| 4,9-14,2 | locución | Este espectacular apartamento de 113 metros, ubicado en Las Palmas, combina amplitud, comodidad y naturaleza en un solo lugar. |
-| 15,2-22,7 | locución | Cuenta con dos habitaciones, dos baños, una amplia sala comedor, cocina integral y zona de ropas con lavadora y secadora. |
-| 22,7-35,0 | locución | Y uno de sus mayores diferenciales está aquí: un balcón con jacuzzi privado, perfecto para relajarte, disfrutar una copa de vino o simplemente regalarte un momento de tranquilidad. |
-| 39,7-50,4 | locución | Además, el proyecto cuenta con piscina, gimnasio, zonas húmedas, coworking, cancha de squash, Spa Romano, zona de barbecue y muchos espacios de bienestar. |
-| 52,4-57,4 | locución | Todo esto en Las Palmas, uno de los sectores más privilegiados de Medellín. |
-| 59,4-63,9 | locución (sobre Isabella, muda) | Escríbeme, agenda tu visita y descubre lo que es vivir con tu propio jacuzzi privado. |
+| 0,0-4,5 s | Isabella (HK05, voz en directo) | ¿Deseas arrendar amoblado en Medellín? Ven, te muestro. |
+| 1 · 5,0-9,0 s | rótulo sobre la cocina → sala | 113 m² **amoblados**, listos para ti |
+| 2 · 9,9-14,0 s | rótulo sobre el cielo y la ciudad | En Las Palmas, con la **ciudad** a tus pies |
+| 3 · 15,8-18,2 s | rótulo sobre el jacuzzi | Tu **jacuzzi** privado en el balcón |
+| 4 · 18,3-21,3 s | rótulo sobre la alcoba | Y lo que viene con él: |
+| 5 · 22,0-25,7 s | rótulo sobre la alcoba y el bar | **Aseo** semanal incluido |
+| 6 · 26,4-30,2 s | rótulo sobre la sala azul | **Acompañamiento** personalizado desde el día uno |
+| 7 · 30,5-33,7 s | rótulo sobre la piscina | **Chef** privado cuando quieras |
+| 8 · 34,0-37,8 s | rótulo sobre el gimnasio y la Social Kitchen | **Conductor** y transporte a tu medida |
+| 9 · 38,2-41,3 s | rótulo sobre la Social Kitchen | La mejor **asesoría** de la ciudad |
+| 10 · 42,1-46,0 s | rótulo sobre Isabella (muda) | **Escríbeme** y agenda tu visita |
 
-El único precio de la propiedad (COP 14,8 M al mes) va en la versión con ficha y en el caption, no en el vídeo orgánico (el original tampoco lo dice).
+El precio de la propiedad (COP 14,8 M al mes) va en la versión con ficha y en el caption, no en el vídeo orgánico.
 
 ## Decisiones tomadas (y las descartadas)
 
-- **El hook, en dos planos del mismo clip.** El original quitó la pausa de 1,1 s entre «Deseas» (24,74-25,30 s de HK05) y «arrendar» (26,38 s) y pegó el audio sobre un vídeo que ya iba por el 26,2 s. Aquí son dos planos de HK05, imagen y voz a la vez, con un salto de 0,6 s en el vídeo (Isabella es pequeña al fondo del cuadro: apenas se nota). La voz de «Deseas» suena 2 dB más fuerte que el resto aun tras el compresor (−13,1 contra −15,1 LUFS): el plan se lo resta (`lufs`). La primera palabra suena en el f7.
-- **«Ven, te muestro» → «Ven,» / «te muestro.»** con el acento en «te muestro»: la invitación, como el original (que lo subtitula en dos partes).
-- **Los datos de la locución se repiten tal cual** (113 metros, lavadora y secadora, cancha de squash, Spa Romano, barbecue…): son del usuario (reparto §1).
-- **Sin cifras en pantalla.** «113 metros» se pinta «ciento trece metros» (y la puerta lo comprueba: ni un dígito en ningún subtítulo). Lo que suena se alinea con `{de 113 metros,}`. (El original pinta «113m».)
-- **Disolvencias entre todos los planos del recorrido** (12 f), salvo el paso del hook a la cocina (a corte, como en el original): *Einaudi Fly* no tiene pulso (golpes ≤ 9 dB), así que los cortes caen donde los pide la voz y el paseo, no en un golpe (R33).
-- **RC21 va hacia delante**, no al revés como en el original: el jacuzzi se descubre al girar (así se grabó) y queda entero en «está aquí».
-- **RC17 no entra** (tres bañistas reconocibles a la izquierda); la Social Kitchen sale de RC11 hasta los 4,0 s (después, un hombre con gorra y portátil) y RC12 (una figura de ≈ 20 px).
-- **El último plano**: ver arriba. Se eligió CT04 y no HK05 5-9 s (otro paseo hacia cámara, en el balcón) porque la 053 puede usar ese tramo (el hook del 03 es «ella más lejos que en el 01») y porque CT04 es otra sala, la de la entrada, como el original; no se eligió HK04 (`Img 9496`) porque en su tramo «puerta de entrada» (12-18 s) no sale Isabella: es el móvil en primera persona (el catálogo y el reparto lo decían de otra manera).
-- **La locución del original no existe como archivo** (reparto §3): hoy es una **voz guía** de macOS (`herramientas/voz-guia.py`, gratis y local, colocada en los segundos del original) para montar y enseñar la prueba. **El usuario decide** cómo se consigue la de verdad: (1) entrega los audios (van a `proyectos/051/voz/` y entran como clase `audio` en `normalizar.mjs`) o (2) se genera con la voz clonada de Isabella en ElevenLabs (**741 caracteres**, de pago: se confirma antes). Nunca se saca del MP4 editado (lleva la música vieja).
+- **El hook, en dos planos del mismo clip.** El original quitó la pausa de 1,1 s entre «Deseas» (24,74-25,30 s de HK05) y «arrendar» (26,38 s) y pegó el audio sobre un vídeo que ya iba por el 26,2 s. Aquí son dos planos de HK05, imagen y voz a la vez, con un salto de 0,6 s en el vídeo (Isabella es pequeña al fondo del cuadro: apenas se nota). «Deseas» suena 2 dB más fuerte que el resto aun tras el compresor (−13,1 contra −15,1 LUFS): el plan se lo resta (`lufs`). La primera palabra suena en el f7.
+- **Los rótulos entran en un golpe de la música** (`musica/golpes-051.json`): el primer renglón de cada rótulo, y los cambios de plano, caen a ≤ 1 f de un golpe medido de 6,1-9,1 dB (la canción no tiene golpes de ≥ 10 en esa zona). **Se declaran dos sin golpe** (la entrada de la imagen de Isabella en el CTA y su rótulo): la canción no suena ni uno entre los 251,9 y los 258,6 s.
+- **El jacuzzi y su rótulo van juntos**: RC21 llega 2 s antes con las luces de la ciudad; el rótulo «Tu jacuzzi privado en el balcón» entra en el golpe del f473, cuando la tina entra en cuadro (f468; entera hacia el f504).
+- **Sin cifras salvo «113 m²»** (reparto §5): el hook no lleva ninguna. La puerta lo comprueba.
+- **Disolvencias entre todos los planos del recorrido** (12 f), salvo el paso del hook a la cocina (a corte, como en el original): cada una ACABA en un golpe.
+- **RC21 va hacia delante**, no al revés como en el original: el jacuzzi se descubre al girar (así se grabó).
+- **RC17 no entra** (tres bañistas reconocibles a la izquierda); la Social Kitchen sale de RC11 hasta los 4,0 s (después, un hombre con gorra y portátil) y RC12 (una figura de ≈ 20 px). RC13 (gimnasio) lleva figuras diminutas al fondo.
+- **El último plano**: ver arriba. Se eligió CT04 y no HK05 5-9 s (otro paseo hacia cámara, en el balcón) porque la 053 puede usar ese tramo y porque CT04 es otra sala, la de la entrada, como el original; no se eligió HK04 (`Img 9496`) porque en su tramo «puerta de entrada» (12-18 s) no sale Isabella: es el móvil en primera persona (el catálogo y el reparto lo decían de otra manera).
+- **El orden del original manda sobre la sincronía texto-imagen**: «Y lo que viene con él:» cae sobre la cama y «Aseo semanal incluido» sobre la pared del televisor y el bar; «Chef privado» sobre la piscina y «Conductor y transporte» sobre el gimnasio, como pide el reparto §5a.
 
 ## Lo que NO se cuenta
 
-Administración, contrato, qué se paga aparte, tiempos a ningún sitio y el precio dentro del vídeo orgánico: la ficha no lo dice y el original tampoco.
+Administración, contrato, qué se paga aparte, tiempos a ningún sitio y el precio dentro del vídeo orgánico: la ficha no lo dice y el original tampoco. Los rótulos no dicen que el chef o el transporte vayan incluidos en el canon.
 
 ## Pendiente con el usuario
 
-1. **Cómo se consigue la locución** (ver arriba): hasta entonces, la pieza lleva la voz guía de macOS, la puerta con `--final` falla y no se exporta nada.
-2. El OK a la prueba (`pruebas-720p/051-recorrido.mp4`, 540×960) y a lo declarado: **la réplica dura 65,9 s** (el formato pide ≤ 55); **el recorrido, escalado ×2,13, algo más blando que Isabella (4K)**; **el último plano del original no está en el material** y lo sustituye CT04; **RC21 hacia delante** y RC01 y la piscina a ×1,5; **RC17 fuera**; tramos que se repiten con las seis piezas anteriores (la puerta 7b los lista).
-3. **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto): «arrendar **amoblado** en Medellín» (HK05, ≈ 26,9-27,3 s de la fuente = 1,5 s del vídeo): la «a» se pega a «arrendar»; whisper la oye de cuatro maneras.
-4. La canción (medida, no oída; licencia sin verificar).
+1. El OK a la prueba (`pruebas-720p/051-recorrido.mp4`, 540×960) y a lo declarado: **el último plano del original no está en el material** y lo sustituye CT04; **RC21 hacia delante** y RC01 a ×1,5; **RC17 fuera**; **planos recortados** (la pieza dura 48,7 s en vez de 64); tramos que se repiten con las seis piezas anteriores (la puerta 7b los lista); **dos entradas sin golpe** (el CTA); la imagen es algo más blanda que Isabella en 4K (todo el material es anamórfico ×2,13, también Isabella); y que los rótulos prometen cosas que la ficha no dice («la mejor asesoría de la ciudad», «conductor y transporte»: el usuario las dio).
+2. **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto): «arrendar **amoblado** en Medellín» (HK05, ≈ 26,9-27,3 s de la fuente = 1,5 s del vídeo): la «a» se pega a «arrendar»; whisper la oye de cinco maneras.
+3. La canción (medida, no oída; licencia sin verificar).

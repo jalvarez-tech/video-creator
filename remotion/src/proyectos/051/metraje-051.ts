@@ -1,38 +1,45 @@
 /**
  * EL RECORRIDO 051 — «Tierra Grata Bosque Santo (El Poblado), ARRIENDO», V33 del registro, «VEN, TE MUESTRO» — los planos, como DATOS.
  *
- * Encargo (2026-10-20): RÉPLICA de `…/Apartamento - Tierra Grata - Las Palmas/videos editados/01.mp4` (15-sep-2026, 64,0 s, hecho por otro editor con el material del 2-sep): las mismas tomas en el mismo orden y el mismo texto,
- * en el formato del canal y en sus dos versiones (orgánico y con ficha). Reparto en `proyectos/044/reparto-051-053.md` (§1b: la tabla del «01»); catálogo del material en `proyectos/044/catalogo-material.md`.
+ * Encargo (2026-10-20): RÉPLICA de `…/Apartamento - Tierra Grata - Las Palmas/videos editados/01.mp4` (15-sep-2026, 64,0 s, hecho por otro editor con el material del 2-sep): las mismas tomas en el mismo orden, en el formato del
+ * canal y en sus dos versiones (orgánico y con ficha). Reparto en `proyectos/044/reparto-051-053.md` (§1b: la tabla del «01»; §5 y §5a: el cambio de encargo); catálogo del material en `proyectos/044/catalogo-material.md`.
  *
- *   hook   HK05 (`Img 9508.mp4`)  «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.»                                   (Isabella camina hacia cámara por el balcón con la vista; voz en directo, DOS planos: ver abajo)
- *   off    la LOCUCIÓN             «Este espectacular apartamento de 113 metros, ubicado en Las Palmas, combina amplitud, comodidad y naturaleza en un solo lugar. … vivir con tu propio jacuzzi privado.»
- *                                  (seis frases, de 4,8 a 63,9 s en el original; no existe como archivo: ver `audio-051.ts`)
+ * CAMBIO DE ENCARGO (2026-10-20, después del primer montaje): **SIN locución en off** («crea el vídeo sin la voz en off … y aprovechando esto cambiamos el guion a algo más impactante que resalte las plusvalías del apartamento»). La locución del
+ * original (que no existía como archivo) se SUSTITUYE por un guion nuevo EN PANTALLA: un rótulo por tramo, en las letras del texto editorial del canal (Montserrat + Playfair itálica en la palabra marcada, blanco sin sombra, abajo, 90 %),
+ * sincronizado a los planos y a los golpes de la música, no a una voz. Lo único que suena además de la música es la voz en directo del hook.
  *
- * LA PIEZA ABRE CON ISABELLA (excepción declarada a la regla fija «la primera toma sale sin texto ni voz», por RÉPLICA: el original abre así; igual que el 021, el 023 y los 046/048/050): el frame 0 es ella, su primera
- * palabra suena en el f7 y su primer subtítulo entra un frame antes. El resto de reglas fijas se cumple: nunca el sello, nada arriba, el cierre en la tarjeta oscura con el logo y la web, nada se congela.
- * DURA 65,4 s: más que los 55 s del formato (el original ya duraba 64): aquí manda la réplica (la puerta lo declara en `TOPE_SEGUNDOS`). Y lleva locución en off a lo largo de todo el recorrido (el formato la limita al bloque 5).
+ *   hook   HK05 (`Img 9508.mp4`)  «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.»                               (Isabella camina hacia cámara por el balcón; voz en directo, DOS planos: ver abajo)
+ *   rótulos (reparto §5a)          113 m² **amoblados**, listos para ti · En Las Palmas, con la **ciudad** a tus pies · Tu **jacuzzi** privado en el balcón · Y lo que viene con él: · **Aseo** semanal incluido ·
+ *                                  **Acompañamiento** personalizado desde el día uno · **Chef** privado cuando quieras · **Conductor** y transporte a tu medida · La mejor **asesoría** de la ciudad · **Escríbeme** y agenda tu visita
  *
- * LA IDEA EN UNA LÍNEA (la del original): esta pieza es PARA QUIEN BUSCA ARRENDAR AMOBLADO EN MEDELLÍN: la pregunta que abre, el apartamento recorrido con la voz de quien lo presenta, el balcón con el jacuzzi privado como
- * «diferencial», las amenidades de la unidad y la invitación a escribir. Los datos que dice la locución (113 metros, lavadora y secadora, cancha de squash, Spa Romano…) son los que el usuario ya publicó: se repiten tal cual.
+ * LA PIEZA ABRE CON ISABELLA (excepción declarada a la regla fija «la primera toma sale sin texto ni voz», por RÉPLICA: el original abre así; igual que el 021, el 023 y los 046/048/050): el frame 0 es ella, su primera palabra suena en
+ * el f7 y su primer subtítulo entra un frame antes. El resto de reglas fijas se cumple: nunca el sello, nada arriba, el cierre en la tarjeta oscura con el logo y la web, nada se congela.
+ * DURA 48,7 s (el original, 64,0): los planos se RECORTAN, no se quitan, para que cada rótulo se lea en 3-4 s (entra dentro del formato: ≤ 55 s). Sin voz, la lectura manda el ritmo.
+ *
+ * LA IDEA EN UNA LÍNEA: esta pieza es PARA QUIEN BUSCA ARRENDAR AMOBLADO EN MEDELLÍN: la pregunta que abre, el apartamento recorrido con su balcón y su jacuzzi privado y, escrito en pantalla, lo que viene con él (aseo semanal,
+ * acompañamiento, chef, transporte, asesoría) y la invitación a escribir. Lo que prometen los rótulos lo dio el usuario; ninguno dice que el chef o el transporte vayan incluidos en el canon.
  *
  *   bloque 2  c01 c02              HK05: Isabella camina hacia cámara por el balcón con la vista (DOS planos con un salto de 0,6 s: «¿Deseas» | «arrendar amoblado en Medellín? Ven, te muestro», como el original, que cortó la pausa)
- *   bloque 3  c03 … c12            el RECORRIDO con la locución encima, en el orden del original: la cocina y la sala (RC01, a ×1,5 como el original) → el cielo, las torres y el jacuzzi (RC10) → el balcón al atardecer y el
- *                                  JACUZZI PRIVADO (RC21) → la alcoba (RC05) → el bar de noche (RC22) → la sala a la hora azul (RC20) → la piscina (RC16, a ×1,5) → el gimnasio (RC13) → la Social Kitchen (RC11, RC12)
- *   bloque 6  c13 c14              Isabella camina hacia cámara en la sala con la palma (CT04, MUDA) con el CTA en off encima; y la tarjeta oscura del cierre (nada se congela)
+ *   bloque 3  c03 … c12            el RECORRIDO, en el orden del original, con un rótulo encima de cada tramo: la cocina y la sala (RC01, a ×1,5 como el original) → el cielo y la ciudad (RC10) → el balcón al atardecer y el JACUZZI
+ *                                  PRIVADO (RC21) → la alcoba y el bar (RC05, RC22) → la sala a la hora azul (RC20) → la piscina (RC16) → el gimnasio (RC13) → la Social Kitchen (RC11, RC12)
+ *   bloque 6  c13 c14              Isabella camina hacia cámara en la sala con la palma (CT04, MUDA) con el rótulo de «Escríbeme»; y la tarjeta oscura del cierre (nada se congela)
  *
  * LO QUE EL ORIGINAL HACÍA Y AQUÍ SE DECLARA (comprobado fotograma a fotograma contra los clips; `combinaciones.md` tiene la tabla):
- *   (1) El original acelera RC01 ×1,9 y la piscina ×2: aquí RC01 y RC16 van a ×1,5 (el bloque 3 admite `velocidad`; `viaje-emocional.md` §6) y se ve la misma parte del clip.
- *   (2) El original enseña el jacuzzi (21,6-26,6 s) con RC21 AL REVÉS y ampliado: aquí RC21 va hacia delante (de la ciudad al jacuzzi, que es como se grabó) y el jacuzzi entra en «está aquí».
+ *   (1) El original acelera RC01 ×1,9 y la piscina ×2: aquí RC01 va a ×1,5 (el bloque 3 admite `velocidad`; `viaje-emocional.md` §6) y la piscina a ×1.
+ *   (2) El original enseña el jacuzzi (21,6-26,6 s) con RC21 AL REVÉS y ampliado: aquí RC21 va hacia delante (de la ciudad al jacuzzi, que es como se grabó).
  *   (3) La piscina del original son RC16 y RC17; aquí solo RC16 (RC17 enseña bañistas). La Social Kitchen del original son 6,6 s de RC11 con gente al fondo; aquí RC11 hasta los 4,0 s (después sale un hombre con portátil) y RC12.
  *   (4) El ÚLTIMO plano del original (Isabella de pie junto a la pared de listones, caminando hacia cámara, en la sala de la entrada) NO ESTÁ en el material: el clip que lo tenga no está en `Videos/`. Se usa el más parecido: CT04 (`Img 9492`,
  *       ella camina hacia cámara en la sala con la palma, con su misma ropa), MUDO. (El catálogo y el reparto decían «tramo mudo de `Img 9496`, 12-18 s»: es la puerta de entrada vista en primera persona, sin ella.)
  *   (5) El HOOK: el original suprimió la pausa de 1,1 s entre «Deseas» (24,74 s de HK05) y «arrendar» (26,38 s) y pegó la voz de «Deseas» sobre el vídeo de 26,2 s. Aquí son DOS planos de HK05 (imagen y voz a la vez) con un salto de 0,6 s.
+ *   (6) Planos recortados: de los 64 s del original a 48,7 s (RC10: 2,8-6,5 y 6,3-11,0 de RC21 en vez de los 10,8 s enteros; RC05 5,5 s en vez de 7,2; RC20 4,1 s en vez de 7,2; RC11 2,1 s en vez de 6,6…).
  *
  * TODO EL MATERIAL ES DEL 2-SEP: ANAMÓRFICO (1920×1080 con SAR 81:256, DAR 9:16: verticales de 608×1080 comprimidos a lo ancho). Se escalan ENTEROS a 1296×2304 (`normalizar.mjs`, `setsar=1`), sin recorte: más blando que
  * Isabella en 4K (×2,13), y se dice, no se filtra (R22). Isabella lleva aquí la chaqueta de flores del 2-sep (la pieza no mezcla vestuarios).
  *
- * QUIÉN MARCA EL TIEMPO: LA LOCUCIÓN Y, DEBAJO, UNA CANCIÓN SIN PULSO. «Einaudi Fly» es piano en Do# menor sin pulso (golpes ≤ 9 dB: no hay rejilla donde cortar en seco, R33): TODAS las entradas del recorrido son
- * DISOLVENCIAS de 12 f y los cambios de plano caen donde los pide la voz y el paseo (los del original). La música lleva la curva: ver `audio-051.ts`.
+ * QUIÉN MARCA EL TIEMPO: LA MÚSICA, POR GOLPES (Y LA LECTURA). «Einaudi Fly» es piano en Do# menor sin pulso (golpes de 6-13 dB: no hay una rejilla de cortes secos de ≥ 10 dB, R33), así que TODAS las entradas del recorrido son
+ * DISOLVENCIAS de 12 f que ACABAN en un golpe medido (`musica/golpes-051.json`, `medir-pista.py`; el instante es el de «empieza a subir» + 12 ms de ataque + 42 ms de retardo del render) y los rótulos entran en un golpe: el primero
+ * de cada rótulo cae a ≤ 1 f de un golpe de ≥ 6,4 dB (los de 6,1-6,6 dB son los de la canción, que no tiene más fuertes en esa zona). Los dos sitios donde no hay golpe (la entrada de la imagen de Isabella en el CTA y su
+ * rótulo: la canción no suena un solo golpe entre los 39,5 y los 46,1 s de la pieza) se declaran en la puerta.
  *
  * UNIDADES. `desde` va en SEGUNDOS de la fuente, escrito como frame exacto (`fr(12)` = 12/30 s) donde el corte es en la muestra; `en` y `dur`, en frames de la composición. Los planos son CONTIGUOS.
  *
@@ -47,7 +54,7 @@ import { DUR_TARJETA } from "./cierre-051";
 export const FPS_051 = 30;
 
 export type Entrada = "corte" | "disolver";
-/** 2 = el hook (Isabella a cámara) · 3 = el recorrido con la locución · 6 = el CTA en off sobre Isabella y la tarjeta. (No hay bloques 1, 4 ni 5: ver `revisar-051.mjs`.) */
+/** 2 = el hook (Isabella a cámara) · 3 = el recorrido, con un rótulo encima de cada tramo · 6 = el CTA (Isabella muda, con su rótulo) y la tarjeta. (No hay bloques 1, 4 ni 5: ver `revisar-051.mjs`.) */
 export type Bloque = 1 | 2 | 3 | 4 | 5 | 6;
 
 /** Dónde habla Isabella en SU clip y a qué nivel. `s0`/`s1`, medidos por energía (perfil de 20 ms en la banda de voz) y por arranques de sílaba (`onsets-voz.py`); `lufs`, con ebur128 sobre el WAV TRATADO que suena. */
@@ -75,7 +82,7 @@ export interface Corte extends CorteDelFormato<Entrada> {
 /**
  * EL NIVEL DE LA VOZ: −15 LUFS, el de la música sola (pedido del usuario desde la V9: «mientras habla Isabella sube los decibeles sin saturar»). El hook (HK05) llega a −28,5 LUFS en su ventana de voz y pasa por la cadena de `normalizar.mjs`
  * (graves, puerta suave, compresor 3,5:1 desde −30 dBFS, ganancia buscada y limitador a −2,5 dBFS) hasta −15,0 LUFS integrados; «Deseas» sale a −13,1 (es la sílaba más fuerte de la toma) y el plan le resta lo que le sobra (`lufs`).
- * La locución pasa por su propia cadena (`off-voz.wav`, también a −15,0). Es una excepción declarada a R29, por encargo.
+ * Es una excepción declarada a R29, por encargo. (No hay locución: el encargo cambió, ver la cabecera.)
  */
 export const OBJETIVO_LUFS = -15;
 
@@ -110,25 +117,30 @@ const COLOR_BASE: ColorCine = {
 const color = (ajuste: ColorCine = {}): ColorCine => ({ ...COLOR_BASE, ...ajuste });
 
 /**
- * El frame de cada cambio de plano. Son los del ORIGINAL (`01.mp4`: 4,9 · 10,4 · 20,8 · 26,4 · 34,2 · 37,0 · 44,4 · 51,1 · 52,8 · 55,6 · 59,4 · 63,9 s), movidos lo justo para que cada disolvencia de 12 f
- * tenga clip detrás (`desde` ≥ 12 f × velocidad) y ninguno pase de su último fotograma. Cuando llegue la locución de verdad, lo que se mueve es esta tabla (los `en` y `dur` salen de ella) y los subtítulos.
+ * INICIO de la canción y el frame de cada GOLPE que marca un cambio. `INICIO_MUSICA` (212,4333 s = 6373/30) está elegido para que el golpe de 8,8 dB del 217,34 s caiga donde acaba el hook (f149) y para que casi todos los demás
+ * cambios caigan en un golpe de la canción (`musica/golpes-051.json`, `medir-pista.py --desde 205 --dur 60`). El frame en que SUENA un golpe es (t + ataque 12 ms − INICIO + retardo del render 42 ms) × 30: lo mismo que `golpe()` de
+ * `audio-051.ts`. Aquí van ya calculados (los dos módulos tienen que ver los mismos números y este archivo no importa nada de audio).
+ */
+export const INICIO_MUSICA_051 = 6373 / FPS_051;
+
+/**
+ * El frame de cada cambio de plano (el `en` del plano que entra: con la disolvencia de 12 f, es el frame en que ya es opaco). Entre paréntesis, el golpe en que cae (segundo de la canción · fuerza en dB por 15 ms).
+ * Los planos son los del original (4,9 · 10,4 · 20,8 · 26,4 · 34,2 · 37,0 · 44,7 · 51,1 · 52,8 · 55,6 · 59,4 s) RECORTADOS al ritmo de lectura de los rótulos (3-4 s cada uno): el orden es el mismo.
  */
 const P = {
-  recorrido: 147, //  4,9 s · acaba el hook; entra la cocina con «Este espectacular apartamento»
-  cielo: 312, //      10,4 s · el cielo y la ciudad (RC10)
-  jacuzzi: 622, //    20,7 s · el balcón al atardecer y el jacuzzi privado (RC21), en «está aquí»
-  alcoba: 792, //     26,4 s · la alcoba (RC05), en «un balcón con jacuzzi privado»
-  bar: 1026, //       34,2 s · el bar de noche (RC22), tras «un momento de tranquilidad»
-  sala: 1108, //      36,9 s · la sala a la hora azul (RC20)
-  piscina: 1340, //   44,7 s · la piscina (RC16), en «cancha de squash»
-  gimnasio: 1500, //  50,0 s · el gimnasio (RC13)
-  cocina: 1584, //    52,8 s · la Social Kitchen (RC11), en «todo esto en Las Palmas»
-  cocina2: 1692, //   56,4 s · la Social Kitchen desde el otro lado (RC12)
-  cta: 1782, //       59,4 s · Isabella (CT04), en «escríbeme»
+  recorrido: 149, //  4,97 s · acaba el hook; entra la cocina (217,34 s · 8,8 dB)
+  cielo: 296, //      9,87 s · el cielo y la ciudad (222,26 s · 8,1)
+  jacuzzi: 408, //   13,60 s · el balcón al atardecer y el jacuzzi privado (225,99 s · 7,4)
+  alcoba: 549, //    18,30 s · la alcoba (230,68 s · 7,9)
+  bar: 713, //       23,77 s · el bar de noche (236,16 s · 7,9)
+  sala: 791, //      26,37 s · la sala a la hora azul (238,75 s · 8,2)
+  piscina: 915, //   30,50 s · la piscina (242,87 s · 6,7)
+  gimnasio: 1020, // 34,00 s · el gimnasio (246,37 s · 6,4)
+  cocina: 1082, //   36,07 s · la Social Kitchen (248,46 s · 6,6)
+  cocina2: 1145, //  38,17 s · la Social Kitchen desde el otro lado (250,56 s · 9,1)
+  cta: 1249, //      41,63 s · Isabella (CT04): NO hay golpe (la canción no suena ninguno entre los 251,9 y los 258,6 s): disolvencia libre
+  tarjeta: 1386, //  46,20 s · la imagen de Isabella acaba y empieza la tarjeta (258,57 s · 7,3)
 } as const;
-
-/** Frames que dura la imagen de Isabella en el CTA (CT04, de los 3,0 s): hasta 0,05 s tras la última palabra de la locución; los últimos 6 funden a negro. Nada se congela: el plano acaba en su último fotograma. */
-const DUR_CTA = 136;
 
 export const metraje051: readonly Corte[] = [
   // ── Bloque 2 · el hook: la pieza abre con Isabella ──
@@ -158,9 +170,9 @@ export const metraje051: readonly Corte[] = [
     src: v("hk05"),
     audio: a("hk05-voz"),
     voz: { s0: 26.38, s1: 29.48, lufs: -15.1, dice: "arrendar amoblado en Medellín? Ven, te muestro." },
-    // Del 26,1 al 30,0 s de HK05 (117 f). «arrendar» empieza a los 26,38 s (onset a 26,40, −24 dB; antes, −60 dB) y «te muestro» acaba a los 29,48 s; «Ven» a los 28,68 s y «te» a los 28,98 s. Entra A CORTE en el f30: la primera
-    // palabra suena en el f38 (8 f después, con el desclic de 3 f ya hecho) y la última acaba en el f131; el plano sigue 16 f más (hasta que ella está casi sobre la cámara) y cede a la cocina a corte, con la voz callada 3 f antes.
-    // «amoblado» (whisper oyó «amulado», «a Moldova», «a mi lado»…: es una palabra pegada a la «a» anterior) POR CONFIRMAR AL OÍDO (ver `subtitulos-051.ts`).
+    // Del 26,1 al 30,07 s de HK05 (119 f). «arrendar» empieza a los 26,38 s (onset a 26,40, −24 dB; antes, −60 dB) y «te muestro» acaba a los 29,48 s; «Ven» a los 28,68 s y «te» a los 28,98 s. Entra A CORTE en el f30: la primera
+    // palabra suena en el f38 (8 f después, con el desclic de 3 f ya hecho) y la última acaba en el f131; el plano sigue 18 f más (hasta el golpe en que entra la cocina) con ella casi sobre la cámara, y cede a la cocina a corte.
+    // «amoblado» (whisper oyó «amulado», «a Moldova», «a mi lado», «movilado»…: es una palabra pegada a la «a» anterior) POR CONFIRMAR AL OÍDO (ver `subtitulos-051.ts`).
     desde: fr(783),
     en: 30,
     dur: P.recorrido - 30,
@@ -170,14 +182,14 @@ export const metraje051: readonly Corte[] = [
     reason:
       "El balcón con la vista (la promesa): Isabella camina hacia cámara y dice «arrendar amoblado en Medellín? Ven, te muestro»: la invitación al recorrido que sigue. Salta 0,6 s respecto del plano anterior (la pausa que el original quitó).",
   },
-  // ── Bloque 3 · el recorrido, con la locución encima ──
+  // ── Bloque 3 · el recorrido, con un rótulo encima de cada tramo ──
   {
     id: "c03-cocina",
     bloque: 3,
     tipo: "video",
     src: v("rc01"),
-    // RC01 (Img 9461, 2-sep, 12,9 s = 387 f): de la isla de la cocina, con sus taburetes y los focos, a la sala con la palma, las puertas correderas y el balcón. Del 0,0 al 8,25 s a ×1,5 (165 f = 5,5 s): el original lo acelera ×1,9; aquí
-    // ×1,5 enseña la misma parte del clip. Entra a corte tras Isabella en «Este espectacular apartamento».
+    // RC01 (Img 9461, 2-sep, 12,9 s = 387 f): de la isla de la cocina, con sus taburetes y los focos, a la sala con la palma, las puertas correderas y el balcón. Del 0,0 al 7,35 s a ×1,5 (147 f = 4,9 s): el original lo acelera ×1,9 y enseña
+    // hasta los 8,4 s; aquí ×1,5. Entra a corte tras Isabella, en el golpe. Rótulo: «113 m² amoblados, listos para ti».
     desde: 0,
     en: P.recorrido,
     dur: P.cielo - P.recorrido,
@@ -186,23 +198,23 @@ export const metraje051: readonly Corte[] = [
     entra: "corte",
     color: color({ exposure: 0.05, highlights: -0.3, whites: -0.2, shadows: 0.12 }),
     reason:
-      "La cocina y la sala (situar): tras Isabella, el apartamento por dentro, de la isla con sus taburetes a la sala con la palma y el balcón al fondo, mientras la locución dice «este espectacular apartamento… combina amplitud». Va a ×1,5 como en el original.",
+      "La cocina y la sala (situar): tras Isabella, el apartamento por dentro, de la isla con sus taburetes a la sala con la palma y el balcón al fondo; el rótulo lo dice: 113 m² amoblados, listos para ti. Va a ×1,5 como en el original.",
   },
   {
     id: "c04-cielo",
     bloque: 3,
     tipo: "video",
     src: v("rc10"),
-    // RC10 (Img 9509, 2-sep, 10,8 s = 324 f): el balcón del apartamento al atardecer temprano: el cielo con nubes y un rayo de sol, las torres y la ciudad, y, al final, el jacuzzi privado con su escalón. Del 0,4 al 10,73 s (310 f): casi el clip entero,
-    // como en el original (10,8-21,6 s).
-    desde: fr(12),
+    // RC10 (Img 9509, 2-sep, 10,8 s = 324 f): el balcón del apartamento al atardecer temprano: el cielo con nubes y un rayo de sol, las torres y la ciudad, y, al final, el jacuzzi privado con su escalón. Del 2,8 al 6,53 s (112 f): el rayo de sol sobre
+    // las nubes y el paneo a las torres y la ciudad. El original usa el clip entero (10,8 s); el jacuzzi del final lo enseña el plano siguiente (RC21). Rótulo: «En Las Palmas, con la ciudad a tus pies».
+    desde: 2.8,
     en: P.cielo,
     dur: P.jacuzzi - P.cielo,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: -0.3, highlights: -0.45, whites: -0.25 }),
     reason:
-      "El cielo y la ciudad (revelar): de la cocina al balcón, el cielo con nubes, las torres y la ciudad y, al final, el jacuzzi: la naturaleza y la vista de «combina amplitud, comodidad y naturaleza». Plano de la locución más larga (dos frases).",
+      "El cielo y la ciudad (revelar): de la cocina al balcón, el cielo con nubes, el rayo de sol y la ciudad con las torres: «En Las Palmas, con la ciudad a tus pies».",
   },
   {
     id: "c05-jacuzzi",
@@ -210,22 +222,23 @@ export const metraje051: readonly Corte[] = [
     tipo: "video",
     src: v("rc21"),
     // RC21 (Img 9537 (1), 2-sep, 11,1 s = 333 f): el balcón del apartamento al atardecer: las luces de la ciudad y las torres (0-8 s) y, al girar a la derecha, la baldosa negra y el JACUZZI PRIVADO de madera con su escalón (de 8,3 s al final; entero a los
-    // 9,5 s). Del 5,2 al 10,87 s (170 f): el jacuzzi entra a los 23,8 s de la pieza y está entero a los 25,0 («está aquí»). El original lo enseña AL REVÉS y ampliado (21,6-26,6 s): aquí, hacia delante, como se grabó.
-    desde: fr(156),
+    // 9,5 s). Del 6,3 al 11,0 s (141 f): el jacuzzi entra a los 15,6 s de la pieza y está entero a los 16,8. El original lo enseña AL REVÉS y ampliado (21,6-26,6 s): aquí, hacia delante, como se grabó. Rótulo: «Tu jacuzzi privado en el balcón».
+    desde: fr(189),
     en: P.jacuzzi,
     dur: P.alcoba - P.jacuzzi,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.2, shadows: 0.4, highlights: -0.4, whites: -0.3, saturation: 1.08 }),
     reason:
-      "El jacuzzi privado (el diferencial): del cielo al atardecer de las luces de la ciudad, el giro hasta el jacuzzi de madera de la ficha, que queda entero cuando la locución dice «está aquí». Lo más valioso del apartamento.",
+      "El jacuzzi privado (el diferencial): del cielo al atardecer de las luces de la ciudad, el giro hasta el jacuzzi de madera de la ficha, que queda entero cuando el rótulo ya dice «tu jacuzzi privado en el balcón». Lo más valioso del apartamento.",
   },
   {
     id: "c06-alcoba",
     bloque: 3,
     tipo: "video",
     src: v("rc05"),
-    // RC05 (Img 9477, 2-sep, 10,2 s = 306 f): la alcoba principal: la cama con sus cojines negros, la lámpara colgante, el ventanal y la pared del televisor. Del 0,4 al 8,2 s (234 f); el original usa del 0,4 al 7,6 s.
+    // RC05 (Img 9477, 2-sep, 10,2 s = 306 f): la alcoba principal: la cama con sus cojines negros, la lámpara colgante, el ventanal y la pared del televisor. Del 0,4 al 5,87 s (164 f); el original usa del 0,4 al 7,6 s. Dos rótulos seguidos sobre este
+    // plano y el siguiente: «Y lo que viene con él:» (la cama) y «Aseo semanal incluido» (la pared del televisor, en el f659).
     desde: fr(12),
     en: P.alcoba,
     dur: P.bar - P.alcoba,
@@ -233,14 +246,14 @@ export const metraje051: readonly Corte[] = [
     entra: "disolver",
     color: color({ exposure: -0.15, blacks: 0, shadows: 0.25, highlights: -0.4, whites: -0.3, saturation: 1.04 }),
     reason:
-      "La alcoba principal (descanso): del balcón a la cama hecha con la lámpara colgante y la pared del televisor: «un balcón con jacuzzi privado, perfecto para relajarte… un momento de tranquilidad».",
+      "La alcoba principal (descanso): del balcón a la cama hecha con la lámpara colgante y la pared del televisor; el rótulo abre la lista de lo que viene con el apartamento: «y lo que viene con él: aseo semanal incluido».",
   },
   {
     id: "c07-bar",
     bloque: 3,
     tipo: "video",
     src: v("rc22"),
-    // RC22 (Img 9538, 2-sep, 3,2 s = 96 f): el bar de noche con el letrero de neón. Del 0,4 al 3,13 s (82 f): casi entero, como en el original (34,2-37,6 s).
+    // RC22 (Img 9538, 2-sep, 3,2 s = 96 f): el bar de noche con el letrero de neón. Del 0,4 al 3,0 s (78 f): casi entero, como en el original (34,2-37,6 s). Sigue el rótulo «Aseo semanal incluido».
     desde: fr(12),
     en: P.bar,
     dur: P.sala - P.bar,
@@ -248,14 +261,15 @@ export const metraje051: readonly Corte[] = [
     entra: "disolver",
     color: color({ exposure: 0.4, shadows: 0.3, saturation: 0.95, temperature: -0.04 }),
     reason:
-      "El bar de noche (reunirse): una pausa de la locución (el hueco entre «tranquilidad» y «además»), con la luz cálida y el neón de la noche entre dos planos de día.",
+      "El bar de noche (reunirse): una pausa nocturna, con la luz cálida y el neón entre dos planos de día, mientras el rótulo sigue en «aseo semanal incluido».",
   },
   {
     id: "c08-sala",
     bloque: 3,
     tipo: "video",
     src: v("rc20"),
-    // RC20 (Img 9536, 2-sep, 18,5 s = 556 f): la sala a la HORA AZUL: el panel curvo de madera, el sofá gris con las tiras de luz, la mesa de centro y el ventanal con la ciudad azul detrás. Del 3,8 al 11,53 s (232 f); el original usa del 3,8 al 11,0 s.
+    // RC20 (Img 9536, 2-sep, 18,5 s = 556 f): la sala a la HORA AZUL: el panel curvo de madera, el sofá gris con las tiras de luz, la mesa de centro y el ventanal con la ciudad azul detrás. Del 3,8 al 7,93 s (124 f); el original usa del 3,8 al 11,0 s.
+    // Rótulo (el más largo): «Acompañamiento personalizado desde el día uno».
     desde: 3.8,
     en: P.sala,
     dur: P.piscina - P.sala,
@@ -263,46 +277,45 @@ export const metraje051: readonly Corte[] = [
     entra: "disolver",
     color: color({ exposure: 0.1, shadows: 0.3, highlights: -0.4, saturation: 1 }),
     reason:
-      "La sala a la hora azul (estar): el panel curvo, el sofá con las tiras de luz y el ventanal con la ciudad; cierra el apartamento antes de salir a la unidad con «además, el proyecto cuenta con…».",
+      "La sala a la hora azul (estar): el panel curvo, el sofá con las tiras de luz y el ventanal con la ciudad; es donde se lee «acompañamiento personalizado desde el día uno».",
   },
   {
     id: "c09-piscina",
     bloque: 3,
     tipo: "video",
     src: v("rc16"),
-    // RC16 (Img 9525, 2-sep, 9,3 s = 279 f): el carril de nado con los pinos y el cielo, desde arriba; la cámara avanza y gira a la derecha hasta el cielo. Del 0,6 al 8,6 s a ×1,5 (160 f = 5,3 s). Figuras diminutas (≈ 30 px) en las tumbonas del fondo: nada reconocible.
-    // El original encadena RC16 (0-4,5 s) y RC17 (0-6 s) a ×2: RC17 no está porque enseña bañistas (ver la cabecera).
-    desde: 0.6,
+    // RC16 (Img 9525, 2-sep, 9,3 s = 279 f): el carril de nado con los pinos y el cielo, desde arriba. Del 0,4 al 3,9 s (105 f), a ×1 (el original lo acelera ×2; aquí la lectura manda el ritmo). Figuras diminutas (≈ 30 px) en las tumbonas del fondo: nada
+    // reconocible. El original encadena RC16 (0-4,5 s) y RC17 (0-6 s): RC17 no está porque enseña bañistas (ver la cabecera). Rótulo: «Chef privado cuando quieras».
+    desde: fr(12),
     en: P.piscina,
     dur: P.gimnasio - P.piscina,
-    velocidad: 1.5,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.15, shadows: 0.4, highlights: -0.4, whites: -0.3, contrast: 1.04 }),
-    reason:
-      "La piscina (la unidad): de la sala a la piscina de la unidad, con los pinos y el cielo gris; «piscina, zonas húmedas, cancha de squash». Va a ×1,5 como el original (que la acelera ×2).",
+    reason: "La piscina (la unidad): de la sala a la piscina de la unidad, con los pinos y el cielo gris, bajo «chef privado cuando quieras».",
   },
   {
     id: "c10-gimnasio",
     bloque: 3,
     tipo: "video",
     src: v("rc13"),
-    // RC13 (Img 9516, 2-sep, 6,0 s = 180 f): el gimnasio, las máquinas, la pared a rayas naranjas, los focos del techo. Del 0,4 al 3,2 s (84 f): el tramo que usa el original (50,0-52,6 s). Figuras diminutas al fondo (no se reconoce a nadie).
+    // RC13 (Img 9516, 2-sep, 6,0 s = 180 f): el gimnasio, las máquinas, la pared a rayas naranjas, los focos del techo. Del 0,4 al 2,47 s (62 f): el tramo que usa el original (50,0-52,6 s). Figuras diminutas al fondo (no se reconoce a nadie).
+    // Rótulo: «Conductor y transporte a tu medida» (sigue sobre el plano siguiente).
     desde: fr(12),
     en: P.gimnasio,
     dur: P.cocina - P.gimnasio,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.2, shadows: 0.3, highlights: -0.4, contrast: 1.06, saturation: 1.06 }),
-    reason: "El gimnasio (la unidad: cuidarse): «gimnasio… y muchos espacios de bienestar»; la pared a rayas y las máquinas, a una distancia en que no se reconoce a nadie.",
+    reason: "El gimnasio (la unidad: cuidarse): la pared a rayas y las máquinas, a una distancia en que no se reconoce a nadie, con el rótulo «Conductor y transporte a tu medida».",
   },
   {
     id: "c11-social-kitchen",
     bloque: 3,
     tipo: "video",
     src: v("rc11"),
-    // RC11 (Img 9513, 2-sep, 6,9 s = 207 f): la Social Kitchen / coworking: las lámparas verdes y amarillas, el mural de plantas, las mesas. Del 0,4 al 4,0 s (108 f): después aparece un hombre con gorra y portátil en el banco bajo el mural (el original llega a
-    // los 6,8 s; aquí no), y se completa con RC12.
+    // RC11 (Img 9513, 2-sep, 6,9 s = 207 f): la Social Kitchen / coworking: las lámparas verdes y amarillas, el mural de plantas, las mesas. Del 0,4 al 2,5 s (63 f): después aparece un hombre con gorra y portátil en el banco bajo el mural (el
+    // original llega a los 6,8 s; aquí no), y se completa con RC12.
     desde: fr(12),
     en: P.cocina,
     dur: P.cocina2 - P.cocina,
@@ -310,39 +323,40 @@ export const metraje051: readonly Corte[] = [
     entra: "disolver",
     color: color({ exposure: 0.4, shadows: 0.5, highlights: -0.1, contrast: 1.0 }),
     reason:
-      "La Social Kitchen (la unidad: reunirse y trabajar): «todo esto en Las Palmas»; las lámparas verdes y el mural. La cámara gira a la derecha, como en los planos anteriores.",
+      "La Social Kitchen (la unidad: reunirse y trabajar): las lámparas verdes y el mural; la cámara gira a la derecha, como en los planos anteriores.",
   },
   {
     id: "c12-social-kitchen-2",
     bloque: 3,
     tipo: "video",
     src: v("rc12"),
-    // RC12 (Img 9514, 2-sep, 7,4 s = 222 f): la Social Kitchen desde el otro lado: la silla de madera en primer plano, la barra, el mural y el ventanal. Del 0,6 al 3,6 s (90 f). Al fondo, un hombre con camiseta amarilla de ≈ 20 px: no se reconoce.
+    // RC12 (Img 9514, 2-sep, 7,4 s = 222 f): la Social Kitchen desde el otro lado: la silla de madera en primer plano, la barra, el mural y el ventanal. Del 0,6 al 4,07 s (104 f). Al fondo, un hombre con camiseta amarilla de ≈ 20 px: no se reconoce.
+    // Rótulo: «La mejor asesoría de la ciudad».
     desde: 0.6,
     en: P.cocina2,
     dur: P.cta - P.cocina2,
     zoom: QUIETO,
     entra: "disolver",
     color: color({ exposure: 0.35, highlights: -0.3, shadows: 0.35 }),
-    reason: "La Social Kitchen (la unidad): el otro lado del espacio, con la silla en primer plano, para acabar la lista de amenidades «uno de los sectores más privilegiados de Medellín».",
+    reason: "La Social Kitchen (la unidad): el otro lado del espacio, con la silla en primer plano, bajo «la mejor asesoría de la ciudad».",
   },
-  // ── Bloque 6 · el CTA: Isabella, muda, con la locución encima ──
+  // ── Bloque 6 · el CTA: Isabella, muda, con su rótulo ──
   {
     id: "c13-cta",
     bloque: 6,
     tipo: "video",
     src: v("ct04"),
-    // CT04 (Img 9492, 2-sep, 9,1 s = 273 f): Isabella camina hacia cámara en la sala con la palma, las puertas correderas y la montaña detrás, con la chaqueta de flores; en el cuadro mide de 1/4 de alto a casi todo. Del 3,0 al 7,53 s (136 f): de lejos
-    // a cerca, sonriendo (en 5,4-5,9 s mueve los labios: dice «piensa en esto»; no se oye, el clip entra MUDO y la locución habla encima). SUSTITUYE al último plano del original (ver la cabecera, punto 4). La imagen acaba 0,05 s tras la última palabra
-    // de la locución: los últimos 6 f funden a negro (`FundidoACierre`).
+    // CT04 (Img 9492, 2-sep, 9,1 s = 273 f): Isabella camina hacia cámara en la sala con la palma, las puertas correderas y la montaña detrás, con la chaqueta de flores; en el cuadro mide de 1/4 de alto a casi todo. Del 3,0 al 7,57 s (137 f): de lejos
+    // a cerca, sonriendo (en 5,4-5,9 s mueve los labios: dice «piensa en esto»; no se oye, el clip entra MUDO). SUSTITUYE al último plano del original (ver la cabecera, punto 4). La imagen acaba en el f1385 (el último de su plano) y los últimos
+    // 6 f funden a negro (`FundidoACierre`). Rótulo: «Escríbeme y agenda tu visita».
     desde: 3.0,
     en: P.cta,
-    dur: DUR_CTA,
+    dur: P.tarjeta - P.cta,
     zoom: EMPUJE,
     entra: "disolver",
     color: color({ contrast: 1.06, exposure: 0.1, highlights: -0.3, whites: -0.15, saturation: 1.04 }),
     reason:
-      "La sala con la palma (la invitación): Isabella camina hacia cámara y sonríe mientras la locución dice «escríbeme, agenda tu visita y descubre lo que es vivir con tu propio jacuzzi privado»: una sola acción. Tras su última palabra funde a negro.",
+      "La sala con la palma (la invitación): Isabella camina hacia cámara y sonríe mientras el rótulo dice «Escríbeme y agenda tu visita»: una sola acción. Tras ella funde a negro.",
   },
   // ── El cierre: la tarjeta oscura (nada se congela) ──
   // La imagen de Isabella funde a negro en la composición (`FundidoACierre`, hasta negro exacto en el último fotograma de su toma) y sigue este plano: un negro liso (`foto`) que sostiene el logo y la web
@@ -352,17 +366,17 @@ export const metraje051: readonly Corte[] = [
     bloque: 6,
     tipo: "foto",
     src: "recorrido-051/cierre-oscuro.png",
-    en: P.cta + DUR_CTA, // = el `en` + `dur` de c13
+    en: P.tarjeta, // = el `en` + `dur` de c13
     dur: DUR_TARJETA,
     zoom: [1.0, 1.0],
     entra: "corte",
     reason:
-      "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga.",
+      "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga y cae sola.",
   },
 ];
 
 /** Frames de la composición: el fin de la tarjeta del cierre (`en` + `dur` de c14). */
-export const DURACION_051 = P.cta + DUR_CTA + DUR_TARJETA;
+export const DURACION_051 = P.tarjeta + DUR_TARJETA;
 
 /** Dónde acaba la música: se apaga bajo la tarjeta y llega a cero 2 f antes del final de la pieza. */
 export const FIN_MUSICA_051 = DURACION_051 - 2;

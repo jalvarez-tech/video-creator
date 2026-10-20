@@ -7,8 +7,8 @@
  *   node proyectos/051/normalizar.mjs --solo hk02,rc20   (solo esos nombres de salida; no toca la música ni la tarjeta)
  *
  * PIEZA 051 · V33 · TIERRA GRATA BOSQUE SANTO (El Poblado), ARRIENDO: «VEN, TE MUESTRO» — RÉPLICA de `videos editados/01.mp4` (15-sep-2026, 64,0 s, hecho por otro editor con el material del 2-sep): las mismas tomas en el mismo orden,
- * con el mismo texto, en el formato del canal. Abre con el hook de Isabella (HK05 = `Img 9508.mp4`: camina hacia cámara por el balcón, «¿Deseas arrendar amoblado en Medellín? Ven, te muestro»), sigue el recorrido con la LOCUCIÓN EN OFF encima
- * (cocina → cielo y ciudad → jacuzzi privado → alcoba → bar → sala a la hora azul → piscina → gimnasio → Social Kitchen) y el CTA también en off sobre Isabella (CT04 = `Img 9492.mp4`, muda). *Einaudi Fly* (piano). Reparto en
+ * con el mismo texto, en el formato del canal. Abre con el hook de Isabella (HK05 = `Img 9508.mp4`: camina hacia cámara por el balcón, «¿Deseas arrendar amoblado en Medellín? Ven, te muestro»), sigue el recorrido con un rótulo encima de cada tramo
+ * (cocina → cielo y ciudad → jacuzzi privado → alcoba → bar → sala a la hora azul → piscina → gimnasio → Social Kitchen) y el CTA con un rótulo sobre Isabella (CT04 = `Img 9492.mp4`, muda). *Einaudi Fly* (piano). SIN LOCUCIÓN (cambio de encargo, 2026-10-20): lo que decía la voz son rótulos en pantalla. Reparto en
  * `proyectos/044/reparto-051-053.md`; el material, catalogado en `proyectos/044/catalogo-material.md`, es de `Apartamento - Tierra Grata - Las Palmas/Videos/` (`1 Hooks`, `4 Recorrido`, `5 Cta`; NO hay dron). TODO el material es del 2-sep (anamórfico).
  *
  * POR QUÉ EXISTE. El material es de la propiedad y de la presentadora y no entra en git: en el repo quedan esta receta, el plan y los sha256 de los
@@ -76,12 +76,9 @@ const MATERIAL = [
   ["recorrido", "rc13.mp4", "rc13", "e977e148", "4 Recorrido/Img 9516.mp4"],
   ["recorrido", "rc11.mp4", "rc11", "38a59f31", "4 Recorrido/Img 9513.mp4"],
   ["recorrido", "rc12.mp4", "rc12", "7bc5ad03", "4 Recorrido/Img 9514.mp4"],
-  // El CTA es locución en off sobre la IMAGEN de Isabella: CT04 (`Img 9492.mp4`, la sala con la palma, camina hacia cámara) entra como `recorrido` (MUDA: su voz «Antes de arrendar en Las Palmas, piensa en esto» no se usa).
+  // El CTA es un rótulo sobre la IMAGEN de Isabella: CT04 (`Img 9492.mp4`, la sala con la palma, camina hacia cámara) entra como `recorrido` (MUDA: su voz «Antes de arrendar en Las Palmas, piensa en esto» no se usa).
   ["recorrido", "ct04.mp4", "ct04", "6765b9fd", "5 Cta/Img 9492.mp4"],
-  // La LOCUCIÓN EN OFF no existe como archivo (solo mezclada con la música vieja dentro de los MP4 editados: no vale). Cuando el usuario la entregue, o se genere con la voz clonada de Isabella (ElevenLabs, previa
-  // confirmación del coste), va aquí como `audio` y llega SIN tratar; el paso `VOZ_OFF` la deja a −15 LUFS:
-  // PROVISIONAL (voz GUÍA de macOS, `herramientas/voz-guia.py`: NO es la voz final; la puerta con `--final` falla mientras lo sea). Se sustituye por el WAV que entregue el usuario o por la de ElevenLabs y se rehace el sha.
-  ["audio", "off.wav", "off", "e6b240c1", "proyectos/051/voz/guia/off-guia.wav (voz guía; la final: la que entregue el usuario o la generada con la voz de Isabella)"],
+  // SIN LOCUCIÓN (cambio de encargo del usuario, 2026-10-20): la del original no existía como archivo y la réplica va con un guion en pantalla. Lo único con voz es el hook (HK05).
 ];
 /**
  * La canción: archivo en original/ · salida · sha256 (8) · origen (la biblioteca de música del repo, el MISMO archivo que reserva el registro de uso).
@@ -251,35 +248,7 @@ function vozTratada(salidaNombre) {
   log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3,5:1, +${ganancia} dB y limitador a −2,5 dBFS; solo suena en ${limites.map(([a, b]) => `${a.toFixed(2)}-${b.toFixed(2)}`).join(" y ")} s)`);
 }
 
-/**
- * LA LOCUCIÓN EN OFF TRATADA (`off-voz.wav`): la voz de la locución llega SIN tratar (`off.wav`) y sale a −15,0 LUFS (el nivel de la música sola,
- * pedido permanente del usuario). Una voz de locución, a diferencia de las tomas del iPhone, es pareja: bastan graves fuera, un compresor suave
- * (2:1 desde −24 dBFS) y un limitador a −2,5 dBFS. La ganancia se MIDE: pasada 1 (sin ganancia ni limitador) → LUFS integrados → la que lleva a −15.
- */
-const OBJETIVO_OFF_LUFS = -15;
-function vozOff(salidaNombre) {
-  const entrada = path.join(DESTINO, `${salidaNombre}.wav`);
-  const salida = path.join(DESTINO, `${salidaNombre}-voz.wav`);
-  if (fs.existsSync(salida) && !f.forzar) return;
-  const previa = "highpass=f=80:poles=2,acompressor=threshold=0.0631:ratio=2:attack=5:release=150:knee=6";
-  const medida = ejecutar("ffmpeg", ["-nostdin", "-i", entrada, "-af", `${previa},ebur128=peak=true`, "-f", "null", "-"]).stderr;
-  const m = [...medida.matchAll(/I:\s+(-?[\d.]+) LUFS/g)].pop();
-  if (!m) throw new Error(`no pude medir ${entrada}`);
-  const ganancia = Math.round((OBJETIVO_OFF_LUFS - Number(m[1])) * 100) / 100;
-  ejecutar(
-    "ffmpeg",
-    ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", `${previa},volume=${ganancia}dB,alimiter=limit=0.75:attack=1:release=60:level=disabled:latency=1`, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida],
-    { check: true }
-  );
-  log.ok(`${path.basename(salida)} (la locución tratada: graves, compresión 2:1, ${ganancia >= 0 ? "+" : ""}${ganancia} dB sobre ${m[1]} LUFS y limitador a −2,5 dBFS → ${OBJETIVO_OFF_LUFS} LUFS)`);
-}
-
 for (const [clase, archivo, salida] of lista) {
-  if (clase === "audio") {
-    voz(archivo, salida);
-    vozOff(salida);
-    continue;
-  }
   video(clase, archivo, salida);
   if (clase === "toma") {
     voz(archivo, salida);

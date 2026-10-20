@@ -47,8 +47,8 @@ export const WEB_RETRASO = 8;
 
 /** El fondo oscuro: un PNG liso (`normalizar.mjs`) del negro de la marca. Es el mismo color al que funde la imagen. */
 export const TARJETA = "recorrido-051/cierre-oscuro.png";
-/** Frames que dura la tarjeta (2,0 s): la web se lee entera con holgura. La puerta la quiere entre 45 y 75. */
-export const DUR_TARJETA = 60;
+/** Frames que dura la tarjeta (2,5 s): la web se lee entera con holgura y la caída natural de la canción (261,06 s = f1460) cae sobre ella. La puerta la quiere entre 45 y 75. */
+export const DUR_TARJETA = 75;
 /** Frames que tarda la imagen de Isabella en fundir a negro, contados hacia atrás desde su ÚLTIMO fotograma (entre 4 y 8). */
 export const FUNDIDO_A_OSCURO = 6;
 

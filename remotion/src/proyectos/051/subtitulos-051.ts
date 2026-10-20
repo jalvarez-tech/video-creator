@@ -1,21 +1,27 @@
 /**
  * LOS SUBTÍTULOS EDITORIALES DEL RECORRIDO 051 — `BloqueEditorial[]`.
  *
- * TODO lo que suena (el hook de Isabella y la locución en off), en trozos de una a cuatro palabras, con UN acento por bloque como mucho y ≥ 2 s entre dos (skill `recorrido-luxur`, `subtitulos-editoriales.md`). Frames ABSOLUTOS
- * de la composición, a 30 fps. SIN CIFRAS EN PANTALLA (reparto 051-053 §2): «113 metros» se pinta en letra («ciento trece metros») y se alinea con lo que suena (`{de 113 metros,}` en `proyectos/051/voz/off.txt`).
+ * DOS clases de bloque, las dos en las letras del texto editorial del canal (Montserrat + Playfair itálica en la palabra marcada, blanco sin sombra, abajo, al 90 %) y con UN acento por bloque como mucho y ≥ 2 s entre dos (skill
+ * `recorrido-luxur`, `subtitulos-editoriales.md`). Frames ABSOLUTOS de la composición, a 30 fps:
  *
- * El texto sale del guion marcado (`proyectos/051/voz/off.txt`) y los tiempos, de la voz por palabra (`transcribir.mjs --palabras` sobre `off.wav` + `trozos-editoriales.mjs --audio`). El HOOK está a mano: son dos tomas del mismo
- * clip y sus tiempos son los arranques MEDIDOS sobre la voz sola (`onsets-voz.py` y el perfil de 20 ms): «Deseas» 24,74 s · «arrendar» 26,38 s · «en» ≈ 27,6 s · «Ven» 28,68 s · «te» 28,98 s de HK05 (frame = en + round(s·30) − round(desde·30)).
+ *   h01-h03   el HOOK, lo que dice Isabella (voz en directo). A mano, con los arranques MEDIDOS sobre la voz sola (`onsets-voz.py` y el perfil de 20 ms): «Deseas» 24,74 s · «arrendar» 26,38 s · «en» ≈ 27,6 s · «Ven» 28,68 s ·
+ *             «te» 28,98 s de HK05 (frame = en + round(s·30) − round(desde·30)).
+ *   r01-r10   los RÓTULOS: el guion nuevo en pantalla que sustituye a la locución del original (cambio de encargo del usuario, 2026-10-20; reparto 051-053 §5a). UNO a la vez, de 3-4 s, sobre su tramo del recorrido, en el orden del
+ *             original. Sin voz que los marque, entran en un GOLPE de la música (`musica/golpes-051.json`, instante = t + 12 ms de ataque − `INICIO_MUSICA` + 42 ms de retardo del render, × 30): la primera línea de cada rótulo, salvo la
+ *             del CTA, y varias de las siguientes. Los golpes: f149 (217,34 s · 8,8 dB) · f193 (218,82 · 6,4) · f296 (222,26 · 8,1) · f312 (222,78 · 7,3) · f341 (223,75 · 6,6) · f408 (225,99 · 7,4) · f473 (228,15 · 6,1) · f549 (230,68 · 7,9) · f659 (234,36 · 6,5) ·
+ *             f791 (238,75 · 8,2) · f844 (240,52 · 8,7) · f870 (241,39 · 6,2) · f915 (242,87 · 6,7) · f965 (244,55 · 9,3) · f1020 (246,37 · 6,4) · f1082 (248,46 · 6,6) · f1145 (250,56 · 9,1) · f1186 (251,90 · 6,1).
+ *
+ * El texto de los rótulos es el del usuario, tal cual (tuteo, sin exclamaciones, una palabra acentuada por rótulo). La ÚNICA cifra de la pieza es «113 m²» (r01). Lo que prometen los rótulos lo dio el usuario: ninguno dice que el chef o el
+ * transporte vayan incluidos en el canon.
  *
  * NO HAY `portada` NI `cuenta` (reglas fijas del canal, `SKILL.md` §0). LA PIEZA ABRE CON ISABELLA (réplica del original: excepción declarada en la puerta, `ABRE_CON_EL_HOOK`): el primer subtítulo entra en el f6, un frame antes de su
  * primera palabra y con su imagen ya opaca (a corte en el f0). El cierre lleva el LOGO, que es una imagen (`LogoCierre` en `Recorrido051.tsx`) y no un bloque de texto.
  *
- * ⚠️ PROVISIONAL HASTA TENER LA LOCUCIÓN: los bloques `o01…o22` están alineados a la VOZ GUÍA de macOS (`off.wav`, ver `audio-051.ts`), no a la voz de verdad. Al sustituirla se repite
- * `node manuales/edicion-video/scripts/transcribir.mjs …/off.wav proyectos/051/voz/off.json es --palabras` y `trozos-editoriales.mjs` y se llevan las líneas a sus palabras (R31).
+ * La puerta comprueba que cada trozo del hook cae dentro de una ventana de voz; los rótulos no acompañan a ninguna palabra dicha y se declaran en `SIN_VOZ` de `revisar-051.mjs` (con su propia comprobación: uno a la vez, 3-4 s, en un golpe).
  *
- * POR CONFIRMAR AL OÍDO (R31; la puerta con `--final` falla SOLO por esto y por `VOZ_GUIA`):
+ * POR CONFIRMAR AL OÍDO (R31; la puerta con `--final` falla SOLO por esto):
  *   · «arrendar amoblado en Medellín?» (HK05, «amoblado» hacia los 26,9-27,3 s de la fuente = 1,5 s del vídeo): la «a» se pega a «arrendar» y whisper oyó «amulado», «a Moldova», «a mi lado», «movilado» y «a mi lado al Medellín» según la pasada. El
- *     original lo subtitula «amoblado» (y la locución del 02 y el 03 dicen «amoblado» en otras frases): se pinta «amoblado» y se oye antes de publicar. Una palabra que cambia lo que se ofrece.
+ *     original lo subtitula «amoblado» (y los rótulos del 051 dicen «amoblados»): se pinta «amoblado» y se oye antes de publicar. Una palabra que cambia lo que se ofrece.
  *   · «Ven, te muestro.»: whisper oyó «20 muestros» y «ven te muestro» según la pasada; el original dice «ven te muestro». Se pinta así.
  */
 import { segmentosDe } from "../../motor/subtitulos-editoriales";
@@ -47,151 +53,100 @@ export const subtitulos051: readonly BloqueEditorial[] = [
       { desde: 115, texto: "te muestro.", estilo: "acento" },
     ],
   },
-  // ── Bloque 3 · la locución (alineada a la voz guía: ver arriba) ──
-  { id: "o01", hasta: 201, trozos: [{ desde: 144, texto: "Este espectacular" }, { desde: 177, texto: "apartamento" }] },
+  // ── Bloque 3 · los rótulos, uno por tramo, en el orden del original ──
+  // r01 · la cocina y la sala (RC01): entra con el golpe del f149; el acento va ≥ 2 s tras «te muestro» (f115)
   {
-    id: "o02",
-    hasta: 301,
+    id: "r01",
+    hasta: 270,
     trozos: [
-      { desde: 201, texto: "de ciento trece metros," },
-      { desde: 253, texto: "ubicado en" },
-      { desde: 274, texto: "Las Palmas,", estilo: "acento" },
+      { desde: 149, texto: "113 m²" },
+      { desde: 176, texto: "amoblados,", estilo: "acento" },
+      { desde: 193, texto: "listos para ti" },
     ],
   },
+  // r02 · el cielo y la ciudad (RC10): golpes f296 · f312 · f341
   {
-    id: "o03",
-    hasta: 389,
+    id: "r02",
+    hasta: 420,
     trozos: [
-      { desde: 306, texto: "combina amplitud," },
-      { desde: 347, texto: "comodidad y" },
-      { desde: 369, texto: "naturaleza", estilo: "acento" },
+      { desde: 296, texto: "En Las Palmas, con la" },
+      { desde: 312, texto: "ciudad", estilo: "acento" },
+      { desde: 341, texto: "a tus pies" },
     ],
   },
-  { id: "o04", hasta: 430, trozos: [{ desde: 389, texto: "en un solo lugar." }] },
+  // r03 · el jacuzzi privado (RC21): entra con el golpe de 6,1 dB del f473, que es cuando el jacuzzi entra en cuadro (f468; entero hacia el f504); el plano (f408) llega 2 s antes, con las luces de la ciudad
   {
-    id: "o05",
-    hasta: 505,
+    id: "r03",
+    hasta: 545,
     trozos: [
-      { desde: 456, texto: "Cuenta con" },
-      { desde: 469, texto: "dos habitaciones,", estilo: "acento" },
+      { desde: 473, texto: "Tu" },
+      { desde: 484, texto: "jacuzzi", estilo: "acento" },
+      { desde: 505, texto: "privado en el balcón" },
     ],
   },
+  // r04 · la alcoba (RC05): golpe f549 (el texto, «Y lo que viene con él:», partido en dos líneas: son 6 palabras)
   {
-    id: "o06",
-    hasta: 581,
+    id: "r04",
+    hasta: 640,
     trozos: [
-      { desde: 507, texto: "dos baños," },
-      { desde: 535, texto: "una amplia sala comedor," },
+      { desde: 549, texto: "Y lo que viene" },
+      { desde: 575, texto: "con él:" },
     ],
   },
+  // r05 · la pared del televisor y el bar (RC05, RC22): golpe f659
   {
-    id: "o07",
-    hasta: 674,
+    id: "r05",
+    hasta: 770,
     trozos: [
-      { desde: 581, texto: "cocina integral" },
-      { desde: 602, texto: "y zona de ropas" },
-      { desde: 629, texto: "con lavadora y secadora." },
+      { desde: 659, texto: "Aseo", estilo: "acento" },
+      { desde: 675, texto: "semanal incluido" },
     ],
   },
+  // r06 · la sala a la hora azul (RC20): golpes f791 · f844 · f870
   {
-    id: "o08",
-    hasta: 779,
+    id: "r06",
+    hasta: 905,
     trozos: [
-      { desde: 681, texto: "Y uno de sus" },
-      { desde: 701, texto: "mayores diferenciales" },
-      { desde: 748, texto: "está aquí:" },
+      { desde: 791, texto: "Acompañamiento", estilo: "acento" },
+      { desde: 844, texto: "personalizado desde" },
+      { desde: 870, texto: "el día uno" },
     ],
   },
+  // r07 · la piscina (RC16): golpes f915 · f965
   {
-    id: "o09",
-    hasta: 848,
+    id: "r07",
+    hasta: 1010,
     trozos: [
-      { desde: 780, texto: "un balcón con" },
-      { desde: 805, texto: "jacuzzi privado,", estilo: "acento" },
+      { desde: 915, texto: "Chef", estilo: "acento" },
+      { desde: 965, texto: "privado cuando quieras" },
     ],
   },
-  { id: "o10", hasta: 910, trozos: [{ desde: 850, texto: "perfecto para" }, { desde: 875, texto: "relajarte," }] },
+  // r08 · el gimnasio y la Social Kitchen (RC13, RC11): golpes f1020 · f1082
   {
-    id: "o11",
-    hasta: 981,
+    id: "r08",
+    hasta: 1135,
     trozos: [
-      { desde: 912, texto: "disfrutar una copa" },
-      { desde: 951, texto: "de vino o simplemente" },
+      { desde: 1020, texto: "Conductor", estilo: "acento" },
+      { desde: 1082, texto: "y transporte a tu medida" },
     ],
   },
+  // r09 · la Social Kitchen desde el otro lado (RC12): golpes f1145 · f1186
   {
-    id: "o12",
-    hasta: 1072,
+    id: "r09",
+    hasta: 1240,
     trozos: [
-      { desde: 981, texto: "regalarte un momento" },
-      { desde: 1031, texto: "de tranquilidad.", estilo: "acento" },
+      { desde: 1145, texto: "La mejor" },
+      { desde: 1160, texto: "asesoría", estilo: "acento" },
+      { desde: 1186, texto: "de la ciudad" },
     ],
   },
+  // r10 · el CTA sobre Isabella (CT04, muda): SIN golpe (la canción no suena ninguno entre los 251,9 y los 258,6 s); el último fotograma de la imagen es el f1385
   {
-    id: "o13",
-    hasta: 1261,
+    id: "r10",
+    hasta: 1380,
     trozos: [
-      { desde: 1188, texto: "Además, el proyecto cuenta con" },
-      { desde: 1241, texto: "piscina,", estilo: "acento" },
-    ],
-  },
-  { id: "o14", hasta: 1319, trozos: [{ desde: 1261, texto: "gimnasio," }, { desde: 1288, texto: "zonas húmedas," }] },
-  {
-    id: "o15",
-    hasta: 1374,
-    trozos: [
-      { desde: 1319, texto: "coworking," },
-      { desde: 1344, texto: "cancha de squash," },
-    ],
-  },
-  {
-    id: "o16",
-    hasta: 1429,
-    trozos: [
-      { desde: 1377, texto: "Spa Romano," },
-      { desde: 1405, texto: "zona de barbecue" },
-    ],
-  },
-  {
-    id: "o17",
-    hasta: 1481,
-    trozos: [
-      { desde: 1429, texto: "y muchos espacios" },
-      { desde: 1454, texto: "de bienestar.", estilo: "acento" },
-    ],
-  },
-  {
-    id: "o18",
-    hasta: 1625,
-    trozos: [
-      { desde: 1578, texto: "Todo esto en" },
-      { desde: 1595, texto: "Las Palmas,", estilo: "acento" },
-    ],
-  },
-  {
-    id: "o19",
-    hasta: 1734,
-    trozos: [
-      { desde: 1628, texto: "uno de los sectores" },
-      { desde: 1661, texto: "más privilegiados", estilo: "acento" },
-      { desde: 1699, texto: "de Medellín." },
-    ],
-  },
-  {
-    id: "o20",
-    hasta: 1830,
-    trozos: [
-      { desde: 1785, texto: "Escríbeme,", estilo: "acento" },
-      { desde: 1807, texto: "agenda tu visita" },
-    ],
-  },
-  { id: "o21", hasta: 1859, trozos: [{ desde: 1830, texto: "y descubre" }, { desde: 1844, texto: "lo que es vivir" }] },
-  {
-    id: "o22",
-    hasta: 1910,
-    trozos: [
-      { desde: 1859, texto: "con tu propio" },
-      { desde: 1877, texto: "jacuzzi privado.", estilo: "acento" },
+      { desde: 1262, texto: "Escríbeme", estilo: "acento" },
+      { desde: 1290, texto: "y agenda tu visita" },
     ],
   },
 ];
