@@ -1,6 +1,6 @@
 # 01 · Plan narrativo — proyecto 047 · Tierra Grata Bosque Santo (El Poblado), ARRIENDO, V29 del registro («LO QUE INCLUYE»)
 
-> **REV. 1 (2026-10-19, tras ver la prueba): SIN RECORRIDOS.** El usuario dijo que «algunos vídeos se ven pixelados como si se hubieran escalado» y, ante las opciones, «**no pongas recorridos horizontales**». Los 22 recorridos del material son horizontales (1920×1080) y recortados al 9:16 se ampliaban ×1,78. La pieza son ahora SOLO las cuatro tomas de Isabella (4K vertical) con la tarjeta del cierre: 23,4 s. Todo lo que sigue sobre la apertura con RC20, los recorridos y el clímax RC03 es de la **rev. 0** (su prueba queda en `pruebas-720p/047-recorrido-rev0.mp4`); la rev. 1 está en la sección «Rev. 1» más abajo y en `03-timeline.md`.
+> **REV. 2 (2026-10-19, la vigente): LOS RECORRIDOS VUELVEN, BIEN NORMALIZADOS.** Historia: la rev. 0 (47 s) llevaba seis recorridos recortados al centro y el usuario los rechazó por «pixelados»; la rev. 1 (23,4 s) los quitó («no pongas recorridos horizontales») y se exportó; después la sesión de la 050 descubrió que los clips del 2-sep son **anamórficos** (1920×1080 con SAR 81:256 / DAR 9:16 = verticales de 608×1080 comprimidos a lo ancho) y que el `crop=608:1080` del catálogo era un zoom ×3,2 del tercio central. Se normalizan ahora ENTEROS (`scale=1296:2304,setsar=1`) y el usuario pidió la rev. 2: la estructura de la rev. 0 con esa receta y, como la 050 usa RC20, **abre con el principio de RC02** (la sala de día). Las secciones de abajo son de la rev. 0 salvo donde se corrige (RC20 → RC02; recorte → escalado entero; los tramos de RC05, RC09 y RC03 se eligieron de nuevo viendo los clips con el SAR corregido); la sección «Rev. 1» es la historia intermedia. Las pruebas y finales de las rev. 0 y 1 quedan como `…-rev0` y `…-rev1`.
 
 > Paso 1 de 3. Escrito con el reparto de la sesión coordinadora (`proyectos/044/reparto-045-050.md`), el catálogo del material (`proyectos/044/catalogo-material.md`), la ficha de la web leída el 2026-10-19 y lo aprendido en el 043 (`aprendizajes.md` y `combinaciones.md`), y **antes** del primer render. Siguiente: [02-layout.md](02-layout.md).
 
@@ -13,8 +13,8 @@
 | La propiedad y la ficha | **Tierra Grata Bosque Santo**, El Poblado, Medellín, «a pocos metros de la Avenida Las Palmas». **ARRIENDO tradicional: COP 14.800.000 al mes.** 113 m² · 2 habitaciones · 2 baños · 2 parqueaderos · piso 9 · amoblado (dicho por Isabella) · balcón con **jacuzzi privado**. La unidad: carril de nado, zonas húmedas, gimnasio, Social Kitchen, coworking, etc. **No consta** (no se afirma): administración, condiciones del contrato, minutos a ningún sitio, qué incluye exactamente el «acompañamiento», si las experiencias se pagan aparte. La misma unidad está en venta: **las piezas no la nombran** (encargo: promocionar el arriendo). |
 | Lo que el rodaje del 17-oct NO es | **El libreto 044 no se grabó.** Isabella grabó once frases de OTRO ángulo, el del **acompañamiento personalizado** (aseo semanal incluido, chef privado, tours, masajes, transporte, «te acompañamos desde el día uno», «apartamento amoblado»), todas en las zonas comunes de la unidad y con un vestido negro. Los códigos HK/MD/CT son los de la carpeta, no los del libreto. |
 | Material | `Apartamento - Tierra Grata - Las Palmas/Videos/` (`1 Hooks`, `2 Miad`, `4 Recorrido`, `5 Cta`), copiado a `proyectos/047/original/` con el CÓDIGO como nombre. sha256 en `normalizar.mjs`: HK02 `4cc73e1d`, MD04 `cfd314e1`, MD05 `1d92690e`, CT03 `a978434e`, RC20 `eed9445e`, RC16 `7cdf817e`, RC11 `38a59f31`, RC05 `931b51dd`, RC09 `8b1031a3`, RC03 `e5dd0f12`, música `5e7dcd27` (*Dreamlife*, el mismo archivo que reserva el registro). |
-| **Los recorridos son HORIZONTALES** | 22 clips en 1920×1080 SDR (31-ago / 2-sep). Para el 9:16 se **recortan al centro (608×1080, `crop=608:1080:656:0`) ANTES de `scale=1296:2304`** y salen **más blandos que Isabella en 4K** (×1,78 sobre el cuadro final). Es lo que hay: se dice, no se filtra. No hay dron. |
-| Composición | `Recorrido047` · 1080×1920 · **30 fps** · rev. 1: 702 f (23,4 s) · (rev. 0: 1411 f, 47,03 s). Clips a 1296×2304 y 30 fps (las tomas de iPhone, HLG → BT.709 con VideoToolbox; **CT03 a 29,97 fps** se normaliza a 30 constantes: 200 fotogramas de 200). |
+| **Los recorridos son ANAMÓRFICOS** (corregido en la rev. 2) | 22 clips (31-ago / 2-sep) en 1920×1080 SDR **con SAR 81:256 y DAR 9:16**: verticales de 608×1080 efectivos comprimidos a lo ancho. Se escalan ENTEROS a 1296×2304 con `setsar=1`, SIN recorte (la rev. 0 los recortaba: zoom ×3,2) y salen **algo más blandos que Isabella en 4K** (×2,13). Se dice, no se filtra. No hay dron. |
+| Composición | `Recorrido047` · 1080×1920 · **30 fps** · rev. 2: 1411 f (47,03 s) · (rev. 1: 702 f, 23,4 s). Clips a 1296×2304 y 30 fps (las tomas de iPhone, HLG → BT.709 con VideoToolbox; **CT03 a 29,97 fps** se normaliza a 30 constantes: 200 fotogramas de 200). |
 | Formato | 9:16 · `recorrido-luxur` (APARTAMENTO · HOOK · RECORRIDO · MITAD · RECORRIDO · CTA), con la mitad en **DOS tomas** seguidas · cuatro tomas de Isabella |
 | Marca / texto | Luxur, texto **editorial** (abajo, 90 %, cursiva 8 px menor); **sin sello**; cierre = tarjeta oscura con el logo (440 px, 60 %) y `PropiedadesLuxur.com`. La versión con ficha (`ficha-luxur`) va SIN subtítulos y con el tipo, el lugar y el precio fijos. |
 | Destino | Reels · TikTok · Shorts (orgánico) y Meta Ads / feed 1:1 (funnel) |
@@ -43,7 +43,7 @@
 
 ## La apertura con el APARTAMENTO: la hora azul
 
-El reparto fija RC20 en el bloque 1 y, **solo si «la hora azul choca con el paseo de día»**, permite abrir con el principio de RC02 y llevar RC20 al bloque 5. **Choca algo** (la sala es azul y cálida, el hook es de tarde en la terraza, el apartamento y el balcón son de día), pero es la imagen más fuerte de toda la sala y el color de cada plano la casa con la siguiente (R32). **Decisión declarada: RC20 se queda en el bloque 1** (2,6-5,6 s del clip: el panel de madera se aparta y deja ver el sofá con las tiras de luz y el ventanal con el cielo azul). Tampoco se enseña la vista entera antes del bloque 5: el ventanal del 1 es el azul de la tarde, no la ciudad.
+El reparto fija RC20 en el bloque 1 y, **solo si «la hora azul choca con el paseo de día»**, permite abrir con el principio de RC02 y llevar RC20 al bloque 5. **Choca algo** (la sala es azul y cálida, el hook es de tarde en la terraza, el apartamento y el balcón son de día), pero es la imagen más fuerte de toda la sala y el color de cada plano la casa con la siguiente (R32). **Decisión de la rev. 0: RC20 se quedaba en el bloque 1; en la rev. 2 abre el PRINCIPIO DE RC02** (0-3,0 s: la isla de la cocina, el sofá y el ventanal, de día), porque el usuario pidió que la 050 usara RC20 y así no se repite (sin choque de hora: es de día, como el resto). Tampoco se enseña la vista entera antes del bloque 5: el ventanal del 1 es el azul de la tarde, no la ciudad.
 
 ## Promesa y CTA
 
@@ -92,3 +92,17 @@ El reparto fija RC20 en el bloque 1 y, **solo si «la hora azul choca con el pas
 **Lo que se pierde, y se dice.** El «recorrido» del formato (los bloques 3 y 5, el clímax de la vista con el jacuzzi del balcón) y la apertura con la propiedad. El jacuzzi privado deja de salir en el vídeo (queda en el caption). La pieza es corta y toda hablada. Si el usuario quiere más imagen de la propiedad, la vía es rodar vertical o dron: el material de recorrido horizontal solo sirve bien a ancho completo.
 
 **Lo que NO cambia.** Las cuatro tomas, el orden, las disolvencias, la cifra `$14.800.000` (solo en MD04), el color por plano, la voz a −15 LUFS, la canción (reservada), la tarjeta oscura del cierre y las reglas del canal (sin sello, nada congelado).
+
+## Rev. 2 — los recorridos vuelven (2026-10-19)
+
+| Decisión | Rev. 0 | Rev. 1 | **Rev. 2 (vigente)** |
+|---|---|---|---|
+| Recorridos | 6, recortados 608×1080 (zoom ×3,2) | ninguno | **6, enteros (SAR corregido, `setsar=1`)** |
+| Apertura | RC20 (hora azul) | el hook a corte | **el principio de RC02** (sala de día, 0-3 s) |
+| Tramos | RC16 0,4-5,4 · RC11 0,8-4,0 · RC05 2,0-6,0 · RC09 3,6-7,2 · RC03 4,3-10,3 | — | **RC16 0,4-5,4 · RC11 0,8-4,0 · RC05 1,5-5,5 · RC09 1,5-5,1 · RC03 3,2-9,2** (RC05/RC09/RC03 vistos con el SAR corregido) |
+| Duración | 47,0 s | 23,4 s | **47,0 s** |
+| Planos | 11 | 5 | **11** |
+| Jacuzzi privado | pequeño y lejano | no sale | **bien visible** (RC03, 3,2-6,5 s: la caja de madera con el escalón al fondo del balcón) |
+| Música | curva (−16 → −14 LUFS) | lecho a −26 | **curva** (la de la rev. 0: calma, escalones, meseta en el apartamento, caída en el CTA) |
+
+El resto (las cuatro tomas de Isabella, sus tiempos, los subtítulos, el color de sus planos, la música, la tarjeta del cierre, la cifra única `$14.800.000`) es el de la rev. 0. Lo que sigue siendo un riesgo: la blandura del recorrido (608×1080 efectivos ×2,13) y que seis piezas comparten RC16, RC11, RC05 y RC09 (la puerta 7b lo dice).

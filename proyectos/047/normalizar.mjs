@@ -6,10 +6,9 @@
  *   node proyectos/047/normalizar.mjs --forzar   (rehace aunque ya exista la salida)
  *   node proyectos/047/normalizar.mjs --solo hk02,rc20   (solo esos nombres de salida; no toca la música ni la tarjeta)
  *
- * PIEZA 047 · V29 · TIERRA GRATA BOSQUE SANTO (El Poblado), ARRIENDO: «LO QUE INCLUYE» (el acompañamiento personalizado: aseo semanal, experiencias, amenidades). Solo las cuatro tomas de
- * Isabella: HK02 · MD04 + MD05 · CT03, sobre *Tony Anderson - Dreamlife*. **SIN RECORRIDOS** (decisión del usuario, 2026-10-19, tras ver la prueba: «no pongas recorridos horizontales»): los 22 recorridos
- * del material son horizontales (1920×1080) y, recortados al 9:16, salían pixelados (×1,78). Reparto en `proyectos/044/reparto-045-050.md`; el material, catalogado en
- * `proyectos/044/catalogo-material.md`, es de `Apartamento - Tierra Grata - Las Palmas/Videos/` (`1 Hooks`, `2 Miad`, `5 Cta`; NO hay dron).
+ * PIEZA 047 · V29 · TIERRA GRATA BOSQUE SANTO (El Poblado), ARRIENDO: «LO QUE INCLUYE» (el acompañamiento personalizado: aseo semanal, experiencias, amenidades). Abre con el APARTAMENTO
+ * (RC02, el principio: la sala de día; RC20 lo usa la 050), HK02 · MD04 + MD05 · CT03, clímax RC03 (el balcón con el jacuzzi → las torres y la ciudad) y *Tony Anderson - Dreamlife*. Reparto en `proyectos/044/reparto-045-050.md`; el
+ * material, catalogado en `proyectos/044/catalogo-material.md`, es de `Apartamento - Tierra Grata - Las Palmas/Videos/` (`1 Hooks`, `2 Miad`, `4 Recorrido`, `5 Cta`; NO hay dron).
  *
  * POR QUÉ EXISTE. El material es de la propiedad y de la presentadora y no entra en git: en el repo quedan esta receta, el plan y los sha256 de los
  * originales. Con la carpeta delante, un clon repone la pieza entera. Es un script de Node (con `ejecutar()` de `herramientas/comun.mjs`) y no un
@@ -23,15 +22,16 @@
  *   · las cuatro tomas de Isabella (17-oct): HEVC 10 bit **HLG** (`arib-std-b67`, BT.2020), 3840×2160 con `rotation=-90` → pantalla 2160×3840 vertical, a 30 fps salvo **CT03 (IMG_4298), 29,97
  *     con `avg_frame_rate` irregular**. Sin tone-map salen lavadas (R21): lo hace VideoToolbox (`scale_vt`), y la rotación también (`transpose_vt`); la salida va a 30 fps constantes (`-fps_mode cfr`)
  *     y el plan cuenta los frames del MP4 NORMALIZADO, nunca los del original;
- *   · (sin recorridos en esta pieza) los RECORRIDOS del material (22 clips) son HORIZONTALES: H.264 1920×1080 SDR BT.709, sin rotación, 30 fps (varios con `avg_frame_rate` irregular: `-fps_mode cfr` lo iguala). Para el 9:16 se
- *     RECORTA una ventana vertical de 608×1080 (`crop=608:1080:X:0`, ANTES de `scale=1296:2304`: sin el crop, `scale` deformaría la imagen) y se ESCALA ×2,13: sale más BLANDO que Isabella en 4K.
- *     `X` (0-1312) es la sexta columna de `MATERIAL`; 656 centra;
+ *   · **los RECORRIDOS (22 clips, aquí 6) son ANAMÓRFICOS, no horizontales**: H.264 1920×1080 SDR BT.709 guardados con `sample_aspect_ratio=81:256` y `display_aspect_ratio=9:16`, es decir, VERTICALES de
+ *     608×1080 efectivos comprimidos a lo ancho; sin rotación, 30 fps (varios con `avg_frame_rate` irregular: `-fps_mode cfr` lo iguala). Se escalan ENTEROS: `scale=1296:2304:flags=lanczos,setsar=1`, SIN recorte.
+ *     (La rev. 0 y la 1 de esta pieza los trataron como 16:9 y recortaron `crop=608:1080:656:0`: un zoom ×3,2 del tercio central que salía «pixelado» y que el usuario rechazó —2026-10-19—. Se vio con el SAR:
+ *     `ffprobe -show_entries stream=sample_aspect_ratio,display_aspect_ratio`.) Salen algo más BLANDOS que Isabella en 4K: 608×1080 efectivos ×2,13;
  *   · el audio de cada toma: micro de solapa mono; sale en WAV PCM 48 kHz mono, SIN filtro ni nivel (la ganancia vive en el plan, R29) y en otro WAV con la
  *     voz TRATADA (abajo). WAV y no AAC: el AAC arrastra 1024 muestras de priming que desplazan la voz ~21 ms contra su imagen. El audio de los recorridos (ambiente estéreo) no se usa.
  *
  * CLASES de archivo, y cada una sale distinta:
  *   toma       la presentadora a cámara → MP4 mudo + WAV con su voz + WAV con su voz tratada
- *   recorrido  planos de la propiedad → MP4 mudo (horizontales: recortados al centro)
+ *   recorrido  planos de la propiedad → MP4 mudo (anamórficos 81:256: escalados enteros, `setsar=1`)
  *   (música)   la canción → WAV estéreo de 48 kHz decodificado ENTERO y NADA MÁS (ni loudnorm): el MP3 arrastra su retardo de códec y el corte al golpe se
  *              hace a la muestra sobre el WAV. Su `desde` sale de la medida de la pista y el nivel es una ganancia del plan.
  *
@@ -55,11 +55,10 @@ const f = flags();
 const solo = typeof f.solo === "string" ? new Set(f.solo.toLowerCase().split(",")) : null;
 
 /**
- * clase · archivo en original/ · nombre de salida (sin extensión) · sha256 (8) del original · origen en el disco del rodaje · [solo recorrido horizontal] X del recorte 608×1080.
+ * clase · archivo en original/ · nombre de salida (sin extensión) · sha256 (8) del original · origen en el disco del rodaje.
  * El nombre de salida es el que usa el plan: `v("hk02")` → `recorrido-047/hk02.mp4` y `a("hk02")` → `hk02.wav` / `hk02-voz.wav`.
  *
- * (Aquí hubo seis recorridos horizontales —RC20, RC16, RC11, RC05, RC09, RC03— recortados al centro en 608×1080 con la X en la sexta columna. Se quitaron el 2026-10-19: el usuario vio la prueba y
- * pidió no poner recorridos horizontales: recortados ×1,78 salían pixelados. La rama de `video()` que recorta un clip sin rotación se queda por si vuelve a hacer falta; ningún plan la usa.)
+ * (Los recorridos no se recortan: se escalan enteros, ver arriba.)
  */
 const MATERIAL = [
   // Las cuatro tomas de Isabella del 17-oct (catálogo §3-§5; vestido negro, zonas comunes): el hook (HK02, sentada en el sillón de la terraza; repetida en el 050), las dos mitades (MD04 Social Kitchen y MD05
@@ -68,6 +67,14 @@ const MATERIAL = [
   ["toma", "md04.mov", "md04", "cfd314e1", "2 Miad/IMG_4296.MOV"],
   ["toma", "md05.mov", "md05", "1d92690e", "2 Miad/IMG_4297.MOV"],
   ["toma", "ct03.mov", "ct03", "a978434e", "5 Cta/IMG_4298.MOV"],
+  // Recorridos ANAMÓRFICOS (31-ago / 2-sep; sin gente). Apertura = el principio de RC02 (la sala de día); clímax = RC03 (el balcón con el jacuzzi → las torres y la ciudad). Los de en medio, del paseo
+  // unidad (piscina, sauna, Social Kitchen) → apartamento (alcoba, baño).
+  ["recorrido", "rc02.mp4", "rc02", "d49b8a0b", "4 Recorrido/Img 9463.mp4"],
+  ["recorrido", "rc16.mp4", "rc16", "7cdf817e", "4 Recorrido/Img 9525.mp4"],
+  ["recorrido", "rc11.mp4", "rc11", "38a59f31", "4 Recorrido/Img 9513.mp4"],
+  ["recorrido", "rc05.mp4", "rc05", "931b51dd", "4 Recorrido/Img 9477.mp4"],
+  ["recorrido", "rc09.mp4", "rc09", "8b1031a3", "4 Recorrido/Img 9484.mp4"],
+  ["recorrido", "rc03.mp4", "rc03", "e5dd0f12", "4 Recorrido/Img 9464.mp4"],
 ];
 /**
  * La canción: archivo en original/ · salida · sha256 (8) · origen (la biblioteca de música del repo, el MISMO archivo que reserva el registro de uso).
@@ -115,7 +122,7 @@ if (malos) {
 /** La rotación de PANTALLA del archivo (R19): −90 en un iPhone vertical, 90 en el dron vertical, 0 si ya viene derecho. */
 const rotacionDe = (abs) => Number(sondea(abs, "stream_side_data=rotation").split(/\s+/)[0] || 0);
 
-function video(clase, archivo, salidaNombre, recorte) {
+function video(clase, archivo, salidaNombre) {
   const entrada = path.join(ORIGEN, archivo);
   const salida = path.join(DESTINO, `${salidaNombre}.mp4`);
   if (fs.existsSync(salida) && !f.forzar) {
@@ -151,22 +158,14 @@ function video(clase, archivo, salidaNombre, recorte) {
       log.error(`${archivo}: rotación no prevista (${rot})`);
       process.exit(1);
     }
-    let marco = "";
-    if (rot === 0) {
-      // EL RECORTE 9:16 (los recorridos horizontales): una ventana vertical de 608×1080 en la X que dice `MATERIAL`, ANTES del `scale`.
-      if (typeof recorte !== "number" || recorte < 0 || recorte > 1312) {
-        log.error(`${archivo}: un clip horizontal sin rotación necesita su X de recorte (0-1312) en la sexta columna de MATERIAL`);
-        process.exit(1);
-      }
-      marco = `crop=608:1080:${recorte}:0,`;
-    }
+    // Los recorridos (rotación 0) son anamórficos (SAR 81:256, DAR 9:16): `scale` a 1296×2304 + `setsar=1` los deja con su geometría correcta, SIN recorte.
     // Los DJI van a 29,97 fps: con `fps=30` solo, ffmpeg REPITE un fotograma cada 1001 (cada ≈ 33 s) y, si cae en el tramo de un plano, se ve una micro-parada.
     // Se reproducen un 0,1 % más rápido (`setpts=PTS*1000/1001`): cada fotograma de la fuente sale UNA vez; el `desde` del plan va en el tiempo nuevo (`dji()`).
     const retiempo = clase === "dron" && sondea(entrada, "stream=r_frame_rate") === "30000/1001" ? "setpts=PTS*1000/1001,fps=30," : "";
-    args = ["-nostdin", "-y", "-v", "error", "-noautorotate", "-i", entrada, "-vf", `${giro ? `${giro},` : ""}${marco}scale=1296:2304:flags=lanczos,${retiempo}format=yuv420p`, ...comunes];
+    args = ["-nostdin", "-y", "-v", "error", "-noautorotate", "-i", entrada, "-vf", `${giro ? `${giro},` : ""}scale=1296:2304:flags=lanczos,setsar=1,${retiempo}format=yuv420p`, ...comunes];
   }
   ejecutar("ffmpeg", args, { check: true });
-  log.ok(`${path.basename(salida)} (${clase}${hdr ? " · HLG → BT.709" : " · SDR"} · rotación ${rot}${typeof recorte === "number" ? ` · recorte 608×1080 en x=${recorte}` : ""})`);
+  log.ok(`${path.basename(salida)} (${clase}${hdr ? " · HLG → BT.709" : " · SDR"} · rotación ${rot})`);
 }
 
 function voz(archivo, salidaNombre) {
@@ -236,8 +235,8 @@ function vozTratada(salidaNombre) {
   log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3,5:1, +${ganancia} dB y limitador a −2,5 dBFS; solo suena de ${a.toFixed(2)} a ${b.toFixed(2)} s)`);
 }
 
-for (const [clase, archivo, salida, , , recorte] of lista) {
-  video(clase, archivo, salida, recorte);
+for (const [clase, archivo, salida] of lista) {
+  video(clase, archivo, salida);
   if (clase === "toma") {
     voz(archivo, salida);
     vozTratada(salida);
