@@ -1,0 +1,6 @@
+# HK05 (Img 9508, 2-sep), 24,65-29,4 s: Isabella camina hacia cámara en el balcón y dice «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.» (la misma voz que usa el gancho del 051).
+# Silencio de 1,0 s tras «¿Deseas» y de 0,5 s tras «Medellín»: cada línea entra en su palabra (arranques medidos con `onsets-voz.py` y `palabras-desde.py`, R31).
+# POR CONFIRMAR AL OÍDO: «amoblado» y «Medellín» (whisper small oye «a moblado en» y «de la media»): el texto es el del reparto y el de `01.mp4`; el usuario lo oirá en la prueba.
+¿Deseas
+arrendar / **amoblado** / en Medellín?
+Ven, / te muestro.

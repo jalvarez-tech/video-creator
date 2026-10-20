@@ -3,22 +3,24 @@
  *
  * `<PistaMetraje>` pinta los planos MUDOS. Lo que se oye son dos cosas, y las dos pasan por `<PistaAudio>`:
  *
- *   voces053   la voz de Isabella en la ÚNICA toma que habla (CT05, el CTA), derivada de los cortes que traen `audio` (`vocesDeCortes`): mismo arranque que su imagen, cruce de voz de 6 f (entra con una disolvencia) y, como el WAV
- *              es el TRATADO de `normalizar.mjs` (`ct05-voz.wav`: graves fuera, puerta suave, compresor 3,5:1, ganancia y limitador, ya a ≈ −15 LUFS en su ventana), UNA ganancia de ±0,1 dB.
- *   musica053  «Softly», con una envolvente que la deja ARRIBA casi toda la pieza (no hay voz que la baje) y la baja, con curva, bajo la voz del CTA.
+ *   voces053   la voz de Isabella en sus DOS tomas que hablan: el gancho (HK05, «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.», entra a corte en el f0) y el CTA (CT05, entra con una disolvencia), derivada de los cortes que
+ *              traen `audio` (`vocesDeCortes`): mismo arranque que su imagen y, como el WAV es el TRATADO de `normalizar.mjs` (`<toma>-voz.wav`: graves fuera, puerta suave, compresor 3,5:1, ganancia y limitador, ya a ≈ −15 LUFS
+ *              en su ventana), UNA ganancia de ±0,1 dB.
+ *   musica053  «Softly», con una envolvente que la deja ARRIBA casi toda la pieza (el recorrido no lleva voz) y la baja bajo la voz del gancho y, con curva, bajo la del CTA.
  *
- * **NO HAY VOZ EN OFF** (cambio de encargo del 2026-10-20, reparto §5): lo que decía la locución del original lo dicen los rótulos (`subtitulos-053.ts`). La música pesa más que en las piezas con locución: es la que lleva el ritmo.
+ * **NO HAY VOZ EN OFF** (cambio de encargo del 2026-10-20, reparto §5): lo que decía la locución del original lo dicen los rótulos (`subtitulos-053.ts`). Solo habla Isabella, a cámara, en el gancho y en el CTA (el usuario pidió oír su voz en el gancho). La música pesa más que en las piezas con locución: es la que lleva el ritmo.
  *
  * LA MEZCLA, en LUFS (medidos con ebur128 sobre cada fuente, `herramientas/lufs-rangos.py`):
  *   voz de Isabella   −15 (pedido del usuario: «la voz a −15 LUFS sin saturar»)
  *   música SOLA       una ganancia constante (`ALTO`, −2,1 dB): la canción cae a −24 LUFS en su calma (el gancho) y a −14,4 en su tramo fuerte; con la ganancia, el tramo fuerte queda a −16,5 LUFS y el pico real a −2,5 dBFS (el techo).
  *                     El objetivo del canal es −15 sola; aquí el pico manda (la canción llega a −0,4 dBFS y a −15 saldría a −1,0).
- *   música BAJO VOZ   −26 LUFS durante la voz del CTA: 11 LU por debajo de ella (`BAJO`).
+ *   música BAJO VOZ   −26 LUFS durante la voz del gancho (`BAJO_HOOK`: la calma de la canción) y del CTA (`BAJO`): 11 LU por debajo de ella.
  *
  * LAS RAMPAS DE LA MÚSICA (revisión del 022: «la curva debe ser ANTES de que hable», ya regla del canal):
- *   · ENTRADA: la canción arranca en el f0 con un fundido de coseno de 8 f.
- *   · BAJADA ANTES DE LA VOZ DEL CTA: la toma entra en el GOLPE de 87,3 s (f1199, 10,5 dB), que suena entero; la bajada, de coseno, va DESPUÉS (empieza 4 f tras el golpe) y ACABA 4 f antes de la primera palabra (f1214).
- *   · SUBIDA TRAS LA VOZ: de coseno, 24 f desde su última palabra (f1297), y de ahí la música se APAGA bajo la tarjeta del cierre con otra curva de coseno hasta llegar a cero 2 f antes del final de la pieza.
+ *   · ENTRADA: la canción arranca en el f0, ya a su nivel bajo la voz del gancho, con un fundido de coseno de 8 f (la primera sílaba de Isabella suena en el f7).
+ *   · SUBIDA TRAS EL GANCHO: la voz acaba en el f149 y la música sube 24 f de coseno hasta el f173, 3 f ANTES del golpe del cielo (f176): el golpe suena a su nivel.
+ *   · BAJADA ANTES DE LA VOZ DEL CTA: la toma entra en el GOLPE de 87,3 s (f1267, 10,5 dB), que suena entero; la bajada, de coseno, va DESPUÉS (empieza 4 f tras el golpe) y ACABA 4 f antes de la primera palabra (f1282).
+ *   · SUBIDA TRAS LA VOZ: de coseno, 24 f desde su última palabra (f1365), y de ahí la música se APAGA bajo la tarjeta del cierre con otra curva de coseno hasta llegar a cero 2 f antes del final de la pieza.
  *
  * Datos puros: la puerta lo carga con node.
  */
@@ -26,18 +28,20 @@ import { frameDeFuente, gananciaHasta, vocesDeCortes } from "../../motor/sound/t
 import type { TramoAudio } from "../../motor/sound/tramos";
 import { FIN_MUSICA_053, FPS_053, GOLPES, INICIO_MUSICA, OBJETIVO_LUFS, frameDeCancion, metraje053 } from "./metraje-053";
 
-/** La voz de la toma a cámara (CT05), derivada del plan de planos. */
+/** La voz de las dos tomas a cámara (HK05 y CT05), derivada del plan de planos. */
 export const voces053: readonly TramoAudio[] = vocesDeCortes(metraje053, { fps: FPS_053, objetivoLufs: OBJETIVO_LUFS });
 
-/** La toma del CTA y la ventana de su voz, en frames de la comp (la misma cuenta que usa la puerta). */
-const CTA = metraje053.find((c) => c.id === "c09-cta");
-if (!CTA || !CTA.voz) throw new Error("audio-053: falta c09-cta (con voz) en metraje-053.ts");
-/** El fin de la toma del CTA: ahí empieza la tarjeta del cierre. */
-export const FIN_CTA_053 = CTA.en + CTA.dur;
-const CTA_VOZ = {
-  en: frameDeFuente(CTA.en, CTA.desde, CTA.voz.s0, FPS_053),
-  fin: frameDeFuente(CTA.en, CTA.desde, CTA.voz.s1, FPS_053),
+/** La ventana de voz de un corte, en frames de la comp (la misma cuenta que usa la puerta). */
+const ventanaDe = (id: string): { en: number; fin: number } => {
+  const c = metraje053.find((x) => x.id === id);
+  if (!c || !c.voz) throw new Error(`audio-053: falta ${id} (con voz) en metraje-053.ts`);
+  return { en: frameDeFuente(c.en, c.desde, c.voz.s0, FPS_053), fin: frameDeFuente(c.en, c.desde, c.voz.s1, FPS_053) };
 };
+const HOOK_VOZ = ventanaDe("c01-hook");
+const CTA_VOZ = ventanaDe("c09-cta");
+/** El fin de la toma del CTA: ahí empieza la tarjeta del cierre. */
+const CTA = metraje053.find((c) => c.id === "c09-cta")!;
+export const FIN_CTA_053 = CTA.en + CTA.dur;
 
 /* ── La música ────────────────────────────────────────────────────────────── */
 
@@ -56,10 +60,14 @@ const TECHO_PICO = -2.5;
 const OBJETIVO_MUSICA_SOLA = -15;
 /** Ganancia lineal de la música sola: a su objetivo, sin pasar de `TECHO_PICO`. */
 export const ALTO = Math.min(gananciaHasta(LUFS_FUERTE, OBJETIVO_MUSICA_SOLA), Math.pow(10, (TECHO_PICO - PICO_FUERTE) / 20));
-/** La sonoridad de la canción mientras habla Isabella en el CTA (ebur128 a 1 s sobre la fuente, 87,8-90,5 s: −12,6) y a la que la música baja: −26 LUFS, 11 LU bajo su voz de −15. */
-export const LUFS_CANCION_EN_VOZ = -12.6;
+/**
+ * La sonoridad de la canción mientras habla Isabella (ebur128 a 1 s sobre la fuente): en el gancho, la calma de la canción (45,3-50,1 s; la más alta, a los 47-48 s: −21,0) y en el CTA, el tramo fuerte (87,8-90,5 s: −12,6); y el
+ * nivel al que la música baja bajo su voz: −26 LUFS, 11 LU bajo su voz de −15.
+ */
+export const LUFS_CANCION_EN_VOZ = { hook: -21.0, cta: -12.6 } as const;
 export const LUFS_MUSICA_BAJO_VOZ = -26;
-export const BAJO = gananciaHasta(LUFS_CANCION_EN_VOZ, LUFS_MUSICA_BAJO_VOZ);
+export const BAJO_HOOK = gananciaHasta(LUFS_CANCION_EN_VOZ.hook, LUFS_MUSICA_BAJO_VOZ);
+export const BAJO = gananciaHasta(LUFS_CANCION_EN_VOZ.cta, LUFS_MUSICA_BAJO_VOZ);
 
 /**
  * LOS FUNDIDOS (pedido del usuario en la V6, ya regla del canal: «el sonido cuando cambia a hablar Isabella debe hacer un fade-out / fade-in … para que no se escuche tan cortado»):
@@ -82,8 +90,11 @@ export const INICIO_BAJADA = Math.round(frameDeCancion(GOLPES.cta.t)) + DESPUES_
 /** La envolvente: la entrada, la música arriba casi toda la pieza, la bajada bajo la voz del CTA y el apagado final bajo la tarjeta. */
 const envolvente = (): [number, number][] => {
   const p: [number, number][] = [
-    // ENTRADA: la canción arranca en el f0 y llega a su nivel en 8 f.
-    ...fundido(0, FADE_ENTRADA, 0, ALTO),
+    // ENTRADA: la canción arranca en el f0 y llega a su nivel bajo la voz del gancho en 8 f (la primera sílaba suena en el f7).
+    ...fundido(0, FADE_ENTRADA, 0, BAJO_HOOK),
+    // La voz del gancho: abajo. Tras su última palabra la música sube con 24 f de coseno y llega a su nivel ANTES del golpe del cielo.
+    [HOOK_VOZ.fin, BAJO_HOOK],
+    ...fundido(HOOK_VOZ.fin, FADE_IN, BAJO_HOOK, ALTO),
     // El plano del CTA entra en el golpe de 87,3 s: la música sigue arriba hasta que suena entero y baja DESPUÉS, con curva, para acabar ANTES de la primera palabra.
     [INICIO_BAJADA, ALTO],
     ...fundido(INICIO_BAJADA, CTA_VOZ.en - ANTES_DE_HABLAR - INICIO_BAJADA, ALTO, BAJO),
@@ -107,7 +118,7 @@ export const musica053: readonly TramoAudio[] = HAY_MUSICA
         desde: INICIO_MUSICA,
         ganancia: envolvente(),
         reason:
-          "«Softly» entra en el frame 0 sobre su calma, su golpe de entrada (50,93 s) cae en el cambio del gancho al cielo (f108), cada cambio de rótulo cae en un golpe medido, baja tras el golpe en que entra la toma del CTA y se apaga bajo la tarjeta.",
+          "«Softly» entra en el frame 0 sobre su calma, su golpe de entrada (50,93 s) cae en el cambio del gancho al cielo (f176), cada cambio de rótulo cae en un golpe medido, baja tras el golpe en que entra la toma del CTA y se apaga bajo la tarjeta.",
       },
     ]
   : [];

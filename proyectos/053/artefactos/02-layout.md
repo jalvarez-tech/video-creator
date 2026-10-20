@@ -2,7 +2,7 @@
 
 > Paso 2 de 3. Capas, z-order y zonas de pantalla. Anterior: [01-plan.md](01-plan.md) · siguiente: [03-timeline.md](03-timeline.md).
 
-Composición `Recorrido053` (`remotion/src/proyectos/053/`), 1080×1920 a 30 fps, **1376 f (45,87 s)**, sin voz en off (cambio de encargo del 2026-10-20: reparto §5c). Es el montaje del 047 (que ya normaliza bien los clips anamórficos) con los planos, el audio y el texto de esta pieza: lo propio está en `metraje-053.ts`, `audio-053.ts` y `subtitulos-053.ts`. Admite la propiedad `sinSubtitulos` (la base de la versión con ficha, `ficha-luxur`): apaga los subtítulos y su velo y no toca nada más.
+Composición `Recorrido053` (`remotion/src/proyectos/053/`), 1080×1920 a 30 fps, **1444 f (48,13 s)**, sin voz en off (cambio de encargo del 2026-10-20: reparto §5c). Es el montaje del 047 (que ya normaliza bien los clips anamórficos) con los planos, el audio y el texto de esta pieza: lo propio está en `metraje-053.ts`, `audio-053.ts` y `subtitulos-053.ts`. Admite la propiedad `sinSubtitulos` (la base de la versión con ficha, `ficha-luxur`): apaga los subtítulos y su velo y no toca nada más.
 
 ## Capas (de atrás a delante)
 
@@ -11,9 +11,9 @@ Composición `Recorrido053` (`remotion/src/proyectos/053/`), 1080×1920 a 30 fps
 | 1 | `PistaMetraje` | los 10 cortes (9 de vídeo mudos y la tarjeta `foto`) | look neutro con viñeta suave; **el color va por plano** (`colorCorrection()`, R32) → render con `--gl=angle`; sin sello ni velos superiores; **todos los planos, salvo el primero, entran con una disolvencia de 12 f**; todo a ×1 y quieto (`zoom` 1,0: más escala ablandaría un material que ya sube ×2,13) |
 | 2 | `FundidoACierre` | la imagen de Isabella funde a negro (6 f) y llega a negro exacto en el último fotograma de la toma del CTA | nada se congela |
 | 3 | `VeloSubtitulos` | degradado desde abajo, mientras hay rótulos (casi toda la pieza) | Luxur va sin sombra: el velo es lo único que sostiene el blanco |
-| 4 | `SubtitulosEditoriales` | los 10 rótulos (gancho + nueve) y el CTA, UNO a la vez, en un grupo al 90 % y con la cursiva 8 px menor (99 → 91 px) | 12 bloques, 10 acentos |
+| 4 | `SubtitulosEditoriales` | el gancho (a su voz), los 9 rótulos y el CTA (a su voz), UNO a la vez, en un grupo al 90 % y con la cursiva 8 px menor (99 → 91 px) | 14 bloques, 10 acentos |
 | 5 | `LogoCierre` y `WebCierre` | logo (440 px, 60 %) y `PropiedadesLuxur.com` (Montserrat 500, 54 px) sobre la tarjeta | centrados, y≈795-1085 |
-| 6 | `PistaAudio` | la voz del CTA (WAV tratado, −15 LUFS) + música (*Softly*, arriba a −16,5 LUFS; −26 LUFS bajo la voz del CTA) | en la RAÍZ |
+| 6 | `PistaAudio` | la voz de Isabella en el gancho (HK05) y en el CTA (CT05) (WAV tratado, −15 LUFS) + música (*Softly*, arriba a −16,5 LUFS; −26 LUFS bajo cada voz) | en la RAÍZ |
 
 ## Zonas (px de 1080×1920)
 
@@ -24,18 +24,18 @@ Composición `Recorrido053` (`remotion/src/proyectos/053/`), 1080×1920 a 30 fps
 
 ## Reglas fijas del canal (comprobadas por `revisar-053.mjs`) y excepciones declaradas
 
-1. **La primera toma sale sin texto ni voz → EXCEPCIÓN DECLARADA**: el original abre con Isabella caminando y una voz que pregunta, y la réplica lo conserva (con un rótulo en lugar de la voz). El f0 sale limpio y el rótulo del gancho entra en el f6. Es la excepción por réplica del reparto §2.
+1. **La primera toma sale sin texto ni voz → EXCEPCIÓN DECLARADA**: el original abre con Isabella caminando y una voz que pregunta, y la réplica lo conserva, ahora con la voz de ELLA (decisión del usuario). El f0 sale limpio; su primera sílaba suena en el f7, con su primer subtítulo. Es la excepción por réplica del reparto §2.
 2. **Nunca el sello «PROPIEDADES LUXUR»** (se cumple).
 3. **El cierre es la tarjeta oscura con el logo y la web** (se cumple; no `@propiedadesluxur`).
 4. **Nada se congela** (se cumple: la imagen de Isabella funde a negro en el último fotograma de su toma).
-5. **Cifras en pantalla:** «$14.800.000» (acento del gancho: el canon real) y «113 m²» (el rótulo 3, texto del usuario): se declara que son dos.
+5. **Cifra en pantalla:** solo «113 m²» (el rótulo 3, texto del usuario); el canon (14,8) va en la ficha de la versión con ficha y en el caption.
 6. **Transiciones: solo disolvencias** (salvo el frame 0), opacas en el golpe de su cambio: *Softly* no tiene golpes seguidos donde cortar en seco.
-7. **Excepciones por réplica, declaradas en la puerta:** abre con Isabella; sin voz en off (los rótulos no acompañan a ninguna voz); el último plano del bloque 5 es el carril de nado y el más largo, el cielo con el jacuzzi (cubre dos rótulos); Isabella solo habla a cámara una vez.
+7. **Excepciones por réplica, declaradas en la puerta:** abre con Isabella; sin voz en off (los rótulos no acompañan a ninguna voz); el último plano del bloque 5 es el carril de nado y el más largo, el cielo con el jacuzzi (cubre dos rótulos); Isabella habla a cámara dos veces (gancho y CTA); el gancho es el mismo de la 051.
 
 ## Lo que decide esta pieza distinto del 047
 
 - **Los bloques son 2-5-6**: gancho (Isabella caminando, rótulo), recorrido con un rótulo por tramo, CTA a cámara. No hay bloque 1 (la casa limpia), ni 3 (recorrido mudo), ni 4 (objeciones).
-- **No hay voz salvo la del CTA**: el texto lo llevan nueve rótulos, UNO a la vez, de 3,0 a 4,8 s cada uno (≤ 3 palabras por segundo), cada uno entrando en el frame en que suena un golpe medido de la canción; la puerta comprueba su texto tal cual el reparto §5c.
-- **La música pesa más**: arriba casi todo el tiempo y solo baja, con curva y DESPUÉS del golpe en que entra la toma del CTA, bajo su voz.
+- **No hay voz salvo la de Isabella en el gancho y en el CTA**: el texto lo llevan nueve rótulos, UNO a la vez, de 3,0 a 4,8 s cada uno (≤ 3 palabras por segundo), cada uno entrando en el frame en que suena un golpe medido de la canción; la puerta comprueba su texto tal cual el reparto §5c.
+- **La música pesa más**: arriba casi todo el tiempo; solo baja bajo la voz del gancho (la calma de la canción, que sube tras su última palabra y llega a su nivel 3 f antes del golpe del cielo) y, con curva y DESPUÉS del golpe en que entra la toma, bajo la del CTA.
 - **Las mismas tomas en el mismo orden que el original**, comprobado por `ORDEN_DEL_ORIGINAL` en la puerta; la alcoba del original no está en el material y se usa la más parecida (RC05).
 - **Imagen algo blanda:** el recorrido son 608×1080 efectivos ×2,13: más blando que Isabella en 4K (se dice, no se filtra: R22), pero con la geometría y el campo correctos.

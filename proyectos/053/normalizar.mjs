@@ -57,7 +57,7 @@ const MATERIAL = [
   ["toma", "ct05.mp4", "ct05", "5bc7d1a0", "5 Cta/Img 9501.mp4"],
   // Los planos MUDOS de la réplica, en el orden del original (cada uno identificado por búsqueda de fotogramas contra `03.mp4`, `proyectos/053/medidas/`): HK05 es Isabella caminando hacia cámara en el balcón (tramo mudo de
   // 4,9 a 8,0 s: la voz de 22,5-29,5 s es del hook del 051; en 5-7 s solo hay un chasquido de 0,75 s a −33 dB), y los recorridos, todos ANAMÓRFICOS.
-  ["recorrido", "hk05.mp4", "hk05", "3bbed39e", "1 Hooks/Img 9508.mp4"],
+  ["toma", "hk05.mp4", "hk05", "3bbed39e", "1 Hooks/Img 9508.mp4"],
   ["recorrido", "rc10.mp4", "rc10", "e7e4ee8b", "4 Recorrido/Img 9509.mp4"],
   ["recorrido", "rc01.mp4", "rc01", "9f23d5be", "4 Recorrido/Img 9461.mp4"],
   ["recorrido", "rc22.mp4", "rc22", "33ac8ce2", "4 Recorrido/Img 9538.mp4"],
@@ -185,14 +185,14 @@ const VOZ_TRATADA = (gananciaDb) =>
   ].join(",");
 
 /** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). CT05 cruda mide −28,6 LUFS (+20,4 dB; el limitador quita 0,5 dB)(`probar-voz.py --umbral 0.0316 --razon 3.5`). */
-const GANANCIA_VOZ_DB = { ct05: 20.4 };
+const GANANCIA_VOZ_DB = { ct05: 20.4, hk05: 19.3 };
 
 /**
  * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente, medidos por energía
  * (`limites-voz.py --margen 40`; R29). Fuera de esta ventana la voz tratada es SILENCIO: la compresión y la ganancia suben ≈ +17 dB cualquier ruido de la toma, y entre toma y toma el plan deja un hueco que, sin esto, sonaría con ese ruido de sala.
  * CT05: la voz empieza a 1,31 s («Si», una subida de −57 a −25 dB en 0,1 s) y acaba a 4,07 s («escríbenos»); la toma sigue hasta 7,2 s sin voz. El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
  */
-const VENTANA_VOZ = { ct05: [1.31, 4.07] };
+const VENTANA_VOZ = { ct05: [1.31, 4.07], hk05: [24.65, 29.4] };
 /** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
 const VOZ_ANTES = 0.07;
 const VOZ_DESPUES = 0.05;

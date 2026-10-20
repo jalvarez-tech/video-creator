@@ -6,26 +6,26 @@
  * plusvalías del arriendo (aseo semanal incluido, acompañamiento personalizado, chef privado, conductor, la mejor asesoría), un rótulo por tramo y sincronizado a los planos y a los golpes de la música, no a una voz. Es la V35 del
  * registro; la canción (*Softly*, Judah Earl & Brandon Black) estaba reservada para ella. Análisis del original y decisiones en `proyectos/053/artefactos/01-plan.md`.
  *
- *   gancho   HK05  Isabella caminando hacia cámara en el balcón, SIN VOZ, con el rótulo «¿Pagarías $14.800.000 al mes por vivir aquí?» (la ÚNICA cifra de la pieza: el canon real, no los «14 millones» del original)
+ *   gancho   HK05  Isabella caminando hacia cámara en el balcón y DICIENDO «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.» (su voz en directo, 24,65-29,4 s; decisión del usuario, 2026-10-20, que sustituye al rótulo «¿Pagarías $14.800.000…?»)
  *   rótulos  los nueve del reparto §5c, uno por tramo, en el orden del original (`subtitulos-053.ts`)
  *   CTA      CT05  «Si buscas más que un apartamento para vivir, escríbenos.»                                              (sentada en la silla de la sala; la MISMA toma cierra la 052: declarado)
  *
- * LA IDEA EN UNA LÍNEA. ¿Cuánto vale vivir aquí? $14.800.000 al mes por un apartamento amoblado de 113 m² con jacuzzi privado… y lo que viene con él: aseo semanal, acompañamiento personalizado, chef y conductor, la mejor asesoría. Lo que
+ * LA IDEA EN UNA LÍNEA. ¿Quieres arrendar amoblado en Medellín? Un apartamento amoblado de 113 m² con jacuzzi privado… y lo que viene con él: aseo semanal, acompañamiento personalizado, chef y conductor, la mejor asesoría. Lo que
  * prometen los rótulos lo dio el usuario; ninguno dice que el chef o el transporte vayan incluidos en el canon.
  *
- *   bloque 2  c01                  Isabella caminando hacia cámara en el balcón (HK05, mudo), con el rótulo del gancho (EXCEPCIÓN DECLARADA a la regla fija 1: la réplica abre así)
+ *   bloque 2  c01                  Isabella caminando hacia cámara en el balcón (HK05) y diciendo su gancho (EXCEPCIÓN DECLARADA a la regla fija 1: la réplica abre así)
  *   bloque 5  c02 … c08            el recorrido en el ORDEN DEL ORIGINAL, con un rótulo por tramo: el cielo y el JACUZZI PRIVADO (RC10) → la cocina y la sala con la palma (RC01) → el bar (RC22) → el balcón con las camas y las torres
  *                                  (RC03) → la alcoba y su pared con el televisor (RC05) → la sala con el sofá (RC04) → el carril de nado (RC16)
  *   bloque 6  c09 c10              Isabella sentada: el CTA a cámara (CT05); y la tarjeta oscura del cierre (nada se congela)
  *
- * LO QUE NO CUMPLE EL FORMATO Y SE DECLARA (la réplica manda). (1) La pieza abre con Isabella y su rótulo, no con la casa limpia (regla fija 1). (2) No hay voz en off ni «recorrido mudo»: el texto de cada tramo es un rótulo que no acompaña a
- * ninguna voz (`SIN_VOZ` en la puerta). (3) El último plano del bloque 5 es el carril de nado y el más largo, el de las camas con las torres (RC03): el orden del original. (4) Isabella solo habla a cámara una vez (el CTA). (5) Los bloques son 2-5-6.
+ * LO QUE NO CUMPLE EL FORMATO Y SE DECLARA (la réplica manda). (1) La pieza abre con Isabella hablando, no con la casa limpia (regla fija 1). (2) No hay voz en off ni «recorrido mudo»: el texto de cada tramo es un rótulo que no acompaña a
+ * ninguna voz (`SIN_VOZ` en la puerta). (3) El último plano del bloque 5 es el carril de nado y el más largo, el cielo con el jacuzzi (RC10, dos rótulos): el orden del original. (4) Isabella habla a cámara dos veces (gancho y CTA). (5) Los bloques son 2-5-6. (6) El gancho es el MISMO tramo y la misma frase que el del 051.
  *
  * LO QUE EL MATERIAL NO DA. (1) La ALCOBA del original no coincide con ninguno de los 22 clips del SSD (el editor tuvo otro): se usa RC05, el más parecido. (2) Los recorridos son anamórficos (608×1080 efectivos ×2,13) y salen más blandos que Isabella
  * en 4K. (3) No hay dron. (4) El original acelera RC10 ×1,4 y RC01 ×1,45; aquí van a ×1 (`velocidad` solo se admite en el bloque 3) y los tramos se recortan a lo que dura cada rótulo.
  *
- * QUIÉN MARCA EL TIEMPO: LA MÚSICA. «Softly» (orquestal, sin pulso) entra a los 47,367 s de la canción: cae en su calma (−24 LUFS) y su GOLPE DE ENTRADA al tramo fuerte (50,93 s, 12,2 dB, tras un respiro de −28 LUFS) cae en el cambio del gancho al cielo
- * (f108). Los demás cambios de rótulo y de plano caen en golpes MEDIDOS de la canción (`GOLPES`, `musica/golpes-softly-*.json`): cinco de 9,5-15,7 dB y cuatro de 6,5-6,9 dB (una canción sin pulso no da una rejilla más densa: la mejor
+ * QUIÉN MARCA EL TIEMPO: LA MÚSICA. «Softly» (orquestal, sin pulso) entra a los 45,1 s de la canción: cae en su calma (−21…−24 LUFS) bajo la voz del gancho y su GOLPE DE ENTRADA al tramo fuerte (50,93 s, 12,2 dB, tras un respiro de −28 LUFS) cae en el cambio del gancho al cielo
+ * (f176). Los demás cambios de rótulo y de plano caen en golpes MEDIDOS de la canción (`GOLPES`, `musica/golpes-softly-*.json`): cinco de 9,5-15,7 dB y cuatro de 6,5-6,9 dB (una canción sin pulso no da una rejilla más densa: la mejor
  * combinación posible de planos de 3,0-5,3 s se buscó con un DP sobre sus golpes). Todas las entradas son DISOLVENCIAS de 12 f: no piden golpe (R33), pero el plano es opaco justo en él.
  *
  * UNIDADES. `desde` va en SEGUNDOS de la fuente, escrito como frame exacto (`fr(12)` = 12/30 s); `en` y `dur`, en frames de la composición. Los planos son CONTIGUOS.
@@ -73,15 +73,15 @@ export const OBJETIVO_LUFS = -15;
  * `archivos/musica/Softly I Judah Earl & BRANDON BLACK #music #cinematic #orchestralmusic.mp3` (sha 8 `87d78dc2`), orquestal, 3:45, Do mayor, sin pulso fijo. Medida (ebur128 por 1 s y `medir-pista.py`,
  * `proyectos/053/musica/`): una calma de −22…−24 LUFS hasta los 50 s, un respiro de −28 LUFS a los 50,1 s y el PRIMER TRAMO FUERTE (de 50,9 a 105 s, −14,4 LUFS de media, con golpes de hasta 15,7 dB) que cae a los 105 s.
  *
- *   47,4 – 50,3 s    la calma: −23,9 LUFS (pico −12,6)                                                      ← el gancho (Isabella caminando)
+ *   45,1 – 50,3 s    la calma: de −35 (el arranque) a −21…−24 LUFS (pico −12,6)                              ← el gancho (Isabella caminando y hablando)
  *   50,1 s           el respiro: −28 LUFS
- *   50,93 s          el golpe de entrada del tramo fuerte (12,2 dB; −16,5 LUFS a los 51,1 s)               ← el cielo (f108)
+ *   50,93 s          el golpe de entrada del tramo fuerte (12,2 dB; −16,5 LUFS a los 51,1 s)               ← el cielo (f176)
  *   51,5 – 87,3 s    el tramo fuerte: −14,4 LUFS (pico −0,4), con golpes de 6,5-15,7 dB                      ← el recorrido
- *   87,3 s           golpe de 10,5 dB                                                                      ← entra la toma del CTA (f1199)
+ *   87,3 s           golpe de 10,5 dB                                                                      ← entra la toma del CTA (f1267)
  *
- * Se entra a los 47,367 s (el frame 1421 de la canción a 30 fps). La música pesa más que en las piezas con locución: solo baja bajo la voz del CTA.
+ * Se entra a los 45,1 s (el frame 1353 de la canción a 30 fps). La música pesa más que en las piezas con locución: solo baja bajo la voz del gancho (que acaba 27 f antes del golpe del cielo y deja subir la música) y bajo la del CTA.
  */
-export const INICIO_MUSICA = 1421 / FPS_053;
+export const INICIO_MUSICA = 1353 / FPS_053;
 
 /**
  * Lo que el audio del render llega TARDE respecto de su fuente: 42 ms, medido en el 016 por correlación entre la prueba 720p y el WAV (y confirmado desde el 017). Se suma para que lo que la música hace en un
@@ -146,38 +146,43 @@ const color = (ajuste: ColorCine = {}): ColorCine => ({ ...COLOR_BASE, ...ajuste
  * El frame de cada cambio de plano (el frame en que el plano es OPACO; su disolvencia empieza 12 f antes): el del golpe de la canción en que cae (`GOLPES`).
  */
 const P = {
-  cielo: 108, //    el respiro acaba y entra el tramo fuerte (50,93 s): el cielo y el jacuzzi privado
-  cocina: 353, //   la cocina y la sala con la palma
-  bar: 477, //      el bar
-  balcon: 550, //   el balcón con las camas, las torres y el cielo
-  alcoba: 734, //   la alcoba y su pared con el televisor
-  sala: 928, //     la sala con el sofá
-  piscina: 1053, // el carril de nado
-  cta: 1199, //     Isabella con el CTA (la toma entra en el golpe de 87,3 s; su primera sílaba suena en el f1214, 15 f después)
+  cielo: 176, //    el respiro acaba y entra el tramo fuerte (50,93 s): el cielo y el jacuzzi privado (la voz del gancho acaba en el f149 y la música sube con 24 f de coseno hasta el f173)
+  cocina: 421, //   la cocina y la sala con la palma
+  bar: 545, //      el bar
+  balcon: 618, //   el balcón con las camas, las torres y el cielo
+  alcoba: 802, //   la alcoba y su pared con el televisor
+  sala: 996, //     la sala con el sofá
+  piscina: 1121, // el carril de nado
+  cta: 1267, //     Isabella con el CTA (la toma entra en el golpe de 87,3 s; su primera sílaba suena en el f1282, 15 f después)
 } as const;
 
-/** Frames que dura la toma del CTA: la voz va de 1,31 a 4,07 s del clip (f1214-f1297 de la comp) y la toma se corta 19 f después de la última palabra (los últimos 6 funden a negro). Nada se congela. */
+/** Frames que dura la toma del CTA: la voz va de 1,31 a 4,07 s del clip (f1282-f1365 de la comp) y la toma se corta 19 f después de la última palabra (los últimos 6 funden a negro). Nada se congela. */
 const DUR_CTA = 117;
 
 /** Dónde acaba la música (frame de la comp): se apaga bajo la tarjeta y llega a cero 2 f antes del final de la pieza. */
 export const FIN_MUSICA_053 = P.cta + DUR_CTA + DUR_TARJETA - 2;
 
 export const metraje053: readonly Corte[] = [
-  // ── Bloque 2 · el gancho: Isabella caminando (HK05, mudo), con su rótulo ──
+  // ── Bloque 2 · el gancho: Isabella caminando (HK05) y DICE «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.» ──
   {
     id: "c01-hook",
     bloque: 2,
     tipo: "video",
     src: v("hk05"),
-    // HK05 (`Img 9508.mp4`, 2-sep, anamórfico: se escala entero), de 4,3 a 7,9 s: Isabella (chaqueta de flores) camina hacia cámara por el balcón con la vista detrás, abre los brazos y se acerca hasta el torso. Es el tramo mudo del
-    // clip (la voz del hook del 051 está en 22,5-29,5 s). El frame 0 ES ELLA: excepción declarada a la regla fija 1 (la réplica abre así). El rótulo del gancho entra en el f6 (el f0 sale limpio) y dura hasta el cambio al cielo.
-    desde: fr(129),
+    audio: a("hk05-voz"),
+    voz: { s0: 24.65, s1: 29.4, lufs: -15.1, dice: "¿Deseas arrendar amoblado en Medellín? Ven, te muestro." },
+    // HK05 (`Img 9508.mp4`, 2-sep, anamórfico: se escala entero), de 24,43 a 30,3 s: Isabella (chaqueta de flores) camina hacia cámara por el balcón con la vista detrás, dice su frase y se acerca hasta el torso (la cara de lado llega a los 32 s,
+    // fuera del plano). **Es SU VOZ EN DIRECTO** (decisión del usuario, 2026-10-20: «el vídeo del hook déjalo con sonido para que se escuche la voz de Isabella»): la única que hay en el clip, de 24,65 a 29,4 s —energía en banda de voz a 0,1 s y
+    // arranques de sílaba—: «¿Deseas» (24,66-25,25), una pausa de 1,0 s, «arrendar amoblado en Medellín» (26,36-28,1), 0,5 s de pausa y «Ven, te muestro» (28,69-29,4). Es el MISMO tramo y la MISMA frase que usa el gancho del 051 (el
+    // reparto pedía otro tramo de HK05 sin su voz: el usuario prefirió oírla; se declara). El tramo mudo de 4,3-7,9 s con la pregunta de los $14.800.000, que era el gancho de la primera versión, ya no se usa. El frame 0 ES ELLA: excepción
+    // declarada a la regla fija 1 (la réplica abre así). `desde` 733 f deja su primera sílaba en el f7 (≥ 3 f tras el f0: el desclic de una entrada a corte) y la última palabra en el f149, ≥ 14 f antes del cambio al cielo.
+    desde: fr(733),
     en: 0,
     dur: P.cielo,
     zoom: QUIETO,
     entra: "corte",
     color: color({ exposure: 0.1, shadows: 0.2, highlights: -0.35, whites: -0.2, saturation: 1.02, contrast: 1.06 }),
-    reason: "Balcón (la promesa): Isabella camina hacia cámara con la ciudad detrás y el rótulo pregunta cuánto pagarías por vivir aquí; el frame 0 es ella (la réplica abre así).",
+    reason: "Balcón (la promesa): Isabella camina hacia cámara con la ciudad detrás y dice «¿deseas arrendar amoblado en Medellín? Ven, te muestro»; el frame 0 es ella (la réplica abre así).",
   },
   // ── Bloque 5 · el recorrido con un rótulo por tramo, en el orden del original ──
   {
@@ -292,7 +297,7 @@ export const metraje053: readonly Corte[] = [
     audio: a("ct05-voz"),
     voz: { s0: 1.31, s1: 4.07, lufs: -15.0, dice: "Si buscas más que un apartamento para vivir, escríbenos." },
     // La voz empieza a los 1,31 s («Si», una subida de −57 a −25 dB en 0,1 s) y acaba a los 4,07 s; la toma sigue hasta los 7,2 s (ella sonríe y alarga el brazo hacia la cámara): se corta 19 f después de la última palabra.
-    // La toma entra en el GOLPE de 87,3 s (f1199, 10,5 dB) y la música baja DESPUÉS, con curva (la bajada acaba 4 f antes de la primera palabra): `desde` 24 f deja la primera sílaba en el f1214, 15 f tras el golpe, y deja los 12 f de clip que
+    // La toma entra en el GOLPE de 87,3 s (f1267, 10,5 dB) y la música baja DESPUÉS, con curva (la bajada acaba 4 f antes de la primera palabra): `desde` 24 f deja la primera sílaba en el f1282, 15 f tras el golpe, y deja los 12 f de clip que
     // pide la disolvencia. Isabella está SENTADA en la silla de la sala (la de la foto `1-Sala`), con la ventana y el bosque detrás.
     desde: fr(24),
     en: P.cta,
