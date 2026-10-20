@@ -1,0 +1,26 @@
+/**
+ * LOS SUBTÍTULOS EDITORIALES DEL RECORRIDO 052 — `BloqueEditorial[]`.
+ *
+ * TODO lo que suena, en trozos de una a cuatro palabras, con un acento por frase (skill `recorrido-luxur`, `subtitulos-editoriales.md`): el hook de Isabella (`h01`-`h02`), la locución en off (`o01`-`o26`) y su CTA
+ * (`z01`). Frames ABSOLUTOS de la composición, a 30 fps. Sin cifras: la réplica no dice ninguna.
+ *
+ * ESTE ARCHIVO SE ESCRIBIÓ CON `trozos-editoriales.mjs` (el TEXTO sale del guion marcado de `proyectos/052/voz/`: `hk04.txt`, `off-marcado.txt`, `ct05.txt`; los TIEMPOS, de la voz) y se corrigió a mano donde se midió:
+ *
+ *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/hk04.txt proyectos/052/voz/hk04.json --en 0 --desde 2.7333 --s0 2.9 --audio remotion/public/recorrido-052/hk04.wav --prefijo h --tabla
+ *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/ct05.txt proyectos/052/voz/ct05.json --en 2247 --desde 1.2667 --s0 1.305 --audio remotion/public/recorrido-052/ct05.wav --prefijo z --tabla
+ *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/off-marcado.txt proyectos/052/voz/off-provisional.json --en 164 --desde 3.73 --s0 3.73 --prefijo o --tabla
+ *
+ * ⚠️ LOS BLOQUES `o01`-`o26` SON PROVISIONALES: salen del audio de `02.mp4` (`off-provisional.json`: whisper por palabra sobre el audio con la música vieja debajo, el reloj de la locución del original) porque la
+ * locución propia NO existe todavía (`OFF_PENDIENTE` en `audio-052.ts`). Cuando exista se transcribe SU archivo con `transcribir.mjs --palabras` y se vuelve a correr `trozos-editoriales.mjs` con su `--s0`, su `--audio` y
+ * su `--en`/`--desde`; cada línea se lleva a su palabra con la voz SOLA (`onsets-voz.py`, `lineas-vs-onsets.py`: R31).
+ *
+ * POR CONFIRMAR AL OÍDO (la puerta con `--final` falla mientras queden):
+ *   · «amoblado,» (h02, f64, 4,92 s de HK04): whisper oye «a mi lado» y el original (`02.mp4`) arranca su audio justo ahí; con 4 sílabas y lo que se oye, «a-mo-bla-do».
+ *   · «si no puedes disfrutarlo?» (o20): la frase dudosa del original; whisper oye «si lo puedes disfrutarlo» y los rótulos automáticos de `02.mp4` ponen «premium si · no puedes · disfrutarlo».
+ */
+import { segmentosDe } from "../../motor/subtitulos-editoriales";
+import type { BloqueEditorial } from "../../motor/subtitulos-editoriales";
+import { FPS_052 } from "./metraje-052";
+
+/** La cursiva, 8 px más pequeña (el 017 lo pidió así y todo el canal lo comparte). */
+export const ACENTO_MENOS_052 = 8;
