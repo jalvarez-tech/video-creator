@@ -514,7 +514,7 @@ Apertura y clímax son EXCLUSIVOS de su versión; el resto, libre para todas (de
 | RC18 | `Img 9528.mp4` | 7,5 s | terraza común al atardecer (pérgola) | **clímax V28** |
 | RC19 | `Img 9529.mp4` | 4,7 s | el deck con el jacuzzi comunal | **clímax V31** |
 | RC20 | `Img 9536.mp4` | 18,5 s | sala a la hora azul → la isla y el bar | **apertura V29** |
-| RC21 | `Img 9537 (1).mp4` | 11,1 s | atardecer: las luces de la ciudad, las torres, el deck | **clímax V27** |
+| RC21 | `Img 9537 (1).mp4` | 11,1 s | balcón del apto al atardecer: las luces de la ciudad → **el JACUZZI PRIVADO** (de ≈ 8,3 s al final) | **clímax V27** (con el jacuzzi privado) |
 | RC22 | `Img 9538.mp4` | 3,2 s | el bar con el neón, de noche | libre |
 
-**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) no está localizado en ningún clip: la sesión que lo encuentre lo anota aquí (clip y tramo) y lo usa de clímax; las demás no lo tocan hasta entonces.
+**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) **está en RC21, de ≈ 8,3 s al final** (hallazgo de la sesión de la V27/045, 2026-10-19; detalle en el catálogo §6): la V27 lo usa de clímax (RC21 ya era el suyo). Las demás sesiones: RC21 es exclusivo de la V27; si lo vuelven a encontrar en otro clip (RC02/RC03 son el otro extremo del balcón, con las camas), lo anotan aquí.
