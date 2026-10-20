@@ -8,7 +8,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Es una de las 
 |---|---|---|---|---|
 | V27 | 045 | sesión hermana | 2026-10-19 | «El tiempo»: RC01 · HK01 · MD01 · CT01 · RC21 · *Fortitude* |
 | V28 | 046 | sesión hermana | 2026-10-19 | «Ciudad nueva»: hook · HK03 · MD02+MD03 · CT02 · RC18 · *Children (Piano)* |
-| **V29** | **047** | **en prueba (rev. 1)** | 2026-10-19 | **«Lo que incluye»**, SIN RECORRIDOS: **HK02** · **MD04 + MD05** · **CT03** · *Dreamlife* · 702 f · 23,4 s. (La rev. 0, de 47,0 s, llevaba seis recorridos horizontales —RC20 · RC16 · RC11 · RC05 · RC09 · RC03— y se descartó por pixelada: `pruebas-720p/047-recorrido-rev0.mp4`) |
+| **V29** | **047** | **final rev. 1 (CRF 12 y CRF 16 + ficha + portada; «aseo» sin oír)** | 2026-10-19 | **«Lo que incluye»**, SIN RECORRIDOS: **HK02** · **MD04 + MD05** · **CT03** · *Dreamlife* · 702 f · 23,4 s. (La rev. 0, de 47,0 s, llevaba seis recorridos horizontales —RC20 · RC16 · RC11 · RC05 · RC09 · RC03— y se descartó por pixelada: `pruebas-720p/047-recorrido-rev0.mp4`) |
 | V30 | 048 | sesión hermana | 2026-10-19 | «Chef y experiencias»: hook · HK01 · MD03 · CT03 · RC10 · *Einaudi Fly* |
 | V31 | 049 | sesión hermana | 2026-10-19 | «Amenidades»: RC04 · HK03 · MD05 · CT01 · RC19 · *In This Together* |
 | V32 | 050 | sesión hermana | 2026-10-19 | «14,8»: hook · HK02 · MD04 · CT02 · RC02 (final) · *Spring is Coming* |
@@ -38,7 +38,18 @@ Cada versión viene en DOS formatos: el **orgánico** (`047-recorrido.mp4`, con 
 | Subtítulos | 19 líneas a −0,4…+2,4 f de su palabra sobre la voz sola (`lineas-vs-onsets.py`) |
 | Pausas entre frases | 21 · 23 · 24 f (0,7-0,8 s) |
 | Luma por plano (stills a escala 1) | hook 94-104 · MD04 85-89 · MD05 93-96 · CTA 91-93 |
-| Prueba (540×960) | ver abajo: se rellena con la mezcla de la rev. 1 |
+| Prueba (540×960) | −15,2 LUFS integrados, LRA 1,5 LU, pico −4,3 dBFS; voz en su ventana de −14,6 a −14,8 LUFS con la música debajo |
+
+## La final (rev. 1, exportada el 2026-10-19 por orden del usuario con «aseo» sin oír: `recorrido-luxur` §7c)
+
+| Qué | Medida |
+|---|---|
+| **Final (CRF 12 `slower`)** | `finales/047-recorrido.mp4`: 62,6 MB, 1080×1920, 702 f, H.264 (21,1 Mbps) + AAC 320 kbps (317), −15,2 LUFS, LRA 1,5 LU, pico −4,3 dBFS. Etiquetas BT.709 arregladas sin pérdida (R22: VUI y átomo `colr`); `framemd5` DECODIFICADO (702 fotogramas) y PCM del audio, idénticos antes y después. Color contra stills a escala 1 (`medir-final.py`, 8 fotogramas): color medio ≤ 0,38 niveles, PSNR de baja frecuencia 49,3-52,5 dB (medio 51,1), bruto 42,7-44,0 dB |
+| **Final (CRF 16 `slow`)** | `finales/047-recorrido-crf16.mp4`: 33,1 MB, misma imagen y mismo audio (PCM idéntico); `framemd5` idéntico antes/después de las etiquetas; color medio ≤ 0,38 niveles, PSNR de baja frecuencia 48,9-50,6 dB, bruto 41,5-42,0 dB (3 fotogramas) |
+| `.srt` | `finales/047.srt`: 19 cues, 0,43-21,0 s (`exportar-srt.mjs`) |
+| **Versión con ficha** | `finales/047-recorrido-ficha.mp4`: 65,3 MB, 702 f, el audio del final copiado tal cual. Base: render `--props={"sinSubtitulos":true} --muted --crf=6` (la mitad de arriba contra el final: PSNR 47,9 dB de media, mínimo 43,8). `APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES` desde el f0 hasta los 20,97 s; la tarjeta oscura empieza en los 21,37 s. Revisada con `ficha.mjs hoja` (`pruebas-720p/hoja-ficha.jpg`): ningún subtítulo, la ficha no tapa ninguna cara |
+| Portada | `finales/047-portada.png` (receta en `portada.json`): fotograma de 16,6 s del render sin subtítulos (las escaleras con la fachada del edificio y ella pequeña; el más nítido de 16,0-17,2 s), `EL POBLADO` · `RENTA`; contraste 9,1:1 el texto y 6,2:1 el isotipo. **Excepción declarada de `portada-luxur` §3**: no hay un fotograma de solo la propiedad (la pieza son las tomas de Isabella) y el texto cae sobre ella |
+| En el SSD | `…/Apartamento - Tierra Grata - Las Palmas/Videos Social Media/`: `047-recorrido.mp4` (orgánico, CRF 12), `047-recorrido-ficha.mp4` (funnel), `047-portada.png` y `047-caption.md` (sha256 idénticos a los de `finales/`). El CRF 16 y el `.srt` se quedan en `proyectos/047/finales/` |
 
 ## Cómo cambiar cada pieza
 
@@ -53,5 +64,5 @@ Cada versión viene en DOS formatos: el **orgánico** (`047-recorrido.mp4`, con 
 
 ## Lo por confirmar
 
-- **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto): «**un aseo semanal**» (HK02, «aseo» hacia el f178 = 5,9 s del vídeo; el subtítulo «un aseo semanal» entra en el f169 = 5,6 s): whisper oye «as-e-o» con la «e» a p 0,24 y, en otras pasadas, «asesor».
+- **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto y la final se exportó con ella abierta por orden del usuario; la nota SE QUEDA): «**un aseo semanal**» (HK02, «aseo» hacia el f178 = 5,9 s del vídeo; el subtítulo «un aseo semanal» entra en el f169 = 5,6 s): whisper oye «as-e-o» con la «e» a p 0,24 y, en otras pasadas, «asesor». **Medido con `formantes.py` (5,70-6,50 s de la fuente):** tras la «a» (F1 733 / F2 1.779 Hz, 5,83 s) y la /s/ (valle de −46 dB a 5,90 s) hay una [e] (F1 ≈ 590, F2 ≈ 1.600-2.000 Hz, 5,94-6,12 s) y, SIN ninguna fricativa entre medias, una [o] (F1 ≈ 590, F2 ≈ 715 Hz, 6,13-6,16 s) antes del «se-ma-nal»: es a-se-o, no a-se-sor. Una medida no es un oído: si no es «aseo», cambia esta línea, la del caption y los trozos del `.srt`, y se vuelven a exportar las tres piezas (final, CRF 16 y ficha).
 - Mirar con el usuario: que la pieza abre con el hook (excepción declarada) y dura 23,4 s, que la mitad son dos tomas, que hook y CTA se repiten en otra pieza, que ya no sale ninguna imagen de la propiedad sin Isabella (ni el jacuzzi), y la canción (medida, no oída; un lecho bajo la voz; licencia sin verificar).
