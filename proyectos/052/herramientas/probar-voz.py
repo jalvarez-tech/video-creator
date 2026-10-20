@@ -30,9 +30,8 @@ CRUDO = RAIZ / "remotion" / "public" / "recorrido-052"  # el WAV crudo de cada t
 
 # toma → (s0, s1) de la ventana de voz que se USA (límites medidos por energía, `limites-voz.py`)
 TOMAS = {
-    "hk04": (2.90, 7.17),
+    "hk04": (4.925, 7.17),
     "ct05": (1.30, 4.08),
-    "off": (0.04, 71.10),
 }
 
 

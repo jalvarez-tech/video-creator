@@ -10,7 +10,7 @@
  *   bloque 6  c12 c13             Isabella en la silla de la sala (CT05): el CTA con su voz; y la tarjeta oscura del cierre con el logo y la web (nada se congela)
  *
  * LA LECTURA DEL ORIGINAL (por fotogramas, emparejados contra los clips: 2026-10-20). Planos y de dónde sale cada uno (código del catálogo · tramo en el original):
- *   hook 0-2,6 s  HK04 desde 4,83 s (el original recorta «Antes de arrendar» y empieza en «…moblado, pregúntate esto»: aquí va entera) ·
+ *   hook 0-2,6 s  HK04 desde 4,83 s (el segundo intento de Isabella: «Antes de arrendar amoblado, pregúntate esto»; el primero, de 2,9 s, se equivoca y el original también lo salta) ·
  *   3,0-9,9  RC21 AL REVÉS (del jacuzzi a la ciudad: `rc21r`) · 10,0-13,1  RC22 (el bar) · 13,2-21,7  RC06 (la alcoba) · 22,0-33,6  RC01 (la isla, la sala con la palma, el ventanal) ·
  *   33,8-45,2  RC03 (las camas del balcón → las torres → el cielo) · 45,3-49,8  RC15 (el sauna) · 49,9-53,0  Isabella EN LA COCINA (¡NO está en el material!) ·
  *   53,1-59,1  RC16 (la piscina) · 59,1-63,0  el BOSQUE CON HIERBA (¡NO está en el material!) · 63,0-66,3  RC13 (el gimnasio) · 66,3-73,6  RC12 (la Social Kitchen) · 73,6-77,5  CT05 (el CTA).
@@ -78,10 +78,10 @@ const QUIETO: readonly [number, number] = [1.0, 1.0];
 
 /**
  * «Here For You» (Armin van Buuren, del álbum «Piano», `archivos/musica/…Here For You (from 'Piano' album).mp3`, sha 8 `6fbbe88d`, 3:55): piano, SIN pulso ni caída (el registro la midió con una caída de 8,0 dB a +40,3 s). Se usa
- * desde su segundo 20,8 (624/30, para que `trimBefore` no lo mueva): 5 s de piano casi mudo (−36 LUFS) bajo el hook y, en el f148, el golpe de 32,8 dB (el segundo 25,692 de la canción: de un lecho quieto a la sala
+ * desde su segundo 22,733 (682/30, para que `trimBefore` no lo mueva): 3 s de piano casi mudo (−34 LUFS) bajo el hook y, en el f90, el golpe de 32,8 dB (el segundo 25,692 de la canción: de un lecho quieto a la sala
  * entera) justo cuando acaba el hook y entra el primer rótulo; de ahí, −15 LUFS planos hasta los 70 s. Medida con `medir-pista.py`, no oída.
  */
-export const INICIO_MUSICA = 624 / FPS_052;
+export const INICIO_MUSICA = 682 / FPS_052;
 /** Lo que el audio del render llega TARDE respecto de su fuente (42 ms, medido en el 016) y lo que el oído coloca el golpe después de que su energía EMPIEZA a subir (12 ms). */
 export const RETARDO_AUDIO = 0.042;
 const ATAQUE = 0.012;
@@ -93,20 +93,20 @@ export const golpeExacto = (tCancion: number): number => (tCancion + ATAQUE - IN
  * de otros (lo que tarda en leerse un rótulo de 4-6 palabras con la pieza sin voz). Los de los planos con dos tramos (R3, R6) cambian de plano en un golpe a mitad.
  */
 export const R = {
-  r1: 148, // 4,95 s · golpe de 32,8 dB
-  r2: 237, // 7,91 s · «…o un lugar donde disfrutes vivir?»
-  r3: 336, // 11,20 s · «Aquí no pagas solo un apartamento» (RC22 + RC06)
-  r4: 472, // 15,73 s · «Pagas llegar y tener todo resuelto:» (RC01)
-  r5: 612, // 20,39 s · «Aseo semanal incluido» (RC03)
-  r6: 745, // 24,83 s · «Alguien que te acompaña…» (RC15 + Isabella)
-  r7: 881, // 29,36 s · «Chef privado y transporte…» (RC16): el golpe más fuerte tras el primero (15,9 dB)
-  r8: 1014, // 33,79 s · «Planes y reservas en Medellín» (RC13)
-  r9: 1101, // 36,69 s · «Y la mejor asesoría de la ciudad» (RC12)
+  r1: 90, // 3,01 s · golpe de 32,8 dB
+  r2: 179, // 5,98 s · «…o un lugar donde disfrutes vivir?»
+  r3: 278, // 9,27 s · «Aquí no pagas solo un apartamento» (RC22 + RC06)
+  r4: 414, // 13,80 s · «Pagas llegar y tener todo resuelto:» (RC01)
+  r5: 554, // 18,45 s · «Aseo semanal incluido» (RC03)
+  r6: 687, // 22,89 s · «Alguien que te acompaña…» (RC15 + Isabella)
+  r7: 823, // 27,42 s · «Chef privado y transporte…» (RC16): el golpe más fuerte tras el primero (15,9 dB)
+  r8: 956, // 31,85 s · «Planes y reservas en Medellín» (RC13)
+  r9: 1043, // 34,76 s · «Y la mejor asesoría de la ciudad» (RC12)
 } as const;
 /** Cambios de plano que no son un rótulo nuevo (también en golpe). */
-const MITAD = { alcoba: 413, isabella: 814 } as const;
+const MITAD = { alcoba: 355, isabella: 756 } as const;
 /** El CTA entra en un golpe de 13,8 dB (el segundo 61,868 de la canción). */
-const CTA_EN = 1234;
+const CTA_EN = 1176;
 
 /* ── El color ──────────────────────────────────────────────────────────────── */
 
@@ -141,8 +141,8 @@ const a = (id: string): string => `recorrido-052/${id}.wav`;
 
 /** El CTA: su toma dura 104 f (la frase, 84 f, y 20 de cola) y a su último fotograma funde a negro. */
 export const DUR_CTA = 104;
-/** El hook dura hasta que acaba «esto» (f133) más 2 f de margen y los 12 de la disolvencia del siguiente. */
-const DUR_HOOK = 147;
+
+const DUR_HOOK = 90; // la voz acaba en el f72: 2 f de margen, 12 de disolvencia y 4 más para que el plano siguiente entre justo en el golpe del f90
 
 export const CTA_EN_052 = CTA_EN;
 
@@ -154,9 +154,11 @@ export const metraje052: readonly Corte[] = [
     tipo: "video",
     src: v("hk04"),
     audio: a("hk04-voz"),
-    // «Antes de arrendar» 2,90-3,9 s · pausa de 1 s · «amoblado,» 4,92-5,9 s · pausa · «pregúntate esto.» 6,50-7,17 s (perfil de energía y `onsets-voz.py`). La primera sílaba suena en el f5 (desde fr(82) = 2,733 s).
-    voz: { s0: 2.9, s1: 7.17, lufs: -15.2, dice: "Antes de arrendar amoblado, pregúntate esto." },
-    desde: fr(82),
+    // HK04 trae DOS intentos: en el primero (2,90-3,9 s) Isabella se equivoca (whisper oye «Antes de morrera») y en el segundo (de 4,92 s) dice la frase entera: «Antes de arrendar amoblado, pregúntate esto» (4,92-7,17 s,
+    // perfil de energía, `onsets-voz.py` y whisper sobre ese tramo; el original `02.mp4` también empieza en el segundo). El hook ARRANCA en el segundo «Antes» (corrección del usuario, 2026-10-20): su primera sílaba suena
+    // en el f5 (desde fr(143) = 4,767 s). Sin el intento fallido ni la pausa de 1 s, el hook dura 2,9 s en vez de 4,9.
+    voz: { s0: 4.925, s1: 7.17, lufs: -15.1, dice: "Antes de arrendar amoblado, pregúntate esto." },
+    desde: fr(143),
     en: 0,
     dur: DUR_HOOK,
     zoom: EMPUJE,
@@ -164,7 +166,7 @@ export const metraje052: readonly Corte[] = [
     // Isabella: la piel se queda donde estaba (saturation ≤ 1,06, sin tirar de cálido ni de frío): la base sube un 10 % y a ella casi nada.
     color: color({ saturation: 1.02, exposure: 0.06 }),
     reason:
-      "Sofá de la sala: Isabella abre la pieza hablando (réplica: `02.mp4` también abre con ella, aunque recorta «Antes de arrendar»); el hook es una pregunta que selecciona a quien va a arrendar amueblado.",
+      "Sofá de la sala: Isabella abre la pieza hablando (réplica: `02.mp4` también abre con ella y también salta su primer intento fallido); el hook es una pregunta que selecciona a quien va a arrendar amueblado.",
   },
   // ── Bloque 5 · el recorrido, sin voz: un rótulo por tramo ──
   {

@@ -17,11 +17,11 @@ alejarse de la separación ideal. Los instantes de la composición llevan el ret
 import json
 import sys
 
-HOOK_FIN = 4.9           # s: la disolvencia al primer plano de recorrido acaba aquí (f147)
+HOOK_FIN = 2.9           # s: la disolvencia al primer plano de recorrido acaba aquí (f86)
 N = int(sys.argv[2]) if len(sys.argv) > 2 else 10   # entradas: R1…R9 y la toma del CTA
 UMBRAL = 8.0
 IDEAL = 4.0
-SEPARACION = (2.5, 6.5)
+SEPARACION = (2.8, 6.0)
 RETARDO = 0.042 + 0.012
 
 g = [x for x in json.load(open(sys.argv[1]))["golpes"] if x["db"] >= UMBRAL]

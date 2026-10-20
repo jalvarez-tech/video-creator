@@ -1,4 +1,3 @@
-# HK04 (Img 9496), Isabella sentada en el sofá de la sala (2-sep, chaqueta de flores; anamórfica). Voz de 2,90 a 7,17 s con DOS pausas: «Antes de arrendar» 2,90-3,9 · [1 s] · «amoblado,» 4,92-5,9 · [0,6 s] · «pregúntate esto.» 6,50-7,17.
-# POR CONFIRMAR AL OÍDO: «amoblado» (whisper oye «a mi lado», pero con 4 sílabas y la vocal inicial dicha de corrido es «a-mo-bla-do», y el reparto lo da así; en el original `02.mp4` el audio empieza justo en esta palabra).
-Antes de arrendar
-amoblado, / **pregúntate esto.**
+# HK04 (Img 9496), Isabella sentada en el sofá de la sala (2-sep, chaqueta de flores; anamórfica). La toma trae DOS intentos: el primero (2,90-3,9 s) se equivoca (whisper: «Antes de morrera») y el SEGUNDO (de 4,92 s) dice la frase entera: «Antes de arrendar amoblado, pregúntate esto» (4,92-7,17 s). El hook ARRANCA en el segundo (corrección del usuario, 2026-10-20).
+# «amoblado»: whisper oye «a mollado» sobre el segundo intento; el usuario vio el subtítulo en la prueba y solo corrigió el arranque.
+Antes de arrendar / amoblado, / **pregúntate esto.**

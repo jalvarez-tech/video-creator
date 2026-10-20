@@ -18,7 +18,7 @@
  * La canción es un piano plano y no se normaliza (un loudnorm le cambiaría la dinámica): una sola ganancia la lleva a −15.
  *
  * LAS RAMPAS (la curva debe ser ANTES de que hable, ya regla del canal): bajada de coseno de 10 f que ACABA en la primera palabra. La música ENTRA ya baja bajo el hook (suena desde el f0, 3 f de entrada) y SUBE
- * con curva hasta el golpe de 32,8 dB que abre el primer rótulo (f148): el piano pasa de un lecho casi mudo a la sala entera justo cuando acaba el hook.
+ * con curva hasta el golpe de 32,8 dB que abre el primer rótulo (f90): el piano pasa de un lecho casi mudo a la sala entera justo cuando acaba el hook.
  *
  * EL CTA Y LA RESOLUCIÓN. La canción no resuelve sola (piano sin caída): al acabar la voz del CTA la música sube a su nivel «solo» en 14 f, suena así hasta que acaba la toma y se lleva a cero en línea recta bajo la
  * tarjeta, 2 f antes del final de la pieza.
@@ -54,7 +54,7 @@ const ventanaDe = (id: string): { en: number; dur: number; fin: number } => {
  */
 export const HAY_MUSICA = true;
 
-/** Sonoridad de «Here For You» en los 46 s que se usan (desde su segundo 20,8; ebur128, medida con `medir-pista.py`): lo que suena en los rótulos. */
+/** Sonoridad de «Here For You» en los 46 s que se usan (desde su segundo 22,733; ebur128, medida con `medir-pista.py`): lo que suena en los rótulos. */
 export const LUFS_MESETA = -14.8;
 /** La música SOLA. */
 const OBJETIVO_MUSICA = -15;
@@ -72,7 +72,7 @@ const fundido = (f0: number, n: number, de: number, a: number): [number, number]
   [0, 0.25, 0.5, 0.75, 1].map((u) => [Math.round(f0 + u * n), de + ((a - de) * (1 - Math.cos(Math.PI * u))) / 2] as [number, number]);
 
 /**
- * La envolvente: la música ENTRA ya baja bajo la voz del hook (3 f de entrada para no meter un clic), SUBE con curva hasta su nivel «solo» a tiempo para el golpe del f148 (el que abre el primer rótulo), se queda ahí
+ * La envolvente: la música ENTRA ya baja bajo la voz del hook (3 f de entrada para no meter un clic), SUBE con curva hasta su nivel «solo» a tiempo para el golpe del f90 (el que abre el primer rótulo), se queda ahí
  * (los rótulos no hablan) y baja con curva antes de la primera palabra del CTA; tras su última palabra sube en 14 f, suena a su nivel hasta que acaba la toma y se apaga en línea recta bajo la tarjeta.
  */
 const envolvente = (): [number, number][] => {
@@ -84,7 +84,7 @@ const envolvente = (): [number, number][] => {
     [0, 0],
     [3, BAJO],
     [hook.fin, BAJO],
-    // …y sube con curva hasta su nivel «solo»: llega entero al golpe del primer rótulo (f148: 32,8 dB).
+    // …y sube con curva hasta su nivel «solo»: llega entero al golpe del primer rótulo (f90: 32,8 dB).
     ...fundido(hook.fin, R.r1 - 1 - hook.fin, BAJO, ALTO),
     // El CTA: la bajada acaba en su primera palabra.
     ...fundido(cta.en - FADE_OUT, FADE_OUT, ALTO, BAJO),

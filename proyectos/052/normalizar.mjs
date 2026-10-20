@@ -205,7 +205,7 @@ const VOZ_TRATADA = (gananciaDb, [ataque, relevo] = [4, 120]) =>
   ].join(",");
 
 /** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). */
-const GANANCIA_VOZ_DB = { hk04: 19.4, ct05: 20.4 };
+const GANANCIA_VOZ_DB = { hk04: 18.6, ct05: 20.4 };
 
 /**
  * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente, medidos por energía
@@ -216,7 +216,7 @@ const GANANCIA_VOZ_DB = { hk04: 19.4, ct05: 20.4 };
  * otras; los inicios de abajo son los del perfil de energía a 20 ms, banda de voz: la primera subida a más de −40 dB.)
  * El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
  */
-const VENTANA_VOZ = { hk04: [2.9, 7.17], ct05: [1.3, 4.08] };
+const VENTANA_VOZ = { hk04: [4.925, 7.17], ct05: [1.3, 4.08] };
 /** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
 const VOZ_ANTES = 0.07;
 const VOZ_DESPUES = 0.05;

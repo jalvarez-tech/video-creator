@@ -4,7 +4,7 @@
  * Dos clases de texto, las dos con las letras del canal (Montserrat 500 y Playfair Display itálica en la palabra que importa, blanco, SIN sombra; skill `recorrido-luxur`, `subtitulos-editoriales.md`) y en la misma
  * banda (abajo, al 90 %), **nunca dos bloques a la vez**:
  *
- *   h01-h02  lo que DICE Isabella en el hook (HK04): «Antes de arrendar amoblado, pregúntate esto.» Va a su palabra (R31).
+ *   h01      lo que DICE Isabella en el hook (HK04, su segundo intento): «Antes de arrendar amoblado, pregúntate esto.» Va a su palabra (R31).
  *   r01-r09  los RÓTULOS: el guion nuevo en pantalla (`proyectos/044/reparto-051-053.md` §5b), uno por tramo del recorrido, que enseñan las plusvalías del arriendo. NO se dicen: la pieza va sin locución, así que
  *            no hay palabra a la que llevarlos; entran en un GOLPE MEDIDO del piano (`R` en `metraje-052.ts`) y se quedan hasta el siguiente. Tal cual lo dictó el usuario: de tú, sin exclamaciones, sin cifras,
  *            una palabra acentuada por rótulo.
@@ -12,14 +12,13 @@
  *
  * Frames ABSOLUTOS de la composición, a 30 fps. Los del hook y el CTA salen de `trozos-editoriales.mjs` (`proyectos/052/voz/hk04.txt`, `ct05.txt`) y se llevaron a mano a su sílaba con `onsets-voz.py`:
  *
- *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/hk04.txt proyectos/052/voz/hk04.json --en 0 --desde 2.7333 --s0 2.9 --audio remotion/public/recorrido-052/hk04.wav --prefijo h --tabla
- *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/ct05.txt proyectos/052/voz/ct05.json --en 1234 --desde 1.2667 --s0 1.305 --audio remotion/public/recorrido-052/ct05.wav --prefijo z --tabla
+ *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/hk04.txt proyectos/052/voz/hk04.json --en 0 --desde 4.7667 --s0 4.925 --audio remotion/public/recorrido-052/hk04.wav --prefijo h --tabla
+ *   node manuales/edicion-video/scripts/trozos-editoriales.mjs proyectos/052/voz/ct05.txt proyectos/052/voz/ct05.json --en 1176 --desde 1.2667 --s0 1.305 --audio remotion/public/recorrido-052/ct05.wav --prefijo z --tabla
  *
  * Dentro de un rótulo las líneas se acumulan con 9-14 f de separación (nada habla: es solo el ritmo de lectura), y el primero entra con el golpe. El primer acento (`dormir…`) espera 28 f al golpe para no pisar el del
  * hook (≥ 2 s entre dos acentos).
  *
- * POR CONFIRMAR AL OÍDO (la puerta con `--final` falla mientras queden):
- *   · «amoblado,» (h02, f64, 4,92 s de HK04): whisper oye «a mi lado» y el original (`02.mp4`) arranca su audio justo ahí; con 4 sílabas y lo que se oye, «a-mo-bla-do».
+ * «amoblado»: whisper oye «a mollado» (sobre el segundo intento: «Antes de arrendar a mollado, pregúntate esto»); la frase es la del reparto y el original, y el usuario vio el subtítulo en la prueba sin objetar.
  */
 import { segmentosDe } from "../../motor/subtitulos-editoriales";
 import type { BloqueEditorial } from "../../motor/subtitulos-editoriales";
@@ -32,14 +31,14 @@ export const ACENTO_MENOS_052 = 8;
 const SALE = 3;
 
 export const subtitulos052: readonly BloqueEditorial[] = [
-  // ── Bloque 2 · el hook dicho: la imagen de Isabella ya está en el f0, su primera sílaba suena en el f5 y el primer texto entra con ella ──
-  { id: "h01", hasta: 64, trozos: [{ desde: 5, texto: "Antes de arrendar" }] },
+  // ── Bloque 2 · el hook dicho (el segundo intento de HK04): la imagen de Isabella ya está en el f0, su primera sílaba suena en el f5 y el primer texto entra con ella. Un solo bloque que se acumula ──
   {
-    id: "h02",
-    hasta: 142,
+    id: "h01",
+    hasta: 82,
     trozos: [
-      { desde: 64, texto: "amoblado," }, // POR CONFIRMAR AL OÍDO: «amoblado» (HK04, 4,92 s)
-      { desde: 113, texto: "pregúntate esto.", estilo: "acento" },
+      { desde: 5, texto: "Antes de arrendar" },
+      { desde: 25, texto: "amoblado," }, // «amoblado» (HK04, 5,68 s): whisper oye «a mollado»; el usuario vio el subtítulo en la prueba y solo corrigió el arranque del hook
+      { desde: 49, texto: "pregúntate esto.", estilo: "acento" },
     ],
   },
   // ── Bloque 5 · los rótulos del guion nuevo, uno por tramo del recorrido ──
