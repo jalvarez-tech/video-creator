@@ -1,5 +1,7 @@
 # 01 · Plan narrativo — proyecto 047 · Tierra Grata Bosque Santo (El Poblado), ARRIENDO, V29 del registro («LO QUE INCLUYE»)
 
+> **REV. 1 (2026-10-19, tras ver la prueba): SIN RECORRIDOS.** El usuario dijo que «algunos vídeos se ven pixelados como si se hubieran escalado» y, ante las opciones, «**no pongas recorridos horizontales**». Los 22 recorridos del material son horizontales (1920×1080) y recortados al 9:16 se ampliaban ×1,78. La pieza son ahora SOLO las cuatro tomas de Isabella (4K vertical) con la tarjeta del cierre: 23,4 s. Todo lo que sigue sobre la apertura con RC20, los recorridos y el clímax RC03 es de la **rev. 0** (su prueba queda en `pruebas-720p/047-recorrido-rev0.mp4`); la rev. 1 está en la sección «Rev. 1» más abajo y en `03-timeline.md`.
+
 > Paso 1 de 3. Escrito con el reparto de la sesión coordinadora (`proyectos/044/reparto-045-050.md`), el catálogo del material (`proyectos/044/catalogo-material.md`), la ficha de la web leída el 2026-10-19 y lo aprendido en el 043 (`aprendizajes.md` y `combinaciones.md`), y **antes** del primer render. Siguiente: [02-layout.md](02-layout.md).
 
 ## Cabecera (los supuestos declarados)
@@ -12,7 +14,7 @@
 | Lo que el rodaje del 17-oct NO es | **El libreto 044 no se grabó.** Isabella grabó once frases de OTRO ángulo, el del **acompañamiento personalizado** (aseo semanal incluido, chef privado, tours, masajes, transporte, «te acompañamos desde el día uno», «apartamento amoblado»), todas en las zonas comunes de la unidad y con un vestido negro. Los códigos HK/MD/CT son los de la carpeta, no los del libreto. |
 | Material | `Apartamento - Tierra Grata - Las Palmas/Videos/` (`1 Hooks`, `2 Miad`, `4 Recorrido`, `5 Cta`), copiado a `proyectos/047/original/` con el CÓDIGO como nombre. sha256 en `normalizar.mjs`: HK02 `4cc73e1d`, MD04 `cfd314e1`, MD05 `1d92690e`, CT03 `a978434e`, RC20 `eed9445e`, RC16 `7cdf817e`, RC11 `38a59f31`, RC05 `931b51dd`, RC09 `8b1031a3`, RC03 `e5dd0f12`, música `5e7dcd27` (*Dreamlife*, el mismo archivo que reserva el registro). |
 | **Los recorridos son HORIZONTALES** | 22 clips en 1920×1080 SDR (31-ago / 2-sep). Para el 9:16 se **recortan al centro (608×1080, `crop=608:1080:656:0`) ANTES de `scale=1296:2304`** y salen **más blandos que Isabella en 4K** (×1,78 sobre el cuadro final). Es lo que hay: se dice, no se filtra. No hay dron. |
-| Composición | `Recorrido047` · 1080×1920 · **30 fps** · 1411 f (47,03 s). Clips a 1296×2304 y 30 fps (las tomas de iPhone, HLG → BT.709 con VideoToolbox; **CT03 a 29,97 fps** se normaliza a 30 constantes: 200 fotogramas de 200). |
+| Composición | `Recorrido047` · 1080×1920 · **30 fps** · rev. 1: 702 f (23,4 s) · (rev. 0: 1411 f, 47,03 s). Clips a 1296×2304 y 30 fps (las tomas de iPhone, HLG → BT.709 con VideoToolbox; **CT03 a 29,97 fps** se normaliza a 30 constantes: 200 fotogramas de 200). |
 | Formato | 9:16 · `recorrido-luxur` (APARTAMENTO · HOOK · RECORRIDO · MITAD · RECORRIDO · CTA), con la mitad en **DOS tomas** seguidas · cuatro tomas de Isabella |
 | Marca / texto | Luxur, texto **editorial** (abajo, 90 %, cursiva 8 px menor); **sin sello**; cierre = tarjeta oscura con el logo (440 px, 60 %) y `PropiedadesLuxur.com`. La versión con ficha (`ficha-luxur`) va SIN subtítulos y con el tipo, el lugar y el precio fijos. |
 | Destino | Reels · TikTok · Shorts (orgánico) y Meta Ads / feed 1:1 (funnel) |
@@ -69,3 +71,24 @@ El reparto fija RC20 en el bloque 1 y, **solo si «la hora azul choca con el pas
 - **Canción = *Dreamlife* (reservada; no se cambia a *Softly*).** Sin pulso y sin golpes fuertes donde cortar (los mayores, de 8,5-9,7 dB, caen antes de los 184 s), por eso **todas las entradas son disolvencias** (las disolvencias no piden golpe, R33) y la música se corta a lo largo de la CURVA de la canción: calma hasta el 186,5 s, escalones a los 186,5 y 194 s, meseta desde los 202,2 s hasta la caída de los 217,3 s, que cae donde entra el CTA. Medida, no oída; licencia sin verificar.
 - **Descartado:** el sauna (RC15: oscuro y desenfocado), el gimnasio recorrido (RC13: un hombre en la caminadora), RC17 (la piscina desde el otro extremo: casi todo cielo y árboles, tres bañistas), RC07/RC08 (la alcoba con el ventanal quemado), el bloque 3 de tres planos (solo hay dos de la unidad que sirven y que no son aperturas o clímax de otras), la Social Kitchen más allá del 4,0 s de RC11 (un hombre con un portátil en el banco).
 - **El jacuzzi privado SÍ aparece:** en RC03, de 5,8 a 6,9 s de la fuente, al fondo del balcón (una caja de madera con la banca delante). RC03 ya era el clímax asignado, así que no se cambia nada; se anota en el catálogo y en el registro. Pequeño y lejano en el recorte 608×1080 (≈ 90 px).
+
+## Rev. 1 — sin recorridos (2026-10-19)
+
+**Qué pasó.** La rev. 0 (47,0 s) llevaba seis recorridos horizontales (RC20, RC16, RC11, RC05, RC09 y RC03) recortados al centro (608×1080) y ampliados ×1,78. En la prueba salían **pixelados**; se probaron tratamientos (reducir bloques y ruido, y afilar, antes y después de escalar): sin diferencia a 100 %, porque el detalle no está en el original. Se enseñó un mock-up de tres encuadres (recorte actual · banda nítida sobre fondo desenfocado · ×1,2 con relleno). El usuario contestó: **«no pongas recorridos horizontales»**.
+
+**Qué es la pieza ahora.** Solo las cuatro tomas de Isabella (HK02 · MD04 · MD05 · CT03), seguidas con disolvencias de 12 f: un paseo de ELLA por la unidad (la terraza, la Social Kitchen, el gimnasio, las escaleras). Ni dron ni recorrido vertical hay en el material, así que no queda imagen de la propiedad sin ella.
+
+| Decisión | Antes (rev. 0) | Ahora (rev. 1) |
+|---|---|---|
+| Bloques | 1 · 2 · 3 · 4 · 5 · 6 | **2 · 4 · 6** |
+| Apertura | RC20, la sala a la hora azul, sin texto ni voz | **el hook, a corte en el f0** (excepción declarada, como el 021 y el 022: sin recorrido no hay otra primera toma). Los 13 primeros fotogramas salen sin texto ni voz; el primer subtítulo entra con su primera sílaba |
+| Planos | 11 | **5** (HK02 216 f · MD04 131 f · MD05 112 f · CT03 183 f · tarjeta 60 f) |
+| Duración | 47,0 s | **23,4 s** (por debajo de los 28-30 s de la versión corta del formato; se declara) |
+| Pausa entre una frase y la siguiente | 15 f a 8 s | 21 · 23 · 24 f (0,7-0,8 s), con el final de cada toma y el principio de la siguiente |
+| Música | curva con subida (−16 → −14 LUFS) y bajada antes de cada voz | **lecho** a −26 LUFS debajo de las cuatro voces (no da para subir y bajar entre frases de 0,7 s) y la caída de la canción bajo el CTA. Entrada en el 202,1 s (el escalón de la meseta suena en el f5); la caída (217,3 s) cae en el f457 y el CTA entra en el f459 |
+| Subtítulos | 7 acentos | 6: «un aseo semanal» pasa a base (el precio, 1,6 s después, no deja los 2 s entre acentos) |
+| Portada y 1:1 | — | la portada no puede ser «solo la propiedad» (en todos los fotogramas hay Isabella): se elige un fotograma donde ella sea pequeña o la propiedad llene el cuadro (las escaleras y el edificio del CTA). Se declara |
+
+**Lo que se pierde, y se dice.** El «recorrido» del formato (los bloques 3 y 5, el clímax de la vista con el jacuzzi del balcón) y la apertura con la propiedad. El jacuzzi privado deja de salir en el vídeo (queda en el caption). La pieza es corta y toda hablada. Si el usuario quiere más imagen de la propiedad, la vía es rodar vertical o dron: el material de recorrido horizontal solo sirve bien a ancho completo.
+
+**Lo que NO cambia.** Las cuatro tomas, el orden, las disolvencias, la cifra `$14.800.000` (solo en MD04), el color por plano, la voz a −15 LUFS, la canción (reservada), la tarjeta oscura del cierre y las reglas del canal (sin sello, nada congelado).
