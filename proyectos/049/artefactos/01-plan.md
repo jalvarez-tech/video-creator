@@ -77,9 +77,12 @@
 | **RC01** | **apertura de la V27 (045)** (3,8-7,5 s) · pedida por el usuario para la V31 | 1,20-4,70 s (comparte 0,9 s) |
 | RC04 · RC19 | **exclusivos de la V31** (apertura y clímax) | libres |
 
-## Pendiente con el usuario
+## Estado y pendiente (2026-10-19)
 
-1. El OK a la prueba (`pruebas-720p/049-recorrido.mp4`, 540×960) y a las decisiones declaradas: **el recorrido anamórfico escalado entero (algo más blando que Isabella en 4K)**, **el hook, la mitad y el CTA repetidos**, **la canción** (cinematic, fuerte y sin pulso) y el **clímax con el jacuzzi comunal** (no el privado).
-2. **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto): «la» de «que no es la tuya» (HK03, f114 = 3,8 s) · «esta» de «esta unidad» (MD05, f677 = 22,6 s) · «durante» (CT01, f1253 = 41,8 s) · «tu» de «toda tu estancia» (CT01, f1283 = 42,8 s) · «contáctanos» (CT01, f1302 = 43,4 s).
-3. Si «plusvalía» (HK03) se deja tal cual.
-4. La canción (medida, no oída; licencia sin verificar).
+**Final exportada con el OK del usuario a la rev. 2** («OK a la rev. 2 de la V31. Exporta la final … Las 5 palabras POR CONFIRMAR se exportan con la nota abierta y las oigo yo después»): `finales/049-recorrido.mp4` (CRF 12), `049-recorrido-crf16.mp4`, `049.srt`, `049-portada.png` y `049-recorrido-ficha.mp4`, copiados al SSD (`Videos Social Media/`) junto con su caption. Historia de la pieza: rev. 0 (alcoba RC06 y recorrido recortado) → rev. 1 (el usuario pide Img 9484, Img 9481 e Img 9461: el apartamento pasa a RC01 → RC08 → RC09) → rev. 2 (los recorridos eran anamórficos: cuadro entero) → final.
+
+1. **Oír** (POR CONFIRMAR AL OÍDO, notas abiertas en el plan y los guiones; la puerta con `--final` falla solo por esto): «la» de «que no es la tuya» (HK03, f114 = 3,8 s) · «esta» de «esta unidad» (MD05, f677 = 22,6 s) · «durante» (CT01, f1253 = 41,8 s) · «tu» de «toda tu estancia» (CT01, f1283 = 42,8 s) · «contáctanos» (CT01, f1302 = 43,4 s; ¿«-anos» o «-enos»?). Cambiar una es una línea de `subtitulos-049.ts` y su cue del `.srt` (≈ 6 min) más el render de la imagen si es una palabra del vídeo ya pintada.
+2. «Plusvalía» (HK03): palabra de Isabella; se avisa porque suele leerse como valorización del inmueble.
+3. La canción (medida, no oída; licencia sin verificar) y los tres cortes sobre golpes de 7,5-8,5 dB (f344, f449 y f983): se juzgan al oído.
+4. El clímax es el jacuzzi **comunal** (el privado no sale en ningún clip revisado); el crucifijo de la pared de la alcoba (RC08, ≈ 29,4-32,7 s); personas a lo lejos en la Social Kitchen y el gimnasio.
+5. RC01 (Img 9461) era la apertura de la V27 (045): comparte 0,9 s de imagen con ella.

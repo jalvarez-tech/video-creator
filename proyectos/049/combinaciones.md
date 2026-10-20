@@ -10,7 +10,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 | V28 | 046 | sesión hermana | 2026-10-19 | «Ciudad nueva»: hook · HK03 · MD02+MD03 · CT02 · RC18 · *Children (Piano)* |
 | V29 | 047 | sesión hermana | 2026-10-19 | «Lo que incluye»: RC20 · HK02 · MD04+MD05 · CT03 · RC03 · *Dreamlife* |
 | V30 | 048 | sesión hermana | 2026-10-19 | «Chef y experiencias»: hook · HK01 · MD03 · CT03 · RC10 · *Einaudi Fly* |
-| **V31** | **049** | **en prueba** (la final espera el OK del usuario y oír 5 palabras) | 2026-10-19 | **«Amenidades»**: RC04 · **HK03** · RC17 · RC12 · RC14 · RC13 · **MD05** · **RC01** · RC08 · RC09 · **RC19 (clímax)** · **CT01** · *In This Together* · 1401 f · 46,7 s · sin dron ni cifras |
+| **V31** | **049** | **final exportada** (CRF 12 + CRF 16 + `.srt` + portada + versión con ficha; 5 palabras sin oír) | 2026-10-19 | **«Amenidades»**: RC04 · **HK03** · RC17 · RC12 · RC14 · RC13 · **MD05** · **RC01** · RC08 · RC09 · **RC19 (clímax)** · **CT01** · *In This Together* · 1401 f · 46,7 s · sin dron ni cifras |
 | V32 | 050 | sesión hermana | 2026-10-19 | «14,8»: hook · HK02 · MD04 · CT02 · RC02 final · *Spring is Coming* |
 
 ## Lo que lleva (rev. 0 = la prueba del 2026-10-19)
@@ -36,7 +36,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 - **rev. 2** (2026-10-19, aviso de la sesión de la V32): los recorridos son ANAMÓRFICOS (SAR 81:256, DAR 9:16) y se habían recortado a 608×1080 (un zoom ×3,2 del tercio central). `normalizar.mjs` ya no recorta: escala el cuadro entero a 1296×2304 con `setsar=1`. Mismos tramos y misma rejilla; se rehízo el color de cada plano de recorrido (la luz de los cuadros enteros era otra).
 - **rev. 1** (2026-10-19, pedido del usuario: «incluye tomas: Img 9484, Img 9481, Img 9461»): el bloque 5 pasa a RC01 (cocina con isla) → RC08 → RC09 → RC19; RC06 sale. Misma rejilla de golpes, misma duración (1401 f): solo cambia el primer plano del apartamento y el nombre de las claves `cocina`/`alcoba` de `GOLPE`.
 
-## Lo medido en la prueba (rev. 0; el audio es idéntico en las rev. 1 y 2)
+## Lo medido (prueba rev. 0, cuyo audio es idéntico al de las rev. 1 y 2 y al de la final)
 
 | Qué | Medida |
 |---|---|
@@ -47,6 +47,12 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 | Subtítulos | 8 bloques, 4 acentos, validador sin avisos; 14 líneas contra el render (`subs-vs-voz.py`): mediana +2,2 f, rango −2,6…+3,7 f antes de ajustar dos líneas (f107→102 y f1252→1251) |
 | Color (`luma.py`, 3 fotogramas por plano; **rev. 2, cuadros enteros**) | luma 104-112 apertura · 100 piscina · 111-117 Social Kitchen · 93-106 gimnasio ×2 · 108-111 cocina · 112-114 alcoba · 105-110 baño · 109-114 vista (y 98-110 las tomas de Isabella, de la rev. 0); sin píxeles quemados |
 | Cierre | tarjeta de 2,0 s con el logo y la web; negro exacto en el f1340 (la puerta) |
+| **Final (CRF 12 `slower`)** | `finales/049-recorrido.mp4` (rev. 2): 98,2 MB, 1080×1920, 1401 f, H.264 + AAC 320 kbps (317), −15,0 LUFS integrado, pico −4,3 dBFS, LRA 1,6 LU. Etiquetas BT.709 arregladas sin pérdida (R22: VUI y átomo `colr`); `framemd5` DECODIFICADO (1401 fotogramas) y PCM del audio idénticos antes y después. Color contra stills a escala 1 (`medir-final.py`, 11 fotogramas): color medio ≤ 0,28 niveles, PSNR de baja frecuencia 49,0-53,4 dB (medio 51,8), bruto 42,3-47,4 dB |
+| **Final (CRF 16 `slow`)** | `finales/049-recorrido-crf16.mp4`: 52,0 MB, misma imagen y mismo audio (PCM idéntico al del master); `framemd5` idéntico antes/después de las etiquetas; color medio ≤ 0,32 niveles, PSNR de baja frecuencia 49,0-51,3 dB (5 fotogramas) |
+| `.srt` | `finales/049.srt`: 14 cues, 2,73-44,17 s (`exportar-srt.mjs`) |
+| Portada | `finales/049-portada.png` (receta en `portada.json`): fotograma de 9,5 s (el más nítido de la piscina, a 0,6 s del corte), `EL POBLADO` · `RENTA` (de la ficha: arriendo); contraste 8,3:1 el texto y 8,5:1 el isotipo |
+| **Versión con ficha** | `finales/049-recorrido-ficha.mp4`: 106,0 MB, 1401 f, base SIN subtítulos (`--props={"sinSubtitulos":true}`, `--crf=6`) contra la final: la mitad de arriba a ≥ 46,6 dB en los 1401 fotogramas; la ficha `APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES` entra en el f0 con su fundido y se va en 44,27-44,67 s, antes de la tarjeta; audio COPIADO de la final (el flujo AAC da el mismo md5). Hoja de revisión: `pruebas-720p/ficha-hoja.jpg` |
+| Copia al SSD | `Apartamento - Tierra Grata - Las Palmas/Videos Social Media/`: `049-recorrido.mp4` (master), `049-recorrido-ficha.mp4`, `049-portada.png`, `049.srt` y `049-caption.md`, con el md5 comprobado. El CRF 16 queda solo en `proyectos/049/finales/` |
 
 ## Cómo cambiar cada pieza
 
