@@ -38,7 +38,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Es una de las 
 | Música sola | −15,0 (paseo) · −15,2 (bloque 5) LUFS |
 | Pieza | −15,1 LUFS integrado, pico −4,4 dBFS, LRA 1,6 LU: sin saturar |
 | Subtítulos | 19 líneas a +0,0…+2,5 f de su palabra sobre la voz sola (`lineas-vs-onsets.py`) |
-| Color | saltos de luma en los cambios de plano ≤ 5 niveles salvo piscina → Social Kitchen (−9,1 en la primera prueba; el ajuste de RC11 se subió a `exposure` +0,2 para igualarlo); la Social Kitchen → su otro lado, que a corte saltaba +33, entra con disolvencia |
+| Color (`medir-color.py` sobre stills y `luma-cambios-render.py` sobre la prueba) | saltos de luma en los 9 cambios de plano de −5,8 a +5,2 niveles (piscina → Social Kitchen −9,1 en la primera prueba; con el ajuste de RC11 a `exposure` +0,2, −5,8); la Social Kitchen → su otro lado, que a corte saltaba +33, entra con disolvencia · quemado máx. 0,9 % · aplastado máx. 19 % en el carril de nado (las copas de los árboles a contraluz, siluetas) · base del canal y ajustes por plano en `metraje-046.ts` |
 
 ## Cómo cambiar cada pieza
 
