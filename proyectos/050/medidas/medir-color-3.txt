@@ -1,0 +1,42 @@
+1 · por plano (a mitad de cada uno)
+  plano                           luma   p5  p50  p95 |   sat |   R/G   B/G |  ≥250    ≤8
+  c01 hook (HK02)      antes     106.0    9   78  212 | 0.213 |  1.03  1.00 |  0.2%  4.7%
+  c01 hook (HK02)      después   103.4    5   77  204 | 0.235 |  1.05  1.00 |  0.0%  6.5%
+  c02 piscina (RC17)   antes      85.5    4   53  187 | 0.276 |  0.93  1.00 |  0.3%  7.7%
+  c02 piscina (RC17)   después    91.9    7   62  196 | 0.276 |  0.94  0.99 |  0.8%  5.9%
+  c03 gimnasio (RC14)  antes      74.6   27   68  154 | 0.223 |  0.97  1.08 |  0.0%  2.7%
+  c03 gimnasio (RC14)  después    76.7    1   69  174 | 0.289 |  1.01  1.12 |  0.9%  7.5%
+  c04 social kitchen (RC12) antes     108.5   52  105  170 | 0.214 |  1.08  0.89 |  0.0%  0.0%
+  c04 social kitchen (RC12) después   107.0   47  103  172 | 0.256 |  1.11  0.87 |  0.0%  0.3%
+  c05 mitad (MD04)     antes      84.5   11   87  170 | 0.381 |  1.22  0.83 |  0.0%  3.7%
+  c05 mitad (MD04)     después    90.6   10   94  180 | 0.412 |  1.25  0.82 |  0.0%  4.2%
+  c06 alcoba (RC06)    antes     145.1   20  157  189 | 0.070 |  1.01  0.99 |  0.0%  4.5%
+  c06 alcoba (RC06)    después   129.6    8  141  169 | 0.071 |  1.02  0.99 |  0.0%  5.0%
+  c07 baño (RC09)      antes     143.2   87  142  197 | 0.151 |  1.06  0.95 |  0.0%  0.0%
+  c07 baño (RC09)      después   126.7   73  127  175 | 0.188 |  1.08  0.93 |  0.0%  0.0%
+  c08 balcón (RC02)    antes     128.6   38  131  220 | 0.225 |  0.90  1.10 |  0.0%  0.1%
+  c08 balcón (RC02)    después   130.5   34  136  219 | 0.259 |  0.88  1.12 |  0.0%  0.1%
+  c09 cta (CT02)       antes      98.2   23   80  205 | 0.361 |  1.02  0.78 |  0.6%  0.6%
+  c09 cta (CT02)       después    99.5   21   82  203 | 0.393 |  1.03  0.76 |  0.0%  1.1%
+
+  entre planos (σ = dispersión; menos es más balanceado):
+  antes    luma media 108.2 (σ 24.3) · saturación media 0.235 (σ 0.091) · p5 medio 30.2 · p95 medio 189.5 · quemado máx 0.6% · aplastado máx 7.7%
+  después  luma media 106.2 (σ 18.1) · saturación media 0.264 (σ 0.096) · p5 medio 22.8 · p95 medio 188.2 · quemado máx 0.9% · aplastado máx 7.5%
+
+2 · empalmes: salto de luma media (último fotograma de un plano → primero del siguiente)
+  f203→f204  c01→c02 (hook → piscina):  antes  -26.0 · después  -10.5
+  f278→f279  c02→c03 (piscina → gimnasio):  antes  -21.2 · después  -29.6
+  f356→f357  c03→c04 (gimnasio → social kitchen):  antes  +33.5 · después  +25.0
+  f441→f442  c04→c05 (social kitchen → mitad):  antes  -20.0 · después  -11.9
+  f569→f570  c05→c06 (mitad → alcoba):  antes  +53.9 · después  +32.1
+  f649→f650  c06→c07 (alcoba → baño):  antes   +5.8 · después   +6.2
+  f742→f743  c07→c08 (baño → balcón):  antes  -50.2 · después  -27.9
+  f843→f844  c08→c09 (balcón → cta):  antes  -11.6 · después  -12.3
+
+3 · la piel de Isabella (tono en grados, saturación y valor HSV de los píxeles de piel)
+  f100 c01 hook (HK02)      antes     4411 px · tono  10.7° · sat 0.44 · val 0.52 · luma  98.5
+  f100 c01 hook (HK02)      después   4402 px · tono  10.4° · sat 0.47 · val 0.54 · luma  99.4
+  f506 c05 mitad (MD04)     antes     3059 px · tono  13.7° · sat 0.30 · val 0.80 · luma 169.3
+  f506 c05 mitad (MD04)     después   3029 px · tono  13.7° · sat 0.32 · val 0.86 · luma 179.9
+  f923 c09 cta (CT02)       antes     5111 px · tono  13.0° · sat 0.44 · val 0.69 · luma 132.3
+  f923 c09 cta (CT02)       después   4801 px · tono  13.7° · sat 0.46 · val 0.75 · luma 140.7
