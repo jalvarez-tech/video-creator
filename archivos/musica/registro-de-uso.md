@@ -53,7 +53,7 @@ Cada sesión trabaja en su rama `feat/reel-NNN-…` (NNN = el número de proyect
 | V27 | 045 | video-creator · rama hija de `claude/tierra-grata-promo-videos-0ead0e` (sesión Sonnet 5.5 del 045, worktree propio) | Tierra Grata Bosque Santo (El Poblado), ARRIENDO | **reservada** (en curso) | 2026-10-19 | «El tiempo»: abre con el APTO (RC01) · HK01 · MD01 · CT01 · clímax RC21 · *Fortitude (Light Version)* · reparto en `proyectos/044/reparto-045-050.md`; material en `proyectos/044/catalogo-material.md` y §7 |
 | V28 | 046 | video-creator · rama hija de `claude/tierra-grata-promo-videos-0ead0e` (sesión Sonnet 5.5 del 046, worktree propio) | Tierra Grata Bosque Santo (El Poblado), ARRIENDO | **reservada** (en curso) | 2026-10-19 | «Ciudad nueva»: abre con el HOOK · HK03 · MD02+MD03 · CT02 · clímax RC18 · *Children (Piano)* · reparto en `proyectos/044/reparto-045-050.md`; material en `proyectos/044/catalogo-material.md` y §7 |
 | V29 | 047 | video-creator · rama hija de `claude/tierra-grata-promo-videos-0ead0e` (sesión Sonnet 5.5 del 047, worktree propio) | Tierra Grata Bosque Santo (El Poblado), ARRIENDO | **reservada** (en curso) | 2026-10-19 | «Lo que incluye»: abre con el APTO (RC20) · HK02 · MD04+MD05 · CT03 · clímax RC03 · *Dreamlife* · reparto en `proyectos/044/reparto-045-050.md`; material en `proyectos/044/catalogo-material.md` y §7 |
-| V30 | 048 | video-creator · rama `claude/reel-048-chef-experiencias-f42afa` (worktree propio; proyecto 048 con commits locales, sin push) | Tierra Grata Bosque Santo (El Poblado), ARRIENDO | **final** (CRF 12 + CRF 16 + `.srt` + portada + versión con ficha, 2026-10-19; «aseo» sin oír) | 2026-10-19 | «Chef y experiencias»: abre con el HOOK (excepción por encargo, como el 021) · HK01 · MD03 · CT03 · clímax RC10 (= el JACUZZI PRIVADO del balcón) · ***L' Amour Toujours on SAXOPHONE*** (el usuario pidió «una más alegre» que *Einaudi Fly*, la del reparto; entrada 164,967 s; su fundido final cae bajo el CTA) · paseo RC11 · RC14 · RC16 → MD03 → RC05 · RC09 · RC10 · 1364 f · 45,5 s · sin cifras · entregada en el SSD (`Videos Social Media/`) · pendiente oír «aseo» (5,9 s), la canción y su licencia · reparto en `proyectos/044/reparto-045-050.md`; material en `proyectos/044/catalogo-material.md` y §7 |
+| V30 | 048 | video-creator · rama `claude/reel-048-chef-experiencias-f42afa` (worktree propio; proyecto 048 con commits locales, sin push) | Tierra Grata Bosque Santo (El Poblado), ARRIENDO | **final rev. 2** (CRF 12 + CRF 16 + `.srt` + portada + versión con ficha, 2026-10-19; recorrido a cuadro entero: los clips del 2-sep son anamórficos 9:16, la rev. 1 los había recortado; «aseo» sin oír) | 2026-10-19 | «Chef y experiencias»: abre con el HOOK (excepción por encargo, como el 021) · HK01 · MD03 · CT03 · clímax RC10 (= el JACUZZI PRIVADO del balcón) · ***L' Amour Toujours on SAXOPHONE*** (el usuario pidió «una más alegre» que *Einaudi Fly*, la del reparto; entrada 164,967 s; su fundido final cae bajo el CTA) · paseo RC11 · RC14 · RC16 → MD03 → RC05 · RC09 · RC10 · 1364 f · 45,5 s · sin cifras · entregada en el SSD (`Videos Social Media/`) · pendiente oír «aseo» (5,9 s), la canción y su licencia · reparto en `proyectos/044/reparto-045-050.md`; material en `proyectos/044/catalogo-material.md` y §7 |
 | V31 | 049 | video-creator · rama hija de `claude/tierra-grata-promo-videos-0ead0e` (sesión Sonnet 5.5 del 049, worktree propio) | Tierra Grata Bosque Santo (El Poblado), ARRIENDO | **reservada** (en curso) | 2026-10-19 | «Amenidades»: abre con el APTO (RC04) · HK03 · MD05 · CT01 · clímax RC19 · *In This Together* · reparto en `proyectos/044/reparto-045-050.md`; material en `proyectos/044/catalogo-material.md` y §7 |
 | V32 | 050 | video-creator · rama hija de `claude/tierra-grata-promo-videos-0ead0e` (sesión Sonnet 5.5 del 050, worktree propio) | Tierra Grata Bosque Santo (El Poblado), ARRIENDO | **reservada** (en curso) | 2026-10-19 | «14,8»: abre con el HOOK · HK02 · MD04 · CT02 · clímax RC02 (final) · *Spring is Coming* · reparto en `proyectos/044/reparto-045-050.md`; material en `proyectos/044/catalogo-material.md` y §7 |
 | V33 | 051 | | | **libre: es la siguiente** | | |
@@ -462,7 +462,7 @@ Códigos de `proyectos/030/` (cada propiedad tiene SUS códigos: el orden de cad
 
 ## 7. Material de Tierra Grata Bosque Santo (El Poblado, ARRIENDO)
 
-Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del disco el 2026-10-19). Los clips están en el disco del rodaje (no en git): `/Volumes/SSK SSD/Work/Propiedades Luxur/Apartamento - Tierra Grata - Las Palmas/Videos/`. **No hay dron.** El recorrido es HORIZONTAL (1920×1080): se recorta al centro (catálogo §7). El reparto de las seis versiones (V27-V32, proyectos 045-050) está en `proyectos/044/reparto-045-050.md` y es FIJO: cada sesión monta la suya.
+Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del disco el 2026-10-19). Los clips están en el disco del rodaje (no en git): `/Volumes/SSK SSD/Work/Propiedades Luxur/Apartamento - Tierra Grata - Las Palmas/Videos/`. **No hay dron.** El recorrido (y las 4 tomas del 2-sep) son ANAMÓRFICOS 9:16 (1920×1080 con SAR 81:256): se estiran a su cuadro entero, SIN recorte (catálogo §7, corregido el 2026-10-19). El reparto de las seis versiones (V27-V32, proyectos 045-050) está en `proyectos/044/reparto-045-050.md` y es FIJO: cada sesión monta la suya.
 
 ### Hooks (`1 Hooks`)
 
@@ -471,8 +471,8 @@ Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del d
 | ~~HK01~~ | `IMG_4269.MOV` | TERRAZA COMÚN (pérgola, la vista; camina) | «El tiempo es el activo más valioso de los seres humanos y te ayudamos a optimizarlo incluyendo un aseo semanal.» | **reservado** | V27 · V30 (la REPITE: solo hay 3 hooks para 6 piezas; declarado) | voz desde ≈ 0,0 s; «aseo» POR CONFIRMAR AL OÍDO |
 | ~~HK02~~ | `IMG_4272.MOV` | TERRAZA COMÚN (sentada en el sillón) | misma frase, en dos: «…de los seres humanos. Te ayudamos a optimizarlo, incluyéndote un aseo semanal.» | **reservado** | V29 · V32 (la REPITE; declarado) | whisper oye «asesor semanal» |
 | ~~HK03~~ | `IMG_4304.mov` | ESCALERAS exteriores (el edificio detrás) · 29,97 fps | «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía indispensable.» | **reservado** | V28 · V31 (la REPITE; declarado) | misma idea que CT03: nunca juntas |
-| HK04 | `Img 9496.mp4` | SALA (2-sep, chaqueta de flores, HORIZONTAL) | «Antes de arrendar en Las Palmas, pregúntate esto.» + paseo mudo | libre | | otro vestuario y 16:9: solo para una pieza entera del 2-sep |
-| HK05 | `Img 9508.mp4` | BALCÓN (2-sep, HORIZONTAL) | whisper: «Ya todo.» (dudoso) + paseo mudo | libre | | ídem |
+| HK04 | `Img 9496.mp4` | SALA (2-sep, chaqueta de flores, anamórfico 9:16) | «Antes de arrendar en Las Palmas, pregúntate esto.» + paseo mudo | libre | | otro vestuario: solo para una pieza entera del 2-sep |
+| HK05 | `Img 9508.mp4` | BALCÓN (2-sep, anamórfico 9:16) | whisper: «Ya todo.» (dudoso) + paseo mudo | libre | | ídem |
 
 ### Mitades (`2 Miad`)
 
@@ -491,10 +491,10 @@ Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del d
 | ~~CT01~~ | `IMG_4277.MOV` | JACUZZI COMUNAL (baranda, plantas) | «Si quieres un acompañamiento personalizado durante toda tu estancia, contáctanos.» | **reservado** | V27 · V31 (la REPITE; declarado) | |
 | ~~CT02~~ | `IMG_4294.MOV` | JARDÍN (árboles y plantas) | «Si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme.» | **reservado** | V28 · V32 (la REPITE; declarado) | «amoblado» POR CONFIRMAR AL OÍDO (whisper: «movilado») |
 | ~~CT03~~ | `IMG_4298.MOV` | ESCALERAS con césped · 29,97 fps | «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer.» | **reservado** | V29 · V30 (la REPITE; declarado) | no es una acción: la tarjeta (logo + web) cierra; nunca con HK03 |
-| CT04 | `Img 9492.mp4` | SALA (2-sep, HORIZONTAL) | «Antes de arrendar en Las Palmas, piensa en esto.» | libre | | es un hook |
-| CT05 | `Img 9501.mp4` | SALA (2-sep, HORIZONTAL) | «Si buscas más que un apartamento para vivir, escríbenos.» | libre | | otro vestuario |
+| CT04 | `Img 9492.mp4` | SALA (2-sep, anamórfico 9:16) | «Antes de arrendar en Las Palmas, piensa en esto.» | libre | | es un hook |
+| CT05 | `Img 9501.mp4` | SALA (2-sep, anamórfico 9:16) | «Si buscas más que un apartamento para vivir, escríbenos.» | libre | | otro vestuario |
 
-### Recorridos (`4 Recorrido`; HORIZONTALES; se pueden repetir, se declara)
+### Recorridos (`4 Recorrido`; ANAMÓRFICOS 9:16; se pueden repetir, se declara)
 
 Apertura y clímax son EXCLUSIVOS de su versión; el resto, libre para todas (declarando el tramo). Detalle de cada clip en el catálogo §6.
 
@@ -517,4 +517,4 @@ Apertura y clímax son EXCLUSIVOS de su versión; el resto, libre para todas (de
 | RC21 | `Img 9537 (1).mp4` | 11,1 s | atardecer: las luces de la ciudad, las torres, el deck | **clímax V27** |
 | RC22 | `Img 9538.mp4` | 3,2 s | el bar con el neón, de noche | libre |
 
-**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) **está en RC10, de los 8 a los 10,7 s** (lo encontró la sesión 048 el 2026-10-19; RC10 ya era su clímax, así que no cambia el reparto): ninguna otra pieza lo usa. Recorte X=1100 (con el centro queda en el borde del 9:16).
+**El jacuzzi PRIVADO del balcón** (foto `3-Jacuzzi.png` de la web) **está en RC10, de los 8 a los 10,7 s** (lo encontró la sesión 048 el 2026-10-19; RC10 ya era su clímax, así que no cambia el reparto): ninguna otra pieza lo usa. A cuadro entero se ve el balcón con el jacuzzi, el escalón y la ciudad (los clips son anamórficos 9:16: sin recorte).

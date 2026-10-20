@@ -9,13 +9,13 @@
 | # | Plano | Espacio | Función | Clip y tramo | `en` | `dur` | Entra | Golpe | Color (luma a mitad de plano) |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | `c01-hook` | TERRAZA COMÚN (la promesa) | situar a Isabella, prometer el tiempo | HK01 `desde` 0 · voz 1,00 → 6,60 s (f30 → f198) | 0 | 212 | corte (el frame 0) | nota de 10,5 dB en el f3 | base + contraste 1,06 · highlights −0,3 · whites −0,15 · sat 1,04 · luma 113-123 |
-| 2 | `c02-cocina` | UNIDAD: Social Kitchen | llevar de ella a lo que hay en el edificio | RC11 2,40 → 5,43 s (X=656) | 212 | 91 | disolver (f200-212) | — (libre) | exp +0,4 · shadows +0,4 · contraste 1,04 · luma 89 |
-| 3 | `c03-gimnasio` | UNIDAD: gimnasio | cuidarse sin salir | RC14 0,00 → 2,60 s (X=656) | 303 | 78 | corte | 10,2 dB | exp +0,3 · shadows +0,3 · contraste 1,06 · sat 1,06 · luma ≈ 84 |
-| 4 | `c04-piscina` | UNIDAD: carril de nado | lo más abierto antes de volver a ella | RC16 0,90 → 5,43 s (X=656) | 381 | 136 | corte | 8,2 dB | exp +0,35 · highlights −0,3 · whites −0,12 · shadows +0,35 · contraste 1,04 · luma 91 |
+| 2 | `c02-cocina` | UNIDAD: Social Kitchen | llevar de ella a lo que hay en el edificio | RC11 2,40 → 5,43 s | 212 | 91 | disolver (f200-212) | — (libre) | exp +0,4 · shadows +0,4 · contraste 1,04 · luma 93 |
+| 3 | `c03-gimnasio` | UNIDAD: gimnasio | cuidarse sin salir | RC14 0,00 → 2,60 s | 303 | 78 | corte | 10,2 dB | exp +0,2 · shadows +0,3 · highlights −0,4 · contraste 1,06 · sat 1,06 · luma 103 |
+| 4 | `c04-piscina` | UNIDAD: carril de nado | lo más abierto antes de volver a ella | RC16 0,90 → 5,43 s | 381 | 136 | corte | 8,2 dB | exp +0,35 · highlights −0,3 · whites −0,12 · shadows +0,35 · contraste 1,04 · luma 117 |
 | 5 | `c05-mitad` | TERRAZA COMÚN (el servicio) | listar lo que hay detrás del acompañamiento | MD03 `desde` 10 f · voz 0,68 → 6,65 s (f527 → f707) | 517 | 204 | corte | 8,9 dB | como el hook · luma 132 |
-| 6 | `c06-alcoba` | APTO: alcoba principal | descanso, intimidad | RC05 0,60 → 4,53 s (X=656) | 721 | 118 | disolver (f709-721) | — (libre) | exp +0,05 · shadows +0,15 · highlights −0,35 · luma 132 |
-| 7 | `c07-bano` | APTO: baño principal | cuidado, calma | RC09 2,00 → 6,03 s (X=656) | 839 | 121 | corte | 10,4 dB | exp −0,3 · shadows +0,1 · highlights −0,4 · whites −0,2 · sat 1,06 · luma ≈ 135 |
-| 8 | `c08-balcon` | APTO: el balcón con el jacuzzi privado (CLÍMAX) | la recompensa: el jacuzzi y la ciudad | RC10 5,33 → 10,60 s (X=1100) | 960 | 158 | disolver (f948-960) | — (libre) | exp −0,12 · highlights −0,45 · whites −0,25 · shadows +0,3 · sat 1,06 · luma 128-155 |
+| 6 | `c06-alcoba` | APTO: alcoba principal | descanso, intimidad | RC05 0,60 → 4,53 s | 721 | 118 | disolver (f709-721) | — (libre) | exp −0,05 · shadows +0,15 · highlights −0,4 · luma 141 |
+| 7 | `c07-bano` | APTO: baño principal | cuidado, calma | RC09 2,00 → 6,03 s | 839 | 121 | corte | 10,4 dB | exp −0,1 · shadows +0,1 · highlights −0,4 · whites −0,2 · sat 1,06 · luma 136 |
+| 8 | `c08-balcon` | APTO: el balcón con el jacuzzi privado (CLÍMAX) | la recompensa: el jacuzzi y la ciudad | RC10 5,33 → 10,60 s | 960 | 158 | disolver (f948-960) | — (libre) | exp −0,12 · highlights −0,45 · whites −0,25 · shadows +0,3 · sat 1,06 · luma 123-124 |
 | 9 | `c09-cta` | ESCALERAS con césped | cerrar con la idea del servicio | CT03 `desde` 9 f · voz 0,62 → 6,04 s (f1128 → f1290) | 1118 | 186 | corte | 12,0 dB | exp +0,12 · como el hook · luma 100 |
 | 10 | `c10-cierre` | TARJETA oscura | la marca | `cierre-oscuro.png` (negro liso) | 1304 | 60 | corte | — | sin color (foto) |
 

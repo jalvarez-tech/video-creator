@@ -24,14 +24,15 @@
  *
  * LECTURA DEL PASEO (declarada). Isabella habla dos veces en la terraza común (el hook y la mitad: el rodaje del 17-oct no tiene otro sitio) y la tercera en las escaleras. La unidad se recorre en el orden en que se rodó
  * (Social Kitchen → gimnasio → carril de nado) y desemboca en la terraza de la mitad; de ahí se pasa al apartamento: la alcoba y el baño (el ala de las alcobas), y el balcón al que se sale desde la sala, que es donde
- * está el jacuzzi privado. La sala no entra: en el 9:16 recortado al centro de su plano horizontal solo queda techo (RC02) y las demás son aperturas o clímax de otras piezas (RC01, RC04, RC20). Se salta el espacio, no se
+ * está el jacuzzi privado. La sala no entra: RC02 tiene una sala larga con un ventanal sin gente ni objeto que la cuente (y su tramo final es el clímax de otra pieza) y las demás son aperturas de otras (RC01, RC04, RC20). Se salta el espacio, no se
  * inventa el orden. Las vistas de la ciudad: la terraza común sale en el hook y la mitad (no se puede evitar: es donde habla); la vista ENTERA, hasta el balcón del clímax.
  *
  * EL JACUZZI PRIVADO ESTÁ EN RC10. El catálogo (§6) decía que no aparecía en ningún clip y que RC10 acababa en «el deck de madera con la banca y la pérgola (terraza común)»: es el JACUZZI PRIVADO del balcón (la foto
  * `3-Jacuzzi.png`: la tina cuadrada con los listones de madera, el escalón de madera, la baldosa negra, la baranda de vidrio y la losa que cubre el balcón). Esta pieza lo enseña en los últimos 2,6 s del clímax.
  *
- * EL RECORRIDO ES HORIZONTAL. Los siete planos de recorrido son 1920×1080 recortados al centro (`crop=608:1080:X:0`, `normalizar.mjs`) y escalados ×2,13: salen más BLANDOS que Isabella (4K). Es el material; no se
- * filtra ni se afila (R22). RC10 va recortado a X=1100 para que el jacuzzi quede dentro del encuadre (con el centro se quedaba en el borde).
+ * EL RECORRIDO ES ANAMÓRFICO 9:16, NO HORIZONTAL. Los siete planos son 1920×1080 píxeles con SAR 81:256 (DAR 9:16): vídeos VERTICALES comprimidos a lo ancho, y `normalizar.mjs` los estira al 9:16 que son (`scale=1296:2304`,
+ * `setsar=1`), SIN recorte. La rev. 0 y la rev. 1 (la de la canción) los trataron como 16:9 y los recortaron al centro (`crop=608:1080:X:0`): un zoom ×3,2 sobre un tercio del cuadro (avisó la sesión del 050; el catálogo §0 y §7
+ * lo decían mal). Siguen siendo más BLANDOS que Isabella (4K): 1080 px de alto subidos ×2,13; no se filtra ni se afila (R22).
  *
  * QUIÉN MARCA EL TIEMPO: LA MÚSICA, POR GOLPES MEDIDOS. «L' Amour Toujours on SAXOPHONE» (sax, 126 BPM, la libre más alegre del catálogo: la pidió el usuario tras ver la prueba con «Einaudi Fly», que era la del reparto) tiene un PULSO
  * real (`rejilla.py`: periodo de 0,4762 s, el 76 % de sus golpes fuertes a ≤ 15 ms de la recta): los golpes de abajo son los MEDIDOS (`medir-pista.py`, ≥ 6 dB) y cada corte seco cae en uno, de 8,2 a 12,0 dB. Las DISOLVENCIAS van libres: al
@@ -127,7 +128,7 @@ export const golpe = (g: { readonly t: number }): number => Math.round(golpeExac
 /** Un frame del clip fuente, en segundos (la unidad de `desde`). */
 const fr = (n: number): number => n / FPS_048;
 
-/** Isabella camina hacia cámara: un empuje lento la acompaña. El recorrido, quieto: la cámara ya se mueve (y está recortado: nada de ampliarlo más). */
+/** Isabella camina hacia cámara: un empuje lento la acompaña. El recorrido, quieto: la cámara ya se mueve. */
 const EMPUJE: readonly [number, number] = [1.0, 1.04];
 const QUIETO: readonly [number, number] = [1.0, 1.0];
 
@@ -216,7 +217,7 @@ export const metraje048: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc11"),
-    // RC11 «Social Kitchen / coworking» (Img 9513, 2-sep), del 2,40 al 5,43 s: la barra, las mesas y las lámparas verdes hasta el mural de colores con las lámparas grandes; la cámara avanza a la derecha. Recorte al centro (X=656).
+    // RC11 «Social Kitchen / coworking» (Img 9513, 2-sep), del 2,40 al 5,43 s: la barra, las mesas y las lámparas verdes hasta el mural de colores con las lámparas grandes; la cámara avanza a la derecha.
     // Entra con una disolvencia desde Isabella (f200-212: con `desde` 2,4 s hay 12 f de clip antes) y acaba a corte en el golpe del gimnasio (f303: 10,2 dB).
     desde: 2.4,
     en: FIN_HOOK,
@@ -233,14 +234,14 @@ export const metraje048: readonly Corte[] = [
     tipo: "video",
     src: v("rc14"),
     // RC14 «Gimnasio» (Img 9517), del 0,00 al 2,60 s: la estantería de madera con las bolas de equilibrio contra la pared naranja, las luces y los tubos del techo y, al fondo, las máquinas; la cámara gira a la derecha, como la
-    // de la cocina. Recorte al centro (X=656). Se elige el INICIO del clip y no el tramo con el rótulo «GIMNASIO» (5-6 s) porque desde los 2,2 s hay usuarios del gimnasio a tamaño reconocible en primer plano (el recorte los
-    // agranda ×1,78): este tramo acaba antes de que se vean (desde el 2,0 s solo asoman pequeños y de espaldas al fondo, sin cara). Entra a corte (por eso su `desde` puede ser 0) en un golpe de 10,2 dB.
+    // de la cocina. Se elige el INICIO del clip y no el tramo con el rótulo «GIMNASIO» (5-6 s) porque de los 2 s en adelante los usuarios del gimnasio se acercan a cámara (a cuadro entero siguen siendo pequeños, de ≈ 100 px de
+    // alto, y sin cara reconocible). Entra a corte (por eso su `desde` puede ser 0) en un golpe de 10,2 dB.
     desde: 0.0,
     en: P.gimnasio,
     dur: P.piscina - P.gimnasio,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ exposure: 0.3, shadows: 0.3, contrast: 1.06, saturation: 1.06 }),
+    color: color({ exposure: 0.2, shadows: 0.3, highlights: -0.4, contrast: 1.06, saturation: 1.06 }),
     reason:
       "Gimnasio (la unidad): la estantería, las luces del techo y las máquinas del gimnasio: lo que hay para cuidarse sin salir del edificio; el mismo giro a la derecha de la cocina (adelante → adelante).",
   },
@@ -249,7 +250,7 @@ export const metraje048: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc16"),
-    // RC16 «Piscina» (Img 9525), del 0,90 al 5,43 s: la piscina azul con los escalones y los árboles contra el cielo de la tarde; la cámara gira a la derecha hacia el carril de nado. Recorte al centro (X=656). Entra a corte en un golpe de
+    // RC16 «Piscina» (Img 9525), del 0,90 al 5,43 s: la piscina azul con los escalones y los árboles contra el cielo de la tarde; la cámara gira a la derecha hacia el carril de nado. Entra a corte en un golpe de
     // 8,2 dB; acaba en el de la mitad, que es Isabella.
     desde: 0.9,
     en: P.piscina,
@@ -292,13 +293,13 @@ export const metraje048: readonly Corte[] = [
     tipo: "video",
     src: v("rc05"),
     // RC05 «Alcoba principal» (Img 9477), del 0,60 al 4,53 s (con la disolvencia, desde el 0,20): la cama con los cojines y la lámpara colgante, el borde de la cama y la puerta del baño con luz; la cámara gira a la derecha.
-    // Recorte al centro (X=656). Entra con una disolvencia desde Isabella (f709-721) y acaba a corte en el golpe del baño (f839: 10,4 dB).
+    // Entra con una disolvencia desde Isabella (f709-721) y acaba a corte en el golpe del baño (f839: 10,4 dB).
     desde: 0.6,
     en: FIN_MITAD,
     dur: P.bano - FIN_MITAD,
     zoom: QUIETO,
     entra: "disolver",
-    color: color({ exposure: 0.05, shadows: 0.15, highlights: -0.35 }),
+    color: color({ exposure: -0.05, shadows: 0.15, highlights: -0.4 }),
     reason:
       "Alcoba principal (el descanso): de Isabella al interior del apartamento por su alcoba (la cama hecha, la lámpara, la puerta del baño con luz): intimidad, lo privado de lo que se arrienda; gira a la derecha.",
   },
@@ -307,14 +308,14 @@ export const metraje048: readonly Corte[] = [
     bloque: 5,
     tipo: "video",
     src: v("rc09"),
-    // RC09 «Baño principal» (Img 9484), del 2,00 al 6,03 s: el mueble de madera con el lavamanos, el espejo y la luz, hasta la mampara de la ducha; gira a la derecha. Recorte al centro (X=656). Entra a corte en el golpe de 10,4 dB del
+    // RC09 «Baño principal» (Img 9484), del 2,00 al 6,03 s: el mueble de madera con el lavamanos, el espejo y la luz, hasta la mampara de la ducha; gira a la derecha. Entra a corte en el golpe de 10,4 dB del
     // f839 (la puerta del baño con luz de la alcoba ES la puerta de este baño) y acaba cuando el balcón disuelve (f948-960).
     desde: 2.0,
     en: P.bano,
     dur: ENTRA_BALCON - P.bano,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ exposure: -0.3, shadows: 0.1, highlights: -0.4, whites: -0.2, saturation: 1.06 }),
+    color: color({ exposure: -0.1, shadows: 0.1, highlights: -0.4, whites: -0.2, saturation: 1.06 }),
     reason:
       "Baño principal (el cuidado): la puerta del baño que cerraba la alcoba se abre en el mueble de madera, el espejo y la mampara: calma y cuidado; el mismo giro a la derecha, antes de salir al balcón.",
   },
@@ -324,7 +325,7 @@ export const metraje048: readonly Corte[] = [
     tipo: "video",
     src: v("rc10"),
     // RC10 (Img 9509), del 5,33 al 10,60 s (con la disolvencia, desde el 4,93): el cielo con las nubes sobre la ciudad y las torres; la cámara gira a la derecha, baja por la baranda de vidrio hasta la baldosa negra y llega al JACUZZI
-    // PRIVADO del balcón (la tina cuadrada con los listones de madera y el escalón), de la foto `3-Jacuzzi.png`. Recorte X=1100 (el centro lo dejaba fuera). El clip dura 10,73 s (322 f): quedan 4 f de margen. Es el plano más largo
+    // PRIVADO del balcón (la tina cuadrada con los listones de madera y el escalón), de la foto `3-Jacuzzi.png`. El clip dura 10,73 s (322 f): quedan 4 f de margen. Es el plano más largo
     // del bloque 5 (158 f) y el CLÍMAX (exclusivo de esta pieza). Entra con una disolvencia (f948-960) y acaba en el golpe del CTA (f1118: 12,0 dB).
     desde: fr(160),
     en: ENTRA_BALCON,

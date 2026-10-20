@@ -56,15 +56,15 @@ Isabella está en la unidad; el apartamento solo existe en el recorrido. Paseo p
 3. `node manuales/director-video/scripts/artefactos.mjs NNN` → los tres artefactos desde este reparto y el catálogo → `node .claude/skills/recorrido-luxur/scripts/nuevo-recorrido.mjs NNN` → copiar el material a `proyectos/NNN/original/` con los códigos (`hk01.mov`, `rc01.mp4`…) y rellenar `normalizar.mjs` (con el `crop` de §7 del catálogo para cada recorrido) → medir voz y canción → planes → puertas → **frames** → prueba 720p → **esperar el OK del usuario** → final (CRF 12 + CRF 16 + `.srt`) → portada → **versión con ficha** (`ficha-luxur` §3: render `sinSubtitulos` + `ficha.mjs video tierra-grata …`) → caption → copiar al SSD (`Videos Social Media/`) → `combinaciones.md`, `aprendizajes.md`, la fila en `.claude/skills/guion-luxur/registro/piezas.csv` y la fila de la versión en `archivos/musica/registro-de-uso.md` (solo TU fila: las demás son de las otras sesiones).
 4. **No cambies** tomas, apertura, clímax ni canción sin un motivo técnico declarado; si cambias la canción, SOLO a tu alternativa. Si necesitas un recorrido que otra pieza tiene de apertura o clímax, no lo uses.
 5. Commits en tu rama (en español, el porqué); **nada de push** sin que el usuario lo pida. Tu rama parte de `claude/tierra-grata-promo-videos-0ead0e`, que ya trae el catálogo, este reparto, la ficha y las reservas.
-6. Al terminar, deja en tu informe: los archivos entregados (ruta en el repo y en el SSD), lo declarado (tomas repetidas, el recorte horizontal, la apertura con hook), las palabras sin oír con su segundo, y lo que te quedó pendiente.
+6. Al terminar, deja en tu informe: los archivos entregados (ruta en el repo y en el SSD), lo declarado (tomas repetidas, el recorrido anamórfico y más blando, la apertura con hook), las palabras sin oír con su segundo, y lo que te quedó pendiente.
 
 ## 6. Qué puede salir mal (y qué hacer)
 
 | Problema | Qué hacer |
 |---|---|
-| `scale=1296:2304` deforma un recorrido | falta el `crop=608:1080:X:0` antes (catálogo §7) |
+| El recorrido sale ampliado ×3,2 o parece de otro tamaño | **los clips del 2-sep son anamórficos 9:16 (SAR 81:256)**: van SIN recorte, `scale=1296:2304:flags=lanczos,setsar=1` (catálogo §7 corregido el 2026-10-19; la 048 y el 050 lo hallaron) |
 | HK03 / CT03 a 29,97 fps con `avg_frame_rate` raro | `fps=30` tras el tone-map, contar los frames del MP4 normalizado, nunca los del original |
 | La voz empieza en el f0 (HK01) | medir con `onsets-voz.py`; si no hay 12 f de aire, Isabella entra a corte en un golpe (`montaje.md`) |
-| El recorrido se ve blando en la prueba | es el material (1080p recortado ×1,78): decirlo; no filtrar |
+| El recorrido se ve blando en la prueba | es el material (1080 px de alto subidos ×2,13): decirlo; no filtrar |
 | Chrome no arranca / render muere | `cd remotion` · `npx remotion browser ensure`; comprobar el TMPDIR propio y el disco (`df -h /`) |
 | Quedan menos de 15 GB en el disco | parar, borrar TUS bundles y avisar al usuario antes de seguir |

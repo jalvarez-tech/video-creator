@@ -19,7 +19,7 @@ Composición `Recorrido048` (`remotion/src/proyectos/048/`), 1080×1920 a 30 fps
 
 - **Subtítulos:** abajo (borde superior ≈ 74,5 %, nunca por debajo del 88 %). Arriba **no hay nada** en ningún frame.
 - **Isabella:** de cuerpo entero en las tres tomas (camina hacia cámara, o queda en las escaleras); el texto cae a la altura de su falda o de sus piernas, nunca sobre la cara.
-- **Recorrido:** 1920×1080 recortado a una ventana de 608×1080 y escalado ×2,13 (1296×2304): X=656 (el centro) salvo RC10, X=1100 (para que el jacuzzi quede dentro). Sin texto sobre el recorrido: el texto solo acompaña a la voz.
+- **Recorrido:** 1920×1080 píxeles ANAMÓRFICOS (SAR 81:256, DAR 9:16) estirados a su cuadro 9:16 entero (1296×2304), sin recorte. Sin texto sobre el recorrido: el texto solo acompaña a la voz.
 - **Cierre:** tarjeta negra lisa; logo y web centrados, un poco por encima del centro.
 
 ## Reglas fijas del canal (comprobadas por `revisar-048.mjs`)
@@ -36,5 +36,5 @@ Composición `Recorrido048` (`remotion/src/proyectos/048/`), 1080×1920 a 30 fps
 - **Abre con el hook**, como el 021, pero con 1 s de aire antes de su primera palabra (en el 021, 0,6 s): la nota de apertura de la música suena entera y baja con una curva de 18 f.
 - **Cortes en golpes medidos de un pulso de 126 BPM:** los cinco cortes secos caen en golpes de la canción de 8,2 a 12,0 dB (el 043 pedía ≥ 12; el 021, con un piano, 7,7) y las disolvencias van libres.
 - **El final de la canción es la resolución:** su fundido natural (−13 → −47 dB, f1233-1323) cae bajo la voz del CTA y la tarjeta queda en silencio.
-- **El recorrido es horizontal**: el material más blando de la pieza; sin velocidad, sin zoom (QUIETO) y sin filtros.
+- **El recorrido es anamórfico 9:16 (no horizontal)**: el material más blando de la pieza (1080 px de alto subidos ×2,13); sin velocidad, sin zoom (QUIETO) y sin filtros.
 - **Ninguna palabra de acción**: CT03 no pide nada; la tarjeta (logo + web) es la acción.

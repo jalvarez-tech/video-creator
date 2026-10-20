@@ -33,7 +33,7 @@ import { ACENTO_MENOS_048, subtitulos048 } from "./subtitulos-048";
  * dice «el tiempo es el activo más valioso de los seres humanos y te ayudamos a optimizarlo incluyendo un aseo semanal»), el paseo por la unidad (la Social Kitchen, el gimnasio, el carril de nado), ella de nuevo bajo la
  * pérgola («contamos con chef privado, tours, masajes y transporte y las mejores experiencias de la ciudad de Medellín»), el apartamento (la alcoba, el baño) y el balcón, del cielo y la ciudad al JACUZZI PRIVADO (el clímax),
  * y su CTA en las escaleras con césped («cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer»). Una toma suya por bloque (HK01, MD03, CT03) y «L' Amour Toujours on SAXOPHONE»
- * (sax, 126 BPM). El recorrido es HORIZONTAL (1920×1080) recortado al centro: sale más blando que ella (4K). Encargo, decisiones y por qué cada plano: proyectos/048/artefactos/. Cómo cambiar el hook, la mitad, el CTA, los planos
+ * (sax, 126 BPM). El recorrido es ANAMÓRFICO 9:16 (1920×1080 con SAR 81:256: vídeos verticales comprimidos a lo ancho), estirado a su cuadro entero y sin recorte: sale más blando que ella (4K). Encargo, decisiones y por qué cada plano: proyectos/048/artefactos/. Cómo cambiar el hook, la mitad, el CTA, los planos
  * o la música: proyectos/048/combinaciones.md.
  *
  * ES UN MONTAJE (director §3i): diez planos: los cortes secos caen en golpes medidos de la canción (pulso de 126 BPM) y las disolvencias van libres. El vídeo va
