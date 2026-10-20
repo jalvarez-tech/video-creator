@@ -10,6 +10,7 @@
 2. **Las once tomas de Isabella del 17-oct están en las ZONAS COMUNES de la unidad** (terraza con pérgola y vista, jacuzzi comunal redondo, escaleras exteriores, Social Kitchen, gimnasio, jardín), **nunca dentro del apartamento**, y con un vestido negro. Las cuatro tomas habladas del 2-sep (chaqueta de flores, dentro del apartamento) son de otro vestuario: **no se mezclan en una misma pieza**.
 3. **Todo el recorrido (22 clips) y las cuatro tomas de Isabella del 2-sep son ANAMÓRFICOS: 1920×1080 guardados con SAR 81:256 y DAR 9:16, es decir, VERTICALES de 608×1080 efectivos comprimidos a lo ancho** (SDR BT.709, 30 fps). Las tomas del 17-oct son verticales de verdad (4K HLG, rotación −90). Para el 9:16 el recorrido se **escala entero con `setsar=1`, SIN recortar** (×2,13: sale más blando que Isabella en 4K). §7 dice cómo; la versión de la mañana de este catálogo decía «horizontal» y mandaba recortar: **era un error** (lo detectó la sesión 050 el mismo día).
 3. **Todo el recorrido (22 clips) y las cuatro tomas de Isabella del 2-sep son VERTICALES guardados ANAMÓRFICOS: 1920×1080 con SAR 81:256 → DAR 9:16 (SDR BT.709, 30 fps)**; no son horizontales. (Corregido el 2026-10-19 por las sesiones 050 y 045: este catálogo los dio por apaisados —`ffprobe` sin mirar el SAR— y la primera prueba de la 045 los recortó al centro, un zoom ×3,2 del tercio central.) Las tomas del 17-oct son verticales de verdad (4K HLG, rotación −90). Para el 9:16 el recorrido se escala **SIN recorte** a 1296×2304 (§7): el cuadro entero, algo más blando que Isabella en 4K.
+3. **Todo el recorrido (22 clips) y las cuatro tomas de Isabella del 2-sep son ANAMÓRFICOS 9:16: 1920×1080 píxeles con SAR 81:256 (DAR 9:16), SDR BT.709, 30 fps** — vídeos VERTICALES comprimidos a lo ancho, no horizontales (`ffprobe stream=sample_aspect_ratio,display_aspect_ratio`; corregido el 2026-10-19 por la sesión del 050 y comprobado por la del 048: el catálogo decía «horizontal, se recorta al centro», un zoom ×3,2 sobre un tercio del cuadro). Las tomas del 17-oct son verticales (4K HLG, rotación −90, como siempre). Para el 9:16 se **estiran a su cuadro entero** (`scale=1296:2304:flags=lanczos,setsar=1`, SIN recorte): sale más blando que Isabella en 4K (1080 px de alto subidos ×2,13). §7 dice cómo.
 
 ## 1. La propiedad (ficha de la web, 2026-10-19)
 
@@ -70,6 +71,7 @@ Los nombres con espacios (`Img 9461.mp4`) se copian a `proyectos/NNN/original/` 
 
 ## 6. Recorridos (`4 Recorrido`; anamórficos, verticales de 608×1080 efectivos: §7; se pueden repetir, se declara)
 ## 6. Recorridos (`4 Recorrido`; verticales anamórficos; se pueden repetir, se declara)
+## 6. Recorridos (`4 Recorrido`; anamórficos 9:16; se pueden repetir, se declara)
 
 Lectura a partir de hojas de contactos (6 fotogramas por clip, SACADAS SIN CORREGIR EL SAR: los espacios parecían panorámicos y no lo son): **comprobar cada clip entero, con el SAR corregido, antes de usarlo** (varios giran, suben al cielo o acaban en otro espacio). Horas en UTC del contenedor (−5 h = hora local).
 
@@ -84,7 +86,7 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip, SACADAS SIN CORRE
 | RC07 | `Img 9480.mp4` | 5,0 s | Alcoba principal, las lámparas, la puerta con luz | APTO: alcoba principal |
 | RC08 | `Img 9481.mp4` | 5,1 s | Alcoba principal → el televisor | APTO: alcoba principal |
 | RC09 | `Img 9484.mp4` | 8,2 s | Baño: mueble de madera, lavamanos, espejo, mampara | APTO: baño principal |
-| RC10 | `Img 9509.mp4` | 10,8 s | Cielo con nubes → las torres y la ciudad → el deck de madera con la banca y la pérgola (**terraza común**, 17:34 UTC) | UNIDAD: terraza con la vista |
+| RC10 | `Img 9509.mp4` | 10,8 s | Cielo con nubes → las torres y la ciudad → **el JACUZZI PRIVADO del balcón** (la tina cuadrada con listones de madera, el escalón de madera, la baldosa negra, la baranda de vidrio y la losa del balcón: la foto `3-Jacuzzi.png`) — *corregido el 2026-10-19 por la sesión 048: la hoja de contactos lo leyó como «deck de madera con la banca y la pérgola (terraza común)»* | APTO: balcón con el jacuzzi privado (**clímax V30**) |
 | RC11 | `Img 9513.mp4` | 6,9 s | Social Kitchen / coworking: lámparas verdes, mural, mesas | UNIDAD: Social Kitchen |
 | RC12 | `Img 9514.mp4` | 7,4 s | Social Kitchen desde el otro lado, sillas, ventanal | UNIDAD: Social Kitchen |
 | RC13 | `Img 9516.mp4` | 6,0 s | Gimnasio: caminadoras, máquinas | UNIDAD: gimnasio |
@@ -118,6 +120,13 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip, SACADAS SIN CORRE
 - (La versión anterior de esta sección mandaba `crop=608:1080:X:0` antes del `scale` y alertaba de que «sin el crop, `scale` deformaría la imagen»: era al revés —el recorte es el que daba un zoom ×3,2 del tercio central— y la sesión 050 lo detectó al ver el recorrido «ampliado».)
 - **Nitidez**: 1080 px de alto escalados a 2304 (×2,13): algo más blando que Isabella en 4K (el ancho, 1920 → 1296, baja). Se compensa con planos cortos, el punch-in mínimo (`zoom` cerca de 1) y sin `sharpen` (R22: nada de filtros que inventen detalle). Se le dice al usuario en la prueba.
 - **Gran angular vertical**: el cuadro entero enseña mucho más que un recorte (gente al fondo de las zonas comunes, objetos de la encimera…): mira cada plano ENTERO a 0,5 s antes de elegir el tramo.
+**✅ El jacuzzi PRIVADO del balcón (la foto `3-Jacuzzi.png`: cuadrado, de madera, con las torres detrás) SÍ aparece: en RC10, de los 8 a los 10,7 s (2026-10-19, sesión 048).** Es exactamente el clímax asignado a la V30, así que no hay que sustituirlo: la V30 lo enseña en los últimos 2,6 s de su plano, a cuadro entero (con el balcón y la ciudad detrás). Antes de esto se decía: «no aparece en los fotogramas muestreados de ningún clip de `4 Recorrido`.» El vídeo editado del 15-sep (`videos editados/01.mp4`, 0:22) sí lo enseña, así que está en algún tramo: candidatos RC02 (29 s), RC21, y los tramos mudos de HK04 (8-52 s) y HK05 (7-32 s). Quien lo encuentre lo anota aquí y lo usa de clímax: es el argumento de la ficha («balcón con jacuzzi privado»). Si no aparece, el clímax es la terraza al atardecer (RC18/RC21) o el balcón con las camas (RC02/RC03), y se dice.
+## 7. Cómo entra el material del 2-sep en el 9:16 (CORREGIDO el 2026-10-19)
+> La versión anterior de esta sección decía «recorte al centro `crop=608:1080:X:0`» porque leía los clips como horizontales. Son **anamórficos**: 1920×1080 píxeles con SAR 81:256, es decir, vídeos verticales 9:16 comprimidos a lo ancho. Las piezas 045-050 que ya normalizaron con el recorte (la 048 hasta la rev. 1) lo rehacen.
+- **Sin recorte, estirado a su 9:16:** en `normalizar.mjs`, la rama SDR de cada `recorrido` lleva `scale=1296:2304:flags=lanczos,setsar=1` (el ancho se baja de 1920 a 1296 y el alto se sube de 1080 a 2304). Se ve el cuadro entero que filmó el móvil. La receta de la 048 comprueba SAR 81:256 y DAR 9:16 y se niega si no.
+- **Nitidez**: el ancho baja (×0,675) pero el alto SUBE ×2,13 (1080 → 2304): más blando que Isabella en 4K en vertical. Se compensa con planos cortos y sin `sharpen` (R22: nada de filtros que inventen detalle). Se le dice al usuario en la prueba.
+- Las tomas de Isabella del 2-sep (HK04, HK05, CT04, CT05) son del mismo tipo (anamórficas 9:16): se normalizan igual y enseñan el cuadro vertical entero; su resolución real (1080 px de alto) es la de un 1080p estirado, menos que los 4K del 17-oct.
+- **Cómo mirarlas:** las hojas de contactos de un clip anamórfico a 16:9 salen con la gente alargada y delgada (la señal de que algo no cuadra); se miran a su proporción 9:16 (`scale=…:…` con la proporción de pantalla) y se compara el SAR/DAR con `ffprobe` ANTES de decidir un encuadre.
 
 ## 8. Lo que ya se publicó o se editó antes
 
