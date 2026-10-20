@@ -22,6 +22,7 @@
  * POR CONFIRMAR AL OÍDO (R31; la puerta con `--final` falla SOLO por esto):
  *   · «arrendar amoblado en Medellín?» (HK05, «amoblado» hacia los 26,9-27,3 s de la fuente = 1,5 s del vídeo): la «a» se pega a «arrendar» y whisper oyó «amulado», «a Moldova», «a mi lado», «movilado» y «a mi lado al Medellín» según la pasada. El
  *     original lo subtitula «amoblado» (y los rótulos del 051 dicen «amoblados»): se pinta «amoblado» y se oye antes de publicar. Una palabra que cambia lo que se ofrece.
+ *     MEDIDO con `herramientas/formantes.py` (26,38-27,9 s de la fuente): las vocales de «arrendar amoblado» salen e · a (arrend-ar), y luego [o] (F1 ≈ 520-560, F2 ≈ 890-900: «mo»), [a] (F1 ≈ 660-790, F2 ≈ 1.700-1.850: «bla») y [o] (F1 ≈ 300, F2 ≈ 850: «do»): a-mo-bla-do. «a mi lado» pediría una [i] (F2 > 2.000) en la segunda sílaba y «a Moldova» una [o] en la tercera: ninguna sale. Una medida no es un oído: la nota se queda.
  *   · «Ven, te muestro.»: whisper oyó «20 muestros» y «ven te muestro» según la pasada; el original dice «ven te muestro». Se pinta así.
  */
 import { segmentosDe } from "../../motor/subtitulos-editoriales";

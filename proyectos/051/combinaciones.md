@@ -7,7 +7,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Es la PRIMERA 
 | V | Proyecto | Estado | Fecha | Qué es |
 |---|---|---|---|---|
 | V27-V32 | 045-050 | en main | 2026-10-19/20 | los seis reels de arriendo (045 «El tiempo», 046 «Ciudad nueva», 047 «Lo que incluye», 048 «Chef y experiencias», 049 «Amenidades», 050 «14,8») |
-| **V33** | **051** | **prueba a 720p (2026-10-20); el OK del usuario, pendiente** | 2026-10-20 | **«Ven, te muestro»**: **HK05** (dos planos) · RC01 · RC10 · RC21 · RC05 · RC22 · RC20 · RC16 · RC13 · RC11 · RC12 · **CT04** (muda) · 10 rótulos en pantalla · ***Einaudi Fly*** · 1461 f · 48,7 s. Historia: **rev. 0** (commit `3763e9d`: con locución —una voz guía de macOS, porque la real no existía— subtitulada, 65,9 s) → **rev. 1** (la vigente: SIN locución y con el guion nuevo en pantalla, por cambio de encargo del usuario) |
+| **V33** | **051** | **final exportada (CRF 12 + CRF 16 + `.srt` + portada + versión con ficha, 2026-10-20, con el OK del usuario a la prueba; «amoblado» sin oír) y copiada al SSD** | 2026-10-20 | **«Ven, te muestro»**: **HK05** (dos planos) · RC01 · RC10 · RC21 · RC05 · RC22 · RC20 · RC16 · RC13 · RC11 · RC12 · **CT04** (muda) · 10 rótulos en pantalla · ***Einaudi Fly*** · 1461 f · 48,7 s. Historia: **rev. 0** (commit `3763e9d`: con locución —una voz guía de macOS, porque la real no existía— subtitulada, 65,9 s) → **rev. 1** (la vigente: SIN locución y con el guion nuevo en pantalla, por cambio de encargo del usuario) |
 | V34 | 052 | sesión hermana | 2026-10-20 | «Pregúntate esto» (réplica de `02.mp4`) |
 | V35 | 053 | sesión hermana | 2026-10-20 | «¿Pagarías 14 millones?» (réplica de `03.mp4`) |
 
@@ -48,6 +48,18 @@ Cada versión viene en DOS formatos: el **orgánico** (`051-recorrido.mp4`, con 
 
 RC21 4,7 s con la V27 (su clímax) · RC05 2,3-4,0 s con las V27, V28, V29 y V30 · RC16 1,9-3,5 s con las V27, V29 y V30 · RC10 1,2 s con la V30 · RC20 2,3 s con la V32. Ninguna de ellas es exclusiva (el reparto de las réplicas no tiene aperturas ni clímax propios).
 
+## La final (exportada el 2026-10-20 con el OK del usuario a la prueba, y con «amoblado» sin oír: `recorrido-luxur` §7c)
+
+| Qué | Medida |
+|---|---|
+| **Final (CRF 12 `slower`)** | `finales/051-recorrido.mp4`: 96,8 MB, 1080×1920, 1461 f, H.264 (15,6 Mbps) + AAC 320 kbps, −15,1 LUFS, LRA 3,8 LU, pico −2,6 dBFS. Etiquetas BT.709 arregladas sin pérdida (R22: VUI y átomo `colr`); `framemd5` DECODIFICADO (1461 fotogramas) y PCM del audio, idénticos antes y después. Color contra stills a escala 1 (`medir-final.py`, 11 fotogramas): color medio ≤ 0,19 niveles, PSNR de baja frecuencia 51,3-54,3 dB (medio 55,4 contando la tarjeta), bruto medio 47,9 dB (mín 43,8) |
+| **Final (CRF 16 `slow`)** | `finales/051-recorrido-crf16.mp4`: 52,4 MB, misma imagen y mismo audio (PCM idéntico al del master); etiquetas arregladas; color medio ≤ 0,49 niveles, PSNR de baja frecuencia 48,9-51,8 dB (3 fotogramas) |
+| `.srt` | `finales/051.srt`: 30 cues, 0,20-46,00 s (`exportar-srt.mjs`): el hook y los 10 rótulos |
+| **Versión con ficha** | `finales/051-recorrido-ficha.mp4`: 1461 f, el audio del master copiado tal cual (PCM idéntico). Base: render `--muted --crf=6` **CON los rótulos** (el texto es el mensaje: reparto 051-053 §5); la mitad de arriba contra el final: PSNR 50,7 dB de media (mín 45,5). `APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES` desde el f0 hasta los 45,8 s; la tarjeta oscura empieza en los 46,17 s. Revisada con `ficha.mjs hoja` (`pruebas-720p/hoja-ficha.jpg`): la ficha (y ≈ 1220-1420) y el rótulo (desde y 1430) no se tocan, aunque con los de 3 líneas quedan unos 30 px de aire |
+| Portada | `finales/051-portada.png` (receta en `portada.json`): fotograma de 17,2 s del render SIN subtítulos (el balcón con el jacuzzi privado y las torres al atardecer: solo la propiedad; el más nítido de 16,0-17,4 s), `EL POBLADO` · `RENTA`; contraste 9,4:1 el texto y 13,6:1 el isotipo |
+| Caption | `caption.md` (nombra las cinco plusvalías con la frase de los rótulos) |
+| En el SSD | `…/Apartamento - Tierra Grata - Las Palmas/Videos Social Media/`: `051-recorrido.mp4` (orgánico, CRF 12), `051-recorrido-ficha.mp4` (funnel), `051-portada.png`, `051.srt` y `051-caption.md` (sha256 idénticos a los de `finales/` y de este repo). El CRF 16 se queda en `proyectos/051/finales/` |
+
 ## Cómo cambiar cada pieza
 
 - **El texto de un rótulo:** el bloque `rNN` de `subtitulos-051.ts` (y la lista `GUION` de la sección 5 de `revisar-051.mjs`, que lo comprueba tal cual). Una línea no pasa de 5 palabras en base ni de 3 en acento (el validador avisa); los rótulos duran 2,4-4,4 s y entran uno a la vez.
@@ -63,5 +75,5 @@ RC21 4,7 s con la V27 (su clímax) · RC05 2,3-4,0 s con las V27, V28, V29 y V30
 
 ## Lo por confirmar
 
-- **Oír** (POR CONFIRMAR AL OÍDO): «arrendar **amoblado** en Medellín» (HK05, la «a» pegada a «arrendar», ≈ 26,9-27,3 s de la fuente = f50-62 del vídeo, 1,6-2,1 s): whisper la oye «amulado», «a Moldova», «a mi lado», «movilado»; el original la subtitula «amoblado». La nota SE QUEDA.
+- **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto y la final se exportó con ella abierta, por orden del usuario: `recorrido-luxur` §7c): «arrendar **amoblado** en Medellín» (HK05, la «a» pegada a «arrendar», ≈ 26,75-27,28 s de la fuente = f50-66 del vídeo, 1,7-2,2 s): whisper la oye «amulado», «a Moldova», «a mi lado», «movilado»; el original la subtitula «amoblado». **Medido con `formantes.py` (26,38-27,9 s):** las vocales salen [o] (F1 ≈ 520-560, F2 ≈ 890-900: «mo»), [a] (F1 ≈ 660-790, F2 ≈ 1.700-1.850: «bla») y [o] (F1 ≈ 300, F2 ≈ 850: «do») = a-mo-bla-do; «a mi lado» pediría una [i] (F2 > 2.000) en la segunda sílaba y «a Moldova» una [o] en la tercera: ninguna sale. Una medida no es un oído: la nota SE QUEDA. Si no es «amoblado», se cambia el texto del trozo `h02` de `subtitulos-051.ts` (y el hook del caption, el `.srt` y la nota de los rótulos que dicen «amoblados») y se vuelven a exportar las tres piezas (final, CRF 16 y ficha).
 - Mirar con el usuario: **el último plano sustituido**; RC21 hacia delante y RC17 fuera; los planos recortados (48,7 s en vez de 64); que el recorrido se repite con las seis piezas anteriores; que los rótulos prometen lo que la ficha no dice (chef, transporte, «la mejor asesoría de la ciudad»: lo dio el usuario); la imagen más blanda; la canción (medida, no oída; licencia sin verificar); y los dos sitios sin golpe (CTA).

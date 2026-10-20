@@ -81,8 +81,10 @@ El precio de la propiedad (COP 14,8 M al mes) va en la versión con ficha y en e
 
 Administración, contrato, qué se paga aparte, tiempos a ningún sitio y el precio dentro del vídeo orgánico: la ficha no lo dice y el original tampoco. Los rótulos no dicen que el chef o el transporte vayan incluidos en el canon.
 
-## Pendiente con el usuario
+## Estado y pendiente con el usuario
 
-1. El OK a la prueba (`pruebas-720p/051-recorrido.mp4`, 540×960) y a lo declarado: **el último plano del original no está en el material** y lo sustituye CT04; **RC21 hacia delante** y RC01 a ×1,5; **RC17 fuera**; **planos recortados** (la pieza dura 48,7 s en vez de 64); tramos que se repiten con las seis piezas anteriores (la puerta 7b los lista); **dos entradas sin golpe** (el CTA); la imagen es algo más blanda que Isabella en 4K (todo el material es anamórfico ×2,13, también Isabella); y que los rótulos prometen cosas que la ficha no dice («la mejor asesoría de la ciudad», «conductor y transporte»: el usuario las dio).
-2. **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto): «arrendar **amoblado** en Medellín» (HK05, ≈ 26,9-27,3 s de la fuente = 1,5 s del vídeo): la «a» se pega a «arrendar»; whisper la oye de cinco maneras.
+**Exportada el 2026-10-20** con el OK del usuario a la prueba (CRF 12 + CRF 16 + `.srt` + portada + versión con ficha + caption, copiados al SSD: `combinaciones.md`, «La final»). Queda:
+
+1. **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto): «arrendar **amoblado** en Medellín» (HK05, 1,7-2,2 s del vídeo): la «a» se pega a «arrendar»; whisper la oye de cinco maneras y las vocales medidas con `formantes.py` dicen a-mo-bla-do. Si no es «amoblado», se cambia `h02` y se reexportan las tres piezas.
+2. Lo declarado (ver arriba): **el último plano del original no está en el material** y lo sustituye CT04; RC21 hacia delante, RC01 a ×1,5, RC17 fuera; planos recortados (48,7 s en vez de 64); tramos repetidos con las seis piezas anteriores; la entrada del CTA sin golpe; imagen más blanda (todo anamórfico ×2,13, también Isabella); y que los rótulos prometen lo que la ficha no dice (lo dio el usuario).
 3. La canción (medida, no oída; licencia sin verificar).
