@@ -19,7 +19,7 @@
 - **A cámara (Isabella)**: HK04 (hook, sentada en el sofá: abre la pieza en el f0) y CT05 (CTA, sentada en la silla de la sala). Empuje lento (zoom 1,00 → 1,04). Su subtítulo va abajo: no le tapa la cara.
 - **Recorrido**: planos mudos del 2-sep, cuadro entero, sin movimiento añadido (la cámara ya se mueve), disueltos entre sí (12 f).
 - **Isabella caminando (CT04, sin voz)**: sustituye a «Isabella en la cocina»; su subtítulo cae sobre su cuerpo, no su cara (ella está a media distancia, en el tercio superior).
-- **La versión con ficha** (`ficha-luxur`): el mismo vídeo y la ficha `APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES` en el tercio bajo del cuadrado 1:1 (y ≈ 1220-1420), desde el f0 hasta la tarjeta. **CONSERVA los rótulos** (cambio de encargo: aquí el texto es el mensaje, no un subtítulo redundante), que caen en la banda de abajo (1430-1640): se comprueba en la hoja de `ficha.mjs hoja` que ficha y rótulo no se toquen y se declara; si el usuario prefiere la ficha sola, se rehace con `sinSubtitulos`.
+- **La versión con ficha** (`ficha-luxur`): el mismo vídeo SIN subtítulos ni rótulos (`sinSubtitulos`; regla de la skill: la ficha va sola) y la ficha `APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES` en el tercio bajo del cuadrado 1:1 (y ≈ 1220-1420), desde el f0 hasta la tarjeta. (El reparto §5 pedía conservar los rótulos y el usuario lo corrigió el 2026-10-20.)
 
 ## Color
 

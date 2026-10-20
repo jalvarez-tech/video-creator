@@ -92,5 +92,5 @@ Lo que prometen lo dio el usuario (aseo semanal incluido, acompañamiento person
 9. **Metraje compartido** con las otras piezas (la puerta, 7b, informa de cuánto): es estructural (22 clips) y el original ya lo hacía.
 10. **Gente en cuadro, pequeña**: RC13 (gimnasio, 0,4-3,3 s: como el original) y RC12 (Social Kitchen, 0,4-4,8 s) enseñan personas al fondo (≈ 100 px); RC11, el único clip con un hombre reconocible, no se usa.
 11. **La misma toma de CT05 cierra la 053**: declarado.
-12. **La versión con ficha CONSERVA los rótulos** (aquí el texto es el mensaje): la ficha va en y ≈ 1220-1420 y el rótulo, en la banda de abajo (1430-1640); se comprueba en la hoja que no se toquen.
+12. **La versión con ficha va SIN texto** (ni rótulos ni subtítulos: regla de `ficha-luxur`): solo la ficha y la tarjeta. El reparto §5 pedía conservar los rótulos y el usuario lo corrigió el 2026-10-20.
 13. **Ya se gastaron 1.101 caracteres de ElevenLabs** (voz de stock «Bella») en una locución que el cambio de encargo dejó sin uso.
