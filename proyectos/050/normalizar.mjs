@@ -24,9 +24,10 @@
  * ANTES DE TOCAR NADA, medido (R01, R19, R21; ffprobe del 2026-10-19):
  *   · las tres tomas de Isabella (IMG_4272, 4296, 4294): HEVC 10 bit **HLG** (`arib-std-b67`, BT.2020), 3840×2160 con `rotation=-90` → pantalla 1080×1920 vertical, a 30 fps
  *     exactos. Sin tone-map salen lavadas (R21): lo hace VideoToolbox (`scale_vt`), y la rotación también (`transpose_vt`);
- *   · los RECORRIDOS (Img 94xx/95xx.mp4): H.264 **SDR** BT.709, **1920×1080 HORIZONTAL**, sin rotación, a 30 fps (RC02 con `avg_frame_rate` irregular: se cuentan los
- *     fotogramas del MP4 normalizado, nunca los del original). Se recortan al centro a 608×1080 (9:16) en la x que dice `MATERIAL` y se escalan a 1296×2304: salen más blandos que
- *     Isabella en 4K (1080 px de alto a 2304: ×2,13); se dice en la prueba y no se compensa con filtros (R22: nada que invente detalle);
+ *   · los RECORRIDOS (Img 94xx/95xx.mp4): H.264 **SDR** BT.709, 30 fps (RC02 y RC10 con `avg_frame_rate` irregular: se cuentan los fotogramas del MP4 normalizado, nunca los del original), almacenados a **1920×1080 pero con
+ *     SAR 81:256 y DAR 9:16**: son vídeos VERTICALES (608×1080 al mostrarse) comprimidos a lo ancho. El catálogo (`proyectos/044/catalogo-material.md` §7) los tomó por horizontales 16:9 y la receta de la rev. 0-2 los recortaba
+ *     al centro (`crop=608:1080:X:0` = el 32 % del ancho almacenado, un zoom ×3,2): el usuario lo vio «ampliado» (2026-10-19). Ahora se escalan ENTEROS a 1296×2304 con `setsar=1` (1920 → 1296 y 1080 → 2304: sin recorte; el cuadro
+ *     entero, más blando en vertical por el ×2,13);
  *   · el audio de cada toma: micro de solapa mono; sale en WAV PCM 48 kHz mono, SIN filtro ni nivel y en otro WAV con la voz TRATADA (abajo). WAV y no AAC: el AAC arrastra
  *     1024 muestras de priming que desplazan la voz ~21 ms contra su imagen.
  *
@@ -68,17 +69,17 @@ const MATERIAL = [
   ["toma", "hk02.mov", "hk02", "4cc73e1d", "1 Hooks/IMG_4272.MOV"],
   ["toma", "md04.mov", "md04", "cfd314e1", "2 Miad/IMG_4296.MOV"],
   ["toma", "ct02.mov", "ct02", "f7ed79ff", "5 Cta/IMG_4294.MOV"],
-  // Los recorridos (2-sep, horizontales, SDR, sin gente). Se pueden repetir entre piezas; el plan dice cuáles entran, en qué segundos y con qué recorte.
-  ["recorrido", "rc17.mp4", "rc17", "c99bc2f1", "4 Recorrido/Img 9527.mp4", 656],
-  ["recorrido", "rc14.mp4", "rc14", "59647a5b", "4 Recorrido/Img 9517.mp4", 656],
-  ["recorrido", "rc12.mp4", "rc12", "7bc5ad03", "4 Recorrido/Img 9514.mp4", 656],
-  ["recorrido", "rc06.mp4", "rc06", "556bee38", "4 Recorrido/Img 9479.mp4", 656],
-  ["recorrido", "rc09.mp4", "rc09", "8b1031a3", "4 Recorrido/Img 9484.mp4", 656],
-  // Añadidos a petición del usuario tras la prueba rev. 1 (2026-10-19: «incluye tomas Img 9538, Img 9536, Img 9509»): la sala a la hora azul (RC20, apertura asignada a la V29), el bar de noche (RC22) y el balcón con el JACUZZI PRIVADO (RC10,
-  // clímax asignado a la V30: lo ve en sus últimos segundos; x=1000 y no el centro, que lo deja en el borde del 9:16). RC02 (el balcón de las camas, el clímax asignado a esta pieza) ya no entra.
-  ["recorrido", "rc20.mp4", "rc20", "eed9445e", "4 Recorrido/Img 9536.mp4", 656],
-  ["recorrido", "rc22.mp4", "rc22", "33ac8ce2", "4 Recorrido/Img 9538.mp4", 656],
-  ["recorrido", "rc10.mp4", "rc10", "e7e4ee8b", "4 Recorrido/Img 9509.mp4", 1000],
+  // Los recorridos (2-sep, SDR, anamórficos 9:16, sin gente). Se pueden repetir entre piezas; el plan dice cuáles entran y en qué segundos.
+  ["recorrido", "rc17.mp4", "rc17", "c99bc2f1", "4 Recorrido/Img 9527.mp4"],
+  ["recorrido", "rc14.mp4", "rc14", "59647a5b", "4 Recorrido/Img 9517.mp4"],
+  ["recorrido", "rc12.mp4", "rc12", "7bc5ad03", "4 Recorrido/Img 9514.mp4"],
+  ["recorrido", "rc06.mp4", "rc06", "556bee38", "4 Recorrido/Img 9479.mp4"],
+  ["recorrido", "rc09.mp4", "rc09", "8b1031a3", "4 Recorrido/Img 9484.mp4"],
+  // Añadidos a petición del usuario tras la prueba rev. 1 (2026-10-19: «incluye tomas Img 9538, Img 9536, Img 9509»): la sala a la hora azul (RC20, apertura asignada a la V29), el bar de noche (RC22) y el balcón con el JACUZZI PRIVADO
+  // (RC10, clímax asignado a la V30). RC02 (el balcón de las camas, el clímax asignado a esta pieza) ya no entra.
+  ["recorrido", "rc20.mp4", "rc20", "eed9445e", "4 Recorrido/Img 9536.mp4"],
+  ["recorrido", "rc22.mp4", "rc22", "33ac8ce2", "4 Recorrido/Img 9538.mp4"],
+  ["recorrido", "rc10.mp4", "rc10", "e7e4ee8b", "4 Recorrido/Img 9509.mp4"],
 ];
 /**
  * La canción: archivo en original/ · salida · sha256 (8) · origen (la biblioteca de música del repo, el MISMO archivo que reserva el registro de uso).
@@ -121,7 +122,7 @@ if (malos) {
 /** La rotación de PANTALLA del archivo (R19): −90 en un iPhone vertical, 0 si ya viene derecho (los recorridos horizontales). */
 const rotacionDe = (abs) => Number(sondea(abs, "stream_side_data=rotation").split(/\s+/)[0] || 0);
 
-function video(clase, archivo, salidaNombre, recorteX) {
+function video(clase, archivo, salidaNombre) {
   const entrada = path.join(ORIGEN, archivo);
   const salida = path.join(DESTINO, `${salidaNombre}.mp4`);
   if (fs.existsSync(salida) && !f.forzar) {
@@ -157,19 +158,23 @@ function video(clase, archivo, salidaNombre, recorteX) {
       log.error(`${archivo}: rotación no prevista (${rot})`);
       process.exit(1);
     }
+    // LOS «HORIZONTALES» NO LO SON (descubierto en la rev. 2 del 050, 2026-10-19, por el usuario: «en el render aparece ampliado»). Los recorridos y las tomas del 2-sep están ALMACENADOS a 1920×1080 pero con
+    // SAR 81:256 y DAR 9:16: son vídeos verticales (608×1080 al mostrarse) comprimidos a lo ancho. El catálogo (§7) los tomó por 16:9 y mandaba recortar el centro (`crop=608:1080:X:0`): eso es el 32 % del ancho
+    // almacenado, un zoom ×3,2 de la parte central. Lo correcto es escalar el cuadro ENTERO a 9:16 (1920 → 1296 y 1080 → 2304, sin recorte) y declarar el píxel cuadrado (`setsar=1`).
     let marco = "";
     if (rot === 0) {
-      // EL RECORTE 9:16 (los recorridos horizontales): una ventana vertical de alto completo (608×1080) en la x que dice `MATERIAL`, ANTES de escalar.
-      if (typeof recorteX !== "number" || recorteX < 0 || recorteX > 1312) {
-        log.error(`${archivo}: un clip apaisado sin rotación necesita su x de recorte (0-1312) en la sexta columna de MATERIAL`);
+      const sar = sondea(entrada, "stream=sample_aspect_ratio");
+      const dar = sondea(entrada, "stream=display_aspect_ratio");
+      if (sar !== "81:256" || dar !== "9:16") {
+        log.error(`${archivo}: un clip sin rotación tiene que ser el anamórfico del 2-sep (SAR 81:256, DAR 9:16) y es SAR ${sar}, DAR ${dar}: revísalo antes de normalizar`);
         process.exit(1);
       }
-      marco = `crop=608:1080:${recorteX}:0,`;
+      marco = "setsar=1,";
     }
-    args = ["-nostdin", "-y", "-v", "error", "-noautorotate", "-i", entrada, "-vf", `${giro ? `${giro},` : ""}${marco}scale=1296:2304:flags=lanczos,format=yuv420p`, ...comunes];
+    args = ["-nostdin", "-y", "-v", "error", "-noautorotate", "-i", entrada, "-vf", `${giro ? `${giro},` : ""}scale=1296:2304:flags=lanczos,${marco}format=yuv420p`, ...comunes];
   }
   ejecutar("ffmpeg", args, { check: true });
-  log.ok(`${path.basename(salida)} (${clase}${hdr ? " · HLG → BT.709" : " · SDR"} · rotación ${rot}${typeof recorteX === "number" && rot === 0 ? ` · recorte 608×1080 en x=${recorteX}` : ""})`);
+  log.ok(`${path.basename(salida)} (${clase}${hdr ? " · HLG → BT.709" : " · SDR"} · rotación ${rot}${rot === 0 ? " · anamórfico 9:16 escalado entero, sin recorte" : ""})`);
 }
 
 function voz(archivo, salidaNombre) {

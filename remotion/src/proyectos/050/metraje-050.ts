@@ -30,7 +30,8 @@
  * 16,7 dB. La música suena DESDE EL FRAME 0, baja bajo la voz del hook (la canción entra en su segundo 39,2, 6,8 s antes de ese golpe). Con los nueve planos de recorrido de la rev. 2 no sale ninguna rejilla de golpes de ≥ 10,5 dB: el
  * más débil, el del baño (10,3 dB), es 1,4 dB más flojo que el de la rev. 1 (11,7).
  *
- * LOS RECORRIDOS SON HORIZONTALES (1920×1080, SDR, 2-sep): se recortan al centro a 608×1080 (RC10, a la derecha: x=1000) y se escalan ×2,13 (`normalizar.mjs`): salen más blandos que Isabella en 4K. Se dice en la prueba y no se compensa con filtros.
+ * LOS RECORRIDOS SON ANAMÓRFICOS (2-sep, SDR): almacenados a 1920×1080 con SAR 81:256 y DAR 9:16, es decir, vídeos VERTICALES comprimidos a lo ancho. El catálogo los tomó por horizontales y las rev. 0-2 los recortaban al centro (608×1080 de
+ * los 1920: un zoom ×3,2 que el usuario vio como «ampliado»). Desde la rev. 3 se escalan ENTEROS a 1296×2304 (`normalizar.mjs`, `setsar=1`): el cuadro completo, más blando que Isabella en 4K (el alto se sube ×2,13). Se dice y no se compensa con filtros.
  * Los ocho tramos son disjuntos entre sí. RC20 (apertura de la V29) y RC10 (clímax de la V30) entran por PEDIDO EXPRESO del usuario y dejan de ser exclusivos de esas piezas; RC01, RC04, RC03, RC18, RC19 y RC21 no entran.
  *
  * UNIDADES. `desde` va en SEGUNDOS de la fuente, escrito como frame exacto (`fr(9)` = 9/30 s) donde el corte es en la muestra; `en` y `dur`, en frames de la composición. Los planos son CONTIGUOS.
@@ -217,14 +218,14 @@ export const metraje050: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc17"),
-    // RC17 (Img 9527, 2-sep, 7,7 s): el carril de nado desde el otro extremo, con los árboles y el cielo del atardecer; la cámara avanza y gira a la derecha. Recorte central (x=656). Del 3,2 al 5,7 s: el agua azul con el escalón y el
+    // RC17 (Img 9527, 2-sep, 7,7 s): el carril de nado desde el otro extremo, con los árboles y el cielo del atardecer; la cámara avanza y gira a la derecha. Del 3,2 al 5,7 s: el agua azul con el escalón y el
     // segundo carril bajo los pinos (sin gente cerca; antes de los 3 s se ven dos nadadores diminutos en el borde izquierdo). Se eligió RC17 y no RC16 (el carril visto desde el otro lado) porque las V27, V28 y V30 ya usan RC16 (7b de la puerta): así esta pieza no repite el plano de la piscina.
     desde: 3.2,
     en: P.paseo,
     dur: P.gimnasio - P.paseo,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ contrast: 1.02, exposure: 0.3, shadows: 0.5, blacks: 0.04, highlights: -0.3, saturation: 1.08 }),
+    color: color({ exposure: 0, shadows: 0.2, highlights: -0.3, saturation: 1.05 }),
     reason:
       "La piscina (la unidad: dónde pasará su tiempo): tras «te ayudamos a optimizarlo», el carril de nado bajo los pinos: lo primero que enseña la unidad. Entra a corte en el «drop».",
   },
@@ -240,7 +241,7 @@ export const metraje050: readonly Corte[] = [
     dur: P.cocina - P.gimnasio,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ exposure: 0.4, shadows: 0.35, blacks: 0 }),
+    color: color({ exposure: 0.1, shadows: 0.25, highlights: -0.45 }),
     reason:
       "El gimnasio (la unidad: cuidarse): de la piscina a las máquinas y la pared a rayas rojas; sigue el mismo movimiento hacia la derecha.",
   },
@@ -256,7 +257,7 @@ export const metraje050: readonly Corte[] = [
     dur: P.mitad - P.cocina,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ exposure: -0.05 }),
+    color: color({ exposure: 0.35, shadows: 0.4, blacks: 0, saturation: 1.04 }),
     reason:
       "La Social Kitchen (la unidad: reunirse y trabajar): el paseo llega al espacio donde espera Isabella; el mural y las lámparas verdes preparan la cifra.",
   },
@@ -294,13 +295,13 @@ export const metraje050: readonly Corte[] = [
     tipo: "video",
     src: v("rc20"),
     // RC20 (Img 9536, 2-sep, 18,5 s = 556 f): la sala a la HORA AZUL: el panel curvo de madera con su luz cálida, el sofá gris con las tiras de luz verticales, la mesa de centro y el ventanal con la ciudad azul detrás; la cámara
-    // avanza y gira a la derecha. Del 6,0 al 8,57 s: el sofá y las luces (después, el ventanal y la isla). Recorte central (x=656). Entra por PEDIDO EXPRESO del usuario (es la apertura asignada a la V29, 047): deja de ser exclusiva.
-    desde: 6.0,
+    // avanza y gira a la derecha. Del 5,6 al 8,17 s: el pilar de madera que se aparta y el sofá con las tiras de luz (después, el ventanal y la isla). Entra por PEDIDO EXPRESO del usuario (es la apertura asignada a la V29, 047): deja de ser exclusiva.
+    desde: 5.6,
     en: P.sala,
     dur: P.bar - P.sala,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ exposure: 0.3, shadows: 0.15 }),
+    color: color({ exposure: 0.1, shadows: 0.3, highlights: -0.4, saturation: 1 }),
     reason:
       "La sala a la hora azul (el apartamento: estar): tras la cifra, por fin dentro del apartamento; el sofá, las tiras de luz y la ciudad azul en el ventanal. Entra a corte en un golpe.",
   },
@@ -316,7 +317,7 @@ export const metraje050: readonly Corte[] = [
     dur: P.alcoba - P.bar,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ exposure: -0.2, saturation: 0.98, temperature: -0.04 }),
+    color: color({ exposure: 0.4, shadows: 0.3, saturation: 0.95, temperature: -0.04 }),
     reason:
       "El bar de noche (el apartamento: reunirse): de la sala a la barra y su neón; la luz cálida de la noche entre dos planos de día.",
   },
@@ -341,13 +342,13 @@ export const metraje050: readonly Corte[] = [
     bloque: 5,
     tipo: "video",
     src: v("rc09"),
-    // RC09 (Img 9484, 2-sep, 8,2 s): el baño principal, el mueble de madera con el lavamanos de vasija, el espejo y, al fondo, la mampara de la ducha; la cámara avanza a la derecha. Del 1,7 al 4,03 s.
-    desde: 1.7,
+    // RC09 (Img 9484, 2-sep, 8,2 s): el baño principal, el mueble de madera con el lavamanos de vasija, el espejo y, al fondo, la mampara de la ducha; la cámara avanza a la derecha. Del 2,4 al 4,73 s: el lavamanos, el espejo y las toallas (antes de los 2 s se ve el inodoro).
+    desde: 2.4,
     en: P.bano,
     dur: P.jacuzzi - P.bano,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ exposure: -0.4, highlights: -0.4, whites: -0.2 }),
+    color: color({ exposure: -0.4, highlights: -0.35, whites: -0.2 }),
     reason:
       "El baño principal (el apartamento: cuidado): de la alcoba al baño, el paso natural del paseo; el mueble de madera, el espejo y la mampara.",
   },
@@ -357,14 +358,13 @@ export const metraje050: readonly Corte[] = [
     tipo: "video",
     src: v("rc10"),
     // RC10 (Img 9509, 2-sep, 10,7 s = 322 f; `avg_frame_rate` irregular): el balcón del apartamento al atardecer temprano: el cielo con nubes, las torres y la ciudad, y —de los 7,3 s al final— el JACUZZI PRIVADO (la tina cuadrada con listones de
-    // madera y su escalón, la baldosa negra y la baranda de cristal: el de la foto `3-Jacuzzi.png` de la ficha). La cámara avanza a la derecha y acaba con la tina entera y centrada. Del 7,87 s al último fotograma (10,73 s, 86 f). Recorte
-    // en x=1000: con el centro (656) la tina queda en el borde. NO es la terraza común (el catálogo lo describía así): lo midió la sesión de la V30. Entra por PEDIDO EXPRESO del usuario (era el clímax asignado a la V30, 048).
+    // madera y su escalón, la baldosa negra y la baranda de cristal: el de la foto `3-Jacuzzi.png` de la ficha). La cámara avanza a la derecha y acaba con la tina entera y centrada. Del 7,87 s al último fotograma (10,73 s, 86 f). NO es la terraza común (el catálogo lo describía así): lo midió la sesión de la V30. Entra por PEDIDO EXPRESO del usuario (era el clímax asignado a la V30, 048).
     desde: fr(236),
     en: P.jacuzzi,
     dur: P.cta - P.jacuzzi,
     zoom: [1.0, 1.04], // un empuje mínimo: el final es casi un plano fijo y la cámara a mano se queda inerte
     entra: "corte",
-    color: color({ exposure: -0.4, highlights: -0.5, whites: -0.3 }),
+    color: color({ exposure: -0.3, highlights: -0.45, whites: -0.25 }),
     reason:
       "El balcón con el jacuzzi privado (el clímax): de la ciudad al jacuzzi de madera de la ficha, la baldosa negra y la baranda: lo que se ve al salir y el argumento de la propiedad. El plano más largo del bloque 5. Entra a corte en un golpe.",
   },

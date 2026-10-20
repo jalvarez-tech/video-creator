@@ -19,7 +19,7 @@ Composición `Recorrido050` (`remotion/src/proyectos/050/`), 1080×1920 a 30 fps
 
 - **Subtítulos:** abajo (borde superior ≈ 74,5 %, nunca por debajo del 88 %). Arriba **no hay nada** en ningún frame.
 - **Isabella:** HK02 sentada en el sillón (plano medio-largo: de la cintura a la cabeza, las piernas ocupan el tercio bajo, donde cae el texto: nunca sobre la cara); MD04 sentada en una silla en la Social Kitchen (cuerpo entero, la cara a ≈ 40 % del alto); CT02 de pie en el jardín, de la cintura a la cabeza.
-- **Recorridos:** horizontales 1920×1080 recortados al centro (608×1080 → 1296×2304; RC10, el jacuzzi, a la derecha: x=1000); **no llevan texto** (los bloques 3 y 5 van solo con música). El tercio bajo de la versión del funnel (1:1: y 420-1500; ficha de y≈1220 a 1420) cae sobre suelo y baldosa en los recorridos.
+- **Recorridos:** anamórficos (1920×1080 con DAR 9:16) escalados enteros a 1296×2304, sin recorte; **no llevan texto** (los bloques 3 y 5 van solo con música). El tercio bajo de la versión del funnel (1:1: y 420-1500; ficha de y≈1220 a 1420) cae sobre suelo y baldosa en los recorridos.
 - **Cierre:** tarjeta negra lisa; logo y web centrados, un poco por encima del centro.
 
 ## Reglas fijas del canal (comprobadas por `revisar-050.mjs`)
@@ -34,6 +34,6 @@ Composición `Recorrido050` (`remotion/src/proyectos/050/`), 1080×1920 a 30 fps
 ## Lo que decide esta pieza distinto del 043
 
 - **Abre con el hook y no con un dron**, con la música ya bajo su voz y un «drop» de 16,7 dB que entra cuando acaba (el f204).
-- **Recorrido horizontal recortado:** 608 px de ancho reales escalados ×2,13; planos de 1,7-2,9 s, sin rampas de velocidad, y el color del plano medido para que piscina, gimnasio, Social Kitchen, sala, bar, alcoba, baño y balcón se parezcan entre sí (luma σ 24 → 15).
+- **Recorridos a cuadro entero:** el cuadro 9:16 completo (1080 px de alto reales, ×2,13); planos de 1,7-2,9 s, sin rampas de velocidad, y el color del plano medido para que piscina, gimnasio, Social Kitchen, sala, bar, alcoba, baño y balcón se parezcan entre sí (luma σ 13).
 - **Texto que marca lo práctico:** los cinco acentos caen en «más valioso» (el tiempo), «aseo semanal» (lo incluido), `$14.800.000` (el precio), «experiencias» (lo que incluye) y «escríbeme» (la acción).
 - **Dos formatos:** la composición acepta `sinSubtitulos` y la versión del funnel es el mismo montaje sin texto y con la ficha (`ficha-luxur`).
