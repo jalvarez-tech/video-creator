@@ -1,0 +1,8 @@
+{
+  "video": "/private/tmp/remotion-052/052-sin-subs.mp4",
+  "t": 3.6,
+  "locacion": "EL POBLADO",
+  "negocio": "renta",
+  "fecha": "2026-10-20",
+  "nota": "El fotograma es del render de Recorrido052 con --props={\"sinSubtitulos\":true} --muted --crf=6 (sin rótulos: solo la propiedad); el MP4 temporal se borró. Para repetirla, renderizarlo otra vez (remotion/, --gl=angle) y pasar --video."
+}
