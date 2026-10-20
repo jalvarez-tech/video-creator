@@ -28,17 +28,18 @@ import { ACENTO_MENOS_052, subtitulos052 } from "./subtitulos-052";
 
 /**
  * Proyecto 052 — «Tierra Grata Bosque Santo (El Poblado), ARRIENDO», Propiedades Luxur: V34 del registro de reels, «Pregúntate esto». Es la RÉPLICA de `videos editados/02.mp4` (15-sep-2026, 77,6 s): las mismas
- * tomas, en el mismo orden y con el mismo texto, pero en el formato del canal (subtítulos editoriales, cierre con la tarjeta oscura) y, con `sinSubtitulos`, en el formato de la versión con ficha.
+ * tomas, en el mismo orden, en el formato del canal (cierre con la tarjeta oscura) y, con `sinSubtitulos`, en el formato de la versión con ficha. **Sin locución en off y con un guion nuevo EN PANTALLA** (cambio de
+ * encargo del 2026-10-20): lo que el original contaba con una voz lo cuentan nueve rótulos que enseñan las plusvalías del arriendo (aseo semanal incluido, acompañamiento, chef, transporte, asesoría).
  *
- * Abre con el HOOK a cámara (HK04, Isabella en el sofá: «Antes de arrendar amoblado, pregúntate esto»), sigue el recorrido en el orden del original con la LOCUCIÓN EN OFF encima —el balcón del atardecer, el bar, la
- * alcoba, la cocina y la sala, el balcón con las camas, el sauna, Isabella, la piscina, los árboles, el gimnasio y la Social Kitchen— y cierra con su CTA a cámara (CT05, «si buscas más que un apartamento para vivir,
- * escríbenos»). Encargo, decisiones y por qué cada plano: proyectos/052/artefactos/ y proyectos/044/reparto-051-053.md. Cómo cambiar la locución, un plano o la música: proyectos/052/combinaciones.md.
+ * Abre con el HOOK a cámara (HK04, Isabella en el sofá: «Antes de arrendar amoblado, pregúntate esto»), sigue el recorrido en el orden del original —el balcón del atardecer, el bar, la alcoba, la cocina y la sala,
+ * el balcón con las camas, el sauna, Isabella, la piscina, el gimnasio y la Social Kitchen— con un rótulo por tramo, y cierra con su CTA a cámara (CT05, «si buscas más que un apartamento para vivir, escríbenos»).
+ * Encargo, decisiones y por qué cada plano: proyectos/052/artefactos/ y proyectos/044/reparto-051-053.md. Cómo cambiar un rótulo, un plano o la música: proyectos/052/combinaciones.md.
  *
- * ES UN MONTAJE (director §3i): doce planos que SE DISUELVEN entre sí (la canción es un piano sin pulso: no hay golpes donde cortar en seco, y el original también cruza sus planos). El vídeo va MUDO en `<PistaMetraje>` y
- * todo lo que suena —la voz de las dos tomas, la locución y la música, que baja cuando habla alguien— va en `<PistaAudio>`, cortado con los mismos números que la imagen.
+ * ES UN MONTAJE (director §3i): once planos que SE DISUELVEN entre sí en golpes del piano (la canción no tiene pulso: no hay cortes secos, y el original también cruza sus planos). El vídeo va MUDO en `<PistaMetraje>` y
+ * todo lo que suena —la voz de las dos tomas y la música, que solo baja bajo ellas— va en `<PistaAudio>`, cortado con los mismos números que la imagen.
  *
- * TEXTO EN MODO EDITORIAL, que es el del canal (`LUXUR.texto.modo`): TODO lo que suena (hook, locución y CTA), abajo y a 90 % de opacidad, en trozos de 1-4 palabras. Por eso no hay `<PistaGraficos>`: la banda inferior y los
- * subtítulos editoriales viven en el mismo sitio (R14).
+ * TEXTO EN MODO EDITORIAL, que es el del canal (`LUXUR.texto.modo`): lo que dice Isabella (hook y CTA) y los rótulos, abajo y a 90 % de opacidad, en trozos de 1-4 palabras. Por eso no hay `<PistaGraficos>`: la banda
+ * inferior y los subtítulos editoriales viven en el mismo sitio (R14).
  *
  * LA PRIMERA TOMA SALE SIEMPRE SIN TEXTO NI VOZ (regla fija del canal): ESTA PIEZA LA ROMPE POR SER UNA RÉPLICA (`02.mp4` abre con Isabella, y el reparto fija «frame 0 = Isabella» para las tres réplicas, como la 046, la 048
  * y la 050): su primera palabra suena en el f5 y su primer subtítulo entra con ella. Está declarado en `01-plan.md` y en la puerta (`ABRE_CON_EL_HOOK`); el resto de las reglas fijas se cumple.
@@ -46,7 +47,7 @@ import { ACENTO_MENOS_052, subtitulos052 } from "./subtitulos-052";
  * NI SELLO, NUNCA (revisión 4, pedido del usuario): el sello «PROPIEDADES LUXUR» (`SelloCampana`, la píldora de arriba) no se pone en esta pieza ni en ninguna de este formato, y tampoco la cuenta de texto `@propiedadesluxur`.
  *
  * EL CIERRE (revisión 6, pedido del usuario): NADA SE CONGELA. Tras la última palabra de Isabella su imagen funde a negro (`FundidoACierre`, que llega a negro EXACTO en el último fotograma de la toma) y sigue una
- * TARJETA OSCURA (el plano `c14-cierre`, un negro liso) con el LOGO —más pequeño y al 60 % de opacidad, o sea 40 % de transparencia— y, debajo, la web `PropiedadesLuxur.com`. Sus números están en
+ * TARJETA OSCURA (el plano `c13-cierre`, un negro liso) con el LOGO —más pequeño y al 60 % de opacidad, o sea 40 % de transparencia— y, debajo, la web `PropiedadesLuxur.com`. Sus números están en
  * `cierre-052.ts`, que lee también la puerta.
  *
  * LA VERSIÓN CON FICHA (skill `ficha-luxur`): `sinSubtitulos` apaga los subtítulos y su velo y no toca nada más; es la base sobre la que `ficha.mjs` pone el tipo, el lugar y el precio fijos en el tercio bajo del 1:1.
@@ -58,7 +59,7 @@ import { ACENTO_MENOS_052, subtitulos052 } from "./subtitulos-052";
  *   4. SubtitulosEditoriales  overlay FIJO, dentro de un grupo a 90 % de opacidad y con la
  *                             cursiva 8 px más pequeña (`ACENTO_MENOS_052`)
  *   5. LogoCierre y WebCierre el logo y la web, sobre la tarjeta
- *   6. PistaAudio             voz de las tomas + locución + música, en la RAÍZ
+ *   6. PistaAudio             voz de las tomas + música, en la RAÍZ
  */
 
 /**
@@ -86,9 +87,9 @@ export const OPACIDAD_SUBTITULOS = 0.9;
  * La TOMA del CTA y la TARJETA del cierre, tal como las deja el plan. La imagen de Isabella
  * acaba en el último fotograma de la toma (`ULTIMA_DE_ISABELLA`); la tarjeta empieza justo después.
  */
-const CTA = metraje052.find((c) => c.id === "c13-cta");
-const CIERRE = metraje052.find((c) => c.id === "c14-cierre");
-if (!CTA || !CIERRE) throw new Error("Recorrido052: faltan c13-cta o c14-cierre en metraje-052.ts");
+const CTA = metraje052.find((c) => c.id === "c12-cta");
+const CIERRE = metraje052.find((c) => c.id === "c13-cierre");
+if (!CTA || !CIERRE) throw new Error("Recorrido052: faltan c12-cta o c13-cierre en metraje-052.ts");
 const ULTIMA_DE_ISABELLA = CTA.en + CTA.dur - 1;
 
 /**

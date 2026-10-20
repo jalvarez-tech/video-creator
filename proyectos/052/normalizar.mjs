@@ -7,7 +7,7 @@
  *   node proyectos/052/normalizar.mjs --solo hk02,rc20   (solo esos nombres de salida; no toca la música ni la tarjeta)
  *
  * PIEZA 052 · V34 · TIERRA GRATA BOSQUE SANTO (El Poblado), ARRIENDO: «PREGÚNTATE ESTO», la RÉPLICA de `videos editados/02.mp4` (15-sep-2026, 77,6 s) con las mismas tomas y el mismo texto, en el formato
- * del canal. Abre con el hook a cámara (HK04, el sofá), sigue el recorrido en el orden del original con la locución en off encima y cierra con CT05. *Armin van Buuren - Here For You (Piano)*. Reparto en
+ * del canal. Abre con el hook a cámara (HK04, el sofá), sigue el recorrido en el orden del original SIN voz en off (nueve rótulos en pantalla, cambio de encargo del 2026-10-20) y cierra con CT05. *Armin van Buuren - Here For You (Piano)*. Reparto en
  * `proyectos/044/reparto-051-053.md`; el material, catalogado en `proyectos/044/catalogo-material.md`, es de `Apartamento - Tierra Grata - Las Palmas/Videos/` (`1 Hooks`, `4 Recorrido`, `5 Cta`).
  *
  * POR QUÉ EXISTE. El material es de la propiedad y de la presentadora y no entra en git: en el repo quedan esta receta, el plan y los sha256 de los
@@ -33,7 +33,7 @@
  *   toma       la presentadora a cámara → MP4 mudo + WAV con su voz + WAV con su voz tratada
  *   recorrido  planos de la propiedad → MP4 mudo (anamórficos 81:256: escalados enteros, `setsar=1`). Un nombre de salida de `INVERTIDOS` sale AL REVÉS (`reverse`): el original de 02.mp4 pasa
  *              el balcón del atardecer (RC21) hacia atrás, del jacuzzi a la ciudad (`rc21r`)
- *   audio      la locución en off → solo el WAV, mono y sin tratar, y su voz TRATADA (`off-voz.wav`; la ventana y la ganancia se miden cuando exista la locución)
+ *   audio      una voz en off → solo el WAV, mono y sin tratar, y su voz tratada (esta pieza no lleva ninguna: sin locución)
  *   (música)   la canción → WAV estéreo de 48 kHz decodificado ENTERO y NADA MÁS (ni loudnorm): el MP3 arrastra su retardo de códec y el corte al golpe se
  *              hace a la muestra sobre el WAV. Su `desde` sale de la medida de la pista y el nivel es una ganancia del plan.
  *
@@ -69,7 +69,7 @@ const MATERIAL = [
   ["toma", "ct05.mp4", "ct05", "5bc7d1a0", "5 Cta/Img 9501.mp4"],
   // Los recorridos en el ORDEN del original (`02.mp4`, lectura por fotogramas, 2026-10-20): el balcón del atardecer (RC21, AL REVÉS: el original lo pasa del jacuzzi a la ciudad) → el bar de noche (RC22) → la alcoba
   // (RC06) → la cocina, la sala con la palma y el ventanal (RC01) → el balcón con las camas y las torres (RC03) → el sauna (RC15) → «Isabella en la cocina» (NO está en el material: CT04, ella caminando en la sala,
-  // sin voz) → la piscina (RC16) → «el bosque con hierba» (NO está en el material: RC17, el carril de nado entre árboles y cielo) → el gimnasio (RC13) → la Social Kitchen (RC12).
+  // sin voz) → la piscina (RC16) → «el bosque con hierba» (NO está en el material y no se sustituye) → el gimnasio (RC13) → la Social Kitchen (RC12).
   ["recorrido", "rc21.mp4", "rc21r", "7ca598cd", "4 Recorrido/Img 9537 (1).mp4"],
   ["recorrido", "rc22.mp4", "rc22", "33ac8ce2", "4 Recorrido/Img 9538.mp4"],
   ["recorrido", "rc06.mp4", "rc06", "556bee38", "4 Recorrido/Img 9479.mp4"],
@@ -78,13 +78,9 @@ const MATERIAL = [
   ["recorrido", "rc15.mp4", "rc15", "14db00b3", "4 Recorrido/Img 9524.mp4"],
   ["recorrido", "ct04.mp4", "ct04", "6765b9fd", "5 Cta/Img 9492.mp4"],
   ["recorrido", "rc16.mp4", "rc16", "7cdf817e", "4 Recorrido/Img 9525.mp4"],
-  ["recorrido", "rc17.mp4", "rc17", "c99bc2f1", "4 Recorrido/Img 9527.mp4"],
   ["recorrido", "rc13.mp4", "rc13", "e977e148", "4 Recorrido/Img 9516.mp4"],
   ["recorrido", "rc12.mp4", "rc12", "7bc5ad03", "4 Recorrido/Img 9514.mp4"],
-  // La LOCUCIÓN en off (la que dice el texto de `proyectos/052/voz/off.txt`): NO existe como archivo (solo está mezclada con la música vieja dentro de `02.mp4`). Entra aquí cuando el usuario la entregue o se genere
-  // (`generar-vo.mjs … --motor elevenlabs`): se copia a `proyectos/052/original/off.wav` y se rellena su sha.
-  // La locución GENERADA con ElevenLabs (2026-10-20, voz de stock «Bella», eleven_multilingual_v2, preset narracion; 1.101 caracteres; las 10 frases de `voz/off-guion.txt` montadas con las pausas del original por `herramientas/montar-locucion.py`).
-  ["audio", "off.wav", "off", "a860025e", "proyectos/052/voz/off-partes/*.mp3 → herramientas/montar-locucion.py"],
+  // (No hay locución: el encargo cambió el 2026-10-20 a un guion nuevo EN PANTALLA. Se generó una con ElevenLabs —voz de stock «Bella», 1.101 caracteres— antes del cambio y NO se usa: la clase `audio` sigue disponible.)
 ];
 /** Los recorridos que salen AL REVÉS (`reverse`): el nombre de salida es el que usa el plan. */
 const INVERTIDOS = new Set(["rc21r"]);
@@ -209,12 +205,7 @@ const VOZ_TRATADA = (gananciaDb, [ataque, relevo] = [4, 120]) =>
   ].join(",");
 
 /** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). */
-const GANANCIA_VOZ_DB = { hk04: 19.4, ct05: 20.4, off: 18.0 };
-/**
- * Ataque y relevo del compresor (ms) por fuente. La LOCUCIÓN generada llega con una cresta de 17 dB en ráfagas de pocos ms (sibilantes y oclusivas de una voz de TTS): con el ataque de 4 ms de las tomas
- * el limitador tenía que quitar 5,3 dB (+17,6 dB de ganancia, pico previo +3,5 dBFS) y eso se oye; con 1 ms y 80 ms de relevo el pico previo es +0,2 dBFS y el limitador quita 2,0 dB, a −15,1 LUFS.
- */
-const COMPRESOR_ATAQUE = { off: [1, 80] };
+const GANANCIA_VOZ_DB = { hk04: 19.4, ct05: 20.4 };
 
 /**
  * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente, medidos por energía
@@ -225,7 +216,7 @@ const COMPRESOR_ATAQUE = { off: [1, 80] };
  * otras; los inicios de abajo son los del perfil de energía a 20 ms, banda de voz: la primera subida a más de −40 dB.)
  * El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
  */
-const VENTANA_VOZ = { hk04: [2.9, 7.17], ct05: [1.3, 4.08], off: [0.04, 71.1] };
+const VENTANA_VOZ = { hk04: [2.9, 7.17], ct05: [1.3, 4.08] };
 /** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
 const VOZ_ANTES = 0.07;
 const VOZ_DESPUES = 0.05;
@@ -250,7 +241,7 @@ function vozTratada(salidaNombre) {
   const e = VOZ_FUNDIDO_ENTRA;
   const o = VOZ_FUNDIDO_SALE;
   const compuerta = `aeval='val(0)*if(lt(t,${a.toFixed(3)}),0,if(lt(t,${(a + e).toFixed(3)}),(t-${a.toFixed(3)})/${e},if(lt(t,${(b - o).toFixed(3)}),1,if(lt(t,${b.toFixed(3)}),(${b.toFixed(3)}-t)/${o},0))))':c=same`;
-  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", `${VOZ_TRATADA(ganancia, COMPRESOR_ATAQUE[salidaNombre])},${compuerta}`, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", `${VOZ_TRATADA(ganancia, undefined)},${compuerta}`, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
   log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3,5:1, +${ganancia} dB y limitador a −2,5 dBFS; solo suena de ${a.toFixed(2)} a ${b.toFixed(2)} s)`);
 }
 

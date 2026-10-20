@@ -8,7 +8,7 @@
 |---|---|---|---|
 | Arriba | 0–240 | **nada** | Ni hook escrito ni cuenta ni logo: el formato no pone texto arriba (regla fija del canal) |
 | Cuadro | 0–1920 | el vídeo (recorrido anamórfico escalado ENTERO, sin recorte; Isabella en sus dos tomas) | Los clips llegan a 1296×2304 (techo del punch-in ×1,2); los recorridos van sin zoom |
-| Subtítulos editoriales | 1430–1640 (borde superior al 74,5 %, hasta el 88 %) | TODO lo que suena (hook, locución, CTA) en trozos de 1-4 palabras, hasta 3 líneas | Montserrat 500 (base 45 px) y Playfair itálica (acento, 91 px con `acentoMenos` 8), blancos, **sin sombra**, a 90 % de opacidad, con el velo de abajo (`VELO_SUBTITULOS`) |
+| Subtítulos editoriales y RÓTULOS | 1430–1640 (borde superior al 74,5 %, hasta el 88 %) | lo que dice Isabella (hook, CTA) y los nueve rótulos del guion nuevo (la pieza va sin locución), en trozos de 1-4 palabras, hasta 3 líneas; **nunca dos bloques a la vez** | Montserrat 500 (base 45 px) y Playfair itálica (acento, 91 px con `acentoMenos` 8), blancos, **sin sombra**, a 90 % de opacidad, con el velo de abajo (`VELO_SUBTITULOS`) |
 | Cierre | y ≈ 795–1085 | la tarjeta oscura: el logo (440 px, 60 % de opacidad) y `PropiedadesLuxur.com` (Montserrat 500, 54 px) | Dura 2,0 s (60 f); nada se congela |
 | Márgenes | 12,5 % arriba y 12 % abajo | zona segura | Nada del cierre por encima del 12,5 % ni por debajo del 88 % |
 
@@ -19,7 +19,7 @@
 - **A cámara (Isabella)**: HK04 (hook, sentada en el sofá: abre la pieza en el f0) y CT05 (CTA, sentada en la silla de la sala). Empuje lento (zoom 1,00 → 1,04). Su subtítulo va abajo: no le tapa la cara.
 - **Recorrido**: planos mudos del 2-sep, cuadro entero, sin movimiento añadido (la cámara ya se mueve), disueltos entre sí (12 f).
 - **Isabella caminando (CT04, sin voz)**: sustituye a «Isabella en la cocina»; su subtítulo cae sobre su cuerpo, no su cara (ella está a media distancia, en el tercio superior).
-- **La versión con ficha** (`ficha-luxur`): el mismo vídeo sin subtítulos (`sinSubtitulos`) y la ficha `APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES` en el tercio bajo del cuadrado 1:1 (y ≈ 1220-1420), desde el f0 hasta la tarjeta. El hook de Isabella (planos medios) queda libre arriba: la ficha va abajo.
+- **La versión con ficha** (`ficha-luxur`): el mismo vídeo y la ficha `APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES` en el tercio bajo del cuadrado 1:1 (y ≈ 1220-1420), desde el f0 hasta la tarjeta. **CONSERVA los rótulos** (cambio de encargo: aquí el texto es el mensaje, no un subtítulo redundante), que caen en la banda de abajo (1430-1640): se comprueba en la hoja de `ficha.mjs hoja` que ficha y rótulo no se toquen y se declara; si el usuario prefiere la ficha sola, se rehace con `sinSubtitulos`.
 
 ## Color
 
