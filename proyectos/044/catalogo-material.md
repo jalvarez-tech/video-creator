@@ -82,7 +82,7 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip): **comprobar cada
 | RC07 | `Img 9480.mp4` | 5,0 s | Alcoba principal, las lámparas, la puerta con luz | APTO: alcoba principal |
 | RC08 | `Img 9481.mp4` | 5,1 s | Alcoba principal → el televisor | APTO: alcoba principal |
 | RC09 | `Img 9484.mp4` | 8,2 s | Baño: mueble de madera, lavamanos, espejo, mampara | APTO: baño principal |
-| RC10 | `Img 9509.mp4` | 10,8 s | Cielo con nubes → las torres y la ciudad → el deck de madera con la banca y la pérgola (**terraza común**, 17:34 UTC) | UNIDAD: terraza con la vista |
+| RC10 | `Img 9509.mp4` | 10,8 s | Cielo con nubes → las torres y la ciudad → **el JACUZZI PRIVADO del balcón** (la tina cuadrada con listones de madera, el escalón de madera, la baldosa negra, la baranda de vidrio y la losa del balcón: la foto `3-Jacuzzi.png`) — *corregido el 2026-10-19 por la sesión 048: la hoja de contactos lo leyó como «deck de madera con la banca y la pérgola (terraza común)»* | APTO: balcón con el jacuzzi privado (**clímax V30**) |
 | RC11 | `Img 9513.mp4` | 6,9 s | Social Kitchen / coworking: lámparas verdes, mural, mesas | UNIDAD: Social Kitchen |
 | RC12 | `Img 9514.mp4` | 7,4 s | Social Kitchen desde el otro lado, sillas, ventanal | UNIDAD: Social Kitchen |
 | RC13 | `Img 9516.mp4` | 6,0 s | Gimnasio: caminadoras, máquinas | UNIDAD: gimnasio |
@@ -96,7 +96,7 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip): **comprobar cada
 | RC21 | `Img 9537 (1).mp4` | 11,1 s | Terraza/balcón al atardecer: las luces de la ciudad, las torres, el deck | atardecer (comprobar si es el balcón del apto o la terraza común) |
 | RC22 | `Img 9538.mp4` | 3,2 s | El bar con el letrero de neón, de noche | APTO: bar |
 
-**⚠️ El jacuzzi PRIVADO del balcón (la foto `3-Jacuzzi.png`: cuadrado, de madera, con las torres detrás) no aparece en los fotogramas muestreados de ningún clip de `4 Recorrido`.** El vídeo editado del 15-sep (`videos editados/01.mp4`, 0:22) sí lo enseña, así que está en algún tramo: candidatos RC02 (29 s), RC21, y los tramos mudos de HK04 (8-52 s) y HK05 (7-32 s). Quien lo encuentre lo anota aquí y lo usa de clímax: es el argumento de la ficha («balcón con jacuzzi privado»). Si no aparece, el clímax es la terraza al atardecer (RC18/RC21) o el balcón con las camas (RC02/RC03), y se dice.
+**✅ El jacuzzi PRIVADO del balcón (la foto `3-Jacuzzi.png`: cuadrado, de madera, con las torres detrás) SÍ aparece: en RC10, de los 8 a los 10,7 s (2026-10-19, sesión 048).** Es exactamente el clímax asignado a la V30, así que no hay que sustituirlo: la V30 lo enseña en los últimos 2,6 s de su plano (recorte X=1100, que lo deja dentro del 9:16; con el centro quedaba en el borde). Antes de esto se decía: «no aparece en los fotogramas muestreados de ningún clip de `4 Recorrido`.» El vídeo editado del 15-sep (`videos editados/01.mp4`, 0:22) sí lo enseña, así que está en algún tramo: candidatos RC02 (29 s), RC21, y los tramos mudos de HK04 (8-52 s) y HK05 (7-32 s). Quien lo encuentre lo anota aquí y lo usa de clímax: es el argumento de la ficha («balcón con jacuzzi privado»). Si no aparece, el clímax es la terraza al atardecer (RC18/RC21) o el balcón con las camas (RC02/RC03), y se dice.
 
 **No hay puentes humanos** (una mano, una taza, una llave) ni voz en off.
 
