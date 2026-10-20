@@ -92,3 +92,70 @@ La voz en off de los tres originales no existe como archivo. Tres caminos; **los
 - La locución entra como clase `audio` (`off`) con sus ventanas por frase; los subtítulos del off salen de `transcribir.mjs --palabras` sobre el WAV de la locución, nunca del MP4 editado.
 - TMPDIR propio: `/private/tmp/remotion-NNN`. Enlaces a `node_modules` y `archivos/whisper` del checkout principal, como siempre. `.env` NO se copia ni se lee: `generar-vo.mjs` lo lee solo desde el checkout principal (`ln -sfn /Users/nicecode/Work/jalvarez/video-creator/.env .env` en tu worktree es lo único que hace falta, y solo si el usuario elige el camino 2).
 - Registro: tu fila V33/V34/V35 y la canción (ya reservadas aquí). `combinaciones.md` dice qué tramo de qué clip repite cada pieza.
+
+## 5. CAMBIO DE ENCARGO (2026-10-20, después de arrancar las sesiones): SIN locución en off y con un guion nuevo EN PANTALLA
+
+El usuario decidió: *«crea el vídeo sin la voz en off; cuando esté listo me dices para subirlo; y aprovechando esto cambiamos el guion a algo más impactante que resalte las plusvalías del apartamento: aseo semanal incluido, acompañamiento personalizado, acceso a chef privado, alquiler de transporte y la mejor asesoría de la ciudad».* Esto anula el §3 (ya no hay locución que resolver; la carpeta `Audios/` del SSD queda vacía) y cambia §1b en lo siguiente:
+
+- **Las tomas y su orden se mantienen** (es la réplica), pero **lo que decía la locución se sustituye por TEXTO EN PANTALLA**, un rótulo por tramo, con el guion de abajo. Sin voz, la lectura manda el ritmo: ≈ 2,5-3,5 s por rótulo, así que cada pieza queda en **≈ 45-52 s** (dentro de los 55 s del formato) recortando los planos del original, no quitándolos.
+- **Se conservan las voces en directo que sí existen**: el hook del 051 (HK05, 22,5-29,5 s) y el del 052 (HK04, 2-7 s), y el CTA CT05 en el 052 y el 053. El CTA del 051 es un rótulo sobre Isabella en la puerta (tramo mudo de 9496). El hook del 053 es un rótulo sobre Isabella caminando en el balcón (HK05, otro tramo, sin su voz).
+- **Cómo se pinta el texto**: con las letras del texto editorial del canal (Montserrat + Playfair itálica en la palabra marcada con `**…**`, blanco sin sombra, banda inferior al 90 %), **sincronizado a los planos y a los golpes de la música, no a una voz**. Si la puerta de la plantilla exige que cada línea de `subtitulos-NNN.ts` tenga una palabra de voz debajo, se usa el molde de rótulo editorial de la capa de gráficos (`graficos-NNN.ts`, como el 013) o se adapta la puerta declarándolo: lo que no se negocia es la letra y la posición. Un rótulo cada vez; entra con el plano o con un golpe; nunca dos a la vez.
+- **La versión con ficha (funnel) CONSERVA estos rótulos** (aquí el texto es el mensaje, no un subtítulo redundante): la ficha va en su sitio (y ≈ 1220-1420) y el rótulo en la banda de abajo (1430-1640); se comprueba en la hoja de `ficha.mjs hoja` que no se toquen. Se declara en la entrega: si el usuario prefiere la ficha sola, se rehace con `sinSubtitulos`.
+- La música pesa más (solo baja bajo el hook y el CTA): elegir la entrada para que los cambios de rótulo caigan en golpes (`buscar-cortes`, R33).
+- Los textos de abajo son los definitivos salvo que el usuario los cambie en la sesión; se escriben tal cual (tuteo, sin exclamaciones, una palabra acentuada por rótulo, ninguna cifra salvo las marcadas). Lo que prometen lo dio el usuario: aseo semanal incluido, acompañamiento personalizado, chef privado, transporte/conductor, «la mejor asesoría de la ciudad»; ninguno dice que el chef o el transporte vayan incluidos en el canon.
+- **Entrega**: igual que §5 del reparto 045-050 (prueba → OK → final + ficha + portada + caption → SSD `Videos Social Media/`); el caption nombra las cinco plusvalías. Cuando las tres estén en el SSD, la coordinadora avisa al usuario para subirlas.
+
+### 5a. Guion en pantalla del 051 «Ven, te muestro» (réplica del 01)
+
+Hook a cámara (voz en directo, HK05): «¿Deseas arrendar amoblado en Medellín? Ven, te muestro.»
+
+| # | Sobre (orden del original) | Rótulo |
+|---|---|---|
+| 1 | cocina → sala con la vista (RC01) | 113 m² **amoblados**, listos para ti |
+| 2 | terraza y ciudad (RC10 / RC02) | En Las Palmas, con la **ciudad** a tus pies |
+| 3 | jacuzzi privado con las torres (RC10 8-10,7 s o RC21) | Tu **jacuzzi** privado en el balcón |
+| 4 | alcoba (RC05 / RC06) | Y lo que viene con él: |
+| 5 | alcoba con el televisor (RC08) · bar (RC22) | **Aseo** semanal incluido |
+| 6 | sala a la hora azul (RC20) | **Acompañamiento** personalizado desde el día uno |
+| 7 | piscina (RC16) | **Chef** privado cuando quieras |
+| 8 | piscina (RC17) · Social Kitchen (RC11) | **Conductor** y transporte a tu medida |
+| 9 | Social Kitchen (RC12) | La mejor **asesoría** de la ciudad |
+| 10 | Isabella junto a la puerta (9496, tramo mudo ≈ 12-18 s) | **Escríbeme** y agenda tu visita |
+
+→ funde a negro → tarjeta oscura (logo + `PropiedadesLuxur.com`).
+
+### 5b. Guion en pantalla del 052 «Pregúntate esto» (réplica del 02)
+
+Hook a cámara (voz en directo, HK04): «Antes de arrendar amoblado, pregúntate esto.»
+
+| # | Sobre (orden del original) | Rótulo |
+|---|---|---|
+| 1 | atardecer con las torres (RC21) | ¿Un lugar donde **dormir**… |
+| 2 | árboles (RC21 / RC10) · alcoba (RC05) | …o un lugar donde **disfrutes** vivir? |
+| 3 | alcoba con el televisor (RC08) · cocina (RC01) | Aquí no pagas solo un apartamento |
+| 4 | sala con la palma → puerta del balcón (RC02) | Pagas llegar y tener todo **resuelto**: |
+| 5 | balcón con las camas (RC02 final / RC03) · cielo y torres (RC10) | **Aseo** semanal incluido |
+| 6 | sauna (RC15) · Isabella en la cocina (9496, tramo mudo ≈ 20-25 s) | Alguien que te **acompaña** desde el día uno |
+| 7 | piscina (RC16) · bosque (si existe) | **Chef** privado y transporte cuando los pidas |
+| 8 | gimnasio (RC13 / RC14) | Planes y reservas en **Medellín** |
+| 9 | Social Kitchen (RC11 / RC12) | Y la mejor **asesoría** de la ciudad |
+
+CTA a cámara (voz en directo, CT05): «Si buscas más que un apartamento para vivir, escríbenos.» → funde a negro → tarjeta.
+
+### 5c. Guion en pantalla del 053 «¿Pagarías 14,8?» (réplica del 03)
+
+Hook EN PANTALLA sobre Isabella caminando en el balcón (HK05, otro tramo, sin voz; la cifra es la ÚNICA de la pieza y es el canon real, no los «14 millones» del original): ¿Pagarías **$14.800.000** al mes por vivir aquí?
+
+| # | Sobre (orden del original) | Rótulo |
+|---|---|---|
+| 1 | cielo y ciudad (RC10) | Mira lo que **incluye**: |
+| 2 | jacuzzi privado con las torres (RC10 8-10,7 s) | **Jacuzzi** privado con vista a Medellín |
+| 3 | cocina (RC01) · sala con la palma (RC02) | 113 m² **amoblados** y equipados |
+| 4 | puerta del balcón (RC02) · bar (RC22) · balcón con las camas | Piscina, gimnasio, spa y **coworking** |
+| 5 | torres (RC03) · cielo (RC10) | Y lo que no esperabas: |
+| 6 | alcoba (RC05 / RC06) | **Aseo** semanal incluido |
+| 7 | alcoba con el televisor (RC08) · sala (RC04) | **Acompañamiento** personalizado |
+| 8 | sala con el sofá (RC20 / RC04) | **Chef** privado y conductor a tu medida |
+| 9 | piscina (RC16 / RC17) | Con la mejor **asesoría** de la ciudad |
+
+CTA a cámara (voz en directo, CT05): «Si buscas más que un apartamento para vivir, escríbenos.» → funde a negro → tarjeta.
