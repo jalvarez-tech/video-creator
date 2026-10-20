@@ -17,7 +17,7 @@ Composición `Recorrido051` (`remotion/src/proyectos/051/`), 1080×1920 a 30 fps
 
 ## Zonas (px de 1080×1920)
 
-- **Subtítulos y rótulos:** abajo (borde superior ≈ 74,5 % = y 1430, nunca por debajo del 88 % = y 1690). Arriba **no hay nada** en ningún frame. Un rótulo cada vez, de 2-3 líneas apiladas (la base, el acento en Playfair itálica, la base). **En la versión con ficha** (`ficha-luxur`, que aquí CONSERVA los rótulos: el texto es el mensaje) la ficha va en y ≈ 1220-1420 y el rótulo desde y 1430: se comprueba en la hoja de `ficha.mjs hoja` que no se toquen.
+- **Subtítulos y rótulos:** abajo (borde superior ≈ 74,5 % = y 1430, nunca por debajo del 88 % = y 1690). Arriba **no hay nada** en ningún frame. Un rótulo cada vez, de 2-3 líneas apiladas (la base, el acento en Playfair itálica, la base). **En la versión con ficha** (`ficha-luxur`) NO hay rótulos ni subtítulos (`sinSubtitulos` los apaga): solo la ficha (y ≈ 1220-1420) y la tarjeta.
 - **Isabella:** en el hook, de cuerpo entero y pequeña (al fondo del balcón) y luego cada vez más cerca; en el CTA (muda), de cuerpo entero acercándose. El texto cae a la altura de las piernas o la cintura, nunca sobre la cara.
 - **Recorridos:** TODOS son ANAMÓRFICOS (1920×1080 con SAR 81:256 / DAR 9:16 = verticales de 608×1080 comprimidos a lo ancho) y se escalan ENTEROS a 1296×2304 con `setsar=1`, SIN recorte. Sin más texto en el recorrido que los rótulos (nunca un dato grande).
 - **Cierre:** tarjeta negra lisa; logo y web centrados, un poco por encima del centro.
