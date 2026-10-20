@@ -1,84 +1,54 @@
-# 03 · Timeline — proyecto 053
+# 03 · Timeline — proyecto 053 (V35 «¿Pagarías 14 millones?», réplica de `03.mp4`)
 
-> Paso 3 de 3. El frame exacto de cada cosa. Se escribe con la **transcripción
-> real** delante (`proyectos/053/transcripcion.json`), no con el guion: la voz
-> manda y casi nunca cae donde decía el papel.
-> De aquí salen, casi copiando: `camara-053.ts` · `graficos-053.ts` ·
-> `cues-053.ts` · `subtitulos-053.ts`.
+> Paso 3 de 3. La línea de tiempo con lo medido. Anterior: [02-layout.md](02-layout.md). De aquí salen `metraje-053.ts`, `audio-053.ts` y `subtitulos-053.ts`, no al revés.
+> **⚠️ Los tiempos de la LOCUCIÓN son los de la PISTA GUÍA** (`original/off.wav`: voz de sistema `Paulina` estirada ×1,085 para igualar el ritmo del original, 52,7 s). Con la locución real (los audios que entregue el usuario o la voz clonada de Isabella en ElevenLabs) se repiten: `limites-voz.py` sobre el WAV, `transcribir.mjs --palabras`, `trozos-editoriales.mjs` y los `en` de `P` en `metraje-053.ts` (cada cambio de plano cae en la palabra de abajo). 1766 f a 30 fps (58,87 s).
 
-**fps de la comp:** 25 → `frame = round(segundo × 25)`. Todos los números de este
-archivo son frames absolutos a ese fps.
+## Los planos (`metraje-053.ts`)
 
-## Mapa maestro
+`desde` = segundo de la fuente NORMALIZADA (anamórfica 81:256 escalada entera a 1296×2304, sin recorte). `en`/`dur` en frames de la composición. Todos los planos, salvo c01, entran con una **disolvencia de 12 f** (el plano empieza 12 f antes de su `en` y es opaco en él). El original (`03.mp4`) se identificó plano a plano (`medidas/busqueda-fotogramas.txt`).
 
-Una fila por evento. Si una celda está vacía, esa capa **no hace nada** ahí —y eso
-es una decisión, no un olvido.
+| # | Plano | Bloque | Espacio | Función | Clip y tramo | `desde` (s) | `en` | `dur` | Cae en la palabra | Original (s) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | c01-hook | 2 | Balcón (Isabella) | la promesa: la pregunta | HK05 `Img 9508` 4,3-8,0 s | 4,27 | 0 | 112 | — (voz desde f7) | 0,0-3,3 |
+| 2 | c02-cielo | 5 | Balcón: cielo, torres, jacuzzi privado | imaginar el día aquí | RC10 `Img 9509` 0,5-10,3 s | 0,5 | 112 | 294 | «Imagina» | 3,3-12,0 (×1,4) |
+| 3 | c03-cocina | 5 | Cocina → sala con la palma → puerta del balcón | lo amoblado, la cocina integral | RC01 `Img 9461` 0,6-7,1 s | 0,6 | 406 | 196 | «Viene» | 12,0-19,0 (×1,45) |
+| 4 | c04-bar | 5 | Bar | listo para vivir | RC22 `Img 9538` 0,4-3,1 s | 0,4 | 602 | 84 | «equipada» | 19,0-22,9 |
+| 5 | c05-balcon | 5 | Balcón: camas, torres, cielo | la vista, las amenidades | RC03 `Img 9464` 2,0-15,1 s | 2,0 | 686 | 392 | «secadora» | 22,9-33,0 |
+| 6 | c06-alcoba | 5 | Alcoba principal | lo privado, lo seguro | RC05 `Img 9477` 0,4-7,7 s (el más parecido) | 0,4 | 1078 | 220 | «salón social» | 33,0-41,7 |
+| 7 | c07-sala | 5 | Sala (sofá gris, listones) | el entorno, la privacidad | RC04 `Img 9469` 0,5-5,8 s | 0,5 | 1298 | 159 | «en el sector» | 41,7-47,4 |
+| 8 | c08-piscina | 5 | Carril de nado | tranquilidad y comodidad | RC16 `Img 9525` 4,2-9,1 s | 4,2 | 1457 | 146 | «Todo» | 47,4-53,3 |
+| 9 | c09-cta | 6 | Sala (silla) | la invitación | CT05 `Img 9501` 1,27-4,7 s | 1,2667 (38 f) | 1603 | 103 | f1604-1687 | 53,3-56,4 |
+| 10 | c10-cierre | 6 | Tarjeta oscura | la marca (logo y web) | `cierre-oscuro.png` | — | 1706 | 60 | — | — |
 
-| frames | s | narrativa | voz (frase real) | cámara | gráfico | sonido | subtítulo |
-|---|---|---|---|---|---|---|---|
-| 0–50 | 0,0–2,0 | hook | "…" | close 1.0→1.16 | `Titular` in | whoosh light | "…" |
-| 50–200 | 2,0–8,0 | contexto | "…" | — | — | — | "…" |
-| 200–330 | 8,0–13,2 | dato | "…" | *reposa* | `Contador` 0→87 | data + chime | — |
-| 330–360 | 13,2–14,4 | — | — | medium 1.08 | `Subrayado` | scribble | — |
+Paseo (de arriba abajo): **balcón (Isabella)** → cielo y jacuzzi → cocina → bar → balcón y torres → alcoba → sala → piscina → **sala (Isabella)**. Es el del original: no sigue el orden físico de la casa (`viaje-emocional.md` §2: el original abre por el balcón, vuelve a él y acaba en la piscina), y la réplica manda.
 
-## Tomas de gráficos (borrador de `graficos-053.ts`)
+## La locución (pista guía: `voz/off.json`, `proyectos/053/voz/off-marcado.txt`)
 
-Una fila por **toma**, que es la unidad del plan: `gfx(id, molde, beat, ventana,
-jerarquía, reason, hijos)`. El **molde** dice dónde vive la toma (ancla, caja
-útil, scrim) y los **hijos** son el árbol que se coloca dentro; **no hay `zona`,
-ni `dy`, ni `top`** — la única coordenada del sistema es `xy` dentro de un grupo
-`diagrama` (`motor/plan/nucleo.ts`). Si dos cosas van una debajo de otra, son dos
-hijos de la misma `col()`, no dos números medidos a ojo.
+| Frase | Texto | Voz (s del archivo) | En la comp (en = 6 f) |
+|---|---|---|---|
+| gancho | ¿Pagarías catorce millones al mes por vivir aquí? | 0,04 → 3,06 | f7-98 |
+| f1 | Imagina terminar tu día relajándote en tu jacuzzi privado, preparando un trago en tu propio hogar y disfrutando de la mejor vista de la ciudad de Medellín. | 3,43 → 12,89 | f109-393 |
+| f2 | Viene completamente amoblado: dos habitaciones, dos baños, cocina integral totalmente equipada y zona de lavandería con lavadora y secadora. Listo para mudarte. | 13,25 → 24,72 | f404-748 |
+| f3 | Además, puedes disfrutar de excelentes amenidades: piscina, gimnasio, zonas húmedas, coworking, cancha de squash, zona de barbecue, salón social y zonas de bienestar. | 25,08 → 37,97 | f758-1145 |
+| f4 | Y lo mejor es que cuentas con seguridad veinticuatro siete, la mejor ubicación en el sector de Las Palmas y la privacidad que buscas en un entorno natural. | 38,32 → 47,82 | f1156-1441 |
+| f5 | Todo en este apartamento está pensado para tu tranquilidad y comodidad. | 48,23 → 52,67 | f1453-1586 |
+| CTA (CT05, voz de Isabella) | Si buscas más que un apartamento para vivir, escríbenos. | 1,31 → 4,07 | f1604-1687 |
 
-Moldes de la capa de gráficos: `sello · cta · franja · pantalla · capa`.
-Beats: `gancho · problema · prueba · mecanismo · giro · remate · cta`.
-Jerarquía: `hero · apoyo · ambiente` — **un solo `hero` a la vez**.
+Pausas entre frases: 0,35-0,41 s (≈ 10-12 f) y 18 f entre la locución y el CTA. **La música, por eso, es un lecho** (no hay hueco para subir y bajar). Voz tratada a −15,0 LUFS (CT05 +20,4 dB tras el compresor 3,5:1, el limitador quita 0,5 dB; pico −2,5 dBFS).
 
-| id | molde | beat | ventana | jerarquía | hijos (árbol) | reason |
-|---|---|---|---|---|---|---|
-| `g00-ambiente` | `capa` | gancho | 8–fin | ambiente | — (todo en `ambiente.particulas`) | Que el fondo plano no se lea como imagen congelada |
-| `g01-gancho` | `franja` | gancho | 8–70 | hero | `col([kicker, titular])` | Fija la promesa mientras la voz la enuncia |
-| `g02-dato` | `franja` | prueba | 200–330 | hero | `col([cifra, etiqueta, subrayado])` | La magnitud ES el argumento |
-| `g03-cta` | `cta` | cta | 640–fin | hero | `col([...], { piel: { caja: "sello" } })` | Única acción que se pide |
+## La música (*Softly*, `musica/`, medida con `medir-pista.py` y ebur128)
 
-Recuerda: **el orden del array ES el z-order** (por eso la capa de ambiente va
-primera) y el `reason` va **antes** que los hijos en el builder, a propósito: si
-no sale una frase honesta, esa toma no va.
+| Tramo de la canción | LUFS | Aquí |
+|---|---|---|
+| 143,2-146 s | −19 → −15 (subida) | el gancho y el inicio del cielo |
+| 147,33 s | golpe de 10,6 dB | f126: dentro del plano del cielo y el jacuzzi |
+| 147,5-195,5 s | −11,5 (meseta, pico −0,2) | el recorrido entero |
+| 196,2 s | caída: −10,7 → −23 en 4 s | f1592: entre la última palabra de la locución (f1586) y la primera del CTA (f1604) |
 
-Comprueba el plan antes de renderizar:
+Entra a los 143,167 s (frame 4295 de la canción). Ganancia: lecho de −14,5 dB (la meseta queda a −26 LUFS, 11 LU bajo la voz; picos de 1 s a −24,1, 9,1 LU), **sigue la caída bajo el CTA** (de −12 a −4 dB conforme la canción baja) y se apaga con curva de coseno bajo la tarjeta, a cero 2 f antes del final.
 
-```ts
-import { revisaPlan } from "../../motor/plan/nucleo";
-console.log(revisaPlan(graficosNNN)); // [] = limpio — UN solo argumento: el fps sale del plan
-```
+## Lo que queda por decidir con el usuario
 
-Detecta dos `hero` solapados, ventanas de menos de medio segundo, `reason`
-vacíos, ids repetidos, y lo que no cabe en el molde: alto (R08) y ancho (R09).
-`<PistaGraficos>` lo llama solo en cada render y lo escupe por consola.
-
-Plantilla real de la que copiar, ya en esta gramática:
-`remotion/src/motor/demos/graficos-demo.ts` (y la gramática entera, en
-`remotion/src/motor/demos/plan-demo.ts`).
-
-## Cues de sonido (borrador de `cues-053.ts`)
-
-| id | type | variant | targetFrame | reason |
-|---|---|---|---|---|
-| `sfx-hook` | whoosh | light | 8 | Acompaña la entrada del titular |
-| `sfx-data` | texture | data | 200 | Sostiene el contador mientras sube |
-| `sfx-chime` | impact | chime | 330 | Marca la llegada de la cifra |
-
-Recuerda: la sincronía la calcula `cue()` según el `type` (riser termina en el
-target, whoosh pica al 65 %, impact/click arrancan en el target).
-
-## Movimientos de cámara (borrador de `camara-053.ts`)
-
-| id | frames | plano | de → a | purpose | reason |
-|---|---|---|---|---|---|
-| `cam-hook` | 0–20 | medium→close | 1.00 → 1.16 | hook | El acercamiento refuerza la pregunta inicial |
-
-## Puertas de control
-
-- [ ] Frames clave revisados (R05): …
-- [ ] Prueba 720p aprobada (R06)
-- [ ] Final exportado
+1. **La locución** (reparto §3): ¿entrega los audios o se genera con la voz clonada de Isabella en ElevenLabs (769 caracteres, de pago)?
+2. **«en tu propio hogar» o «en tu propio bar»** (≈ 9,2 s del original): mi whisper por palabra dice «hogar»; el rótulo automático del original, «bar».
+3. **«24/7» con letras** en pantalla («seguridad veinticuatro siete») porque la única cifra es la del gancho: ¿o en dígitos?

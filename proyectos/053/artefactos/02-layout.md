@@ -1,70 +1,40 @@
-# 02 · Layout — proyecto 053
+# 02 · Layout y capas — proyecto 053 (V35 «¿Pagarías 14 millones?», réplica de `03.mp4`)
 
-> Paso 2 de 3. Dónde vive cada cosa en pantalla. Se escribe con el
-> [01-plan.md](01-plan.md) delante y **sin pensar todavía en frames**.
-> Siguiente: [03-timeline.md](03-timeline.md).
+> Paso 2 de 3. Capas, z-order y zonas de pantalla. Anterior: [01-plan.md](01-plan.md) · siguiente: [03-timeline.md](03-timeline.md).
 
-## Reparto del espacio (9:16 · 1080×1920)
+Composición `Recorrido053` (`remotion/src/proyectos/053/`), 1080×1920 a 30 fps, 1766 f (58,9 s) con la **pista guía** de la locución (se rehace con la real). Es el montaje del 047 (que ya normaliza bien los clips anamórficos) con los planos, el audio y el texto de esta pieza: lo propio está en `metraje-053.ts`, `audio-053.ts` y `subtitulos-053.ts`. Admite la propiedad `sinSubtitulos` (la base de la versión con ficha, `ficha-luxur`): apaga los subtítulos y su velo y no toca nada más.
 
-| Banda | y (px) | Quién la ocupa | Regla |
+## Capas (de atrás a delante)
+
+| # | Capa | Qué es | Notas |
 |---|---|---|---|
-| Superior | 0–340 | motion graphics (`zona: "superior"`) | R08: nunca sobre la cara |
-| Cara | 340–1300 | avatar | libre salvo toma de gráfico a pantalla completa |
-| Subtítulos | ~1340 | subtítulos y sellos (`zona: "inferior"`) | con scrim si hay texto |
-| Márgenes | 118 px | zona segura (11 % — `presets.ts`) | nada de contenido fuera |
+| 1 | `PistaMetraje` | los 10 cortes (9 de vídeo mudos y la tarjeta `foto`) | look neutro con viñeta suave; **el color va por plano** (`colorCorrection()`, R32) → render con `--gl=angle`; sin sello ni velos superiores; **todos los planos, salvo el primero, entran con una disolvencia de 12 f**; todo a ×1 y quieto (`zoom` 1,0: más escala ablandaría un material que ya sube ×2,13) |
+| 2 | `FundidoACierre` | la imagen de Isabella funde a negro (6 f) y llega a negro exacto en el último fotograma de la toma del CTA | nada se congela |
+| 3 | `VeloSubtitulos` | degradado desde abajo, mientras hay subtítulos (aquí, casi toda la pieza: la locución es continua) | Luxur va sin sombra: el velo es lo único que sostiene el blanco |
+| 4 | `SubtitulosEditoriales` | todo lo que suena (la locución y el CTA), en un grupo al 90 % y con la cursiva 8 px menor (99 → 91 px) | 21 bloques, 10 acentos |
+| 5 | `LogoCierre` y `WebCierre` | logo (440 px, 60 %) y `PropiedadesLuxur.com` (Montserrat 500, 54 px) sobre la tarjeta | centrados, y≈795-1085 |
+| 6 | `PistaAudio` | la locución (WAV tratado, −15 LUFS) + la voz del CTA (WAV tratado, −15 LUFS) + música (*Softly*, lecho a −26 LUFS bajo la voz) | en la RAÍZ |
 
-*(16:9: banda superior 0–190, subtítulos ~930, margen 96.)*
+## Zonas (px de 1080×1920)
 
-## Dos tipos de toma (no se mezclan)
+- **Subtítulos:** abajo (borde superior ≈ 74,5 %, nunca por debajo del 88 %). Arriba **no hay nada** en ningún frame. Se pintan sobre las piernas de Isabella en el gancho y sobre la ropa/la mesa en el CTA: nunca sobre la cara.
+- **Isabella:** HK05 (de pie, de cuerpo entero a torso, caminando hacia cámara) y CT05 (sentada, plano medio). Los dos son anamórficos del 2-sep (chaqueta de flores): una sola pieza entera del mismo vestuario, como pide el catálogo.
+- **Recorridos:** los 7 son ANAMÓRFICOS (1920×1080 con SAR 81:256 / DAR 9:16 = verticales de 608×1080 comprimidos a lo ancho) y se escalan ENTEROS a 1296×2304 con `setsar=1`, SIN recorte. Sin texto propio (la única cifra va con la voz del gancho).
+- **Cierre:** tarjeta negra lisa; logo y web centrados, un poco por encima del centro.
 
-- **Sobre el avatar** — el gráfico va en una banda, el avatar sigue siendo el hero.
-- **Toma de gráfico** — pantalla completa; el avatar no se ve y la **cámara reposa**.
+## Reglas fijas del canal (comprobadas por `revisar-053.mjs`) y excepciones declaradas
 
-Lista aquí las tomas de gráfico, que son las que cambian el montaje:
+1. **La primera toma sale sin texto ni voz → EXCEPCIÓN DECLARADA**: el original abre con Isabella caminando y una voz que pregunta, y la réplica lo conserva. El f0 es ella (sin texto) y la locución, con su subtítulo, entra unos frames después (f7-8). Es la excepción por réplica del reparto (§2).
+2. **Nunca el sello «PROPIEDADES LUXUR»** (se cumple).
+3. **El cierre es la tarjeta oscura con el logo y la web** (se cumple; no `@propiedadesluxur`).
+4. **Nada se congela** (se cumple: la imagen de Isabella funde a negro en el último fotograma de su toma).
+5. **Una sola cifra** en pantalla: «14 millones» (acento del gancho). «24/7» se pinta con letras. El canon (14,8) va en la ficha de la versión con ficha.
+6. **Transiciones: solo disolvencias** (salvo el frame 0): *Softly* no tiene golpes seguidos donde cortar en seco.
+7. **Excepciones por réplica, declaradas en la puerta:** dura ≈ 59 s (tope declarado 60 s; el formato pide ≤ 55); la locución en off es continua desde el gancho (el formato la limita al bloque 5); el último plano del bloque 5 es el carril de nado y el más largo, el balcón (el original acaba así); Isabella solo habla a cámara una vez.
 
-| # escena | Toma | Fondo / luz | Por qué a pantalla completa |
-|---|---|---|---|
-| 3 | gráfico | degradado + foco ámbar arriba-izq. | el dato necesita todo el ancho |
+## Lo que decide esta pieza distinto del 047
 
-## Z-order de la composición
-
-```tsx
-import { MONTADORES_BASE, PistaGraficos } from "../../motor/graficos/PistaGraficos";
-
-<AbsoluteFill>                        {/* fondo */}
-  <CamaraVirtual cues={camaraNNN}>    {/* SOLO el avatar */}
-    <OffthreadVideo … />
-  </CamaraVirtual>
-  <PistaGraficos plan={graficosNNN} montadores={MONTADORES_BASE} />
-                                                {/* overlay fijo — `montadores` es
-                                                    OBLIGATORIO y no tiene defecto */}
-  <SubtitulosSync segmentos={subtitulosNNN} />  {/* overlay fijo */}
-  <Audio src={…} />                             {/* la voz, siempre montada */}
-  <PistaSonido cues={cuesNNN} duckDb={-5} />
-</AbsoluteFill>
-```
-
-## Gráficos por escena
-
-Antes de inventar uno, mira el catálogo:
-`manuales/motion-graphics/catalogo-graficos.md` o la
-composición `Catalogo` del Studio.
-
-| # escena | Qué se ve | Gráfico de la biblioteca | Zona | ¿Nuevo componente? |
-|---|---|---|---|---|
-| 1 | promesa en texto | `Titular` | superior | no |
-| 3 | 87 % de leads sin respuesta | `Contador` + `Subrayado` | superior | no |
-| 4 | antes / después | `Tarjeta3D` | centro | no |
-| 5 | CTA | `Sello` + `Particulas` (estallido) | inferior | no |
-
-> Si una fila dice **"nuevo componente: sí"**, decide ya si es específico de esta
-> pieza (vive en el proyecto) o reutilizable (sube a `motor/graficos/`, con su
-> ficha en el registro `PIEZAS` de `coreografia.ts`, su montador en
-> `PistaGraficos.tsx` y su demo en `Catalogo.tsx`).
-
-## Encuadre de cámara por escena
-
-| # escena | Plano | Motivo del reencuadre |
-|---|---|---|
-| 1 | close 1.16 | el hook pide cercanía |
-| 3 | *reposo* | manda el gráfico a pantalla completa |
+- **Los bloques son 2-5-6**: gancho (Isabella caminando, voz en off), recorrido con la locución, CTA a cámara. No hay bloque 1 (la casa limpia), ni 3 (recorrido mudo), ni 4 (objeciones).
+- **La voz es una locución CONTINUA** (gancho + cinco frases, 53 s): la música no puede subir y bajar entre frases (hay 9-15 f de pausa y la curva pide 34): es un lecho constante bajo la voz hasta la caída de la canción, que cae entre la última palabra de la locución y la primera del CTA.
+- **Las mismas tomas en el mismo orden que el original**, comprobado por `ORDEN_DEL_ORIGINAL` en la puerta; las alcobas del original no están en el material y se usa la más parecida (RC05).
+- **Imagen algo blanda:** el recorrido son 608×1080 efectivos ×2,13: más blando que Isabella en 4K (se dice, no se filtra: R22), pero con la geometría y el campo correctos.
