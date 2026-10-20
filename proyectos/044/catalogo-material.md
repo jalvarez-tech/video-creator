@@ -100,12 +100,14 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip): **comprobar cada
 
 **No hay puentes humanos** (una mano, una taza, una llave) ni voz en off.
 
-## 7. Cómo entra el material horizontal en el 9:16
+## 7. Cómo entra el material ANAMÓRFICO del 2-sep en el 9:16 (CORREGIDO el 2026-10-19 por la sesión 050)
 
-- **Recorte al centro**: en `normalizar.mjs`, la rama SDR de cada `recorrido` lleva `crop=608:1080:X:0` ANTES de `scale=1296:2304:flags=lanczos` (sin el crop, `scale` deformaría la imagen). `X` = 656 centra; por clip se elige mirando los fotogramas (el sujeto a la izquierda → X menor). Se anota en la receta.
-- **Alternativa por plano**: recortar más ancho (p. ej. `crop=720:1080`, que escala a 1296×1944 y deja 360 px por desplazar) y usar `EfectoDeEntrada.x` / `pan` del motor (`remotion/src/motor/metraje/corte.ts` §encuadre; la puerta mide que el plano siga cubriendo el cuadro). Solo si un plano lo pide; el recorte fijo es el camino por defecto.
-- **Nitidez**: 1080 px de alto escalados a 2304 (×2,13) y 608 de ancho a 1296: blando frente a Isabella en 4K. Se compensa con planos cortos, el punch-in mínimo (`zoom` cerca de 1) y sin `sharpen` (R22: nada de filtros que inventen detalle). Se le dice al usuario en la prueba.
-- Las tomas de Isabella del 2-sep (HK04, HK05, CT04, CT05) tienen el mismo problema y además la encuadran a ella en 16:9: recortarla al centro la deja entera (está centrada), pero la cara queda a ≈ 300 px de ancho reales. Solo para una pieza entera de ese rodaje y avisando.
+**El catálogo de la mañana decía «horizontal» y mandaba recortar: era un error.** Los 26 clips del 2-sep (los 22 recorridos y HK04, HK05, CT04, CT05) están guardados en 1920×1080 pero con **SAR 81:256 y DAR 9:16**: son vídeos VERTICALES de **608×1080 píxeles efectivos** comprimidos a lo ancho. Un `crop=608:1080:X:0` sobre el cuadro guardado toma el tercio central y lo deja estirado ×3,2: es lo que el usuario vio como «ampliado» en la prueba del 050. (`ffprobe -show_entries stream=sample_aspect_ratio,display_aspect_ratio` lo dice; las hojas de contactos de §6 se sacaron sin corregir el SAR y por eso los espacios parecían panorámicos.)
+
+- **Receta correcta**: en `normalizar.mjs`, rama SDR de cada `recorrido` (y de las tomas del 2-sep): **sin crop**, `scale=1296:2304:flags=lanczos,setsar=1`. Escala uniforme ×2,13 desde 608×1080; se ve el cuadro entero.
+- **Nitidez**: 608×1080 efectivos escalados a 1296×2304 (×2,13 en los dos ejes): más blando que Isabella en 4K, pero con la geometría correcta. Planos cortos, `zoom` cerca de 1, sin `sharpen`. Se le dice al usuario en la prueba.
+- Las tomas de Isabella del 2-sep (HK04, HK05, CT04, CT05) salen igual: enteras, con `setsar=1`. Solo para una pieza entera de ese rodaje (otro vestuario), avisando de la nitidez.
+- **Las lecturas de §6 son aproximadas**: se hicieron sobre fotogramas estirados. Comprobar cada clip entero con el SAR corregido antes de elegirlo.
 
 ## 8. Lo que ya se publicó o se editó antes
 
