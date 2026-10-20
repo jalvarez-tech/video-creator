@@ -1,0 +1,265 @@
+#!/usr/bin/env node
+/**
+ * normalizar.mjs — repone `remotion/public/recorrido-050/` desde el material original.
+ *
+ *   node proyectos/050/normalizar.mjs            (lee de proyectos/050/original/)
+ *   node proyectos/050/normalizar.mjs --forzar   (rehace aunque ya exista la salida)
+ *   node proyectos/050/normalizar.mjs --solo hk02,rc16   (solo esos nombres de salida; no toca la música ni la tarjeta)
+ *
+ * PIEZA 050 · V32 · TIERRA GRATA BOSQUE SANTO (El Poblado), ARRIENDO · «14,8»: el SEXTO de los seis reels de arriendo (045-050), el que ABRE CON EL HOOK (excepción por encargo
+ * del usuario, como el 021 y el 023) y lleva la única cifra de la serie en la mitad («catorce millones ochocientos que incluyen experiencias pensadas para ti»).
+ * Receta del 043 (`proyectos/043/normalizar.mjs`) con otro material: tres tomas de Isabella del 17-oct (HLG vertical, 4K) y recorridos del 2-sep que son HORIZONTALES (1920×1080,
+ * SDR): para el 9:16 se recortan al centro (`crop=608:1080:X:0`) y se escalan ×2,13 (catálogo `proyectos/044/catalogo-material.md` §7). Material de
+ * `Apartamento - Tierra Grata - Las Palmas/Videos/` (`1 Hooks`, `2 Miad`, `4 Recorrido`, `5 Cta`; NO hay `3 Dron`).
+ *
+ * POR QUÉ EXISTE. El material es de la propiedad y de la presentadora y no entra en git: en el repo quedan esta receta, el plan y los sha256 de los
+ * originales. Con la carpeta delante, un clon repone la pieza entera. Es un script de Node (con `ejecutar()` de `herramientas/comun.mjs`) y no un
+ * `.sh` porque el sistema pide recetas que corran igual en macOS y en Windows; la ÚNICA excepción declarada es la rama HDR (HLG → BT.709 con
+ * VideoToolbox), que solo corre en macOS y lo dice si no.
+ *
+ * DE DÓNDE SALEN LOS ARCHIVOS. Se copian del disco del rodaje a `proyectos/050/original/` con el CÓDIGO del catálogo (`proyectos/044/catalogo-material.md`)
+ * como nombre y SIN ESPACIOS (nunca se monta desde Descargas; los de `4 Recorrido` traen espacios: `Img 9463.mp4` → `rc02.mp4`). La columna «origen»
+ * de `MATERIAL` dice qué archivo del disco es cada uno. Rellena el sha con `shasum -a 256 ARCHIVO | cut -c1-8`.
+ *
+ * ANTES DE TOCAR NADA, medido (R01, R19, R21; ffprobe del 2026-10-19):
+ *   · las tres tomas de Isabella (IMG_4272, 4296, 4294): HEVC 10 bit **HLG** (`arib-std-b67`, BT.2020), 3840×2160 con `rotation=-90` → pantalla 1080×1920 vertical, a 30 fps
+ *     exactos. Sin tone-map salen lavadas (R21): lo hace VideoToolbox (`scale_vt`), y la rotación también (`transpose_vt`);
+ *   · los RECORRIDOS (Img 94xx/95xx.mp4): H.264 **SDR** BT.709, 30 fps (RC02 y RC10 con `avg_frame_rate` irregular: se cuentan los fotogramas del MP4 normalizado, nunca los del original), almacenados a **1920×1080 pero con
+ *     SAR 81:256 y DAR 9:16**: son vídeos VERTICALES (608×1080 al mostrarse) comprimidos a lo ancho. El catálogo (`proyectos/044/catalogo-material.md` §7) los tomó por horizontales 16:9 y la receta de la rev. 0-2 los recortaba
+ *     al centro (`crop=608:1080:X:0` = el 32 % del ancho almacenado, un zoom ×3,2): el usuario lo vio «ampliado» (2026-10-19). Ahora se escalan ENTEROS a 1296×2304 con `setsar=1` (1920 → 1296 y 1080 → 2304: sin recorte; el cuadro
+ *     entero, más blando en vertical por el ×2,13);
+ *   · el audio de cada toma: micro de solapa mono; sale en WAV PCM 48 kHz mono, SIN filtro ni nivel y en otro WAV con la voz TRATADA (abajo). WAV y no AAC: el AAC arrastra
+ *     1024 muestras de priming que desplazan la voz ~21 ms contra su imagen.
+ *
+ * CLASES de archivo, y cada una sale distinta:
+ *   toma       la presentadora a cámara → MP4 mudo + WAV con su voz + WAV con su voz tratada
+ *   recorrido  planos de la propiedad → MP4 mudo (si es horizontal: recortado a 9:16 en la x de `MATERIAL`)
+ *   (música)   la canción → WAV estéreo de 48 kHz decodificado ENTERO y NADA MÁS (ni loudnorm): el MP3 arrastra su retardo de códec y el corte al golpe se
+ *              hace a la muestra sobre el WAV. Su `desde` sale de la medida de la pista y el nivel es una ganancia del plan.
+ *
+ * LA VOZ TRATADA. Las voces llegan a −20…−25 LUFS (ella habla a unos metros de un iPhone) y con una cresta de ≈ 17-20 dB: con ganancia sola los picos
+ * saldrían a +5 dBFS. La cadena (`VOZ_TRATADA`) es la de la V13/V18/V22/V26: graves fuera, puerta suave, compresor 3,5:1 desde −30 dBFS, ganancia buscada DESPUÉS del
+ * compresor (`herramientas/probar-voz.py --umbral 0.0316 --razon 3.5`) hasta −15,0 LUFS en su ventana de voz (el nivel de la música sola) y limitador a
+ * −2,5 dBFS (crudas: −19,4 · −23,3 · −20,5 LUFS en su ventana; ganancias +17,2 · +18,5 · +17,7 dB). Fuera de la ventana de voz el WAV tratado es SILENCIO. La puerta (`revisar-050.mjs`) vuelve a medirlo.
+ *
+ * LA TARJETA DEL CIERRE: `cierre-oscuro.png`, un negro liso (ver el final de este archivo). Nada se congela.
+ *
+ * Vídeo a 1296×2304 · 30 fps · SIN audio: 1296 = 1080 × 1,2, el techo del punch-in (criterio del 011).
+ */
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { ES_MAC, RAIZ, ejecutar, flags, log, relativa } from "../../herramientas/comun.mjs";
+
+const ORIGEN = path.join(RAIZ, "proyectos", "050", "original");
+const DESTINO = path.join(RAIZ, "remotion", "public", "recorrido-050");
+const f = flags();
+const solo = typeof f.solo === "string" ? new Set(f.solo.toLowerCase().split(",")) : null;
+
+/**
+ * clase · archivo en original/ · nombre de salida (sin extensión) · sha256 (8) del original · origen en el disco del rodaje · [solo recorrido horizontal] x del recorte.
+ * El nombre de salida es el que usa el plan: `v("hk02")` → `recorrido-050/hk02.mp4` y `a("hk02")` → `hk02.wav` / `hk02-voz.wav`.
+ *
+ * EL RECORTE 9:16 de un recorrido HORIZONTAL (1920×1080): `crop=608:1080:X:0` ANTES de `scale=1296:2304` (sin el crop, `scale` deformaría la imagen).
+ * X = 656 centra la ventana (1920 − 608 = 1312; 1312/2 = 656); por clip se elige mirando el tramo que usa el plan (principio, mitad y final) para que lo que importa
+ * se quede dentro los tres instantes (`proyectos/050/medidas/recortes-*.jpg`, `artefactos/03-timeline.md`).
+ */
+const MATERIAL = [
+  // Las tres tomas de Isabella del 17-oct (registro §7): el hook (HK02, sentada en el sillón de la terraza común), la mitad (MD04, la Social Kitchen, con el precio) y el CTA (CT02, el jardín).
+  ["toma", "hk02.mov", "hk02", "4cc73e1d", "1 Hooks/IMG_4272.MOV"],
+  ["toma", "md04.mov", "md04", "cfd314e1", "2 Miad/IMG_4296.MOV"],
+  ["toma", "ct02.mov", "ct02", "f7ed79ff", "5 Cta/IMG_4294.MOV"],
+  // Los recorridos (2-sep, SDR, anamórficos 9:16, sin gente). Se pueden repetir entre piezas; el plan dice cuáles entran y en qué segundos.
+  ["recorrido", "rc17.mp4", "rc17", "c99bc2f1", "4 Recorrido/Img 9527.mp4"],
+  ["recorrido", "rc14.mp4", "rc14", "59647a5b", "4 Recorrido/Img 9517.mp4"],
+  ["recorrido", "rc12.mp4", "rc12", "7bc5ad03", "4 Recorrido/Img 9514.mp4"],
+  ["recorrido", "rc06.mp4", "rc06", "556bee38", "4 Recorrido/Img 9479.mp4"],
+  ["recorrido", "rc09.mp4", "rc09", "8b1031a3", "4 Recorrido/Img 9484.mp4"],
+  // Añadidos a petición del usuario tras la prueba rev. 1 (2026-10-19: «incluye tomas Img 9538, Img 9536, Img 9509»): la sala a la hora azul (RC20, apertura asignada a la V29), el bar de noche (RC22) y el balcón con el JACUZZI PRIVADO
+  // (RC10, clímax asignado a la V30). RC02 (el balcón de las camas, el clímax asignado a esta pieza) ya no entra.
+  ["recorrido", "rc20.mp4", "rc20", "eed9445e", "4 Recorrido/Img 9536.mp4"],
+  ["recorrido", "rc22.mp4", "rc22", "33ac8ce2", "4 Recorrido/Img 9538.mp4"],
+  ["recorrido", "rc10.mp4", "rc10", "e7e4ee8b", "4 Recorrido/Img 9509.mp4"],
+];
+/**
+ * La canción: archivo en original/ · salida · sha256 (8) · origen (la biblioteca de música del repo, el MISMO archivo que reserva el registro de uso).
+ * `null` si la pieza sale sin música (`HAY_MUSICA = false` en `audio-050.ts`).
+ */
+const MUSICA = ["musica-spring.mp3", "musica-050", "fe252090", "archivos/musica/Spring is Coming.mp3"]; // neoclásico / ambient suave, 2:02; reservada para la V32
+
+const sha8 = (archivo) => crypto.createHash("sha256").update(fs.readFileSync(archivo)).digest("hex").slice(0, 8);
+const sondea = (archivo, entradas, selector = "v:0") =>
+  ejecutar("ffprobe", ["-v", "error", "-select_streams", selector, "-show_entries", entradas, "-of", "default=nw=1:nk=1", archivo], { check: true }).stdout.trim();
+
+if (!fs.existsSync(ORIGEN)) {
+  log.error(`no existe ${relativa(ORIGEN)}: copia ahí el material del rodaje (ver la columna «origen» de este archivo)`);
+  process.exit(1);
+}
+fs.mkdirSync(DESTINO, { recursive: true });
+
+// Identidad ANTES de gastar minutos de codificación: otro archivo con el mismo
+// nombre montaría un vídeo distinto en silencio.
+let malos = 0;
+const lista = MATERIAL.filter(([, , salida]) => !solo || solo.has(salida));
+for (const [, archivo, , esperado] of [...lista, ...(MUSICA && !solo ? [["", MUSICA[0], "", MUSICA[2]]] : [])]) {
+  const abs = path.join(ORIGEN, archivo);
+  if (!fs.existsSync(abs)) {
+    log.error(`falta ${archivo}`);
+    malos++;
+    continue;
+  }
+  const real = sha8(abs);
+  if (real !== esperado) {
+    log.aviso(`${archivo}: sha256 ${real}, se esperaba ${esperado}`);
+    malos++;
+  }
+}
+if (malos) {
+  log.error("el material no es el del plan: revísalo antes de normalizar");
+  process.exit(1);
+}
+
+/** La rotación de PANTALLA del archivo (R19): −90 en un iPhone vertical, 0 si ya viene derecho (los recorridos horizontales). */
+const rotacionDe = (abs) => Number(sondea(abs, "stream_side_data=rotation").split(/\s+/)[0] || 0);
+
+function video(clase, archivo, salidaNombre) {
+  const entrada = path.join(ORIGEN, archivo);
+  const salida = path.join(DESTINO, `${salidaNombre}.mp4`);
+  if (fs.existsSync(salida) && !f.forzar) {
+    log.info(`${path.basename(salida)} ya está`);
+    return;
+  }
+  const trc = sondea(entrada, "stream=color_transfer");
+  const rot = rotacionDe(entrada);
+  const hdr = trc === "arib-std-b67" || trc === "smpte2084";
+  const comunes = [
+    "-an", "-fps_mode", "cfr", "-r", "30", "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-pix_fmt", "yuv420p",
+    "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-movflags", "+faststart", salida,
+  ];
+  let args;
+  if (hdr) {
+    if (!ES_MAC) {
+      log.error(`${archivo} es HDR (${trc}) y su tone-map va con VideoToolbox: esta rama solo corre en macOS`);
+      process.exit(1);
+    }
+    const giro = { [-90]: "transpose_vt=dir=clock", 90: "transpose_vt=dir=cclock", 0: "" }[rot];
+    if (giro === undefined) {
+      log.error(`${archivo}: rotación no prevista (${rot})`);
+      process.exit(1);
+    }
+    args = [
+      "-nostdin", "-y", "-v", "error", "-hwaccel", "videotoolbox", "-hwaccel_output_format", "videotoolbox_vld", "-noautorotate", "-i", entrada,
+      "-vf", `scale_vt=color_matrix=bt709:color_primaries=bt709:color_transfer=bt709${giro ? `,${giro}` : ""},hwdownload,format=p010le,scale=1296:2304:flags=lanczos,format=yuv420p`,
+      ...comunes,
+    ];
+  } else {
+    const giro = { [-90]: "transpose=clock", 90: "transpose=cclock", 0: "" }[rot];
+    if (giro === undefined) {
+      log.error(`${archivo}: rotación no prevista (${rot})`);
+      process.exit(1);
+    }
+    // LOS «HORIZONTALES» NO LO SON (descubierto en la rev. 2 del 050, 2026-10-19, por el usuario: «en el render aparece ampliado»). Los recorridos y las tomas del 2-sep están ALMACENADOS a 1920×1080 pero con
+    // SAR 81:256 y DAR 9:16: son vídeos verticales (608×1080 al mostrarse) comprimidos a lo ancho. El catálogo (§7) los tomó por 16:9 y mandaba recortar el centro (`crop=608:1080:X:0`): eso es el 32 % del ancho
+    // almacenado, un zoom ×3,2 de la parte central. Lo correcto es escalar el cuadro ENTERO a 9:16 (1920 → 1296 y 1080 → 2304, sin recorte) y declarar el píxel cuadrado (`setsar=1`).
+    let marco = "";
+    if (rot === 0) {
+      const sar = sondea(entrada, "stream=sample_aspect_ratio");
+      const dar = sondea(entrada, "stream=display_aspect_ratio");
+      if (sar !== "81:256" || dar !== "9:16") {
+        log.error(`${archivo}: un clip sin rotación tiene que ser el anamórfico del 2-sep (SAR 81:256, DAR 9:16) y es SAR ${sar}, DAR ${dar}: revísalo antes de normalizar`);
+        process.exit(1);
+      }
+      marco = "setsar=1,";
+    }
+    args = ["-nostdin", "-y", "-v", "error", "-noautorotate", "-i", entrada, "-vf", `${giro ? `${giro},` : ""}scale=1296:2304:flags=lanczos,${marco}format=yuv420p`, ...comunes];
+  }
+  ejecutar("ffmpeg", args, { check: true });
+  log.ok(`${path.basename(salida)} (${clase}${hdr ? " · HLG → BT.709" : " · SDR"} · rotación ${rot}${rot === 0 ? " · anamórfico 9:16 escalado entero, sin recorte" : ""})`);
+}
+
+function voz(archivo, salidaNombre) {
+  const salida = path.join(DESTINO, `${salidaNombre}.wav`);
+  if (fs.existsSync(salida) && !f.forzar) return;
+  // Sin tocar: solo se decodifica a PCM. Ni filtro ni nivel (la ganancia vive en el plan).
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", path.join(ORIGEN, archivo), "-map", "0:a:0", "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
+  log.ok(`${path.basename(salida)} (la voz tal cual, mono 48 kHz)`);
+}
+
+/**
+ * LA CADENA DE LA VOZ TRATADA. highpass → puerta suave → compresor → ganancia → limitador (la de la V13/V26):
+ *   highpass 100 Hz   los golpes graves y el viento del micro del iPhone
+ *   agate             puerta SUAVE (−12 dB como mucho, ratio 2, umbral −45 dBFS): el ambiente entre frases no sube con la ganancia
+ *   acompressor       3,5:1 desde −30 dBFS, ataque 4 ms, relevo 120 ms, rodilla 6 dB: cierra la cresta antes de subir
+ *   volume            la ganancia de `GANANCIA_VOZ_DB`, buscada DESPUÉS del compresor hasta −15,0 LUFS en la ventana de voz
+ *   alimiter          techo −2,5 dBFS (`latency=1`: compensa el ms de lookahead y la voz no se desfasa): lo que el compresor no alcanza
+ */
+const VOZ_TRATADA = (gananciaDb) =>
+  [
+    "highpass=f=100:poles=2",
+    "agate=threshold=0.0056:ratio=2:range=0.25:attack=5:release=200",
+    "acompressor=threshold=0.0316:ratio=3.5:attack=4:release=120:knee=6",
+    `volume=${gananciaDb}dB`,
+    "alimiter=limit=0.75:attack=1:release=60:level=disabled:latency=1",
+  ].join(",");
+
+/** dB tras el compresor que dejan cada voz en −15,0 LUFS en su ventana (`herramientas/probar-voz.py`; la ventana de cada toma es la de `VENTANA_VOZ`). SIN MEDIR todavía. */
+const GANANCIA_VOZ_DB = { hk02: 17.2, md04: 18.5, ct02: 17.7 };
+
+/**
+ * DÓNDE HABLA Isabella en cada toma, y hasta dónde se USA su voz: [primera sílaba, fin de SU frase], en segundos de la fuente, medidos por energía
+ * (`limites-voz.py --margen 40`, `onsets-voz.py`; con el margen por defecto el suelo de ruido hace que casi todas «empiecen» en 0,00 s; R29). Fuera de esta
+ * ventana la voz tratada es SILENCIO: la compresión y la ganancia suben ≈ +19 dB cualquier ruido de la toma. SIN MEDIR todavía.
+ * El tercer número es lo que se deja sonar ANTES de la primera sílaba (el defecto, `VOZ_ANTES`).
+ */
+const VENTANA_VOZ = { hk02: [0.465, 6.52], md04: [0.555, 4.17], ct02: [0.78, 4.99] };
+/** Segundos de antes de la primera sílaba y de después del fin de la frase que se dejan sonar, y lo que dura cada fundido. */
+const VOZ_ANTES = 0.07;
+const VOZ_DESPUES = 0.05;
+const VOZ_FUNDIDO_ENTRA = 0.03;
+const VOZ_FUNDIDO_SALE = 0.05;
+
+function vozTratada(salidaNombre) {
+  const entrada = path.join(DESTINO, `${salidaNombre}.wav`);
+  const salida = path.join(DESTINO, `${salidaNombre}-voz.wav`);
+  if (fs.existsSync(salida) && !f.forzar) return;
+  const ganancia = GANANCIA_VOZ_DB[salidaNombre];
+  const ventana = VENTANA_VOZ[salidaNombre];
+  if (ganancia === undefined || ventana === undefined) {
+    // Una candidata que el plan no usa (o que aún no se ha medido) se queda con su voz cruda: la tratada sale cuando tenga su ventana y su ganancia.
+    log.aviso(`${salidaNombre}: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ; sin voz tratada`);
+    return;
+  }
+  const a = Math.max(0, ventana[0] - (ventana[2] ?? VOZ_ANTES));
+  const b = ventana[1] + VOZ_DESPUES;
+  // La ventana se aplica como una ENVOLVENTE por muestra (`aeval`): silencio fuera, fundido de entrada y de salida dentro. El WAV
+  // dura lo mismo que el crudo y sus segundos son los de la fuente, así que `desde` y `voz.s0/s1` del plan valen para los dos.
+  const e = VOZ_FUNDIDO_ENTRA;
+  const o = VOZ_FUNDIDO_SALE;
+  const compuerta = `aeval='val(0)*if(lt(t,${a.toFixed(3)}),0,if(lt(t,${(a + e).toFixed(3)}),(t-${a.toFixed(3)})/${e},if(lt(t,${(b - o).toFixed(3)}),1,if(lt(t,${b.toFixed(3)}),(${b.toFixed(3)}-t)/${o},0))))':c=same`;
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", `${VOZ_TRATADA(ganancia)},${compuerta}`, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
+  log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3,5:1, +${ganancia} dB y limitador a −2,5 dBFS; solo suena de ${a.toFixed(2)} a ${b.toFixed(2)} s)`);
+}
+
+for (const [clase, archivo, salida, , , recorte] of lista) {
+  video(clase, archivo, salida, recorte);
+  if (clase === "toma") {
+    voz(archivo, salida);
+    vozTratada(salida);
+  }
+}
+
+// La TARJETA OSCURA del cierre (plano `c12-cierre`): un PNG liso del negro de la marca. Nada se congela: la imagen de Isabella funde a negro y sigue
+// este fondo oscuro con el logo y la web (`cierre-050.ts`). Es el mismo color al que funde la imagen (`LUXUR.color.negro`, #000000) y sobre negro puro
+// el PNG y el fundido no se distinguen. 1296×2304 como los clips, para que el plano cubra el cuadro con su zoom.
+const tarjeta = path.join(DESTINO, "cierre-oscuro.png");
+if (!solo && (!fs.existsSync(tarjeta) || f.forzar)) {
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-f", "lavfi", "-i", "color=c=0x000000:s=1296x2304:r=1", "-frames:v", "1", "-pix_fmt", "rgb24", tarjeta], { check: true });
+  log.ok(`${path.basename(tarjeta)} (negro liso 1296×2304, la tarjeta del cierre)`);
+}
+
+const wav = MUSICA ? path.join(DESTINO, `${MUSICA[1]}.wav`) : null;
+if (!solo && wav && (!fs.existsSync(wav) || f.forzar)) {
+  ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", path.join(ORIGEN, MUSICA[0]), "-map", "0:a:0", "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "2", wav], { check: true });
+  log.ok(`${path.basename(wav)} (la canción entera, decodificada)`);
+}
+log.ok(`repuesto en ${relativa(DESTINO)}`);
