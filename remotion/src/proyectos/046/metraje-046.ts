@@ -22,10 +22,12 @@
  *
  * QUIÉN MARCA EL TIEMPO: LA MÚSICA, POR GOLPES. «Children» (Armin van Buuren, versión de piano del álbum «Piano»; sin pulso) entra por su golpe de 175,883 s (9,7 dB, una nota limpia): ahí cae el f3. Su meseta
  * (−10 LUFS, 36 s) acaba en una CAÍDA natural que empieza en el 211,5 s: cae donde entra la voz del CTA, así que el piano baja SOLO bajo ella (la envolvente de `audio-046.ts` solo lo ayuda). Un piano no da golpes de bombo:
- * los cortes SECOS (c04, c09, c10) caen en golpes medidos de 8,3 a 11,4 dB; las DISOLVENCIAS (el hook → la unidad, la Social Kitchen → su otro lado, la unidad → la mitad, las dos tomas de la mitad, la mitad → el apartamento y el clímax → el CTA) van libres
- * (la regla del piano: solo los cortes secos piden golpe). Las del f347 (8,1 dB) y la del 741 (11,2 dB) acaban, además, en un golpe.
+ * los DOS cortes SECOS (c09, c10: la alcoba → el baño → la terraza) caen en golpes medidos de 8,3 y 9,2 dB; las DISOLVENCIAS (el hook → la unidad, la piscina → la Social Kitchen, su otro lado, la unidad → la mitad, las dos tomas de la mitad, la mitad → el apartamento y el clímax → el CTA) van libres
+ * (la regla del piano: solo los cortes secos piden golpe). Las del f256 (11,4 dB), el f347 (8,1 dB) y el 741 (11,2 dB) acaban, además, en un golpe.
  *
- * EL RECORRIDO ES HORIZONTAL. Los planos de la unidad y del apartamento son 1920×1080 (2-sep): `normalizar.mjs` los RECORTA al centro (608×1080) y los escala ×2,13: salen más BLANDOS que Isabella en 4K. Es el material.
+ * EL RECORRIDO ES ANAMÓRFICO, NO HORIZONTAL (rev. 1; lo avisó la sesión del 050). Los planos de la unidad y del apartamento (2-sep) son 1920×1080 con SAR 81:256 y DAR 9:16: vídeos VERTICALES comprimidos a lo ancho. La rev. 0 los recortó al centro
+ * (608×1080, un zoom ×3,2 del tercio del medio) siguiendo el catálogo §7, que los daba por horizontales; ahora `normalizar.mjs` los escala ENTEROS a 1296×2304 con `setsar=1` (el 1920 baja a 1296 y el 1080 sube a 2304, ×2,13 en vertical: algo más blandos
+ * que Isabella en 4K, pero con el cuadro entero). Todos los `desde` se eligieron de nuevo mirando el cuadro completo.
  * Ningún dron (no hay). Isabella lleva el vestido negro del 17-oct y todo el recorrido es del rodaje del 31-ago / 2-sep: dos días y dos luces distintas, que el color por plano casa.
  *
  * UNIDADES. `desde` va en SEGUNDOS de la fuente, escrito como frame exacto (`fr(11)` = 11/30 s) donde el corte es en la muestra; `en` y `dur`, en frames de la composición. Los planos son CONTIGUOS.
@@ -205,15 +207,14 @@ export const metraje046: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc17"),
-    // RC17 (Img 9527, 31-ago, 7,7 s), del 4,30 al 6,70 s: el carril de nado visto desde el otro extremo, en diagonal, con el árbol grande y el cielo cubierto del atardecer; gira despacio a la derecha (flujo ≈ −5 px/f a 540 px). Se
-    // eligió RC17 y no RC16 porque las demás piezas del arriendo ya usan RC16 (declarado en `combinaciones.md`), y esta parte porque el principio del clip (los escalones) trae bañistas en el agua. Con el recorte centrado el
-    // carril ocupa el tercio de abajo y los árboles y el cielo, el resto: es lo que da el 608 de 1920. Entra con la disolvencia desde el hook (hay 129 f de clip antes del `desde`). Sale A CORTE en el golpe de 11,4 dB del f256.
-    desde: fr(129),
+    // RC17 (Img 9527, 31-ago, 7,7 s), del 3,00 al 5,40 s: las dos piscinas y el carril de nado en diagonal, los árboles y el cielo cubierto del atardecer; gira despacio a la derecha (≈ −2 a −4 px/f a 540 px). Se eligió RC17 y no
+    // RC16 porque las demás piezas del arriendo ya usan RC16 (declarado en `combinaciones.md`). Entra con la disolvencia desde el hook (hay 90 f de clip antes del `desde`). Sale A CORTE en el golpe de 11,4 dB del f256.
+    desde: fr(90),
     en: P.unidad,
     dur: P.social - P.unidad,
     zoom: QUIETO,
     entra: "disolver",
-    color: color({ shadows: 0.2, blacks: 0, exposure: 0.15 }),
+    color: color({ exposure: -0.15 }),
     reason:
       "El carril de nado entre los árboles (la unidad): lo primero que se ve al salir de las escaleras, el agua y el verde; la cámara gira despacio a la derecha y abre el paseo de la unidad sin voz.",
   },
@@ -222,14 +223,16 @@ export const metraje046: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc11"),
-    // RC11 (Img 9513, 6,9 s), del 0,40 al 3,43 s: la Social Kitchen / coworking, el mostrador con las banquetas, el techo de listones y las lámparas verdes que van entrando; gira a la derecha (≈ −4 a −9 px/f). SIN gente
-    // en el cuadro (la parte de atrás del clip, del 5 al 6 s, trae a un hombre con portátil en primer plano: no se usa). A corte en el golpe de 11,4 dB del f256.
-    desde: fr(12),
+    // RC11 (Img 9513, 6,9 s), del 1,40 al 4,43 s: la Social Kitchen / coworking entera, el mostrador con las banquetas, el techo de listones y las lámparas que van entrando (la grande, hacia los 3 s); gira a la derecha (≈ −2 a −4 px/f).
+    // Empieza cuando el cono amarillo de «piso mojado» sale del cuadro (1,4 s) y acaba antes de que, hacia los 6 s, entre una persona de amarillo en primer plano; al fondo, a partir de los 2,2 s, hay alguien sentado, lejos y diminuto, sin cara.
+    // Entra con una DISOLVENCIA que acaba en el golpe de 11,4 dB del f256 (el más fuerte de la unidad): a corte, la piscina luminosa a la Social Kitchen en sombra saltaba −16 niveles de luma (`medir-color.py`) y se leería como un parpadeo;
+    // hay 42 f de clip antes del `desde` (la disolvencia pide 12).
+    desde: fr(42),
     en: P.social,
     dur: P.vista - P.social,
     zoom: QUIETO,
-    entra: "corte",
-    color: color({ shadows: 0.25, blacks: 0, exposure: 0.2 }),
+    entra: "disolver",
+    color: color({ shadows: 0.3, blacks: 0, exposure: 0.3 }),
     reason: "La Social Kitchen, las lámparas verdes (la unidad, por dentro): del agua a un sitio donde juntarse; sigue girando a la derecha, en el mismo sentido que el carril de nado.",
   },
   {
@@ -237,15 +240,15 @@ export const metraje046: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc12"),
-    // RC12 (Img 9514, 7,4 s), del 0,40 al 3,33 s: la Social Kitchen desde el otro lado, más cerca: la isla blanca, las sillas de madera y el mural al fondo (de lo general, RC11, a lo cercano); gira a la derecha (≈ −6 px/f). Sin gente casi
-    // en el cuadro (a partir de los 2,5 s aparece, lejos y diminuta, una persona de amarillo al fondo). Entra con una DISOLVENCIA que acaba en el golpe de 8,1 dB del f347: un corte seco saltaba +33 niveles de luma (la cocina
-    // oscura de RC11 → la isla blanca de RC12) y se leería como un parpadeo. Acaba donde entra la mitad, con otra disolvencia.
+    // RC12 (Img 9514, 7,4 s), del 0,40 al 3,33 s: la Social Kitchen desde el otro lado, más cerca: la isla blanca, las sillas de madera y el mural al fondo (de lo general, RC11, a lo cercano); gira a la derecha (≈ −2 a −3 px/f). Al fondo, a la derecha,
+    // una persona de amarillo sentada a una mesa, lejos y diminuta, sin cara (el cuadro entero la enseña). Entra con una DISOLVENCIA que acaba en el golpe de 8,1 dB del f347: un corte seco entre la cocina oscura de RC11 y la isla blanca de RC12 saltaba (+33 niveles de luma en la rev. 0, recortada) y se leería como un parpadeo; se mantiene la
+    // disolvencia. Acaba donde entra la mitad, con otra disolvencia.
     desde: fr(12),
     en: P.vista,
     dur: P.mitad1 - P.vista,
     zoom: QUIETO,
     entra: "disolver",
-    color: color(),
+    color: color({ shadows: 0.3, blacks: 0, exposure: 0.25, saturation: 1.0 }),
     reason: "La Social Kitchen desde el otro lado, el ventanal y las sillas: el último espacio de la unidad antes de que Isabella cuente qué incluye el acompañamiento; mantiene el giro a la derecha.",
   },
   // ── Bloque 4 · la mitad EN DOS TOMAS (la terraza común) ──

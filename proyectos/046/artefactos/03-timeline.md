@@ -2,15 +2,15 @@
 
 > Paso 3 de 3. Del plan (`remotion/src/proyectos/046/metraje-046.ts`) a la tabla, con los números reales. Anterior: [02-layout.md](02-layout.md). Generada con `node proyectos/046/herramientas/volcar-plan.mjs`.
 
-Composición `Recorrido046`, 1080×1920 a 30 fps, **1291 f (43,03 s)**. Los 3 CORTES SECOS caen en un golpe MEDIDO de «Children» (8,3-11,4 dB; piano: el canal exige ≥ 7,4) y las 6 DISOLVENCIAS van libres (regla del piano); las de la Social Kitchen (8,1 dB) y la alcoba (11,2 dB) acaban, además, en un golpe. Los tiempos de fuente son los del MP4 NORMALIZADO (HK03, de 29,97 fps, tiene 186 fotogramas a 30; los recorridos horizontales están recortados al centro, 608×1080).
+Composición `Recorrido046`, 1080×1920 a 30 fps, **1291 f (43,03 s)**. Los 2 CORTES SECOS (alcoba → baño, baño → terraza) caen en un golpe MEDIDO de «Children» (8,3 y 9,2 dB; piano: el canal exige ≥ 7,4) y las 7 DISOLVENCIAS van libres (regla del piano); las de la Social Kitchen (11,4 dB), su otro lado (8,1 dB) y la alcoba (11,2 dB) acaban, además, en un golpe. Los tiempos de fuente son los del MP4 NORMALIZADO (HK03, de 29,97 fps, tiene 186 fotogramas a 30; los recorridos son anamórficos 9:16 y entran ENTEROS, sin recorte: rev. 1).
 
 ## Los planos
 
 | id | bloque | clip | en | dur (f) | dur (s) | fuente (s) | vel. | golpe en que entra | entra |
 |---|---|---|---|---|---|---|---|---|---|
 | c02-hook | 2 | hk03.mp4 | 0 | 184 | 6.13 | 0.00–6.13 | ×1 |  | corte |
-| c03-piscina | 3 | rc17.mp4 | 184 | 72 | 2.40 | 4.30–6.70 | ×1 |  | disolver |
-| c04-social | 3 | rc11.mp4 | 256 | 91 | 3.03 | 0.40–3.43 | ×1 | social 11.4 dB | corte |
+| c03-piscina | 3 | rc17.mp4 | 184 | 72 | 2.40 | 3.00–5.40 | ×1 |  | disolver |
+| c04-social | 3 | rc11.mp4 | 256 | 91 | 3.03 | 1.40–4.43 | ×1 | social 11.4 dB | disolver |
 | c05-social-vista | 3 | rc12.mp4 | 347 | 88 | 2.93 | 0.40–3.33 | ×1 | vista 8.1 dB | disolver |
 | c06-mitad-uno | 4 | md02.mp4 | 435 | 108 | 3.60 | 0.67–4.27 | ×1 |  | disolver |
 | c07-mitad-dos | 4 | md03.mp4 | 543 | 198 | 6.60 | 0.60–7.20 | ×1 |  | disolver |
@@ -27,8 +27,8 @@ Composición `Recorrido046`, 1080×1920 a 30 fps, **1291 f (43,03 s)**. Los 3 CO
 | Plano | Espacio | Función | Golpe de la canción (s) |
 |---|---|---|---|
 | c02-hook | escaleras exteriores, el edificio detrás | situar la necesidad: Isabella desde el f0, «cuando llegas a una ciudad que no es la tuya…» | 175,883 · 9,7 dB (suena en el f3, baja bajo su voz) |
-| c03-piscina | el carril de nado entre los árboles (RC17, 4,3-6,7 s) | abrir el paseo de la unidad, sin voz | disolvencia libre |
-| c04-social | la Social Kitchen, el mostrador y las lámparas (RC11) | del agua a un sitio donde juntarse; sigue girando a la derecha | 184,329 · 11,4 dB |
+| c03-piscina | las dos piscinas y el carril de nado entre los árboles (RC17, 3,0-5,4 s) | abrir el paseo de la unidad, sin voz | disolvencia libre |
+| c04-social | la Social Kitchen, el mostrador y las lámparas (RC11, 1,4-4,43 s) | del agua a un sitio donde juntarse; sigue girando a la derecha | disolvencia que acaba en 184,329 · 11,4 dB |
 | c05-social-vista | la Social Kitchen desde el otro lado, más cerca (RC12) | el último espacio de la unidad antes del acompañamiento | disolvencia que acaba en 187,344 · 8,1 dB |
 | c06-mitad-uno | la terraza común, la pérgola con las plantas (MD02) | qué trae el acompañamiento: «te acompañamos desde el día uno…» | disolvencia libre |
 | c07-mitad-dos | la terraza común, bajo la pérgola (MD03) | la lista concreta: «chef privado, tours, masajes y transporte…» | disolvencia libre |
