@@ -8,7 +8,7 @@
 
 1. **El rodaje del 17-oct NO siguió el libreto 044** (`libreto-isabella.md`, 20 piezas sobre «es muy caro», el jacuzzi privado, etc.). Isabella grabó **once frases de OTRO ángulo: el acompañamiento personalizado** (aseo semanal incluido, chef privado, tours, masajes, transporte, «te acompañamos desde el día uno», «apartamento amoblado», «cuando llegas a una ciudad que no es la tuya»). Los códigos HKnn/MDnn/CTnn del libreto son frases ESCRITAS y no corresponden a estas tomas: **aquí los códigos son los de la carpeta** (§3-§5), como en el registro de uso de las otras propiedades.
 2. **Las once tomas de Isabella del 17-oct están en las ZONAS COMUNES de la unidad** (terraza con pérgola y vista, jacuzzi comunal redondo, escaleras exteriores, Social Kitchen, gimnasio, jardín), **nunca dentro del apartamento**, y con un vestido negro. Las cuatro tomas habladas del 2-sep (chaqueta de flores, dentro del apartamento) son de otro vestuario: **no se mezclan en una misma pieza**.
-3. **Todo el recorrido (22 clips) y las cuatro tomas de Isabella del 2-sep están en HORIZONTAL (1920×1080, 16:9, SDR BT.709, 30 fps)**. Las tomas del 17-oct son verticales (4K HLG, rotación −90, como siempre). Para el 9:16 el recorrido se **recorta al centro (608×1080) y se escala ×1,78**: sale más blando que Isabella en 4K. Es lo que hay; §6 dice cómo.
+3. **Todo el recorrido (22 clips) y las cuatro tomas de Isabella del 2-sep son ANAMÓRFICOS: 1920×1080 guardados con SAR 81:256 y DAR 9:16, es decir, VERTICALES de 608×1080 efectivos comprimidos a lo ancho** (SDR BT.709, 30 fps). Las tomas del 17-oct son verticales de verdad (4K HLG, rotación −90). Para el 9:16 el recorrido se **escala entero con `setsar=1`, SIN recortar** (×2,13: sale más blando que Isabella en 4K). §7 dice cómo; la versión de la mañana de este catálogo decía «horizontal» y mandaba recortar: **era un error** (lo detectó la sesión 050 el mismo día).
 
 ## 1. La propiedad (ficha de la web, 2026-10-19)
 
@@ -32,8 +32,8 @@
 | Grupo | Archivos | Códec | Tamaño | Rotación | Color | fps | Audio |
 |---|---|---|---|---|---|---|---|
 | Isabella 17-oct (`IMG_42xx/43xx.MOV`) | 11 | HEVC 10 bit | 3840×2160 | **−90** (vertical) | **HLG** BT.2020 (R21: tone-map con VideoToolbox) | 30 (**IMG_4304 e IMG_4298: 29,97**, `avg` irregular) | AAC 48 kHz mono (solapa) |
-| Isabella 2-sep (`Img 94xx/95xx.mp4`) | 4 | H.264 | **1920×1080 horizontal** | ninguna | SDR BT.709 | 30 | AAC 48 kHz mono |
-| Recorrido 31-ago / 2-sep (`Img 9xxx.mp4`) | 22 | H.264 | **1920×1080 horizontal** | ninguna | SDR BT.709 | 30 (varios con `avg_frame_rate` irregular: contar frames tras normalizar) | AAC estéreo (ambiente; no se usa) |
+| Isabella 2-sep (`Img 94xx/95xx.mp4`) | 4 | H.264 | **1920×1080 guardado, SAR 81:256, DAR 9:16 → 608×1080 vertical efectivo** | ninguna | SDR BT.709 | 30 | AAC 48 kHz mono |
+| Recorrido 31-ago / 2-sep (`Img 9xxx.mp4`) | 22 | H.264 | **1920×1080 guardado, SAR 81:256, DAR 9:16 → 608×1080 vertical efectivo** | ninguna | SDR BT.709 | 30 (varios con `avg_frame_rate` irregular: contar frames tras normalizar) | AAC estéreo (ambiente; no se usa) |
 
 Los nombres con espacios (`Img 9461.mp4`) se copian a `proyectos/NNN/original/` con el CÓDIGO como nombre (`rc01.mp4`), que es lo que exige la receta.
 
@@ -44,8 +44,8 @@ Los nombres con espacios (`Img 9461.mp4`) se copian a `proyectos/NNN/original/` 
 | **HK01** | `IMG_4269.MOV` | 7,50 s | Terraza común con pérgola y la vista; de pie, camina hacia cámara | «El tiempo es el activo más valioso de los seres humanos y te ayudamos a optimizarlo incluyendo un aseo semanal.» (voz ≈ 0,0-6,7 s) | la voz empieza casi en el f0: medir el aire con `onsets-voz.py`; «aseo» POR CONFIRMAR AL OÍDO |
 | **HK02** | `IMG_4272.MOV` | 7,23 s | Terraza común, SENTADA en el sillón bajo la pérgola | misma frase que HK01, en dos frases: «El tiempo es el activo más valioso de los seres humanos. Te ayudamos a optimizarlo, incluyéndote un aseo semanal.» (whisper oye «asesor semanal») | ídem; es la doble de HK01 con otra puesta en escena |
 | **HK03** | `IMG_4304.mov` | 6,20 s | Escaleras exteriores, el edificio detrás; **29,97 fps** | «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía indispensable.» | misma idea que CT03 (no van juntas) |
-| HK04 | `Img 9496.mp4` | 51,7 s | **HORIZONTAL, 2-sep, chaqueta de flores**: sentada en el sofá de la sala (0-8 s) y luego un paseo mudo con el móvil (puerta, cocina, balcón, pelo) | «Antes de arrendar en Las Palmas, pregúntate esto.» (whisper: «a mi lado») · 30-52 s sin voz | otro vestuario y 16:9: solo para una pieza entera del 2-sep |
-| HK05 | `Img 9508.mp4` | 32,5 s | **HORIZONTAL, 2-sep**: camina hacia cámara en el balcón con la vista (0-7 s), luego paseo mudo | whisper: «Ya todo.» (dudoso; el vídeo editado del 15-sep pone «ven te muestro» sobre esta imagen) | ídem |
+| HK04 | `Img 9496.mp4` | 51,7 s | **ANAMÓRFICO (vertical 608×1080), 2-sep, chaqueta de flores**: sentada en el sofá de la sala (0-8 s) y luego un paseo mudo con el móvil (puerta, cocina, balcón, pelo) | «Antes de arrendar en Las Palmas, pregúntate esto.» (whisper: «a mi lado») · 30-52 s sin voz | otro vestuario y 608×1080 efectivos: solo para una pieza entera del 2-sep |
+| HK05 | `Img 9508.mp4` | 32,5 s | **ANAMÓRFICO, 2-sep**: camina hacia cámara en el balcón con la vista (0-7 s), luego paseo mudo | whisper: «Ya todo.» (dudoso; el vídeo editado del 15-sep pone «ven te muestro» sobre esta imagen) | ídem |
 
 ## 4. Mitades (`2 Miad`)
 
@@ -64,12 +64,12 @@ Los nombres con espacios (`Img 9461.mp4`) se copian a `proyectos/NNN/original/` 
 | **CT01** | `IMG_4277.MOV` | 5,17 s | Junto al jacuzzi comunal redondo (baranda, plantas) | «Si quieres un acompañamiento personalizado durante toda tu estancia, contáctanos.» | — |
 | **CT02** | `IMG_4294.MOV` | 5,57 s | Jardín con árboles y plantas detrás | «Si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme.» (whisper: «aportamento movilado») | dice **amoblado** |
 | **CT03** | `IMG_4298.MOV` | 6,67 s | Escaleras con césped y el edificio; **29,97 fps** | «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer.» | no es una acción: cierra con la idea y la tarjeta (logo + web) hace de CTA · no va con HK03 |
-| CT04 | `Img 9492.mp4` | 9,11 s | **HORIZONTAL, 2-sep**: camina hacia cámara en la sala con la palma | «Antes de arrendar en Las Palmas, piensa en esto.» (whisper: «render… piensan») | es un hook, no un CTA |
-| CT05 | `Img 9501.mp4` | 7,21 s | **HORIZONTAL, 2-sep**: sentada en la silla de la sala | «Si buscas más que un apartamento para vivir, escríbenos.» | el único CTA del 2-sep |
+| CT04 | `Img 9492.mp4` | 9,11 s | **ANAMÓRFICO, 2-sep**: camina hacia cámara en la sala con la palma | «Antes de arrendar en Las Palmas, piensa en esto.» (whisper: «render… piensan») | es un hook, no un CTA |
+| CT05 | `Img 9501.mp4` | 7,21 s | **ANAMÓRFICO, 2-sep**: sentada en la silla de la sala | «Si buscas más que un apartamento para vivir, escríbenos.» | el único CTA del 2-sep |
 
-## 6. Recorridos (`4 Recorrido`; horizontales; se pueden repetir, se declara)
+## 6. Recorridos (`4 Recorrido`; anamórficos, verticales de 608×1080 efectivos: §7; se pueden repetir, se declara)
 
-Lectura a partir de hojas de contactos (6 fotogramas por clip): **comprobar cada clip entero antes de usarlo** (varios giran, suben al cielo o acaban en otro espacio). Horas en UTC del contenedor (−5 h = hora local).
+Lectura a partir de hojas de contactos (6 fotogramas por clip, SACADAS SIN CORREGIR EL SAR: los espacios parecían panorámicos y no lo son): **comprobar cada clip entero, con el SAR corregido, antes de usarlo** (varios giran, suben al cielo o acaban en otro espacio). Horas en UTC del contenedor (−5 h = hora local).
 
 | Código | Clip | Dura | Qué se ve (de principio a fin) | Espacio |
 |---|---|---|---|---|
@@ -96,7 +96,7 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip): **comprobar cada
 | RC21 | `Img 9537 (1).mp4` | 11,1 s | Terraza/balcón al atardecer: las luces de la ciudad, las torres, el deck | atardecer (comprobar si es el balcón del apto o la terraza común) |
 | RC22 | `Img 9538.mp4` | 3,2 s | El bar con el letrero de neón, de noche | APTO: bar |
 
-**⚠️ El jacuzzi PRIVADO del balcón (la foto `3-Jacuzzi.png`: cuadrado, de madera, con las torres detrás) no aparece en los fotogramas muestreados de ningún clip de `4 Recorrido`.** El vídeo editado del 15-sep (`videos editados/01.mp4`, 0:22) sí lo enseña, así que está en algún tramo: candidatos RC02 (29 s), RC21, y los tramos mudos de HK04 (8-52 s) y HK05 (7-32 s). Quien lo encuentre lo anota aquí y lo usa de clímax: es el argumento de la ficha («balcón con jacuzzi privado»). Si no aparece, el clímax es la terraza al atardecer (RC18/RC21) o el balcón con las camas (RC02/RC03), y se dice.
+**El jacuzzi PRIVADO del balcón (la foto `3-Jacuzzi.png`: cuadrado, de madera, con las torres detrás) SÍ está: las sesiones lo encontraron en RC10 (`Img 9509.mp4`, lo usa el 050 de clímax) y en RC21 (`Img 9537 (1).mp4`, el 045).** Lo de abajo es la nota original de la mañana, ya resuelta: El vídeo editado del 15-sep (`videos editados/01.mp4`, 0:22) sí lo enseña, así que está en algún tramo: candidatos RC02 (29 s), RC21, y los tramos mudos de HK04 (8-52 s) y HK05 (7-32 s). Quien lo encuentre lo anota aquí y lo usa de clímax: es el argumento de la ficha («balcón con jacuzzi privado»). Si no aparece, el clímax es la terraza al atardecer (RC18/RC21) o el balcón con las camas (RC02/RC03), y se dice.
 
 **No hay puentes humanos** (una mano, una taza, una llave) ni voz en off.
 
@@ -111,4 +111,4 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip): **comprobar cada
 
 ## 8. Lo que ya se publicó o se editó antes
 
-`videos editados/01.mp4`, `02.mp4`, `03.mp4` (15-sep-2026, 1080×1920, 64 / 78 / 56 s): tres vídeos verticales hechos con el material del 2-sep (Isabella con la chaqueta de flores: «ven te muestro», «de 113 m ubicado en Las Palmas», «agenda tu visita»; subtítulos simples sobre el recorrido recortado). No son de este sistema. Las piezas 045-050 son las PRIMERAS con el material del 17-oct.
+`videos editados/01.mp4`, `02.mp4`, `03.mp4` (15-sep-2026, 1080×1920, 64 / 78 / 56 s): tres vídeos verticales hechos con el material del 2-sep (Isabella con la chaqueta de flores: «ven te muestro», «de 113 m ubicado en Las Palmas», «agenda tu visita»; subtítulos simples sobre el recorrido, con su aspecto correcto). No son de este sistema. Las piezas 045-050 son las PRIMERAS con el material del 17-oct.
