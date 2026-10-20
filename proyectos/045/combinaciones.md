@@ -13,7 +13,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Es la PRIMERA 
 
 | Pieza | Lo elegido | Por qué (ver `artefactos/01-plan.md`) |
 |---|---|---|
-| Apertura | RC01 `Img 9461` 0,00-3,70 s | asignada (apartamento, sin dron): la isla de la cocina y sus taburetes, limpia desde el f0; el clip sigue hasta el balcón y la vista (≈ 8 s en adelante), que no entra. Exclusiva de esta pieza |
+| Apertura | RC01 `Img 9461` 0,00-3,70 s | asignada (apartamento, sin dron): la isla de la cocina y sus taburetes, limpia desde el f0; el clip sigue hasta el balcón y la vista (≈ 8 s en adelante), que no entra. El usuario pidió también esta toma (`Img 9461`) en la V31/049: **se repite entre piezas, declarado** |
 | Hook | HK01 `IMG_4269` (voz 0,82-6,62 s; `desde` 15 f) | asignada. **Repetida en la V30 (048)**, declarado. El catálogo decía «la voz empieza casi en el f0»: es el DTW de whisper (R29); la energía dice 0,82 s |
 | Paseo (bloque 3) | RC11 Social Kitchen 0,80-4,17 · RC14 gimnasio 0,00-3,57 · RC16 piscina 2,00-5,40 | los tres usos del tiempo ganado (trabajar, cuidarse, descansar), todos girando a la derecha. RC11 se acaba antes de que entre un hombre de amarillo (≈ 6 s); RC14, antes de las caminadoras con un hombre en primer plano (≈ 4 s); la sauna (RC15) queda fuera (oscura) |
 | Mitad | MD01 `IMG_4274` (voz 0,62-4,73 s; `desde` 9 f) | asignada; continúa a HK01 («de esta manera») |

@@ -191,7 +191,7 @@ export const metraje045: readonly Corte[] = [
     src: v("rc01"),
     // RC01 (Img 9461), del 0,00 al 3,70 s: de la isla de la cocina (la placa y la encimera blanca con las luces del techo) a su fila de taburetes negros en diagonal y el ventanal sobre el jardín: la cámara avanza y gira a la
     // derecha (raccord con todos los planos que siguen). El clip sigue hasta las puertas correderas con el balcón y la vista (a partir de ≈ 8 s): esa parte NO entra, porque la vista no se enseña entera antes del bloque 5. Entra a corte
-    // con el golpe de 11,3 dB del f3 (no nace de negro) y YA VA EN MOVIMIENTO DESDE EL FRAME 0. Es la apertura EXCLUSIVA de esta pieza (el reparto: nadie más la usa).
+    // con el golpe de 11,3 dB del f3 (no nace de negro) y YA VA EN MOVIMIENTO DESDE EL FRAME 0. Es la apertura de esta pieza (el reparto: nadie más la usa; pero el usuario pidió también la Img 9461 en la V31/049: DECLARADO, ahí se repite el clip).
     desde: 0,
     en: 0,
     dur: P.hook,

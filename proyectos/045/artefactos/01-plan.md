@@ -61,7 +61,8 @@ Precio (COP 14,8 millones al mes: va en la versión con ficha y en el caption), 
 |---|---|---|
 | HK01 | V30 (048) | 0,50-7,23 s (el hook entero, repetido) |
 | CT01 | V31 (049) | 0,37-5,17 s (la toma entera, repetida) |
-| RC01, RC21 | ninguna (apertura y clímax exclusivos) | 3,00-6,70 s · 5,43-11,07 s |
+| RC01 | **V31 (049)**: el usuario pidió también la Img 9461 allí (la 049 la usa; aviso de la coordinadora, 2026-10-19). Se repite el clip, **declarado**; el tramo de esta pieza es 0,00-3,70 s (la isla de la cocina); el de la 049 lo elige su sesión | 0,00-3,70 s |
+| RC21 | ninguna (clímax exclusivo) | 5,43-11,07 s |
 | RC05, RC09, RC11, RC14, RC16, MD01 | otras sesiones PUEDEN repetir recorridos declarándolo; no hay aviso de ninguna | libres (hasta donde sé) |
 
 ## Pendiente con el usuario
