@@ -462,7 +462,7 @@ Códigos de `proyectos/030/` (cada propiedad tiene SUS códigos: el orden de cad
 
 ## 7. Material de Tierra Grata Bosque Santo (El Poblado, ARRIENDO)
 
-Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del disco el 2026-10-19). Los clips están en el disco del rodaje (no en git): `/Volumes/SSK SSD/Work/Propiedades Luxur/Apartamento - Tierra Grata - Las Palmas/Videos/`. **No hay dron.** El recorrido es HORIZONTAL (1920×1080): se recorta al centro (catálogo §7). El reparto de las seis versiones (V27-V32, proyectos 045-050) está en `proyectos/044/reparto-045-050.md` y es FIJO: cada sesión monta la suya.
+Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del disco el 2026-10-19). Los clips están en el disco del rodaje (no en git): `/Volumes/SSK SSD/Work/Propiedades Luxur/Apartamento - Tierra Grata - Las Palmas/Videos/`. **No hay dron.** El recorrido son verticales anamórficos (1920×1080, SAR 81:256 → DAR 9:16): se escala SIN recorte (catálogo §7, corregido el 2026-10-19). El reparto de las seis versiones (V27-V32, proyectos 045-050) está en `proyectos/044/reparto-045-050.md` y es FIJO: cada sesión monta la suya.
 
 ### Hooks (`1 Hooks`)
 
@@ -471,8 +471,8 @@ Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del d
 | ~~HK01~~ | `IMG_4269.MOV` | TERRAZA COMÚN (pérgola, la vista; camina) | «El tiempo es el activo más valioso de los seres humanos y te ayudamos a optimizarlo incluyendo un aseo semanal.» | **reservado** | V27 · V30 (la REPITE: solo hay 3 hooks para 6 piezas; declarado) | voz desde ≈ 0,0 s; «aseo» POR CONFIRMAR AL OÍDO |
 | ~~HK02~~ | `IMG_4272.MOV` | TERRAZA COMÚN (sentada en el sillón) | misma frase, en dos: «…de los seres humanos. Te ayudamos a optimizarlo, incluyéndote un aseo semanal.» | **reservado** | V29 · V32 (la REPITE; declarado) | whisper oye «asesor semanal» |
 | ~~HK03~~ | `IMG_4304.mov` | ESCALERAS exteriores (el edificio detrás) · 29,97 fps | «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía indispensable.» | **reservado** | V28 · V31 (la REPITE; declarado) | misma idea que CT03: nunca juntas |
-| HK04 | `Img 9496.mp4` | SALA (2-sep, chaqueta de flores, HORIZONTAL) | «Antes de arrendar en Las Palmas, pregúntate esto.» + paseo mudo | libre | | otro vestuario y 16:9: solo para una pieza entera del 2-sep |
-| HK05 | `Img 9508.mp4` | BALCÓN (2-sep, HORIZONTAL) | whisper: «Ya todo.» (dudoso) + paseo mudo | libre | | ídem |
+| HK04 | `Img 9496.mp4` | SALA (2-sep, chaqueta de flores, vertical anamórfico) | «Antes de arrendar en Las Palmas, pregúntate esto.» + paseo mudo | libre | | otro vestuario y 16:9: solo para una pieza entera del 2-sep |
+| HK05 | `Img 9508.mp4` | BALCÓN (2-sep, vertical anamórfico) | whisper: «Ya todo.» (dudoso) + paseo mudo | libre | | ídem |
 
 ### Mitades (`2 Miad`)
 
@@ -491,10 +491,10 @@ Códigos de `proyectos/044/catalogo-material.md` (el orden de cada carpeta del d
 | ~~CT01~~ | `IMG_4277.MOV` | JACUZZI COMUNAL (baranda, plantas) | «Si quieres un acompañamiento personalizado durante toda tu estancia, contáctanos.» | **reservado** | V27 · V31 (la REPITE; declarado) | |
 | ~~CT02~~ | `IMG_4294.MOV` | JARDÍN (árboles y plantas) | «Si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme.» | **reservado** | V28 · V32 (la REPITE; declarado) | «amoblado» POR CONFIRMAR AL OÍDO (whisper: «movilado») |
 | ~~CT03~~ | `IMG_4298.MOV` | ESCALERAS con césped · 29,97 fps | «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer.» | **reservado** | V29 · V30 (la REPITE; declarado) | no es una acción: la tarjeta (logo + web) cierra; nunca con HK03 |
-| CT04 | `Img 9492.mp4` | SALA (2-sep, HORIZONTAL) | «Antes de arrendar en Las Palmas, piensa en esto.» | libre | | es un hook |
-| CT05 | `Img 9501.mp4` | SALA (2-sep, HORIZONTAL) | «Si buscas más que un apartamento para vivir, escríbenos.» | libre | | otro vestuario |
+| CT04 | `Img 9492.mp4` | SALA (2-sep, vertical anamórfico) | «Antes de arrendar en Las Palmas, piensa en esto.» | libre | | es un hook |
+| CT05 | `Img 9501.mp4` | SALA (2-sep, vertical anamórfico) | «Si buscas más que un apartamento para vivir, escríbenos.» | libre | | otro vestuario |
 
-### Recorridos (`4 Recorrido`; HORIZONTALES; se pueden repetir, se declara)
+### Recorridos (`4 Recorrido`; verticales anamórficos, SAR 81:256; se pueden repetir, se declara)
 
 Apertura y clímax son EXCLUSIVOS de su versión; el resto, libre para todas (declarando el tramo). Detalle de cada clip en el catálogo §6.
 

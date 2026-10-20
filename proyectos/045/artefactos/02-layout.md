@@ -19,7 +19,7 @@ Composición `Recorrido045` (`remotion/src/proyectos/045/`), 1080×1920 a 30 fps
 
 - **Subtítulos:** abajo (borde superior ≈ 74,5 %, nunca por debajo del 88 %). Arriba **no hay nada** en ningún frame.
 - **Isabella:** de cuerpo entero (HK01, MD01: camina hacia cámara desde lejos) o de cintura para arriba apoyada en la baranda (CT01); el texto cae por debajo de su cintura, a la altura de las piernas o del jacuzzi, nunca sobre la cara. En CT01 la franja de los subtítulos (y ≈ 1430-1640) cae sobre la baranda y el jacuzzi comunal: el velo la sostiene.
-- **Recorridos:** horizontales 1920×1080 recortados a una ventana vertical de 608×1080 (x = 656; RC21, x = 950) y escalados ×2,13 a 1296×2304. El texto no aparece sobre los planos del paseo ni del bloque 5 (no hay voz en off): solo sobre Isabella.
+- **Recorridos:** verticales guardados anamórficos (1920×1080, SAR 81:256 → DAR 9:16), escalados SIN recorte a 1296×2304 (×2,13 en vertical). El texto no aparece sobre los planos del paseo ni del bloque 5 (no hay voz en off): solo sobre Isabella.
 - **Versión con ficha (funnel):** sin subtítulos, con `APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES` fijo en el tercio bajo del cuadrado 1:1 (y ≈ 1220-1420) desde el f0 hasta la tarjeta; se hace aparte (`ficha-luxur` §3).
 - **Cierre:** tarjeta negra lisa; logo y web centrados, un poco por encima del centro.
 
@@ -34,8 +34,8 @@ Composición `Recorrido045` (`remotion/src/proyectos/045/`), 1080×1920 a 30 fps
 
 ## Lo que decide esta pieza distinto del 043
 
-- **Abre con el apartamento (RC01), no con un dron:** no hay dron en este rodaje. El recorrido es horizontal: se recorta y sale más blando; no se filtra.
+- **Abre con el apartamento (RC01), no con un dron:** no hay dron en este rodaje. El recorrido son verticales anamórficos: se escalan sin recorte y salen algo más blandos que Isabella; no se filtra.
 - **Canción suave:** las ganancias de la música SUBEN (+2,8 a +5,5 dB) para llegar a ≈ −15 LUFS, con un techo de pico de −0,5 dBFS (en el 043 la canción ya estaba a −15).
 - **Dos entradas con disolvencia** (el hook, donde HK01 trae 0,82 s de aire; y la Social Kitchen), porque la canción no tiene golpes fuertes en todos los cortes.
 - **Texto que marca lo que el tiempo gana:** los cinco acentos caen en «más valioso», «aseo semanal», «todo ordenado», «eres mejor» y «contáctanos».
-- **Clímax con el jacuzzi privado** (RC21 con la ventana a x = 950), que es el argumento de la ficha.
+- **Clímax con el jacuzzi privado** (RC21, con el jacuzzi entero en el cuadro al final), que es el argumento de la ficha.

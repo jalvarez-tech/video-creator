@@ -8,7 +8,7 @@
 
 1. **El rodaje del 17-oct NO siguió el libreto 044** (`libreto-isabella.md`, 20 piezas sobre «es muy caro», el jacuzzi privado, etc.). Isabella grabó **once frases de OTRO ángulo: el acompañamiento personalizado** (aseo semanal incluido, chef privado, tours, masajes, transporte, «te acompañamos desde el día uno», «apartamento amoblado», «cuando llegas a una ciudad que no es la tuya»). Los códigos HKnn/MDnn/CTnn del libreto son frases ESCRITAS y no corresponden a estas tomas: **aquí los códigos son los de la carpeta** (§3-§5), como en el registro de uso de las otras propiedades.
 2. **Las once tomas de Isabella del 17-oct están en las ZONAS COMUNES de la unidad** (terraza con pérgola y vista, jacuzzi comunal redondo, escaleras exteriores, Social Kitchen, gimnasio, jardín), **nunca dentro del apartamento**, y con un vestido negro. Las cuatro tomas habladas del 2-sep (chaqueta de flores, dentro del apartamento) son de otro vestuario: **no se mezclan en una misma pieza**.
-3. **Todo el recorrido (22 clips) y las cuatro tomas de Isabella del 2-sep están en HORIZONTAL (1920×1080, 16:9, SDR BT.709, 30 fps)**. Las tomas del 17-oct son verticales (4K HLG, rotación −90, como siempre). Para el 9:16 el recorrido se **recorta al centro (608×1080) y se escala ×1,78**: sale más blando que Isabella en 4K. Es lo que hay; §6 dice cómo.
+3. **Todo el recorrido (22 clips) y las cuatro tomas de Isabella del 2-sep son VERTICALES guardados ANAMÓRFICOS: 1920×1080 con SAR 81:256 → DAR 9:16 (SDR BT.709, 30 fps)**; no son horizontales. (Corregido el 2026-10-19 por las sesiones 050 y 045: este catálogo los dio por apaisados —`ffprobe` sin mirar el SAR— y la primera prueba de la 045 los recortó al centro, un zoom ×3,2 del tercio central.) Las tomas del 17-oct son verticales de verdad (4K HLG, rotación −90). Para el 9:16 el recorrido se escala **SIN recorte** a 1296×2304 (§7): el cuadro entero, algo más blando que Isabella en 4K.
 
 ## 1. La propiedad (ficha de la web, 2026-10-19)
 
@@ -32,8 +32,8 @@
 | Grupo | Archivos | Códec | Tamaño | Rotación | Color | fps | Audio |
 |---|---|---|---|---|---|---|---|
 | Isabella 17-oct (`IMG_42xx/43xx.MOV`) | 11 | HEVC 10 bit | 3840×2160 | **−90** (vertical) | **HLG** BT.2020 (R21: tone-map con VideoToolbox) | 30 (**IMG_4304 e IMG_4298: 29,97**, `avg` irregular) | AAC 48 kHz mono (solapa) |
-| Isabella 2-sep (`Img 94xx/95xx.mp4`) | 4 | H.264 | **1920×1080 horizontal** | ninguna | SDR BT.709 | 30 | AAC 48 kHz mono |
-| Recorrido 31-ago / 2-sep (`Img 9xxx.mp4`) | 22 | H.264 | **1920×1080 horizontal** | ninguna | SDR BT.709 | 30 (varios con `avg_frame_rate` irregular: contar frames tras normalizar) | AAC estéreo (ambiente; no se usa) |
+| Isabella 2-sep (`Img 94xx/95xx.mp4`) | 4 | H.264 | 1920×1080, **SAR 81:256 → DAR 9:16 (vertical anamórfico)** | ninguna | SDR BT.709 | 30 | AAC 48 kHz mono |
+| Recorrido 31-ago / 2-sep (`Img 9xxx.mp4`) | 22 | H.264 | 1920×1080, **SAR 81:256 → DAR 9:16 (vertical anamórfico)** | ninguna | SDR BT.709 | 30 (varios con `avg_frame_rate` irregular: contar frames tras normalizar) | AAC estéreo (ambiente; no se usa) |
 
 Los nombres con espacios (`Img 9461.mp4`) se copian a `proyectos/NNN/original/` con el CÓDIGO como nombre (`rc01.mp4`), que es lo que exige la receta.
 
@@ -44,8 +44,8 @@ Los nombres con espacios (`Img 9461.mp4`) se copian a `proyectos/NNN/original/` 
 | **HK01** | `IMG_4269.MOV` | 7,50 s | Terraza común con pérgola y la vista; de pie, camina hacia cámara | «El tiempo es el activo más valioso de los seres humanos y te ayudamos a optimizarlo incluyendo un aseo semanal.» (voz ≈ 0,0-6,7 s) | la voz empieza casi en el f0: medir el aire con `onsets-voz.py`; «aseo» POR CONFIRMAR AL OÍDO |
 | **HK02** | `IMG_4272.MOV` | 7,23 s | Terraza común, SENTADA en el sillón bajo la pérgola | misma frase que HK01, en dos frases: «El tiempo es el activo más valioso de los seres humanos. Te ayudamos a optimizarlo, incluyéndote un aseo semanal.» (whisper oye «asesor semanal») | ídem; es la doble de HK01 con otra puesta en escena |
 | **HK03** | `IMG_4304.mov` | 6,20 s | Escaleras exteriores, el edificio detrás; **29,97 fps** | «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía indispensable.» | misma idea que CT03 (no van juntas) |
-| HK04 | `Img 9496.mp4` | 51,7 s | **HORIZONTAL, 2-sep, chaqueta de flores**: sentada en el sofá de la sala (0-8 s) y luego un paseo mudo con el móvil (puerta, cocina, balcón, pelo) | «Antes de arrendar en Las Palmas, pregúntate esto.» (whisper: «a mi lado») · 30-52 s sin voz | otro vestuario y 16:9: solo para una pieza entera del 2-sep |
-| HK05 | `Img 9508.mp4` | 32,5 s | **HORIZONTAL, 2-sep**: camina hacia cámara en el balcón con la vista (0-7 s), luego paseo mudo | whisper: «Ya todo.» (dudoso; el vídeo editado del 15-sep pone «ven te muestro» sobre esta imagen) | ídem |
+| HK04 | `Img 9496.mp4` | 51,7 s | **vertical anamórfico (1920×1080, SAR 81:256), 2-sep, chaqueta de flores**: sentada en el sofá de la sala (0-8 s) y luego un paseo mudo con el móvil (puerta, cocina, balcón, pelo) | «Antes de arrendar en Las Palmas, pregúntate esto.» (whisper: «a mi lado») · 30-52 s sin voz | otro vestuario: solo para una pieza entera del 2-sep |
+| HK05 | `Img 9508.mp4` | 32,5 s | **vertical anamórfico (1920×1080, SAR 81:256), 2-sep**: camina hacia cámara en el balcón con la vista (0-7 s), luego paseo mudo | whisper: «Ya todo.» (dudoso; el vídeo editado del 15-sep pone «ven te muestro» sobre esta imagen) | ídem |
 
 ## 4. Mitades (`2 Miad`)
 
@@ -64,10 +64,10 @@ Los nombres con espacios (`Img 9461.mp4`) se copian a `proyectos/NNN/original/` 
 | **CT01** | `IMG_4277.MOV` | 5,17 s | Junto al jacuzzi comunal redondo (baranda, plantas) | «Si quieres un acompañamiento personalizado durante toda tu estancia, contáctanos.» | — |
 | **CT02** | `IMG_4294.MOV` | 5,57 s | Jardín con árboles y plantas detrás | «Si quieres un apartamento amoblado que tenga acompañamiento personalizado, escríbeme.» (whisper: «aportamento movilado») | dice **amoblado** |
 | **CT03** | `IMG_4298.MOV` | 6,67 s | Escaleras con césped y el edificio; **29,97 fps** | «Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer.» | no es una acción: cierra con la idea y la tarjeta (logo + web) hace de CTA · no va con HK03 |
-| CT04 | `Img 9492.mp4` | 9,11 s | **HORIZONTAL, 2-sep**: camina hacia cámara en la sala con la palma | «Antes de arrendar en Las Palmas, piensa en esto.» (whisper: «render… piensan») | es un hook, no un CTA |
-| CT05 | `Img 9501.mp4` | 7,21 s | **HORIZONTAL, 2-sep**: sentada en la silla de la sala | «Si buscas más que un apartamento para vivir, escríbenos.» | el único CTA del 2-sep |
+| CT04 | `Img 9492.mp4` | 9,11 s | **vertical anamórfico (1920×1080, SAR 81:256), 2-sep**: camina hacia cámara en la sala con la palma | «Antes de arrendar en Las Palmas, piensa en esto.» (whisper: «render… piensan») | es un hook, no un CTA |
+| CT05 | `Img 9501.mp4` | 7,21 s | **vertical anamórfico (1920×1080, SAR 81:256), 2-sep**: sentada en la silla de la sala | «Si buscas más que un apartamento para vivir, escríbenos.» | el único CTA del 2-sep |
 
-## 6. Recorridos (`4 Recorrido`; horizontales; se pueden repetir, se declara)
+## 6. Recorridos (`4 Recorrido`; verticales anamórficos; se pueden repetir, se declara)
 
 Lectura a partir de hojas de contactos (6 fotogramas por clip): **comprobar cada clip entero antes de usarlo** (varios giran, suben al cielo o acaban en otro espacio). Horas en UTC del contenedor (−5 h = hora local).
 
@@ -96,16 +96,16 @@ Lectura a partir de hojas de contactos (6 fotogramas por clip): **comprobar cada
 | RC21 | `Img 9537 (1).mp4` | 11,1 s | **Balcón del APARTAMENTO al atardecer**: de las luces de la ciudad y las torres (0-8 s) gira a la derecha hasta la baldosa negra y el **JACUZZI PRIVADO de madera con su escalón** (de ≈ 8,3 s al final; entero hacia los 10,5-11,0 s) | APTO: balcón con el jacuzzi privado (hallazgo de la sesión 045, 2026-10-19) |
 | RC22 | `Img 9538.mp4` | 3,2 s | El bar con el letrero de neón, de noche | APTO: bar |
 
-**✅ El jacuzzi PRIVADO del balcón SÍ está en el material: RC21 (`Img 9537 (1).mp4`), de ≈ 8,3 s al final (hallazgo de la sesión 045, 2026-10-19).** La cámara gira a la derecha desde el horizonte (montañas, luces de la ciudad y torres de enfrente, 0-8 s) hasta el balcón de baldosa negra: la caja de listones de madera cuadrada del jacuzzi con su escalón de madera, el cristal de la baranda, la pared de la torre vecina y la puerta corredera del apartamento. Es el mismo balcón y el mismo jacuzzi que `Fotos/Web ficha 2026-10/3-Jacuzzi.png` (el escalón, la caja de listones y la red azul colgada coinciden). **Con el recorte central (`crop=608:1080:656:0`) el jacuzzi entra a medias; con la ventana en x ≈ 950 queda casi entero al final.** No se ha buscado en RC02, RC03 ni en los tramos mudos de HK04/HK05 (RC03 y RC02 son balcón con las camas, el otro extremo). RC21 es el clímax asignado a la V27 (045), que lo usa: no cambia el reparto.
+**✅ El jacuzzi PRIVADO del balcón SÍ está en el material: RC21 (`Img 9537 (1).mp4`), de ≈ 8,3 s al final (hallazgo de la sesión 045, 2026-10-19).** La cámara gira a la derecha desde el horizonte (montañas, luces de la ciudad y torres de enfrente, 0-8 s) hasta el balcón de baldosa negra: la caja de listones de madera cuadrada del jacuzzi con su escalón de madera, el cristal de la baranda, la pared de la torre vecina y la puerta corredera del apartamento. Es el mismo balcón y el mismo jacuzzi que `Fotos/Web ficha 2026-10/3-Jacuzzi.png` (el escalón, la caja de listones y la red azul colgada coinciden). **Sin recorte (los clips son verticales anamórficos: §7) el jacuzzi sale ENTERO en el cuadro desde los ≈ 9,5 s.** No se ha buscado en RC02, RC03 ni en los tramos mudos de HK04/HK05 (RC03 y RC02 son balcón con las camas, el otro extremo). RC21 es el clímax asignado a la V27 (045), que lo usa: no cambia el reparto.
 
 **No hay puentes humanos** (una mano, una taza, una llave) ni voz en off.
 
-## 7. Cómo entra el material horizontal en el 9:16
+## 7. Cómo entra el recorrido en el 9:16 (CORREGIDO el 2026-10-19)
 
-- **Recorte al centro**: en `normalizar.mjs`, la rama SDR de cada `recorrido` lleva `crop=608:1080:X:0` ANTES de `scale=1296:2304:flags=lanczos` (sin el crop, `scale` deformaría la imagen). `X` = 656 centra; por clip se elige mirando los fotogramas (el sujeto a la izquierda → X menor). Se anota en la receta.
-- **Alternativa por plano**: recortar más ancho (p. ej. `crop=720:1080`, que escala a 1296×1944 y deja 360 px por desplazar) y usar `EfectoDeEntrada.x` / `pan` del motor (`remotion/src/motor/metraje/corte.ts` §encuadre; la puerta mide que el plano siga cubriendo el cuadro). Solo si un plano lo pide; el recorte fijo es el camino por defecto.
-- **Nitidez**: 1080 px de alto escalados a 2304 (×2,13) y 608 de ancho a 1296: blando frente a Isabella en 4K. Se compensa con planos cortos, el punch-in mínimo (`zoom` cerca de 1) y sin `sharpen` (R22: nada de filtros que inventen detalle). Se le dice al usuario en la prueba.
-- Las tomas de Isabella del 2-sep (HK04, HK05, CT04, CT05) tienen el mismo problema y además la encuadran a ella en 16:9: recortarla al centro la deja entera (está centrada), pero la cara queda a ≈ 300 px de ancho reales. Solo para una pieza entera de ese rodaje y avisando.
+- **NO se recorta.** Los 22 clips del recorrido (y las 4 tomas de Isabella del 2-sep) son verticales guardados anamórficos: 1920×1080 con **SAR 81:256 → DAR 9:16**. En `normalizar.mjs`, la rama SDR de cada `recorrido` es `scale=1296:2304:flags=lanczos,setsar=1` (el 1920 baja a 1296 y el 1080 sube a 2304), sin `crop`. Comprobación: `ffprobe -v error -select_streams v:0 -show_entries stream=sample_aspect_ratio,display_aspect_ratio -of csv=p=0 <clip>` da `81:256,9:16`.
+- (La versión anterior de esta sección mandaba `crop=608:1080:X:0` antes del `scale` y alertaba de que «sin el crop, `scale` deformaría la imagen»: era al revés —el recorte es el que daba un zoom ×3,2 del tercio central— y la sesión 050 lo detectó al ver el recorrido «ampliado».)
+- **Nitidez**: 1080 px de alto escalados a 2304 (×2,13): algo más blando que Isabella en 4K (el ancho, 1920 → 1296, baja). Se compensa con planos cortos, el punch-in mínimo (`zoom` cerca de 1) y sin `sharpen` (R22: nada de filtros que inventen detalle). Se le dice al usuario en la prueba.
+- **Gran angular vertical**: el cuadro entero enseña mucho más que un recorte (gente al fondo de las zonas comunes, objetos de la encimera…): mira cada plano ENTERO a 0,5 s antes de elegir el tramo.
 
 ## 8. Lo que ya se publicó o se editó antes
 

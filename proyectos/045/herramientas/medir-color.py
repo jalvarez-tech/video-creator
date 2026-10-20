@@ -37,7 +37,7 @@ PLANOS = {
     55: "c01 apertura (RC01)",
     220: "c02 hook (HK01)",
     363: "c03 Social Kitchen (RC11)",
-    467: "c04 gimnasio (RC13)",
+    467: "c04 gimnasio (RC14)",
     572: "c05 piscina (RC16)",
     696: "c06 mitad (MD01)",
     816: "c07 alcoba (RC05)",

@@ -2,17 +2,17 @@
 
 > Paso 3 de 3. Del plan (`remotion/src/proyectos/045/metraje-045.ts`) a la tabla, con los números reales. Anterior: [02-layout.md](02-layout.md). Generada con `node proyectos/045/herramientas/volcar-plan.mjs`.
 
-Composición `Recorrido045`, 1080×1920 a 30 fps, **1318 f (43,93 s)**. Los 8 cortes secos caen en un golpe MEDIDO de «Fortitude (Light Version)» (de 8,3 a 15,5 dB) y las 2 disolvencias ACABAN en uno (8,0 y 6,1 dB); se comprueban sobre el audio del render (`golpes-render.py`, ver `combinaciones.md`). Los recorridos son el recorte vertical (608×1080) de un original horizontal 1920×1080; los tiempos de fuente son los del MP4 NORMALIZADO.
+Composición `Recorrido045`, 1080×1920 a 30 fps, **1318 f (43,93 s)**. Los 8 cortes secos caen en un golpe MEDIDO de «Fortitude (Light Version)» (de 8,3 a 15,5 dB) y las 2 disolvencias ACABAN en uno (8,0 y 6,1 dB); se comprueban sobre el audio del render (`golpes-render.py`, ver `combinaciones.md`). Los recorridos son verticales guardados anamórficos (1920×1080, SAR 81:256) escalados sin recorte a 1296×2304; los tiempos de fuente son los del MP4 NORMALIZADO.
 
 ## Los planos
 
 | id | bloque | clip | en | dur (f) | dur (s) | fuente (s) | vel. | golpe en que entra | entra |
 |---|---|---|---|---|---|---|---|---|---|
-| c01-apertura | 1 | rc01.mp4 | 0 | 111 | 3.70 | 3.80–7.50 | ×1 | apertura 11.3 dB (suena en el f3) | corte |
+| c01-apertura | 1 | rc01.mp4 | 0 | 111 | 3.70 | 0.00–3.70 | ×1 | apertura 11.3 dB (suena en el f3) | corte |
 | c02-hook | 2 | hk01.mp4 | 111 | 202 | 6.73 | 0.50–7.23 | ×1 | hook 8 dB | disolver |
-| c03-social-kitchen | 3 | rc11.mp4 | 313 | 101 | 3.37 | 0.90–4.27 | ×1 | paseo 6.1 dB | disolver |
-| c04-gimnasio | 3 | rc13.mp4 | 414 | 107 | 3.57 | 0.00–3.57 | ×1 | gimnasio 8.8 dB | corte |
-| c05-piscina | 3 | rc16.mp4 | 521 | 102 | 3.40 | 3.00–6.40 | ×1 | piscina 8.3 dB | corte |
+| c03-social-kitchen | 3 | rc11.mp4 | 313 | 101 | 3.37 | 0.80–4.17 | ×1 | paseo 6.1 dB | disolver |
+| c04-gimnasio | 3 | rc14.mp4 | 414 | 107 | 3.57 | 0.00–3.57 | ×1 | gimnasio 8.8 dB | corte |
+| c05-piscina | 3 | rc16.mp4 | 521 | 102 | 3.40 | 2.00–5.40 | ×1 | piscina 8.3 dB | corte |
 | c06-mitad | 4 | md01.mp4 | 623 | 146 | 4.87 | 0.30–5.17 | ×1 | mitad 8.3 dB | corte |
 | c07-alcoba | 5 | rc05.mp4 | 769 | 94 | 3.13 | 0.30–3.43 | ×1 | alcoba 13.5 dB | corte |
 | c08-bano | 5 | rc09.mp4 | 863 | 82 | 2.73 | 2.30–5.03 | ×1 | bano 10.5 dB | corte |
