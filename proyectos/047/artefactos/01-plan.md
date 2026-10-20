@@ -104,5 +104,6 @@ El reparto fija RC20 en el bloque 1 y, **solo si «la hora azul choca con el pas
 | Planos | 11 | 5 | **11** |
 | Jacuzzi privado | pequeño y lejano | no sale | **bien visible** (RC03, 3,2-6,5 s: la caja de madera con el escalón al fondo del balcón) |
 | Música | curva (−16 → −14 LUFS) | lecho a −26 | **curva** (la de la rev. 0: calma, escalones, meseta en el apartamento, caída en el CTA) |
+| Portada | una toma de Isabella (excepción) | idem (escaleras, ella pequeña) | **solo la propiedad**: el balcón con el jacuzzi (36,3 s) |
 
 El resto (las cuatro tomas de Isabella, sus tiempos, los subtítulos, el color de sus planos, la música, la tarjeta del cierre, la cifra única `$14.800.000`) es el de la rev. 0. Lo que sigue siendo un riesgo: la blandura del recorrido (608×1080 efectivos ×2,13) y que seis piezas comparten RC16, RC11, RC05 y RC09 (la puerta 7b lo dice).
