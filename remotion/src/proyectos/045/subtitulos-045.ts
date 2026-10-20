@@ -28,6 +28,8 @@
  *   · «todo ordenado» (MD01, «todo» hacia el f673 = 22,4 s): la «t» sale tras 180 ms de silencio (1,80-1,98 s) y whisper oye «rastor de nada» / «de nada» desde 1,68 y 2,34 s; el catálogo dice «todo ordenado». Confianza de «todo»: 0,30.
  *   · «toda tu estancia» (CT01, «tu» hacia el f1189 = 39,6 s): whisper oye «toda la testancia», «toda esta ancha», «a tu distancia» y «de esta ansia» según desde dónde corte; el catálogo dice «durante toda tu estancia». Confianza de «tu»: 0,43.
  *   · «contáctanos.» (CT01, f1211 = 40,4 s): la última sílaba («-nos») se alarga hasta 4,52 s y whisper la oye «contactanos», «contactanus», «contactan» y confianza 0,38. El catálogo dice «contáctanos»: se pinta eso.
+ *     MEDIDO con `formantes.py` (2026-10-19): la cola de 4,30-4,52 s tiene una vocal abierta fronteada (F1 ≈ 720, F2 ≈ 1.860), una nasal, otra vocal (F1 ≈ 690, F2 ≈ 1.720), una nasal y una [e]; no hay una [o] limpia (F2 ≈ 900) de «-nos». Sin cerrar.
+ *   · Medidas del resto (formantes): «tu» de «toda tu estancia» = [u] (F2 ≈ 640-750), no «la»; la primera vocal de «todo» = [o] (F2 ≈ 740-1.500), no la [e] de «de nada»; «aseo», sin concluir (un cierre de 6,015-6,03 s que es la /s/ de «semanal» o la /d/ de «asedio»).
  */
 
 import { segmentosDe } from "../../motor/subtitulos-editoriales";
