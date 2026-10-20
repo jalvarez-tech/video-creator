@@ -1,8 +1,8 @@
 {
   "video": "/private/tmp/remotion-047/limpio/047-limpio.mp4",
-  "t": 16.6,
+  "t": 36.3,
   "locacion": "EL POBLADO",
   "negocio": "renta",
-  "fecha": "2026-10-19",
-  "nota": "El fotograma sale del render SIN subtítulos (`npx remotion render … Recorrido047 --props={\"sinSubtitulos\":true}`, el `047-limpio.mp4` temporal de la versión con ficha, ya borrado): en el vídeo final los subtítulos están quemados. Para repetirla hay que volver a renderizarlo y pasar `--video`. Excepción declarada de portada-luxur §3: no hay fotograma de solo la propiedad (la pieza son las tomas de Isabella): se eligió el de las escaleras con la fachada del edificio y ella pequeña, el más nítido del tramo (16,0-17,2 s)."
+  "fecha": "2026-10-20",
+  "nota": "Rev. 2. El fotograma sale del render SIN subtítulos (`npx remotion render … Recorrido047 --props={\"sinSubtitulos\":true}`, el `047-limpio.mp4` temporal de la versión con ficha, ya borrado): en el vídeo final los subtítulos están quemados, así que `portada --proyecto 047` a secas leería la final con texto; para repetirla hay que volver a renderizarlo y pasar `--video`. Es un fotograma de SOLO la propiedad (cumple portada-luxur §3): el balcón del clímax (RC03) con el jacuzzi privado al fondo, a los 36,3 s. La portada de la rev. 1 (una toma de Isabella en las escaleras, excepción declarada) está en `portada-rev1.json`."
 }
