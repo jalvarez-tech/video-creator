@@ -19,7 +19,7 @@ Composición `Recorrido049` (`remotion/src/proyectos/049/`), 1080×1920 a 30 fps
 
 - **Subtítulos:** abajo (borde superior ≈ 74,5 %, nunca por debajo del 88 %). Arriba **no hay nada** en ningún frame.
 - **Isabella:** de cuerpo entero en las tres tomas (camina hacia cámara en las escaleras y el gimnasio; apoyada en la baranda junto al jacuzzi); el texto cae por debajo de su cintura o a la altura de las piernas, nunca sobre la cara.
-- **Recorridos:** 16:9 recortados a 608×1080 y escalados a 1296×2304 (×2,13): más blandos que Isabella en 4K. Sin zoom (un punch-in los ablandaría más). No llevan texto.
+- **Recorridos:** 1920×1080 ANAMÓRFICOS (DAR 9:16) escalados enteros a 1296×2304, sin recorte: algo más blandos que Isabella en 4K (×2,13 en vertical). Sin zoom (un punch-in los ablandaría más). No llevan texto.
 - **Versión con ficha (anuncios, 1:1):** el vídeo SIN subtítulos y, durante todo el vídeo, la ficha en el tercio bajo del cuadrado 1:1 (`APARTAMENTO EN RENTA · El Poblado · Tierra Grata · $ 14,8 M COP / MES`), hasta la tarjeta oscura.
 - **Cierre:** tarjeta negra lisa; logo y web centrados, un poco por encima del centro.
 

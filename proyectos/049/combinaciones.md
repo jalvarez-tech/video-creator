@@ -17,12 +17,12 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 
 | Pieza | Lo elegido | Por qué (ver `artefactos/01-plan.md`) |
 |---|---|---|
-| Apertura | RC04 `Img 9469` 1,00-3,37 s (X=656) | asignada: la sala (sofá gris, listones con luz, la mesa con el sol); sin la vista. **Exclusiva de la V31** |
+| Apertura | RC04 `Img 9469` 1,00-3,37 s | asignada: la sala (sofá gris, listones con luz, la mesa con el sol); sin la vista. **Exclusiva de la V31** |
 | Hook | HK03 `IMG_4304` (voz 0,58-5,62 s) | asignada: escaleras exteriores, «cuando llegas a una ciudad que no es la tuya…». **Repetida de la V28** (declarado) |
 | Unidad | RC17 1,00-4,10 · RC12 3,20-6,70 · RC14 0,30-3,40 · RC13 0,20-3,87 | la piscina, la Social Kitchen y el gimnasio ×2: la unidad pesa más en esta pieza; todo gira a la derecha. Tramos elegidos por no coincidir con lo que más usan las hermanas |
 | Mitad | MD05 `IMG_4297` (voz 0,60-3,55 s) | asignada: empieza por «Además»; va tras el recorrido de la unidad. **Repetida de la V29** (declarado) |
 | Apartamento | **RC01 1,20-4,70** · RC08 1,70-5,03 · RC09 5,20-7,97 | **las tres PEDIDAS POR EL USUARIO tras ver la prueba rev. 0** («incluye tomas: Img 9484, Img 9481, Img 9461»): la cocina con isla (RC01, que el reparto reservaba como apertura de la V27), la alcoba con la puerta del baño y el último tramo del baño. Es el orden en que se camina |
-| Clímax | RC19 `Img 9529` 0,30-4,50 s (X=450) | asignado: el deck con el jacuzzi **comunal** (no el privado: ese no sale en ningún clip). **Exclusivo de la V31** |
+| Clímax | RC19 `Img 9529` 0,30-4,50 s | asignado: el deck con el jacuzzi **comunal** (no el privado: ese no sale en ningún clip). **Exclusivo de la V31** |
 | CTA | CT01 `IMG_4277` ENTERA (voz 0,60-4,53 s) | asignada: junto al jacuzzi comunal. **Repetida de la V27** (declarado) |
 | Canción | *In This Together* (`bd507fe6`) | la reservada. Medida: muy fuerte (≈ −10 LUFS), sin pulso, golpes de 7,5-12,7 dB en su segunda mitad y caída natural bajo el CTA |
 | Entrada de la canción | 161,6 s (`INICIO_MUSICA` = 4848/30) | golpe de 11,2 dB en el f3 |
@@ -33,9 +33,10 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 ## Revisiones
 
 - **rev. 0** (2026-10-19): bloque 5 = alcoba (RC06) → puerta del baño (RC08) → baño (RC09) → clímax.
+- **rev. 2** (2026-10-19, aviso de la sesión de la V32): los recorridos son ANAMÓRFICOS (SAR 81:256, DAR 9:16) y se habían recortado a 608×1080 (un zoom ×3,2 del tercio central). `normalizar.mjs` ya no recorta: escala el cuadro entero a 1296×2304 con `setsar=1`. Mismos tramos y misma rejilla; se rehízo el color de cada plano de recorrido (la luz de los cuadros enteros era otra).
 - **rev. 1** (2026-10-19, pedido del usuario: «incluye tomas: Img 9484, Img 9481, Img 9461»): el bloque 5 pasa a RC01 (cocina con isla) → RC08 → RC09 → RC19; RC06 sale. Misma rejilla de golpes, misma duración (1401 f): solo cambia el primer plano del apartamento y el nombre de las claves `cocina`/`alcoba` de `GOLPE`.
 
-## Lo medido en la prueba (rev. 0; el audio es idéntico en la rev. 1)
+## Lo medido en la prueba (rev. 0; el audio es idéntico en las rev. 1 y 2)
 
 | Qué | Medida |
 |---|---|
@@ -44,7 +45,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 | Música sola | −15,1 (apertura) · −15,0 (paseo) · −15,0 (bloque 5) LUFS |
 | Pieza | −15,0 LUFS integrado, pico −4,3 dBFS, LRA 1,6 LU: sin saturar |
 | Subtítulos | 8 bloques, 4 acentos, validador sin avisos; 14 líneas contra el render (`subs-vs-voz.py`): mediana +2,2 f, rango −2,6…+3,7 f antes de ajustar dos líneas (f107→102 y f1252→1251) |
-| Color (`luma.py`, 3 fotogramas por plano) | luma 83-96 apertura · 98-104 hook · 90-95 piscina · 108-125 Social Kitchen · 70-90 gimnasio · 99-113 mitad · 117-141 alcoba · 109-147 puerta/baño · 96-118 vista · 104-112 CTA. **Los interiores del apartamento (alcoba y baño, de ropa blanca y encimeras claras) quedan ≈ 30 niveles por encima del resto con la exposición ya en su tope (−0,4)**; sin píxeles quemados (≤ 1,1 %) |
+| Color (`luma.py`, 3 fotogramas por plano; **rev. 2, cuadros enteros**) | luma 104-112 apertura · 100 piscina · 111-117 Social Kitchen · 93-106 gimnasio ×2 · 108-111 cocina · 112-114 alcoba · 105-110 baño · 109-114 vista (y 98-110 las tomas de Isabella, de la rev. 0); sin píxeles quemados |
 | Cierre | tarjeta de 2,0 s con el logo y la web; negro exacto en el f1340 (la puerta) |
 
 ## Cómo cambiar cada pieza
