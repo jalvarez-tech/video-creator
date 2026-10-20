@@ -15,7 +15,7 @@
  * (`{…}` del guion marcado). Va en el bloque 4 (la mitad): no hay ninguna cifra en los bloques 5 y 6.
  *
  * POR CONFIRMAR AL OÍDO (la puerta con `--final` falla por esto; ver `01-plan.md`): «aseo» (HK02, f166 = 5,5 s de la pieza) e «incluyéndote» (f137 = 4,6 s) · «catorce millones ochocientos» (¿«de»? MD04, f453 = 15,1 s)
- * · «amoblado» (CT02, ≈ f893 = 29,8 s). Los textos de la pantalla son lo que dice el catálogo; el oído decide.
+ * · «amoblado» (CT02, ≈ f885 = 29,5 s). Los textos de la pantalla son lo que dice el catálogo; el oído decide.
  *
  * NO HAY `portada` NI `cuenta` (reglas fijas del canal, `SKILL.md` §0): el cierre lleva el LOGO, que es una imagen (`LogoCierre` en `Recorrido050.tsx`) y no un bloque de texto: nada de `@propiedadesluxur` en pantalla.
  * Esta pieza ABRE CON EL HOOK (excepción por encargo): su primer texto entra en el f4, con su primera palabra.

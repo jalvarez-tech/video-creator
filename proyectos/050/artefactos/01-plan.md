@@ -106,5 +106,5 @@ Arco: **promesa → precio → invitación**. Leído en voz alta: «El tiempo es
 ## Pendiente con el usuario
 
 1. El OK a la prueba (`pruebas-720p/050-recorrido.mp4`, 540×960) y a lo declarado: **abre con el hook** (excepción), **el recorrido es horizontal recortado y más blando**, **el hook, la mitad y el CTA se repiten en otras piezas**, **el clímax es el balcón con las camas (el jacuzzi privado es de la V27)**.
-2. **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto): «aseo» (HK02, f166 = 5,5 s) y «incluyéndote» (f137 = 4,6 s) · «catorce millones **(de)** ochocientos» (MD04, f453 = 15,1 s) · «amoblado» (CT02, ≈ f893 = 29,8 s).
+2. **Oír** (POR CONFIRMAR AL OÍDO; la puerta con `--final` falla solo por esto): «aseo» (HK02, f166 = 5,5 s) y «incluyéndote» (f137 = 4,6 s) · «catorce millones **(de)** ochocientos» (MD04, f453 = 15,1 s) · «amoblado» (CT02, ≈ f885 = 29,5 s).
 3. La canción (medida, no oída; plana; licencia sin verificar).
