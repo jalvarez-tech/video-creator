@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+/**
+ * volcar-plan.mjs — el plan de planos del 051 como tabla Markdown (para `artefactos/03-timeline.md`): uno por fila, con su frame, su duración, el tramo de
+ * fuente que usa, la velocidad, el golpe en que entra y su color. Uso: node proyectos/051/herramientas/volcar-plan.mjs
+ */
+import { join } from "node:path";
+import { cargaTs, RAIZ } from "../../../remotion/src/motor/metraje/revisar-metraje.mjs";
+
+const m = await cargaTs({ plan: join(RAIZ, "remotion/src/proyectos/051/metraje-051.ts") });
+const M = m.plan;
+const fps = 30;
+const cortes = M.metraje051;
+const golpes = Object.entries(M.GOLPE);
+const golpeDe = (en) => {
+  for (const [k, g] of golpes) if (Math.abs(en - M.golpeExacto(g.t)) <= 1) return `${k} ${g.db} dB`;
+  return "";
+};
+console.log("| id | bloque | clip | en | dur (f) | dur (s) | fuente (s) | vel. | golpe en que entra | entra |");
+console.log("|---|---|---|---|---|---|---|---|---|---|");
+for (const c of cortes) {
+  const v = c.velocidad ?? 1;
+  const d0 = c.desde ?? 0;
+  const fuente = c.tipo === "foto" ? "—" : `${d0.toFixed(2)}–${(d0 + (c.dur * v) / fps).toFixed(2)}`;
+  console.log(`| ${c.id} | ${c.bloque} | ${c.src.replace("recorrido-051/", "")} | ${c.en} | ${c.dur} | ${(c.dur / fps).toFixed(2)} | ${fuente} | ×${v} | ${golpeDe(c.en)} | ${c.entra ?? "corte"} |`);
+}
+console.log(`\n${cortes.length} cortes · ${M.DURACION_051} f (${(M.DURACION_051 / fps).toFixed(2)} s)`);
