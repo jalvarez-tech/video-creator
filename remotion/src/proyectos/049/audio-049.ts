@@ -111,7 +111,7 @@ const envolvente = (): [number, number][] => {
   const mitadPlano = metraje049.find((c) => c.id === "c07-mitad");
   const ctaPlano = metraje049.find((c) => c.id === "c12-cta");
   const siguienteAlHook = metraje049.find((c) => c.id === "c03-piscina");
-  const siguienteALaMitad = metraje049.find((c) => c.id === "c08-alcoba");
+  const siguienteALaMitad = metraje049.find((c) => c.id === "c08-cocina");
   if (!hookPlano || !mitadPlano || !ctaPlano || !siguienteAlHook || !siguienteALaMitad) throw new Error("audio-049: faltan planos en metraje-049.ts");
 
   const p: [number, number][] = [

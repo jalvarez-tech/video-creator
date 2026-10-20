@@ -13,10 +13,10 @@ Composición `Recorrido049`, 1080×1920 a 30 fps, **1401 f (46,70 s)**. TODOS lo
 | c03-piscina | 3 | rc17.mp4 | 251 | 93 | 3.10 | 1.00–4.10 | ×1 | piscina 8.1 dB | corte |
 | c04-social-kitchen | 3 | rc12.mp4 | 344 | 105 | 3.50 | 3.20–6.70 | ×1 | social 7.5 dB | corte |
 | c05-gimnasio | 3 | rc14.mp4 | 449 | 93 | 3.10 | 0.30–3.40 | ×1 | gimnasio 7.5 dB | corte |
-| c06-gimnasio-2 | 3 | rc13.mp4 | 542 | 110 | 3.67 | 2.20–5.87 | ×1 | vidrio 8.8 dB | corte |
+| c06-gimnasio-2 | 3 | rc13.mp4 | 542 | 110 | 3.67 | 0.20–3.87 | ×1 | vidrio 8.8 dB | corte |
 | c07-mitad | 4 | md05.mp4 | 652 | 126 | 4.20 | 0.17–4.37 | ×1 | mitad 9.5 dB | corte |
-| c08-alcoba | 5 | rc06.mp4 | 778 | 105 | 3.50 | 0.10–3.60 | ×1 | alcoba 7.7 dB | corte |
-| c09-puerta-bano | 5 | rc08.mp4 | 883 | 100 | 3.33 | 1.70–5.03 | ×1 | puerta 12.7 dB | corte |
+| c08-cocina | 5 | rc01.mp4 | 778 | 105 | 3.50 | 1.20–4.70 | ×1 | cocina 7.7 dB | corte |
+| c09-alcoba | 5 | rc08.mp4 | 883 | 100 | 3.33 | 1.70–5.03 | ×1 | alcoba 12.7 dB | corte |
 | c10-bano | 5 | rc09.mp4 | 983 | 83 | 2.77 | 5.20–7.97 | ×1 | bano 8.5 dB | corte |
 | c11-vista | 5 | rc19.mp4 | 1066 | 126 | 4.20 | 0.30–4.50 | ×1 | vista 9.3 dB | corte |
 | c12-cta | 6 | ct01.mp4 | 1192 | 149 | 4.97 | 0.20–5.17 | ×1 | cta 8.9 dB | corte |
@@ -35,9 +35,9 @@ Composición `Recorrido049`, 1080×1920 a 30 fps, **1401 f (46,70 s)**. TODOS lo
 | c05-gimnasio | el gimnasio, pared de rayas (UNIDAD) | revelar: el equipo | 176,505 · 7,5 dB |
 | c06-gimnasio-2 | el gimnasio, desde la entrada (UNIDAD) | revelar: las máquinas y el rótulo «GIMNASIO»; el sitio donde habla Isabella en el plano siguiente | 179,605 · 8,8 dB |
 | c07-mitad | el gimnasio, tras el vidrio | decirlo: «además, esta unidad cuenta con diferentes tipos de amenidades» | 183,294 · 9,5 dB |
-| c08-alcoba | la alcoba principal (APARTAMENTO) | cómo se vive: del bullicio de la unidad al descanso | 187,476 · 7,7 dB |
-| c09-puerta-bano | la puerta del baño (APARTAMENTO) | llevar a otro espacio: la puerta de vidrio esmerilado con luz | 190,983 · 12,7 dB |
-| c10-bano | el baño principal (APARTAMENTO) | cómo se vive: el cuidado, la calma antes de salir | 194,305 · 8,5 dB |
+| c08-cocina | la cocina con isla (APARTAMENTO) | situar: la entrada al apartamento, el mármol, los taburetes y el ventanal con el jardín (pedida por el usuario) | 187,476 · 7,7 dB |
+| c09-alcoba | la alcoba principal y la puerta del baño (APARTAMENTO) | cómo se vive / llevar a otro espacio: la cama hecha y la puerta de vidrio esmerilado con luz (pedida por el usuario) | 190,983 · 12,7 dB |
+| c10-bano | el baño principal (APARTAMENTO) | cómo se vive: el cuidado, la calma antes de salir (pedida por el usuario) | 194,305 · 8,5 dB |
 | c11-vista | el deck con el jacuzzi comunal (TERRAZA de la unidad) | el clímax: la madera, el agua redonda, la baranda y la pérgola bajo el cielo de la tarde | 197,082 · 9,3 dB |
 | c12-cta | junto al jacuzzi comunal | la invitación: «si quieres un acompañamiento personalizado… contáctanos» | 201,283 · 8,9 dB (donde la canción empieza a caer) |
 | c13-cierre | tarjeta oscura | logo y web; la música se apaga | — |

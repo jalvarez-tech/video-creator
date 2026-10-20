@@ -15,7 +15,7 @@
  *   2c. el CIERRE (`cierre-049.ts`): nada se congela, tarjeta oscura con el logo (440 px, 60 %) y la web.
  *   2d. el COLOR de cada plano (R32): los topes del canal.
  *   2e. el CTA: CT01, una sola acción («si quieres un acompañamiento personalizado durante toda tu estancia, contáctanos»), sin precio ni cifra.
- *   2f. el RITMO y los ACENTOS: el bloque 3 son cuatro planos de 2-3,7 s a velocidad normal; el bloque 5 abre con la alcoba y acaba con el jacuzzi; los acentos son la tuya · indispensable · amenidades · contáctanos.
+ *   2f. el RITMO y los ACENTOS: el bloque 3 son cuatro planos de 2-3,7 s a velocidad normal; el bloque 5 es cocina → alcoba → baño y acaba con el jacuzzi; los acentos son la tuya · indispensable · amenidades · contáctanos.
  *   3. la VOZ de las tres tomas: su WAV tratado a −15 LUFS en su frase, pico real ≤ −1 dBTP, silencio fuera de ella, ninguna palabra en un fundido.
  *   4. el AUDIO entero (`revisaAudio`) y la MÚSICA: golpe en el frame 0-4, cada corte seco en un golpe medido de ≥ 7,4 dB (el mínimo del canal), baja antes de la primera palabra, sube en los recorridos y se apaga bajo la tarjeta.
  *   5. los SUBTÍTULOS: su validador sin un aviso, con las letras del canal; cada trozo dentro de una ventana de voz.
@@ -385,13 +385,15 @@ seccion("2f. el ritmo (bloque 3: cuatro planos de 2-3,7 s a velocidad normal), e
   for (const c of cortes) if ((c.velocidad ?? 1) !== 1) mal(`${c.id}: velocidad ${c.velocidad}; esta pieza va a velocidad normal`);
   // El bloque 5 es el apartamento (la alcoba, la puerta del baño, el baño) y acaba en EL CLÍMAX (RC19, el deck con el jacuzzi comunal), el plano más largo de la pieza que no es una toma de Isabella.
   const b5 = cortes.filter((c) => c.bloque === 5);
-  if (b5.length !== 4) mal(`el bloque 5 tiene ${b5.length} planos; esta pieza lleva cuatro (la alcoba, la puerta del baño, el baño y el deck)`);
+  if (b5.length !== 4) mal(`el bloque 5 tiene ${b5.length} planos; esta pieza lleva cuatro (la cocina, la alcoba, el baño y el deck)`);
   else {
-    if (!/rc06\.mp4$/.test(b5[0].src)) mal(`${b5[0].id}: el bloque 5 abre con la alcoba principal (RC06)`);
+    if (!/rc01\.mp4$/.test(b5[0].src)) mal(`${b5[0].id}: el bloque 5 abre con la cocina con isla (RC01, pedida por el usuario)`);
+    if (!/rc08\.mp4$/.test(b5[1].src) || !/rc09\.mp4$/.test(b5[2].src)) mal(`el bloque 5 sigue la cocina (RC01) con la alcoba (RC08) y el baño (RC09), las tres pedidas por el usuario`);
     if (!/rc19\.mp4$/.test(b5.at(-1).src)) mal(`${b5.at(-1).id}: el clímax de esta pieza es RC19 (el deck con el jacuzzi comunal), exclusivo de la V31`);
   }
   // Ninguno de los planos reservados a otras piezas (apertura o clímax de las demás: reparto de `proyectos/044/reparto-045-050.md` §2).
-  const PROHIBIDOS = ["rc01", "rc20", "rc02", "rc03", "rc10", "rc18", "rc21"];
+  // (RC01 estaba aquí —apertura de la V27— y el usuario la pidió para esta pieza tras ver la prueba: ya no es un plano prohibido, se declara.)
+  const PROHIBIDOS = ["rc20", "rc02", "rc03", "rc10", "rc18", "rc21"];
   for (const c of cortes) if (c.tipo !== "foto" && PROHIBIDOS.some((p) => new RegExp(`${p}\\.mp4$`).test(c.src))) mal(`${c.id}: usa ${c.src}, que es la apertura o el clímax de otra pieza (reparto 045-050)`);
   // Los acentos (decisión de esta pieza, en `subtitulos-049.ts`).
   const acentos = bloques.flatMap((b) => b.trozos.filter((t) => t.estilo === "acento").map((t) => t.texto.toLowerCase()));
@@ -486,8 +488,8 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     "c05-gimnasio": "gimnasio",
     "c06-gimnasio-2": "vidrio",
     "c07-mitad": "mitad",
-    "c08-alcoba": "alcoba",
-    "c09-puerta-bano": "puerta",
+    "c08-cocina": "cocina",
+    "c09-alcoba": "alcoba",
     "c10-bano": "bano",
     "c11-vista": "vista",
     "c12-cta": "cta",

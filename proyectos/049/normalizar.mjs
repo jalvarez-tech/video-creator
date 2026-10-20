@@ -69,7 +69,7 @@ const MATERIAL = [
   ["toma", "CT01.mov", "ct01", "cc19421e", "5 Cta/IMG_4277.MOV"],
   // Recorridos (31-ago / 2-sep, 1920×1080 HORIZONTAL SDR, sin Isabella). La sexta columna es la X del recorte `crop=608:1080:X:0` (656 centra); el plan dice qué tramo entra.
   ["recorrido", "RC04.mp4", "rc04", "c6cd691d", "4 Recorrido/Img 9469.mp4", 656], // APTO: la sala (APERTURA de esta pieza)
-  ["recorrido", "RC06.mp4", "rc06", "556bee38", "4 Recorrido/Img 9479.mp4", 656], // APTO: alcoba principal, otro lado
+  ["recorrido", "RC01.mp4", "rc01", "9f23d5be", "4 Recorrido/Img 9461.mp4", 900], // APTO: de la isla de la cocina y el comedor hacia la sala (pedida por el usuario; es la apertura de la V27)
   ["recorrido", "RC08.mp4", "rc08", "34119359", "4 Recorrido/Img 9481.mp4", 656], // APTO: alcoba principal → el televisor
   ["recorrido", "RC09.mp4", "rc09", "8b1031a3", "4 Recorrido/Img 9484.mp4", 656], // APTO: baño principal
   ["recorrido", "RC12.mp4", "rc12", "7bc5ad03", "4 Recorrido/Img 9514.mp4", 656], // UNIDAD: Social Kitchen, otro lado

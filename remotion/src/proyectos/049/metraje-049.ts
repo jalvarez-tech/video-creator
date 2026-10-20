@@ -17,7 +17,7 @@
  *   bloque 2  c02                  Isabella en las escaleras exteriores, el edificio detrás: el hook (entra a corte en un golpe)
  *   bloque 3  c03 c04 c05 c06      el paseo por la UNIDAD, de fuera adentro: el carril de nado (RC17) → la Social Kitchen (RC12) → el gimnasio (RC14 y RC13)
  *   bloque 4  c07                  Isabella en el gimnasio, tras el vidrio: la mitad (a corte en un golpe)
- *   bloque 5  c08 c09 c10 c11      el APARTAMENTO: la alcoba principal (RC06) → la puerta iluminada del baño (RC08) → el baño (RC09) → EL CLÍMAX, el deck con el jacuzzi comunal bajo el cielo cubierto (RC19, 4,2 s: el más largo)
+ *   bloque 5  c08 c09 c10 c11      el APARTAMENTO, en el orden en que se camina: la cocina con isla (RC01) → la alcoba y la puerta iluminada del baño (RC08) → el baño (RC09) → EL CLÍMAX, el deck con el jacuzzi comunal bajo el cielo cubierto (RC19, 4,2 s: el más largo)
  *   bloque 6  c12 c13              Isabella junto al jacuzzi comunal: el CTA; y la tarjeta oscura del cierre (nada se congela)
  *
  * QUIÉN MARCA EL TIEMPO: LA MÚSICA, POR GOLPES MEDIDOS. «In This Together» (cinematic / ambient, `catalogo-musica.md`) NO tiene pulso fijo: la rejilla son los golpes medidos del tramo 161,6-209 s
@@ -95,10 +95,10 @@ export const GOLPE = {
   vidrio: { t: 179.605, db: 8.8 },
   /** Isabella entra A CORTE con la mitad; su primera sílaba suena 13 f después. */
   mitad: { t: 183.294, db: 9.5 },
-  /** El apartamento: la alcoba principal. */
-  alcoba: { t: 187.476, db: 7.7 },
-  /** La puerta del baño. */
-  puerta: { t: 190.983, db: 12.7 },
+  /** El apartamento: de la isla de la cocina a la sala. */
+  cocina: { t: 187.476, db: 7.7 },
+  /** La alcoba principal, con la luz de la puerta del baño. */
+  alcoba: { t: 190.983, db: 12.7 },
   /** El baño. */
   bano: { t: 194.305, db: 8.5 },
   /** LA VISTA (el clímax): el deck con el jacuzzi comunal, el plano más largo del bloque 5. */
@@ -167,8 +167,8 @@ const P = {
   gimnasio: golpe(GOLPE.gimnasio), //   449
   vidrio: golpe(GOLPE.vidrio), // 542
   mitad: golpe(GOLPE.mitad), //       652 · Isabella entra a corte con la mitad
-  alcoba: golpe(GOLPE.alcoba), //     778 · el apartamento
-  puerta: golpe(GOLPE.puerta), //     883
+  cocina: golpe(GOLPE.cocina), //     778 · el apartamento
+  alcoba: golpe(GOLPE.alcoba), //     883 · la alcoba
   bano: golpe(GOLPE.bano), //         983
   vista: golpe(GOLPE.vista), //       1066 · el clímax, 126 f
   cta: golpe(GOLPE.cta), //           1192 · Isabella entra a corte con el CTA, donde cae la canción
@@ -314,7 +314,7 @@ export const metraje049: readonly Corte[] = [
     // Isabella en el gimnasio, tras el vidrio.
     desde: fr(5),
     en: P.mitad,
-    dur: P.alcoba - P.mitad,
+    dur: P.cocina - P.mitad,
     zoom: EMPUJE,
     entra: "corte",
     color: color({ contrast: 1.06, saturation: 1.04 }),
@@ -323,43 +323,44 @@ export const metraje049: readonly Corte[] = [
   },
   // ── Bloque 5 · el apartamento y el clímax ──
   {
-    id: "c08-alcoba",
+    id: "c08-cocina",
     bloque: 5,
     tipo: "video",
-    src: v("rc06"),
-    // RC06 (`Img 9479`, X=656), del 0,10 al 3,60 s: la alcoba principal vista desde la cabecera, los cojines negros y beige sobre la cama hecha, la lámpara colgante y la ventana: la cámara gira a la derecha. Del bullicio
-    // de la unidad al descanso del apartamento. (RC05, que abre con los mismos cojines, lo usan las otras cuatro piezas: aquí otro ángulo.)
-    desde: 0.1,
-    en: P.alcoba,
-    dur: P.puerta - P.alcoba,
+    src: v("rc01"),
+    // RC01 (`Img 9461`, recortada en X=900 para que entren la isla y los taburetes), del 1,20 al 4,70 s: la isla de la cocina de mármol claro, los taburetes negros y el ventanal alargado con el jardín, con la cámara
+    // girando a la derecha hacia la sala. PEDIDA POR EL USUARIO tras ver la prueba («incluye tomas: Img 9484, Img 9481, Img 9461»): es la APERTURA de la V27 (045) en el reparto original; aquí no abre nada y se ve solo
+    // la cocina (el final del clip, 8-12 s, enseña el ventanal con la vista entera: se deja fuera, esa vista es del clímax). Se declara en el plan y en la entrega.
+    desde: 1.2,
+    en: P.cocina,
+    dur: P.alcoba - P.cocina,
     zoom: QUIETO,
     entra: "corte",
-    color: color({ exposure: -0.4, highlights: -0.4, whites: -0.25 }),
+    color: color({ exposure: -0.2, highlights: -0.3 }),
     reason:
-      "La alcoba principal (el apartamento, el descanso): la cama hecha, los cojines y la lámpara: de las amenidades compartidas a lo que es solo de quien arrienda.",
+      "La cocina con isla (el apartamento, la entrada): el mármol claro, los taburetes y el ventanal con el jardín, girando hacia la sala: de la unidad compartida a lo que es solo de quien arrienda.",
   },
   {
-    id: "c09-puerta-bano",
+    id: "c09-alcoba",
     bloque: 5,
     tipo: "video",
     src: v("rc08"),
-    // RC08 (`Img 9481`, X=656), del 1,70 al 5,03 s: la cama de lado, la luz verde de la puerta de vidrio esmerilado del baño, las puertas de madera y el televisor: la cámara gira a la derecha y pasa por la puerta del baño
-    // (el clip dura 5,1 s: el plano llega casi al último fotograma). La puerta que se enseña → el plano siguiente empieza dentro.
+    // RC08 (`Img 9481`, X=656), del 1,70 al 5,03 s: la alcoba principal de lado, la cama hecha, la luz verde de la puerta de vidrio esmerilado del baño, las puertas de madera y el televisor: la cámara gira a la derecha y pasa por
+    // la puerta del baño (el clip dura 5,1 s: el plano llega casi al último fotograma). PEDIDA POR EL USUARIO («Img 9481»). Hacia los 29,4-30,4 s del vídeo se ve un adorno oscuro en la pared (parece un crucifijo pequeño).
     desde: 1.7,
-    en: P.puerta,
-    dur: P.bano - P.puerta,
+    en: P.alcoba,
+    dur: P.bano - P.alcoba,
     zoom: QUIETO,
     entra: "corte",
     color: color({ exposure: -0.3, highlights: -0.3 }),
     reason:
-      "La puerta del baño (el apartamento): la cámara pasa por la puerta de vidrio esmerilado con la luz del baño detrás: lleva al plano siguiente, que empieza dentro.",
+      "La alcoba principal (el apartamento, el descanso): la cama hecha y, al girar, la puerta de vidrio esmerilado del baño con su luz detrás: lleva al plano siguiente, que empieza dentro.",
   },
   {
     id: "c10-bano",
     bloque: 5,
     tipo: "video",
     src: v("rc09"),
-    // RC09 (`Img 9484`, X=656), del 5,20 al 7,97 s: el baño principal, el lavamanos sobre la encimera, el espejo y la mampara de vidrio: la cámara gira a la derecha. Es el último tramo del clip: las demás piezas usan el
+    // RC09 (`Img 9484`, X=656; PEDIDA POR EL USUARIO), del 5,20 al 7,97 s: el baño principal, el lavamanos sobre la encimera, el espejo y la mampara de vidrio: la cámara gira a la derecha. Es el último tramo del clip: las demás piezas usan el
     // medio. Más corto que la vista (2,8 s frente a 4,2).
     desde: 5.2,
     en: P.bano,

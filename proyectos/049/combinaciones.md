@@ -10,7 +10,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 | V28 | 046 | sesión hermana | 2026-10-19 | «Ciudad nueva»: hook · HK03 · MD02+MD03 · CT02 · RC18 · *Children (Piano)* |
 | V29 | 047 | sesión hermana | 2026-10-19 | «Lo que incluye»: RC20 · HK02 · MD04+MD05 · CT03 · RC03 · *Dreamlife* |
 | V30 | 048 | sesión hermana | 2026-10-19 | «Chef y experiencias»: hook · HK01 · MD03 · CT03 · RC10 · *Einaudi Fly* |
-| **V31** | **049** | **en prueba** (la final espera el OK del usuario y oír 5 palabras) | 2026-10-19 | **«Amenidades»**: RC04 · **HK03** · RC17 · RC12 · RC14 · RC13 · **MD05** · RC06 · RC08 · RC09 · **RC19 (clímax)** · **CT01** · *In This Together* · 1401 f · 46,7 s · sin dron ni cifras |
+| **V31** | **049** | **en prueba** (la final espera el OK del usuario y oír 5 palabras) | 2026-10-19 | **«Amenidades»**: RC04 · **HK03** · RC17 · RC12 · RC14 · RC13 · **MD05** · **RC01** · RC08 · RC09 · **RC19 (clímax)** · **CT01** · *In This Together* · 1401 f · 46,7 s · sin dron ni cifras |
 | V32 | 050 | sesión hermana | 2026-10-19 | «14,8»: hook · HK02 · MD04 · CT02 · RC02 final · *Spring is Coming* |
 
 ## Lo que lleva (rev. 0 = la prueba del 2026-10-19)
@@ -21,7 +21,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 | Hook | HK03 `IMG_4304` (voz 0,58-5,62 s) | asignada: escaleras exteriores, «cuando llegas a una ciudad que no es la tuya…». **Repetida de la V28** (declarado) |
 | Unidad | RC17 1,00-4,10 · RC12 3,20-6,70 · RC14 0,30-3,40 · RC13 0,20-3,87 | la piscina, la Social Kitchen y el gimnasio ×2: la unidad pesa más en esta pieza; todo gira a la derecha. Tramos elegidos por no coincidir con lo que más usan las hermanas |
 | Mitad | MD05 `IMG_4297` (voz 0,60-3,55 s) | asignada: empieza por «Además»; va tras el recorrido de la unidad. **Repetida de la V29** (declarado) |
-| Apartamento | RC06 0,10-3,60 · RC08 1,70-5,03 · RC09 5,20-7,97 | la alcoba, la puerta del baño con su luz y el último tramo del baño |
+| Apartamento | **RC01 1,20-4,70** · RC08 1,70-5,03 · RC09 5,20-7,97 | **las tres PEDIDAS POR EL USUARIO tras ver la prueba rev. 0** («incluye tomas: Img 9484, Img 9481, Img 9461»): la cocina con isla (RC01, que el reparto reservaba como apertura de la V27), la alcoba con la puerta del baño y el último tramo del baño. Es el orden en que se camina |
 | Clímax | RC19 `Img 9529` 0,30-4,50 s (X=450) | asignado: el deck con el jacuzzi **comunal** (no el privado: ese no sale en ningún clip). **Exclusivo de la V31** |
 | CTA | CT01 `IMG_4277` ENTERA (voz 0,60-4,53 s) | asignada: junto al jacuzzi comunal. **Repetida de la V27** (declarado) |
 | Canción | *In This Together* (`bd507fe6`) | la reservada. Medida: muy fuerte (≈ −10 LUFS), sin pulso, golpes de 7,5-12,7 dB en su segunda mitad y caída natural bajo el CTA |
@@ -30,7 +30,12 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 | Música sola | −15 LUFS por tramos (apertura −5,4 dB, paseo −5,0, bloque 5 −3,2); −26 bajo la voz | la canción llega a ≈ −10 |
 | Color | `COLOR_BASE` (la del 017) + el ajuste de cada plano (medido por luma) | ver abajo |
 
-## Lo medido en la prueba (rev. 0)
+## Revisiones
+
+- **rev. 0** (2026-10-19): bloque 5 = alcoba (RC06) → puerta del baño (RC08) → baño (RC09) → clímax.
+- **rev. 1** (2026-10-19, pedido del usuario: «incluye tomas: Img 9484, Img 9481, Img 9461»): el bloque 5 pasa a RC01 (cocina con isla) → RC08 → RC09 → RC19; RC06 sale. Misma rejilla de golpes, misma duración (1401 f): solo cambia el primer plano del apartamento y el nombre de las claves `cocina`/`alcoba` de `GOLPE`.
+
+## Lo medido en la prueba (rev. 0; el audio es idéntico en la rev. 1)
 
 | Qué | Medida |
 |---|---|
@@ -46,6 +51,7 @@ Registro de esta versión y mapa de «cómo cambiar cada pieza». Las seis pieza
 
 - **Otra apertura:** `c01-apertura` de `metraje-049.ts` (clip, `desde`, color); si es otro clip, su fila en `MATERIAL` de `normalizar.mjs` con su sha y su X. La primera toma sale sin texto ni voz (regla fija).
 - **Otro hook / mitad / CTA:** su fila en `MATERIAL` (con sha) y su ventana en `VENTANA_VOZ` (¡`perfil.py` y `limites-voz.py --margen 20`, no el 40!), la ganancia con `herramientas/probar-voz.py --umbral 0.0316 --razon 3.5` (editar su `TOMAS`) → `GANANCIA_VOZ_DB`. Luego `voz.s0/s1/lufs/dice` del corte, el guion marcado `voz/<toma>.txt`, cada línea llevada a su palabra con `onsets-voz.py` + `palabras-desde.py` y comprobada con `subs-vs-voz.py`. Si cambia la duración del plano cambia la rejilla (abajo).
+- **RC01 en la V27 y en la V31:** el reparto original la daba de apertura a la V27 (045); aquí entra en el bloque 5 por encargo del usuario. Comparte 0,9 s de imagen con esa apertura. Si el usuario prefiere que no se repita, vuelve RC06 (0,10-3,60 s: la alcoba por otro ángulo; ya normalizada en la rev. 0, se repone con `normalizar.mjs`).
 - **Otro tramo de un recorrido:** `desde` (segundos del MP4 normalizado) y `reason` del plano; la duración la fija el golpe siguiente. Mirar quién sale (un tramo de RC13 enseña a un hombre reconocible) y el adorno de la alcoba (RC08).
 - **Otra canción:** reservarla en el registro; `medir-pista.py … --json musica/golpes-049.json`; `rejilla-049.py` (editar los rangos y el rango del CTA); la tabla `GOLPE`, `INICIO_MUSICA` y los niveles de `audio-049.ts` (`LUFS_TRAMO`, `LUFS_CANCION_EN_VOZ`; `lufs-rangos.py`). La alternativa asignada, *Aleksey Chistilin - Deep Breath* (ambient, `abceb83c`): medida en la V7 y la V11: sin pulso, sirve de fondo y no de rejilla.
 - **La versión de ≈ 40 s:** la otra familia de la rejilla (entrada 167,452 s): planos de 2,0-2,5 s y apertura de 1,55 s (`rejilla-049.py`).
