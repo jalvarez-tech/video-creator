@@ -1,0 +1,2 @@
+# Guion marcado del 047: cada fuente de voz tiene su archivo (hk02.txt, md04.txt, md05.txt, ct03.txt) junto a su transcripción (.json).
+# Este archivo es el de la plantilla y no lo lee nada.
