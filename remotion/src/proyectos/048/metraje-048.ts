@@ -33,9 +33,10 @@
  * EL RECORRIDO ES HORIZONTAL. Los siete planos de recorrido son 1920×1080 recortados al centro (`crop=608:1080:X:0`, `normalizar.mjs`) y escalados ×2,13: salen más BLANDOS que Isabella (4K). Es el material; no se
  * filtra ni se afila (R22). RC10 va recortado a X=1100 para que el jacuzzi quede dentro del encuadre (con el centro se quedaba en el borde).
  *
- * QUIÉN MARCA EL TIEMPO: LA MÚSICA, POR GOLPES. «Einaudi Fly» es un piano de arpegios y SIN pulso fijo (la rejilla no sirve): los golpes son los MEDIDOS (`medir-pista.py`, ≥ 6 dB) y cada corte seco cae en uno, de 6,5 a 11,9 dB
- * (un piano no golpea: son notas). Las DISOLVENCIAS van libres: al salir y entrar Isabella y entre la alcoba y el balcón. Se entra en el 222,2 s de la canción porque su final natural cae donde entra el CTA: el piano decae
- * de −18 a −33 LUFS entre el 261,2 y el 264 s, que son los f1170-1255 de esta pieza, bajo la voz del CTA; la tarjeta queda en silencio (el registro de uso decía «sin caída»: era otra ventana).
+ * QUIÉN MARCA EL TIEMPO: LA MÚSICA, POR GOLPES MEDIDOS. «L' Amour Toujours on SAXOPHONE» (sax, 126 BPM, la libre más alegre del catálogo: la pidió el usuario tras ver la prueba con «Einaudi Fly», que era la del reparto) tiene un PULSO
+ * real (`rejilla.py`: periodo de 0,4762 s, el 76 % de sus golpes fuertes a ≤ 15 ms de la recta): los golpes de abajo son los MEDIDOS (`medir-pista.py`, ≥ 6 dB) y cada corte seco cae en uno, de 8,2 a 12,0 dB. Las DISOLVENCIAS van libres: al
+ * salir y entrar Isabella y entre el baño y el balcón. Se entra en el 164,967 s de la canción (una nota de 10,5 dB en el 165,017 s, el f3) y el final natural de la pista —un fundido de 3 s desde el 205,9 s— cae en el f1233-1323, bajo la voz del CTA
+ * y la tarjeta (`catalogo`: «cae solo 3,9 dB» era otra ventana). La canción es plana y muy alta (−9,5 LUFS): se baja a −15.
  *
  * UNIDADES. `desde` va en SEGUNDOS de la fuente, escrito como frame exacto (`fr(11)` = 11/30 s) donde el corte es en la muestra; `en` y `dur`, en frames de la composición. Los planos son CONTIGUOS.
  *
@@ -83,30 +84,30 @@ export const OBJETIVO_LUFS = -15;
 
 /* ── Los golpes de la música ────────────────────────────────────────────────
  *
- * «Ludovico Einaudi - Einaudi Fly» — `archivos/musica/Ludovico Einaudi - Einaudi Fly.mp3` (sha 8 `a7e0695e`), piano neoclásico en Do# menor, ~112 BPM, 4:41. Se entra en el 222,2 s (una nota de 8,1 dB en el 222,259 s, el
- * f3) y se suena hasta el 263 s: de ahí se oye la parte alta de la pieza (de −12 a −14 LUFS, con un pico de −0,6 dBFS hacia el 233 s) y, entre el 261,2 y el 264 s, su final: el piano decae de −18 a −33 LUFS y queda un lecho
- * de −35. Los golpes de abajo son los MEDIDOS (banda 80-3000 Hz, subida de ≥ 6 dB en 15 ms; el instante es el de «empieza a subir») en que entra cada plano, con su fuerza en dB por 15 ms:
- * `proyectos/048/musica/golpes-048.json` (`medir-pista.py --desde 222 --dur 45 --json`).
+ * «L' Amour Toujours on SAXOPHONE» — `archivos/musica/L' Amour Toujours on SAXOPHONE.mp3` (sha 8 `951c5de2`), eurodance/trance en versión saxofón, Do menor, 126 BPM (periodo 0,4762 s), 3:33. Se entra en el 164,967 s y se suena
+ * hasta el 206 s: de ahí se oye una meseta PLANA de −9,5 LUFS (picos de 0,0 a +0,1 dBFS en el archivo) y, entre el 205,9 y el 208,5 s, su final: un fundido de −13 a −47 dB. Los golpes de abajo son los MEDIDOS (banda 80-3000 Hz, subida de
+ * ≥ 6 dB en 15 ms; el instante es el de «empieza a subir») en que entra cada plano, con su fuerza en dB por 15 ms: `proyectos/048/musica/golpes-048.json` (`medir-pista.py --desde 164.5 --dur 48 --json`). Todos caen en la rejilla del pulso
+ * (a ≤ 1 f de una negra o una corchea).
  */
 export const GOLPE = {
   /** La primera nota que suena: el f3 (el frame 0 es Isabella; la música baja con curva antes de su primera palabra, f30). */
-  apertura: { t: 222.259, db: 8.1 },
-  /** El gimnasio, a corte: el más débil de los cortes (6,5 dB); entre las notas medidas no hay otra a ≤ 4 s que dé un plano de la duración que pide. */
-  gimnasio: { t: 232.433, db: 6.5 },
+  apertura: { t: 165.017, db: 10.5 },
+  /** El gimnasio, a corte. */
+  gimnasio: { t: 175.019, db: 10.2 },
   /** El carril de nado, a corte. */
-  piscina: { t: 236.163, db: 7.9 },
+  piscina: { t: 177.625, db: 8.2 },
   /** Isabella entra A CORTE con la mitad; su primera sílaba suena 10 f después. */
-  mitad: { t: 240.52, db: 8.7 },
+  mitad: { t: 182.159, db: 8.9 },
   /** El baño, a corte (tras la alcoba). */
-  bano: { t: 250.563, db: 9.1 },
-  /** Isabella entra A CORTE con el CTA; su primera sílaba suena 10 f después. El piano empieza a decaer 29 f más tarde. */
-  cta: { t: 260.192, db: 11.9 },
+  bano: { t: 192.878, db: 10.4 },
+  /** Isabella entra A CORTE con el CTA; su primera sílaba suena 10 f después. El fundido final de la canción empieza 115 f más tarde. */
+  cta: { t: 202.165, db: 12.0 },
 } as const;
 
 /**
- * Dónde empieza a sonar la canción, en segundos de la fuente: 100 ms antes del f3, redondeado a un frame (6666/30 = 222,2 s) para que `trimBefore` no lo mueva.
+ * Dónde empieza a sonar la canción, en segundos de la fuente: ≈ 50 ms antes de la nota del f3, redondeado a un frame (4949/30 = 164,967 s) para que `trimBefore` no lo mueva.
  */
-export const INICIO_MUSICA = 6666 / FPS_048;
+export const INICIO_MUSICA = 4949 / FPS_048;
 
 /**
  * Lo que el audio del render llega TARDE respecto de su fuente: 42 ms, medido en el 016 por correlación entre la prueba 720p y el WAV (y confirmado desde el 017). Se suma aquí y en la puerta para que el corte
@@ -155,30 +156,30 @@ const color = (ajuste: ColorCine = {}): ColorCine => ({ ...COLOR_BASE, ...ajuste
 
 /**
  * El frame de cada cambio de plano. Los cortes SECOS y las entradas de Isabella a corte caen en el golpe de la canción que dice arriba; los cambios por DISOLVENCIA (salida del hook, salida de la mitad, entrada del balcón) no
- * piden golpe: con un piano van libres, y cada uno cae donde la última palabra de ella deja sitio (hook, mitad) o donde el plano anterior ya ha dicho lo que tenía que decir (el baño).
+ * piden golpe, y cada uno cae donde la última palabra de ella deja sitio (hook, mitad) o donde el plano anterior ya ha dicho lo que tenía que decir (el baño).
  */
 const P = {
-  gimnasio: golpe(GOLPE.gimnasio), //  309 · el gimnasio (corte)
-  piscina: golpe(GOLPE.piscina), //     421 · el carril de nado (corte)
-  mitad: golpe(GOLPE.mitad), //         551 · Isabella entra A CORTE con la mitad; su primera palabra, 10 f después
-  bano: golpe(GOLPE.bano), //           853 · el baño (corte)
-  cta: golpe(GOLPE.cta), //            1141 · Isabella entra A CORTE con el CTA; su primera palabra, 10 f después
+  gimnasio: golpe(GOLPE.gimnasio), //  303 · el gimnasio (corte, 10,2 dB)
+  piscina: golpe(GOLPE.piscina), //     381 · el carril de nado (corte, 8,2 dB)
+  mitad: golpe(GOLPE.mitad), //         517 · Isabella entra A CORTE con la mitad (8,9 dB); su primera palabra, 10 f después
+  bano: golpe(GOLPE.bano), //           839 · el baño (corte, 10,4 dB)
+  cta: golpe(GOLPE.cta), //            1118 · Isabella entra A CORTE con el CTA (12,0 dB); su primera palabra, 10 f después
 } as const;
 
 /** El hook usa su toma desde el f0: su última palabra suena en f198 y la cocina entra con una disolvencia (f200-212) que no la pisa (se piden 14: 2 de margen + los 12 de la disolvencia). */
 const FIN_HOOK = 212;
 /** La cocina (c02) llega al golpe del gimnasio. */
-const FIN_MITAD = 755; //   la mitad (MD03): su última palabra suena en f741 y la alcoba entra con una disolvencia (f743-755).
-const ENTRA_BALCON = 972; // la alcoba y el baño: el baño dura hasta que el balcón disuelve (f960-972).
+const FIN_MITAD = P.mitad + 204; //  721 · la mitad (MD03): su última palabra suena en f707 y la alcoba entra con una disolvencia (f709-721).
+const ENTRA_BALCON = 960; //          el baño dura hasta que el balcón disuelve (f948-960).
 
 /**
- * Frames que dura la toma del CTA: el clip dura 6,67 s (200 f) y desde `desde` (9 f) le quedan 191. Su voz va de 0,62 a 6,04 s (f1151-1313 de la comp): se usan 186 f, 14 (0,47 s) de su cara tras la última palabra, en los que
+ * Frames que dura la toma del CTA: el clip dura 6,67 s (200 f) y desde `desde` (9 f) le quedan 191. Su voz va de 0,62 a 6,04 s (f1128-1290 de la comp): se usan 186 f, 14 (0,47 s) de su cara tras la última palabra, en los que
  * la imagen funde a negro (los últimos 6). Nada se congela: el plano acaba antes del último fotograma del clip.
  */
 const DUR_CTA = 186;
 
 /**
- * Dónde acaba la música (frame de la comp). Tras el final natural del piano (decae hacia el f1255 y queda un lecho de −35 LUFS) la envolvente lo lleva a cero 2 f antes del final de la pieza, bajo la tarjeta.
+ * Dónde acaba la música (frame de la comp). La canción acaba sola con un fundido (f1233-1323: −13 → −47 dB); la envolvente la lleva a cero 2 f antes del final de la pieza, bajo la tarjeta.
  */
 export const FIN_MUSICA_048 = P.cta + DUR_CTA + DUR_TARJETA - 2;
 
@@ -215,8 +216,8 @@ export const metraje048: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc11"),
-    // RC11 «Social Kitchen / coworking» (Img 9513, 2-sep), del 2,40 al 5,63 s: la barra, las mesas y las lámparas verdes hasta el mural de colores con las lámparas grandes; la cámara avanza a la derecha. Recorte al centro (X=656).
-    // Entra con una disolvencia desde Isabella (f200-212: con `desde` 2,4 s hay 12 f de clip antes) y acaba a corte en el golpe del gimnasio (f309).
+    // RC11 «Social Kitchen / coworking» (Img 9513, 2-sep), del 2,40 al 5,43 s: la barra, las mesas y las lámparas verdes hasta el mural de colores con las lámparas grandes; la cámara avanza a la derecha. Recorte al centro (X=656).
+    // Entra con una disolvencia desde Isabella (f200-212: con `desde` 2,4 s hay 12 f de clip antes) y acaba a corte en el golpe del gimnasio (f303: 10,2 dB).
     desde: 2.4,
     en: FIN_HOOK,
     dur: P.gimnasio - FIN_HOOK,
@@ -231,10 +232,10 @@ export const metraje048: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc14"),
-    // RC14 «Gimnasio» (Img 9517), del 0,40 al 4,13 s: la estantería de madera con las bolas de equilibrio contra la pared naranja, las luces y los tubos del techo y, al fondo, las máquinas; la cámara gira a la derecha, como la
+    // RC14 «Gimnasio» (Img 9517), del 0,00 al 2,60 s: la estantería de madera con las bolas de equilibrio contra la pared naranja, las luces y los tubos del techo y, al fondo, las máquinas; la cámara gira a la derecha, como la
     // de la cocina. Recorte al centro (X=656). Se elige el INICIO del clip y no el tramo con el rótulo «GIMNASIO» (5-6 s) porque desde los 2,2 s hay usuarios del gimnasio a tamaño reconocible en primer plano (el recorte los
-    // agranda ×1,78): en este tramo solo se ven pequeños y de espaldas al fondo, sin cara. Entra a corte en un golpe de 6,5 dB (el más débil de la pieza).
-    desde: 0.4,
+    // agranda ×1,78): este tramo acaba antes de que se vean (desde el 2,0 s solo asoman pequeños y de espaldas al fondo, sin cara). Entra a corte (por eso su `desde` puede ser 0) en un golpe de 10,2 dB.
+    desde: 0.0,
     en: P.gimnasio,
     dur: P.piscina - P.gimnasio,
     zoom: QUIETO,
@@ -248,8 +249,8 @@ export const metraje048: readonly Corte[] = [
     bloque: 3,
     tipo: "video",
     src: v("rc16"),
-    // RC16 «Piscina» (Img 9525), del 0,90 al 5,23 s: la piscina azul con los escalones y los árboles contra el cielo de la tarde; la cámara gira a la derecha hacia el carril de nado. Recorte al centro (X=656). Entra a corte en un golpe de
-    // 7,9 dB; acaba en el de la mitad, que es Isabella.
+    // RC16 «Piscina» (Img 9525), del 0,90 al 5,43 s: la piscina azul con los escalones y los árboles contra el cielo de la tarde; la cámara gira a la derecha hacia el carril de nado. Recorte al centro (X=656). Entra a corte en un golpe de
+    // 8,2 dB; acaba en el de la mitad, que es Isabella.
     desde: 0.9,
     en: P.piscina,
     dur: P.mitad - P.piscina,
@@ -272,8 +273,8 @@ export const metraje048: readonly Corte[] = [
       lufs: -15.1,
       dice: "Contamos con chef privado, tours, masajes y transporte y las mejores experiencias de la ciudad de Medellín.",
     },
-    // La voz empieza a los 0,68 s y acaba a los 6,65 s; el clip dura 7,23 s (217 f). `desde` 10 f entra A CORTE en el golpe de 8,7 dB del f551 (suena entero: la música baja con curva DESPUÉS) y la primera sílaba suena 10 f
-    // después (f561). El plano dura 204 f (hasta f755): su última palabra suena en f741 y la alcoba entra con una disolvencia (f743-755) que no la pisa.
+    // La voz empieza a los 0,68 s y acaba a los 6,65 s; el clip dura 7,23 s (217 f). `desde` 10 f entra A CORTE en el golpe de 8,9 dB del f517 (suena entero: la música baja con curva DESPUÉS) y la primera sílaba suena 10 f
+    // después (f527). El plano dura 204 f (hasta f721): su última palabra suena en f707 y la alcoba entra con una disolvencia (f709-721) que no la pisa.
     // Isabella camina hacia cámara bajo la pérgola, de nuevo en la terraza común (el rodaje del 17-oct no tiene otro sitio para ella: declarado).
     desde: fr(10),
     en: P.mitad,
@@ -290,8 +291,8 @@ export const metraje048: readonly Corte[] = [
     bloque: 5,
     tipo: "video",
     src: v("rc05"),
-    // RC05 «Alcoba principal» (Img 9477), del 0,60 al 3,87 s (con la disolvencia, desde el 0,20): la cama con los cojines y la lámpara colgante, el borde de la cama y la puerta del baño con luz; la cámara gira a la derecha.
-    // Recorte al centro (X=656). Entra con una disolvencia desde Isabella (f743-755) y acaba a corte en el golpe del baño (f853: 9,1 dB).
+    // RC05 «Alcoba principal» (Img 9477), del 0,60 al 4,53 s (con la disolvencia, desde el 0,20): la cama con los cojines y la lámpara colgante, el borde de la cama y la puerta del baño con luz; la cámara gira a la derecha.
+    // Recorte al centro (X=656). Entra con una disolvencia desde Isabella (f709-721) y acaba a corte en el golpe del baño (f839: 10,4 dB).
     desde: 0.6,
     en: FIN_MITAD,
     dur: P.bano - FIN_MITAD,
@@ -306,8 +307,8 @@ export const metraje048: readonly Corte[] = [
     bloque: 5,
     tipo: "video",
     src: v("rc09"),
-    // RC09 «Baño principal» (Img 9484), del 2,00 al 5,97 s: el mueble de madera con el lavamanos, el espejo y la luz, hasta la mampara de la ducha; gira a la derecha. Recorte al centro (X=656). Entra a corte en el golpe de 9,1 dB del
-    // f853 (la puerta del baño con luz de la alcoba ES la puerta de este baño) y acaba cuando el balcón disuelve (f960-972).
+    // RC09 «Baño principal» (Img 9484), del 2,00 al 6,03 s: el mueble de madera con el lavamanos, el espejo y la luz, hasta la mampara de la ducha; gira a la derecha. Recorte al centro (X=656). Entra a corte en el golpe de 10,4 dB del
+    // f839 (la puerta del baño con luz de la alcoba ES la puerta de este baño) y acaba cuando el balcón disuelve (f948-960).
     desde: 2.0,
     en: P.bano,
     dur: ENTRA_BALCON - P.bano,
@@ -322,10 +323,10 @@ export const metraje048: readonly Corte[] = [
     bloque: 5,
     tipo: "video",
     src: v("rc10"),
-    // RC10 (Img 9509), del 5,00 al 10,63 s (con la disolvencia, desde el 4,60): el cielo con las nubes sobre la ciudad y las torres; la cámara gira a la derecha, baja por la baranda de vidrio hasta la baldosa negra y llega al JACUZZI
-    // PRIVADO del balcón (la tina cuadrada con los listones de madera y el escalón), de la foto `3-Jacuzzi.png`. Recorte X=1100 (el centro lo dejaba fuera). El clip dura 10,73 s (322 f): quedan 3 f de margen. Es el plano más largo
-    // del bloque 5 (169 f) y el CLÍMAX (exclusivo de esta pieza). Entra con una disolvencia (f960-972) y acaba en el golpe del CTA (f1141).
-    desde: 5.0,
+    // RC10 (Img 9509), del 5,33 al 10,60 s (con la disolvencia, desde el 4,93): el cielo con las nubes sobre la ciudad y las torres; la cámara gira a la derecha, baja por la baranda de vidrio hasta la baldosa negra y llega al JACUZZI
+    // PRIVADO del balcón (la tina cuadrada con los listones de madera y el escalón), de la foto `3-Jacuzzi.png`. Recorte X=1100 (el centro lo dejaba fuera). El clip dura 10,73 s (322 f): quedan 4 f de margen. Es el plano más largo
+    // del bloque 5 (158 f) y el CLÍMAX (exclusivo de esta pieza). Entra con una disolvencia (f948-960) y acaba en el golpe del CTA (f1118: 12,0 dB).
+    desde: fr(160),
     en: ENTRA_BALCON,
     dur: P.cta - ENTRA_BALCON,
     zoom: QUIETO,
@@ -347,8 +348,8 @@ export const metraje048: readonly Corte[] = [
       lufs: -15.0,
       dice: "Cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer.",
     },
-    // La voz empieza a los 0,62 s y acaba a los 6,04 s; el clip dura 6,67 s (200 f, a 29,97 fps: `-r 30` tras el tone-map). `desde` 9 f entra A CORTE en el golpe de 11,9 dB del f1141 (suena entero) y la primera sílaba suena
-    // 10 f después (f1151); el piano decae 29 f más tarde. Se usan 186 f: la última palabra suena en f1313 y quedan 14 f (0,47 s) de su cara, en los que la imagen funde a negro. Nada se congela.
+    // La voz empieza a los 0,62 s y acaba a los 6,04 s; el clip dura 6,67 s (200 f, a 29,97 fps: `-r 30` tras el tone-map). `desde` 9 f entra A CORTE en el golpe de 12,0 dB del f1118 (suena entero) y la primera sílaba suena
+    // 10 f después (f1128); el fundido final de la canción empieza 115 f más tarde. Se usan 186 f: la última palabra suena en f1290 y quedan 14 f (0,47 s) de su cara, en los que la imagen funde a negro. Nada se congela.
     // NO es una acción (la V29 la repite): la tarjeta con el logo y la web cierra.
     desde: fr(9),
     en: P.cta,
@@ -369,7 +370,7 @@ export const metraje048: readonly Corte[] = [
     zoom: [1.0, 1.0],
     entra: "corte",
     reason:
-      "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo de Propiedades Luxur y la web mientras el piano se apaga.",
+      "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo de Propiedades Luxur y la web mientras la canción se apaga.",
   },
 ];
 

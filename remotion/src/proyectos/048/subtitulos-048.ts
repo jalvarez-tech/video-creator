@@ -11,15 +11,15 @@
  * EL ACENTO MARCA LO QUE SE QUEDA EN LA CABEZA (uno por bloque, ≥ 2 s entre dos):
  *   «activo más valioso»  el hook: el tiempo como lo valioso (f50).
  *   «aseo semanal.»       el hook: lo que se le quita al inquilino (f177).
- *   «chef privado,»       la mitad: el primero de los servicios (f584).
- *   «experiencias»        la mitad: lo que cierra la lista (f699).
- *   «personalizado»       el CTA: el adjetivo que lo define todo (f1225).
- *   «conocer.»            el CTA: la palabra de la acción (f1303).
+ *   «chef privado,»       la mitad: el primero de los servicios (f550).
+ *   «experiencias»        la mitad: lo que cierra la lista (f665).
+ *   «personalizado»       el CTA: el adjetivo que lo define todo (f1202).
+ *   «conocer.»            el CTA: la palabra de la acción (f1280).
  *
  * LOS TIEMPOS, a la palabra (segundo de la fuente → frame = en + round(s·30) − round(desde·30)):
  *   hook (en 0, desde 0)       «El» 1,01 · «activo» ≈ 1,72 · «de» 2,835 · «y» 3,805 · «a optimizarlo» ≈ 4,22 · «incluyendo» 5,165 · «aseo» ≈ 5,93
- *   mitad (en 551, desde 10 f) «Contamos» 0,68 · «chef» 1,46 · «tours» ≈ 2,50 · «y transporte» ≈ 3,40 · «y las mejores» ≈ 4,42 · «experiencias» 5,295 · «de la ciudad» 5,795
- *   CTA (en 1141, desde 9 f)   «Cuando» 0,60 · «una» ≈ 1,05 · «no es» 1,575 · «el acompañamiento» 2,355 · «personalizado» 3,12 · «es una» ≈ 4,12 · «que vale» 5,05 · «conocer» 5,72
+ *   mitad (en 517, desde 10 f) «Contamos» 0,68 · «chef» 1,46 · «tours» ≈ 2,50 · «y transporte» ≈ 3,40 · «y las mejores» ≈ 4,42 · «experiencias» 5,295 · «de la ciudad» 5,795
+ *   CTA (en 1118, desde 9 f)   «Cuando» 0,60 · «una» ≈ 1,05 · «no es» 1,575 · «el acompañamiento» 2,355 · «personalizado» 3,12 · «es una» ≈ 4,12 · «que vale» 5,05 · «conocer» 5,72
  *
  * POR CONFIRMAR AL OÍDO (R31; la orden de exportar, si llega con esta sin oír, no se bloquea: se mide, se dice con el segundo y la nota se queda; la puerta con `--final` falla SOLO por ella):
  *   · «aseo semanal.» (HK01, «aseo» hacia el f177 = 5,9 s del vídeo): whisper la oye de cuatro maneras según dónde se corte («un asedio semanal», «un aseo semanal», «hace dos semanas», «el deseo semanal»; en la HK02, la doble de
@@ -61,51 +61,51 @@ export const subtitulos048: readonly BloqueEditorial[] = [
       { desde: 177, texto: "aseo semanal.", estilo: "acento" }, // POR CONFIRMAR AL OÍDO
     ],
   },
-  // ── Bloque 4 · la mitad DICHA (MD03): imagen desde el f551, primera palabra en el f561 ──
+  // ── Bloque 4 · la mitad DICHA (MD03): imagen desde el f517, primera palabra en el f527 ──
   {
     id: "m01",
-    hasta: 640,
+    hasta: 606,
     trozos: [
-      { desde: 560, texto: "Contamos con" },
-      { desde: 584, texto: "chef privado,", estilo: "acento" },
-      { desde: 615, texto: "tours, masajes" },
+      { desde: 526, texto: "Contamos con" },
+      { desde: 550, texto: "chef privado,", estilo: "acento" },
+      { desde: 581, texto: "tours, masajes" },
     ],
   },
   {
     id: "m02",
-    hasta: 712,
+    hasta: 678,
     trozos: [
-      { desde: 642, texto: "y transporte" },
-      { desde: 673, texto: "y las mejores" },
-      { desde: 699, texto: "experiencias", estilo: "acento" },
+      { desde: 608, texto: "y transporte" },
+      { desde: 639, texto: "y las mejores" },
+      { desde: 665, texto: "experiencias", estilo: "acento" },
     ],
   },
-  { id: "m03", hasta: 749, trozos: [{ desde: 714, texto: "de la ciudad de Medellín." }] },
-  // ── Bloque 6 · el CTA DICHO (CT03): imagen desde el f1141, primera palabra en el f1151 ──
+  { id: "m03", hasta: 715, trozos: [{ desde: 680, texto: "de la ciudad de Medellín." }] },
+  // ── Bloque 6 · el CTA DICHO (CT03): imagen desde el f1118, primera palabra en el f1128 ──
   {
     id: "c01",
-    hasta: 1200,
+    hasta: 1177,
     trozos: [
-      { desde: 1149, texto: "Cuando llegas a" },
-      { desde: 1163, texto: "una ciudad que" },
-      { desde: 1178, texto: "no es la tuya," },
+      { desde: 1126, texto: "Cuando llegas a" },
+      { desde: 1140, texto: "una ciudad que" },
+      { desde: 1155, texto: "no es la tuya," },
     ],
   },
   {
     id: "c02",
-    hasta: 1253,
+    hasta: 1230,
     trozos: [
-      { desde: 1202, texto: "el acompañamiento" },
-      { desde: 1225, texto: "personalizado", estilo: "acento" },
+      { desde: 1179, texto: "el acompañamiento" },
+      { desde: 1202, texto: "personalizado", estilo: "acento" },
     ],
   },
   {
     id: "c03",
-    hasta: 1318,
+    hasta: 1295,
     trozos: [
-      { desde: 1255, texto: "es una plusvalía" },
-      { desde: 1283, texto: "que vale la pena" },
-      { desde: 1303, texto: "conocer.", estilo: "acento" },
+      { desde: 1232, texto: "es una plusvalía" },
+      { desde: 1260, texto: "que vale la pena" },
+      { desde: 1280, texto: "conocer.", estilo: "acento" },
     ],
   },
 ];

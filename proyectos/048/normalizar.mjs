@@ -81,11 +81,11 @@ const MATERIAL = [
  * `null` si la pieza sale sin música (`HAY_MUSICA = false` en `audio-048.ts`).
  */
 const MUSICA = [
-  "musica-einaudi-fly.mp3",
+  "musica-amour-toujours.mp3",
   "musica-048",
-  "a7e0695e",
-  "archivos/musica/Ludovico Einaudi - Einaudi Fly.mp3",
-]; // piano; reservada para la V30
+  "951c5de2",
+  "archivos/musica/L' Amour Toujours on SAXOPHONE.mp3",
+]; // sax, 126 BPM; la pidió el usuario más alegre que «Einaudi Fly» (la reservada del reparto); reservada para la V30
 
 const sha8 = (archivo) => crypto.createHash("sha256").update(fs.readFileSync(archivo)).digest("hex").slice(0, 8);
 const sondea = (archivo, entradas, selector = "v:0") =>

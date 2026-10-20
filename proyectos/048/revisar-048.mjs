@@ -25,8 +25,8 @@
  *      palabra suena dentro de una disolvencia, de un cruce ni de un desclic,
  *      queda aire tras la última palabra de la pieza y la ganancia por toma es
  *      sensata.
- *   4. la MÚSICA («Einaudi Fly»): una sola canción, cada corte SECO en un golpe MEDIDO (de ≥ 6,5 dB; un piano no
- *      golpea), la nota de apertura en los primeros f y apagada bajo la tarjeta.
+ *   4. la MÚSICA («L' Amour Toujours on SAXOPHONE», sax a 126 BPM): una sola canción, cada corte SECO en un golpe MEDIDO (de ≥ 8 dB), la
+ *      nota de apertura en los primeros f y apagada bajo la tarjeta.
  *   4b. la música BAJA bajo su voz, con curva, ANTES de la primera palabra.
  *   5. los SUBTÍTULOS: su validador sin un aviso, con las letras del canal; cada
  *      trozo dentro de una ventana de voz; y ningún bloque `centro` encima de Isabella.
@@ -56,8 +56,8 @@ const COLA_FINAL = [45, 120]; // f desde la última palabra del CTA hasta el fin
 const TARJETA_FRAMES = [45, 75]; // f que dura la tarjeta oscura del cierre (1,5-2,5 s)
 const HOLGURA_TROZO = 3; // f que un trozo puede adelantarse a su palabra
 const TOLERANCIA_GOLPE = 1; // f entre el `en` de un plano y el frame en que suena el golpe de la canción en que entra
-const FUERZA_MIN_CORTE_SECO = 6.5; // dB por 15 ms: un piano de arpegios no da golpes de 12 dB (el canal exigía 7,4 con «Amélie»; aquí el más débil es el del gimnasio, 6,5, declarado)
-const FUERZA_MIN_APERTURA = 8; // dB: la nota que abre la pieza
+const FUERZA_MIN_CORTE_SECO = 8; // dB por 15 ms: el canal exigía 7,4 con piano (sin pulso) y 12 con las canciones de golpe claro; aquí el más débil es el de la piscina, 8,2
+const FUERZA_MIN_APERTURA = 10; // dB: la nota que abre la pieza (suena entera antes de que hable Isabella)
 const FADE_OUT_MUSICA = [18, 6, 6]; // f que tarda la música en bajar: en el hook (desde el f10), y en la mitad y el CTA (desde el golpe en que entra Isabella): fundido de coseno, no corte
 /** Los recorridos que son APERTURA o CLÍMAX de otra pieza de las seis (reparto FIJO, `proyectos/044/reparto-045-050.md`): esta pieza no los usa. RC02 solo en su tramo final (clímax de la V32); aquí no entra. */
 const DE_OTRAS = { rc01: "apertura V27", rc04: "apertura V31", rc20: "apertura V29", rc02: "clímax V32 (su tramo final)", rc03: "clímax V29", rc18: "clímax V28", rc19: "clímax V31", rc21: "clímax V27" };
@@ -414,7 +414,7 @@ seccion("3. la voz de las tomas a cámara");
 }
 
 /* 4 · la música ────────────────────────────────────────────────────────── */
-seccion("4. la música: «Einaudi Fly», cada corte seco en un golpe medido y apagada bajo la tarjeta");
+seccion("4. la música: «L' Amour Toujours on SAXOPHONE», cada corte seco en un golpe medido y apagada bajo la tarjeta");
 const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...vozDe(c) }));
 {
   const n = fallos.length;
@@ -432,7 +432,7 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
   if (A.off048.length) mal("esta pieza no lleva voz en off: `off048` tiene que ir vacío");
   const musica = A.audio048.find((t) => t.id === "musica");
   const cta = byId("c09-cta");
-  if (!musica || musica.src !== "recorrido-048/musica-048.wav") mal("no suena «Einaudi Fly» (recorrido-048/musica-048.wav)");
+  if (!musica || musica.src !== "recorrido-048/musica-048.wav") mal("no suena «L' Amour Toujours on SAXOPHONE» (recorrido-048/musica-048.wav)");
   else {
     if (Math.abs(musica.desde - M.INICIO_MUSICA) > 1e-9) mal(`la música arranca en ${musica.desde} s y INICIO_MUSICA dice ${M.INICIO_MUSICA}`);
     // Una sola canción, del frame 0 hasta FIN_MUSICA_048: se apaga con curva tras la última palabra del CTA y llega a cero 2 f antes del final de la pieza (la tarjeta va en silencio).
@@ -442,7 +442,7 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     const g = Array.isArray(musica.ganancia) ? musica.ganancia : [];
     const ultimoPunto = g.at(-1);
     if (!ultimoPunto || ultimoPunto[0] !== M.FIN_MUSICA_048 || ultimoPunto[1] !== 0) mal(`la envolvente de la música no acaba en silencio en f${M.FIN_MUSICA_048}`);
-    // Ninguna ganancia que suba: la canción sobra de nivel en toda la pieza (−11 a −14 LUFS) y se BAJA a −15; el pico real queda por debajo de −0,5 dBFS en cada tramo.
+    // Ninguna ganancia que suba: la canción sobra de nivel en toda la pieza (−9,4 a −10,7 LUFS) y se BAJA a −15; el pico real queda por debajo de −0,5 dBFS en cada tramo.
     for (const [clave, alto] of Object.entries(A.ALTOS)) if (alto > 1.0) mal(`el tramo «${clave}» de la música SUBE (×${alto.toFixed(3)}): la canción ya está por encima de −15 LUFS`);
     const ultimaPalabra = vozDe(cta).fin;
     const nivelFin = T.volumenDe(musica, DURACION - 1 - musica.en);
@@ -450,7 +450,7 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
     if (!(nivelUltima > 0 && nivelFin < nivelUltima * 0.05)) mal(`la música no se apaga tras la última palabra del CTA (f${ultimaPalabra}): ×${nivelUltima.toFixed(3)} → ×${nivelFin.toFixed(3)} al final`);
   }
   // La canción NO tiene pulso fijo que cuente: la rejilla son los GOLPES MEDIDOS (`musica/golpes-048.json`, de `medir-pista.py --json`). Cada GOLPE de metraje-048.ts tiene que estar ahí (±4 ms y ±0,5 dB) y cada corte
-  // SECO (y cada entrada de Isabella a corte) tiene que entrar en el suyo, a ≤ 1 f de donde SUENA. Las disolvencias van libres con un piano (`recorrido-luxur`: 037).
+  // SECO (y cada entrada de Isabella a corte) tiene que entrar en el suyo, a ≤ 1 f de donde SUENA. Las disolvencias van libres (`recorrido-luxur`: 037).
   const medidos = JSON.parse(readFileSync(join(RAIZ, "proyectos", "048", "musica", "golpes-048.json"), "utf8")).golpes;
   const DE = {
     "c03-gimnasio": "gimnasio",
@@ -489,7 +489,7 @@ const ventanasDeVoz = conVoz.filter((c) => c.voz).map((c) => ({ id: c.id, ...voz
   if (apertura < 0 || apertura > 4) mal(`la nota de entrada de la canción suena en f${apertura.toFixed(1)}: el frame 0 abre con ella, en los primeros 4 f`);
   if (M.GOLPE.apertura.db < FUERZA_MIN_APERTURA) mal(`la nota de entrada mide ${M.GOLPE.apertura.db} dB: el mínimo son ${FUERZA_MIN_APERTURA}`);
   if (fallos.length === n) {
-    ok(`«Einaudi Fly» desde el ${M.INICIO_MUSICA.toFixed(3)} s, una sola canción · nota de apertura en f${apertura.toFixed(1)} (${M.GOLPE.apertura.db} dB) · ${filas.length} cortes secos en golpes MEDIDOS a ≤ ${TOLERANCIA_GOLPE} f, el más débil de ${debil} dB (${filas.join(" · ")}) · las disolvencias van libres · se apaga bajo la tarjeta y ningún tramo sube`);
+    ok(`«L' Amour Toujours» desde el ${M.INICIO_MUSICA.toFixed(3)} s, una sola canción · nota de apertura en f${apertura.toFixed(1)} (${M.GOLPE.apertura.db} dB) · ${filas.length} cortes secos en golpes MEDIDOS a ≤ ${TOLERANCIA_GOLPE} f, el más débil de ${debil} dB (${filas.join(" · ")}) · las disolvencias van libres · se apaga bajo la tarjeta y ningún tramo sube`);
   }
 }
 
@@ -511,7 +511,7 @@ seccion("4b. la música baja bajo su voz, con curva y antes de que hable");
     for (let f = v.ini; f <= v.fin; f++) peor = Math.max(peor, nivel(f));
     const bajo = A.BAJOS[v.id];
     if (peor > bajo * 1.02) mal(`${v.id}: durante su voz (f${v.ini}-${v.fin}) la música llega a ×${peor.toFixed(3)} y su nivel bajo es ×${bajo.toFixed(3)}: la curva tiene que haber acabado antes de que hable`);
-    techoLufs = Math.max(techoLufs, A.LUFS_CANCION_EN_VOZ[v.id] + 20 * Math.log10(peor)); // la canción medida EN esa ventana (en la del CTA, sus primeros 2 s: después el piano decae)
+    techoLufs = Math.max(techoLufs, A.LUFS_CANCION_EN_VOZ[v.id] + 20 * Math.log10(peor)); // la canción medida EN esa ventana (la parte plana: el fundido final cae tras la última palabra)
     // …y SUBE de nuevo con fundido: tiene que estar arriba en el primer corte seco que sigue.
     const destino = SIGUIENTE_CORTE[v.id];
     if (destino) {

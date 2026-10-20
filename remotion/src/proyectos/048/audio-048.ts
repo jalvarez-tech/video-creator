@@ -5,26 +5,25 @@
  *
  *   vocesTomas   la voz de Isabella en HK01, MD03 y CT03, derivada de los cortes que traen `audio` (`vocesDeCortes`): mismo arranque que su imagen, desclic de 3 f (las tres entran a corte) y, como el WAV es el TRATADO
  *                de `normalizar.mjs` (`<toma>-voz.wav`: graves fuera, puerta suave, compresor 3,5:1, ganancia y limitador, ya a ≈ −15 LUFS en su ventana), UNA ganancia de ±0,1 dB.
- *   musica       «Einaudi Fly», con una envolvente que BAJA mientras habla Isabella y sube en los recorridos. No es la de `envolventeBajoVoz`: aquí el golpe en que entra cada toma (a corte) tiene que sonar
+ *   musica       «L' Amour Toujours on SAXOPHONE», con una envolvente que BAJA mientras habla Isabella y sube en los recorridos. No es la de `envolventeBajoVoz`: aquí el golpe en que entra cada toma (a corte) tiene que sonar
  *                entero, la música baja con curva DESPUÉS y acaba ANTES de la primera palabra.
  *
  * LA MEZCLA, en LUFS (medidos con ebur128 sobre la canción decodificada, en cada ventana):
  *   voz de Isabella      −15 (pedido del usuario: «la voz de Isabella a −15 LUFS sin saturar»; sus tomas crudas miden −21,7 · −20,2 · −20,5; tratadas, ≈ −15 con pico real de −2,5)
- *   música SOLA          −15 por tramos, el nivel de la voz: la canción NO es plana (de −11,2 LUFS en la apertura y −11,6 en el paseo, con un pico de −0,6 dBFS hacia el 233 s, a −13,9 en el bloque 5), así que cada tramo lleva
- *                        su ganancia (de −3,8 a −1,1 dB) y nada se limita.
- *   música BAJO LA VOZ   −26 en cada ventana de voz: 11 LU por debajo de ella (`BAJOS`). En la del CTA el piano DECAE (de −16,9 a −31,3 LUFS en 5 s), así que la ganancia se mide con sus primeros 2 s (−16,9): el resto
- *                        queda aún más bajo, y es justo lo que se busca (la canción se apaga sola bajo su voz).
+ *   música SOLA          −15 por tramos, el nivel de la voz: la canción es PLANA y MUY ALTA (−9,4 a −10,7 LUFS, con picos de 0,0 a +0,1 dBFS en el archivo), así que cada tramo lleva su ganancia (de −4,3 a −5,7 dB)
+ *                        y el pico real queda por debajo de −4,4 dBFS.
+ *   música BAJO LA VOZ   −26 en cada ventana de voz: 11 LU por debajo de ella (`BAJOS`).
  * Una sola ganancia por tramo, sin `loudnorm` (le cambiaría la dinámica).
  *
  * LAS RAMPAS DE LA MÚSICA (revisión del 022: «la curva debe ser ANTES de que hable», ya regla del canal):
- *   · La APERTURA: el frame 0 es Isabella (excepción declarada), pero su voz no llega hasta el f30. La música abre con una nota en el f3 que suena entera hasta el f10 y baja con curva de coseno en 18 f (f10-f28): acaba 2 f
- *     ANTES de su primera palabra.
- *   · La MITAD entra A CORTE en el golpe del f551 (suena entero): la música baja con curva de coseno en 6 f y la primera palabra suena 10 f después (f561). El CTA, igual: golpe en el f1141, bajada de 6 f y primera palabra
- *     en el f1151.
- *   · Al acabar la voz la música sube con curva en 24 f: tras el hook sube hasta el f222 (el plano siguiente, el gimnasio, corta en el f309) y tras la mitad hasta el f765 (el baño corta en el f853).
+ *   · La APERTURA: el frame 0 es Isabella (excepción declarada), pero su voz no llega hasta el f30. La música abre con una nota de 10,5 dB en el f3 que suena entera hasta el f10 y baja con curva de coseno en 18 f (f10-f28):
+ *     acaba 2 f ANTES de su primera palabra.
+ *   · La MITAD entra A CORTE en el golpe del f517 (suena entero): la música baja con curva de coseno en 6 f y la primera palabra suena 10 f después (f527). El CTA, igual: golpe en el f1118, bajada de 6 f y primera palabra
+ *     en el f1128.
+ *   · Al acabar la voz la música sube con curva en 24 f: tras el hook sube hasta el f222 (el plano siguiente, el gimnasio, corta en el f303) y tras la mitad hasta el f731 (el baño corta en el f839).
  *
- * EL CTA Y EL CIERRE. Entra en el f1141 y el piano empieza a DECAER en el f1170 (el 261,2 s de la canción: su final natural, de −18 a −33 LUFS hacia el 264 s): bajo la voz del CTA, la canción se va sola. Al acabar su última palabra
- * (f1313) la envolvente la lleva a cero con curva de coseno 2 f antes del final de la pieza (la tarjeta va en silencio).
+ * EL CTA Y EL CIERRE. Entra en el f1118 y la canción acaba con su fundido natural (de −13 a −47 dB, 3 s desde el 205,9 s de la pista: f1233-1323), bajo la voz del CTA y la tarjeta. Al acabar su última palabra (f1290) la
+ * envolvente la lleva a cero con curva de coseno 2 f antes del final de la pieza (la tarjeta va en silencio).
  *
  * Datos puros: la puerta lo carga con node.
  */
@@ -58,21 +57,20 @@ const ventanaDe = (id: string): { en: number; dur: number; fin: number } => {
  */
 export const HAY_MUSICA = true;
 
-/** Sonoridad de la canción en cada tramo SIN voz (ebur128 sobre la fuente): la apertura (222,2-223,0 s), el paseo (229,6-240,6 s: f222-551) y el bloque 5 (247,7-260,2 s: f765-1141). */
-const LUFS_TRAMO = { apertura: -11.2, paseo: -11.6, bloque5: -13.9 } as const;
-/** El pico real de la canción en cada uno de esos tramos (ebur128): la música nunca pasa de `TECHO_PICO`. */
-const PICO_TRAMO = { apertura: -2.0, paseo: -0.6, bloque5: -3.2 } as const;
+/** Sonoridad de la canción en cada tramo SIN voz (ebur128 sobre la fuente): la apertura (164,97-165,77 s), el paseo (172,37-182,47 s: f222-517) y el bloque 5 (189,27-201,77 s: f731-1118). */
+const LUFS_TRAMO = { apertura: -10.7, paseo: -9.5, bloque5: -9.7 } as const;
+/** El pico real de la canción en cada uno de esos tramos (ebur128, dBFS): la música nunca pasa de `TECHO_PICO`. */
+const PICO_TRAMO = { apertura: -0.3, paseo: 0.1, bloque5: 0.1 } as const;
 const TECHO_PICO = -0.5;
 /**
- * La sonoridad de la canción en cada ventana de VOZ (ebur128 sobre la fuente, el tramo de la canción que suena mientras ella habla): lo que mide la puerta en lugar de suponer la meseta en todas. En la del CTA es la de
- * sus primeros 2 s (260,57-262,57), antes de que el piano caiga.
+ * La sonoridad de la canción en cada ventana de VOZ (ebur128 sobre la fuente, el tramo de la canción que suena mientras ella habla): lo que mide la puerta en lugar de suponer la meseta en todas. En la del CTA, la de la parte plana (202,6-205,9 s), antes de que la canción se apague.
  */
-export const LUFS_CANCION_EN_VOZ = { "c01-hook": -13.4, "c05-mitad": -14.5, "c09-cta": -16.9 } as const;
+export const LUFS_CANCION_EN_VOZ = { "c01-hook": -9.4, "c05-mitad": -9.6, "c09-cta": -9.5 } as const;
 /** La sonoridad media de la canción en toda la pieza (ebur128): solo para los avisos de la puerta. */
-export const LUFS_MESETA = -13.0;
+export const LUFS_MESETA = -9.5;
 /** La música SOLA: el nivel de la voz. */
 const OBJETIVO_MUSICA = -15;
-/** Ganancia lineal de la música sola en cada tramo (−3,8 · −3,4 · −1,1 dB sobre el archivo): ningún pico llega a −2,6 dBFS. */
+/** Ganancia lineal de la música sola en cada tramo (−4,3 · −5,5 · −5,3 dB sobre el archivo): ningún pico pasa de −4,4 dBFS. */
 export const ALTOS = {
   apertura: Math.min(gananciaHasta(LUFS_TRAMO.apertura, OBJETIVO_MUSICA), Math.pow(10, (TECHO_PICO - PICO_TRAMO.apertura) / 20)),
   paseo: Math.min(gananciaHasta(LUFS_TRAMO.paseo, OBJETIVO_MUSICA), Math.pow(10, (TECHO_PICO - PICO_TRAMO.paseo) / 20)),
@@ -146,7 +144,7 @@ export const musica048: readonly TramoAudio[] = HAY_MUSICA
         desde: INICIO_MUSICA,
         ganancia: envolvente(),
         reason:
-          "«Einaudi Fly» (piano): una nota de 8,1 dB en el f3 abre la pieza bajo el hook de Isabella; un golpe medido de 6,5 a 11,9 dB en que entra cada corte seco (las disolvencias van libres); y su final natural —el piano decae de −18 a −33 LUFS entre los f1170 y f1255— cae bajo la voz del CTA; tras «…vale la pena conocer» se apaga bajo la tarjeta.",
+          "«L' Amour Toujours on SAXOPHONE» (sax, 126 BPM): una nota de 10,5 dB en el f3 abre la pieza bajo el hook de Isabella; un golpe medido de 8,2 a 12,0 dB en que entra cada corte seco (las disolvencias van libres); y su final natural —un fundido de −13 a −47 dB entre los f1233 y f1323— cae bajo la voz del CTA y la tarjeta; tras «…vale la pena conocer» se apaga del todo.",
       },
     ]
   : [];

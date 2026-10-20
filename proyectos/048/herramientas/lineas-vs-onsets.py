@@ -33,7 +33,7 @@ RAIZ = Path(__file__).resolve().parents[3]
 VOCES = RAIZ / "remotion" / "public" / "recorrido-048"
 
 # toma → (en de su plano en la composición, `desde` de su plano en frames de la fuente a 30 fps), de metraje-048.ts
-TOMAS = {"hk01": (0, 0), "md03": (551, 10), "ct03": (1141, 9)}
+TOMAS = {"hk01": (0, 0), "md03": (517, 10), "ct03": (1118, 9)}
 
 # (toma, frame en que entra la línea, texto, segundo de la fuente en que empieza su primera palabra, nota)
 # El segundo de cada palabra sale de `onsets-voz.py` (energía de la voz sola) y de `palabras-desde.py` (qué palabra es la primera que oye
@@ -46,21 +46,21 @@ LINEAS = [
     ("hk01", 125, "a optimizarlo,", 4.220, "desde 4,25 y 4,30 oye «optimizarlo, incluyendo un»: la «a» va pegada a «ayudamos»"),
     ("hk01", 154, "incluyendo un", 5.165, "desde 5,165 oye «incluyendo un aseo semanal»"),
     ("hk01", 177, "aseo semanal.", 5.930, "desde 5,90 oye «hace dos semanas»; desde 5,86 «un asedio semanal»: POR CONFIRMAR AL OÍDO"),
-    ("md03", 560, "Contamos con", 0.680, "primera sílaba (onset de 46 dB desde −66)"),
-    ("md03", 584, "chef privado,", 1.460, "desde 1,265 oye «con chef privado»; desde 1,46 «privado»: «chef» ≈ 1,40-1,46"),
-    ("md03", 615, "tours, masajes", 2.500, "desde 2,475 y 2,56 oye «tours, masajes y transporte»"),
-    ("md03", 642, "y transporte", 3.400, "desde 3,34-3,54 oye «y transporte y las mejores»"),
-    ("md03", 673, "y las mejores", 4.420, "desde 4,42 y 4,50 oye «y las mejores experiencias»"),
-    ("md03", 699, "experiencias", 5.295, "desde 5,295 oye «experiencias de la ciudad de»"),
-    ("md03", 714, "de la ciudad de Medellín.", 5.795, "desde 5,795 oye «de la ciudad de Medellín.»"),
-    ("ct03", 1149, "Cuando llegas a", 0.600, "primera sílaba (onset de 16 dB desde −57; sube a los 0,62)"),
-    ("ct03", 1163, "una ciudad que", 1.050, "desde 0,93 oye «Si llegas a una»; desde 1,095 «no es la tuya»: «una» ≈ 1,0-1,1"),
-    ("ct03", 1178, "no es la tuya,", 1.575, "desde 1,575 oye «que no es la tuya,»; «no» ≈ 1,57-1,65"),
-    ("ct03", 1202, "el acompañamiento", 2.355, "desde 2,355 oye «El acompañamiento personalizado es una»"),
-    ("ct03", 1225, "personalizado", 3.120, "desde 3,12 oye «personalizado, es una plusvalía que»"),
-    ("ct03", 1255, "es una plusvalía", 4.120, "desde 4,10 oye «es una plusvalía que»; desde 4,16 pierde «es»"),
-    ("ct03", 1283, "que vale la pena", 5.050, "desde 5,05 oye «que vale la pena»"),
-    ("ct03", 1303, "conocer.", 5.720, "desde 5,72 oye «conocer.»"),
+    ("md03", 526, "Contamos con", 0.680, "primera sílaba (onset de 46 dB desde −66)"),
+    ("md03", 550, "chef privado,", 1.460, "desde 1,265 oye «con chef privado»; desde 1,46 «privado»: «chef» ≈ 1,40-1,46"),
+    ("md03", 581, "tours, masajes", 2.500, "desde 2,475 y 2,56 oye «tours, masajes y transporte»"),
+    ("md03", 608, "y transporte", 3.400, "desde 3,34-3,54 oye «y transporte y las mejores»"),
+    ("md03", 639, "y las mejores", 4.420, "desde 4,42 y 4,50 oye «y las mejores experiencias»"),
+    ("md03", 665, "experiencias", 5.295, "desde 5,295 oye «experiencias de la ciudad de»"),
+    ("md03", 680, "de la ciudad de Medellín.", 5.795, "desde 5,795 oye «de la ciudad de Medellín.»"),
+    ("ct03", 1126, "Cuando llegas a", 0.600, "primera sílaba (onset de 16 dB desde −57; sube a los 0,62)"),
+    ("ct03", 1140, "una ciudad que", 1.050, "desde 0,93 oye «Si llegas a una»; desde 1,095 «no es la tuya»: «una» ≈ 1,0-1,1"),
+    ("ct03", 1155, "no es la tuya,", 1.575, "desde 1,575 oye «que no es la tuya,»; «no» ≈ 1,57-1,65"),
+    ("ct03", 1179, "el acompañamiento", 2.355, "desde 2,355 oye «El acompañamiento personalizado es una»"),
+    ("ct03", 1202, "personalizado", 3.120, "desde 3,12 oye «personalizado, es una plusvalía que»"),
+    ("ct03", 1232, "es una plusvalía", 4.120, "desde 4,10 oye «es una plusvalía que»; desde 4,16 pierde «es»"),
+    ("ct03", 1260, "que vale la pena", 5.050, "desde 5,05 oye «que vale la pena»"),
+    ("ct03", 1280, "conocer.", 5.720, "desde 5,72 oye «conocer.»"),
 ]
 ADELANTO_MIN, ADELANTO_MAX = -0.5, 3.0  # frames; −0,5 para la primera línea, que no puede preceder a su imagen
 

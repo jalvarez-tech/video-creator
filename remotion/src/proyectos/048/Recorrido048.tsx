@@ -32,11 +32,11 @@ import { ACENTO_MENOS_048, subtitulos048 } from "./subtitulos-048";
  * Reel de renta con Isabella Cadavid que ABRE CON EL HOOK (excepción por encargo del usuario a la regla fija «la primera toma sin texto ni voz», como el 021: Isabella camina hacia cámara en la terraza desde el frame 0 y
  * dice «el tiempo es el activo más valioso de los seres humanos y te ayudamos a optimizarlo incluyendo un aseo semanal»), el paseo por la unidad (la Social Kitchen, el gimnasio, el carril de nado), ella de nuevo bajo la
  * pérgola («contamos con chef privado, tours, masajes y transporte y las mejores experiencias de la ciudad de Medellín»), el apartamento (la alcoba, el baño) y el balcón, del cielo y la ciudad al JACUZZI PRIVADO (el clímax),
- * y su CTA en las escaleras con césped («cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer»). Una toma suya por bloque (HK01, MD03, CT03) y «Einaudi Fly»
- * (piano). El recorrido es HORIZONTAL (1920×1080) recortado al centro: sale más blando que ella (4K). Encargo, decisiones y por qué cada plano: proyectos/048/artefactos/. Cómo cambiar el hook, la mitad, el CTA, los planos
+ * y su CTA en las escaleras con césped («cuando llegas a una ciudad que no es la tuya, el acompañamiento personalizado es una plusvalía que vale la pena conocer»). Una toma suya por bloque (HK01, MD03, CT03) y «L' Amour Toujours on SAXOPHONE»
+ * (sax, 126 BPM). El recorrido es HORIZONTAL (1920×1080) recortado al centro: sale más blando que ella (4K). Encargo, decisiones y por qué cada plano: proyectos/048/artefactos/. Cómo cambiar el hook, la mitad, el CTA, los planos
  * o la música: proyectos/048/combinaciones.md.
  *
- * ES UN MONTAJE (director §3i): diez planos: los cortes secos caen en golpes medidos de la canción (piano, sin pulso) y las disolvencias van libres. El vídeo va
+ * ES UN MONTAJE (director §3i): diez planos: los cortes secos caen en golpes medidos de la canción (pulso de 126 BPM) y las disolvencias van libres. El vídeo va
  * MUDO en `<PistaMetraje>` y todo lo que suena —la voz de las tres tomas y la música, que baja cuando ella
  * habla— va en `<PistaAudio>`, cortado con los mismos números que la imagen.
  *
