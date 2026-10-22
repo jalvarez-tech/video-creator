@@ -1,0 +1,18 @@
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+Descubre la                   84 |   0.800s → f   85.0 |    +1.0 f |  0.800 s (  +0 ms)
+privacidad de                104 |   1.510s → f  106.3 |    +2.3 f |  1.510 s (  +0 ms)
+vivir en un                  122 |   2.100s → f  124.0 |    +2.0 f |  1.965 s (-135 ms) · ⚠ a 135 ms (sin onset propio (tras «de» pegado); desde 2,2 oye «en un condominio de solo seis»)
+condominio de                135 |   2.525s → f  136.8 |    +1.8 f |  2.525 s (  +0 ms)
+solo seis casas.             157 |   3.280s → f  159.4 |    +2.4 f |  3.280 s (  +0 ms)
+Los condominios de           469 |   0.815s → f  469.4 |    +0.4 f |  0.815 s (  +0 ms)
+menos de 10                  491 |   1.620s → f  493.6 |    +2.6 f |  1.460 s (-160 ms) · ⚠ a 160 ms («menos» sin onset propio (la /m/ nasal es suave); desde el DTW (centro 1,70 s) y tras el «de» de 1,46)
+unidades privadas            509 |   2.200s → f  511.0 |    +2.0 f |  2.100 s (-100 ms) · ⚠ a 100 ms («unidades» sin onset propio tras «10»; desde 2,24 (DTW) y antes del onset de «privadas» (2,585))
+se valorizan                 538 |   3.180s → f  540.4 |    +2.4 f |  3.180 s (  +0 ms)
+diferente.                   551 |   3.610s → f  553.3 |    +2.3 f |  3.610 s (  +0 ms)
+Si realmente buscas          886 |   1.845s → f  886.4 |    +0.4 f |  1.845 s (  +0 ms)
+tranquilidad,                915 |   2.870s → f  917.1 |    +2.1 f |  2.870 s (  +0 ms)
+esta casa es                 934 |   3.500s → f  936.0 |    +2.0 f |  3.500 s (  +0 ms)
+para ti.                     953 |   4.140s → f  955.2 |    +2.2 f |  4.140 s (  +0 ms)
+Escríbeme.                   968 |   4.625s → f  969.8 |    +1.8 f |  4.625 s (  +0 ms)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

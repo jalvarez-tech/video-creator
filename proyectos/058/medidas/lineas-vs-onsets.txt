@@ -1,0 +1,21 @@
+Installed 6 packages in 56ms
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+Este es un apartamento        87 |   0.115s → f   87.5 |    +0.5 f |  0.115 s (  +0 ms)
+pensado para                 110 |   0.905s → f  111.2 |    +1.2 f |  0.905 s (  +0 ms)
+descansar,                   137 |   1.795s → f  137.8 |    +0.8 f |  1.795 s (  +0 ms)
+no para sobrevivir           157 |   2.445s → f  157.3 |    +0.3 f |  2.445 s (  +0 ms)
+al caos.                     181 |   3.270s → f  182.1 |    +1.1 f |  3.400 s (+130 ms) · ⚠ a 130 ms («al» (núcleo a 3,30 s) sin onset propio (la /l/ pegada a la «r» de «sobrevivir»); «caos» empieza en 3,46 s (valle −54 dB))
+Lo que cabe en               494 |   0.425s → f  493.8 |    -0.2 f |  0.425 s (  +0 ms)
+60 metros cuadrados          503 |   0.740s → f  503.2 |    +0.2 f |  0.740 s (  +0 ms)
+en Palmazera                 547 |   2.230s → f  547.9 |    +0.9 f |  2.230 s (  +0 ms)
+te va a cambiar              569 |   2.975s → f  570.2 |    +1.2 f |  2.975 s (  +0 ms)
+la idea del                  584 |   3.500s → f  586.0 |    +2.0 f |  3.510 s ( +10 ms)
+apartamento pequeño.         599 |   3.960s → f  599.8 |    +0.8 f |  4.065 s (+105 ms) · ⚠ a 105 ms («a-» sin onset propio tras «del»; el DTW da 3,96 y «pequeño» empieza en 4,53 s (valle −56 dB); ±3 f)
+Escríbeme                    935 |   0.605s → f  935.1 |    +0.1 f |  0.605 s (  +0 ms)
+y te cuento                  954 |   1.255s → f  954.6 |    +0.6 f |  1.255 s (  +0 ms)
+por qué este lugar           970 |   1.780s → f  970.4 |    +0.4 f |  1.780 s (  +0 ms)
+se siente                    997 |   2.680s → f  997.4 |    +0.4 f |  2.680 s (  +0 ms)
+diferente                   1005 |   2.965s → f 1006.0 |    +1.0 f |  2.965 s (  +0 ms)
+desde que entras.           1020 |   3.465s → f 1021.0 |    +1.0 f |  3.465 s (  +0 ms)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

@@ -1,0 +1,6 @@
+Installed 2 packages in 65ms
+previsto (frame) | detectado: inicio de la subida/caída (frame) | diferencia (frames; bien = 0,0 ± 1)
+  f  303.0   subida detectada en f  303.1 (11.9 dB)   dif =  +0.4 f
+  f  394.0   subida detectada en f  393.4 (10.7 dB)   dif =  -0.2 f
+  f  724.0   subida detectada en f  723.3 ( 8.1 dB)   dif =  -0.3 f
+  f  812.0   subida detectada en f  812.0 ( 8.6 dB)   dif =  +0.3 f

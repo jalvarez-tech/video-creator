@@ -1,0 +1,3 @@
+# CT03 (`CTA3`). Lo que se OYE: «Si deseas que te envíe la rentabilidad mensual, haz clic en el enlace y escríbeme un mensaje.» Whisper (small) oye «escribete un mensaje» (confianza 0,29-0,57 en «escribete»): POR CONFIRMAR AL OÍDO «escríbeme» (la gramática y el catálogo dicen «escríbeme»; ver `medidas/formantes-cta.txt`). Entre «escríbe-» y «-me» hay ≈ 100 ms de casi silencio (4,87-4,96 s) que no es el murmullo de una /m/.
+Si deseas que te envíe / la rentabilidad mensual,
+haz clic en el enlace / y **escríbeme** / un mensaje.

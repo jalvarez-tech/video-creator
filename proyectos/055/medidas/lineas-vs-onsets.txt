@@ -1,0 +1,16 @@
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+Imagina tus                   99 |   0.675s → f  100.2 |    +1.2 f |  0.675 s (  +0 ms)
+mañanas                      115 |   1.150s → f  114.5 |    -0.5 f |  1.085 s ( -65 ms) · ⚠ a 65 ms (desde 1,15 oye «mañana en este espacio»; desde 0,95 «a tus mañanas en»)
+en este espacio,             128 |   1.660s → f  129.8 |    +1.8 f |  1.640 s ( -20 ms)
+disfrutando del              166 |   2.880s → f  166.4 |    +0.4 f |  2.880 s (  +0 ms)
+aire puro                    181 |   3.370s → f  181.1 |    +0.1 f |  3.405 s ( +35 ms)
+del oriente antioqueño.      193 |   3.770s → f  193.1 |    +0.1 f |  3.740 s ( -30 ms)
+No es solo una casa,         549 |   1.785s → f  549.5 |    +0.5 f |  1.785 s (  +0 ms)
+es una                       586 |   2.995s → f  585.9 |    -0.1 f |  2.995 s (  +0 ms)
+declaración de estilo.       591 |   3.200s → f  592.0 |    +1.0 f |  3.085 s (-115 ms) · ⚠ a 115 ms (desde 3,10 oye «una declaración de estilo»; desde 3,20 «la declaración de estilo»)
+Si estás pensando           1051 |   0.425s → f 1051.8 |    +0.8 f |  0.425 s (  +0 ms)
+en cambiar                  1066 |   0.920s → f 1066.6 |    +0.6 f |  0.880 s ( -40 ms) · ⚠ a 40 ms (desde 0,85 oye «pensando en cambiarte»; desde 0,92 «en cambiarte de estilo»)
+tu estilo de vida,          1080 |   1.370s → f 1080.1 |    +0.1 f |  1.290 s ( -80 ms) · ⚠ a 80 ms (desde 1,30 oye garabato («invierto este la vida»); desde 1,38 «Tu estilo de vida»)
+¡hablemos!                  1114 |   2.600s → f 1117.0 |    +3.0 f |  2.600 s (  +0 ms)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

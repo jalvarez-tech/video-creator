@@ -1,0 +1,4 @@
+# CT01 (IMG_8723). Whisper oye «escríbeme» con confianza ≥ 0,34 en su primera sílaba (como en el 056); el resto ≥ 0,67.
+**Escríbeme** / y te cuento
+por qué este lugar / se siente / **diferente**
+desde que entras.

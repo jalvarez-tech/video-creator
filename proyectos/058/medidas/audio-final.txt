@@ -1,0 +1,20 @@
+voz-hook      2.900-   6.570 s   -14.7 LUFS  pico   -4.4 dBFS
+voz-mitad    16.470-  20.900 s   -14.7 LUFS  pico   -4.9 dBFS
+voz-cta      31.170-  34.800 s   -14.7 LUFS  pico   -4.3 dBFS
+apertura      0.150-   2.000 s   -15.3 LUFS  pico   -2.6 dBFS
+paseo         7.700-  15.700 s   -15.0 LUFS  pico   -3.1 dBFS
+bloque5      21.800-  30.500 s   -14.9 LUFS  pico   -1.2 dBFS
+pieza         0.000-  37.300 s   -15.2 LUFS  pico   -1.2 dBFS
+  Integrated loudness:
+    I:         -15.2 LUFS
+    Threshold: -25.2 LUFS
+
+  Loudness range:
+    LRA:         2.2 LU
+    Threshold: -35.2 LUFS
+    LRA low:   -16.6 LUFS
+    LRA high:  -14.4 LUFS
+
+  True peak:
+    Peak:       -1.2 dBFS
+[out#0/null @ 0x121f040c0] video:463KiB audio:7004KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown

@@ -1,0 +1,11 @@
+✅ rc02.mp4 (recorrido · SDR · rotación 0)
+✅ rc03.mp4 (recorrido · SDR · rotación 0)
+✅ rc05.mp4 (recorrido · SDR · rotación 0)
+✅ rc07.mp4 (recorrido · SDR · rotación 0)
+✅ rc10.mp4 (recorrido · SDR · rotación 0)
+✅ rc13.mp4 (recorrido · SDR · rotación 0)
+✅ rc14.mp4 (recorrido · SDR · rotación 0)
+✅ rc15.mp4 (recorrido · SDR · rotación 0)
+✅ zc02.mp4 (recorrido · SDR · rotación 0)
+✅ zc05.mp4 (recorrido · SDR · rotación 0)
+✅ repuesto en remotion/public/recorrido-060

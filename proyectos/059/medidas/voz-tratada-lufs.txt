@@ -1,0 +1,4 @@
+hk04          0.780-   4.450 s   -15.0 LUFS  pico   -3.1 dBFS
+md09          0.980-   4.980 s   -15.0 LUFS  pico   -2.5 dBFS
+ct03          0.460-   4.220 s   -15.0 LUFS  pico   -2.5 dBFS
+hk04          0.780-   4.550 s   -15.0 LUFS  pico   -3.0 dBFS

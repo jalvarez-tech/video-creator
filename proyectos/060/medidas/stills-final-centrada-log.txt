@@ -1,0 +1,13 @@
+bundle 16 s
+Recorrido060: 1642 f · 30 fps · 1080×1920 · gl angle
+  ✓ f30
+  ✓ f150
+  ✓ f380
+  ✓ f700
+  ✓ f900
+  ✓ f1085
+  ✓ f1250
+  ✓ f1350
+  ✓ f1500
+  ✓ f1620
+bundle borrado

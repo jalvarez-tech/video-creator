@@ -1,0 +1,3 @@
+# CT01 (`CTA1`). Whisper oye «Haz clic en el botón y agendemos una visita. Puede ser virtual o presenciar.» con confianza ≥ 0,61 salvo «Haz» (0,42, la primera palabra, tras un ruido de −45 dB que no es voz): POR CONFIRMAR AL OÍDO «presencial» (whisper oye «presenciar»: la /l/ final; la ficha del catálogo y el sentido dicen «presencial»).
+Haz clic en el botón / y agendemos / **una visita.**
+Puede ser / virtual o presencial.

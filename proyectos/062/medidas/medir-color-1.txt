@@ -1,0 +1,40 @@
+Installed 2 packages in 16ms
+1 · por plano (a mitad de cada uno)
+  plano                           luma   p5  p50  p95 |   sat |   R/G   B/G |  ≥250    ≤8
+  c01 azotea (ZC29)    antes     113.4   51  101  210 | 0.437 |  0.75  1.29 |  0.1%  0.5%
+  c01 azotea (ZC29)    después   113.0   46  100  211 | 0.490 |  0.70  1.35 |  0.0%  0.9%
+  c02 hook (HK02)      antes     145.5   36  163  207 | 0.154 |  1.04  0.92 |  0.1%  1.1%
+  c02 hook (HK02)      después   142.9   34  161  199 | 0.168 |  1.05  0.91 |  0.0%  1.2%
+  c03 jacuzzi (ZC10)   antes     128.7   25  122  212 | 0.319 |  0.86  1.12 |  0.0%  2.4%
+  c03 jacuzzi (ZC10)   después   129.0   17  123  212 | 0.351 |  0.84  1.14 |  0.0%  3.8%
+  c04 pérgola (ZC21)   antes     128.7   22  138  211 | 0.173 |  1.00  0.98 |  0.1%  2.8%
+  c04 pérgola (ZC21)   después   129.4   13  142  211 | 0.195 |  1.01  0.98 |  0.0%  3.9%
+  c05 juntas (ZC06)    antes     154.2   40  155  223 | 0.162 |  1.05  0.93 |  0.0%  0.9%
+  c05 juntas (ZC06)    después   155.4   34  159  222 | 0.192 |  1.07  0.91 |  0.0%  1.9%
+  c06 mitad (MD02)     antes     116.6   37  127  169 | 0.432 |  1.23  0.73 |  0.2%  0.8%
+  c06 mitad (MD02)     después   114.0   34  124  165 | 0.462 |  1.26  0.70 |  0.0%  1.0%
+  c07 cama (RC12)      antes     134.9   52  133  215 | 0.221 |  1.04  0.96 |  0.6%  0.1%
+  c07 cama (RC12)      después   135.8   47  135  215 | 0.260 |  1.05  0.95 |  2.4%  0.2%
+  c08 cocina (RC04)    antes     136.7   14  156  212 | 0.186 |  1.07  0.92 |  0.0%  3.3%
+  c08 cocina (RC04)    después   137.8    5  161  213 | 0.217 |  1.09  0.91 |  0.0%  5.8%
+  c09 balcón (RC18)    antes      96.5   18  109  161 | 0.187 |  1.05  0.94 |  0.0%  1.9%
+  c09 balcón (RC18)    después    95.5    9  110  165 | 0.245 |  1.07  0.92 |  0.0%  4.3%
+  c10 cta (CT02)       antes     109.0   25  115  189 | 0.518 |  1.24  0.63 |  0.0%  1.8%
+  c10 cta (CT02)       después   106.2   21  113  183 | 0.548 |  1.27  0.60 |  0.0%  2.3%
+
+  entre planos (σ = dispersión; menos es más balanceado):
+  antes    luma media 126.4 (σ 16.7) · saturación media 0.279 (σ 0.130) · p5 medio 31.8 · p95 medio 200.8 · quemado máx 0.6% · aplastado máx 3.3%
+  después  luma media 125.9 (σ 17.4) · saturación media 0.313 (σ 0.133) · p5 medio 25.8 · p95 medio 199.5 · quemado máx 2.4% · aplastado máx 5.8%
+
+2 · empalmes: salto de luma media (último fotograma de un plano → primero del siguiente)
+  f94→f95  c01→c02 (azotea → hook):  antes  +28.7 · después  +27.0
+  f302→f303  c03→c04 (jacuzzi → pérgola):  antes  -12.9 · después  -13.5
+  f393→f394  c04→c05 (pérgola → juntas):  antes  +14.3 · después  +14.8
+  f723→f724  c07→c08 (cama → cocina):  antes   +4.5 · después   +6.8
+  f811→f812  c08→c09 (cocina → balcón):  antes  -38.6 · después  -40.5
+
+3 · la piel de Isabella (tono en grados, saturación y valor HSV de los píxeles de piel)
+  f160 c02 hook (HK02)      antes     3046 px · tono  15.3° · sat 0.38 · val 0.86 · luma 173.8
+  f160 c02 hook (HK02)      después   3031 px · tono  15.2° · sat 0.41 · val 0.87 · luma 172.2
+  f1006 c10 cta (CT02)       antes     2546 px · tono  22.0° · sat 0.52 · val 0.75 · luma 143.5
+  f1006 c10 cta (CT02)       después   2392 px · tono  21.4° · sat 0.54 · val 0.74 · luma 139.4

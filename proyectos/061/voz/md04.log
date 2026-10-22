@@ -1,0 +1,28 @@
+· voz de 0,88 s a 5,77 s en 2 tramos · 2 palabras ancladas al arranque de la voz
+  {
+    id: "m01",
+    hasta: 567,
+    trozos: [
+      { desde: 485, texto: "En Medellín hay muchos" },
+      { desde: 520, texto: "proyectos inmobiliarios," },
+    ],
+  },
+  {
+    id: "m02",
+    hasta: 640,
+    trozos: [
+      { desde: 567, texto: "pero" },
+      { desde: 570, texto: "pocos permiten", estilo: "acento" },
+      { desde: 602, texto: "rentas cortas." },
+    ],
+  },
+m01  sale en 567
+     485    0,88 s  voz      «En Medellín hay muchos»  ← En Medellín hay muchos
+     520    2,04 s  dtw      «proyectos inmobiliarios,»  ← proyectos inmobiliarios,
+m02  sale en 640
+     567    3,59 s  voz      «pero»  ← pero
+     570    3,70 s  dtw      «pocos permiten»  ← pocos permiten
+     602    4,76 s  dtw      «rentas cortas.»  ← rentas cortas.
+   (frame · segundo de la fuente · de dónde sale: dtw, reparto de whisper, voz medida o s0 · texto ← lo oído; 30 fps)
+· precisión: tras una pausa la línea va al arranque de la voz; a mitad de frase el tiempo es el del DTW, que suele ir de 1 a 3 f pronto y puede llegar a 5. El plan se mira en el frame.
+✅ 2 bloques (m01-m02), 5 líneas · frames 485-640 a 30 fps · 11/11 palabras del guion casadas

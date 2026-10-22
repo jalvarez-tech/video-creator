@@ -1,0 +1,16 @@
+bundle 19 s
+Recorrido060: 1421 f · 30 fps · 1080×1920 · gl angle
+  ✓ f884
+  ✓ f899
+  ✓ f928
+  ✓ f954
+  ✓ f978
+  ✓ f1002
+  ✓ f1012
+  ✓ f1040
+  ✓ f1058
+  ✓ f1072
+  ✓ f1096
+  ✓ f1130
+  ✓ f1180
+bundle borrado

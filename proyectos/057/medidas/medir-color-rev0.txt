@@ -1,0 +1,38 @@
+Installed 2 packages in 27ms
+1 · por plano (a mitad de cada uno)
+  plano                           luma   p5  p50  p95 |   sat |   R/G   B/G |  ≥250    ≤8
+  c01 aéreo (DR03)     antes     118.9   33  124  189 | 0.497 |  0.72  1.18 |  2.6%  1.0%
+  c01 aéreo (DR03)     después   119.0   21  127  190 | 0.544 |  0.70  1.20 | 13.0%  2.8%
+  c02 hook (HK01)      antes     115.9    2  127  196 | 0.210 |  1.04  0.93 |  0.0%  7.4%
+  c02 hook (HK01)      después   116.2    0  128  193 | 0.215 |  1.05  0.92 |  0.0%  8.1%
+  c03 pasillo (RC11)   antes     139.2   77  141  179 | 0.169 |  1.07  0.92 |  0.0%  0.4%
+  c03 pasillo (RC11)   después   141.9   75  145  183 | 0.194 |  1.09  0.91 |  0.0%  0.5%
+  c04 sala (RC12)      antes     134.3   37  137  219 | 0.116 |  1.02  0.96 |  0.0%  1.9%
+  c04 sala (RC12)      después   137.4   34  143  216 | 0.128 |  1.03  0.95 |  0.0%  2.5%
+  c06 mitad (MD06)     antes     127.3   16  143  214 | 0.217 |  1.04  1.01 |  0.0%  0.6%
+  c06 mitad (MD06)     después   127.1   13  144  204 | 0.231 |  1.05  1.01 |  0.0%  1.7%
+  c07 alcoba (RC04)    antes     142.9   87  143  199 | 0.177 |  1.06  0.90 |  0.0%  0.0%
+  c07 alcoba (RC04)    después   147.0   88  148  200 | 0.204 |  1.07  0.89 |  0.0%  0.1%
+  c08 ventana (RC02)   antes     147.1   79  138  230 | 0.139 |  1.01  0.94 |  0.0%  0.0%
+  c08 ventana (RC02)   después   145.8   77  141  216 | 0.158 |  1.02  0.93 |  0.0%  0.0%
+  c09 vista (DR01)     antes     129.4   41  124  237 | 0.425 |  0.78  1.32 |  3.1%  0.1%
+  c09 vista (DR01)     después   127.7   31  126  222 | 0.477 |  0.74  1.38 |  1.6%  0.8%
+  c10 cta (CT02)       antes     112.3   24  122  187 | 0.344 |  1.00  1.05 |  0.0%  2.4%
+  c10 cta (CT02)       después   112.5   22  124  185 | 0.359 |  1.01  1.05 |  0.0%  2.8%
+
+  entre planos (σ = dispersión; menos es más balanceado):
+  antes    luma media 129.7 (σ 11.6) · saturación media 0.255 (σ 0.127) · p5 medio 44.1 · p95 medio 205.6 · quemado máx 3.1% · aplastado máx 7.4%
+  después  luma media 130.5 (σ 12.3) · saturación media 0.279 (σ 0.138) · p5 medio 40.2 · p95 medio 201.1 · quemado máx 13.0% · aplastado máx 8.1%
+
+2 · empalmes: salto de luma media (último fotograma de un plano → primero del siguiente)
+  f211→f212  c02→c03 (hook → pasillo):  antes  -20.1 · después  -18.4
+  f322→f323  c03→c04 (pasillo → sala):  antes   +5.6 · después   +6.8
+  f798→f799  c08→c09 (ventana → vista):  antes  +33.4 · después  +33.3
+
+3 · la piel de Isabella (tono en grados, saturación y valor HSV de los píxeles de piel)
+  f142 c02 hook (HK01)      antes      341 px · tono  15.1° · sat 0.47 · val 0.46 · luma  87.2
+  f142 c02 hook (HK01)      después    347 px · tono  14.9° · sat 0.50 · val 0.48 · luma  88.4
+  f531 c06 mitad (MD06)     antes      915 px · tono 357.8° · sat 0.35 · val 0.43 · luma  82.1
+  f531 c06 mitad (MD06)     después    955 px · tono 357.1° · sat 0.38 · val 0.44 · luma  82.9
+  f960 c10 cta (CT02)       antes     6256 px · tono   9.1° · sat 0.31 · val 0.61 · luma 126.6
+  f960 c10 cta (CT02)       después   6266 px · tono   8.6° · sat 0.33 · val 0.63 · luma 128.6

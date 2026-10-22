@@ -1,0 +1,3 @@
+# MD04 (`MEDIO5`). Whisper oye «En Medellín hay muchos proyectos inmobiliarios, pero pocos permiten rentas cortas.» con confianza ≥ 0,79 salvo la cola de «inmobiliarios» (0,42): sin dudas de contenido.
+En Medellín hay muchos / proyectos inmobiliarios,
+**pero pocos permiten** / rentas cortas.

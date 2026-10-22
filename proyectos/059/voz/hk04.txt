@@ -1,0 +1,3 @@
+# HK04 (IMG_8734). Lo que se OYE, comprobado por cortes (palabras-desde.py) y por energía: POR CONFIRMAR AL OÍDO tres palabras de la primera frase — «el estrés» (whisper oye «la estresa»), «del trabajo» (oye «el trabajo») y «vives» (oye «vive»); el catálogo (whisper también) y el encargo dicen «Sabes que el estrés a veces no viene solo del trabajo, a veces viene de donde vives». Tras la frase (4,45 s) hay silencio y un ruido sin voz a los 7,6-8,3 s que whisper convierte en «No sé por qué no lo tiene»: no se usa.
+Sabes que el estrés / a veces no viene / solo del trabajo,
+a veces viene / **de donde vives.**

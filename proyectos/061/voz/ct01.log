@@ -1,0 +1,28 @@
+· voz de 0,26 s a 4,91 s en 3 tramos · 1 palabra anclada al arranque de la voz
+  {
+    id: "c01",
+    hasta: 1023,
+    trozos: [
+      { desde: 940, texto: "Haz clic en el botón" },
+      { desde: 976, texto: "y agendemos" },
+      { desde: 993, texto: "una visita.", estilo: "acento" },
+    ],
+  },
+  {
+    id: "c02",
+    hasta: 1078,
+    trozos: [
+      { desde: 1023, texto: "Puede ser" },
+      { desde: 1032, texto: "virtual o presencial." },
+    ],
+  },
+c01  sale en 1023
+     940    0,57 s  s0       «Haz clic en el botón»  ← Haz clic en el botón
+     976    1,78 s  dtw      «y agendemos»  ← y agendemos
+     993    2,34 s  dtw      «una visita.»  ← una visita.
+c02  sale en 1078
+    1023    3,34 s  dtw      «Puede ser»  ← Puede ser
+    1032    3,62 s  dtw      «virtual o presencial.»  ← virtual o presenciar.
+   (frame · segundo de la fuente · de dónde sale: dtw, reparto de whisper, voz medida o s0 · texto ← lo oído; 30 fps)
+· precisión: tras una pausa la línea va al arranque de la voz; a mitad de frase el tiempo es el del DTW, que suele ir de 1 a 3 f pronto y puede llegar a 5. El plan se mira en el frame.
+✅ 2 bloques (c01-c02), 5 líneas · frames 940-1078 a 30 fps · 14/14 palabras del guion casadas

@@ -1,0 +1,2 @@
+# MD03 (IMG_8819). Todas las palabras con confianza ≥ 0,5; «solo» (0,63) y «casa» (0,68) son las más bajas y se leen sin ambigüedad.
+No es solo una casa, / es una / **declaración de estilo.**

@@ -1,0 +1,45 @@
+Installed 2 packages in 32ms
+1 · por plano (a mitad de cada uno)
+  plano                           luma   p5  p50  p95 |   sat |   R/G   B/G |  ≥250    ≤8
+  c01 pérgola (ZC22)   antes     128.2   17  137  215 | 0.198 |  1.02  0.93 |  0.1%  3.1%
+  c01 pérgola (ZC22)   después   127.2    9  140  207 | 0.222 |  1.04  0.92 |  0.0%  4.8%
+  c02 hook (HK04)      antes     125.4   35  131  198 | 0.275 |  1.11  0.88 |  0.1%  0.9%
+  c02 hook (HK04)      después   124.3   33  131  193 | 0.296 |  1.13  0.87 |  0.0%  1.1%
+  c03 cocina (RC01)    antes     105.7   14  104  197 | 0.270 |  1.07  0.90 |  0.0%  3.7%
+  c03 cocina (RC01)    después   104.9    5  104  196 | 0.308 |  1.10  0.89 |  0.3%  5.6%
+  c04 estudio (RC17)   antes     119.1   29  124  194 | 0.247 |  1.06  0.91 |  0.1%  1.6%
+  c04 estudio (RC17)   después   121.2   23  128  196 | 0.280 |  1.08  0.90 |  0.5%  2.5%
+  c05 cama (RC07)      antes     126.2   43  130  192 | 0.294 |  1.13  0.87 |  0.0%  0.8%
+  c05 cama (RC07)      después   124.7   38  130  189 | 0.334 |  1.15  0.84 |  0.1%  1.6%
+  c06 mitad (MD04)     antes     118.0   18  131  203 | 0.207 |  1.08  0.96 |  0.0%  2.7%
+  c06 mitad (MD04)     después   115.5   15  129  196 | 0.226 |  1.09  0.95 |  0.0%  3.6%
+  c07 sofá (RC10)      antes     126.0   75  113  197 | 0.170 |  1.02  1.00 |  0.0%  0.1%
+  c07 sofá (RC10)      después   126.8   74  114  198 | 0.195 |  1.03  1.00 |  0.5%  0.1%
+  c08 coworking (ZC05) antes     141.7   36  138  218 | 0.168 |  1.06  0.92 |  0.0%  1.1%
+  c08 coworking (ZC05) después   143.9   31  143  216 | 0.194 |  1.08  0.91 |  0.0%  1.8%
+  c09 vista (ZC18)     antes     133.1   45  125  224 | 0.266 |  0.89  1.10 |  0.1%  0.5%
+  c09 vista (ZC18)     después   131.8   39  127  213 | 0.302 |  0.88  1.12 |  0.0%  1.3%
+  c10 cta (CT01)       antes     118.3   25  120  226 | 0.307 |  1.14  0.85 |  0.0%  2.2%
+  c10 cta (CT01)       después   118.6   23  122  218 | 0.332 |  1.15  0.84 |  0.0%  2.6%
+
+  entre planos (σ = dispersión; menos es más balanceado):
+  antes    luma media 124.2 (σ  9.2) · saturación media 0.240 (σ 0.048) · p5 medio 33.8 · p95 medio 206.4 · quemado máx 0.1% · aplastado máx 3.7%
+  después  luma media 123.9 (σ  9.7) · saturación media 0.269 (σ 0.052) · p5 medio 28.9 · p95 medio 202.1 · quemado máx 0.5% · aplastado máx 5.6%
+
+2 · empalmes: salto de luma media (último fotograma de un plano → primero del siguiente)
+  f72→f73  c01→c02 (pérgola → hook):  antes   -0.0 · después   +0.1
+  f226→f227  c02→c03 (hook → cocina):  antes  -14.6 · después  -14.1
+  f309→f310  c03→c04 (cocina → estudio):  antes  +13.5 · después  +16.8
+  f380→f381  c04→c05 (estudio → cama):  antes   +3.3 · después   +0.0
+  f647→f648  c06→c07 (mitad → sofá):  antes  -13.3 · después  -10.8
+  f731→f732  c07→c08 (sofá → coworking):  antes  +22.4 · después  +24.9
+  f819→f820  c08→c09 (coworking → vista):  antes   -7.3 · después   -9.7
+  f928→f929  c09→c10 (vista → CTA):  antes  -14.1 · después  -12.1
+
+3 · la piel de Isabella (tono en grados, saturación y valor HSV de los píxeles de piel)
+  f150 c02 hook (HK04)      antes     1881 px · tono  16.5° · sat 0.49 · val 0.68 · luma 126.9
+  f150 c02 hook (HK04)      después   1878 px · tono  16.3° · sat 0.52 · val 0.69 · luma 127.1
+  f560 c06 mitad (MD04)     antes     3146 px · tono  19.8° · sat 0.58 · val 0.57 · luma 102.5
+  f560 c06 mitad (MD04)     después   2980 px · tono  19.5° · sat 0.61 · val 0.57 · luma  99.3
+  f1000 c10 cta (CT01)       antes     1143 px · tono  19.0° · sat 0.61 · val 0.56 · luma  97.9
+  f1000 c10 cta (CT01)       después   1148 px · tono  18.7° · sat 0.64 · val 0.58 · luma  99.1

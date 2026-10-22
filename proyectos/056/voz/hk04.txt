@@ -1,0 +1,3 @@
+# HK04 (IMG_8825). Lo que se OYE, comprobado por cortes (palabras-desde.py) y por energía: POR CONFIRMAR AL OÍDO «privacidad» (whisper oye «prioridad»; medido con `formantes.py`: la vocal tras «pri-» es una /a/ abierta (F1 ≈ 730-790 Hz, la de «casas»), no la /o/ de «solo» (F1 ≈ 520-590), y hay un resalte de fricativa a 1,60-1,66 s; el sentido de la frase dice «privacidad»; la medida cierra la vocal, no la palabra).
+Descubre la / privacidad de / vivir en un
+condominio de / **solo seis casas.**

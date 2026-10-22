@@ -1,0 +1,12 @@
+{
+  "c01-pergola": "color({ exposure: 0.0, shadows: 0.1, highlights: -0.35, whites: -0.2, saturation: 1.06 })",
+  "c02-hook": "color({ contrast: 1.04, exposure: 0.0, highlights: -0.2, whites: -0.1, saturation: 1.04 })",
+  "c03-cocina": "color({ exposure: 0.2, shadows: 0.2, highlights: -0.3, whites: -0.15, saturation: 1.04 })",
+  "c04-estudio": "color({ exposure: 0.05, shadows: 0.15, highlights: -0.3, whites: -0.15, saturation: 1.05 })",
+  "c05-cama": "color({ exposure: -0.05, shadows: 0.15, highlights: -0.35, whites: -0.2, saturation: 1.04 })",
+  "c06-mitad": "color({ contrast: 1.04, exposure: 0.0, highlights: -0.2, whites: -0.1, saturation: 1.04 })",
+  "c07-sofa": "color({ exposure: 0.1, shadows: 0.15, highlights: -0.25, whites: -0.1, saturation: 1.08 })",
+  "c08-coworking": "color({ exposure: -0.2, shadows: 0.1, highlights: -0.3, whites: -0.25, saturation: 1.08 })",
+  "c09-vista": "color({ exposure: -0.05, shadows: 0.1, highlights: -0.35, whites: -0.2, saturation: 1.06 })",
+  "c10-cta": "color({ contrast: 1.04, exposure: 0.05, highlights: -0.2, whites: -0.1, saturation: 1.04 })"
+}

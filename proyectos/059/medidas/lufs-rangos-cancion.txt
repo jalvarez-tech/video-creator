@@ -1,0 +1,7 @@
+apertura    147.400- 150.230 s   -11.2 LUFS  pico   -0.7 dBFS
+paseo       155.370- 163.770 s   -12.5 LUFS  pico   -0.4 dBFS
+bloque5     168.930- 178.170 s   -11.6 LUFS  pico   -0.9 dBFS
+hook        150.600- 154.300 s   -11.1 LUFS  pico   -1.4 dBFS
+mitad       164.200- 168.200 s   -11.5 LUFS  pico   -1.1 dBFS
+cta         178.500- 182.300 s   -12.4 LUFS  pico   -0.6 dBFS
+meseta      147.400- 178.200 s   -11.7 LUFS  pico   -0.4 dBFS

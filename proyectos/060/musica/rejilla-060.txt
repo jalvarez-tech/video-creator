@@ -1,0 +1,27 @@
+# Rejilla de cortes del 060 (buscar-cortes-060.py sobre musica/golpes-cancion-entera.json, medir-pista.py --json de «Street Level Sessions on the Green» ENTERA)
+# Estructura AÉREA · HOOK · 3 de paseo · MITAD · 3 del bloque 5 · CTA; hook y CTA y mitad entran disolviendo (el golpe del hook cae 4 f ANTES del final de la disolvencia: DESFASE_GOLPE).
+# Rangos de duración (f): hook golpe→paseo [243,253] · mitad [252,260] (el clip de MEDIO7 deja 0,3 s tras «cómo») · CTA: disolución en un golpe.
+# La canción NO tiene pulso estable (desvío de 79 ms entre golpes): con rangos estrechos casi no hay soluciones (golpes ≥ 13 dB). Elegida: entrada 154,614 s (16,4 dB), INICIO_MUSICA = 4637/30.
+
+## Todas las soluciones de la entrada elegida (golpe mínimo 13 dB, ventanas moderadas)
+entrada 154.614 · mín 13.5 dB · cortes [3, 88, 332, 444, 539, 619, 876, 968, 1061, 1201] · planos [88, 244, 112, 95, 80, 257, 92, 93, 140] · golpes [15.5, 20.4, 14.5, 16.0, 13.5, 17.5, 23.6, 22.0, 18.4]
+entrada 154.614 · mín 13.3 dB · cortes [3, 88, 332, 444, 518, 619, 876, 968, 1061, 1201] · planos [88, 244, 112, 74, 101, 257, 92, 93, 140] · golpes [15.5, 20.4, 14.5, 13.3, 13.5, 17.5, 23.6, 22.0, 18.4]
+
+## Elegida (las cuatro columnas = los golpes de metraje-060.ts)
+f3     e0 (frame 0)                             [(154.614, 16.4)]
+f88    hook (cruza la disolvencia; en = f92)    [(157.453, 15.5)]
+f332   paseo1                                   [(165.583, 20.4)]
+f444   paseo2                                   [(169.313, 14.5)]
+f539   paseo3                                   [(172.492, 16.0)]
+f619   mitad (acaba la disolvencia)             [(175.147, 13.5)]
+f876   cama                                     [(183.72, 17.5)]
+f968   coworking                                [(186.79, 23.6)]
+f1061  vista                                    [(189.866, 22.0)]
+f1201  cta (acaba la disolvencia)               [(194.532, 18.4)]
+
+## Rev. 2 (2026-10-22): la infografía de 14 s alarga el bloque 5 y el CTA entra en un frame libre
+# Cortes en golpe (≥ 13 dB salvo la vista): f3 · f88 (hook) · f332 · f444 · f539 · f619 (mitad) · f876 (cama, abre la infografía) · f1296 (vista, a corte, 10,7 dB: el golpe más fuerte que deja la canción para una infografía de 14 s).
+# Disolvencias a frames libres (bajo el velo negro): f981 · f1086 · f1191 (planos de fondo) y f1422 (CTA: la canción no tiene golpes ≥ 10 dB entre 197,7 y 204,8 s).
+# Elementos de la infografía en golpes medidos (golpe · frame · dB): 184,077 s f887 25,3 · 185,525 s f930 17,4 · 186,790 s f968 23,6 · 188,051 s f1006 13,3 · 190,967 s f1094 13,9 · 192,431 s f1138 11,0 · 194,532 s f1201 18,4 · 197,723 s f1296 10,7.
+# Golpes ≥ 10 dB de la canción entre 195 y 209 s (los que decidieron la rev. 2): 197,723 (10,7) · 198,988 (12,8) · 199,630 (13,4) · 204,803 (9,7) · 205,334 (12,7) · 205,916 (13,2) · 206,330 (12,6) · 207,467 (14,8) · 209,529 (18,2).
+

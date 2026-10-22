@@ -1,0 +1,29 @@
+· voz de 0,15 s a 4,86 s en 3 tramos · 2 palabras ancladas al arranque de la voz
+  {
+    id: "h01",
+    hasta: 154,
+    trozos: [
+      { desde: 85, texto: "Te presento este estudio" },
+      { desde: 127, texto: "en Laureles," },
+    ],
+  },
+  {
+    id: "h02",
+    hasta: 221,
+    trozos: [
+      { desde: 154, texto: "habilitado para" },
+      { desde: 173, texto: "rentas cortas", estilo: "acento" },
+      { desde: 194, texto: "en Medellín." },
+    ],
+  },
+h01  sale en 154
+      85    0,59 s  voz      «Te presento este estudio»  ← Te presento este estudiante
+     127    2,00 s  dtw      «en Laureles,»  ← en Laurelis,
+h02  sale en 221
+     154    2,89 s  voz      «habilitado para»  ← habilitado para
+     173    3,52 s  dtw      «rentas cortas»  ← rentas cortas
+     194    4,22 s  dtw      «en Medellín.»  ← en Medellín.
+   (frame · segundo de la fuente · de dónde sale: dtw, reparto de whisper, voz medida o s0 · texto ← lo oído; 30 fps)
+· del guion y sin pareja en lo oído: [h01] «estudio»
+· precisión: tras una pausa la línea va al arranque de la voz; a mitad de frase el tiempo es el del DTW, que suele ir de 1 a 3 f pronto y puede llegar a 5. El plan se mira en el frame.
+✅ 2 bloques (h01-h02), 5 líneas · frames 85-221 a 30 fps · 11/12 palabras del guion casadas

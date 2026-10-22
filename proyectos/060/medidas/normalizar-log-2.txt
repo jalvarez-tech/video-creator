@@ -1,0 +1,20 @@
+· md05.mp4 ya está
+✅ md05.wav (la voz tal cual, mono 48 kHz)
+✅ md05-voz.wav (la voz tratada: graves, puerta suave, compresión 3,5:1, +0 dB y limitador a −2,5 dBFS; solo suena de 1.24 a 9.21 s)
+✅ ct03.mp4 (toma · SDR · rotación 0)
+✅ ct03.wav (la voz tal cual, mono 48 kHz)
+✅ ct03-voz.wav (la voz tratada: graves, puerta suave, compresión 3,5:1, +0 dB y limitador a −2,5 dBFS; solo suena de 0.89 a 5.46 s)
+✅ rc01.mp4 (recorrido · SDR · rotación 0)
+✅ rc04.mp4 (recorrido · SDR · rotación 0)
+✅ rc06.mp4 (recorrido · SDR · rotación 0)
+✅ rc08.mp4 (recorrido · SDR · rotación 0)
+✅ rc09.mp4 (recorrido · SDR · rotación 0)
+✅ rc16.mp4 (recorrido · SDR · rotación 0)
+✅ zc03.mp4 (recorrido · SDR · rotación 0)
+✅ zc07.mp4 (recorrido · SDR · rotación 0)
+✅ zc11.mp4 (recorrido · SDR · rotación 0)
+✅ zc12.mp4 (recorrido · SDR · rotación 0)
+✅ zc13.mp4 (recorrido · SDR · rotación 0)
+✅ zc25.mp4 (recorrido · SDR · rotación 0)
+✅ repuesto en remotion/public/recorrido-060
+FIN 0
