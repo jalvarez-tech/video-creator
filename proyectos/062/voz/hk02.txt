@@ -1,0 +1,3 @@
+# HK02 (HOOK2.MOV). Lo que se OYE: «Medellín, ya es el tercer mercado más grande de renta corta de Latinoamérica.» POR CONFIRMAR AL OÍDO una palabra: «mercado» (whisper-small oye «buscado», con confianza 0,4-0,6; el encargo y el catálogo dicen «mercado»). Medida (formantes.py, 1,10-2,40 s de la toma): tras «tercer» hay una vocal [e] (F1 ≈ 630, F2 1.450-1.750: la «e» de «mer» antes de /r/), un silencio de 90 ms (la oclusiva /k/), una [a] (F1 ≈ 750) y una [o]/[u] corta (F1 ≈ 350-400, F2 ≈ 970): «mer-ca-do», no «bus-ca-do» (una [u] tendría F1 ≈ 300-400 y F2 < 1.000 en la primera sílaba, y aquí es F1 630). Tras la frase (4,05 s) hay un golpe suelto a 4,20-4,27 s que NO es voz.
+Medellín, ya es / el tercer mercado
+más grande de / **renta corta** / de Latinoamérica.

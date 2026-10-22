@@ -1,0 +1,18 @@
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+¿Buscas un lugar              85 |   0.920s → f   84.6 |    -0.4 f |  1.060 s (+140 ms) · ⚠ a 140 ms (primera sílaba («Bus-»: el valle previo es de −42 dB); la línea entra con la imagen (opaca desde el f72))
+donde realmente se respire   102 |   1.580s → f  104.4 |    +2.4 f |  1.580 s (  +0 ms)
+paz?                         138 |   2.770s → f  140.1 |    +2.1 f |  2.770 s (  +0 ms)
+Este apartamento             154 |   3.230s → f  153.9 |    -0.1 f |  3.230 s (  +0 ms)
+es eso.                      174 |   3.980s → f  176.4 |    +2.4 f |  3.975 s (  -5 ms)
+¿Cuándo fue la               470 |   0.720s → f  469.6 |    -0.4 f |  0.660 s ( -60 ms) · ⚠ a 60 ms (primera sílaba (el valle previo, −32 dB; la toma empieza con ella entrando al cuadro))
+última vez que               484 |   1.250s → f  485.5 |    +1.5 f |  1.250 s (  +0 ms)
+llegaste a casa              502 |   1.880s → f  504.4 |    +2.4 f |  2.030 s (+150 ms) · ⚠ a 150 ms («lle-» sin onset propio (la /ʝ/ es suave); entre el «que» de 1,72 y el onset de 2,03 («a casa y sentiste que»))
+y sentiste que               528 |   2.740s → f  530.2 |    +2.2 f |  2.740 s (  +0 ms)
+de verdad                    545 |   3.310s → f  547.3 |    +2.3 f |  3.310 s (  +0 ms)
+descansaste?                 562 |   3.865s → f  564.0 |    +2.0 f |  3.865 s (  +0 ms)
+Agenda tu visita             916 |   0.760s → f  915.8 |    -0.2 f |  0.945 s (+185 ms) · ⚠ a 185 ms (primera sílaba (la toma empieza con ella entrando al cuadro))
+y vive la experiencia        943 |   1.720s → f  944.6 |    +1.6 f |  1.720 s (  +0 ms)
+de la tranquilidad           969 |   2.600s → f  971.0 |    +2.0 f |  2.475 s (-125 ms) · ⚠ a 125 ms («de la» sin onset propio tras «experiencia» (el dip de 2,44-2,46); desde 2,6 oye «de la tranquilidad en persona»)
+en persona.                  991 |   3.340s → f  993.2 |    +2.2 f |  3.340 s (  +0 ms)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

@@ -1,0 +1,5 @@
+bloque5     183.800- 201.900 s   -10.8 LUFS  pico    0.4 dBFS
+infoa       183.800- 197.600 s   -10.5 LUFS  pico    0.4 dBFS
+vista       197.800- 201.900 s   -11.5 LUFS  pico   -0.1 dBFS
+cta-voz     202.400- 207.100 s   -15.5 LUFS  pico   -4.5 dBFS
+cta-sola    202.000- 209.600 s   -15.5 LUFS  pico   -4.5 dBFS

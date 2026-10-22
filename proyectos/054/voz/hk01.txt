@@ -1,0 +1,4 @@
+# HK01 (IMG_8815). Lo que se OYE, comprobado por cortes (palabras-desde.py): POR CONFIRMAR AL OÍDO «vista» (whisper oye «visa» en todos los cortes) y «vecinos» (whisper oye «vecinas»; la voz va flaca, con viento).
+El lujo real / no es tener
+una torre con vista,
+es no tener / **vecinos encima.**

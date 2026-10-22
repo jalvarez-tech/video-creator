@@ -1,0 +1,25 @@
+# Rejilla de cortes del 059 (buscar-cortes-059.py sobre musica/golpes-cancion-entera.json). La ELEGIDA es la entrada 147,421 s (ver metraje-059.ts).
+# Búsqueda 1 (la usada para elegir): R=[[70,95],[145,165],[75,100],[75,100],[75,100],[155,175],[70,95],[70,95],[100,130]] MINC=15 START_MIN=17 E0=142,172
+4 entradas con solución (MINC 15.0, MIND 15.0, START_MIN 17.0, E0 [142.0, 172.0])
+
+entrada 161.135 s (22.3 dB) · INICIO_MUSICA = 4833/30 · golpe mínimo 16.0 dB · desviación 62
+  cortes (f): [3, 80, 235, 317, 409, 492, 661, 738, 810, 928]
+  planos (f): [80, 155, 82, 92, 83, 169, 77, 72, 118] · total hasta el CTA 928 f
+  golpes (dB): [16.0, 17.7, 23.3, 17.6, 18.4, 23.5, 22.4, 21.7, 18.0]
+
+entrada 147.421 s (33.6 dB) · INICIO_MUSICA = 4421/30 · golpe mínimo 16.0 dB · desviación 70
+  cortes (f): [3, 86, 240, 328, 415, 492, 647, 729, 821, 924]
+  planos (f): [86, 154, 88, 87, 77, 155, 82, 92, 103] · total hasta el CTA 924 f
+  golpes (dB): [31.7, 33.5, 16.8, 22.3, 16.0, 17.7, 23.3, 17.6, 18.9]
+
+entrada 155.303 s (33.5 dB) · INICIO_MUSICA = 4658/30 · golpe mínimo 15.3 dB · desviación 75
+  cortes (f): [3, 75, 235, 327, 410, 492, 667, 743, 815, 939]
+  planos (f): [75, 160, 92, 83, 82, 175, 76, 72, 124] · total hasta el CTA 939 f
+  golpes (dB): [17.6, 15.3, 21.0, 17.7, 23.3, 18.4, 22.2, 20.1, 20.4]
+
+entrada 154.802 s (19.3 dB) · INICIO_MUSICA = 4643/30 · golpe mínimo 15.3 dB · desviación 90
+  cortes (f): [3, 90, 250, 342, 425, 507, 682, 758, 830, 954]
+  planos (f): [90, 160, 92, 83, 82, 175, 76, 72, 124] · total hasta el CTA 954 f
+  golpes (dB): [17.6, 15.3, 21.0, 17.7, 23.3, 18.4, 22.2, 20.1, 20.4]
+
+# Búsqueda 2 (rangos por defecto, más abiertos): MINC=12 START_MIN=17 E0=15,172 → 83 entradas con solución (MINC 12.0, MIND 12.0, START_MIN 17.0, E0 [15.0, 172.0])

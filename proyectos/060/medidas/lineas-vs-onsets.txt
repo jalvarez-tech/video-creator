@@ -1,0 +1,24 @@
+Installed 6 packages in 66ms
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+Tu plata en el banco          99 |   0.640s → f   99.2 |    +0.2 f |  0.635 s (  -5 ms)
+pierde valor                 135 |   1.860s → f  135.8 |    +0.8 f |  1.860 s (  +0 ms)
+cada mes.                    153 |   2.465s → f  153.9 |    +0.9 f |  2.465 s (  +0 ms)
+Este estudio                 182 |   3.440s → f  183.2 |    +1.2 f |  3.445 s (  +5 ms)
+de 24 metros cuadrados       211 |   4.400s → f  212.0 |    +1.0 f |  4.405 s (  +5 ms)
+en Laureles                  255 |   5.865s → f  256.0 |    +1.0 f |  5.865 s (  +0 ms)
+ya está generando            284 |   6.820s → f  284.6 |    +0.6 f |  6.820 s (  +0 ms)
+dólares.                     304 |   7.495s → f  304.9 |    +0.9 f |  7.495 s (  +0 ms)
+La renta tradicional         631 |   1.310s → f  631.3 |    +0.3 f |  1.610 s (+300 ms) · ⚠ a 300 ms (primera sílaba (valle previo −60 dB))
+deja el 0,5 %                668 |   2.555s → f  668.6 |    +0.6 f |  2.555 s (  +0 ms)
+de rentabilidad mensual.     692 |   3.370s → f  693.1 |    +1.1 f |  3.335 s ( -35 ms)
+Esta inversión               761 |   5.635s → f  761.0 |    +0.0 f |  5.635 s (  +0 ms)
+deja más del 1 %.            795 |   6.785s → f  795.5 |    +0.5 f |  6.785 s (  +0 ms)
+Ven,                         830 |   8.020s → f  832.6 |    +2.6 f |  8.025 s (  +5 ms)
+te muestro cómo.             842 |   8.325s → f  841.8 |    -0.2 f |  8.325 s (  +0 ms)
+Si deseas que te envíe      1213 |   0.960s → f 1213.8 |    +0.8 f |  1.195 s (+235 ms) · ⚠ a 235 ms (primera sílaba (valle previo −66 dB))
+la rentabilidad mensual,    1244 |   1.980s → f 1244.4 |    +0.4 f |  2.215 s (+235 ms) · ⚠ a 235 ms («la» sin onset propio tras «envíe» (dip de 1,98 s a −17 dB); «ren-» arranca a 2,215 s)
+haz clic en el enlace       1288 |   3.455s → f 1288.7 |    +0.7 f |  3.455 s (  +0 ms)
+y escríbeme                 1318 |   4.485s → f 1319.5 |    +1.5 f |  4.485 s (  +0 ms)
+un mensaje.                 1338 |   5.115s → f 1338.5 |    +0.5 f |  4.980 s (-135 ms) · ⚠ a 135 ms («un» nasal sin onset detectable a ≈ 5,115 s (F2 ≈ 700-880 Hz); «men-» ≈ 5,215 s y «-je» 5,495 s)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

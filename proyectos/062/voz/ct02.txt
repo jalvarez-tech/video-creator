@@ -1,0 +1,3 @@
+# CT02 (CTA2.MOV). Whisper oye «Y tú qué esperas para conocerlo, haz clic en el enlace y agendemos una visita» con confianza alta en todo salvo en «tú» (0,35-0,5). La primera sílaba arranca a 1,23 s (antes, un soplo a −47 dB que no es voz).
+¿Y tú qué esperas / para conocerlo?
+Haz clic en el enlace / **y agendemos** / una visita.

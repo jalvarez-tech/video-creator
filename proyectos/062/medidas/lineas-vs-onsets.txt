@@ -1,0 +1,18 @@
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+Medellín, ya es              110 |   0.520s → f  110.6 |    +0.6 f |  0.855 s (+335 ms) · ⚠ a 335 ms (primera sílaba («Me-»: la energía sube de −34 a −17 dB en 40 ms); la línea entra con la imagen (opaca desde el f95))
+el tercer mercado            134 |   1.365s → f  135.9 |    +1.9 f |  1.365 s (  +0 ms)
+más grande de                160 |   2.230s → f  161.9 |    +1.9 f |  2.230 s (  +0 ms)
+renta corta                  180 |   2.865s → f  180.9 |    +0.9 f |  2.865 s (  +0 ms)
+de Latinoamérica.            195 |   3.375s → f  196.2 |    +1.2 f |  3.375 s (  +0 ms)
+Laureles                     496 |   0.870s → f  497.1 |    +1.1 f |  0.870 s (  +0 ms)
+es uno de los                508 |   1.270s → f  509.1 |    +1.1 f |  1.080 s (-190 ms) · ⚠ a 190 ms («es» pegado a «Laureles» (sin onset propio; el onset de 1,080 s es «re»); desde 1,20 oye «es uno de los mejores»)
+mejores barrios              535 |   2.195s → f  536.9 |    +1.9 f |  2.195 s (  +0 ms)
+con mayor ocupación          557 |   2.905s → f  558.1 |    +1.1 f |  2.905 s (  +0 ms)
+en la ciudad de Medellín.    587 |   3.925s → f  588.8 |    +1.8 f |  3.925 s (  +0 ms)
+¿Y tú qué esperas            946 |   1.240s → f  947.2 |    +1.2 f |  1.240 s (  +0 ms)
+para conocerlo?              971 |   2.090s → f  972.7 |    +1.7 f |  2.090 s (  +0 ms)
+Haz clic en el enlace       1000 |   3.035s → f 1001.0 |    +1.0 f |  3.035 s (  +0 ms)
+y agendemos                 1028 |   3.980s → f 1029.4 |    +1.4 f |  3.980 s (  +0 ms)
+una visita.                 1050 |   4.720s → f 1051.6 |    +1.6 f |  4.720 s (  +0 ms)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

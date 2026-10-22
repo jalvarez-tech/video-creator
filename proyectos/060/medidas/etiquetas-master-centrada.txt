@@ -1,0 +1,6 @@
+video MD5=c020af333d2d2ed7220133f73c7a5a9a / MD5=c020af333d2d2ed7220133f73c7a5a9a · audio MD5=b81b54a724783762450071c208baa824 / MD5=b81b54a724783762450071c208baa824
+etiquetado OK
+color_range=tv
+color_space=bt709
+color_transfer=bt709
+color_primaries=bt709

@@ -1,0 +1,5 @@
+== inicio 14:44:29
+master rc=0 14:48:10
+crf16 rc=0 14:51:06
+limpio rc=0 14:53:55
+FIN

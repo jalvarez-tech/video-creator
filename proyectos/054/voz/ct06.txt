@@ -1,0 +1,4 @@
+# CT06 (IMG_8918). Lo que se OYE, comprobado por cortes: POR CONFIRMAR AL OÍDO «valoras» (whisper oye «valores», confianza 0,35 en «val»; por formantes la sílaba «-ras» es una [a]) y «agendemos» (whisper la oye «haciéndemos» en la toma entera y «agendemos» en todas las rebanadas).
+Si valoras espacio / y privacidad,
+este espacio / te va a encantar.
+**Escríbeme** / y agendemos / una visita.

@@ -1,0 +1,8 @@
+apertura      0.300-   2.300 s   -14.8 LUFS  pico   -4.0 dBFS
+hookvoz       2.850-   5.850 s   -14.7 LUFS  pico   -4.6 dBFS
+paseo         6.600-  14.800 s   -15.2 LUFS  pico   -2.2 dBFS
+mitadvoz     15.700-  18.850 s   -14.6 LUFS  pico   -5.1 dBFS
+bloque5      20.200-  28.000 s   -15.0 LUFS  pico   -4.5 dBFS
+ctavoz       29.600-  32.700 s   -14.7 LUFS  pico   -3.9 dBFS
+cola         33.000-  34.600 s   -33.6 LUFS  pico  -21.6 dBFS
+todo          0.000-  35.200 s   -15.0 LUFS  pico   -2.2 dBFS

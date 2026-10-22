@@ -1,0 +1,3 @@
+✅ hk03.mp4 (toma · SDR · rotación 0)
+✅ hk03.wav (la voz tal cual, mono 48 kHz)
+✅ hk03-voz.wav (la voz tratada: graves, puerta suave, compresión 3,5:1, +0 dB y limitador a −2,5 dBFS; solo suena de 0.57 a 8.02 s)

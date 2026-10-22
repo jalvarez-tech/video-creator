@@ -1,0 +1,30 @@
+· hk04.mp4 ya está
+⚠️  hk04: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ; sin voz tratada
+· md09.mp4 ya está
+⚠️  md09: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ; sin voz tratada
+· md09b.mp4 ya está
+⚠️  md09b: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ; sin voz tratada
+· ct03.mp4 ya está
+⚠️  ct03: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ; sin voz tratada
+✅ rc08.mp4 (recorrido · SDR · rotación 0)
+✅ rc09.mp4 (recorrido · SDR · rotación 0)
+✅ rc10.mp4 (recorrido · SDR · rotación 0)
+✅ rc11.mp4 (recorrido · SDR · rotación 0)
+✅ rc12.mp4 (recorrido · SDR · rotación 0)
+✅ rc13.mp4 (recorrido · SDR · rotación 0)
+✅ rc15.mp4 (recorrido · SDR · rotación 0)
+✅ rc16.mp4 (recorrido · SDR · rotación 0)
+✅ rc17.mp4 (recorrido · SDR · rotación 0)
+✅ rc18.mp4 (recorrido · SDR · rotación 0)
+✅ rc24.mp4 (recorrido · SDR · rotación 0)
+✅ rc25.mp4 (recorrido · SDR · rotación 0)
+✅ rc26.mp4 (recorrido · SDR · rotación 0)
+✅ rc27.mp4 (recorrido · SDR · rotación 0)
+✅ rc28.mp4 (recorrido · SDR · rotación 0)
+✅ dr07.mp4 (dron · SDR · rotación 90)
+✅ dr08.mp4 (dron · SDR · rotación 90)
+✅ dr09.mp4 (dron · SDR · rotación 90)
+✅ dr10.mp4 (dron · SDR · rotación 90)
+✅ cierre-oscuro.png (negro liso 1296×2304, la tarjeta del cierre)
+✅ musica-059.wav (la canción entera, decodificada)
+✅ repuesto en remotion/public/recorrido-059

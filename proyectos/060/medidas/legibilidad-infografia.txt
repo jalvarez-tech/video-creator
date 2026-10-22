@@ -1,0 +1,12 @@
+# panel 1/2: velo negro del 80 % en toda la pantalla · zona del texto y 440-1200, x 100-980
+# panel 3: degradado desde abajo (62 % → 50 %) + sombra de texto de la marca · cajas de texto del LAYOUT
+f890   paneles 1-2 (velo 80 %)    fondo p95 0.022 · p99 0.025 → blanco 14.7:1 (p99 14.0:1) · oro  6.6:1 (p99  6.3:1)
+f930   paneles 1-2 (velo 80 %)    fondo p95 0.024 · p99 0.025 → blanco 14.1:1 (p99 14.0:1) · oro  6.3:1 (p99  6.3:1)
+f960   paneles 1-2 (velo 80 %)    fondo p95 0.024 · p99 0.025 → blanco 14.1:1 (p99 14.1:1) · oro  6.3:1 (p99  6.3:1)
+f990   paneles 1-2 (velo 80 %)    fondo p95 0.021 · p99 0.022 → blanco 14.7:1 (p99 14.5:1) · oro  6.6:1 (p99  6.5:1)
+f1030  paneles 1-2 (velo 80 %)    fondo p95 0.021 · p99 0.022 → blanco 14.7:1 (p99 14.6:1) · oro  6.6:1 (p99  6.6:1)
+f1055  paneles 1-2 (velo 80 %)    fondo p95 0.021 · p99 0.021 → blanco 14.8:1 (p99 14.8:1) · oro  6.6:1 (p99  6.6:1)
+f1075  panel 3 (degradado)        fondo p95 0.137 · p99 0.146 → blanco  5.6:1 (p99  5.4:1) · oro  2.5:1 (p99  2.4:1)
+f1100  panel 3 (degradado)        fondo p95 0.129 · p99 0.141 → blanco  5.9:1 (p99  5.5:1) · oro  2.6:1 (p99  2.5:1)
+f1130  panel 3 (degradado)        fondo p95 0.117 · p99 0.135 → blanco  6.3:1 (p99  5.7:1) · oro  2.8:1 (p99  2.5:1)
+f1180  panel 3 (degradado)        fondo p95 0.109 · p99 0.135 → blanco  6.6:1 (p99  5.7:1) · oro  3.0:1 (p99  2.5:1)

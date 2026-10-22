@@ -1,0 +1,39 @@
+# RESUMEN (2026-10-22): las palabras dudosas de la MITAD (MD05 = `MEDIO7`)
+#
+# «0,5 %» (2,95-3,40 s de la toma) y «1 %» (7,19-7,90 s): whisper (small) oye «el 0.5 de rentabilidad mensual» y «más del 1%», sin «por ciento». El hueco de la energía (2,95 → 3,34 s) cabe 3 sílabas
+#     de «el medio por ciento» o menos de las 8 de «el cero coma cinco por ciento»: NO se puede cerrar por la envolvente cómo dice la cifra. El texto escrito «0,5 %» vale para las dos lecturas.
+#     «uno por ciento» (7,19-7,90 s) sí cabe: «del» 7,19 · «uno» 7,24-7,44 · «por» 7,57 · «cien-to» 7,64-7,86.
+# «ven, te muestro cómo» (8,02-9,27 s): whisper oye «veinte muestros como» (confianza 0,16-0,47). La envolvente parte la frase en «ven» (8,02-8,10 s, débil) · pausa de 0,2 s (8,14-8,30) · «te» (8,325 s) ·
+#     «mues-» (8,535) · «-tro» (8,835) · «có-» (9,015) · «-mo» (9,10-9,24 s): siete sílabas con una pausa tras la primera, como «ven, te muestro cómo»; «veinte muestros como» serían seis y sin pausa.
+# Final de la voz: 9,27 s (el «-mo» a −15…−28 dB; `limites-voz.py` decía 9,11 s). La ventana tratada llega a 9,32 s.
+# Esta frase afirma una rentabilidad que dice SU voz: los subtítulos la transcriben (cifra dicha = cifra escrita) y ni un rótulo del canal ni el caption la repiten.
+
+## MD05 1,2-4,0 s (onsets-voz.py)
+    1.610 |   -39.2    |  20.4
+    1.740 |   -44.9    |  32.1
+    2.015 |   -44.5    |  21.4
+    2.555 |   -56.3    |  35.1
+    2.710 |   -37.2    |  16.1
+    2.950 |   -60.5    |  45.1
+    3.045 |   -25.9    |  10.5
+    3.190 |   -40.7    |  20.1
+    3.335 |   -44.3    |  17.8
+    3.615 |   -44.7    |  29.2
+    3.965 |   -46.6    |  23.4
+## MD05 5,5-9,4 s (onsets-voz.py)
+    5.635 |   -77.4    |  63.1
+    5.855 |   -47.8    |  28.3
+    6.020 |   -31.6    |  17.8
+    6.235 |   -47.2    |  30.9
+    6.615 |   -50.9    |  24.9
+    6.785 |   -44.8    |  27.6
+    6.970 |   -29.9    |  16.0
+    7.190 |   -38.3    |  24.2
+    7.570 |   -48.4    |  24.2
+    7.640 |   -42.0    |  15.8
+    7.750 |   -56.5    |  30.7
+    8.025 |   -67.3    |  37.0
+    8.325 |   -70.6    |  47.8
+    8.535 |   -62.4    |  36.5
+    8.835 |   -63.6    |  36.4
+    9.015 |   -59.1    |  31.5

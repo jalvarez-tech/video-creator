@@ -1,0 +1,9 @@
+# Audio de la PRUEBA rev. 2 (ebur128 sobre proyectos/060/pruebas-720p/060-recorrido.mp4; render con el AAC de Remotion)
+apertura      0.200-   2.800 s   -15.0 LUFS  pico   -3.7 dBFS
+hook-voz      3.400-  10.500 s   -14.7 LUFS  pico   -4.5 dBFS
+paseo        11.200-  20.400 s   -15.0 LUFS  pico   -3.5 dBFS
+mitad-voz    21.100-  28.900 s   -14.9 LUFS  pico   -4.2 dBFS
+infografia   29.600-  43.500 s   -14.8 LUFS  pico   -3.6 dBFS
+vista        44.000-  46.800 s   -15.3 LUFS  pico   -4.3 dBFS
+cta-voz      48.500-  52.900 s   -15.2 LUFS  pico   -4.9 dBFS
+pieza         0.000-  54.600 s   -15.0 LUFS  pico   -3.5 dBFS

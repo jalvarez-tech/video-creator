@@ -1,0 +1,3 @@
+# CT03 (IMG_8727). Whisper oye «Si estás buscando paz y comodidad, escríbeme y te doy todos los detalles» con confianza ≥ 0,41 (la más baja, «esc-» de «escríbeme»: 0,41; «te doy», 0,72); la «Si» arranca a los 0,46 s (palabras-desde).
+Si estás buscando / paz y comodidad,
+**Escríbeme** / y te doy todos / los detalles.

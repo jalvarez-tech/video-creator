@@ -1,0 +1,7 @@
+Prueba rev. 2 (pruebas-720p/062-recorrido.mp4; rev. 0 y rev. 1 como -rev0 / -rev1). La rev. 1 tenía el mismo audio que la rev. 0 (md5 del PCM ac04e812ccf79644bce7509de90846d6);
+la rev. 2 solo cambia el hook (pedido del usuario: «deja que el video siga un momento más»: el plano usa todo su clip, la voz tratada se apaga con 0,1 s de fundido de 4,05 a 4,15 s y la música tarda 6 f más en subir): el audio difiere de la rev. 1 entre 3,6 y 8,3 s
+(la voz empieza 3 f más tarde) y en 0,1 s a los 35,94-36,04 s (diferencia de empaquetado del AAC: mismo nivel, -23,8 / -23,9 LUFS).
+Pieza entera (ebur128): -15,6 LUFS integrado · LRA 3,7 LU · pico real -1,2 dBFS
+Tramos (música sola, rev. 0/1, sin cambios): apertura -16,9 · paseo -16,3 · estudio -15,1 LUFS (picos -1,3 · -1,2 · -3,8 dBFS)
+Voz de Isabella con la música debajo: hook -14,7 (ventana 3,7-7,3 s) · mitad -14,7 · CTA -15,0 LUFS
+Cortes secos sobre el audio del render (golpes-render.py): f303 +0,4 · f394 -0,2 · f724 -0,3 · f812 +0,3 f

@@ -1,0 +1,20 @@
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+El lujo real                  91 |   1.060s → f   90.8 |    -0.2 f |  1.160 s (+100 ms) · ⚠ a 100 ms (primera sílaba (sube a 1,06 s desde −37 dB de viento); whisper la pone en 0,00 s)
+no es tener                  112 |   1.840s → f  114.2 |    +2.2 f |  1.840 s (  +0 ms)
+una torre con vista,         134 |   2.500s → f  134.0 |    +0.0 f |  2.540 s ( +40 ms) · ⚠ a 40 ms (desde 2,05 oye «es tener una torre con visa»; el DTW la daba en 2,22 s)
+es no tener                  154 |   3.165s → f  153.9 |    -0.1 f |  3.165 s (  +0 ms)
+vecinos encima.              171 |   3.765s → f  171.9 |    +0.9 f |  3.765 s (  +0 ms)
+Está a los                   406 |   0.820s → f  407.6 |    +1.6 f |  0.975 s (+155 ms) · ⚠ a 155 ms (primera sílaba (sube a 0,82 s desde −46 dB); whisper la pone en 0,00 s y la oye «Hace los» / «Hasta los»)
+50 minutos                   423 |   1.320s → f  422.6 |    -0.4 f |  1.320 s (  +0 ms)
+de Medellín                  439 |   1.860s → f  438.8 |    -0.2 f |  1.860 s (  +0 ms)
+con una administración       466 |   2.770s → f  466.1 |    +0.1 f |  2.770 s (  +0 ms)
+de 120.000.                  495 |   3.725s → f  494.8 |    -0.2 f |  3.725 s (  +0 ms)
+Si valoras espacio           911 |   1.020s → f  910.6 |    -0.4 f |  1.315 s (+295 ms) · ⚠ a 295 ms (primera sílaba (sube a 1,02 s desde −44 dB))
+y privacidad,                928 |   1.615s → f  928.5 |    +0.5 f |  1.615 s (  +0 ms)
+este espacio                 966 |   2.855s → f  965.6 |    -0.4 f |  2.855 s (  +0 ms)
+te va a encantar.            982 |   3.405s → f  982.1 |    +0.1 f |  3.405 s (  +0 ms)
+Escríbeme                   1013 |   4.420s → f 1012.6 |    -0.4 f |  4.420 s (  +0 ms)
+y agendemos                 1027 |   4.900s → f 1027.0 |    +0.0 f |  5.040 s (+140 ms) · ⚠ a 140 ms (desde 4,90 oye «y agendemos una visita.»; desde 5,04 «gendemos»)
+una visita.                 1043 |   5.420s → f 1042.6 |    -0.4 f |  5.370 s ( -50 ms) · ⚠ a 50 ms (desde 5,45 oye «una visita.»; desde 5,37 «es una visita» (el «-mos» de «agendemos»))
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

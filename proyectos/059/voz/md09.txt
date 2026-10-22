@@ -1,0 +1,3 @@
+# MD09 (IMG_8738). Whisper oye «Sí,» antes de la frase (un ruido a los 0,04-0,18 s: no es voz) y «porque» con confianza 0,38; el resto ≥ 0,64. La frase es «Zona de trabajo separada, porque trabajar desde la cama ya no es una opción.»
+**Zona de trabajo** / separada, / porque trabajar
+desde la cama / ya no es / una opción.

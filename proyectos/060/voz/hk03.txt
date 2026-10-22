@@ -1,0 +1,4 @@
+# HK03 (`HOOK3`). Lo que se OYE: «Tu plata en el banco pierde valor cada mes. Este estudio de 24 metros cuadrados en Laureles ya está generando dólares.» POR CONFIRMAR AL OÍDO dos cosas de whisper (small): «cada mes» (oye «kamis», confianza 0,14-0,66) y «de» antes de «24» (no lo oye; hay una sílaba breve a los 4,40-4,44 s). La cifra «24» se escribe porque ella la dice (R33). Ver `medidas/formantes-hook.txt`.
+Tu plata en el banco / pierde valor / cada mes.
+Este estudio / de 24 metros cuadrados / en Laureles
+ya está generando / **dólares.**

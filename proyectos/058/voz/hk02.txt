@@ -1,0 +1,3 @@
+# HK02 (IMG_8713). Whisper la oye entera con confianza ≥ 0,73 («Este es un apartamento pensado para descansar, no para sobrevivir al caos.»); el DTW se va ≈ 0,3 s en la segunda mitad: los tiempos salen de la energía (onsets-voz.py).
+Este es un apartamento / pensado para / **descansar,**
+no para sobrevivir / **al caos.**

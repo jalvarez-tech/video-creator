@@ -1,0 +1,4 @@
+# MD05 (`MEDIO7`). Lo que se OYE: «La renta tradicional deja el 0,5 % de rentabilidad mensual. Esta inversión deja más del 1 %. Ven, te muestro cómo.» Whisper (small) oye «el 0.5 de rentabilidad mensual», «más del 1%» y «veinte muestros como» (confianza 0,16-0,47). POR CONFIRMAR AL OÍDO: cómo dice las cifras («cero coma cinco por ciento», «uno por ciento») y «ven, te muestro cómo». Los porcentajes son una afirmación de rentabilidad que dice SU voz: aquí solo se transcriben (cifra dicha = cifra escrita); ningún rótulo del canal los repite.
+La renta tradicional / deja el 0,5 % / de rentabilidad mensual.
+Esta inversión / deja más del 1 %.
+Ven, / **te muestro cómo.**

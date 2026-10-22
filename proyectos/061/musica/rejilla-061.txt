@@ -1,0 +1,157 @@
+26 entradas con solución (MINC 12.5, MIND 12.5, START_MIN 15.0, E0 [15.0, 200.0])
+
+entrada 22.674 s (20.4 dB) · INICIO_MUSICA = 679/30 · golpe mínimo 14.1 dB · desviación 100
+  cortes (f): [3, 86, 236, 354, 438, 530, 705, 797, 868, 986]
+  planos (f): [86, 150, 118, 84, 92, 175, 92, 71, 118] · total hasta el CTA 986 f
+  golpes (dB): [14.2, 14.1, 18.3, 17.9, 14.2, 19.0, 15.6, 19.0, 14.1]
+  segundo de la canción de cada corte: [25.461, 30.431, 34.386, 37.164, 40.238, 46.092, 49.162, 51.505, 55.457] · CTA en 55.5 s (la caída natural empieza en 217,6 s)
+
+entrada 23.116 s (19.7 dB) · INICIO_MUSICA = 692/30 · golpe mínimo 14.1 dB · desviación 101
+  cortes (f): [3, 73, 223, 341, 425, 517, 692, 784, 855, 973]
+  planos (f): [73, 150, 118, 84, 92, 175, 92, 71, 118] · total hasta el CTA 973 f
+  golpes (dB): [14.2, 14.1, 18.3, 17.9, 14.2, 19.0, 15.6, 19.0, 14.1]
+  segundo de la canción de cada corte: [25.461, 30.431, 34.386, 37.164, 40.238, 46.092, 49.162, 51.505, 55.457] · CTA en 55.5 s (la caída natural empieza en 217,6 s)
+
+entrada 145.166 s (19.4 dB) · INICIO_MUSICA = 4354/30 · golpe mínimo 14.0 dB · desviación 183
+  cortes (f): [3, 73, 226, 332, 424, 542, 714, 823, 916, 1069]
+  planos (f): [73, 153, 106, 92, 118, 172, 109, 93, 153] · total hasta el CTA 1069 f
+  golpes (dB): [22.3, 16.3, 16.2, 20.2, 14.0, 17.1, 15.5, 20.2, 14.6]
+  segundo de la canción de cada corte: [147.505, 152.623, 156.143, 159.213, 163.159, 168.872, 172.519, 175.601, 180.713] · CTA en 180.7 s (la caída natural empieza en 217,6 s)
+
+entrada 143.992 s (19.5 dB) · INICIO_MUSICA = 4318/30 · golpe mínimo 14.0 dB · desviación 205
+  cortes (f): [3, 109, 262, 368, 460, 578, 750, 859, 952, 1105]
+  planos (f): [109, 153, 106, 92, 118, 172, 109, 93, 153] · total hasta el CTA 1105 f
+  golpes (dB): [22.3, 16.3, 16.2, 20.2, 14.0, 17.1, 15.5, 20.2, 14.6]
+  segundo de la canción de cada corte: [147.505, 152.623, 156.143, 159.213, 163.159, 168.872, 172.519, 175.601, 180.713] · CTA en 180.7 s (la caída natural empieza en 217,6 s)
+
+entrada 15.207 s (21.1 dB) · INICIO_MUSICA = 455/30 · golpe mínimo 13.2 dB · desviación 55
+  cortes (f): [3, 73, 227, 310, 381, 473, 648, 732, 820, 929]
+  planos (f): [73, 154, 83, 71, 92, 175, 84, 88, 109] · total hasta el CTA 929 f
+  golpes (dB): [28.6, 20.4, 14.2, 24.2, 19.2, 31.5, 15.8, 13.2, 19.0]
+  segundo de la canción de cada corte: [17.551, 22.674, 25.461, 27.799, 30.873, 36.722, 39.51, 42.438, 46.092] · CTA en 46.1 s (la caída natural empieza en 217,6 s)
+
+entrada 53.103 s (16.5 dB) · INICIO_MUSICA = 1592/30 · golpe mínimo 13.1 dB · desviación 55
+  cortes (f): [3, 95, 249, 332, 403, 481, 657, 728, 798, 903]
+  planos (f): [95, 154, 83, 71, 78, 176, 71, 70, 105] · total hasta el CTA 903 f
+  golpes (dB): [14.5, 14.2, 16.6, 17.9, 29.0, 20.1, 13.1, 15.8, 18.7]
+  segundo de la canción de cada corte: [56.192, 61.31, 64.092, 66.432, 69.061, 74.916, 77.265, 79.601, 83.112] · CTA en 83.1 s (la caída natural empieza en 217,6 s)
+
+entrada 15.650 s (21.8 dB) · INICIO_MUSICA = 468/30 · golpe mínimo 13.2 dB · desviación 62
+  cortes (f): [3, 73, 227, 297, 368, 460, 635, 719, 807, 916]
+  planos (f): [73, 154, 70, 71, 92, 175, 84, 88, 109] · total hasta el CTA 916 f
+  golpes (dB): [39.1, 19.7, 14.2, 24.2, 19.2, 31.5, 15.8, 13.2, 19.0]
+  segundo de la canción de cada corte: [17.991, 23.116, 25.461, 27.799, 30.873, 36.722, 39.51, 42.438, 46.092] · CTA en 46.1 s (la caída natural empieza en 217,6 s)
+
+entrada 20.333 s (22.1 dB) · INICIO_MUSICA = 609/30 · golpe mínimo 13.0 dB · desviación 75
+  cortes (f): [3, 73, 227, 306, 389, 494, 666, 727, 797, 903]
+  planos (f): [73, 154, 79, 83, 105, 172, 61, 70, 106] · total hasta el CTA 903 f
+  golpes (dB): [20.4, 24.2, 14.1, 13.0, 31.5, 13.2, 14.6, 13.8, 15.8]
+  segundo de la canción de cada corte: [22.674, 27.799, 30.431, 33.212, 36.722, 42.438, 44.483, 46.827, 50.333] · CTA en 50.3 s (la caída natural empieza en 217,6 s)
+
+entrada 139.311 s (24.2 dB) · INICIO_MUSICA = 4178/30 · golpe mínimo 13.9 dB · desviación 77
+  cortes (f): [3, 55, 214, 297, 381, 473, 648, 740, 811, 929]
+  planos (f): [55, 159, 83, 84, 92, 175, 92, 71, 118] · total hasta el CTA 929 f
+  golpes (dB): [15.7, 17.8, 19.4, 17.0, 19.1, 19.9, 19.4, 20.2, 13.9]
+  segundo de la canción de cada corte: [141.056, 146.336, 149.112, 151.899, 154.971, 160.823, 163.892, 166.235, 170.189] · CTA en 170.2 s (la caída natural empieza en 217,6 s)
+
+entrada 39.510 s (15.8 dB) · INICIO_MUSICA = 1184/30 · golpe mínimo 13.3 dB · desviación 82
+  cortes (f): [3, 60, 222, 328, 411, 481, 657, 740, 829, 938]
+  planos (f): [60, 162, 106, 83, 70, 176, 83, 89, 109] · total hasta el CTA 938 f
+  golpes (dB): [13.3, 13.8, 15.8, 16.5, 14.1, 14.2, 16.6, 16.4, 13.6]
+  segundo de la canción de cada corte: [41.411, 46.827, 50.333, 53.103, 55.457, 61.31, 64.092, 67.036, 70.676] · CTA en 70.7 s (la caída natural empieza en 217,6 s)
+
+entrada 135.799 s (16.0 dB) · INICIO_MUSICA = 4073/30 · golpe mínimo 13.0 dB · desviación 96
+  cortes (f): [3, 64, 226, 319, 402, 507, 683, 753, 823, 916]
+  planos (f): [64, 162, 93, 83, 105, 176, 70, 70, 93] · total hasta el CTA 916 f
+  golpes (dB): [13.3, 14.3, 17.8, 19.4, 16.3, 13.0, 19.9, 14.0, 20.2]
+  segundo de la canción de cada corte: [137.841, 143.257, 146.336, 149.112, 152.623, 158.474, 160.823, 163.159, 166.235] · CTA en 166.2 s (la caída natural empieza en 217,6 s)
+
+entrada 17.991 s (39.1 dB) · INICIO_MUSICA = 538/30 · golpe mínimo 13.2 dB · desviación 100
+  cortes (f): [3, 74, 227, 320, 412, 495, 671, 737, 798, 938]
+  planos (f): [74, 153, 93, 92, 83, 176, 66, 61, 140] · total hasta el CTA 938 f
+  golpes (dB): [22.1, 14.2, 14.7, 13.5, 18.3, 14.2, 13.2, 14.6, 15.6]
+  segundo de la canción de cada corte: [20.333, 25.461, 28.534, 31.599, 34.386, 40.238, 42.438, 44.483, 49.162] · CTA en 49.2 s (la caída natural empieza en 217,6 s)
+
+entrada 18.722 s (20.7 dB) · INICIO_MUSICA = 560/30 · golpe mínimo 13.0 dB · desviación 100
+  cortes (f): [3, 87, 249, 355, 438, 543, 715, 776, 846, 952]
+  planos (f): [87, 162, 106, 83, 105, 172, 61, 70, 106] · total hasta el CTA 952 f
+  golpes (dB): [14.3, 16.3, 14.1, 13.0, 31.5, 13.2, 14.6, 13.8, 15.8]
+  segundo de la canción de cada corte: [21.503, 26.922, 30.431, 33.212, 36.722, 42.438, 44.483, 46.827, 50.333] · CTA en 50.3 s (la caída natural empieza en 217,6 s)
+
+entrada 17.551 s (28.6 dB) · INICIO_MUSICA = 525/30 · golpe mínimo 13.2 dB · desviación 101
+  cortes (f): [3, 87, 240, 333, 425, 508, 684, 750, 811, 951]
+  planos (f): [87, 153, 93, 92, 83, 176, 66, 61, 140] · total hasta el CTA 951 f
+  golpes (dB): [22.1, 14.2, 14.7, 13.5, 18.3, 14.2, 13.2, 14.6, 15.6]
+  segundo de la canción de cada corte: [20.333, 25.461, 28.534, 31.599, 34.386, 40.238, 42.438, 44.483, 49.162] · CTA en 49.2 s (la caída natural empieza en 217,6 s)
+
+entrada 27.799 s (24.2 dB) · INICIO_MUSICA = 833/30 · golpe mínimo 13.2 dB · desviación 115
+  cortes (f): [3, 95, 257, 354, 442, 503, 679, 762, 854, 995]
+  planos (f): [95, 162, 97, 88, 61, 176, 83, 92, 141] · total hasta el CTA 995 f
+  golpes (dB): [19.2, 23.0, 15.8, 13.2, 14.6, 15.8, 16.5, 14.5, 17.9]
+  segundo de la canción de cada corte: [30.873, 36.287, 39.51, 42.438, 44.483, 50.333, 53.103, 56.192, 60.871] · CTA en 60.9 s (la caída natural empieza en 217,6 s)
+
+entrada 27.360 s (31.8 dB) · INICIO_MUSICA = 819/30 · golpe mínimo 13.2 dB · desviación 129
+  cortes (f): [3, 109, 271, 368, 456, 517, 693, 776, 868, 1009]
+  planos (f): [109, 162, 97, 88, 61, 176, 83, 92, 141] · total hasta el CTA 1009 f
+  golpes (dB): [19.2, 23.0, 15.8, 13.2, 14.6, 15.8, 16.5, 14.5, 17.9]
+  segundo de la canción de cada corte: [30.873, 36.287, 39.51, 42.438, 44.483, 50.333, 53.103, 56.192, 60.871] · CTA en 60.9 s (la caída natural empieza en 217,6 s)
+
+entrada 67.036 s (16.4 dB) · INICIO_MUSICA = 2010/30 · golpe mínimo 13.1 dB · desviación 138
+  cortes (f): [3, 77, 239, 310, 380, 485, 661, 779, 863, 1012]
+  planos (f): [77, 162, 71, 70, 105, 176, 118, 84, 149] · total hasta el CTA 1012 f
+  golpes (dB): [42.1, 20.1, 13.1, 15.8, 18.7, 16.8, 16.9, 19.7, 16.5]
+  segundo de la canción de cada corte: [69.503, 74.916, 77.265, 79.601, 83.112, 88.97, 92.914, 95.699, 100.677] · CTA en 100.7 s (la caída natural empieza en 217,6 s)
+
+entrada 66.432 s (17.9 dB) · INICIO_MUSICA = 1992/30 · golpe mínimo 13.1 dB · desviación 140
+  cortes (f): [3, 81, 235, 328, 398, 503, 679, 797, 881, 1030]
+  planos (f): [81, 154, 93, 70, 105, 176, 118, 84, 149] · total hasta el CTA 1030 f
+  golpes (dB): [29.0, 21.1, 13.1, 15.8, 18.7, 16.8, 16.9, 19.7, 16.5]
+  segundo de la canción de cada corte: [69.061, 74.185, 77.265, 79.601, 83.112, 88.97, 92.914, 95.699, 100.677] · CTA en 100.7 s (la caída natural empieza en 217,6 s)
+
+entrada 147.505 s (22.3 dB) · INICIO_MUSICA = 4424/30 · golpe mínimo 13.0 dB · desviación 151
+  cortes (f): [3, 73, 227, 332, 402, 472, 644, 753, 846, 999]
+  planos (f): [73, 154, 105, 70, 70, 172, 109, 93, 153] · total hasta el CTA 999 f
+  golpes (dB): [16.6, 19.1, 13.0, 19.9, 14.0, 17.1, 15.5, 20.2, 14.6]
+  segundo de la canción de cada corte: [149.844, 154.971, 158.474, 160.823, 163.159, 168.872, 172.519, 175.601, 180.713] · CTA en 180.7 s (la caída natural empieza en 217,6 s)
+
+entrada 65.555 s (20.3 dB) · INICIO_MUSICA = 1965/30 · golpe mínimo 13.1 dB · desviación 159
+  cortes (f): [3, 87, 249, 355, 425, 530, 706, 824, 908, 1057]
+  planos (f): [87, 162, 106, 70, 105, 176, 118, 84, 149] · total hasta el CTA 1057 f
+  golpes (dB): [13.7, 17.9, 13.1, 15.8, 18.7, 16.8, 16.9, 19.7, 16.5]
+  segundo de la canción de cada corte: [68.335, 73.75, 77.265, 79.601, 83.112, 88.97, 92.914, 95.699, 100.677] · CTA en 100.7 s (la caída natural empieza en 217,6 s)
+
+entrada 146.336 s (17.8 dB) · INICIO_MUSICA = 4389/30 · golpe mínimo 13.0 dB · desviación 172
+  cortes (f): [3, 108, 262, 367, 437, 507, 679, 788, 881, 1034]
+  planos (f): [108, 154, 105, 70, 70, 172, 109, 93, 153] · total hasta el CTA 1034 f
+  golpes (dB): [16.6, 19.1, 13.0, 19.9, 14.0, 17.1, 15.5, 20.2, 14.6]
+  segundo de la canción de cada corte: [149.844, 154.971, 158.474, 160.823, 163.159, 168.872, 172.519, 175.601, 180.713] · CTA en 180.7 s (la caída natural empieza en 217,6 s)
+
+entrada 64.821 s (21.3 dB) · INICIO_MUSICA = 1943/30 · golpe mínimo 13.1 dB · desviación 181
+  cortes (f): [3, 109, 271, 377, 447, 552, 728, 846, 930, 1079]
+  planos (f): [109, 162, 106, 70, 105, 176, 118, 84, 149] · total hasta el CTA 1079 f
+  golpes (dB): [13.7, 17.9, 13.1, 15.8, 18.7, 16.8, 16.9, 19.7, 16.5]
+  segundo de la canción de cada corte: [68.335, 73.75, 77.265, 79.601, 83.112, 88.97, 92.914, 95.699, 100.677] · CTA en 100.7 s (la caída natural empieza en 217,6 s)
+
+entrada 24.581 s (15.5 dB) · INICIO_MUSICA = 736/30 · golpe mínimo 12.7 dB · desviación 55
+  cortes (f): [3, 86, 240, 319, 402, 473, 648, 719, 811, 929]
+  planos (f): [86, 154, 79, 83, 71, 175, 71, 92, 118] · total hasta el CTA 929 f
+  golpes (dB): [31.8, 15.4, 12.8, 14.9, 14.2, 19.0, 12.7, 19.0, 14.1]
+  segundo de la canción de cada corte: [27.36, 32.477, 35.114, 37.891, 40.238, 46.092, 48.438, 51.505, 55.457] · CTA en 55.5 s (la caída natural empieza en 217,6 s)
+
+entrada 25.014 s (16.0 dB) · INICIO_MUSICA = 749/30 · golpe mínimo 12.7 dB · desviación 56
+  cortes (f): [3, 73, 227, 306, 389, 460, 635, 706, 798, 916]
+  planos (f): [73, 154, 79, 83, 71, 175, 71, 92, 118] · total hasta el CTA 916 f
+  golpes (dB): [31.8, 15.4, 12.8, 14.9, 14.2, 19.0, 12.7, 19.0, 14.1]
+  segundo de la canción de cada corte: [27.36, 32.477, 35.114, 37.891, 40.238, 46.092, 48.438, 51.505, 55.457] · CTA en 55.5 s (la caída natural empieza en 217,6 s)
+
+entrada 46.092 s (19.0 dB) · INICIO_MUSICA = 1381/30 · golpe mínimo 12.5 dB · desviación 85
+  cortes (f): [3, 74, 227, 306, 425, 517, 692, 763, 833, 939]
+  planos (f): [74, 153, 79, 119, 92, 175, 71, 70, 106] · total hasta el CTA 939 f
+  golpes (dB): [12.7, 14.1, 14.5, 12.5, 14.9, 29.0, 15.3, 17.9, 13.1]
+  segundo de la canción de cada corte: [48.438, 53.55, 56.192, 60.135, 63.206, 69.061, 71.412, 73.75, 77.265] · CTA en 77.3 s (la caída natural empieza en 217,6 s)
+
+entrada 34.386 s (18.3 dB) · INICIO_MUSICA = 1030/30 · golpe mínimo 12.5 dB · desviación 141
+  cortes (f): [3, 87, 245, 306, 376, 482, 657, 776, 846, 983]
+  planos (f): [87, 158, 61, 70, 106, 175, 119, 70, 137] · total hasta el CTA 983 f
+  golpes (dB): [17.9, 13.2, 14.6, 13.8, 15.8, 14.5, 12.5, 23.1, 16.4]
+  segundo de la canción de cada corte: [37.164, 42.438, 44.483, 46.827, 50.333, 56.192, 60.135, 62.478, 67.036] · CTA en 67.0 s (la caída natural empieza en 217,6 s)

@@ -1,0 +1,5 @@
+cta          30.370-  35.400 s   -14.8 LUFS  pico   -4.6 dBFS
+ultimaPalabra   34.600-  35.400 s   -17.2 LUFS  pico   -7.8 dBFS
+total         0.000-  38.400 s   -15.0 LUFS  pico   -2.9 dBFS
+hook          3.030-   6.800 s   -14.6 LUFS  pico   -5.7 dBFS
+mitad        13.600-  17.200 s   -14.6 LUFS  pico   -5.0 dBFS
