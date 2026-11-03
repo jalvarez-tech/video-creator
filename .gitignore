@@ -141,6 +141,10 @@ remotion/public/recorrido-059/
 remotion/public/recorrido-060/
 remotion/public/recorrido-061/
 remotion/public/recorrido-062/
+# 069 «Unidos por Botswana»: el material normalizado (fotos, clips, voz de los MOV; 265 MB) y las locuciones que John e Isabella graben (voz/*), salvo su LEEME.
+remotion/public/botswana-069/
+proyectos/069/voz/*
+!proyectos/069/voz/LEEME.md
 # <<< SOLO ESTUDIO <<<
 
 # ─── 6. Material dentro de un proyecto ───────────────────────────────────────
