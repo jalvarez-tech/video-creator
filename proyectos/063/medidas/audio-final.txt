@@ -1,0 +1,20 @@
+    I:         -15.0 LUFS     LRA:         1.7 LU     Peak:       -1.9 dBFS 
+previsto (frame) | detectado: inicio de la subida/caída (frame) | diferencia (frames; bien = 0,0 ± 1)
+  f    3.0   subida detectada en f    0.0 (104.0 dB)   dif =  -2.6 f
+  f   91.0   subida detectada en f   90.8 (11.9 dB)   dif =  +0.1 f
+  f  323.0   subida detectada en f  322.6 (13.0 dB)   dif =  -0.0 f
+  f  364.0   subida detectada en f  363.4 ( 9.0 dB)   dif =  -0.2 f
+  f  418.0   subida detectada en f  418.1 (10.7 dB)   dif =  +0.4 f
+  f  459.0   subida detectada en f  459.0 (13.7 dB)   dif =  +0.3 f
+  f  555.0   subida detectada en f  554.4 (12.8 dB)   dif =  -0.2 f
+  f  828.0   subida detectada en f  827.1 ( 9.8 dB)   dif =  -0.5 f
+  f  923.0   subida detectada en f  922.6 (11.4 dB)   dif =  -0.0 f
+  f 1005.0   subida detectada en f 1004.5 (14.9 dB)   dif =  -0.2 f
+  f 1117.0   subida detectada en f 1116.9 (11.8 dB)   dif =  +0.3 f
+apertura      0.200-   3.000 s   -15.1 LUFS  pico   -1.9 dBFS
+hook_voz      3.600-   9.900 s   -14.9 LUFS  pico   -4.2 dBFS
+infografia   11.000-  17.800 s   -15.0 LUFS  pico   -3.2 dBFS
+mitad_voz    19.000-  26.800 s   -14.7 LUFS  pico   -3.7 dBFS
+bloque5      28.000-  36.800 s   -15.0 LUFS  pico   -3.0 dBFS
+cta_voz      38.000-  42.500 s   -15.0 LUFS  pico   -4.4 dBFS
+pieza         0.000-  44.900 s   -15.0 LUFS  pico   -1.9 dBFS

@@ -1,0 +1,7 @@
+Los cuatro que dejó el usuario el 2026-10-22 («las mejores»). TODOS VERTICALES (rotation=90), 4K, 29,97 fps, sin audio.
+Quitó los cinco restantes, entre ellos los cuatro apaisados: ya no hay que encuadrar ningún 16:9.
+
+DR01 | DJI_20260911152828_0114_D.MP4 | 73,5 s | el más largo: el lote con el horizonte, las casas y las montañas al fondo; avanza y baja
+DR02 | DJI_20260911153041_0115_D.MP4 | 31,2 s | las cercas vivas en «V» y el cultivo en hilera del vecino; plano más cerrado
+DR03 | DJI_20260911153402_0125_D.MP4 | 45,1 s | de la ladera con cultivo a la parte plana; incluye cenital
+DR04 | DJI_20260911153541_0126_D.MP4 | 33,1 s | la parte plana con los árboles florecidos (blancos) y la cerca viva

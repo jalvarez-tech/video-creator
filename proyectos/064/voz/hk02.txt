@@ -1,0 +1,5 @@
+# HK02 (Hook2.mp4). Lo que se OYE: «¿Un lote cerca de Medellín por trescientos cincuenta millones? Sí, y tiene tres mil doscientos cuarenta y cuatro metros cuadrados. Ven, te muestro.» (whisper-small escribe «350» y «3.244»; en pantalla, las cifras en dígitos: cifra dicha = cifra escrita.) Whisper oye «20 muestros» por «ven, te muestro» (la forma de la frase del catálogo). La voz empieza a los 6,97 s (antes, ≈ 7 s de ruido de sala a −45…−60 dB).
+¿Un lote / **cerca de Medellín**
+por 350 millones?
+Sí, y tiene / 3.244 metros / cuadrados.
+Ven, te muestro.

@@ -1,0 +1,12 @@
+previsto (frame) | detectado: inicio de la subida/caída (frame) | diferencia (frames; bien = 0,0 ± 1)
+  f    3.0   subida detectada en f    0.0 (106.6 dB)   dif =  -2.6 f
+  f   91.0   subida detectada en f   90.8 (11.7 dB)   dif =  +0.1 f
+  f  323.0   subida detectada en f  322.6 (13.3 dB)   dif =  -0.0 f
+  f  364.0   subida detectada en f  363.4 ( 9.2 dB)   dif =  -0.2 f
+  f  418.0   subida detectada en f  418.1 (10.5 dB)   dif =  +0.4 f
+  f  459.0   subida detectada en f  459.0 (14.0 dB)   dif =  +0.4 f
+  f  555.0   subida detectada en f  554.4 (12.4 dB)   dif =  -0.2 f
+  f  828.0   subida detectada en f  827.2 ( 9.1 dB)   dif =  -0.5 f
+  f  923.0   subida detectada en f  922.6 (11.5 dB)   dif =  -0.0 f
+  f 1005.0   subida detectada en f 1004.5 (14.5 dB)   dif =  -0.2 f
+  f 1117.0   subida detectada en f 1117.0 (11.9 dB)   dif =  +0.3 f

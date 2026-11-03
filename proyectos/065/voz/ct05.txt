@@ -1,0 +1,2 @@
+# CT05 (cta5.mp4), puesto de MITAD (reparto rev. 2: un CTA en posición de mitad; es una pregunta, no una llamada a la acción). Solo se usa la pregunta: «¿Lo comprarías para construir o para invertir?» (voz de 3,13 a 5,4 s). «Te leo en los comentarios» (5,9-6,9 s) NO suena ni se ve (sería un segundo CTA). Whisper-small lo oye con confianza ≥ 0,95 salvo «lo» (0,17: la primera sílaba, a 3,13 s tras 3 s de silencio). La pregunta la hace ELLA: en pantalla no se promete nada de construir.
+¿Lo comprarías / para construir / o para invertir?

@@ -1,0 +1,21 @@
+# Los tres renders del 064 (2026-11-03), con otras dos sesiones renderizando a la vez (carga 120-177). Orden: máster CRF 12 · CRF 16 · base muda de la ficha. Sin las líneas de progreso.
+== inicio 09:26:40 · libre: 47 GiB
+Composition          Recorrido064
+Codec                h264
+Output               ../proyectos/064/finales/064-recorrido.mp4
+Concurrency          4x
++                    ../proyectos/064/finales/064-recorrido.mp4 230.6 MB
+master rc=0 09:39:25 · libre: 43 GiB
+Composition          Recorrido064
+Codec                h264
+Output               ../proyectos/064/finales/064-recorrido-crf16.mp4
+Concurrency          4x
++                    ../proyectos/064/finales/064-recorrido-crf16.mp4 131.1 MB
+crf16 rc=0 09:49:54 · libre: 36 GiB
+Composition          Recorrido064
+Codec                h264
+Output               /private/tmp/claude-501/-Users-nicecode-Work-jalvarez-video-creator--claude-worktrees-property-videos-creation-b77e80/20c35e97-c8fb-4035-a87f-67e9e2fcedc0/scratchpad/064-limpio.mp4
+Concurrency          4x
++                    /private/tmp/claude-501/-Users-nicecode-Work-jalvarez-video-creator--claude-worktrees-property-videos-creation-b77e80/20c35e97-c8fb-4035-a87f-67e9e2fcedc0/scratchpad/064-limpio.mp4 492.4 MB
+limpio rc=0 09:58:33 · libre: 35 GiB
+FIN

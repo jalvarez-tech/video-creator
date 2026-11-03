@@ -1,0 +1,15 @@
+# Finales de la 063 — exportados 2026-11-03
+== 063-recorrido.mp4 (201M)
+h264,1080,1920,yuv420p,bt709,bt709,bt709,30/1,44.900000,1347
+aac,48000,2,0/0,44.885000,2105
+audio md5 PCM: MD5=a6fa716fea7423a86c67988cd24bf4c8
+== 063-recorrido-crf16.mp4 (111M)
+h264,1080,1920,yuv420p,bt709,bt709,bt709,30/1,44.900000,1347
+aac,48000,2,0/0,44.885000,2105
+audio md5 PCM: MD5=a6fa716fea7423a86c67988cd24bf4c8
+== 063-recorrido-ficha.mp4 (213M)
+h264,1080,1920,yuv420p,bt709,bt709,bt709,30/1,44.900000,1347
+aac,48000,2,0/0,44.885000,2105
+audio md5 PCM: MD5=a6fa716fea7423a86c67988cd24bf4c8
+
+PSNR vs prueba aprobada (a 540x960): master Y 40.59 / U 45.22 / V 48.27 (mín. 36.3); CRF16 Y 40.64 / U 45.86 / V 48.61 -> sin desvío de color; la diferencia es la compresión de la prueba.

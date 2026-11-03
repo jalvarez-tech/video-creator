@@ -1,0 +1,41 @@
+1 · por plano (a mitad de cada uno)
+  plano                           luma   p5  p50  p95 |   sat |   R/G   B/G |  ≥250    ≤8
+  c01 lote (DR01 31)   antes     115.6   33  108  223 | 0.478 |  0.95  0.64 |  0.0%  0.2%
+  c01 lote (DR01 31)   después   116.5   25  112  222 | 0.552 |  0.95  0.59 |  0.0%  1.3%
+  c02 hook (HK01)      antes     141.0   33  148  216 | 0.404 |  1.02  0.79 |  0.1%  1.2%
+  c02 hook (HK01)      después   140.2   32  151  209 | 0.426 |  1.03  0.77 |  0.2%  1.4%
+  c03 ladera (DR01 5)  antes     112.9   30  107  214 | 0.513 |  0.94  0.60 |  0.0%  0.2%
+  c03 ladera (DR01 5)  después   114.4   23  111  213 | 0.588 |  0.94  0.54 |  0.0%  1.4%
+  c04 esquina (DR01 21) antes     114.3   32  110  216 | 0.487 |  0.94  0.62 |  0.0%  0.2%
+  c04 esquina (DR01 21) después   115.9   25  114  215 | 0.557 |  0.94  0.57 |  0.0%  1.1%
+  c05 loma (DR01 41)   antes     114.7   34  101  230 | 0.431 |  0.98  0.74 |  0.0%  0.1%
+  c05 loma (DR01 41)   después   115.5   26  105  227 | 0.501 |  0.99  0.70 |  0.0%  0.9%
+  c06 mitad (MD01)     antes     154.8   56  165  221 | 0.300 |  1.09  0.92 |  0.1%  0.5%
+  c06 mitad (MD01)     después   153.7   56  167  212 | 0.315 |  1.11  0.91 |  0.9%  0.7%
+  c07 pasto (DR02 17)  antes     120.1   48  125  179 | 0.632 |  0.91  0.38 |  0.0%  0.0%
+  c07 pasto (DR02 17)  después   121.0   39  126  187 | 0.690 |  0.91  0.34 |  0.0%  0.3%
+  c08 casa (DR06)      antes     126.8   36  130  217 | 0.533 |  1.01  0.57 |  1.9%  0.2%
+  c08 casa (DR06)      después   127.4   27  134  213 | 0.594 |  1.01  0.52 |  0.3%  1.3%
+  c09 vista (DR01 62)  antes     112.8   36  103  213 | 0.356 |  1.00  0.82 |  0.0%  0.1%
+  c09 vista (DR01 62)  después   114.7   29  107  212 | 0.417 |  1.01  0.79 |  0.1%  0.6%
+  c10 cta (CT02)       antes     149.0   48  160  214 | 0.281 |  1.08  0.91 |  0.1%  1.6%
+  c10 cta (CT02)       después   148.5   48  163  208 | 0.293 |  1.10  0.90 |  0.2%  1.8%
+
+  entre planos (σ = dispersión; menos es más balanceado):
+  antes    luma media 126.2 (σ 15.3) · saturación media 0.441 (σ 0.104) · p5 medio 38.6 · p95 medio 214.2 · quemado máx 1.9% · aplastado máx 1.6%
+  después  luma media 126.8 (σ 14.3) · saturación media 0.493 (σ 0.122) · p5 medio 32.9 · p95 medio 211.7 · quemado máx 0.9% · aplastado máx 1.8%
+
+2 · empalmes: salto de luma media (último fotograma de un plano → primero del siguiente)
+  f350→f351  c02→c03 (hook → ladera):  antes  -26.8 · después  -24.4
+  f445→f446  c03→c04 (ladera → esquina):  antes   +1.1 · después   +1.2
+  f527→f528  c04→c05 (esquina → loma):  antes   -0.5 · después   -1.2
+  f977→f978  c07→c08 (pasto → casa):  antes   +9.2 · después   +9.3
+  f1059→f1060  c08→c09 (casa → vista):  antes  -11.6 · después  -10.3
+
+3 · la piel de Isabella (tono en grados, saturación y valor HSV de los píxeles de piel)
+  f221 c02 hook (HK01)      antes      941 px · tono  15.7° · sat 0.43 · val 0.56 · luma 110.2
+  f221 c02 hook (HK01)      después    947 px · tono  15.5° · sat 0.45 · val 0.59 · luma 112.5
+  f746 c06 mitad (MD01)     antes     2565 px · tono  12.8° · sat 0.40 · val 0.66 · luma 128.9
+  f746 c06 mitad (MD01)     después   2573 px · tono  12.8° · sat 0.42 · val 0.69 · luma 132.2
+  f1257 c10 cta (CT02)       antes     1660 px · tono  13.9° · sat 0.42 · val 0.59 · luma 114.8
+  f1257 c10 cta (CT02)       después   1661 px · tono  13.7° · sat 0.45 · val 0.62 · luma 117.9

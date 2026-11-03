@@ -1,0 +1,11 @@
+2 entradas con solución (MINC 9.0, MIND 9.0, E0 [138.0, 152.0], CTA 181.856)
+
+entrada 144.698 s (12.3 dB) · INICIO_MUSICA = 4340/30 · golpe mínimo 9.4 dB · desviación 55
+  cortes (f): [3, 64, 296, 391, 473, 555, 828, 923, 1005, 1117]
+  planos (f): [64, 232, 95, 82, 82, 273, 95, 82, 112] · total hasta el CTA 1117 f
+  golpes (dB): [14.5, 14.4, 9.5, 12.6, 12.7, 9.4, 11.4, 14.9, 11.7]
+
+entrada 142.880 s (13.7 dB) · INICIO_MUSICA = 4285/30 · golpe mínimo 9.4 dB · desviación 70
+  cortes (f): [3, 92, 351, 446, 528, 610, 882, 978, 1060, 1172]
+  planos (f): [92, 259, 95, 82, 82, 272, 96, 82, 112] · total hasta el CTA 1172 f
+  golpes (dB): [11.1, 14.4, 9.5, 12.6, 12.7, 9.4, 11.4, 14.9, 11.7]

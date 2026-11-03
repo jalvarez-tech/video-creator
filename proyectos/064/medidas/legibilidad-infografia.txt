@@ -1,0 +1,9 @@
+f379.png                     velo 0.62 · blanco       p90  12.3 : 1 · p99  10.9 : 1  (luminancia de fondo p90 0.035, p99 0.046)
+f379.png                     velo 0.62 · oro #c6a878  p90   5.4 : 1 · p99   4.8 : 1  (luminancia de fondo p90 0.035, p99 0.046)
+Recorrido064-f00560.png      velo 0.62 · blanco       p90   9.9 : 1 · p99   8.0 : 1  (luminancia de fondo p90 0.056, p99 0.081)
+Recorrido064-f00560.png      velo 0.62 · oro #c6a878  p90   4.4 : 1 · p99   3.5 : 1  (luminancia de fondo p90 0.056, p99 0.081)
+f379.png                     velo 0.68 · blanco       p90  13.9 : 1 · p99  12.6 : 1  (luminancia de fondo p90 0.026, p99 0.033)
+f379.png                     velo 0.68 · oro #c6a878  p90   6.1 : 1 · p99   5.6 : 1  (luminancia de fondo p90 0.026, p99 0.033)
+Recorrido064-f00560.png      velo 0.68 · blanco       p90  11.7 : 1 · p99   9.8 : 1  (luminancia de fondo p90 0.040, p99 0.057)
+Recorrido064-f00560.png      velo 0.68 · oro #c6a878  p90   5.2 : 1 · p99   4.3 : 1  (luminancia de fondo p90 0.040, p99 0.057)
+# f379.png = el plano c03a (sin infografía) a escala 540×960; Recorrido064-f00560.png = el plano c03b sin velo. Con el velo de 0,62 el oro quedaba a 4,4 : 1 en c03b (p90); con 0,68 (el vigente) a ≥ 5,2 : 1 en los dos.
