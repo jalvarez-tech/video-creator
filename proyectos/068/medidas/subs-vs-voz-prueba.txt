@@ -1,0 +1,24 @@
+Installed 6 packages in 32ms
+frame de la línea | onset de voz más cercano (frame) | la palabra suena …
+  f   83 | f   85.4 |  +2.4 f después de que entre la línea
+  f   98 | f  100.2 |  +2.2 f después de que entre la línea
+  f  119 | f  120.9 |  +1.9 f después de que entre la línea
+  f  146 | f  143.7 |  -2.3 f antes de que entre la línea
+  f  173 | f  174.9 |  +1.9 f después de que entre la línea
+  f  191 | f  193.0 |  +2.0 f después de que entre la línea
+  f  459 | f  461.1 |  +2.1 f después de que entre la línea
+  f  488 | f  490.1 |  +2.1 f después de que entre la línea
+  f  515 | f  517.8 |  +2.8 f después de que entre la línea
+  f  548 | f  550.6 |  +2.6 f después de que entre la línea
+  f  573 | f  570.8 |  -2.2 f antes de que entre la línea
+  f  586 | f  588.4 |  +2.4 f después de que entre la línea
+  f  608 | f  609.9 |  +1.9 f después de que entre la línea
+  f  622 | f  624.6 |  +2.6 f después de que entre la línea
+  f  893 | f  895.6 |  +2.6 f después de que entre la línea
+  f  925 | f  927.2 |  +2.2 f después de que entre la línea
+  f  951 | f  953.2 |  +2.2 f después de que entre la línea
+  f  980 | sin onset claro
+  f 1005 | f 1010.9 |  +5.9 f después de que entre la línea
+  f 1026 | f 1022.8 |  -3.2 f antes de que entre la línea
+
+mediana +2.2 f · rango [-3.2, +5.9] f (positivo = la línea entra ANTES de la palabra)

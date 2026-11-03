@@ -1,0 +1,5 @@
+# Guion marcado del HOOK (HK04, `IMG_0953`) — lo que dice Isabella, en los trozos con que se pinta. Ver `subtitulos-068.ts` (los tiempos) y `proyectos/068/voz/hk04.json` (whisper por palabra).
+# Texto limpio de whisper small («El verdadero estatus no es la fachada que muestras, es la privacidad que puedes tener.»): todas las palabras con confianza ≥ 0,63.
+El verdadero / estatus / no es la fachada
+que muestras, es la / **privacidad**
+que puedes tener.

@@ -1,0 +1,20 @@
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+Si estás buscando             99 |   0.500s → f   99.0 |    +0.0 f |  0.500 s (  +0 ms)
+lo más barato                115 |   1.075s → f  116.2 |    +1.2 f |  1.075 s (  +0 ms)
+de la zona,                  135 |   1.685s → f  134.6 |    -0.4 f |  1.685 s (  +0 ms)
+con todo respeto,            161 |   2.565s → f  160.9 |    -0.1 f |  2.565 s (  +0 ms)
+este no es                   195 |   3.730s → f  195.9 |    +0.9 f |  3.730 s (  +0 ms)
+para ti.                     207 |   4.140s → f  208.2 |    +1.2 f |  4.140 s (  +0 ms)
+Aprendí a reconocer al       465 |   0.525s → f  465.8 |    +0.8 f |  0.525 s (  +0 ms)
+comprador serio              497 |   1.590s → f  497.7 |    +0.7 f |  1.590 s (  +0 ms)
+desde la primera frase.      525 |   2.560s → f  526.8 |    +1.8 f |  2.560 s (  +0 ms)
+No habla de metros,          576 |   4.195s → f  575.9 |    -0.1 f |  4.195 s (  +0 ms)
+habla de lo que quiere       610 |   5.325s → f  609.8 |    -0.2 f |  5.325 s (  +0 ms)
+dejar de sentir.             633 |   6.100s → f  633.0 |    +0.0 f |  6.060 s ( -40 ms) · ⚠ a 40 ms (≈ 6,06-6,16 s: «dejar» sin valle profundo propio (la energía a 6,04 s baja a −31 dB y vuelve a −12); desde 6,26 oye «de sentir.»: la línea entra 0-1,5 f antes)
+5.000 metros,                952 |   0.465s → f  952.0 |    -0.0 f |  0.465 s (  +0 ms)
+infinitas posibilidades.     972 |   1.140s → f  972.2 |    +0.2 f |  1.140 s (  +0 ms)
+haz clic                    1026 |   2.940s → f 1026.2 |    +0.2 f |  2.940 s (  +0 ms)
+en el enlace                1036 |   3.280s → f 1036.4 |    +0.4 f |  3.280 s (  +0 ms)
+y hablemos.                 1053 |   3.880s → f 1054.4 |    +1.4 f |  3.880 s (  +0 ms)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

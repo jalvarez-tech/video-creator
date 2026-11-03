@@ -1,0 +1,7 @@
+apertura      0.150-   2.400 s   -15.2 LUFS  pico   -3.8 dBFS
+hook          3.200-   9.600 s   -14.7 LUFS  pico   -4.4 dBFS
+paseo        11.200-  19.600 s   -14.9 LUFS  pico   -4.3 dBFS
+mitad        20.600-  26.100 s   -14.8 LUFS  pico   -4.4 dBFS
+bloque5      27.000-  35.000 s   -15.0 LUFS  pico   -7.0 dBFS
+cta          36.000-  38.100 s   -15.0 LUFS  pico   -5.0 dBFS
+tarjeta      38.900-  40.500 s   -70.0 LUFS  pico      ? dBFS

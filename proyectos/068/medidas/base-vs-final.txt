@@ -1,0 +1,3 @@
+fotogramas: base 1113 · final 1113
+mitad de arriba: 1113 fotogramas · PSNR medio 49.5 dB · mínimo 42.4 dB (en el fotograma 313) · fotogramas < 30 dB: 0
+mitad de abajo: 1113 fotogramas · PSNR medio 33.6 dB · mínimo 15.4 dB (en el fotograma 910) · fotogramas < 30 dB: 510

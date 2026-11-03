@@ -1,0 +1,4 @@
+proyectos/068/finales/068-portada.png  (1080×1920, fotograma 27.00 s de proyectos/068/finales/068-recorrido.mp4)
+  contraste del texto: 14.8:1
+  contraste del isotipo: 6.8:1
+  receta: proyectos/068/portada.json

@@ -1,0 +1,39 @@
+1 · por plano (a mitad de cada uno)
+  plano                           luma   p5  p50  p95 |   sat |   R/G   B/G |  ≥250    ≤8
+  c01 apertura (DR06)  antes     127.7   32  129  222 | 0.321 |  1.01  0.80 |  0.0%  0.8%
+  c01 apertura (DR06)  después   127.7   32  129  222 | 0.321 |  1.01  0.80 |  0.0%  0.8%
+  c02 hook (HK04)      antes     127.3   17  140  207 | 0.212 |  0.97  0.99 |  0.0%  2.6%
+  c02 hook (HK04)      después   127.3   17  140  207 | 0.212 |  0.97  0.99 |  0.0%  2.6%
+  c03 camino (DR06)    antes     125.5   33  132  200 | 0.430 |  1.02  0.68 |  0.0%  0.7%
+  c03 camino (DR06)    después   125.5   33  132  200 | 0.430 |  1.02  0.68 |  0.0%  0.7%
+  c04 pinos (RC06)     antes     133.9   19  159  203 | 0.184 |  0.97  0.99 |  0.0%  1.0%
+  c04 pinos (RC06)     después   133.9   19  159  203 | 0.184 |  0.97  0.99 |  0.0%  1.0%
+  c05 prado (DR05)     antes     123.4   38  123  223 | 0.287 |  0.99  0.80 |  0.1%  0.5%
+  c05 prado (DR05)     después   123.4   38  123  223 | 0.287 |  0.99  0.80 |  0.1%  0.5%
+  c06 mitad (MD02)     antes     131.0   33  155  185 | 0.306 |  0.94  1.00 |  0.0%  1.2%
+  c06 mitad (MD02)     después   131.0   33  155  185 | 0.306 |  0.94  1.00 |  0.0%  1.2%
+  c07 montaña (RC05)   antes     118.9   18  136  207 | 0.318 |  1.00  0.91 |  0.0%  2.2%
+  c07 montaña (RC05)   después   118.9   18  136  207 | 0.318 |  1.00  0.91 |  0.0%  2.2%
+  c08 cielo (RC07)     antes     138.4   26  154  198 | 0.291 |  0.95  1.02 |  0.0%  1.6%
+  c08 cielo (RC07)     después   138.4   26  154  198 | 0.291 |  0.95  1.02 |  0.0%  1.6%
+  c09 vista (DR04)     antes     121.9   32  125  209 | 0.329 |  0.96  0.92 |  0.0%  0.4%
+  c09 vista (DR04)     después   121.9   32  125  209 | 0.329 |  0.96  0.92 |  0.0%  0.4%
+  c10 cta (CT01)       antes     101.9   43   89  201 | 0.289 |  1.04  0.86 |  0.5%  0.1%
+  c10 cta (CT01)       después   101.9   43   89  201 | 0.289 |  1.04  0.86 |  0.5%  0.1%
+
+  entre planos (σ = dispersión; menos es más balanceado):
+  antes    luma media 125.0 (σ  9.4) · saturación media 0.297 (σ 0.063) · p5 medio 29.1 · p95 medio 205.3 · quemado máx 0.5% · aplastado máx 2.6%
+  después  luma media 125.0 (σ  9.4) · saturación media 0.297 (σ 0.063) · p5 medio 29.1 · p95 medio 205.3 · quemado máx 0.5% · aplastado máx 2.6%
+
+2 · empalmes: salto de luma media (último fotograma de un plano → primero del siguiente)
+  f72→f73  c01→c02 (apertura → hook):  antes   -7.4 · después   -7.4
+  f225→f226  c02→c03 (hook → camino):  antes  -12.7 · después  -12.7
+  f313→f314  c03→c04 (camino → pinos):  antes   +6.2 · después   +6.2
+  f382→f383  c04→c05 (pinos → prado):  antes  -19.3 · después  -19.3
+  f456→f457  c05→c06 (prado → mitad):  antes  +10.8 · después  +10.8
+  f651→f652  c06→c07 (mitad → montaña):  antes  -19.7 · después  -19.7
+  f716→f717  c07→c08 (montaña → cielo):  antes   -2.9 · después   -2.9
+  f789→f790  c08→c09 (cielo → vista):  antes  -15.0 · después  -15.0
+  f874→f875  c09→c10 (vista → CTA):  antes  -16.0 · después  -16.0
+
+3 · la piel de Isabella (tono en grados, saturación y valor HSV de los píxeles de piel)

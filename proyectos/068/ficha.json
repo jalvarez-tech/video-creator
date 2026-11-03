@@ -1,0 +1,8 @@
+{
+  "propiedad": "Lote campestre de 5.170 m² en EOLIA Condominio, San Cristóbal (Medellín)",
+  "tipo": "Lote campestre",
+  "negocio": "venta",
+  "lugar": "San Cristóbal · EOLIA",
+  "precio": 797,
+  "fuente": "Ficha de la web leída el 2026-10-24 (`proyectos/066/catalogo/catalogo-material.md`): «Lote en Venta en San Cristóbal, Medellín, de 5.170 m²», venta, COP 797 M, lote campestre en EOLIA Condominio (vereda La Ilusión), 1 nivel, acueducto veredal. La web no da la dirección exacta (se comparte al agendar la visita): lugar = corregimiento · proyecto. Es el mismo JSON que `.claude/skills/ficha-luxur/propiedades/lote-san-cristobal.json`, con el que se hizo la versión con ficha."
+}

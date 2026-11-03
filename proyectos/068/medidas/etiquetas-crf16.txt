@@ -1,0 +1,5 @@
+antes:   tv,bt709,unknown,unknown · SIN colr
+después: tv,bt709,bt709,bt709 · colr
+fotogramas: 1113 → 1113 · framemd5 decodificado: 2cbdd51343ec7a315af02f5f48b68f12 → 2cbdd51343ec7a315af02f5f48b68f12
+PCM del audio (md5): MD5=9cfca8267b628656c31e008788a8419f → MD5=9cfca8267b628656c31e008788a8419f
+IGUAL: píxeles y audio idénticos; sustituido 068-recorrido-crf16.mp4

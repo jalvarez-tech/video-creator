@@ -1,0 +1,4 @@
+proyectos/067/finales/067-portada.png  (1080×1920, fotograma 23.40 s de proyectos/067/finales/067-recorrido.mp4)
+  contraste del texto: 8.4:1
+  contraste del isotipo: 6.8:1
+  receta: proyectos/067/portada.json
