@@ -1,0 +1,24 @@
+Installed 6 packages in 44ms
+línea                      entra |  palabra →   frame | adelanto | onset más próximo
+El verdadero                  83 |   0.365s → f   84.0 |    +1.0 f |  0.365 s (  +0 ms)
+estatus                       98 |   0.860s → f   98.8 |    +0.8 f |  0.860 s (  +0 ms)
+no es la fachada             119 |   1.550s → f  119.5 |    +0.5 f |  1.550 s (  +0 ms)
+que muestras, es la          146 |   2.450s → f  146.5 |    +0.5 f |  2.450 s (  +0 ms)
+privacidad                   173 |   3.355s → f  173.7 |    +0.7 f |  3.355 s (  +0 ms)
+que puedes tener.            191 |   3.955s → f  191.7 |    +0.7 f |  3.955 s (  +0 ms)
+Imagina que el éxito         459 |   0.095s → f  459.9 |    +0.9 f |  0.095 s (  +0 ms)
+por fin se siente            488 |   1.060s → f  488.8 |    +0.8 f |  1.060 s (  +0 ms)
+como se ve                   515 |   1.980s → f  516.4 |    +1.4 f |  1.980 s (  +0 ms)
+en silencio,                 548 |   3.075s → f  549.2 |    +1.2 f |  3.075 s (  +0 ms)
+con la montaña               573 |   3.910s → f  574.3 |    +1.3 f |  3.910 s (  +0 ms)
+al frente                    586 |   4.335s → f  587.0 |    +1.0 f |  4.335 s (  +0 ms)
+y sin nadie                  608 |   5.050s → f  608.5 |    +0.5 f |  5.050 s (  +0 ms)
+que te apure.                622 |   5.545s → f  623.4 |    +1.4 f |  5.545 s (  +0 ms)
+Tu bosque privado            893 |   0.640s → f  894.2 |    +1.2 f |  0.640 s (  +0 ms)
+a solo 20 minutos            925 |   1.695s → f  925.9 |    +0.9 f |  1.695 s (  +0 ms)
+de Medellín,                 951 |   2.560s → f  951.8 |    +0.8 f |  2.560 s (  +0 ms)
+escríbeme                    980 |   3.520s → f  980.6 |    +0.6 f |  3.540 s ( +20 ms)
+y agendemos                 1005 |   4.365s → f 1006.0 |    +1.0 f |  4.365 s (  +0 ms)
+una visita.                 1026 |   5.050s → f 1026.5 |    +0.5 f |  5.185 s (+135 ms) · ⚠ a 135 ms («una» ≈ 5,05 s (sin onset propio: pegada a la /s/ de «-mos»); vi-si-ta = 5,185 · 5,26 · 5,345 s)
+
+✅ 0 línea(s) fuera de [-0.5, +3.0] f

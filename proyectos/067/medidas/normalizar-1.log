@@ -1,0 +1,18 @@
+✅ hk02.mp4 (toma · SDR · rotación 0)
+✅ hk02.wav (la voz tal cual, mono 48 kHz)
+⚠️  hk02: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ; sin voz tratada
+✅ md01.mp4 (toma · SDR · rotación 0)
+✅ md01.wav (la voz tal cual, mono 48 kHz)
+⚠️  md01: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ; sin voz tratada
+✅ ct05.mp4 (toma · SDR · rotación 0)
+✅ ct05.wav (la voz tal cual, mono 48 kHz)
+⚠️  ct05: sin ganancia o sin ventana de voz en GANANCIA_VOZ_DB / VENTANA_VOZ; sin voz tratada
+✅ rc02.mp4 (recorrido · SDR · rotación 0)
+✅ rc03.mp4 (recorrido · SDR · rotación 0)
+✅ dr03.mp4 (dron · SDR · rotación 90)
+✅ dr06.mp4 (dron · SDR · rotación 90 · solo 0-60.0 s del original)
+✅ dr04.mp4 (dron · SDR · rotación 90 · solo 60-98.6 s del original)
+✅ cierre-oscuro.png (negro liso 1296×2304, la tarjeta del cierre)
+✅ musica-067.wav (la canción entera, decodificada)
+✅ repuesto en remotion/public/recorrido-067
+FIN

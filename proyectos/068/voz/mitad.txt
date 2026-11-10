@@ -1,0 +1,6 @@
+# Guion marcado de la MITAD (MD02, `IMG_0973`) — ver `subtitulos-068.ts` y `proyectos/068/voz/md02.json`.
+# POR CONFIRMAR AL OÍDO: «nadie que te apure» (whisper small: confianza 0,31 en «nadie» y 0,53 en «que»; trozos aislados: «y si nadie se te apure», «y sin ayer que te apure»). Se pinta «que te apure».
+Imagina que el éxito / por fin se siente
+como se ve / **en silencio,**
+con la montaña / al frente / y sin nadie
+que te apure.

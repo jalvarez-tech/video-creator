@@ -1,0 +1,6 @@
+# Guion marcado del CTA (CT01, `IMG_0963`) — ver `subtitulos-068.ts` y `proyectos/068/voz/ct01.json`.
+# POR CONFIRMAR AL OÍDO: «bosque» (whisper: «Tu voz que privado»; trozos aislados: «Tu bosque privado» ×2; el catálogo pensó «refugio», que no lleva la /s/ que se mide a los 0,84-0,88 s). Se pinta «bosque».
+# POR CONFIRMAR AL OÍDO: «agendemos» (whisper: «hajandemos», «ya andemos», «hagan de»). Se pinta «y agendemos».
+# «a solo 20 minutos de Medellín»: «20» sale de 5 de 5 trozos aislados; la cifra NO está en la ficha de la web («a pocos minutos de Medellín»): lo decide el usuario.
+Tu bosque privado / a solo 20 minutos / de Medellín,
+**escríbeme** / y agendemos / una visita.

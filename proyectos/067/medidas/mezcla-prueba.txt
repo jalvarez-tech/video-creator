@@ -1,0 +1,7 @@
+entero        0.000-  38.200 s   -15.2 LUFS  pico   -4.2 dBFS
+apertura      0.300-   3.000 s   -14.9 LUFS  pico   -6.3 dBFS
+paseo         8.200-  15.200 s   -15.1 LUFS  pico   -6.3 dBFS
+bloque5      23.200-  31.300 s   -15.1 LUFS  pico   -7.3 dBFS
+hook          3.400-   7.200 s   -14.7 LUFS  pico   -4.2 dBFS
+mitad        15.700-  21.800 s   -14.9 LUFS  pico   -4.5 dBFS
+cta          31.900-  35.800 s   -14.8 LUFS  pico   -4.3 dBFS

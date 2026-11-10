@@ -1,0 +1,1 @@
+npx remotion render src/index.ts Recorrido067 out/067-1080.mp4 --scale=1       363.13s user 41.48s system 369% cpu 1:49.41 total
