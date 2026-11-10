@@ -1,0 +1,5 @@
+# La banda de la ficha (064-recorrido-ficha.mp4 contra su base muda sin subtítulos, diferencia media de luma en la zona x60-960 · y1190-1450), medido el 2026-11-03
+con banda (f15-340): 43,0-53,0 · con banda (f589-1222): 33,6-51,4 · hueco de la infografía (f366-577): 0,60-2,39 (ruido de recodificación; con banda nunca baja de 33)
+sale f354→366: 54,2 · 54,1 · 45,1 · 36,4 · 27,5 · 18,1 · 9,1 · 0,8 (cada 2 f) · vuelve f577→589: 1,4 · 1,2 · 7,9 · 16,1 · 24,1 · 32,2 · 40,4 · 48,6 · se va f1223→1235: 48,1 · 48,3 · 40,2 · 32,1 · 24,3 · 12,3 · 4,4 · 0,0
+audio de la ficha = audio del máster (PCM md5 1b8dee363ad618d6b716cade4b698a7a) · 1296 fotogramas · 1080×1920 a 30 fps · etiquetas BT.709 tv/bt709/bt709/bt709
+base muda contra el máster, mitad de arriba (y0-1056), PSNR por fotograma: media 49,4 dB · mín 41,7 dB (f562, dentro de la disolvencia a Isabella) → la misma revisión

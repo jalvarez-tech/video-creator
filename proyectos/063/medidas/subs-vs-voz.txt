@@ -1,0 +1,27 @@
+frame de la línea | onset de voz más cercano (frame) | la palabra suena …
+  f  102 | f  104.4 |  +2.4 f después de que entre la línea
+  f  118 | f  120.3 |  +2.3 f después de que entre la línea
+  f  132 | f  131.2 |  -0.8 f antes de que entre la línea
+  f  162 | f  167.2 |  +5.2 f después de que entre la línea
+  f  193 | f  195.0 |  +2.0 f después de que entre la línea
+  f  206 | f  208.4 |  +2.4 f después de que entre la línea
+  f  248 | f  249.7 |  +1.7 f después de que entre la línea
+  f  277 | f  279.6 |  +2.6 f después de que entre la línea
+  f  567 | f  569.4 |  +2.4 f después de que entre la línea
+  f  591 | f  593.7 |  +2.7 f después de que entre la línea
+  f  616 | f  618.8 |  +2.8 f después de que entre la línea
+  f  633 | f  635.1 |  +2.1 f después de que entre la línea
+  f  661 | f  669.5 |  +8.5 f después de que entre la línea
+  f  685 | f  687.2 |  +2.2 f después de que entre la línea
+  f  704 | f  702.4 |  -1.6 f antes de que entre la línea
+  f  722 | f  730.8 |  +8.8 f después de que entre la línea
+  f  749 | f  751.0 |  +2.0 f después de que entre la línea
+  f  776 | f  778.0 |  +2.0 f después de que entre la línea
+  f 1129 | f 1130.8 |  +1.8 f después de que entre la línea
+  f 1148 | f 1150.2 |  +2.2 f después de que entre la línea
+  f 1167 | f 1169.2 |  +2.2 f después de que entre la línea
+  f 1205 | f 1207.5 |  +2.5 f después de que entre la línea
+  f 1231 | f 1233.0 |  +2.0 f después de que entre la línea
+  f 1254 | f 1248.8 |  -5.2 f antes de que entre la línea
+
+mediana +2.2 f · rango [-5.2, +8.8] f (positivo = la línea entra ANTES de la palabra)

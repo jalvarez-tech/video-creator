@@ -1,0 +1,3 @@
+# CT01 (cta1.mp4), el CTA de cierre. Lo que se OYE: «Comenta “lote” y te envío toda la información para que vengas y lo conozcas.» Voz de 3,41 a 7,2 s con una pausa de 270 ms (5,91-6,18 s). Whisper-small lo oye bien (la «lote» entre comillas, a 3,75 s tras un respiro). Una sola acción: comentar «lote».
+Comenta / **“lote”** / y te envío
+toda la información / para que vengas / y lo conozcas.

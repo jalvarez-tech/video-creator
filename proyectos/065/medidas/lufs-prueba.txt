@@ -1,0 +1,7 @@
+hook          4.300-  12.400 s   -14.5 LUFS  pico   -3.9 dBFS
+ficha        14.900-  22.500 s   -15.1 LUFS  pico   -5.3 dBFS
+pregunta     23.400-  25.700 s   -14.6 LUFS  pico   -4.1 dBFS
+dron         26.500-  33.300 s   -15.0 LUFS  pico   -5.3 dBFS
+cta          34.300-  37.900 s   -14.7 LUFS  pico   -3.3 dBFS
+apertura      0.200-   3.700 s   -15.0 LUFS  pico   -5.7 dBFS
+todo          0.000-  40.300 s   -15.1 LUFS  pico   -3.3 dBFS

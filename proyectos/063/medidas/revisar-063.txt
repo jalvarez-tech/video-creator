@@ -1,0 +1,48 @@
+
+063 · 9 cortes
+
+1. línea de tiempo
+  ✅ sin huecos ni solapes · 1347 f (44.90 s)
+2. la estructura del recorrido
+  ✅ 9 planos · 44.9 s · b1 3.0 s · b2 7.7 s · b3 7.7 s · b4 9.1 s · b5 9.6 s · b6 7.7 s · Isabella 3 veces · todos con razón · la vista, el plano más largo de su bloque
+2a. Isabella en tres encuadres distintos del prado y ninguna cifra
+  ✅ PRADO-CERCA-VIVA-Y-ARBOL → PRADO-LADERA-DE-TIERRA → PRADO-LOMA-DE-TIERRA-Y-BALDE: tres encuadres distintos del prado · ninguna cifra dicha ni escrita · ni ficha ni precio en el reel
+2b. reglas fijas del canal: la primera toma sin texto, nunca el sello ni la cuenta
+  ✅ la primera toma (c01-apertura, f0-91) sale SIN texto ni voz · nada arriba y ninguna cuenta · sin sello (no se usa `SelloCampana`)
+2c. el cierre: nada se congela, y la tarjeta oscura con el logo (pequeño, al 60 %) y la web
+  ✅ nada se congela: la imagen funde a negro en 6 f y llega a negro en f1286 · tarjeta oscura de 2.0 s · logo 440 px al 60 % de opacidad · «PropiedadesLuxur.com» a 54 px, ≈ 651 de 842 px útiles
+2e. el CTA: CT02, una sola acción («escríbeme»), sin precio ni «botón»
+  ✅ CT02 (voz 4.03-8.82 s): «escríbeme» como única acción, con su acento · sin precio ni «botón» · el plano usa 3.63-9.30 de 11.17 s del clip y nada se congela
+2d. el color de cada plano (colorCorrection, R32)
+  ✅ 8 planos llevan color y todos están dentro de lo que el efecto admite · renderiza con --gl=angle
+  ✅ 8 planos de vídeo con color · vibrance ≤ 0.05 · |exposure| ≤ 0.4 · las 3 tomas de Isabella con saturation ≤ 1.06
+2f. el ángulo «El error»: el acento en lo que falta, en lo que se mira y en la acción · nada que la web no diga · 5 cortes secos y 4 disolvencias · todo a velocidad 1
+  ✅ acentos: acometidas legales. · escríbeme · nada de energía, uso del suelo, vía ni valorización · disolvencias: c02-hook, c04-mitad, c05-rodea, c08-cta · cortes secos: c03-info, c06-arbol, c07-vista · solo DR01 (0-24 s) y DR02 · ningún plano a otra velocidad
+2g. la infografía «Lo que sí tiene» y los rótulos de la mitad (encargo del usuario): solo datos de la ficha, sin recuentos, cada elemento en un golpe, dentro de la zona segura
+  ✅ 3 ✔ y un título exactos a la ficha y al encargo · SIN recuentos: cada elemento entra completo con un fundido de 8 f · de f323 a f539 (7.2 s), tras la última palabra del hook y antes de la mitad, sin pisar ningún subtítulo · un ✔ cada 1.4-1.8 s y la lista entera 2.2 s · cada elemento en un golpe medido (13 · 9 · 10.7 · 13.7 dB) · los 3 rótulos de la mitad en f661 · f685 · f704, a la palabra · la lista dentro de y570-1350 y centrada · el texto más ancho («valor acueducto») mide ≈ 780 de 808 px
+3. la voz de las tomas a cámara
+  ✅ 3 tomas con su WAV y su tramo, ninguna palabra en un fundido · a -15 LUFS: c02-hook +0.0 · c04-mitad +0.0 · c08-cta +0.0 dB · 74 f desde la última palabra hasta el final (la tarjeta del cierre)
+4. la música: «Oceans (Where Feet May Fail)», cada plano en un golpe medido, su caída a un lecho dentro del CTA y apagada bajo la tarjeta
+  ✅ «Oceans (Where Feet May Fail)» desde el 144.667 s, una sola canción · golpe de entrada en f2.6 (12.3 dB) · 7 planos en golpes MEDIDOS a ≤ 1 f (hook 11.9 dB · info 13 dB · mitad 12.7 dB · rodea 9.4 dB · arbol 11.4 dB · vista 14.9 dB · cta 11.7 dB) · la caída (-11.9 → -17.3 LUFS en la voz del CTA, -19.2 después) empieza en f1131, dentro de la toma del CTA (f1117-1287) · se apaga bajo la tarjeta en f1320
+4b. la música baja bajo su voz, con curva y antes de la primera palabra, y sube antes del golpe siguiente
+  ✅ la música baja a hook -13.5 dB sobre el archivo · mitad -15.1 dB sobre el archivo · cta -8.7 dB sobre el archivo durante su voz, a -26.0 LUFS como mucho: 11.0 LU bajo ella · el golpe de cada entrada suena entero y la bajada (curva de 10-10 f) acaba antes de la primera palabra · sube con curva tras la última (hook 15 f, mitad 22 f) y está arriba en el golpe siguiente
+5. subtítulos editoriales
+  ✅ 9 bloques, 2 acentos · validador sin avisos con las letras del canal · todo lo de Isabella abajo, a 90 % · la cursiva 8 px menor (99 → 91 px) · sin datos grandes
+6. metraje disponible
+  ✅ ningún corte pide más metraje del que hay (velocidad y prerrollo incluidos)
+7. tramos disjuntos
+  ✅ ningún tramo de vídeo se usa dos veces
+7b. metraje que comparte con las versiones anteriores (informa; repetirlo es una decisión)
+  ✅ ni un segundo de metraje en común con la V46 (064)
+  ✅ ni un segundo de metraje en común con la V47 (065)
+8. encuadre
+  ✅ todos los planos cubren el cuadro · zoom dentro de [1, 1.2]
+11. nada por confirmar en los planos (avisa; con --final falla)
+  ⚠️  por confirmar: metraje-063.ts:231: // POR CONFIRMAR AL OÍDO (ver `subtitulos-063.ts`): «evitar esto» (whisper oye «hitareza» y «ditarés»; el catálogo y la toma gemela, «evitar
+  ⚠️  por confirmar: metraje-063.ts:276: // POR CONFIRMAR AL OÍDO: «empieza con tres cosas» (el reparto suponía «fíjate en tres cosas»; MEDIDO que es «empieza con»: nasal /m/, cierr
+  ⚠️  por confirmar: subtitulos-063.ts:22: * POR CONFIRMAR AL OÍDO (R31; la orden de exportar, si llega con estas sin oír, no se bloquea: se mide, se dice con el segundo y la nota se 
+  ⚠️  por confirmar: hk01.txt:1: # HK01 (Hook1.mp4). Lo que se OYE: «El error no es comprar un lote barato, es comprarlo sin todas las acometidas legales. Ven, te enseño cóm
+  ⚠️  por confirmar: md01.txt:1: # MD01 (Medio3.mp4). Lo que se OYE: «Antes de enamorarte de un lote, empieza con tres cosas: ubicación, agua y escrituras. Y este lote empie
+
+✅ el 063 pasa la puerta: 9 planos, 9 bloques de texto, 5 tramos de audio
+

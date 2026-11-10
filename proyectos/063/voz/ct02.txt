@@ -1,0 +1,3 @@
+# CT02 (cta2.mp4). Whisper oye la frase entera con confianza alta (en cortes de 5 s y 2,5 s): «¿Quieres saber si este lote se ajusta a tu presupuesto? Escríbeme y te envío toda la información.»
+¿Quieres saber si / este lote se ajusta / a tu presupuesto?
+**Escríbeme** / y te envío toda / la información.

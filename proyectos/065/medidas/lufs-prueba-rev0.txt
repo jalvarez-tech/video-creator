@@ -1,0 +1,7 @@
+apertura      0.200-   3.700 s   -15.0 LUFS  pico   -5.7 dBFS
+hook          4.300-  13.600 s   -14.8 LUFS  pico   -3.9 dBFS
+paseo        14.900-  22.800 s   -15.1 LUFS  pico   -5.3 dBFS
+mitad        23.500-  30.100 s   -14.8 LUFS  pico   -4.7 dBFS
+vista        31.200-  39.200 s   -15.0 LUFS  pico   -4.8 dBFS
+cta          39.900-  43.600 s   -14.8 LUFS  pico   -3.0 dBFS
+todo          0.000-  45.900 s   -15.1 LUFS  pico   -3.0 dBFS

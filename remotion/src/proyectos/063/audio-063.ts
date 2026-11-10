@@ -1,0 +1,198 @@
+/**
+ * EL SONIDO DEL 063 — todo lo que suena, como DATOS (`TramoAudio[]`).
+ *
+ * `<PistaMetraje>` pinta los planos MUDOS. Lo que se oye son dos cosas, y las dos pasan por `<PistaAudio>`:
+ *
+ *   vocesTomas   la voz de Isabella en HK01, MD01 y CT02, derivada de los cortes que traen `audio` (`vocesDeCortes`): mismo arranque que su imagen, cruce de 6 f (las tres entran disolviendo) y, como el WAV es el
+ *                TRATADO de `normalizar.mjs` (`<toma>-voz.wav`: graves fuera, puerta suave, compresor 3,5:1, ganancia y limitador, ya a −15,0 LUFS en su ventana), UNA ganancia de ±0,0 dB.
+ *   musica       «Oceans (Where Feet May Fail)», con una envolvente que BAJA mientras habla Isabella y sube en el dron (la infografía y los vuelos). No es la de `envolventeBajoVoz`: aquí el golpe en que acaba la disolvencia de cada toma tiene que
+ *                sonar ENTERO, la música baja con curva de coseno DESPUÉS y acaba ANTES de la primera palabra (regla del canal desde el 022).
+ *
+ * LA MEZCLA, en LUFS (medidos con ebur128 sobre cada fuente, `herramientas/lufs-rangos.py`):
+ *   voz de Isabella      −15 (pedido permanente del canal: «la voz de Isabella a −15 LUFS sin saturar»; sus tomas crudas miden −21,8 · −23,7 · −20,9; tratadas, −15,0 con el pico real a −2,5 dBFS)
+ *   música SOLA          −15 por tramos, el nivel de la voz: la canción mide −13,2 en la apertura, −11,8 bajo la infografía y −11,9 en el bloque 5 (picos de 0 dBFS: está masterizada al límite), así que baja 1,8 · 3,2 · 3,1 dB
+ *                        y ningún pico pasa de −1,7 dBFS. Su lecho tras la caída mide −19,2 y sube 4,2 dB.
+ *   música BAJO LA VOZ   −26 en cada ventana de voz: 11 LU por debajo de ella. Con una ganancia fija en cada toma (la canción es una meseta: −12,5 bajo el hook y −10,9 bajo la mitad; −17,3 bajo el CTA, que ya cae).
+ * Una sola ganancia por tramo, sin `loudnorm` (le cambiaría la dinámica).
+ *
+ * LAS RAMPAS DE LA MÚSICA (revisión del 022: «la curva debe ser ANTES de que hable», ya regla del canal):
+ *   · La APERTURA suena sola con el golpe de entrada en el f3 y su nivel hasta el f91, donde la disolvencia al HOOK acaba en un golpe de 11,9 dB: suena entero y la música baja con curva de coseno en 10 f; la primera
+ *     palabra suena a los 11,7 f del golpe.
+ *   · Tras la última palabra del hook (f296) la música sube con curva en 15 f y está arriba en el golpe de 13,0 dB del f323 (el corte seco que trae el dron y la infografía). Durante la infografía NADIE habla: la música
+ *     suena a su nivel «solo» y cada ✔ cae en un golpe.
+ *   · La MITAD y el CTA, igual que el hook: golpe en f555 / f1117 (disolvencias que ACABAN en él), bajada de 10 f y primera palabra a los 12,3 f / 11,9 f del golpe. Tras la mitad la música sube en 22 f y está arriba
+ *     en el golpe del f828.
+ *
+ * EL CTA Y LA CAÍDA. La canción cae de golpe a su lecho a los 182,3 s (el f1131, 14 f tras la entrada del CTA): de −11,9 a −17,3 LUFS en la ventana de voz. La voz del CTA acaba en el f1273: la música vuelve entonces a
+ * su nivel «solo» en 14 f (el lecho sube 4,2 dB) y se lleva a cero, en línea recta, hasta el f1320 (el archivo trae un golpe de 23,6 dB a los 189,465 s = f1346, el último fotograma: la tarjeta acaba en silencio).
+ *
+ * Datos puros: la puerta lo carga con node.
+ */
+import { frameDeFuente, gananciaHasta, vocesDeCortes, volumenDe } from "../../motor/sound/tramos";
+import type { TramoAudio } from "../../motor/sound/tramos";
+import { FIN_MUSICA_063, FPS_063, INICIO_MUSICA, OBJETIVO_LUFS, metraje063 } from "./metraje-063";
+
+/** La voz de las tres tomas a cámara (HK01, MD01 y CT02), derivada del plan de planos. */
+export const vocesTomas: readonly TramoAudio[] = vocesDeCortes(metraje063, { fps: FPS_063, objetivoLufs: OBJETIVO_LUFS });
+
+/** El fin de la toma del CTA: ahí empieza la tarjeta del cierre y la música tiene que estar a su nivel «solo» (la cola del lecho). */
+const CTA = metraje063.find((c) => c.id === "c08-cta");
+if (!CTA) throw new Error("audio-063: falta c08-cta en metraje-063.ts");
+export const FIN_CTA_063 = CTA.en + CTA.dur;
+
+/** La ventana de voz de un corte, en frames de la comp (la misma cuenta que usa la puerta). */
+const ventanaDe = (id: string): { en: number; dur: number; fin: number; ini: number } => {
+  const c = metraje063.find((x) => x.id === id);
+  if (!c || !c.voz) throw new Error(`audio-063: ${id} no existe o no trae voz`);
+  const ini = frameDeFuente(c.en, c.desde, c.voz.s0, FPS_063);
+  const fin = frameDeFuente(c.en, c.desde, c.voz.s1, FPS_063);
+  return { en: ini, dur: fin - ini, fin, ini };
+};
+
+/* ── La música ────────────────────────────────────────────────────────────── */
+
+/**
+ * ¿La música va en el render? `false` = la pieza sale solo con voz y se publica con un audio de la plataforma encima. La canción es una pista de la
+ * biblioteca de Luxur y no se ha verificado su licencia (ver 01-plan.md): es una canción comercial (de Hillsong United en su versión original; el archivo no lleva voz cantada en la ventana usada: whisper no oye letra).
+ */
+export const HAY_MUSICA = true;
+
+/** Sonoridad de «Oceans» entre el 146,3 y el 181,9 s (ebur128): lo que suena en los vuelos y bajo las voces, en promedio. */
+export const LUFS_MESETA = -11.9;
+/**
+ * Sonoridad de la canción en cada tramo SIN voz (ebur128 sobre la fuente): la apertura (144,8-147,6 s), el dron con la infografía (155,4-163,0 s; clave `paseo`), el bloque 5 (172,3-181,8 s) y el lecho de la cola (183-189 s, ya caída).
+ */
+export const LUFS_TRAMO = { apertura: -13.2, paseo: -11.8, bloque5: -11.9, lecho: -19.2 } as const;
+/**
+ * La sonoridad de la canción en cada ventana de VOZ (ebur128 sobre la fuente, el tramo de la canción que suena mientras ella habla): lo que mide la puerta en lugar de suponer la meseta en todas. Hook
+ * 148,1-154,5 s, mitad 163,6-171,3 s y CTA 182,3-187,1 s (este último ya es el lecho de después de la caída).
+ */
+export const LUFS_CANCION_EN_VOZ = { "c02-hook": -12.5, "c04-mitad": -10.9, "c08-cta": -17.3 } as const;
+/** El pico real de la canción en cada tramo sin voz (ebur128 sobre la fuente, dBFS): con la ganancia de cada tramo ninguno pasa de −1 dBFS (lo comprueba la puerta). */
+export const PICO_TRAMO = { apertura: -0.1, paseo: 0.0, bloque5: 0.0, lecho: -6.4 } as const;
+/** La música SOLA: el nivel de la voz. */
+const OBJETIVO_MUSICA = -15;
+/** Ganancia lineal de la música sola en cada tramo (ver arriba). */
+export const ALTOS = {
+  apertura: gananciaHasta(LUFS_TRAMO.apertura, OBJETIVO_MUSICA),
+  paseo: gananciaHasta(LUFS_TRAMO.paseo, OBJETIVO_MUSICA),
+  bloque5: gananciaHasta(LUFS_TRAMO.bloque5, OBJETIVO_MUSICA),
+  lecho: gananciaHasta(LUFS_TRAMO.lecho, OBJETIVO_MUSICA),
+} as const;
+/**
+ * Mientras habla Isabella: la música baja hasta −26 LUFS EN CADA VENTANA (11 LU bajo su voz de −15). La ganancia absoluta que deja cada ventana en −26 es la de `gananciaHasta`.
+ */
+export const LUFS_MUSICA_BAJO_VOZ = -26;
+export const BAJOS = {
+  "c02-hook": gananciaHasta(LUFS_CANCION_EN_VOZ["c02-hook"], LUFS_MUSICA_BAJO_VOZ),
+  "c04-mitad": gananciaHasta(LUFS_CANCION_EN_VOZ["c04-mitad"], LUFS_MUSICA_BAJO_VOZ),
+  "c08-cta": gananciaHasta(LUFS_CANCION_EN_VOZ["c08-cta"], LUFS_MUSICA_BAJO_VOZ),
+} as const;
+/**
+ * LOS FUNDIDOS (pedido del usuario en la V6, ya regla del canal: «el sonido cuando cambia a hablar Isabella debe hacer un fade-out / fade-in … para que no se escuche ahí mismo tan cortado»):
+ *   · FADE-OUT de FADE_OUT f desde el golpe en que acaba la disolvencia de su toma (el golpe suena entero y la música baja DESPUÉS, con curva de coseno): la curva ACABA antes de su primera palabra: el hook, a 1,7 f; la
+ *     mitad, a 2,3 f; el CTA, a 1,9 f.
+ *   · FADE-IN de FADE_IN f tras su última palabra (con curva suave), o los que quepan hasta 2 f antes del golpe del plano siguiente.
+ */
+export const FADE_OUT = { hook: 10, mitad: 10, cta: 10 } as const;
+export const FADE_IN = { hook: 15, mitad: 22 } as const;
+/** Frames que tarda la música en volver a su nivel «solo» tras la última palabra del CTA (el lecho sube de −26 a −15 LUFS). */
+const SUBIDA_CTA = 14;
+
+/** Un fundido con curva suave (coseno): de `de` a `a` en `n` frames desde `f0`, en 5 puntos. */
+const fundido = (f0: number, n: number, de: number, a: number): [number, number][] =>
+  [0, 0.25, 0.5, 0.75, 1].map((u) => [Math.round(f0 + u * n), de + ((a - de) * (1 - Math.cos(Math.PI * u))) / 2] as [number, number]);
+
+/** La envolvente: la casa sola, el hook, la mitad y el CTA con su fundido, y el apagado final bajo la tarjeta. */
+const envolvente = (): [number, number][] => {
+  const hook = ventanaDe("c02-hook");
+  const mitad = ventanaDe("c04-mitad");
+  const cta = ventanaDe("c08-cta");
+  const hookPlano = metraje063.find((c) => c.id === "c02-hook");
+  const paseoPlano = metraje063.find((c) => c.id === "c03-info");
+  const mitadPlano = metraje063.find((c) => c.id === "c04-mitad");
+  const altoPlano = metraje063.find((c) => c.id === "c05-rodea");
+  const ctaPlano = metraje063.find((c) => c.id === "c08-cta");
+  if (!hookPlano || !paseoPlano || !mitadPlano || !altoPlano || !ctaPlano) throw new Error("audio-063: faltan planos en metraje-063.ts");
+
+  const p: [number, number][] = [
+    // LA APERTURA: la música sola desde el frame 0 (1 f de entrada para no meter un clic: el golpe de entrada suena en el f3).
+    [0, 0],
+    [1, ALTOS.apertura],
+    // HOOK: el golpe de la disolvencia suena entero y la música baja con fundido DESPUÉS; sube con fundido (los f que quepan) hasta el golpe del plano siguiente.
+    [hookPlano.en, ALTOS.apertura],
+    ...fundido(hookPlano.en, FADE_OUT.hook, ALTOS.apertura, BAJOS["c02-hook"]),
+    [hook.fin, BAJOS["c02-hook"]],
+    ...fundido(hook.fin, Math.min(FADE_IN.hook, paseoPlano.en - hook.fin - 2), BAJOS["c02-hook"], ALTOS.paseo),
+    // INFOGRAFÍA: nadie habla; la música a su nivel «solo» desde que sube tras el hook. MITAD: igual que el hook. Tras ella caben 28 f hasta el golpe del bloque 5: la música sube en 22.
+    [mitadPlano.en, ALTOS.paseo],
+    ...fundido(mitadPlano.en, FADE_OUT.mitad, ALTOS.paseo, BAJOS["c04-mitad"]),
+    [mitad.fin, BAJOS["c04-mitad"]],
+    ...fundido(mitad.fin, Math.min(FADE_IN.mitad, altoPlano.en - mitad.fin - 2), BAJOS["c04-mitad"], ALTOS.bloque5),
+    // CTA: la bajada igual...
+    [ctaPlano.en, ALTOS.bloque5],
+    ...fundido(ctaPlano.en, FADE_OUT.cta, ALTOS.bloque5, BAJOS["c08-cta"]),
+    [cta.fin, BAJOS["c08-cta"]],
+    // ...y al acabar la voz la música vuelve a su nivel «solo»: la canción ya cayó sola, así que lo que suena es su lecho.
+    ...fundido(cta.fin, Math.min(SUBIDA_CTA, FIN_CTA_063 - cta.fin), BAJOS["c08-cta"], ALTOS.lecho),
+    // El lecho suena a su nivel hasta que acaba la toma y se apaga en línea recta bajo la tarjeta.
+    [FIN_CTA_063, ALTOS.lecho],
+    [FIN_MUSICA_063, 0],
+  ];
+  // Los puntos tienen que ir en orden estricto (las rampas cortas pueden repetir frame).
+  for (let i = 1; i < p.length; i++) if (p[i][0] <= p[i - 1][0]) p[i][0] = p[i - 1][0] + 1;
+  return p;
+};
+
+/**
+ * Remotion le pasa el volumen a ffmpeg como UNA expresión `if(between(t,…),valor,if(…))` con un `if` por cada valor distinto de la ganancia (a 3 decimales), y ffmpeg no admite más de ≈ 80 `if`
+ * anidados («Missing ')' or too many args»). Una envolvente con rampas largas se PARTE en tramos de la misma canción, consecutivos y sin solape (cada uno empieza en el frame de fuente en que acabó el anterior:
+ * es la misma muestra), cada uno con ≤ `MAX_VALORES` cambios de valor.
+ */
+const MAX_VALORES = 60;
+
+/** La envolvente `puntos` (frames absolutos de la comp) partida en tramos consecutivos de la canción, cada uno con su trozo de envolvente. */
+const trocea = (puntos: [number, number][], fin: number): TramoAudio[] => {
+  const entero: TramoAudio = { id: "musica", src: "recorrido-063/musica-063.wav", en: 0, dur: fin, desde: INICIO_MUSICA, ganancia: puntos, reason: "" };
+  const v = (f: number): number => volumenDe(entero, f);
+  const redondea = (x: number): number => Math.round(x * 1000) / 1000;
+  // Los cortes: donde se juntan MAX_VALORES cambios de valor desde el corte anterior.
+  const cortes = [0];
+  let cambios = 0;
+  let ultimo = redondea(v(0));
+  for (let f = 1; f < fin; f++) {
+    const x = redondea(v(f));
+    if (x !== ultimo) {
+      cambios++;
+      ultimo = x;
+    }
+    if (cambios >= MAX_VALORES) {
+      cortes.push(f);
+      cambios = 0;
+    }
+  }
+  cortes.push(fin);
+  return cortes.slice(0, -1).map((a, i) => {
+    const b = cortes[i + 1];
+    const interior = puntos.filter(([f]) => f > a && f < b);
+    const ganancia: [number, number][] = [[a, v(a)], ...interior, [b, v(b)]];
+    return {
+      id: `musica-${i + 1}`,
+      src: "recorrido-063/musica-063.wav",
+      en: a,
+      dur: b - a,
+      // El frame de fuente en que arranca este trozo: el de la canción en `a` (INICIO_MUSICA es un número entero de frames).
+      desde: INICIO_MUSICA + a / FPS_063,
+      ganancia,
+      reason:
+        i === 0
+          ? "«Oceans (Where Feet May Fail)»: el golpe de 13,7 dB del f3 abre la pieza; la música baja con curva tras el golpe de cada entrada de Isabella (hook, mitad y CTA) y sube tras su última palabra; cada corte cae en un golpe medido; la canción cae sola a su lecho a los 182,3 s y se apaga bajo la tarjeta. Partida en tramos consecutivos de la misma canción: ffmpeg no admite una expresión de volumen con más de ≈ 80 valores distintos."
+          : `«Oceans (Where Feet May Fail)», trozo ${i + 1} de ${cortes.length - 1}: sigue donde acabó el anterior (f${a}), la misma muestra de la canción.`,
+    };
+  });
+};
+
+export const musica063: readonly TramoAudio[] = HAY_MUSICA ? trocea(envolvente(), FIN_MUSICA_063) : [];
+
+/** Lo que monta `<PistaAudio>`. */
+export const audio063: readonly TramoAudio[] = [...vocesTomas, ...musica063];

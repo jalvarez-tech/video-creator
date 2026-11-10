@@ -1,0 +1,63 @@
+
+━━ 1 · la puerta del plan (--final)
+
+✅ el 065 pasa la puerta: 9 planos, 7 bloques de texto, 6 tramos de audio
+
+
+━━ 2 · el bundle propio (uno solo; libres 40.2 GiB)
+bundle en /var/folders/jk/tnkblrwd4_j_1757t7fh_hk80000gn/T/remotion-webpack-bundle-LzeTt1 (33 s)
+
+━━ 3 · el audio del plan, en WAV
+
+━━ 4 · el máster (CRF 12, x264 slower) en tramos
+  tramo 1: f0-f402
+  tramo 2: f403-f805
+  tramo 3: f806-f1208
+  ✓ finales/065-recorrido.mp4
+
+━━ 5 · la versión ligera (CRF 16, x264 slow) en tramos
+  tramo 1: f0-f402
+  tramo 2: f403-f805
+  tramo 3: f806-f1208
+  ✓ finales/065-recorrido-crf16.mp4
+
+━━ 6 · la base SIN subtítulos de la versión con ficha (CRF 6, x264 fast)
+  tramo 1: f0-f402
+  tramo 2: f403-f805
+  tramo 3: f806-f1208
+  ✓ proyectos/065/finales-trabajo/065-limpio.mp4
+
+━━ 7 · comprobación
+
+065-recorrido.mp4 (215.2 MB)
+codec_name=h264
+profile=High
+width=1080
+height=1920
+pix_fmt=yuv420p
+color_range=tv
+color_space=bt709
+color_transfer=bt709
+color_primaries=bt709
+r_frame_rate=30/1
+nb_read_frames=1209
+duration=40.300000
+sonoridad: -15.1 LUFS · pico -3.2 dBFS
+
+065-recorrido-crf16.mp4 (120.2 MB)
+codec_name=h264
+profile=High
+width=1080
+height=1920
+pix_fmt=yuv420p
+color_range=tv
+color_space=bt709
+color_transfer=bt709
+color_primaries=bt709
+r_frame_rate=30/1
+nb_read_frames=1209
+duration=40.300000
+sonoridad: -15.1 LUFS · pico -3.2 dBFS
+
+✅ hecho
+bundle propio borrado

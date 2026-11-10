@@ -1,0 +1,2 @@
+064-recorrido.mp4: framemd5 b7eacb7f566df210c30f13c598677e55 / b7eacb7f566df210c30f13c598677e55 · fotogramas 1296 · PCM MD5=1b8dee363ad618d6b716cade4b698a7a / MD5=1b8dee363ad618d6b716cade4b698a7a · color tv,bt709,bt709,bt709
+064-recorrido-crf16.mp4: framemd5 e64e88f55eee74084518b89d003a5063 / e64e88f55eee74084518b89d003a5063 · fotogramas 1296 · PCM MD5=1b8dee363ad618d6b716cade4b698a7a / MD5=1b8dee363ad618d6b716cade4b698a7a · color tv,bt709,bt709,bt709

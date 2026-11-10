@@ -1,0 +1,5 @@
+# HK03 (Hook3.mp4), PARTES A y B (reparto rev. 2: la coletilla «ven, te muestro» se corta aparte y se usa como invitación a corte). Lo que se OYE: «3.244 metros cuadrados a solo 15 minutos de la autopista Medellín-Bogotá y por solo 350 millones. [pausa de 0,5 s] Ven, te muestro.» Whisper-small lo oye todo con confianza alta salvo «3.244» (la cifra) y el final: «20 muestros» por «Ven, te muestro» (los onsets de la envolvente dan cuatro sílabas a 16,72 · 16,905 · 17,27 · 17,47 s: ven·te·mues·tro). Voz de 8,18 a 16,2 s (parte A) y de 16,72 a 17,55 s (parte B; la última sílaba, «tro», cae a −40 dB). Cifra dicha = cifra escrita: 3.244 · 15 · 350.
+3.244 / **metros cuadrados**
+a solo 15 minutos / de la autopista / **Medellín-Bogotá**
+y por solo / **350 millones.**
+Ven, te muestro.
