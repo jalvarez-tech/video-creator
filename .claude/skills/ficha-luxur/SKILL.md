@@ -25,6 +25,16 @@ ficha, por encargo del 2026-10-17, **no lleva subtítulos** («que no salgan los
 subtítulos») y lleva texto desde el fotograma 0: es para anuncios y para el feed, donde
 el vídeo se ve recortado a 1:1 y sin la ficha nadie sabe qué se vende ni a qué precio.
 
+## 0. Con la estructura nueva (2026-11-10): la ficha entra con el hook
+
+Los reels nuevos siguen la estructura «lo vendible antes del segundo 10» (`recorrido-luxur` §3), y en ella el usuario pidió que la ficha entre **cuando Isabella empieza el hook**, no en el fotograma 0
+(la primera toma sale limpia también en esta versión). Lo demás no cambia y el usuario lo recordó ese mismo día, al ver una prueba que lo incumplía: **la versión con ficha NO lleva subtítulos, la ficha va
+ABAJO (y 1220-1420) y se ve ENTERA en el recorte 1:1 de Facebook; la versión normal no lleva ficha.** No se mueve de sitio ni se junta con los subtítulos.
+
+Cómo se hace en esas piezas (la 079 es el ejemplo): la ficha es un componente de la composición, con las medidas de §1 copiadas en `ficha-NNN.ts`, y hay una segunda composición `RecorridoNNNFicha`
+(prop `ficha`: enciende la ficha y apaga los subtítulos). Se exporta con `proyectos/079/herramientas/render-ficha-079.sh`: render mudo a CRF 12 y el audio COPIADO de la final normal. La puerta (sección 2g)
+comprueba que el texto es el de `propiedades/<propiedad>.json`, que cabe en el cuadrado y que nunca sale con subtítulos. El método de §3 (pintarla con ffmpeg desde el fotograma 0) sigue valiendo para los reels 017-078.
+
 ## 1. El diseño (aprobado el 2026-10-17)
 
 No se renegocia pieza a pieza: si el usuario cambia algo, se cambia la constante `D` de
