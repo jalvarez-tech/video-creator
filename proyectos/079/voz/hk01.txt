@@ -1,0 +1,4 @@
+# HK01 (IMG_4937). La voz arranca a 1,17 s (perfil de energía, banda de voz). Whisper oye «¿Te preocupa invertir en el Airbnb con los cambios del POT?».
+# POR CONFIRMAR AL OÍDO: «POT» (whisper 0,37) y si dice «en el Airbnb» (whisper, «el» 0,36) o «en Airbnb».
+¿Te preocupa / invertir en el Airbnb
+con los cambios / **del POT?**

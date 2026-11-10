@@ -1,0 +1,3 @@
+# MD02 (IMG_4951). La voz arranca a 0,65 s y acaba a 4,78 s (perfil de energía): «turísticamente» llega hasta los 4,78 s. Whisper oye la frase entera con confianza alta.
+No todas las propiedades / tienen las mismas / condiciones
+para operar / **turísticamente.**
