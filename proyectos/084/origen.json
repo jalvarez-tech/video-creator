@@ -1,0 +1,457 @@
+{
+ "origen": "075",
+ "cortes": [
+  {
+   "id": "c01-entrada",
+   "bloque": 1,
+   "tipo": "video",
+   "src": "recorrido-075/dr10.mp4",
+   "desde": 0.3,
+   "en": 0,
+   "dur": 103,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "La entrada del edificio vista desde el suelo (la promesa): la calle, el jardín vertical y el voladizo de la torre. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook pregunta por la próxima propiedad."
+  },
+  {
+   "id": "c02-hook",
+   "bloque": 2,
+   "tipo": "video",
+   "src": "recorrido-075/hk06.mp4",
+   "audio": "recorrido-075/hk06-voz.wav",
+   "voz": {
+    "s0": 0.62,
+    "s1": 3.56,
+    "lufs": -15,
+    "dice": "¿Y si tu próxima propiedad también pudiera generar ingresos?"
+   },
+   "desde": 0.2,
+   "en": 103,
+   "dur": 128,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La suite con el ventanal y la ciudad detrás (la pregunta): Isabella, de pie ante la ventana, dice «¿y si tu próxima propiedad también pudiera generar ingresos?». Entra a corte en el golpe desde el exterior; la música baja tras él."
+  },
+  {
+   "id": "c03-tele",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-075/rc08.mp4",
+   "desde": 2.2,
+   "en": 231,
+   "dur": 79,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "La tele y el mueble de madera (lo que trae la suite): la pantalla, la escultura, la repisa, la cortina y la planta; una habitación amoblada, lista para recibir a un huésped. El golpe del paseo abre el descubrimiento."
+  },
+  {
+   "id": "c04-cama",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-075/rc06.mp4",
+   "desde": 4.4,
+   "en": 310,
+   "dur": 91,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.12
+   },
+   "reason": "La cama (lo que trae la suite, al detalle): del pie de la cama al cabecero gris con sus cuadros y sus lámparas colgantes; la cama king hecha, el sofá y el aire acondicionado al fondo."
+  },
+  {
+   "id": "c05-escritorio",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-075/rc09.mp4",
+   "desde": 1.8,
+   "en": 401,
+   "dur": 98,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.1
+   },
+   "reason": "El escritorio (lo que trae la suite, para quien viaja a trabajar): de la cama a la mesa con su silla, la pizarra y la tele; todo a mano en un solo cuarto."
+  },
+  {
+   "id": "c06-mitad",
+   "bloque": 4,
+   "tipo": "video",
+   "src": "recorrido-075/md03.mp4",
+   "audio": "recorrido-075/md03-voz.wav",
+   "voz": {
+    "s0": 0.75,
+    "s1": 4.02,
+    "lufs": -15,
+    "dice": "Una suite hotelera, totalmente equipada en El Poblado."
+   },
+   "desde": 0,
+   "en": 499,
+   "dur": 130,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Frente a la cama (lo que se compra, dicho): Isabella camina con el cabecero gris y los cuadros detrás y dice «una suite hotelera, totalmente equipada en El Poblado». Entra a corte desde el escritorio."
+  },
+  {
+   "id": "c07-cocineta",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-075/rc02.mp4",
+   "desde": 2.6,
+   "en": 629,
+   "dur": 77,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "La cocineta (lo que trae la suite, para quedarse varios días): el microondas, la nevera, la cafetera y la estufa; completa lo que una estancia corta necesita. Viene tras la mitad, en el orden del pasillo."
+  },
+  {
+   "id": "c08-bano",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-075/rc01.mp4",
+   "desde": 4.4,
+   "en": 706,
+   "dur": 107,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.08
+   },
+   "reason": "El baño privado (lo que trae la suite, al detalle): la puerta de madera y la ducha de vidrio con su repisa; cierra el recorrido por lo que hay detrás de la puerta antes de ir a la ventana."
+  },
+  {
+   "id": "c09-vista",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-075/rc07.mp4",
+   "desde": 1.1,
+   "en": 813,
+   "dur": 153,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La ciudad desde el ventanal (la vista, el clímax): de la cama sube hasta la ventana con El Poblado y las montañas al fondo; lo que se ve desde el piso 9. El plano más largo del bloque."
+  },
+  {
+   "id": "c10-cta",
+   "bloque": 6,
+   "tipo": "video",
+   "src": "recorrido-075/ct08.mp4",
+   "audio": "recorrido-075/ct08-voz.wav",
+   "voz": {
+    "s0": 0.75,
+    "s1": 3.6,
+    "lufs": -15,
+    "dice": "Agendemos una visita y descubre Go Living Suites."
+   },
+   "desde": 0.3333333333333333,
+   "en": 966,
+   "dur": 114,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Sofá de la suite (la invitación): Isabella, sentada, dice «agendemos una visita y descubre Go Living Suites»: una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  {
+   "id": "c11-cierre",
+   "bloque": 6,
+   "tipo": "foto",
+   "src": "recorrido-075/cierre-oscuro.png",
+   "en": 1080,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "reason": "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga."
+  }
+ ],
+ "GOLPE": {
+  "e0": {
+   "t": 167.542,
+   "db": 14.6
+  },
+  "hook": {
+   "t": 170.891,
+   "db": 15.2
+  },
+  "paseo1": {
+   "t": 175.147,
+   "db": 13.5
+  },
+  "paseo2": {
+   "t": 177.795,
+   "db": 13.9
+  },
+  "paseo3": {
+   "t": 180.815,
+   "db": 14.6
+  },
+  "mitad": {
+   "t": 184.077,
+   "db": 25.3
+  },
+  "alcoba": {
+   "t": 188.41,
+   "db": 16
+  },
+  "alcoba2": {
+   "t": 190.967,
+   "db": 13.9
+  },
+  "vista": {
+   "t": 194.532,
+   "db": 18.4
+  },
+  "cta": {
+   "t": 199.63,
+   "db": 13.4
+  }
+ },
+ "INICIO_MUSICA": 167.5,
+ "FIN_MUSICA": 1138,
+ "DURACION": 1140,
+ "DECAE": {
+  "t": 205,
+  "lufsAntes": -10.8,
+  "lufs5s": -20.1,
+  "lufs10s": -70
+ },
+ "audio": {
+  "LUFS_TRAMO": {
+   "apertura": -10.7,
+   "paseo": -9.9,
+   "bloque5": -10.8
+  },
+  "LUFS_CANCION_EN_VOZ": {
+   "c02-hook": -10.2,
+   "c06-mitad": -10.9,
+   "c10-cta": -11.5
+  },
+  "PICO_TRAMO": {
+   "apertura": 0.6,
+   "paseo": 0.3,
+   "bloque5": 0.3
+  },
+  "OBJETIVO_MUSICA": {
+   "apertura": -15,
+   "paseo": -15,
+   "bloque5": -15
+  },
+  "FADE_OUT": {
+   "hook": 10,
+   "mitad": 10,
+   "cta": 10
+  },
+  "FADE_IN": {
+   "hook": 15,
+   "mitad": 22
+  },
+  "RETRASO": 6,
+  "LUFS_MESETA": -10.6
+ },
+ "subs": [
+  {
+   "id": "h01",
+   "hasta": 182,
+   "trozos": [
+    {
+     "desde": 113,
+     "texto": "¿Y si tu próxima"
+    },
+    {
+     "desde": 139,
+     "texto": "propiedad",
+     "estilo": "acento"
+    },
+    {
+     "desde": 156,
+     "texto": "también pudiera"
+    }
+   ]
+  },
+  {
+   "id": "h02",
+   "hasta": 207,
+   "trozos": [
+    {
+     "desde": 182,
+     "texto": "generar ingresos?"
+    }
+   ]
+  },
+  {
+   "id": "m01",
+   "hasta": 622,
+   "trozos": [
+    {
+     "desde": 521,
+     "texto": "Una suite hotelera,"
+    },
+    {
+     "desde": 559,
+     "texto": "totalmente equipada",
+     "estilo": "acento"
+    },
+    {
+     "desde": 582,
+     "texto": "en El Poblado."
+    }
+   ]
+  },
+  {
+   "id": "c01",
+   "hasta": 1018,
+   "trozos": [
+    {
+     "desde": 977,
+     "texto": "Agendemos",
+     "estilo": "acento"
+    },
+    {
+     "desde": 991,
+     "texto": "una visita"
+    }
+   ]
+  },
+  {
+   "id": "c02",
+   "hasta": 1067,
+   "trozos": [
+    {
+     "desde": 1018,
+     "texto": "y descubre"
+    },
+    {
+     "desde": 1038,
+     "texto": "Go Living Suites."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+# HK10 (IMG_5011). La voz arranca a 0,57 s (onset tras −67 dB; antes, un chasquido de labios a 0,40 s) y acaba a 3,31 s. Whisper oye «Vivo fuera de Colombia y quieres invertir en Medellín.»
+# POR CONFIRMAR AL OÍDO: «vives» (whisper «Vivo», 0,16-0,14), «fuera» (0,14) y «Medellín» (0,36).
+¿Vives fuera de Colombia / y quieres invertir / **en Medellín?**

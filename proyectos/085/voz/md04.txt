@@ -1,0 +1,6 @@
+# MD04 (IMG_4967). La voz arranca a 0,58 s y acaba a 4,28 s (perfil de energía, banda de voz; un golpe suelto de 4,44-4,52 s queda fuera). Whisper oye «Invierte en una suite con vocación turística y ubicación estratégica» con confianza alta salvo «ubicación» (cortes aislados: «ubicaciones», «educación»).
+# POR CONFIRMAR AL OÍDO: «ubicación» (≈ 3,12-3,17 s de la toma) y «estratégica» (≈ 3,76 s).
+Invierte en una suite
+con vocación turística
+y ubicación
+**estratégica.**

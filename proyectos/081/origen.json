@@ -1,0 +1,458 @@
+{
+ "origen": "072",
+ "cortes": [
+  {
+   "id": "c01-edificio",
+   "bloque": 1,
+   "tipo": "video",
+   "src": "recorrido-072/dr05.mp4",
+   "desde": 0.6,
+   "en": 0,
+   "dur": 80,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El edificio visto desde el suelo (la promesa): los voladizos de la fachada contra el cielo con nubes. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de la ubicación."
+  },
+  {
+   "id": "c02-hook",
+   "bloque": 2,
+   "tipo": "video",
+   "src": "recorrido-072/hk11.mp4",
+   "audio": "recorrido-072/hk11-voz.wav",
+   "voz": {
+    "s0": 0.47,
+    "s1": 3.58,
+    "lufs": -15,
+    "dice": "En inversión inmobiliaria, la ubicación lo cambia todo."
+   },
+   "desde": 0,
+   "en": 80,
+   "dur": 110,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Terraza alta con el cielo y la ciudad detrás (la ubicación): Isabella, de pie, dice «en inversión inmobiliaria, la ubicación lo cambia todo». Entra a corte desde el exterior; la música baja tras el golpe."
+  },
+  {
+   "id": "c03-fachada",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-072/dr03.mp4",
+   "desde": 0.7,
+   "en": 190,
+   "dur": 103,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La fachada con el sol (el edificio, por fuera): los voladizos y el jardín, y la cámara que baja a la entrada de vidrio; de la terraza al exterior del edificio, que es donde está."
+  },
+  {
+   "id": "c04-plantas",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-072/dr01.mp4",
+   "desde": 0.4,
+   "en": 293,
+   "dur": 97,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La fachada entre las plantas (el entorno): el edificio rodeado de verde y de cielo; sigue por fuera, un plano más, antes de entrar a la suite."
+  },
+  {
+   "id": "c05-suite",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-072/rc03.mp4",
+   "desde": 0,
+   "en": 390,
+   "dur": 77,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.1
+   },
+   "reason": "La suite hacia su ventana (de fuera a dentro): de la entrada al ventanal del fondo con la ciudad; el paso del edificio a lo que se ve desde dentro, que prepara la mitad."
+  },
+  {
+   "id": "c06-mitad",
+   "bloque": 4,
+   "tipo": "video",
+   "src": "recorrido-072/md08.mp4",
+   "audio": "recorrido-072/md08-voz.wav",
+   "voz": {
+    "s0": 0.47,
+    "s1": 4.32,
+    "lufs": -15,
+    "dice": "A minutos de Oviedo, Santa Fe, EAFIT y la estación Aguacatala."
+   },
+   "desde": 0,
+   "en": 467,
+   "dur": 136,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Terraza, tras el cristal (los nombres, dichos): Isabella camina hacia cámara y dice «a minutos de Oviedo, Santa Fe, EAFIT y la estación Aguacatala». Entra a corte desde la suite."
+  },
+  {
+   "id": "c07-ventana",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-072/rc13.mp4",
+   "desde": 1.9,
+   "en": 603,
+   "dur": 77,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.15
+   },
+   "reason": "La ciudad por la ventana (lo que rodea): el verde, los edificios de ladrillo y la montaña con nubes; tras decir los nombres, se ve el entorno."
+  },
+  {
+   "id": "c08-ciudad",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-072/rc05.mp4",
+   "desde": 0,
+   "en": 680,
+   "dur": 78,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "El ventanal de la habitación (el piso 9): las torres de la ciudad al fondo y la palma dentro; de lo que rodea a lo que se ve desde la suite."
+  },
+  {
+   "id": "c09-vista",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-072/rc07.mp4",
+   "desde": 2.45,
+   "en": 758,
+   "dur": 113,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La ciudad desde el ventanal (la vista, el clímax): de la cama sube hasta la ventana con El Poblado y las montañas al fondo; lo que se ve desde el piso 9. El plano más largo del bloque."
+  },
+  {
+   "id": "c10-cta",
+   "bloque": 6,
+   "tipo": "video",
+   "src": "recorrido-072/ct11.mp4",
+   "audio": "recorrido-072/ct11-voz.wav",
+   "voz": {
+    "s0": 0.76,
+    "s1": 4.38,
+    "lufs": -15,
+    "dice": "Descubre esta suite en El Poblado y déjate asombrar por la ubicación."
+   },
+   "desde": 0.4,
+   "en": 871,
+   "dur": 140,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "disolver",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Lobby con ventanales (la invitación): Isabella camina hacia cámara y dice «descubre esta suite en El Poblado y déjate asombrar por la ubicación»: una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  {
+   "id": "c11-cierre",
+   "bloque": 6,
+   "tipo": "foto",
+   "src": "recorrido-072/cierre-oscuro.png",
+   "en": 1011,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "reason": "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga."
+  }
+ ],
+ "GOLPE": {
+  "e0": {
+   "t": 227.745,
+   "db": 22.5
+  },
+  "hook": {
+   "t": 230.326,
+   "db": 22.9
+  },
+  "paseo2": {
+   "t": 237.428,
+   "db": 24.4
+  },
+  "paseo3": {
+   "t": 240.648,
+   "db": 18.5
+  },
+  "mitad": {
+   "t": 243.227,
+   "db": 25.6
+  },
+  "cama": {
+   "t": 247.748,
+   "db": 18.3
+  },
+  "sofa": {
+   "t": 250.324,
+   "db": 16.8
+  },
+  "vista": {
+   "t": 252.911,
+   "db": 16
+  },
+  "cta": {
+   "t": 256.665,
+   "db": 15.2
+  }
+ },
+ "INICIO_MUSICA": 227.7,
+ "FIN_MUSICA": 1069,
+ "DURACION": 1071,
+ "DECAE": {
+  "t": 261,
+  "lufsAntes": -17.1,
+  "lufs5s": -26.2,
+  "lufs10s": -45.1
+ },
+ "audio": {
+  "LUFS_TRAMO": {
+   "apertura": -10.6,
+   "paseo": -11,
+   "bloque5": -12.1
+  },
+  "LUFS_CANCION_EN_VOZ": {
+   "c02-hook": -10.7,
+   "c06-mitad": -9.7,
+   "c10-cta": -17.5
+  },
+  "PICO_TRAMO": {
+   "apertura": 0.2,
+   "paseo": 0.2,
+   "bloque5": 0.1
+  },
+  "OBJETIVO_MUSICA": {
+   "apertura": -15,
+   "paseo": -15,
+   "bloque5": -15
+  },
+  "FADE_OUT": {
+   "hook": 10,
+   "mitad": 10,
+   "cta": 10
+  },
+  "FADE_IN": {
+   "hook": 15,
+   "mitad": 14
+  },
+  "RETRASO": 0,
+  "LUFS_MESETA": -11
+ },
+ "subs": [
+  {
+   "id": "h01",
+   "hasta": 190,
+   "trozos": [
+    {
+     "desde": 94,
+     "texto": "En inversión inmobiliaria,"
+    },
+    {
+     "desde": 133,
+     "texto": "la ubicación"
+    },
+    {
+     "desde": 160,
+     "texto": "lo cambia todo.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "m01",
+   "hasta": 542,
+   "trozos": [
+    {
+     "desde": 481,
+     "texto": "A minutos de",
+     "estilo": "acento"
+    },
+    {
+     "desde": 500,
+     "texto": "Oviedo,"
+    },
+    {
+     "desde": 517,
+     "texto": "Santa Fe,"
+    }
+   ]
+  },
+  {
+   "id": "m02",
+   "hasta": 600,
+   "trozos": [
+    {
+     "desde": 542,
+     "texto": "EAFIT"
+    },
+    {
+     "desde": 561,
+     "texto": "y la estación Aguacatala."
+    }
+   ]
+  },
+  {
+   "id": "c01",
+   "hasta": 935,
+   "trozos": [
+    {
+     "desde": 881,
+     "texto": "Descubre esta suite"
+    },
+    {
+     "desde": 909,
+     "texto": "en El Poblado"
+    }
+   ]
+  },
+  {
+   "id": "c02",
+   "hasta": 994,
+   "trozos": [
+    {
+     "desde": 935,
+     "texto": "y déjate asombrar"
+    },
+    {
+     "desde": 964,
+     "texto": "por la ubicación.",
+     "estilo": "acento"
+    }
+   ]
+  }
+ ]
+}

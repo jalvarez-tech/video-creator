@@ -1,0 +1,4 @@
+# MD09 (IMG_5038). La voz arranca a 0,60 s y acaba a 5,48 s (perfil de energía; `limites-voz` daba 4,81 s y se comía «turísticos»: el último arranque, a 5,40 s). Whisper oye «Una ubicación estratégica, amenidades y cercanía a los principales destinos turísticos.»
+# POR CONFIRMAR AL OÍDO: «estratégica» (whisper 0,24).
+Una ubicación estratégica, / **amenidades**
+y cercanía a los principales / destinos turísticos.

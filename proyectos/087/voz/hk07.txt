@@ -1,0 +1,3 @@
+# HK07 (IMG_4970). La voz arranca a 0,73 s y acaba a 2,86 s (perfil de energía, banda de voz). Whisper oye «No se trata, sólo hay que comprar una propiedad.» (confianza de «sólo» 0,27 y de «hay» 0,45); cortada desde 1,295 s oye «solo de comprar una».
+# POR CONFIRMAR AL OÍDO: «solo de» (el catálogo lo lee así; la otra lectura es «solo hay que»: 2-3 sílabas en 0,3 s que la energía no distingue).
+No se trata / solo de / comprar una / **propiedad.**

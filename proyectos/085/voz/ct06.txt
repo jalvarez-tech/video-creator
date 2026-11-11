@@ -1,0 +1,6 @@
+# CT06 (IMG_4962). La voz arranca a 0,45 s y acaba a 3,22 s (perfil de energía, banda de voz). Whisper oye «Agenda una visita y descubre su potencial de inversión» con confianza alta salvo «Ag» (0,36) y «una» (0,56).
+# POR CONFIRMAR AL OÍDO: «Agenda» (la «A» inicial es muy suave: −57 → −40 dB en 20 ms) y «una» (≈ 0,80 s de la toma).
+Agenda una visita
+y descubre su
+**potencial**
+de inversión.

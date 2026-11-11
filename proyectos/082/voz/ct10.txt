@@ -1,0 +1,4 @@
+# CT10 (IMG_5010). La voz arranca a 0,62 s con «Haz» (0,62-0,74 s), el silencio de 0,13 s es el cierre de la «c» de «clic», y acaba a 4,85 s. Whisper oye «haz clic en el enlace y recibe más información sobre StatSuite en Medellín.»
+# POR CONFIRMAR AL OÍDO: «haz» (0,14), el nombre «Go Living Suites» (whisper «StatSuite», 0,04) y «Medellín» (0,62).
+Haz clic en el enlace / y recibe más información
+sobre / **Go Living Suites** / en Medellín.

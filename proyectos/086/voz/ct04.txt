@@ -1,0 +1,5 @@
+# CT04 (IMG_4952). La voz arranca a 0,31 s y acaba a 2,14 s (perfil de energía; limites-voz.py la daba hasta 1,79 s y dejaba fuera la cola de «contáctame»). Whisper oye «Si quieres más información, contacta a mí» (0,42-0,50 en «contáctame»).
+# Arranques de sílaba medidos: Si 0,325 · más 0,54 · información 0,815 · contáctame 1,49 (tras una pausa de 0,4 s). Un chasquido de 0,20-0,27 s a −38 dB queda fuera de la voz tratada.
+# POR CONFIRMAR AL OÍDO: «contáctame» (whisper oye «contacta a mí»; la V8 de One Living también la tuvo en duda).
+Si quieres más / información,
+**contáctame.**

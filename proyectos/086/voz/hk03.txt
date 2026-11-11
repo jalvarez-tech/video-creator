@@ -1,0 +1,5 @@
+# HK03 (IMG_4949). La voz arranca a 0,76 s y acaba a 3,88 s (perfil de energía a 40 ms, banda de voz). Whisper oye «Antes de invertir en Airbnb, hay algo que debes saber» con confianza alta salvo «Antes» (0,64) y «Airbnb» (0,88).
+# Arranques de sílaba medidos (onsets-voz.py + palabras-desde.py): Antes 0,76 · Airbnb 1,775 · hay 2,255 · que 2,935 · debes 3,225 · saber 3,575.
+# Sin dudas: whisper oye la frase entera con confianza ≥ 0,88 salvo «Antes» (0,64: su DTW pone la primera palabra en 0,00 s, antes de que ella hable); comprobado con cortes aislados (palabras-desde.py: «antes de invertir en Airbnb. Hay…»).
+Antes de invertir en / Airbnb,
+hay algo que / **debes saber.**
