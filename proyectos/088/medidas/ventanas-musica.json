@@ -1,0 +1,40 @@
+{
+  "inicio": 125.06666666666666,
+  "fuente": "musica-six-figures-in-airplane-mode.wav",
+  "apertura": {
+    "desde": 125.167,
+    "hasta": 127.867,
+    "lufs": -15.5,
+    "pico": -4.3
+  },
+  "paseo": {
+    "desde": 131.5,
+    "hasta": 135.3,
+    "lufs": -15.2,
+    "pico": -3.9
+  },
+  "bloque5": {
+    "desde": 141.9,
+    "hasta": 156.6,
+    "lufs": -15.9,
+    "pico": -3.5
+  },
+  "c02-hook": {
+    "desde": 128.277,
+    "hasta": 130.997,
+    "lufs": -14.9,
+    "pico": -4.3
+  },
+  "c05-mitad": {
+    "desde": 135.76,
+    "hasta": 141.1,
+    "lufs": -16.4,
+    "pico": -4.2
+  },
+  "c11-cta": {
+    "desde": 157.053,
+    "hasta": 158.973,
+    "lufs": -13.4,
+    "pico": -3.9
+  }
+}

@@ -1,0 +1,2 @@
+# CT01 (IMG_5171). La voz arranca a 0,69 s y acaba a 1,95 s (perfil de energía). Whisper oye la frase entera con confianza alta.
+Conoce / cómo se vive / aquí.

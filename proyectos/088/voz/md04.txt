@@ -1,0 +1,4 @@
+# MD04 (IMG_5182). La voz arranca a 0,66 s y acaba a 6,00 s (perfil de energía). Whisper oye la frase entera con confianza alta.
+La sala, / el comedor / y la cocina
+comparten / un gran ambiente
+conectado con / un deck panorámico.

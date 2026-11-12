@@ -1,0 +1,82 @@
+{
+  "n": "088",
+  "inicioMusica": 125.06666666666666,
+  "golpeEntrada": {
+    "t": 125.125,
+    "db": 18.5
+  },
+  "duracion": 1094,
+  "planos": [
+    {
+      "id": "c02-hook",
+      "en": 84,
+      "dur": 107,
+      "db": 12.6
+    },
+    {
+      "id": "c03-cubiertas",
+      "en": 191,
+      "dur": 63,
+      "db": 13.1
+    },
+    {
+      "id": "c04-jacuzzi",
+      "en": 254,
+      "dur": 55,
+      "db": 12.4
+    },
+    {
+      "id": "c05-mitad",
+      "en": 309,
+      "dur": 194,
+      "db": 14.2
+    },
+    {
+      "id": "c06-portal",
+      "en": 503,
+      "dur": 74,
+      "db": 8.8
+    },
+    {
+      "id": "c07-cocina",
+      "en": 577,
+      "dur": 85,
+      "db": 15.5
+    },
+    {
+      "id": "c08-sala",
+      "en": 662,
+      "dur": 88,
+      "db": 11.2
+    },
+    {
+      "id": "c09-deck",
+      "en": 750,
+      "dur": 77,
+      "db": 9.4
+    },
+    {
+      "id": "c10-vista",
+      "en": 827,
+      "dur": 121,
+      "db": 17.7
+    }
+  ],
+  "cta": {
+    "en": 948,
+    "dur": 86,
+    "db": 27.6
+  },
+  "claves": {
+    "c02-hook": "hook",
+    "c03-cubiertas": "rapido1",
+    "c04-jacuzzi": "rapido2",
+    "c05-mitad": "mitad",
+    "c06-portal": "r1",
+    "c07-cocina": "r2",
+    "c08-sala": "r3",
+    "c09-deck": "r4",
+    "c10-vista": "vista",
+    "c11-cta": "cta"
+  }
+}

@@ -1,0 +1,4 @@
+# HK01 (IMG_5169). La voz arranca a 0,77 s y acaba a 2,86 s (perfil de energía, banda de voz). Whisper oye «Y si tu casa también te ayudará a bajar el ritmo.».
+# POR CONFIRMAR AL OÍDO: «ayudara» (subjuntivo, lo correcto tras «Y si…») o «ayudará» (whisper, las tres pasadas); no se distinguen por las sílabas.
+Y si tu casa / también
+te ayudara / a bajar el ritmo.

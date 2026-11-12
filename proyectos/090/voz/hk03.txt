@@ -1,0 +1,3 @@
+# HK03 (IMG_5177). La voz arranca a 0,76 s y acaba a 3,21 s (perfil de energía, banda de voz). Whisper oye la frase entera con confianza alta.
+Tu momento favorito / del día
+puede estar / en casa.

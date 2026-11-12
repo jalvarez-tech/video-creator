@@ -1,0 +1,82 @@
+{
+  "n": "089",
+  "inicioMusica": 6.066666666666666,
+  "golpeEntrada": {
+    "t": 6.121,
+    "db": 9.7
+  },
+  "duracion": 1173,
+  "planos": [
+    {
+      "id": "c02-hook",
+      "en": 98,
+      "dur": 97,
+      "db": 9.8
+    },
+    {
+      "id": "c03-ventanal",
+      "en": 195,
+      "dur": 55,
+      "db": 7.1
+    },
+    {
+      "id": "c04-carrizos",
+      "en": 250,
+      "dur": 61,
+      "db": 7.4
+    },
+    {
+      "id": "c05-mitad",
+      "en": 311,
+      "dur": 202,
+      "db": 9.1
+    },
+    {
+      "id": "c06-pasillo",
+      "en": 513,
+      "dur": 91,
+      "db": 11.2
+    },
+    {
+      "id": "c07-sala",
+      "en": 604,
+      "dur": 106,
+      "db": 12.9
+    },
+    {
+      "id": "c08-deck",
+      "en": 710,
+      "dur": 95,
+      "db": 8.3
+    },
+    {
+      "id": "c09-patio",
+      "en": 805,
+      "dur": 90,
+      "db": 8.9
+    },
+    {
+      "id": "c10-vista",
+      "en": 895,
+      "dur": 137,
+      "db": 11.7
+    }
+  ],
+  "cta": {
+    "en": 1032,
+    "dur": 81,
+    "db": 9.9
+  },
+  "claves": {
+    "c02-hook": "hook",
+    "c03-ventanal": "rapido1",
+    "c04-carrizos": "rapido2",
+    "c05-mitad": "mitad",
+    "c06-pasillo": "r1",
+    "c07-sala": "r2",
+    "c08-deck": "r3",
+    "c09-patio": "r4",
+    "c10-vista": "vista",
+    "c11-cta": "cta"
+  }
+}

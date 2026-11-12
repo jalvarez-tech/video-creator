@@ -1,0 +1,181 @@
+{
+  "n": "090",
+  "v": "V71",
+  "guion": "03",
+  "cancion": "Midnight Library",
+  "estilo": "jazz, balada lenta (≈ 63 BPM, Sol menor) — pista 1 de «elegant jazz tones»",
+  "fuenteMusica": "pista 1 «Midnight Library» (2:25) del mix «elegant jazz tones», cortada del archivo del mix en 0-145 s (los límites de las pistas del jazz son las marcas de su lista con ±5 s); las entradas a mitad de pista no dependen de eso",
+  "titulo": "JAZZ · guion 03: «Tu momento favorito del día puede estar en casa» → desconectar: el jacuzzi en un patio abierto al cielo y la terraza con vistas a las montañas.",
+  "golpeEntrada": 61.901,
+  "musicaOriginal": "musica-midnight-library.wav",
+  "notaMusica": "Entrada de 45 s del catálogo (★★★): el golpe de 21,3 dB de los 61,90 s de la pista cae en el f3 (el catálogo da 61,55 s, 0,35 s antes, como `desde`).",
+  "umbrales": {
+    "seco": 8,
+    "entrada": 12
+  },
+  "apertura": {
+    "clip": "dr05",
+    "desde": 5.4,
+    "titulo": "la casa que se acerca",
+    "nota": "DR05 (dron, 4K SDR), del 5,4 al 8,4 s: aproximación desde el plano general hasta la casa y su patio central con el jacuzzi, sobre la ladera.",
+    "reason": "La casa que se acerca sobre su ladera, hasta el patio central (la promesa): el dron avanza despacio hacia el jacuzzi. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de un momento favorito en casa.",
+    "ventana": [
+      76,
+      100
+    ]
+  },
+  "hook": {
+    "clip": "hk03",
+    "voz": {
+      "s0": 0.76,
+      "s1": 3.21,
+      "dice": "Tu momento favorito del día puede estar en casa."
+    },
+    "colaMin": 12,
+    "objetivo": 104,
+    "nota": "Isabella camina hacia cámara por la cocina (la isla, los muebles arena y madera, el techo de madera) y se detiene. La voz va de 0,76 a 3,21 s (123 f de clip); 11 f de aire antes de su primera palabra.",
+    "reason": "La cocina (el momento favorito del día, el café): Isabella camina hacia cámara y dice «tu momento favorito del día puede estar en casa». Entra a corte en un golpe de la canción tras la casa vista desde el aire."
+  },
+  "rapidos": [
+    {
+      "id": "c03-patio",
+      "clip": "dr06",
+      "desde": 1.0,
+      "min": 48,
+      "max": 72,
+      "objetivo": 62,
+      "entradaMax": 299,
+      "nota": "DR06 (dron, 4K SDR), del 1,0 al 3,2 s: casi cenital sobre el patio central: el jacuzzi empotrado en la piedra clara, rodeado de cubiertas negras y del deck.",
+      "reason": "El patio abierto al cielo visto desde arriba, con el jacuzzi en el centro (lo más vistoso, antes del segundo 10): lo que dirá la mitad. Primer plano rápido: quien solo mira diez segundos ya ha visto dónde se desconecta."
+    },
+    {
+      "id": "c04-terraza",
+      "clip": "rc35",
+      "desde": 0.8,
+      "min": 48,
+      "max": 72,
+      "objetivo": 62,
+      "entradaMax": 299,
+      "nota": "RC35 (iPhone, 4K HLG), del 0,8 al 3,0 s: el jacuzzi con la baranda y las montañas al fondo; pasa una columna negra de la estructura por la izquierda.",
+      "reason": "El jacuzzi con la baranda y las montañas detrás (la terraza con vistas): segundo plano rápido, con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "mitad": {
+    "clip": "md03",
+    "voz": {
+      "s0": 0.49,
+      "s1": 8.8,
+      "dice": "Un jacuzzi en un patio abierto al cielo y una terraza con vistas panorámicas a las montañas. Combinan dos espacios perfectos para desconectarte."
+    },
+    "colaMin": 8,
+    "objetivo": 290,
+    "entradaMax": 330,
+    "nota": "Isabella empieza lejos en la sala-cocina en gran plano, se acerca y sale de cuadro por la derecha. La voz va de 0,49 a 8,80 s (321 f de clip); 3 f de aire antes de su primera palabra. La imagen NO es el jacuzzi que nombra su voz (catálogo): los dos planos rápidos de antes ya lo han enseñado.",
+    "reason": "La sala-cocina en gran plano (el ambiente que se deja atrás para desconectar): Isabella se acerca y dice «un jacuzzi en un patio abierto al cielo y una terraza con vistas panorámicas a las montañas; combinan dos espacios perfectos para desconectarte». Los dos planos rápidos anteriores ya enseñaron el jacuzzi. Entra a corte antes de los 11 s.",
+    "color": {
+      "exposure": 0.1
+    }
+  },
+  "recorrido": [
+    {
+      "id": "c06-habitacion",
+      "clip": "rc41",
+      "desde": 0.3,
+      "min": 84,
+      "max": 120,
+      "objetivo": 96,
+      "nota": "RC41 (iPhone, 4K HLG), del 0,3 al 3,5 s: una habitación de muro de concreto y techo a dos aguas con luz indirecta, con la puerta corrediza al fondo; arranca junto a un cristal con carrizos y avanza.",
+      "reason": "La habitación (el descanso): muro de concreto, techo a dos aguas y luz indirecta; sigue a la sala y es el primer espacio donde se baja el ritmo."
+    },
+    {
+      "id": "c07-bano",
+      "clip": "rc04",
+      "desde": 2.4,
+      "min": 84,
+      "max": 120,
+      "objetivo": 96,
+      "nota": "RC04 (iPhone, 4K HLG), del 2,4 al 5,6 s: el baño de la habitación, con el mueble flotante, el lavamanos de sobreponer y los espejos colgantes; el paneo llega a la ducha de vidrio con su nicho de luz cálida. Sustituye a RC42 (el pasillo), por pedido del usuario el 2026-11-12: «cambia la toma que sigue después del 0:23 (IMG_5166.MOV)».",
+      "reason": "El baño (el ritual del día): del mueble de madera y los espejos a la ducha de vidrio con su luz cálida; sigue a la habitación del descanso y es lo que hace del «momento favorito del día» algo cotidiano, antes de salir al jardín del patio."
+    },
+    {
+      "id": "c08-jardin",
+      "clip": "rc38",
+      "desde": 1.0,
+      "min": 84,
+      "max": 120,
+      "objetivo": 96,
+      "nota": "RC38 (iPhone, 4K HLG), del 1,0 al 4,2 s: los carrizos y los arbustos del jardín del patio frente al muro de cristal, con las montañas y las nubes detrás; avance lateral.",
+      "reason": "El jardín del patio (la naturaleza pegada al jacuzzi): carrizos y arbustos frente al cristal, con las montañas detrás; calma antes del deck.",
+      "color": {
+        "exposure": -0.12
+      }
+    },
+    {
+      "id": "c09-deck",
+      "clip": "rc31",
+      "desde": 4.0,
+      "min": 84,
+      "max": 120,
+      "objetivo": 96,
+      "nota": "RC31 (iPhone, 4K HLG), del 4,0 al 7,0 s: camina por el deck frente al pabellón hacia las cubiertas; los ventanales a la izquierda y las barandas a la derecha, con las nubes.",
+      "reason": "El deck (se sale a la terraza): se camina frente al pabellón con el cielo y las nubes; prepara la vista del final."
+    },
+    {
+      "id": "c10-vista",
+      "clip": "rc37",
+      "desde": 2.2,
+      "min": 110,
+      "max": 150,
+      "objetivo": 125,
+      "nota": "RC37 (iPhone, 4K HLG), del 2,2 al 6,4 s: el jacuzzi y el pabellón de cristal con su cubierta inclinada; paneo a la izquierda hacia la baranda, el cielo y las montañas. Es el clímax y el plano más largo de su bloque.",
+      "reason": "El jacuzzi y, tras él, la baranda, el cielo y las montañas (la vista, el clímax): el paneo lleva del patio a la terraza con vistas panorámicas, justo lo que dijo la mitad. El plano más largo del bloque."
+    }
+  ],
+  "cta": {
+    "clip": "ct03",
+    "voz": {
+      "s0": 0.68,
+      "s1": 2.16,
+      "dice": "Conoce la experiencia completa."
+    },
+    "cola": 16,
+    "entradaMin": 900,
+    "nota": "Isabella viene desde lejos por el deck, visto desde dentro por la puerta corrediza abierta. La voz va de 0,68 a 2,16 s (91 f de clip); 8 f de aire antes de su primera palabra.",
+    "reason": "El deck visto desde dentro por la puerta abierta (la invitación): Isabella dice «conoce la experiencia completa», una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  "tarjeta": 60,
+  "confirmar": [
+    "«patio» (MD03, ≈ 14,5 s del vídeo final): whisper oyó «paseo» («un jacuzzi con un paseo abierto al cielo»); por la ficha es casi seguro «patio abierto al cielo» y el guion lo escribe así."
+  ],
+  "pendiente": [
+    "MD03: la imagen no es el jacuzzi que nombra su voz (catálogo §4). Alternativa no hecha: cubrir la mitad con tomas del jacuzzi mientras sigue su voz (pide un tramo de voz propio, fuera del esquema `Corte` con `audio`).",
+    "La música se eligió SIN OÍR (por tono medido): el oído decide; las alternativas libres están en la sección 11 del catálogo.",
+    "La versión con ficha, la portada y el .srt se hacen tras el visto bueno de la normal."
+  ],
+  "puerta": {
+    "lugares": {
+      "c02-hook": "COCINA-ISLA-CAMINANDO",
+      "c05-mitad": "SALA-COCINA-LEJOS-SALIENDO",
+      "c11-cta": "DECK-PUERTA-LEJOS-VIENE"
+    },
+    "ctaRegex": "conoce la experiencia completa",
+    "ctaAccion": "conocer la experiencia completa",
+    "versionesAnteriores": [
+      "088",
+      "089"
+    ],
+    "subidaPorEncima": [],
+    "minSubida": {},
+    "sinGolpe": []
+  },
+  "decisiones": [
+    "La música es JAZZ (pista 1 «Midnight Library» del mix «elegant jazz tones»: balada lenta ≈ 63 BPM, Sol menor, oscura): el tono de «tu momento favorito del día», desconectar. Los golpes que marcan los cortes son los de bajo y caja del grupo; los límites de las pistas del jazz son las marcas de la lista ±5 s, pero la entrada (61,87 s) cae a mitad de pista: no depende de eso.",
+    "Apertura con DR05: la casa que se acerca sobre la ladera hasta el patio central con el jacuzzi; el hook (HK03) es la cocina, el momento del café.",
+    "MD03 es la única toma donde la imagen (la sala-cocina) no corresponde a la frase (jacuzzi, patio abierto al cielo, terraza con vistas): los dos planos rápidos de antes —el patio central desde arriba (DR06) y el jacuzzi con las montañas (RC35)— ya enseñaron lo que ella nombra, y la vista del final (RC37, del jacuzzi a la baranda y las montañas) lo resuelve.",
+    "El recorrido va de lo íntimo a lo abierto: la habitación → el baño (RC04; el 2026-11-12 el usuario pidió cambiar la RC42, el pasillo que sale al patio) → el jardín de carrizos del patio → el deck → la terraza con las montañas (la vista, el plano más largo).",
+    "Sin cifras en pantalla: Isabella no dice ninguna en HK03, MD03 ni CT03."
+  ],
+  "comparte": [
+    "RC38 (c08-jardin, 1,0-4,0 s) comparte 1,6 s con el c04-carrizos de la 089 (0,6-2,6 s): reels de estilos distintos de la misma casa; declarado (se informa en la sección 7b de la puerta)."
+  ]
+}

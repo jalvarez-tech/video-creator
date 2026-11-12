@@ -1,0 +1,40 @@
+{
+  "inicio": 61.86666666666667,
+  "fuente": "musica-midnight-library.wav",
+  "apertura": {
+    "desde": 61.967,
+    "hasta": 65.133,
+    "lufs": -14.6,
+    "pico": -1.2
+  },
+  "paseo": {
+    "desde": 68.467,
+    "hasta": 72.533,
+    "lufs": -13.3,
+    "pico": -0.6
+  },
+  "bloque5": {
+    "desde": 82.4,
+    "hasta": 98.567,
+    "lufs": -13.8,
+    "pico": -0.5
+  },
+  "c02-hook": {
+    "desde": 65.527,
+    "hasta": 67.977,
+    "lufs": -13.4,
+    "pico": -0.9
+  },
+  "c05-mitad": {
+    "desde": 72.99,
+    "hasta": 81.3,
+    "lufs": -12.5,
+    "pico": -0.6
+  },
+  "c11-cta": {
+    "desde": 99.047,
+    "hasta": 100.527,
+    "lufs": -16.4,
+    "pico": -6.1
+  }
+}

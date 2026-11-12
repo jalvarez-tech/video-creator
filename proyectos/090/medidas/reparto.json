@@ -1,0 +1,82 @@
+{
+  "n": "090",
+  "inicioMusica": 61.86666666666667,
+  "golpeEntrada": {
+    "t": 61.901,
+    "db": 21.3
+  },
+  "duracion": 1236,
+  "planos": [
+    {
+      "id": "c02-hook",
+      "en": 98,
+      "dur": 98,
+      "db": 10.2
+    },
+    {
+      "id": "c03-patio",
+      "en": 196,
+      "dur": 68,
+      "db": 8.4
+    },
+    {
+      "id": "c04-terraza",
+      "en": 264,
+      "dur": 58,
+      "db": 9.2
+    },
+    {
+      "id": "c05-mitad",
+      "en": 322,
+      "dur": 292,
+      "db": 12.2
+    },
+    {
+      "id": "c06-habitacion",
+      "en": 614,
+      "dur": 98,
+      "db": 11
+    },
+    {
+      "id": "c07-bano",
+      "en": 712,
+      "dur": 97,
+      "db": 9.7
+    },
+    {
+      "id": "c08-jardin",
+      "en": 809,
+      "dur": 89,
+      "db": 21.8
+    },
+    {
+      "id": "c09-deck",
+      "en": 898,
+      "dur": 88,
+      "db": 22.2
+    },
+    {
+      "id": "c10-vista",
+      "en": 986,
+      "dur": 117,
+      "db": 13.4
+    }
+  ],
+  "cta": {
+    "en": 1103,
+    "dur": 73,
+    "db": 19.7
+  },
+  "claves": {
+    "c02-hook": "hook",
+    "c03-patio": "rapido1",
+    "c04-terraza": "rapido2",
+    "c05-mitad": "mitad",
+    "c06-habitacion": "r1",
+    "c07-bano": "r2",
+    "c08-jardin": "r3",
+    "c09-deck": "r4",
+    "c10-vista": "vista",
+    "c11-cta": "cta"
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "n": "089",
+  "v": "V70",
+  "guion": "01",
+  "cancion": "Pieza 2 (adagio)",
+  "estilo": "piano, adagio sin pulso (Sol menor) — Pieza 2 de «The Most Beautiful 12 Adagios in Rachmaninoff Style»",
+  "fuenteMusica": "Pieza 2 del mix «The Most Beautiful 12 Adagios in Rachmaninoff Style» (3:26), cortada de la COPIA 1 del archivo del mix en 199,10-405,79 s (206,69 s); sin pulso: los «golpes» son los ataques de las notas del piano medidos con `medir-pista.py`",
+  "titulo": "ADAGIOS · guion 01: «Y si tu casa también te ayudara a bajar el ritmo» → ventanales, deck y patio interior que acercan la naturaleza.",
+  "golpeEntrada": 6.121,
+  "musicaOriginal": "musica-adagio-pieza-2.wav",
+  "notaMusica": "Piano sin percusión: cada corte cae en el ataque de una nota medido (≥ 7 dB), no en un bombo; se entra en el segundo 6,07 de la pieza (el ataque de 9,7 dB, tras los 4-6 s de subida de la apertura).",
+  "umbrales": {
+    "seco": 7,
+    "entrada": 9
+  },
+  "apertura": {
+    "clip": "dr14",
+    "desde": 0.2,
+    "titulo": "la casa pegada a las cubiertas",
+    "nota": "DR14 (dron, 4K SDR), del 0,2 al 3,1 s: pegado a las cubiertas de las habitaciones, el dron retrocede y sube despacio hasta el plano general de la casa en la ladera.",
+    "reason": "Las cubiertas a dos aguas y la casa que se abre sobre su ladera (la promesa): el dron retrocede y sube despacio, sin prisa. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de bajar el ritmo.",
+    "ventana": [
+      76,
+      100
+    ],
+    "color": {
+      "exposure": -0.1
+    }
+  },
+  "hook": {
+    "clip": "hk01",
+    "voz": {
+      "s0": 0.77,
+      "s1": 2.86,
+      "dice": "Y si tu casa también te ayudara a bajar el ritmo."
+    },
+    "colaMin": 12,
+    "objetivo": 92,
+    "nota": "Isabella camina hacia cámara por el deck, con la hilera de cubiertas a dos aguas al fondo. La voz va de 0,77 a 2,86 s (110 f de clip); 11 f de aire antes de su primera palabra.",
+    "reason": "El deck con las cubiertas al fondo (la promesa dicha): Isabella camina hacia cámara y pregunta «¿y si tu casa también te ayudara a bajar el ritmo?». Entra a corte en una nota del piano tras la casa vista desde arriba."
+  },
+  "rapidos": [
+    {
+      "id": "c03-ventanal",
+      "clip": "rc33",
+      "desde": 5.6,
+      "min": 48,
+      "max": 72,
+      "objetivo": 62,
+      "entradaMax": 299,
+      "nota": "RC33 (iPhone, 4K HLG), del 5,6 al 7,8 s: la sala del pabellón, el techo de madera y los ventanales de piso a techo con las montañas; paneo lento hacia la vista abierta.",
+      "reason": "Los ventanales con las montañas al fondo (lo más vistoso, antes del segundo 10): la sala vacía abierta al paisaje. Primer plano rápido: quien solo mira diez segundos ya ha visto la luz y el verde que entran a la casa."
+    },
+    {
+      "id": "c04-carrizos",
+      "clip": "rc38",
+      "desde": 0.6,
+      "min": 48,
+      "max": 72,
+      "objetivo": 62,
+      "entradaMax": 299,
+      "nota": "RC38 (iPhone, 4K HLG), del 0,6 al 2,9 s: los carrizos y los arbustos del jardín del patio frente al muro de cristal, con las montañas y las nubes detrás.",
+      "reason": "Los carrizos y el cielo a través del cristal (la naturaleza pegada a la casa): segundo plano rápido, con él se cumplen los diez segundos y vuelve Isabella.",
+      "color": {
+        "exposure": -0.1
+      }
+    }
+  ],
+  "mitad": {
+    "clip": "md01",
+    "voz": {
+      "s0": 0.57,
+      "s1": 6.54,
+      "dice": "Los grandes ventanales, el deck panorámico y el patio interior acercan la naturaleza a cada momento del día."
+    },
+    "colaMin": 5,
+    "objetivo": 206,
+    "entradaMax": 330,
+    "nota": "Isabella camina hacia cámara por la sala de ventanales de piso a techo y techo de madera. La voz va de 0,57 a 6,54 s (216 f de clip); 5 f de aire antes de su primera palabra.",
+    "reason": "La sala de ventanales (el valor dicho): Isabella camina hacia cámara bajo el techo de madera y dice «los grandes ventanales, el deck panorámico y el patio interior acercan la naturaleza a cada momento del día». Entra a corte antes de los 11 s."
+  },
+  "recorrido": [
+    {
+      "id": "c06-pasillo",
+      "clip": "rc40",
+      "desde": 3.0,
+      "min": 84,
+      "max": 120,
+      "objetivo": 100,
+      "nota": "RC40 (iPhone, 4K HLG), del 3,0 al 6,4 s: el corredor largo de techo de madera, con el muro de cristal y los carrizos a un lado, que avanza despacio hasta el fondo.",
+      "reason": "El pasillo acristalado (el umbral): se avanza sin prisa por un corredor de madera con el jardín de carrizos al lado; abre el paseo en calma, con el verde pegado a la casa.",
+      "color": {
+        "exposure": -0.1
+      }
+    },
+    {
+      "id": "c07-sala",
+      "clip": "rc29",
+      "desde": 1.0,
+      "min": 84,
+      "max": 120,
+      "objetivo": 100,
+      "nota": "RC29 (iPhone, 4K HLG), del 1,0 al 4,4 s: el pabellón vacío con los ventanales de piso a techo y las montañas; paneo hacia la puerta corrediza.",
+      "reason": "La sala (la luz): los ventanales de piso a techo y las montañas al fondo; sigue al pasillo, en el orden en que se camina la casa."
+    },
+    {
+      "id": "c08-deck",
+      "clip": "rc30",
+      "desde": 0.4,
+      "min": 84,
+      "max": 120,
+      "objetivo": 100,
+      "nota": "RC30 (iPhone, 4K HLG), del 0,4 al 3,8 s: desde el deck, bajo el alero, avanza hacia la puerta corrediza abierta; la sala y la cocina al fondo, el sol sobre la madera.",
+      "reason": "El deck (la sala se abre al exterior): se sale al deck bajo el alero y se mira hacia adentro por la puerta abierta; prepara el patio y la vista."
+    },
+    {
+      "id": "c09-patio",
+      "clip": "rc36",
+      "desde": 0.2,
+      "min": 84,
+      "max": 120,
+      "objetivo": 100,
+      "nota": "RC36 (iPhone, 4K HLG), del 0,2 al 3,5 s: el jacuzzi del patio, casi fijo, con el pabellón de vidrio a un lado y las nubes y las montañas al fondo.",
+      "reason": "El patio interior con el jacuzzi (el reposo): casi quieto, con el cielo y las montañas al fondo; es el «patio interior» de la frase, en su sitio del paseo."
+    },
+    {
+      "id": "c10-vista",
+      "clip": "dr12",
+      "desde": 14.0,
+      "min": 120,
+      "max": 150,
+      "objetivo": 135,
+      "nota": "DR12 (dron, 4K SDR), del 14,0 al 18,5 s: sobre el deck de las habitaciones, abre el plano hasta el general con el pabellón y las cubiertas sobre la ladera. Es el clímax y el plano más largo de su bloque.",
+      "reason": "La casa entera sobre su ladera (la vista, el clímax): el dron abre el plano hasta ver el pabellón y las cubiertas en el paisaje; el plano más largo del bloque, donde el ritmo baja del todo.",
+      "color": {
+        "exposure": -0.12,
+        "highlights": -0.3
+      }
+    }
+  ],
+  "cta": {
+    "clip": "ct01",
+    "voz": {
+      "s0": 0.69,
+      "s1": 1.95,
+      "dice": "Conoce cómo se vive aquí."
+    },
+    "desdeF": 6,
+    "cola": 28,
+    "entradaMin": 900,
+    "nota": "Isabella, en plano medio, ríe y se acerca, con el deck, las montañas y las nubes detrás. La voz va de 0,69 a 1,95 s (87 f de clip); 15 f de aire antes de su primera palabra y 28 f de cara tras la última (pedido del usuario, 2026-11-12: «deja a Isabella medio segundo más»: el clip entero, de su f6 al f87).",
+    "reason": "El deck con las montañas y las nubes (la invitación): Isabella ríe y dice «conoce cómo se vive aquí», una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre.",
+    "color": {
+      "exposure": -0.1
+    }
+  },
+  "tarjeta": 60,
+  "confirmar": [
+    "«ayudara» (HK01, 2,1 s del vídeo final aprox.): subjuntivo, lo correcto tras «Y si…»; whisper oyó «ayudará» en las tres pasadas y las sílabas no distinguen la tónica."
+  ],
+  "puerta": {
+    "lugares": {
+      "c02-hook": "DECK-CUBIERTAS-CAMINANDO",
+      "c05-mitad": "SALA-VENTANALES-CAMINANDO",
+      "c11-cta": "DECK-MONTANAS-RIENDO"
+    },
+    "ctaRegex": "conoce c[oó]mo se vive aqu[ií]",
+    "ctaAccion": "conocer cómo se vive en la casa",
+    "versionesAnteriores": [
+      "088",
+      "090"
+    ],
+    "subidaPorEncima": [],
+    "minSubida": {},
+    "sinGolpe": [],
+    "fuerzaMinEntrada": 9,
+    "fuerzaMinSeco": 7
+  },
+  "decisiones": [
+    "La música es de ADAGIOS (Pieza 2 del mix de Rachmaninoff: íntima y dulce, Sol menor, abre casi a nivel y sube a los 4-6 s): el tono de «bajar el ritmo». No tiene pulso ni percusión: cada corte cae en el ataque de una nota medido (≥ 7 dB), y se entra en el segundo 6,07 de la pieza (ataque de 9,7 dB), pasada la subida de la apertura, en vez de usar la entrada de 30 s del catálogo (sin ataque claro). El piano cae en la banda de la voz: por eso la música baja ≈ 15 LU bajo ella.",
+    "Planos más largos que en la electrónica (3-4,6 s) porque el tema es bajar el ritmo: el recorrido va del pasillo acristalado a la sala de ventanales, al deck, al patio con el jacuzzi y a la vista de toda la casa sobre su ladera (DR12, el plano más largo).",
+    "Apertura con DR14 (pegada a las cubiertas, retrocede y sube); los dos planos rápidos son la sala abierta a las montañas (RC33) y los carrizos a través del cristal (RC38).",
+    "Sin cifras en pantalla: Isabella no dice ninguna en HK01, MD01 ni CT01."
+  ],
+  "pendiente": [
+    "Los adagios terminan en decaimiento: aquí la música se apaga con curva bajo la tarjeta (no hay cola natural).",
+    "La música se eligió SIN OÍR: el oído decide; alternativa del catálogo, entrar desde 0:00 (abre a −3 dB).",
+    "La versión con ficha, la portada y el .srt se hacen tras el visto bueno de la normal."
+  ],
+  "comparte": [
+    "RC29 (c07-sala, 1,0-4,5 s) comparte 2,9 s con el c08-sala de la 088 (1,0-3,9 s): reels de estilos distintos de la misma casa; declarado (se informa en la sección 7b de la puerta)."
+  ]
+}
