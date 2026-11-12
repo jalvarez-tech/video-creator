@@ -555,5 +555,5 @@ Códigos de `archivos/material/casa-el-retiro-senderos-de-compostela.md` (rodaje
 |---|---|---|---|---|---|
 | V69 (088) | 04 | ~~HK04~~ · ~~MD04~~ · ~~CT04~~ | ~~DR01~~ | ~~DR08~~ · ~~RC34~~ | ~~RC21~~ · ~~RC26~~ · ~~RC29~~ · ~~RC31~~ · ~~DR17~~ (vista) |
 | V70 (089) | 01 | ~~HK01~~ · ~~MD01~~ · ~~CT01~~ | ~~DR14~~ | ~~RC33~~ · ~~RC38~~ | ~~RC40~~ · ~~RC29~~ (otro tramo que la V69) · ~~RC30~~ · ~~RC36~~ · ~~DR12~~ (vista) |
-| V71 (090) | 03 | ~~HK03~~ · ~~MD03~~ · ~~CT03~~ | ~~DR05~~ | ~~DR06~~ · ~~RC35~~ | ~~RC41~~ · ~~RC42~~ · ~~RC38~~ (otro tramo que la V70) · ~~RC31~~ (otro tramo que la V69) · ~~RC37~~ (vista) |
+| V71 (090) | 03 | ~~HK03~~ · ~~MD03~~ · ~~CT03~~ | ~~DR05~~ | ~~DR06~~ · ~~RC35~~ | ~~RC41~~ · ~~RC04~~ (baño; sustituyó a RC42 el 2026-11-12) · ~~RC38~~ (otro tramo que la V70) · ~~RC31~~ (otro tramo que la V69) · ~~RC37~~ (vista) |
 

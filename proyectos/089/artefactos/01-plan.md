@@ -4,7 +4,7 @@
 
 ## Cabecera
 
-`9:16 · 1080×1920 · 30 fps · 1158 f (38,6 s) · estilo «Lujo / Redes» del canal Luxur · texto `editorial` en UNA sola fuente, SIN ficha (la versión con ficha va después del visto bueno) · marca Luxur SIN sello`
+`9:16 · 1080×1920 · 30 fps · 1173 f (39,1 s) · estilo «Lujo / Redes» del canal Luxur · texto `editorial` en UNA sola fuente, SIN ficha (la versión con ficha va después del visto bueno) · marca Luxur SIN sello`
 
 | | |
 |---|---|
@@ -22,7 +22,7 @@
 | 3 | Dos planos rápidos | RC33 (1,8 s) · RC38 (2,0 s) | 6,5-10,4 s |
 | 4 | Mitad | Isabella (MD01): «Los grandes ventanales, el deck panorámico y el patio interior acercan la naturaleza a cada momento del día.» | 10,4-17,1 s |
 | 5 | Recorrido inmersivo | RC40 → RC29 → RC30 → RC36 → DR12 (la vista, el plano más largo) | 17,1-34,4 s |
-| 6 | CTA y cierre | Isabella (CT01): «Conoce cómo se vive aquí.» · tarjeta oscura con el logo y la web | 34,4-38,6 s |
+| 6 | CTA y cierre | Isabella (CT01): «Conoce cómo se vive aquí.» · tarjeta oscura con el logo y la web | 34,4-39,1 s |
 
 ## Por qué (decisiones)
 

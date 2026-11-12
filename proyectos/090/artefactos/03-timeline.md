@@ -10,7 +10,7 @@
 | c04-terraza | El jacuzzi con la baranda y las montañas | RC35 | 264 | 58 | 0.8 | — | corte | 9.2 dB |
 | c05-mitad | La sala-cocina en gran plano | MD03 | 322 | 292 | 3 f | 0.49-8.8 s | corte | 12.2 dB |
 | c06-habitacion | La habitación | RC41 | 614 | 98 | 0.3 | — | corte | 11.0 dB |
-| c07-pasillo | El pasillo hacia el patio | RC42 | 712 | 97 | 11.4 | — | corte | 9.7 dB |
+| c07-bano | El baño | RC04 | 712 | 97 | 2.4 | — | corte | 9.7 dB |
 | c08-jardin | El jardín del patio | RC38 | 809 | 89 | 1 | — | corte | 21.8 dB |
 | c09-deck | El deck | RC31 | 898 | 88 | 4 | — | corte | 22.2 dB |
 | c10-vista | El jacuzzi y, tras él, la baranda, el ci | RC37 | 986 | 117 | 2.2 | — | corte | 13.4 dB |
@@ -24,7 +24,7 @@
 - **c04-terraza** (f264-322, 1,9 s): El jacuzzi con la baranda y las montañas detrás (la terraza con vistas): segundo plano rápido, con él se cumplen los diez segundos y vuelve Isabella.
 - **c05-mitad** (f322-614, 9,7 s): La sala-cocina en gran plano (el ambiente que se deja atrás para desconectar): Isabella se acerca y dice «un jacuzzi en un patio abierto al cielo y una terraza con vistas panorámicas a las montañas; combinan dos espacios perfectos para desconectarte». Los dos planos rápidos anteriores ya enseñaron el jacuzzi. Entra a corte antes de los 11 s.
 - **c06-habitacion** (f614-712, 3,3 s): La habitación (el descanso): muro de concreto, techo a dos aguas y luz indirecta; sigue a la sala y es el primer espacio donde se baja el ritmo.
-- **c07-pasillo** (f712-809, 3,2 s): El pasillo hacia el patio (el tránsito): se sale del ladrillo claro al patio central abierto al cielo, el lugar que nombra la mitad.
+- **c07-bano** (f712-809, 3,2 s): El baño (el ritual del día): del mueble de madera y los espejos a la ducha de vidrio con su luz cálida; sigue a la habitación del descanso y es lo que hace del «momento favorito del día» algo cotidiano, antes de salir al jardín del patio.
 - **c08-jardin** (f809-898, 3,0 s): El jardín del patio (la naturaleza pegada al jacuzzi): carrizos y arbustos frente al cristal, con las montañas detrás; calma antes del deck.
 - **c09-deck** (f898-986, 2,9 s): El deck (se sale a la terraza): se camina frente al pabellón con el cielo y las nubes; prepara la vista del final.
 - **c10-vista** (f986-1103, 3,9 s): El jacuzzi y, tras él, la baranda, el cielo y las montañas (la vista, el clímax): el paneo lleva del patio a la terraza con vistas panorámicas, justo lo que dijo la mitad. El plano más largo del bloque.

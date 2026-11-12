@@ -8,7 +8,7 @@
 
 | | |
 |---|---|
-| Material | Del rodaje del 2026-11-11 (`archivos/material/casa-el-retiro-senderos-de-compostela.md`): HK03 · MD03 · CT03 (guion 03), DR05, DR06 · RC35 · RC41 · RC42 · RC38 · RC31 · RC37. Normalizado con `proyectos/090/normalizar.mjs` en `remotion/public/recorrido-090/` |
+| Material | Del rodaje del 2026-11-11 (`archivos/material/casa-el-retiro-senderos-de-compostela.md`): HK03 · MD03 · CT03 (guion 03), DR05, DR06 · RC35 · RC41 · RC04 · RC38 · RC31 · RC37. Normalizado con `proyectos/090/normalizar.mjs` en `remotion/public/recorrido-090/` |
 | Canción | «Midnight Library» — pista 1 «Midnight Library» (2:25) del mix «elegant jazz tones», cortada del archivo del mix en 0-145 s (los límites de las pistas del jazz son las marcas de su lista con ±5 s); las entradas a mitad de pista no dependen de eso. Entra en el segundo 61.867 del corte (golpe de 21.3 dB en el f3). **Sin oír**: el reparto por estilo es por tono medido |
 | Destino | Reels |
 | Objetivo | Que quien solo mira diez segundos haya visto la casa, a Isabella y dos planos vistosos, y la mitad entre en el segundo 10,7 |
@@ -21,7 +21,7 @@
 | 2 | Hook | Isabella (HK03): «Tu momento favorito del día puede estar en casa.» | 3,3-6,5 s |
 | 3 | Dos planos rápidos | DR06 (2,3 s) · RC35 (1,9 s) | 6,5-10,7 s |
 | 4 | Mitad | Isabella (MD03): «Un jacuzzi en un patio abierto al cielo y una terraza con vistas panorámicas a las montañas. Combinan dos espacios perfectos para desconectarte.» | 10,7-20,5 s |
-| 5 | Recorrido inmersivo | RC41 → RC42 → RC38 → RC31 → RC37 (la vista, el plano más largo) | 20,5-36,8 s |
+| 5 | Recorrido inmersivo | RC41 → RC04 → RC38 → RC31 → RC37 (la vista, el plano más largo) | 20,5-36,8 s |
 | 6 | CTA y cierre | Isabella (CT03): «Conoce la experiencia completa.» · tarjeta oscura con el logo y la web | 36,8-41,2 s |
 
 ## Por qué (decisiones)
@@ -29,7 +29,7 @@
 - La música es JAZZ (pista 1 «Midnight Library» del mix «elegant jazz tones»: balada lenta ≈ 63 BPM, Sol menor, oscura): el tono de «tu momento favorito del día», desconectar. Los golpes que marcan los cortes son los de bajo y caja del grupo; los límites de las pistas del jazz son las marcas de la lista ±5 s, pero la entrada (61,87 s) cae a mitad de pista: no depende de eso.
 - Apertura con DR05: la casa que se acerca sobre la ladera hasta el patio central con el jacuzzi; el hook (HK03) es la cocina, el momento del café.
 - MD03 es la única toma donde la imagen (la sala-cocina) no corresponde a la frase (jacuzzi, patio abierto al cielo, terraza con vistas): los dos planos rápidos de antes —el patio central desde arriba (DR06) y el jacuzzi con las montañas (RC35)— ya enseñaron lo que ella nombra, y la vista del final (RC37, del jacuzzi a la baranda y las montañas) lo resuelve.
-- El recorrido va de lo íntimo a lo abierto: la habitación → el pasillo que sale al patio central → el jardín de carrizos del patio → el deck → la terraza con las montañas (la vista, el plano más largo).
+- El recorrido va de lo íntimo a lo abierto: la habitación → el baño (RC04; el 2026-11-12 el usuario pidió cambiar la RC42, el pasillo que sale al patio) → el jardín de carrizos del patio → el deck → la terraza con las montañas (la vista, el plano más largo).
 - Sin cifras en pantalla: Isabella no dice ninguna en HK03, MD03 ni CT03.
 
 ## Reglas del canal que cumple (y la puerta comprueba)

@@ -60,8 +60,8 @@ const CONFIG = /*CONFIG*/ {
       "clip": "rc41"
     },
     {
-      "id": "c07-pasillo",
-      "clip": "rc42"
+      "id": "c07-bano",
+      "clip": "rc04"
     },
     {
       "id": "c08-jardin",
@@ -99,7 +99,7 @@ const CONFIG = /*CONFIG*/ {
     "c04-terraza": "rapido2",
     "c05-mitad": "mitad",
     "c06-habitacion": "r1",
-    "c07-pasillo": "r2",
+    "c07-bano": "r2",
     "c08-jardin": "r3",
     "c09-deck": "r4",
     "c10-vista": "vista",
@@ -120,7 +120,7 @@ const CONFIG = /*CONFIG*/ {
       "c04-terraza",
       "c05-mitad",
       "c06-habitacion",
-      "c07-pasillo",
+      "c07-bano",
       "c08-jardin",
       "c09-deck",
       "c10-vista",

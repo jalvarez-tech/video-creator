@@ -5,7 +5,7 @@
     "t": 6.121,
     "db": 9.7
   },
-  "duracion": 1158,
+  "duracion": 1173,
   "planos": [
     {
       "id": "c02-hook",
@@ -64,7 +64,7 @@
   ],
   "cta": {
     "en": 1032,
-    "dur": 66,
+    "dur": 81,
     "db": 9.9
   },
   "claves": {

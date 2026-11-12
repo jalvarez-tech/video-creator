@@ -131,8 +131,8 @@ const P = {
   cta: golpe(GOLPE.cta),
 } as const;
 
-/** Frames que dura la toma del CTA: voz de 0.69 a 1.95 s (clip de 87 f, `desde` 9 f); 16 f de su cara tras la última palabra, en los que la imagen funde a negro (los últimos 6). Nada se congela. */
-const DUR_CTA = 66;
+/** Frames que dura la toma del CTA: voz de 0.69 a 1.95 s (clip de 87 f, `desde` 6 f); 28 f de su cara tras la última palabra, en los que la imagen funde a negro (los últimos 6). Nada se congela. */
+const DUR_CTA = 81;
 
 /** Dónde acaba la música (frame de la comp): tras la última palabra del CTA se APAGA con curva hasta cero aquí, 2 f antes del final de la pieza (la tarjeta va en silencio). */
 export const FIN_MUSICA_089 = P.cta + DUR_CTA + DUR_TARJETA - 2;
@@ -320,8 +320,8 @@ export const metraje089: readonly Corte[] = [
       lufs: -15,
       dice: "Conoce cómo se vive aquí.",
     },
-    // Isabella, en plano medio, ríe y se acerca, con el deck, las montañas y las nubes detrás. La voz va de 0,69 a 1,95 s (87 f de clip); 9 f de aire antes de su primera palabra.
-    desde: fr(9),
+    // Isabella, en plano medio, ríe y se acerca, con el deck, las montañas y las nubes detrás. La voz va de 0,69 a 1,95 s (87 f de clip); 15 f de aire antes de su primera palabra y 28 f de cara tras la última (pedido del usuario, 2026-11-12: «deja a Isabella medio segundo más»: el clip entero, de su f6 al f87).
+    desde: fr(6),
     en: P.cta,
     dur: DUR_CTA,
     zoom: EMPUJE,

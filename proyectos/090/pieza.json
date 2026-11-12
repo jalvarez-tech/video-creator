@@ -88,14 +88,14 @@
       "reason": "La habitación (el descanso): muro de concreto, techo a dos aguas y luz indirecta; sigue a la sala y es el primer espacio donde se baja el ritmo."
     },
     {
-      "id": "c07-pasillo",
-      "clip": "rc42",
-      "desde": 11.4,
+      "id": "c07-bano",
+      "clip": "rc04",
+      "desde": 2.4,
       "min": 84,
       "max": 120,
       "objetivo": 96,
-      "nota": "RC42 (iPhone, 4K HLG), del 11,4 al 14,6 s: el pasillo de las habitaciones, con el muro de ladrillo claro; sale al patio central de piedra clara y ventanal negro.",
-      "reason": "El pasillo hacia el patio (el tránsito): se sale del ladrillo claro al patio central abierto al cielo, el lugar que nombra la mitad."
+      "nota": "RC04 (iPhone, 4K HLG), del 2,4 al 5,6 s: el baño de la habitación, con el mueble flotante, el lavamanos de sobreponer y los espejos colgantes; el paneo llega a la ducha de vidrio con su nicho de luz cálida. Sustituye a RC42 (el pasillo), por pedido del usuario el 2026-11-12: «cambia la toma que sigue después del 0:23 (IMG_5166.MOV)».",
+      "reason": "El baño (el ritual del día): del mueble de madera y los espejos a la ducha de vidrio con su luz cálida; sigue a la habitación del descanso y es lo que hace del «momento favorito del día» algo cotidiano, antes de salir al jardín del patio."
     },
     {
       "id": "c08-jardin",
@@ -172,7 +172,7 @@
     "La música es JAZZ (pista 1 «Midnight Library» del mix «elegant jazz tones»: balada lenta ≈ 63 BPM, Sol menor, oscura): el tono de «tu momento favorito del día», desconectar. Los golpes que marcan los cortes son los de bajo y caja del grupo; los límites de las pistas del jazz son las marcas de la lista ±5 s, pero la entrada (61,87 s) cae a mitad de pista: no depende de eso.",
     "Apertura con DR05: la casa que se acerca sobre la ladera hasta el patio central con el jacuzzi; el hook (HK03) es la cocina, el momento del café.",
     "MD03 es la única toma donde la imagen (la sala-cocina) no corresponde a la frase (jacuzzi, patio abierto al cielo, terraza con vistas): los dos planos rápidos de antes —el patio central desde arriba (DR06) y el jacuzzi con las montañas (RC35)— ya enseñaron lo que ella nombra, y la vista del final (RC37, del jacuzzi a la baranda y las montañas) lo resuelve.",
-    "El recorrido va de lo íntimo a lo abierto: la habitación → el pasillo que sale al patio central → el jardín de carrizos del patio → el deck → la terraza con las montañas (la vista, el plano más largo).",
+    "El recorrido va de lo íntimo a lo abierto: la habitación → el baño (RC04; el 2026-11-12 el usuario pidió cambiar la RC42, el pasillo que sale al patio) → el jardín de carrizos del patio → el deck → la terraza con las montañas (la vista, el plano más largo).",
     "Sin cifras en pantalla: Isabella no dice ninguna en HK03, MD03 ni CT03."
   ],
   "comparte": [

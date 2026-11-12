@@ -45,14 +45,14 @@ export const subtitulos089: readonly BloqueEditorial[] = [
       { desde: 485, texto: "del día." },
     ],
   },
-  // ── Bloque 6 · el CTA DICHO (el cierre es el logo, no un bloque de texto) (CT01): entra a corte en el f1032, primera palabra en el f1043.7 ──
+  // ── Bloque 6 · el CTA DICHO (el cierre es el logo, no un bloque de texto) (CT01): entra a corte en el f1032, primera palabra en el f1046.7 ──
   {
     id: "c01",
-    hasta: 1097,
+    hasta: 1100,
     trozos: [
-      { desde: 1044, texto: "Conoce" },
-      { desde: 1057, texto: "cómo se vive" },
-      { desde: 1079, texto: "aquí." },
+      { desde: 1047, texto: "Conoce" },
+      { desde: 1060, texto: "cómo se vive" },
+      { desde: 1082, texto: "aquí." },
     ],
   },
 ];

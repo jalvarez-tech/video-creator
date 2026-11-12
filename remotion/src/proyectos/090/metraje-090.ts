@@ -3,7 +3,7 @@
  *
  * Es de la ESTRUCTURA «lo vendible antes del segundo 10» (`recorrido-luxur` §3, pedido del 2026-11-10; la primera pieza hecha así es la 079):
  *   1 la toma inicial (DR05, sin texto ni voz) · 2 el hook de Isabella (HK03) · 3 DOS planos rápidos (DR06 y RC35) ·
- *   4 la mitad (MD03) · 5 UN recorrido inmersivo (RC41 → RC42 → RC38 → RC31 → RC37; la vista, el plano más largo) · 6 el CTA (CT03) y la tarjeta oscura del cierre.
+ *   4 la mitad (MD03) · 5 UN recorrido inmersivo (RC41 → RC04 → RC38 → RC31 → RC37; la vista, el plano más largo) · 6 el CTA (CT03) y la tarjeta oscura del cierre.
  * El guion es el 03 del rodaje del 2026-11-11 (HK03 · MD03 · CT03: Isabella Cadavid, blazer vino tinto) y la canción es «Midnight Library» (jazz, balada lenta (≈ 63 BPM, Sol menor) — pista 1 de «elegant jazz tones»).
  *
  * GENERADO por `proyectos/088/herramientas/montar-retiro.mjs 090` desde `proyectos/090/pieza.json`: los números de abajo (cada corte, en un golpe MEDIDO de la canción) se rehacen con él; lo que se escribe a mano es `pieza.json`.
@@ -248,19 +248,19 @@ export const metraje090: readonly Corte[] = [
       "La habitación (el descanso): muro de concreto, techo a dos aguas y luz indirecta; sigue a la sala y es el primer espacio donde se baja el ritmo.",
   },
   {
-    id: "c07-pasillo",
+    id: "c07-bano",
     bloque: 5,
     tipo: "video",
-    src: v("rc42"),
-    // RC42 (iPhone, 4K HLG), del 11,4 al 14,6 s: el pasillo de las habitaciones, con el muro de ladrillo claro; sale al patio central de piedra clara y ventanal negro.
-    desde: 11.4,
+    src: v("rc04"),
+    // RC04 (iPhone, 4K HLG), del 2,4 al 5,6 s: el baño de la habitación, con el mueble flotante, el lavamanos de sobreponer y los espejos colgantes; el paneo llega a la ducha de vidrio con su nicho de luz cálida. Sustituye a RC42 (el pasillo), por pedido del usuario el 2026-11-12: «cambia la toma que sigue después del 0:23 (IMG_5166.MOV)».
+    desde: 2.4,
     en: P.r2,
     dur: P.r3 - P.r2,
     zoom: QUIETO,
     entra: "corte",
     color: color(),
     reason:
-      "El pasillo hacia el patio (el tránsito): se sale del ladrillo claro al patio central abierto al cielo, el lugar que nombra la mitad.",
+      "El baño (el ritual del día): del mueble de madera y los espejos a la ducha de vidrio con su luz cálida; sigue a la habitación del descanso y es lo que hace del «momento favorito del día» algo cotidiano, antes de salir al jardín del patio.",
   },
   {
     id: "c08-jardin",

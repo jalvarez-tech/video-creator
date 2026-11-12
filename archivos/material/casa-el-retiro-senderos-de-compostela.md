@@ -338,9 +338,11 @@ Cómo leer la tabla: `desde` son segundos **de la pista** (en el jazz, contados 
 |---|---|---|---|---|
 | V69 | `088` | 04 (HK04 · MD04 · CT04) | Electrónica · «Six Figures in Airplane Mode», 125,07 s de la pista (golpe de 18,5 dB en el f3) | Ninguno: es la entrada ★★★ de 45 s |
 | V70 | `089` | 01 (HK01 · MD01 · CT01) | Adagios · Pieza 2 (copia 1), 6,07 s de la pieza (ataque de 9,7 dB en el f3) | Con la entrada de 45,94 s (★★) los cortes solo caen en ataques de ≥ 6,5 dB; con la de 6,12 s (cerca del «desde 0:00», tras la subida de 4-6 s) todos son de ≥ 7 dB (el piano no tiene percusión: son notas). Se elige por la rejilla, no por el oído |
-| V71 | `090` | 03 (HK03 · MD03 · CT03) | Jazz · «Midnight Library», 61,87 s de la pista (golpe de 21,3 dB en el f3) | La entrada es la de 45 s (61,55 s del catálogo, 0,35 s antes del golpe, que es el que cae en el f3) |
+| V71 | `090` | 03 (HK03 · MD03 · CT03) | Jazz · «Midnight Library», 61,87 s de la pista (golpe de 21,3 dB en el f3) | La entrada es la de 45 s (61,55 s del catálogo, 0,35 s antes del golpe, que es el que cae en el f3). El 2026-11-12 el usuario pidió cambiar la toma que sigue tras el 0:23 (RC42, IMG_5166): se usa **RC04** (IMG_5119, el baño, del 2,4 al 5,6 s) |
 
 Lo que se midió al montarlos: las voces de HK01, HK03, HK04, MD01, MD03, MD04, CT01, CT03 y CT04 empiezan entre 0,49 y 0,77 s y acaban 0,8-1,9 s antes del final de su clip (con `limites-voz.py --margen 40`, el método del repo): **no** están «a 0,0 s» ni «sin cola» como dice la columna «Voz (s)» de las tablas de arriba, que usó otro umbral.
+
+**Audio del CTA (2026-11-12, pedido del usuario):** la voz tratada de la toma del CTA (CT01, CT03 y CT04) suena hasta el final de su clip. Antes la ventana de voz dejaba silencio digital tras la última palabra y se cortaba en seco la risa y el ambiente de Isabella; la receta de `normalizar.mjs` de cada proyecto lo describe (`VOZ_HASTA_EL_FINAL`). Además, el CTA de la 089 dura 81 f (el clip CT01 entero, de su f6 al f87) y no 66.
 
 **Reglas que se mantienen:** primera toma sin texto ni voz; la bajada de la música (curva de coseno, ≈ 15 LU bajo la voz) **acaba antes de la primera palabra**; música sola a −15 LUFS y voz a −15 LUFS; reservar la pista en `archivos/musica/registro-de-uso.md` (**no se ha hecho**: no hay reels en marcha); copiar la pista elegida desde el SSD a `proyectos/NNN/original/` y escuchar el primer segundo de la entrada.
 

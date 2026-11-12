@@ -38,7 +38,7 @@
       "db": 11
     },
     {
-      "id": "c07-pasillo",
+      "id": "c07-bano",
       "en": 712,
       "dur": 97,
       "db": 9.7
@@ -73,7 +73,7 @@
     "c04-terraza": "rapido2",
     "c05-mitad": "mitad",
     "c06-habitacion": "r1",
-    "c07-pasillo": "r2",
+    "c07-bano": "r2",
     "c08-jardin": "r3",
     "c09-deck": "r4",
     "c10-vista": "vista",

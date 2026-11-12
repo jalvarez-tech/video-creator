@@ -58,7 +58,7 @@ const MATERIAL = [
   ["recorrido","RC25.MOV","rc25","3a68d925","4 Recorrido/IMG_5147.MOV"],
   ["recorrido","RC31.MOV","rc31","36f0cab3","4 Recorrido/IMG_5153.MOV"],
   ["recorrido","RC33.MOV","rc33","82130e70","4 Recorrido/IMG_5155.MOV"],
-  ["recorrido","RC42.MOV","rc42","fd628ba8","4 Recorrido/IMG_5166.MOV"],
+  ["recorrido","RC04.MOV","rc04","51ec905a","4 Recorrido/IMG_5119.MOV"],
   ["recorrido","RC32.MOV","rc32","29fb91e2","4 Recorrido/IMG_5154.MOV"],
   ["recorrido","RC41.MOV","rc41","7aa4410c","4 Recorrido/IMG_5165.MOV"],
 ];
@@ -207,6 +207,12 @@ const VOZ_FUNDIDO_ENTRA = 0.03;
 const VOZ_FUNDIDO_SALE = 0.05;
 /** La HK02 termina en «Latinoamérica» y el usuario la oyó cortada de golpe (rev. 1): su fundido de salida es de 0,1 s (de 4,05 a 4,15 s de la toma; el golpe suelto de 4,20-4,27 s sigue fuera). */
 const VOZ_FUNDIDO_SALE_TOMA = {};
+/**
+ * LA TOMA DEL CTA SUENA HASTA EL FINAL DE SU CLIP (pedido del usuario, 2026-11-12: «se sigue cortando el audio, debe ser hasta el final del video del CTA»). La ventana de voz es silencio
+ * fuera de ella y, tras su última palabra, cortaba en seco la risa, el soplo y el ambiente de Isabella (el WAV tratado era −180 dB desde ahí): se oía como un corte. Aquí la voz tratada sigue
+ * (con la misma cadena: puerta suave, compresor y ganancia) hasta el último muestreo del clip; el suelo de ruido de la sala, por debajo de la puerta, queda unos 12 dB más bajo.
+ */
+const VOZ_HASTA_EL_FINAL = new Set(["ct03"]);
 
 function vozTratada(salidaNombre) {
   const entrada = path.join(DESTINO, `${salidaNombre}.wav`);
@@ -225,9 +231,13 @@ function vozTratada(salidaNombre) {
   // dura lo mismo que el crudo y sus segundos son los de la fuente, así que `desde` y `voz.s0/s1` del plan valen para los dos.
   const e = VOZ_FUNDIDO_ENTRA;
   const o = VOZ_FUNDIDO_SALE_TOMA[salidaNombre] ?? VOZ_FUNDIDO_SALE;
-  const compuerta = `aeval='val(0)*if(lt(t,${a.toFixed(3)}),0,if(lt(t,${(a + e).toFixed(3)}),(t-${a.toFixed(3)})/${e},if(lt(t,${(b - o).toFixed(3)}),1,if(lt(t,${b.toFixed(3)}),(${b.toFixed(3)}-t)/${o},0))))':c=same`;
+  const alFinal = VOZ_HASTA_EL_FINAL.has(salidaNombre);
+  // Con `alFinal` la envolvente no vuelve a cero: entra con su fundido y se queda en 1 hasta el último muestreo del clip.
+  const compuerta = alFinal
+    ? `aeval='val(0)*if(lt(t,${a.toFixed(3)}),0,if(lt(t,${(a + e).toFixed(3)}),(t-${a.toFixed(3)})/${e},1))':c=same`
+    : `aeval='val(0)*if(lt(t,${a.toFixed(3)}),0,if(lt(t,${(a + e).toFixed(3)}),(t-${a.toFixed(3)})/${e},if(lt(t,${(b - o).toFixed(3)}),1,if(lt(t,${b.toFixed(3)}),(${b.toFixed(3)}-t)/${o},0))))':c=same`;
   ejecutar("ffmpeg", ["-nostdin", "-y", "-v", "error", "-i", entrada, "-af", `${VOZ_TRATADA(ganancia)},${compuerta}`, "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "1", salida], { check: true });
-  log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3,5:1, +${ganancia} dB y limitador a −2,5 dBFS; solo suena de ${a.toFixed(2)} a ${b.toFixed(2)} s)`);
+  log.ok(`${path.basename(salida)} (la voz tratada: graves, puerta suave, compresión 3,5:1, +${ganancia} dB y limitador a −2,5 dBFS; solo suena de ${a.toFixed(2)} a ${alFinal ? "el final del clip" : `${b.toFixed(2)} s`})`);
 }
 
 for (const [clase, archivo, salida, , , recorte] of lista) {

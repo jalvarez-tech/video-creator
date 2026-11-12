@@ -1,6 +1,6 @@
 # 03 · Timeline — proyecto 089
 
-30 fps · 1158 f (38,6 s). Cada plano entra A CORTE en un golpe MEDIDO de la canción (`GOLPE` de `metraje-089.ts`; `proyectos/089/musica/golpes-cancion-entera.json`). Planos contiguos.
+30 fps · 1173 f (39,1 s). Cada plano entra A CORTE en un golpe MEDIDO de la canción (`GOLPE` de `metraje-089.ts`; `proyectos/089/musica/golpes-cancion-entera.json`). Planos contiguos.
 
 | plano | espacio / función | clip | `en` | `dur` | `desde` | voz en el clip | entrada | golpe |
 |---|---|---|---|---|---|---|---|---|
@@ -14,8 +14,8 @@
 | c08-deck | El deck | RC30 | 710 | 95 | 0.4 | — | corte | 8.3 dB |
 | c09-patio | El patio interior con el jacuzzi | RC36 | 805 | 90 | 0.2 | — | corte | 8.9 dB |
 | c10-vista | La casa entera sobre su ladera | DR12 | 895 | 137 | 14 | — | corte | 11.7 dB |
-| c11-cta | El deck con las montañas y las nubes | CT01 | 1032 | 66 | 9 f | 0.69-1.95 s | corte | 9.9 dB |
-| c12-cierre | tarjeta oscura (logo y web) | foto | 1098 | 60 | — | — | corte | — |
+| c11-cta | El deck con las montañas y las nubes | CT01 | 1032 | 81 | 6 f | 0.69-1.95 s | corte | 9.9 dB |
+| c12-cierre | tarjeta oscura (logo y web) | foto | 1113 | 60 | — | — | corte | — |
 
 ## Por plano (por qué se ve ahora)
 
@@ -28,7 +28,7 @@
 - **c08-deck** (f710-805, 3,2 s): El deck (la sala se abre al exterior): se sale al deck bajo el alero y se mira hacia adentro por la puerta abierta; prepara el patio y la vista.
 - **c09-patio** (f805-895, 3,0 s): El patio interior con el jacuzzi (el reposo): casi quieto, con el cielo y las montañas al fondo; es el «patio interior» de la frase, en su sitio del paseo.
 - **c10-vista** (f895-1032, 4,6 s): La casa entera sobre su ladera (la vista, el clímax): el dron abre el plano hasta ver el pabellón y las cubiertas en el paisaje; el plano más largo del bloque, donde el ritmo baja del todo.
-- **c11-cta** (f1032-1098, 2,2 s): El deck con las montañas y las nubes (la invitación): Isabella ríe y dice «conoce cómo se vive aquí», una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre.
+- **c11-cta** (f1032-1113, 2,7 s): El deck con las montañas y las nubes (la invitación): Isabella ríe y dice «conoce cómo se vive aquí», una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre.
 
 ## La música, en LUFS (ebur128 sobre cada ventana de la canción; `medidas/ventanas-musica.json`)
 
