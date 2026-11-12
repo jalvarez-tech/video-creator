@@ -28,7 +28,8 @@ export const DISENO_FICHA = {
   filete: 2,
   dorado: "#c6a878",
   tipo: { peso: 500, px: 36, espaciado: 0.28 },
-  lugar: { peso: 400, px: 54, espaciado: 0.005, separacion: 20 },
+  /** 46 px y no los 54 del diseño: «El Retiro · Senderos de Compostela» a 54 mide ≈ 954 px y se salía del cuadro por la derecha; `ficha.mjs` la baja sola a 46 (813 px, dentro de sus 840 px máximos) y aquí hay que hacerlo a mano. */
+  lugar: { peso: 400, px: 46, espaciado: 0.005, separacion: 20 },
   precio: { peso: 500, px: 50, espaciado: 0.03, separacion: 14 },
   moneda: { px: 24, espaciado: 0.3 },
   velo: "radial-gradient(ellipse 72% 52% at 30% 50%, rgba(0,0,0,.6), rgba(0,0,0,.18) 70%, rgba(0,0,0,0) 100%)",
