@@ -1,0 +1,19 @@
+# 073 · Suite Go Living — aprendizajes (rev. 0, prueba)
+
+Lo que costó encontrar en esta pieza y que las otras de la suite pueden heredar (el resto, en `proyectos/070/aprendizajes.md`).
+
+1. **`limites-voz.py --margen 40` se come la primera y la última palabra** en las tres tomas: HK10 daba 0,66-3,17 s y la voz real es 0,57-3,31 s; MD01, 0,89-5,34 y real 0,88-5,40; **CT10, 0,91-4,52 y real 0,62-4,85**. «Haz» es una sílaba suelta de 0,12 s antes del silencio del cierre de la «c» de «clic» (el hueco de 0,13 s que `limites-voz` tomaba por «no hay voz») y «Medellín» acaba 0,3 s después. Siempre `onsets-voz.py` (arranque: valle profundo → subida) y el perfil de energía de la cola (`scratchpad/perfil.py`).
+2. **Un ruido de boca no es voz.** MD01 tiene un chasquido a 5,5 s (−36 dB tras un silencio de −71) y CT10 un soplo a 5,04 s: quedan fuera de la ventana de la voz tratada, que acaba 0,05 s tras la última sílaba.
+3. **Un clip corto manda sobre el plano.** HK10 dura 3,8 s (114 f) y la voz acaba a los 99 f: no cabe una disolvencia con la primera palabra a ≥ 8 f del golpe ni los 26 f de cola habituales; entra a corte con el clip entero y el plano dura 112 f (12,7 f de cola: la música sube en 10). El rango del hook en la búsqueda de rejilla es `[111,114]`, no `[125,150]`.
+4. **La canción asignada, «Familiar» (Nils Frahm), se descartó por dinámica, no por rejilla.** Había rejilla (cortes ≥ 9,0 dB), pero dentro de la ventana la canción pasa de −46,6 LUFS (intro) a −24 (pico) y −41,8 (cola) y nivelar tramos exigía +26,6 y +12,6 dB: `revisaAudio` (`GANANCIA_MAXIMA = 2` en `motor/sound/tramos.ts`) lo rechaza («eso ya no es igualar un nivel, es fabricarlo») y con +6 dB la intro quedaba a −40 LUFS, inaudible. **Antes de reservar una canción, mide su ventana con `rms-seg.py` y calcula la ganancia por tramo: si pasa de +6 dB, no sirve.** «Chillin'» (alternativa asignada) tiene una intro fuerte (−12,5 LUFS) y un cuerpo a −15,6/−17,4: ganancias de −2,5 a +1,4 dB.
+5. **`buscar-cortes-lp.py` con el umbral de corte seco fijo (7,4 dB) da rejillas flojas en una canción suave**: se parametrizó `MINC` (variable de entorno) en la copia de la pieza; con `MINC=9` «Chillin'» dejó 5 rejillas, todas con cortes ≥ 9,0 dB y la mejor con el golpe de entrada a 22,2 dB. Un resultado vacío con estructura estricta se relaja por pasos (mitad, hook, MINC, W) y se filtra por e0 con un script (`ver-rejilla.py`).
+6. **El nivel por tramo lo limita el PICO, no solo el LUFS:** el cuerpo de «Chillin'» sube a −15 LUFS con un pico de −0,5/−0,6 dBFS (el tope son −1), así que la música sola va a −16 en el paseo y el bloque 5.
+7. **El DTW de whisper adelanta de 3 a 9 f en esta voz** («independiente», «y recibe más información», «Go Living Suites») y atrasa 3 f «en Medellín»: cada línea se lleva a su sílaba con `onsets-voz.py` + `palabras-desde.py` (la 1.ª palabra que oye whisper desde cada arranque).
+8. **Dos acentos a menos de 2 s no destacan** (la puerta del validador): aquí hay tres acentos (uno por toma) y lo que el anuncio no recoge («con reconocimiento.») va sin acento.
+9. **zsh no separa `set -- $t` ni los arrays de strings:** todo bucle con varios argumentos, en un script `bash`.
+
+## Medido sobre la prueba (540×960, 1229 f, 41,0 s)
+
+- Pieza entera: **−15,5 LUFS · pico real −1,5 dBFS**. Voz + música bajo ella: −14,7 · −14,8 · −14,7 LUFS en las tres ventanas; música sola: −15,0 (apertura) · −16,0 (paseo) · −16,0 (bloque 5); tarjeta: −55 LUFS (la cola de la canción).
+- Cortes secos sobre el audio del render (`golpes-render.py`): f205, f315, f429, f758 y f872 a **≤ 0,5 f** de su golpe (10,2 · 21,0 · 10,9 · 24,1 · 10,4 dB). Los cortes del hook (f93) y del CTA (f1014), donde entra la voz, y las dos disolvencias (f497, f670) no se miden con este método.
+- La prueba NO se ha oído: la voz, la música que baja antes de cada frase y la caída de la canción bajo el CTA se confirman oyendo.

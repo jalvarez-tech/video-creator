@@ -1,0 +1,12 @@
+-- ventana 3.3-3.9 s (primera palabra prevista f107 = 3.567 s)
+subida en 3.351 s = f100.5  10.7 dB  nivel -27.5
+subida en 3.594 s = f107.8  17.5 dB  nivel -17.1
+subida en 3.785 s = f113.5  17.2 dB  nivel -9.7
+-- ventana 14.1-14.7 s (primera palabra prevista f431 = 14.367 s)
+subida en 14.161 s = f424.8  16.4 dB  nivel -16.3
+subida en 14.327 s = f429.8  16.2 dB  nivel -27.5
+subida en 14.403 s = f432.1  17.2 dB  nivel -8.8
+-- ventana 26.4-27.1 s (primera palabra prevista f802 = 26.733 s)
+subida en 26.438 s = f793.1  12.3 dB  nivel -13.6
+subida en 26.518 s = f795.5  11.4 dB  nivel -16.1
+subida en 26.578 s = f797.3  10.1 dB  nivel -16.1

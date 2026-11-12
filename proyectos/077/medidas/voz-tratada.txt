@@ -1,0 +1,3 @@
+v             0.750-   3.880 s   -15.0 LUFS  pico   -2.5 dBFS
+v             0.390-   4.100 s   -15.0 LUFS  pico   -2.5 dBFS
+v             0.310-   2.140 s   -15.0 LUFS  pico   -2.5 dBFS

@@ -1,0 +1,237 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/Users/nicecode/Work/jalvarez/video-creator/.claude/worktrees/suite-hotelera-videos-e02d0b/archivos/whisper/ggml-small.bin",
+		"language": "es",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:00,040"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 40
+			},
+			"text": "",
+			"tokens": [
+				{
+					"text": "[_BEG_]",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,000"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 0
+					},
+					"id": 50364,
+					"p": 1,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:00,040",
+				"to": "00:00:03,420"
+			},
+			"offsets": {
+				"from": 40,
+				"to": 3420
+			},
+			"text": " [Silencio",
+			"tokens": [
+				{
+					"text": " [",
+					"timestamps": {
+						"from": "00:00:00,040",
+						"to": "00:00:00,380"
+					},
+					"offsets": {
+						"from": 40,
+						"to": 380
+					},
+					"id": 542,
+					"p": 0.963273,
+					"t_dtw": 174
+				},
+				{
+					"text": "S",
+					"timestamps": {
+						"from": "00:00:00,380",
+						"to": "00:00:00,760"
+					},
+					"offsets": {
+						"from": 380,
+						"to": 760
+					},
+					"id": 50,
+					"p": 0.895511,
+					"t_dtw": 248
+				},
+				{
+					"text": "ilen",
+					"timestamps": {
+						"from": "00:00:00,760",
+						"to": "00:00:02,280"
+					},
+					"offsets": {
+						"from": 760,
+						"to": 2280
+					},
+					"id": 17471,
+					"p": 0.503344,
+					"t_dtw": 248
+				},
+				{
+					"text": "cio",
+					"timestamps": {
+						"from": "00:00:02,280",
+						"to": "00:00:03,420"
+					},
+					"offsets": {
+						"from": 2280,
+						"to": 3420
+					},
+					"id": 8529,
+					"p": 1,
+					"t_dtw": 248
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:03,420",
+				"to": "00:00:04,180"
+			},
+			"offsets": {
+				"from": 3420,
+				"to": 4180
+			},
+			"text": " de",
+			"tokens": [
+				{
+					"text": " de",
+					"timestamps": {
+						"from": "00:00:03,420",
+						"to": "00:00:04,180"
+					},
+					"offsets": {
+						"from": 3420,
+						"to": 4180
+					},
+					"id": 368,
+					"p": 0.738184,
+					"t_dtw": 248
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:04,180",
+				"to": "00:00:04,940"
+			},
+			"offsets": {
+				"from": 4180,
+				"to": 4940
+			},
+			"text": " la",
+			"tokens": [
+				{
+					"text": " la",
+					"timestamps": {
+						"from": "00:00:04,180",
+						"to": "00:00:04,940"
+					},
+					"offsets": {
+						"from": 4180,
+						"to": 4940
+					},
+					"id": 635,
+					"p": 0.997398,
+					"t_dtw": 248
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:04,940",
+				"to": "00:00:08,000"
+			},
+			"offsets": {
+				"from": 4940,
+				"to": 8000
+			},
+			"text": " cámara]",
+			"tokens": [
+				{
+					"text": " cámara",
+					"timestamps": {
+						"from": "00:00:04,940",
+						"to": "00:00:07,600"
+					},
+					"offsets": {
+						"from": 4940,
+						"to": 7600
+					},
+					"id": 44273,
+					"p": 0.892174,
+					"t_dtw": 248
+				},
+				{
+					"text": "]",
+					"timestamps": {
+						"from": "00:00:07,600",
+						"to": "00:00:08,000"
+					},
+					"offsets": {
+						"from": 7600,
+						"to": 8000
+					},
+					"id": 60,
+					"p": 0.999977,
+					"t_dtw": 248
+				},
+				{
+					"text": "[_TT_400]",
+					"timestamps": {
+						"from": "00:00:08,000",
+						"to": "00:00:08,000"
+					},
+					"offsets": {
+						"from": 8000,
+						"to": 8000
+					},
+					"id": 50764,
+					"p": 0.920317,
+					"t_dtw": -1
+				}
+			]
+		}
+	]
+}

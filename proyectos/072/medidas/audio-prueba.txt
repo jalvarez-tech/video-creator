@@ -1,0 +1,20 @@
+== pieza entera
+    I:         -15.1 LUFS
+    LRA:         2.6 LU
+    Peak:       -2.9 dBFS
+== ventanas
+apertura           0.20-  2.60 s     -15.0 LUFS   pico real    -4.3 dBFS
+voz-hook           3.15-  6.20 s     -14.6 LUFS   pico real    -4.3 dBFS
+paseo              6.70- 15.30 s     -15.0 LUFS   pico real    -3.8 dBFS
+voz-mitad         16.05- 19.90 s     -14.7 LUFS   pico real    -3.8 dBFS
+bloque5           20.30- 28.70 s     -15.0 LUFS   pico real    -2.9 dBFS
+voz-cta           29.45- 33.00 s     -14.7 LUFS   pico real    -4.8 dBFS
+cola-tarjeta      34.00- 35.70 s     -40.4 LUFS   pico real   -24.9 dBFS
+== golpes en el audio del render (cortes secos sin voz)
+Installed 2 packages in 82ms
+previsto (frame) | detectado: inicio de la subida/caída (frame) | diferencia (frames; bien = 0,0 ± 1)
+  f  293.0   subida detectada en f  293.1 (24.0 dB)   dif =  +0.5 f
+  f  390.0   subida detectada en f  389.8 (19.1 dB)   dif =  +0.1 f
+  f  603.0   subida detectada en f  602.7 (18.2 dB)   dif =  +0.0 f
+  f  680.0   subida detectada en f  680.0 (16.7 dB)   dif =  +0.3 f
+  f  758.0   subida detectada en f  757.6 (15.2 dB)   dif =  -0.0 f

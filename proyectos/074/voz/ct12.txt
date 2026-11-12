@@ -1,0 +1,3 @@
+# CT12 (IMG_5040). La voz arranca a 0,68 s y acaba a 3,16 s (perfil de energía; `limites-voz` daba 2,51 s y cortaba «Suites»). Whisper oyó «Conoce eso y mucho más en "Goblin" en Suiz.» con confianzas de 0,03-0,34 en «esto» y en el nombre.
+# POR CONFIRMAR AL OÍDO: «esto» y el nombre «Go Living Suites» (el anuncio dice «Go Living Suites»).
+Conoce esto / y mucho más en / **Go Living Suites.**

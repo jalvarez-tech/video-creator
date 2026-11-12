@@ -1,0 +1,2 @@
+# HK09 (IMG_5006). La voz arranca a 1,04 s y acaba a 4,03 s (perfil de energía, banda de voz). Whisper oye «Las buenas inversiones empiezan con buenas decisiones.» con confianza alta.
+Las buenas inversiones / empiezan con / **buenas decisiones.**

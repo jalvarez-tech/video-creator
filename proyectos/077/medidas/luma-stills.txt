@@ -1,0 +1,14 @@
+f   0  luma  106.0  p5  43.5 p50  97.5 p95 195.9  quemado  0.0%  aplastado  0.7%
+f  45  luma  108.9  p5  39.5 p50 101.8 p95 196.7  quemado  0.0%  aplastado  0.2%
+f 107  luma  113.1  p5  25.6 p50 129.0 p95 158.8  quemado  0.0%  aplastado  1.4%
+f 160  luma  125.8  p5  29.3 p50 148.1 p95 181.0  quemado  0.1%  aplastado  1.6%
+f 245  luma  119.9  p5  18.4 p50 129.4 p95 199.7  quemado  1.5%  aplastado  2.9%
+f 306  luma  122.1  p5  22.9 p50 137.9 p95 202.7  quemado  2.5%  aplastado  0.8%
+f 378  luma   87.0  p5  14.7 p50  65.0 p95 205.0  quemado  0.1%  aplastado  2.5%
+f 431  luma  126.6  p5  14.2 p50 142.0 p95 203.2  quemado  0.0%  aplastado  4.0%
+f 490  luma  115.2  p5   0.7 p50 132.3 p95 193.0  quemado  0.0%  aplastado  6.0%
+f 589  luma   93.6  p5  19.3 p50  76.5 p95 186.4  quemado  0.0%  aplastado  1.0%
+f 656  luma  117.0  p5   9.9 p50 125.9 p95 197.3  quemado  0.8%  aplastado  4.6%
+f 740  luma  108.6  p5  19.7 p50 102.2 p95 197.4  quemado  0.0%  aplastado  1.6%
+f 802  luma  114.6  p5  18.0 p50 137.5 p95 180.4  quemado  0.0%  aplastado  3.0%
+f 845  luma  117.9  p5   3.5 p50 144.1 p95 183.7  quemado  0.2%  aplastado  5.7%

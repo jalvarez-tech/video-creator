@@ -1,0 +1,4 @@
+# CT08 (IMG_4976). La voz arranca a 0,75 s y acaba a 3,60 s. Whisper oye «Ajenlemos una visita y descubre Go Living Sweets».
+# POR CONFIRMAR AL OÍDO: «Agendemos» (whisper «Ajenlemos», 0,14) y «Go Living Suites» (whisper «Go» 0,37 y «Sweets» 0,24).
+**Agendemos** / una visita
+y descubre / Go Living Suites.

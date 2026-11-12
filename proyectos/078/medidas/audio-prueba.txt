@@ -1,0 +1,12 @@
+== pieza entera
+    I:         -15.4 LUFS
+    LRA:         2.6 LU
+    Peak:       -2.0 dBFS
+== ventanas
+apertura      0.200-   2.600 s   -15.2 LUFS  pico   -2.4 dBFS
+voz-hook      3.200-   5.350 s   -14.7 LUFS  pico   -4.5 dBFS
+paseo         6.000-  12.800 s   -15.0 LUFS  pico   -3.1 dBFS
+voz-mitad    14.000-  18.100 s   -14.6 LUFS  pico   -4.6 dBFS
+bloque5      19.000-  27.500 s   -16.2 LUFS  pico   -2.0 dBFS
+voz-cta      28.200-  30.300 s   -14.6 LUFS  pico   -4.3 dBFS
+cola-tarjeta   31.200-  32.800 s   -32.0 LUFS  pico  -15.5 dBFS

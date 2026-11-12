@@ -1,0 +1,11 @@
+# 077 · Suite Go Living — aprendizajes (rev. 0, prueba)
+
+Lo que la 077 añadió a lo que dejaron la 070 (`proyectos/070/aprendizajes.md`) y la 075 (`proyectos/075/aprendizajes.md`).
+
+1. **La carpeta se llama `6 Zonas Sociales`**, no «Zonas Sociales» como la escribió el usuario: está dentro de `Suite Go Living/Videos/` y tiene solo cinco clips (ZS01-ZS05), todos ya catalogados. La 074 ya usó tramos de ZS01-ZS03: para un lote nuevo con zonas sociales se reparten TRAMOS distintos de los mismos clips (ZS01 desde 3,43 s, ZS02 desde 5,40 s) y se mira el interior de la tienda (ZS05, desde 4,1 s) para no enseñar el toldo de la marca de terceros.
+2. **El metraje libre de la suite escasea y el de las zonas sociales y el exterior, no.** Tras 070-075 solo quedan tramos de 1-2,6 s de la suite (RC11 0-3,0 s, RC08 0-2,1 s) y casi nada con vista; los planos largos salen de ZS y de los DR. Se miró primero el catálogo de tramos libres (volcar de cada `metraje-NNN.ts`) y después se buscó la rejilla con rangos que dieran esos clips.
+3. **La rejilla de una canción plana y densa (368 golpes en 214 s) da 0 soluciones con rangos estrechos y miles con rangos holgados:** con la mitad (131-137 f) y el hook (120-130 f) fijados por sus clips, hay que abrir los planos mudos. Con rangos de planos de 42-135 f dieron 36 soluciones; se eligió la que tiene todos los cortes ≥ 12,4 dB.
+4. **`limites-voz.py --margen 40` volvió a quedarse corto en las colas:** dio 3,73 s para HK05 (la voz llega a 4,10 s: «establecida» acaba en −36 a −39 dB) y 1,79 s para CT04 («contáctame» llega a 2,14 s). Un perfil de energía a 40 ms de la banda de voz (`herramientas`: se escribió ad hoc, ver `medidas/`) dice dónde cae de verdad.
+5. **Un chasquido antes de la primera palabra se deja fuera con el tercer número de `VENTANA_VOZ`:** CT04 tiene uno de 0,20-0,27 s a −38 dB; con `[0.31, 2.14, 0.03]` la voz tratada empieza a los 0,28 s.
+6. **Una canción que no cae sola se APAGA con curva bajo la tarjeta, y su CTA tiene que caer ≥ 5 s antes del final de la pista**: *Light Fills the Room* acaba en 214,0 s y la música de la pieza llega a 209,2 s.
+7. **zsh** no admite `echo ======` ni separa `set -- $spec`: un `.sh` con `bash`, otra vez.

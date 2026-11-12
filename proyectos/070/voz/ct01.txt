@@ -1,0 +1,4 @@
+# CT01 (IMG_4940). La voz arranca a 0,50 s y acaba a 4,10 s. Whisper oye «Conoce GoLiving, un edificio con operación hotelera activa.»
+# POR CONFIRMAR AL OÍDO: cómo se escribe el nombre («Go Living»; whisper 0,40). El anuncio dice «Go Living Suites».
+Conoce / Go Living,
+un edificio con / **operación hotelera** / activa.

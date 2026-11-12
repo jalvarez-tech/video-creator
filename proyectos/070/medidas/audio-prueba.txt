@@ -1,0 +1,7 @@
+apertura           0.20-  2.90 s     -15.1 LUFS   pico real    -4.9 dBFS
+voz-hook           3.40-  6.20 s     -14.7 LUFS   pico real    -5.1 dBFS
+paseo              8.00- 16.80 s     -15.1 LUFS   pico real    -4.5 dBFS
+voz-mitad         17.90- 21.80 s     -14.7 LUFS   pico real    -4.6 dBFS
+bloque5           23.30- 31.80 s     -15.1 LUFS   pico real    -5.3 dBFS
+voz-cta           32.70- 36.10 s     -14.7 LUFS   pico real    -3.4 dBFS
+cola-tarjeta      36.20- 38.80 s     -37.3 LUFS   pico real   -12.7 dBFS

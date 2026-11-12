@@ -1,0 +1,2 @@
+# HK11 (IMG_5031). La voz arranca a 0,47 s y acaba a 3,58 s (perfil de energía; `limites-voz.py` daba 3,17 s y cortaba la cola). Whisper oye la frase entera con confianza alta.
+En inversión inmobiliaria, / la ubicación / **lo cambia todo.**

@@ -1,0 +1,31 @@
+# 03 · Timeline — proyecto 077 (30 fps, 936 f)
+
+> Paso 3 de 3. Salido de `node proyectos/077/herramientas/volcar-plan.mjs`; los planos son DATOS en `remotion/src/proyectos/077/metraje-077.ts`, la voz y la música en `audio-077.ts` y el texto en `subtitulos-077.ts`.
+
+| id | bloque | clip | en | dur (f) | dur (s) | fuente (s) | vel. | golpe en que entra | entra |
+|---|---|---|---|---|---|---|---|---|---|
+| c01-edificio | 1 | dr04.mp4 | 0 | 90 | 3.00 | 2.20–5.20 | ×1 |  | corte |
+| c02-hook | 2 | hk03.mp4 | 90 | 124 | 4.13 | 0.20–4.33 | ×1 | hook 22.9 dB | corte |
+| c03-cama | 3 | rc11.mp4 | 214 | 62 | 2.07 | 0.45–2.52 | ×1 | paseo1 16.6 dB | corte |
+| c04-tele | 3 | rc08.mp4 | 276 | 61 | 2.03 | 0.00–2.03 | ×1 | paseo2 17.3 dB | corte |
+| c05-gimnasio | 3 | zs01.mp4 | 337 | 82 | 2.73 | 3.43–6.16 | ×1 | paseo3 14.4 dB | corte |
+| c06-mitad | 4 | hk05.mp4 | 419 | 134 | 4.47 | 0.00–4.47 | ×1 | mitad 18 dB | corte |
+| c07-pesas | 5 | zs02.mp4 | 553 | 72 | 2.40 | 5.40–7.80 | ×1 | alcoba 17.6 dB | corte |
+| c08-tienda | 5 | zs05.mp4 | 625 | 62 | 2.07 | 4.10–6.17 | ×1 | alcoba2 20.7 dB | corte |
+| c09-fachada | 5 | dr05.mp4 | 687 | 106 | 3.53 | 3.30–6.83 | ×1 | vista 19.8 dB | corte |
+| c10-cta | 6 | ct04.mp4 | 793 | 83 | 2.77 | 0.00–2.77 | ×1 | cta 12.4 dB | corte |
+| c11-cierre | 6 | cierre-oscuro.png | 876 | 60 | 2.00 | — | ×1 |  | corte |
+
+11 cortes · 936 f (31.20 s)
+
+## Los golpes de «Light Fills the Room» (entrada 178,0667 s = f0 de la música)
+
+e0 178,118 s (18,9 dB, f3) · hook 181,017 (22,9) · paseo1 185,137 (16,6) · paseo2 187,196 (17,3) · paseo3 189,248 (14,4) · mitad 191,989 (18,0) · pesas 196,446 (17,6) · tienda 198,846 (20,7) · fachada 200,906 (19,8) · CTA 204,462 (12,4). Medidos en `musica/golpes-cancion-entera.json`; la rejilla, en `medidas/rejilla-light-fills.txt`.
+
+## La voz (frames de la comp)
+
+| Toma | Entra | Primera palabra | Última palabra | Aire hasta el golpe siguiente |
+|---|---|---|---|---|
+| HK03 (hook) | f90 (a corte) | f107 | f200 | 14 f |
+| HK05 (mitad) | f419 (a corte) | f431 | f542 | 11 f |
+| CT04 (CTA) | f793 (a corte) | f802 | f857 | tarjeta (f876) |

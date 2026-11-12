@@ -1,0 +1,6 @@
+# Rejilla de «Light Fills the Room» para la 077 (buscar-cortes-lp.py con MINC = 8 dB, el mínimo del corte seco de la puerta)
+# R='[[60,100],[120,130],[55,78],[45,63],[55,90],[131,137],[55,81],[60,123],[80,135]]' TIPOS=dccccccccc T_F=208.0 W=5 TOP=500 ORDEN=golpe uv run buscar-cortes-077.py 12 "archivos/musica/Light Fills the Room.mp3"
+# (rangos de cada plano = lo que da su clip: hook 120-130 f, mitad 131-137 f por el clip y la voz; paseo y bloque 5 por los tramos libres de la suite y de las zonas sociales)
+# ELEGIDA (3.ª por orden de plano largo, todos los cortes ≥ 12,4 dB):
+  cae en   208.00 s  pre    0.0 →    0.0 →    0.0 dB  ( 0.0/ 0.0)  golpes≥7,4 en 52 s:  78  soluciones: 36
+      · plano más corto = 62 f · disolvencia más débil 18.9 dB / corte seco 12.4 dB · cortes [178.118, 181.017, 185.137, 187.196, 189.248, 191.989, 196.446, 198.846, 200.906, 204.462] · planos [87, 124, 62, 62, 82, 134, 72, 62, 107] · dB [18.9, 22.9, 16.6, 17.3, 14.4, 18.0, 17.6, 20.7, 19.8, 12.4]
