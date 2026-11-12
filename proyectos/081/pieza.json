@@ -1,0 +1,104 @@
+{
+  "n": "081",
+  "origen": "072",
+  "v": "V62",
+  "angulo": "«En inversión inmobiliaria, la ubicación lo cambia todo» → lo que hay a minutos de la suite",
+  "cancion": "I Feel It Coming",
+  "T1": 190,
+  "T1SinGolpe": true,
+  "T2": 235,
+  "T3": 293,
+  "B": 429,
+  "mitad": {
+    "desdeF": 2
+  },
+  "rapidos": [
+    {
+      "id": "c03-fachada",
+      "clip": "dr03",
+      "desde": 0.7,
+      "que": "la fachada de voladizos oscuros con el sol de frente, vista desde el suelo",
+      "porque": "El edificio con su sol de frente (lo más vistoso, antes del segundo 10): la fachada de voladizos que habla de dónde está la suite. Primer plano rápido: quien solo mira diez segundos ya ve qué se vende."
+    },
+    {
+      "id": "c04-ciudad",
+      "clip": "rc13",
+      "desde": 2.0,
+      "que": "la ventana con los edificios y las montañas de El Poblado bajo las nubes",
+      "porque": "La ciudad desde la ventana (la ubicación, antes del segundo 10): lo que hay alrededor de la suite. Segundo plano rápido; con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "recorrido": [
+    {
+      "id": "c06-plantas",
+      "clip": "dr01",
+      "desde": 0.4,
+      "que": "el edificio entre las plantas de monstera, con el cielo nublado",
+      "porque": "El edificio entre las plantas (el entorno): del exterior que cuenta la mitad a la puerta de la suite; abre el recorrido donde Isabella acaba de hablar de las distancias."
+    },
+    {
+      "id": "c07-suite",
+      "clip": "rc03",
+      "desde": 0.0,
+      "que": "del espejo de la entrada a una panorámica del escritorio y el televisor, con la cama y el ventanal al fondo",
+      "porque": "De fuera a dentro (la suite): el espejo de la entrada y la panorámica del escritorio hacia su ventana."
+    },
+    {
+      "id": "c08-ciudad",
+      "clip": "rc05",
+      "desde": 0.0,
+      "que": "del ventanal con la ciudad a la cama con el cabecero gris y los cuadros",
+      "porque": "Del ventanal a la cama (cómo se ve y cómo se vive): la ciudad que ya se anunció entra por el ventanal."
+    },
+    {
+      "id": "c09-sofa",
+      "clip": "rc04",
+      "desde": 2.8,
+      "que": "el sofá gris, la mesa redonda y la cama con sus cuadros; la cámara avanza",
+      "porque": "La habitación entera hacia el ventanal (cómo se vive, al detalle): el sofá y la cama, con la ventana al fondo; prepara la subida a la vista."
+    },
+    {
+      "id": "c10-vista",
+      "clip": "rc07",
+      "desde": 2.4,
+      "que": "de la cama sube hasta el ventanal con la repisa de ladrillo y la ciudad y las montañas de El Poblado al fondo",
+      "porque": "La ciudad desde el ventanal (la vista, el clímax): lo que se ve desde el piso 9; el plano más largo del recorrido y el último antes del CTA."
+    }
+  ],
+  "lugares": {
+    "hook": "TERRAZA-ALTA-DE-PIE",
+    "mitad": "TERRAZA-CRISTAL-CAMINANDO",
+    "cta": "LOBBY-VENTANALES-CAMINANDO"
+  },
+  "cta": {
+    "regex": "d[eé]jate asombrar por la ubicaci[oó]n",
+    "accion": "descubrir la suite y dejarse asombrar por la ubicación"
+  },
+  "prohibido": "\\bpot\\b|cumple|a salvo|permitid|legal|licencia|autoriz|normativ|sin riesgo|garantiz",
+  "porConfirmar": [
+    {
+      "toma": "mitad",
+      "s": 1.1,
+      "texto": "«Oviedo» (MD08, {hora}): whisper oyó «odio» (0,02) y «abierto» en un corte aislado; por el contexto —y el anuncio, que cita el C.C. Oviedo— se lee «Oviedo»."
+    },
+    {
+      "toma": "mitad",
+      "s": 2.5,
+      "texto": "«EAFIT» (MD08, {hora}): whisper oyó «Eafid» y «Eafit» (0,34). **No está en el anuncio** (cita Oviedo, Santa Fe, la estación Aguacatala y la Milla de Oro): es una frase suya y se confirma con el usuario."
+    },
+    {
+      "toma": "mitad",
+      "s": 3.15,
+      "texto": "«Aguacatala» (MD08, {hora}): whisper oyó «Acuacatala» (0,42); el anuncio escribe «Aguacatala» y su inicio exacto es ambiguo entre «estación» y «Aguacatala»."
+    },
+    {
+      "toma": "cta",
+      "s": 2.53,
+      "texto": "«déjate» (CT11, {hora}): whisper oyó «déjate» con 0,05 y «hasta» en cortes aislados."
+    }
+  ],
+  "dbMinRecorrido": 10,
+  "subidaPorEncima": [
+    "hook"
+  ]
+}

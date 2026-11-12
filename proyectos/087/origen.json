@@ -1,0 +1,470 @@
+{
+ "origen": "078",
+ "cortes": [
+  {
+   "id": "c01-edificio",
+   "bloque": 1,
+   "tipo": "video",
+   "src": "recorrido-078/dr09.mp4",
+   "desde": 4.8,
+   "en": 0,
+   "dur": 82,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El edificio visto desde el suelo (la promesa): la torre entre las palmas con su jardín vertical a los pies. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de lo que hay más allá de la compra."
+  },
+  {
+   "id": "c02-hook",
+   "bloque": 2,
+   "tipo": "video",
+   "src": "recorrido-078/hk07.mp4",
+   "audio": "recorrido-078/hk07-voz.wav",
+   "voz": {
+    "s0": 0.73,
+    "s1": 2.86,
+    "lufs": -15,
+    "dice": "No se trata solo de comprar una propiedad."
+   },
+   "desde": 0.26666666666666666,
+   "en": 82,
+   "dur": 97,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La entrada de la suite (el umbral de la promesa): Isabella, al fondo del pasillo y reflejada en el espejo, viene hacia cámara y dice «no se trata solo de comprar una propiedad». Entra a corte desde el exterior."
+  },
+  {
+   "id": "c03-escritorio",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-078/rc11.mp4",
+   "desde": 5.55,
+   "en": 179,
+   "dur": 78,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.08
+   },
+   "reason": "El escritorio con la silla azul y el TV (lo práctico de una suite hotelera): el primer plano tras el hook, en la misma habitación; viene del pasillo de la entrada y abre el paseo en el golpe."
+  },
+  {
+   "id": "c04-gimnasio",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-078/zs02.mp4",
+   "desde": 0,
+   "en": 257,
+   "dur": 75,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El gimnasio del edificio (una zona social: lo que hay más allá de la suite, que es el ángulo del hook): se baja del cuarto al edificio; los discos de pesas y el banco rojo enseñan que es un gimnasio equipado."
+  },
+  {
+   "id": "c05-elipticas",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-078/zs03.mp4",
+   "desde": 2.8,
+   "en": 332,
+   "dur": 68,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "Las máquinas frente al espejo (el gimnasio, al detalle): cierra lo que el edificio añade a la suite antes de volver al cuarto con Isabella."
+  },
+  {
+   "id": "c06-mitad",
+   "bloque": 4,
+   "tipo": "video",
+   "src": "recorrido-078/md02.mp4",
+   "audio": "recorrido-078/md02-voz.wav",
+   "voz": {
+    "s0": 0.65,
+    "s1": 4.78,
+    "lufs": -15,
+    "dice": "No todas las propiedades tienen las mismas condiciones para operar turísticamente."
+   },
+   "desde": 0,
+   "en": 400,
+   "dur": 162,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Junto al ventanal (la condición, dicha): Isabella, de pie con la ciudad detrás, dice «no todas las propiedades tienen las mismas condiciones para operar turísticamente». Entra a corte desde el gimnasio."
+  },
+  {
+   "id": "c07-tv",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-078/rc03.mp4",
+   "desde": 3.8,
+   "en": 562,
+   "dur": 96,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.06
+   },
+   "reason": "La habitación entera en panorámica (cómo se vive): el escritorio, el TV y el mueble de madera con la cama y el ventanal al fondo; vuelve al cuarto tras la mitad y el golpe del bloque 5 lo abre."
+  },
+  {
+   "id": "c08-cama",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-078/rc05.mp4",
+   "desde": 6.35,
+   "en": 658,
+   "dur": 75,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.14
+   },
+   "reason": "La cama con su cabecero (cómo se vive, al detalle): los cuadros y las lámparas colgantes; un cuarto de hotel pensado para quedarse varios días y el paso a la vista."
+  },
+  {
+   "id": "c09-vista",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-078/rc07.mp4",
+   "desde": 2.85,
+   "en": 733,
+   "dur": 101,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La ciudad desde el ventanal (la vista, el clímax): de la cama sube hasta la ventana con El Poblado y las montañas al fondo; lo que se ve desde el piso 9. El plano más largo del bloque."
+  },
+  {
+   "id": "c10-cta",
+   "bloque": 6,
+   "tipo": "video",
+   "src": "recorrido-078/ct03.mp4",
+   "audio": "recorrido-078/ct03-voz.wav",
+   "voz": {
+    "s0": 0.6,
+    "s1": 2.72,
+    "lufs": -15,
+    "dice": "Conoce esta oportunidad en El Poblado."
+   },
+   "desde": 0.2,
+   "en": 834,
+   "dur": 97,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "El escritorio de la suite (la invitación): Isabella, sentada en la silla azul, dice «conoce esta oportunidad en El Poblado»: una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  {
+   "id": "c11-cierre",
+   "bloque": 6,
+   "tipo": "foto",
+   "src": "recorrido-078/cierre-oscuro.png",
+   "en": 931,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "reason": "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga."
+  }
+ ],
+ "GOLPE": {
+  "e0": {
+   "t": 157.58,
+   "db": 13.3
+  },
+  "hook": {
+   "t": 160.224,
+   "db": 14.6
+  },
+  "paseo1": {
+   "t": 163.437,
+   "db": 10.2
+  },
+  "paseo2": {
+   "t": 166.053,
+   "db": 10.9
+  },
+  "paseo3": {
+   "t": 168.536,
+   "db": 9.1
+  },
+  "mitad": {
+   "t": 170.825,
+   "db": 10.6
+  },
+  "alcoba": {
+   "t": 176.199,
+   "db": 13.4
+  },
+  "alcoba2": {
+   "t": 179.399,
+   "db": 12
+  },
+  "vista": {
+   "t": 181.925,
+   "db": 22.4
+  },
+  "cta": {
+   "t": 185.293,
+   "db": 12.9
+  }
+ },
+ "INICIO_MUSICA": 157.53333333333333,
+ "FIN_MUSICA": 989,
+ "DURACION": 991,
+ "DECAE": {
+  "t": 195,
+  "lufsAntes": -12.7,
+  "lufs5s": -23.8
+ },
+ "audio": {
+  "LUFS_TRAMO": {
+   "apertura": -11.7,
+   "paseo": -10.9,
+   "bloque5": -12.7
+  },
+  "LUFS_CANCION_EN_VOZ": {
+   "c02-hook": -10.9,
+   "c06-mitad": -10.2,
+   "c10-cta": -12.3
+  },
+  "PICO_TRAMO": {
+   "apertura": 1,
+   "paseo": 2.7,
+   "bloque5": 2.3
+  },
+  "OBJETIVO_MUSICA": {
+   "apertura": -15,
+   "paseo": -15,
+   "bloque5": -16.2
+  },
+  "FADE_OUT": {
+   "hook": 10,
+   "mitad": 10,
+   "cta": 10
+  },
+  "FADE_IN": {
+   "hook": 15,
+   "mitad": 22
+  },
+  "RETRASO": 3,
+  "LUFS_MESETA": -11.3
+ },
+ "subs": [
+  {
+   "id": "h01",
+   "hasta": 130,
+   "trozos": [
+    {
+     "desde": 95,
+     "texto": "No se trata"
+    },
+    {
+     "desde": 104,
+     "texto": "solo de"
+    }
+   ]
+  },
+  {
+   "id": "h02",
+   "hasta": 163,
+   "trozos": [
+    {
+     "desde": 130,
+     "texto": "comprar una"
+    },
+    {
+     "desde": 138,
+     "texto": "propiedad.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "m01",
+   "hasta": 496,
+   "trozos": [
+    {
+     "desde": 420,
+     "texto": "No todas las propiedades"
+    },
+    {
+     "desde": 455,
+     "texto": "tienen las mismas"
+    },
+    {
+     "desde": 476,
+     "texto": "condiciones"
+    }
+   ]
+  },
+  {
+   "id": "m02",
+   "hasta": 547,
+   "trozos": [
+    {
+     "desde": 496,
+     "texto": "para operar"
+    },
+    {
+     "desde": 515,
+     "texto": "turísticamente.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "c01",
+   "hasta": 870,
+   "trozos": [
+    {
+     "desde": 845,
+     "texto": "Conoce esta"
+    },
+    {
+     "desde": 858,
+     "texto": "oportunidad"
+    }
+   ]
+  },
+  {
+   "id": "c02",
+   "hasta": 914,
+   "trozos": [
+    {
+     "desde": 870,
+     "texto": "en El"
+    },
+    {
+     "desde": 887,
+     "texto": "Poblado.",
+     "estilo": "acento"
+    }
+   ]
+  }
+ ]
+}

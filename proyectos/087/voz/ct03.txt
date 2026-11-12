@@ -1,0 +1,3 @@
+# CT03 (IMG_4946). La voz arranca a 0,60 s y acaba a 2,72 s (perfil de energía): hay una pausa de 250 ms entre «en el» y «Poblado» (1,74-1,99 s). Whisper oye «Conocer esta oportunidad en el Poblado.» (confianza de «Conoce» 0,24) y, en un corte desde 0,58 s, «Conocí».
+# POR CONFIRMAR AL OÍDO: «Conoce» (imperativo, por el contexto «esta oportunidad»; whisper oye «Conocer» / «Conocí»).
+Conoce esta / oportunidad / en El / **Poblado.**

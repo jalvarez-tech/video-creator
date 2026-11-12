@@ -1,0 +1,4 @@
+# MD06 (IMG_4980). La voz arranca a 0,53 s y acaba a 4,10 s. Whisper oye «Un asfito atelera con operadores turísticos listos para ti»: de «con» en adelante con confianza alta; «Una suite hotelera» (0,53-1,6 s) es la lectura por contexto del tramo que whisper no entiende.
+# POR CONFIRMAR AL OÍDO: «una suite hotelera» (primera mitad de la frase; whisper «un asfito atelera»).
+Una suite hotelera con
+**operadores turísticos** / listos para ti.

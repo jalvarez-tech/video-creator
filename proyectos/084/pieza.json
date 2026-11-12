@@ -1,0 +1,106 @@
+{
+  "n": "084",
+  "origen": "075",
+  "v": "V65",
+  "angulo": "«¿Y si tu próxima propiedad también pudiera generar ingresos?» → una suite totalmente equipada, a puerta cerrada",
+  "cancion": "Street Level Sessions on the Green",
+  "T1": 220,
+  "T2": 273,
+  "T3": 322,
+  "B": 449,
+  "mitad": {
+    "desdeF": 2
+  },
+  "dbMinRecorrido": 10,
+  "rapidos": [
+    {
+      "id": "c03-cama",
+      "clip": "rc06",
+      "desde": 4.4,
+      "que": "la cama king y, al fondo, el sofá gris con el aire acondicionado; la cámara avanza sobre la cama",
+      "porque": "La cama king de la suite (lo más vistoso, antes del segundo 10): la cámara avanza sobre ella hacia el sofá. Primer plano rápido: quien solo mira diez segundos ya ve qué se vende."
+    },
+    {
+      "id": "c04-escritorio",
+      "clip": "rc09",
+      "desde": 1.8,
+      "que": "sobre la cama hacia el escritorio y el acceso a la cocineta",
+      "porque": "De la cama al escritorio (lo que trae, antes del segundo 10): segundo plano rápido; con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "recorrido": [
+    {
+      "id": "c06-puerta",
+      "clip": "rc12",
+      "desde": 1.0,
+      "que": "una mano abre la puerta con la tarjeta y la cámara entra al pasillo de la cocineta",
+      "porque": "La puerta (a puerta cerrada, el umbral): una mano abre y la cámara entra; el puente humano que abre el recorrido."
+    },
+    {
+      "id": "c07-tele",
+      "clip": "rc08",
+      "desde": 2.2,
+      "que": "el mueble de madera con el televisor, la escultura, la planta y la cortina gris",
+      "porque": "El televisor y el mueble (lo que trae): la suite viene equipada; sigue al pasillo de la entrada."
+    },
+    {
+      "id": "c08-cocineta",
+      "clip": "rc02",
+      "desde": 2.6,
+      "que": "la cocineta con el microondas, la nevera, la cafetera y la estufa",
+      "porque": "La cocineta (totalmente equipada): microondas, nevera, cafetera y estufa, todo puesto."
+    },
+    {
+      "id": "c09-bano",
+      "clip": "rc01",
+      "desde": 4.4,
+      "que": "el baño privado con el lavamanos y la ducha de vidrio; la cámara gira a la derecha",
+      "porque": "El baño y la ducha de vidrio (lo que completa, al detalle): el recorrido de lo que trae acaba en el baño antes de volver a la ventana."
+    },
+    {
+      "id": "c10-vista",
+      "clip": "rc07",
+      "desde": 1.1,
+      "que": "de la cama sube hasta el ventanal con la ciudad y las montañas de El Poblado al fondo",
+      "porque": "La ciudad desde el ventanal (la vista, el clímax): el plano más largo del recorrido y el último antes del CTA."
+    }
+  ],
+  "lugares": {
+    "hook": "SUITE-VENTANAL-DE-FRENTE",
+    "mitad": "SUITE-CAMA-CAMINANDO",
+    "cta": "SUITE-SOFA-SENTADA"
+  },
+  "cta": {
+    "regex": "agendemos una visita.*go living suites",
+    "accion": "agendar una visita y descubrir Go Living Suites"
+  },
+  "prohibido": "\\bPOT\\b|cumple|a salvo|permitid|legal|licencia|autoriz|normativ|sin riesgo|garantiz|valoriz|crecer",
+  "porConfirmar": [
+    {
+      "toma": "hook",
+      "s": 0.53,
+      "texto": "«Y» inicial del hook (HK06, {hora}): whisper la oye con confianza 0,37; sin ella sería «Si tu próxima propiedad…»."
+    },
+    {
+      "toma": "mitad",
+      "s": 0.73,
+      "texto": "«hotelera» (MD03, {hora}): whisper la oye con confianza 0,13 («hotelera» sale «hotelera» en la toma entera)."
+    },
+    {
+      "toma": "mitad",
+      "s": 2.8,
+      "texto": "«Poblado» (MD03, {hora}): whisper la oye con confianza 0,20 («Poblado», «polado» o «poblado» según el corte)."
+    },
+    {
+      "toma": "cta",
+      "s": 0.7,
+      "texto": "«Agendemos» (CT08, {hora}): whisper oye «Ajenlemos» (0,14)."
+    },
+    {
+      "toma": "cta",
+      "s": 2.73,
+      "texto": "«Go Living Suites» (CT08, {hora}): whisper oye «Go Living Sweets» (Go 0,37, Sweets 0,24); el anuncio dice «Go Living Suites»."
+    }
+  ],
+  "permiteIngresos": true
+}

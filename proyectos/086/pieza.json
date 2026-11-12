@@ -1,0 +1,89 @@
+{
+  "n": "086",
+  "origen": "077",
+  "v": "V67",
+  "angulo": "«Antes de invertir en Airbnb, hay algo que debes saber» → un edificio con operación hotelera establecida",
+  "cancion": "Light Fills the Room",
+  "T1": 214,
+  "T2": 255,
+  "T3": 301,
+  "B": 430,
+  "mitad": {
+    "desdeF": 2
+  },
+  "fadeOutMitad": 9,
+  "dbMinRecorrido": 10,
+  "rapidos": [
+    {
+      "id": "c03-pesas",
+      "clip": "zs02",
+      "desde": 5.4,
+      "que": "el gimnasio: del banco rojo y los discos a las bicicletas, hacia el fondo",
+      "porque": "El gimnasio del edificio (lo más vistoso, antes del segundo 10): el barrido de las pesas a las bicicletas. Primer plano rápido: quien solo mira diez segundos ya ve qué trae el edificio."
+    },
+    {
+      "id": "c04-planta",
+      "clip": "rc08",
+      "desde": 3.2,
+      "que": "la repisa con la planta y la cortina gris, junto al ventanal",
+      "porque": "El rincón de la planta y la cortina (la suite, antes del segundo 10): segundo plano rápido; con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "recorrido": [
+    {
+      "id": "c06-cama",
+      "clip": "rc11",
+      "desde": 0.45,
+      "que": "desde la cama hacia la consola del televisor y el escritorio con la silla azul",
+      "porque": "De la cama al escritorio (lo que hay dentro): abre el recorrido de la suite donde acaba la mitad."
+    },
+    {
+      "id": "c07-gimnasio",
+      "clip": "zs01",
+      "desde": 2.0,
+      "que": "el gimnasio: el barrido de la torre de dominadas a las elípticas y trotadoras",
+      "porque": "De la suite al gimnasio (el edificio que opera): las zonas sociales que acompañan a la operación hotelera."
+    },
+    {
+      "id": "c08-tienda",
+      "clip": "zs05",
+      "desde": 4.3,
+      "que": "el interior de la tienda del edificio, ya dentro y sin el toldo",
+      "porque": "La tienda del edificio, solo su interior (zona social): empieza donde ya no se lee la marca de terceros."
+    },
+    {
+      "id": "c09-fachada",
+      "clip": "dr05",
+      "desde": 3.3,
+      "que": "los voladizos curvos de la fachada contra el cielo con nubes; barrido a la derecha, plantas al final",
+      "porque": "La fachada entera (el edificio, el clímax de esta pieza): el plano más largo del recorrido y el último antes del CTA."
+    }
+  ],
+  "lugares": {
+    "hook": "SUITE-SOFA-DE-PIE",
+    "mitad": "SUITE-ESCRITORIO-VIENE-DEL-FONDO",
+    "cta": "SUITE-TELE-SE-ACERCA"
+  },
+  "cta": {
+    "regex": "m[aá]s informaci[oó]n.*cont[aá]ctame",
+    "accion": "pedir más información: «contáctame»"
+  },
+  "prohibido": "\\bPOT\\b|cumple|a salvo|permitid|legal|licencia|autoriz|normativ|sin riesgo|garantiz",
+  "porConfirmar": [
+    {
+      "toma": "mitad",
+      "s": 0.37,
+      "texto": "«Descubre una suite» (HK05 como mitad, {hora}): whisper oye «Descubro en EZID» (confianzas 0,31-0,58); «una suite» va tan rápido que se oye «nezit»."
+    },
+    {
+      "toma": "mitad",
+      "s": 2.73,
+      "texto": "«hotelera» (HK05 como mitad, {hora}): whisper la oye con confianza 0,51."
+    },
+    {
+      "toma": "cta",
+      "s": 1.47,
+      "texto": "«contáctame» (CT04, {hora}): whisper oye «contacta a mí» (0,42-0,50)."
+    }
+  ]
+}

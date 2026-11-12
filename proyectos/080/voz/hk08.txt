@@ -1,0 +1,3 @@
+# HK08 (IMG_4978). La voz arranca a 0,90 s y acaba a 4,26 s (perfil de energía: la cola débil de «trabajo» llega hasta ahí). Whisper oye «Tu inversión no debería convertirse en todo otro trabajo» (el «todo» es un tropiezo de su corte final; desde 2,6 s oye «en tu otro trabajo»): la frase dicha es «…convertirse en otro trabajo».
+Tu inversión / no debería
+convertirse en / **otro trabajo.**

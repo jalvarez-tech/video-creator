@@ -1,0 +1,446 @@
+{
+ "origen": "074",
+ "cortes": [
+  {
+   "id": "c01-edificio",
+   "bloque": 1,
+   "tipo": "video",
+   "src": "recorrido-074/dr06.mp4",
+   "desde": 0.4,
+   "en": 0,
+   "dur": 90,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El edificio visto desde el suelo (la promesa): el muro vegetal con el «GO» de Go Living entre las hojas y, arriba, la torre. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de decisiones."
+  },
+  {
+   "id": "c02-hook",
+   "bloque": 2,
+   "tipo": "video",
+   "src": "recorrido-074/hk09.mp4",
+   "audio": "recorrido-074/hk09-voz.wav",
+   "voz": {
+    "s0": 1.04,
+    "s1": 4.03,
+    "lufs": -15,
+    "dice": "Las buenas inversiones empiezan con buenas decisiones."
+   },
+   "desde": 0.4,
+   "en": 90,
+   "dur": 118,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "disolver",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La terraza del edificio con jardineras y ventanales (la decisión): Isabella camina hacia cámara y dice «las buenas inversiones empiezan con buenas decisiones». Entra disolviendo desde el exterior; la música ya está abajo."
+  },
+  {
+   "id": "c03-plantas",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-074/dr01.mp4",
+   "desde": 1,
+   "en": 208,
+   "dur": 69,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El edificio entre sus plantas (el entorno): la torre con las nubes y la monstera de la jardinera en primer plano; abre el paseo por lo que rodea las zonas sociales."
+  },
+  {
+   "id": "c04-torre",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-074/dr07.mp4",
+   "desde": 1.5,
+   "en": 277,
+   "dur": 69,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.1
+   },
+   "reason": "La torre entre las cicas (el entorno, al detalle): las hojas verdes en primer plano y la arista de la torre al fondo; el verde que rodea el edificio antes de entrar."
+  },
+  {
+   "id": "c05-gimnasio",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-074/zs01.mp4",
+   "desde": 0.3,
+   "en": 346,
+   "dur": 94,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "La entrada al gimnasio (la zona social): la torre de dominadas, el banco y el fondo de máquinas bajo los ventanales; de lo que rodea el edificio a lo que se usa dentro, justo antes de que Isabella lo recorra."
+  },
+  {
+   "id": "c06-mitad",
+   "bloque": 4,
+   "tipo": "video",
+   "src": "recorrido-074/md09.mp4",
+   "audio": "recorrido-074/md09-voz.wav",
+   "voz": {
+    "s0": 0.6,
+    "s1": 5.48,
+    "lufs": -15,
+    "dice": "Una ubicación estratégica, amenidades y cercanía a los principales destinos turísticos."
+   },
+   "desde": 0,
+   "en": 440,
+   "dur": 181,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0,
+    "exposure": 0.1
+   },
+   "reason": "El gimnasio (las amenidades, dichas): Isabella camina hacia cámara por la sala y dice «una ubicación estratégica, amenidades y cercanía a los principales destinos turísticos». Entra a corte desde la entrada al gimnasio."
+  },
+  {
+   "id": "c07-pesas",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-074/zs02.mp4",
+   "desde": 2,
+   "en": 621,
+   "dur": 102,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "Las pesas y el banco rojo (lo que se usa): el rack de mancuernas y las bicicletas al fondo; sigue el gimnasio que Isabella acaba de recorrer, ahora sin ella."
+  },
+  {
+   "id": "c08-cardio",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-074/zs03.mp4",
+   "desde": 0.3,
+   "en": 723,
+   "dur": 87,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "Las trotadoras y las elípticas (lo que se usa, al detalle): el fondo del gimnasio con su espejo; cierra la zona social antes de volver a mirar el edificio entero."
+  },
+  {
+   "id": "c09-fachada",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-074/dr03.mp4",
+   "desde": 0.5,
+   "en": 810,
+   "dur": 119,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La fachada al sol (el edificio entero, el clímax): la torre con el cielo de nubes y la entrada de vidrio; «esto y mucho más» es el edificio. El plano más largo del bloque."
+  },
+  {
+   "id": "c10-cta",
+   "bloque": 6,
+   "tipo": "video",
+   "src": "recorrido-074/ct12.mp4",
+   "audio": "recorrido-074/ct12-voz.wav",
+   "voz": {
+    "s0": 0.68,
+    "s1": 3.16,
+    "lufs": -15,
+    "dice": "Conoce esto y mucho más en Go Living Suites."
+   },
+   "desde": 0.26666666666666666,
+   "en": 929,
+   "dur": 105,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Gradas del lounge (la invitación): Isabella, sentada, dice «conoce esto y mucho más en Go Living Suites»: una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  {
+   "id": "c11-cierre",
+   "bloque": 6,
+   "tipo": "foto",
+   "src": "recorrido-074/cierre-oscuro.png",
+   "en": 1034,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "reason": "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga."
+  }
+ ],
+ "GOLPE": {
+  "e0": {
+   "t": 140.733,
+   "db": 13.1
+  },
+  "hook": {
+   "t": 143.632,
+   "db": 24
+  },
+  "paseo1": {
+   "t": 147.578,
+   "db": 15.8
+  },
+  "paseo2": {
+   "t": 149.882,
+   "db": 14.7
+  },
+  "paseo3": {
+   "t": 152.181,
+   "db": 22.1
+  },
+  "mitad": {
+   "t": 155.324,
+   "db": 23.7
+  },
+  "alcoba": {
+   "t": 161.332,
+   "db": 14
+  },
+  "alcoba2": {
+   "t": 164.751,
+   "db": 17.3
+  },
+  "vista": {
+   "t": 167.647,
+   "db": 14.2
+  },
+  "cta": {
+   "t": 171.596,
+   "db": 21.4
+  }
+ },
+ "INICIO_MUSICA": 140.7,
+ "FIN_MUSICA": 1092,
+ "DURACION": 1094,
+ "DECAE": {
+  "t": 175.75,
+  "lufsAntes": -14,
+  "lufs5s": -24.3,
+  "lufs10s": -60.8
+ },
+ "audio": {
+  "LUFS_TRAMO": {
+   "apertura": -13.8,
+   "paseo": -13.3,
+   "bloque5": -14.6
+  },
+  "LUFS_CANCION_EN_VOZ": {
+   "c02-hook": -14.2,
+   "c06-mitad": -13.7,
+   "c10-cta": -16.4
+  },
+  "PICO_TRAMO": {
+   "apertura": -1.1,
+   "paseo": -0.7,
+   "bloque5": -0.9
+  },
+  "OBJETIVO_MUSICA": {
+   "apertura": -15,
+   "paseo": -15,
+   "bloque5": -15
+  },
+  "FADE_OUT": {
+   "hook": 10,
+   "mitad": 10,
+   "cta": 10
+  },
+  "FADE_IN": {
+   "hook": 15,
+   "mitad": 22
+  },
+  "RETRASO": 0,
+  "LUFS_MESETA": -14
+ },
+ "subs": [
+  {
+   "id": "h01",
+   "hasta": 205,
+   "trozos": [
+    {
+     "desde": 109,
+     "texto": "Las buenas inversiones"
+    },
+    {
+     "desde": 145,
+     "texto": "empiezan con"
+    },
+    {
+     "desde": 170,
+     "texto": "buenas decisiones.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "m01",
+   "hasta": 533,
+   "trozos": [
+    {
+     "desde": 458,
+     "texto": "Una ubicación estratégica,"
+    },
+    {
+     "desde": 493,
+     "texto": "amenidades",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "m02",
+   "hasta": 608,
+   "trozos": [
+    {
+     "desde": 533,
+     "texto": "y cercanía a los principales"
+    },
+    {
+     "desde": 564,
+     "texto": "destinos turísticos."
+    }
+   ]
+  },
+  {
+   "id": "c01",
+   "hasta": 1019,
+   "trozos": [
+    {
+     "desde": 940,
+     "texto": "Conoce esto"
+    },
+    {
+     "desde": 959,
+     "texto": "y mucho más en"
+    },
+    {
+     "desde": 988,
+     "texto": "Go Living Suites.",
+     "estilo": "acento"
+    }
+   ]
+  }
+ ]
+}

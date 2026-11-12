@@ -1,0 +1,79 @@
+{
+  "n": "087",
+  "origen": "078",
+  "v": "V68",
+  "angulo": "«No se trata solo de comprar una propiedad» → una oportunidad en El Poblado",
+  "cancion": "Ivory Skyline Reverie",
+  "T1": 179,
+  "T2": 247,
+  "T3": 321,
+  "B": 480,
+  "dbMinRecorrido": 10,
+  "rapidos": [
+    {
+      "id": "c03-elipticas",
+      "clip": "zs03",
+      "desde": 2.8,
+      "que": "las trotadoras y las elípticas frente al espejo con las mancuernas",
+      "porque": "Las máquinas del gimnasio (lo más vistoso, antes del segundo 10): las elípticas frente al espejo. Primer plano rápido: quien solo mira diez segundos ya ve qué trae el edificio."
+    },
+    {
+      "id": "c04-escritorio",
+      "clip": "rc11",
+      "desde": 5.55,
+      "que": "desde la cama al mueble de TV y al escritorio con la silla azul",
+      "porque": "De la cama al escritorio (la suite, antes del segundo 10): segundo plano rápido; con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "recorrido": [
+    {
+      "id": "c06-pesas",
+      "clip": "zs02",
+      "desde": 0.0,
+      "que": "los discos de pesas, las mancuernas y el banco rojo del gimnasio",
+      "porque": "Las pesas (zona social): abre el recorrido por lo que ofrece el edificio tras la mitad."
+    },
+    {
+      "id": "c07-tv",
+      "clip": "rc03",
+      "desde": 3.8,
+      "que": "la panorámica del escritorio y el televisor, con la cama y el ventanal al fondo",
+      "porque": "De fuera a dentro (la suite): el escritorio y el televisor, con la cama al fondo."
+    },
+    {
+      "id": "c08-cama",
+      "clip": "rc05",
+      "desde": 6.35,
+      "que": "la cama king con el cabecero gris, los cuadros y las lámparas colgantes",
+      "porque": "La cama y su cabecero (cómo se vive): el descanso de la suite; prepara la subida al ventanal."
+    },
+    {
+      "id": "c09-vista",
+      "clip": "rc07",
+      "desde": 2.85,
+      "que": "de la cama sube hasta el ventanal con la ciudad y las montañas de El Poblado al fondo",
+      "porque": "La ciudad desde el ventanal (la vista, el clímax): el plano más largo del recorrido y el último antes del CTA."
+    }
+  ],
+  "lugares": {
+    "hook": "SUITE-ENTRADA-CAMINANDO",
+    "mitad": "SUITE-VENTANAL-DE-PIE",
+    "cta": "SUITE-ESCRITORIO-SENTADA"
+  },
+  "cta": {
+    "regex": "oportunidad en El Poblado",
+    "accion": "conocer esta oportunidad en El Poblado"
+  },
+  "porConfirmar": [
+    {
+      "toma": "hook",
+      "s": 1.0,
+      "texto": "«solo de» (HK07, {hora}): whisper oye «sólo hay que» (confianza 0,27 / 0,45) y, en un corte desde 1,585 s, también «sólo hay que»; el catálogo lo lee «solo de». Las dos lecturas tienen 2-3 sílabas en los 0,3 s que hay entre «solo» y «comprar»: la energía no las distingue (`onsets-voz.py`). Si dice «solo hay que comprar una propiedad» el trozo cambia a «solo hay que»."
+    },
+    {
+      "toma": "cta",
+      "s": 0.57,
+      "texto": "«Conoce» (CT03, {hora}): whisper oye «Conocer» (0,24) y en un corte aislado «Conocí»; por el contexto («esta oportunidad») es el imperativo «Conoce»."
+    }
+  ]
+}

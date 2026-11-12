@@ -1,0 +1,466 @@
+{
+ "origen": "077",
+ "cortes": [
+  {
+   "id": "c01-edificio",
+   "bloque": 1,
+   "tipo": "video",
+   "src": "recorrido-077/dr04.mp4",
+   "desde": 2.2,
+   "en": 0,
+   "dur": 90,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El edificio visto desde el suelo (la promesa): un árbol delante de los voladizos y el sol de frente sobre la fachada. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de lo que hay que saber."
+  },
+  {
+   "id": "c02-hook",
+   "bloque": 2,
+   "tipo": "video",
+   "src": "recorrido-077/hk03.mp4",
+   "audio": "recorrido-077/hk03-voz.wav",
+   "voz": {
+    "s0": 0.75,
+    "s1": 3.88,
+    "lufs": -15,
+    "dice": "Antes de invertir en Airbnb, hay algo que debes saber."
+   },
+   "desde": 0.2,
+   "en": 90,
+   "dur": 124,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La suite, la zona del sofá (la curiosidad): Isabella, en plano medio, dice «antes de invertir en Airbnb, hay algo que debes saber». Entra a corte en el golpe desde el exterior; la música baja con curva antes de su primera palabra."
+  },
+  {
+   "id": "c03-cama",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-077/rc11.mp4",
+   "desde": 0.45,
+   "en": 214,
+   "dur": 62,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "La cama que sube a la tele (la suite, de dentro hacia fuera): abre el paseo por lo que se compra, el cuarto amueblado, antes de salir al edificio."
+  },
+  {
+   "id": "c04-tele",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-077/rc08.mp4",
+   "desde": 0,
+   "en": 276,
+   "dur": 61,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El mueble de TV con la ciudad reflejada (el detalle): la escultura de madera y la planta; el último vistazo a la suite antes de que el paseo salga a las zonas sociales."
+  },
+  {
+   "id": "c05-gimnasio",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-077/zs01.mp4",
+   "desde": 3.43,
+   "en": 337,
+   "dur": 82,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": 0.1
+   },
+   "reason": "El gimnasio del edificio (la zona social): las máquinas bajo los ventanales; el paseo sale de la suite a lo que ofrece el edificio, justo antes de que Isabella lo diga."
+  },
+  {
+   "id": "c06-mitad",
+   "bloque": 4,
+   "tipo": "video",
+   "src": "recorrido-077/hk05.mp4",
+   "audio": "recorrido-077/hk05-voz.wav",
+   "voz": {
+    "s0": 0.39,
+    "s1": 4.1,
+    "lufs": -15,
+    "dice": "Descubre una suite en un edificio con operación hotelera establecida."
+   },
+   "desde": 0,
+   "en": 419,
+   "dur": 134,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La suite, de vuelta con ella (la respuesta): Isabella viene hacia cámara y dice «descubre una suite en un edificio con operación hotelera establecida». Entra a corte desde el gimnasio."
+  },
+  {
+   "id": "c07-pesas",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-077/zs02.mp4",
+   "desde": 5.4,
+   "en": 553,
+   "dur": 72,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": 0.06
+   },
+   "reason": "Las pesas y el banco rojo (lo que se usa): el rack de mancuernas y las bicicletas al fondo; la respuesta de la mitad, hecha imagen: un edificio con servicios, no solo con habitaciones."
+  },
+  {
+   "id": "c08-tienda",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-077/zs05.mp4",
+   "desde": 4.1,
+   "en": 625,
+   "dur": 62,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El interior de la tienda del edificio (la comodidad): estantes y mostrador a pie de lobby; completa las zonas sociales con algo que no es un gimnasio, antes de mirar el edificio entero."
+  },
+  {
+   "id": "c09-fachada",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-077/dr05.mp4",
+   "desde": 3.3,
+   "en": 687,
+   "dur": 106,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La fachada entera (el edificio, el clímax): los voladizos con el cielo de nubes bajando hasta el jardín; «un edificio con operación hotelera establecida» es esto. El plano más largo del bloque."
+  },
+  {
+   "id": "c10-cta",
+   "bloque": 6,
+   "tipo": "video",
+   "src": "recorrido-077/ct04.mp4",
+   "audio": "recorrido-077/ct04-voz.wav",
+   "voz": {
+    "s0": 0.31,
+    "s1": 2.14,
+    "lufs": -15,
+    "dice": "Si quieres más información, contáctame."
+   },
+   "desde": 0,
+   "en": 793,
+   "dur": 83,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "El mueble de TV, la planta (la invitación): Isabella se acerca a cámara y dice «si quieres más información, contáctame»: una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  {
+   "id": "c11-cierre",
+   "bloque": 6,
+   "tipo": "foto",
+   "src": "recorrido-077/cierre-oscuro.png",
+   "en": 876,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "reason": "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga."
+  }
+ ],
+ "GOLPE": {
+  "e0": {
+   "t": 178.118,
+   "db": 18.9
+  },
+  "hook": {
+   "t": 181.017,
+   "db": 22.9
+  },
+  "paseo1": {
+   "t": 185.137,
+   "db": 16.6
+  },
+  "paseo2": {
+   "t": 187.196,
+   "db": 17.3
+  },
+  "paseo3": {
+   "t": 189.248,
+   "db": 14.4
+  },
+  "mitad": {
+   "t": 191.989,
+   "db": 18
+  },
+  "alcoba": {
+   "t": 196.446,
+   "db": 17.6
+  },
+  "alcoba2": {
+   "t": 198.846,
+   "db": 20.7
+  },
+  "vista": {
+   "t": 200.906,
+   "db": 19.8
+  },
+  "cta": {
+   "t": 204.462,
+   "db": 12.4
+  }
+ },
+ "INICIO_MUSICA": 178.06666666666666,
+ "FIN_MUSICA": 934,
+ "DURACION": 936,
+ "DECAE": {
+  "t": 209,
+  "lufsAntes": -14.4,
+  "lufs5s": -20.2,
+  "lufs10s": -99
+ },
+ "audio": {
+  "LUFS_TRAMO": {
+   "apertura": -11.9,
+   "paseo": -11.9,
+   "bloque5": -12.7
+  },
+  "LUFS_CANCION_EN_VOZ": {
+   "c02-hook": -12.1,
+   "c06-mitad": -11.6,
+   "c10-cta": -14.5
+  },
+  "PICO_TRAMO": {
+   "apertura": -0.6,
+   "paseo": -0.8,
+   "bloque5": -1.2
+  },
+  "OBJETIVO_MUSICA": {
+   "apertura": -15,
+   "paseo": -15,
+   "bloque5": -15
+  },
+  "FADE_OUT": {
+   "hook": 10,
+   "mitad": 10,
+   "cta": 8
+  },
+  "FADE_IN": {
+   "hook": 15,
+   "mitad": 22
+  },
+  "RETRASO": 3,
+  "LUFS_MESETA": -12.2
+ },
+ "subs": [
+  {
+   "id": "h01",
+   "hasta": 151,
+   "trozos": [
+    {
+     "desde": 106,
+     "texto": "Antes de invertir en"
+    },
+    {
+     "desde": 136,
+     "texto": "Airbnb,"
+    }
+   ]
+  },
+  {
+   "id": "h02",
+   "hasta": 207,
+   "trozos": [
+    {
+     "desde": 151,
+     "texto": "hay algo que"
+    },
+    {
+     "desde": 180,
+     "texto": "debes saber.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "m01",
+   "hasta": 480,
+   "trozos": [
+    {
+     "desde": 430,
+     "texto": "Descubre una suite"
+    },
+    {
+     "desde": 455,
+     "texto": "en un edificio"
+    }
+   ]
+  },
+  {
+   "id": "m02",
+   "hasta": 548,
+   "trozos": [
+    {
+     "desde": 480,
+     "texto": "con operación"
+    },
+    {
+     "desde": 501,
+     "texto": "hotelera"
+    },
+    {
+     "desde": 518,
+     "texto": "establecida.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "c01",
+   "hasta": 836,
+   "trozos": [
+    {
+     "desde": 802,
+     "texto": "Si quieres más"
+    },
+    {
+     "desde": 816,
+     "texto": "información,"
+    }
+   ]
+  },
+  {
+   "id": "c02",
+   "hasta": 862,
+   "trozos": [
+    {
+     "desde": 837,
+     "texto": "contáctame.",
+     "estilo": "acento"
+    }
+   ]
+  }
+ ]
+}

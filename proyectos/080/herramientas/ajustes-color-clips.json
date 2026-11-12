@@ -1,0 +1,71 @@
+{
+ "dr02": {},
+ "rc12": {},
+ "rc02": {},
+ "rc01": {
+  "exposure": -0.08
+ },
+ "rc06": {
+  "exposure": -0.12
+ },
+ "rc04": {
+  "exposure": -0.08
+ },
+ "rc07": {
+  "highlights": -0.3,
+  "whites": -0.15,
+  "exposure": -0.05
+ },
+ "dr08": {
+  "highlights": -0.3
+ },
+ "rc09": {
+  "exposure": -0.1
+ },
+ "rc03": {
+  "exposure": -0.06
+ },
+ "rc08": {},
+ "rc05": {
+  "exposure": -0.14
+ },
+ "rc10": {
+  "highlights": -0.3,
+  "whites": -0.15,
+  "exposure": -0.08
+ },
+ "rc13": {
+  "highlights": -0.3,
+  "whites": -0.15,
+  "exposure": -0.15
+ },
+ "dr05": {
+  "highlights": -0.3,
+  "whites": -0.15,
+  "exposure": -0.05
+ },
+ "dr03": {
+  "highlights": -0.3,
+  "whites": -0.15,
+  "exposure": -0.05
+ },
+ "dr01": {},
+ "dr09": {},
+ "rc11": {
+  "exposure": -0.08
+ },
+ "dr06": {},
+ "dr07": {
+  "exposure": -0.1
+ },
+ "zs01": {
+  "exposure": 0.1
+ },
+ "zs02": {},
+ "zs03": {},
+ "dr10": {
+  "exposure": -0.08
+ },
+ "zs05": {},
+ "dr04": {}
+}

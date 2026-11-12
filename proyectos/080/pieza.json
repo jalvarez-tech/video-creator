@@ -1,0 +1,93 @@
+{
+  "n": "080",
+  "origen": "071",
+  "v": "V61",
+  "angulo": "«Tu inversión no debería convertirse en otro trabajo» → una suite hotelera con operadores turísticos listos para ti",
+  "cancion": "Heaven on Earth",
+  "T1": 207,
+  "T2": 263,
+  "T3": 328,
+  "B": 457,
+  "dbMinRecorrido": 8,
+  "mitad": {
+    "desdeF": 2
+  },
+  "minSubida": {
+    "c02-hook": 6
+  },
+  "rapidos": [
+    {
+      "id": "c03-tele",
+      "clip": "rc08",
+      "desde": 0.2,
+      "que": "el mueble de madera con la escultura, la planta y la cortina gris, con su luz cálida",
+      "porque": "El rincón más cálido de la suite (lo más vistoso, antes del segundo 10): el mueble de madera con la escultura, la planta y la cortina. Primer plano rápido: quien solo mira diez segundos ya ve cómo es por dentro."
+    },
+    {
+      "id": "c04-habitacion",
+      "clip": "rc03",
+      "desde": 3.4,
+      "que": "la suite entera de un vistazo: el escritorio con la silla azul, el televisor, la cama y el ventanal al fondo",
+      "porque": "La suite entera de un vistazo (lo que ya está puesto, antes del segundo 10): escritorio, televisor y cama. Segundo plano rápido; con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "recorrido": [
+    {
+      "id": "c06-escritorio",
+      "clip": "rc09",
+      "desde": 2.8,
+      "que": "de la cama al escritorio, con el acceso a la cocineta al fondo",
+      "porque": "De la cama al escritorio (lo que ya está puesto): abre el paseo donde acaba la mitad; la cámara sigue el borde de la cama hasta el escritorio."
+    },
+    {
+      "id": "c07-cocineta",
+      "clip": "rc02",
+      "desde": 0.6,
+      "que": "la cocineta con el microondas, la nevera, la cafetera y la estufa; la cámara se acerca y sube",
+      "porque": "La cocineta (lo práctico): microondas, nevera, cafetera y estufa, todo puesto; viene tras el escritorio, en el orden del acceso a la cocineta."
+    },
+    {
+      "id": "c08-cabecero",
+      "clip": "rc05",
+      "desde": 5.0,
+      "que": "la cama king con el cabecero gris, los cuadros y las lámparas colgantes",
+      "porque": "La cama y su cabecero (cómo se vive): el descanso de la suite, con los cuadros y las lámparas colgantes."
+    },
+    {
+      "id": "c09-sofa",
+      "clip": "rc06",
+      "desde": 5.5,
+      "que": "la cama king y, al fondo, el sofá gris con el aire acondicionado",
+      "porque": "La cama y el sofá (cómo se vive, al detalle): la cámara avanza sobre la cama hacia el rincón de estar; prepara la subida al ventanal."
+    },
+    {
+      "id": "c10-vista",
+      "clip": "rc07",
+      "desde": 3.2,
+      "que": "de la cama sube hasta el ventanal con la repisa de ladrillo y la ciudad y las montañas de El Poblado al fondo",
+      "porque": "La ciudad desde el ventanal (la vista, el clímax): de la cama sube hasta la ventana con El Poblado y las montañas al fondo; el plano más largo del recorrido y el último antes del CTA."
+    }
+  ],
+  "lugares": {
+    "hook": "SUITE-VENTANAL-DE-PIE-QUIETA",
+    "mitad": "SUITE-VENTANAL-CORTINA-DE-PIE",
+    "cta": "SUITE-ESCRITORIO-SENTADA"
+  },
+  "cta": {
+    "regex": "opciones de inversi[oó]n",
+    "accion": "hablar para conocer las opciones de inversión"
+  },
+  "porConfirmar": [
+    {
+      "toma": "mitad",
+      "s": 0.53,
+      "texto": "«Una suite hotelera» (MD06, {hora}): whisper oye «Un asfito atelera» (confianza baja) y solo desde «con» en adelante entiende la frase; la lectura sale del contexto (el anuncio, el CTA de esta suite y la métrica de sílabas: «u-na sui-te ho-te-le-ra» son 7 entre 0,53 y 1,52 s)."
+    },
+    {
+      "toma": "hook",
+      "s": 2.8,
+      "texto": "«todo» en el hook (HK08, {hora}): el corte final de whisper oye «en todo otro trabajo»; los cortes parciales oyen «en otro trabajo». Se pintó «convertirse en otro trabajo»."
+    }
+  ],
+  "fuerzaMinEntrada": 10
+}

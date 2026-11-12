@@ -1,0 +1,5 @@
+# HK02 (IMG_4944). La toma abre con una interjección fuerte de 1,22 a 1,53 s (−13 dB; whisper la oye «Hoy,», 0,81, y también cortando desde 1,215 s) que se RECORTA; tras un hueco de −60 dB sigue «una buena inversión empieza por la tranquilidad» de 1,62 s a 3,96 s (perfil de energía, banda de voz).
+# POR CONFIRMAR AL OÍDO: la interjección recortada de 1,22-1,53 s (¿«Hoy,»?): se quita; y «una» (primera palabra que se oye, 1,62 s).
+Una buena inversión
+empieza por la
+**tranquilidad.**

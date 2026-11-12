@@ -1,0 +1,4 @@
+# MD01 (IMG_4945). La voz arranca a 0,88 s y acaba a 5,40 s (perfil de energía; limites-voz daba 5,34). Whisper oye la frase entera con confianza media-alta (0,48-0,92).
+# POR CONFIRMAR AL OÍDO: «en edificios con reconocimiento» (una afirmación suya que el anuncio no recoge); «matrícula independiente» consta en el anuncio.
+Una suite hotelera, con / **matrícula** / independiente,
+en edificios / con reconocimiento.
