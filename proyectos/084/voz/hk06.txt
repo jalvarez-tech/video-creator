@@ -1,0 +1,4 @@
+# HK06 (IMG_4960). La voz arranca a 0,62 s y acaba a 3,56 s (perfil de energía, banda de voz). Whisper oye «Y si tu próxima propiedad también pudiera generar ingresos» con confianza alta salvo en la «Y» inicial (0,37).
+# POR CONFIRMAR AL OÍDO: la «Y» inicial (whisper 0,37).
+¿Y si tu próxima / **propiedad** / también pudiera
+generar ingresos?

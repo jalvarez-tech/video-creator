@@ -1,0 +1,14 @@
+Rejilla de cortes de la 078 — «Ivory Skyline Reverie» (archivos/musica/Ivory Skyline Reverie.mp3, sha 80bf4f33), medida con `herramientas/buscar-cortes-lp.py` (copia con MINC por variable).
+
+R (rangos de cada plano, en frames): [[60,105],[92,100],[54,100],[58,81],[50,70],[160,166],[60,110],[50,80],[88,110]]
+TIPOS=dccccccccc  W=12  T_F=192.0   (el CTA entra hasta 12 s antes de los 192 s de la canción; la canción no tiene caída propia hasta ≈ 195 s)
+Cortes secos ≥ 9 dB (MINC=9), entrada ≥ 12 dB.
+
+Con MINC=7,4 salían 34 soluciones y ninguna con todos los cortes ≥ 8 dB; con MINC=9 y W=12, 8 soluciones; con MINC=10, ninguna.
+La elegida (la primera de las 8: la de los planos más largos):
+  cortes (s de la canción) [157.58, 160.224, 163.437, 166.053, 168.536, 170.825, 176.199, 179.399, 181.925, 185.293]
+  planos (f, redondeo de la búsqueda) [79, 96, 78, 74, 69, 161, 96, 76, 101]
+  golpes (dB) [13.3, 14.6, 10.2, 10.9, 9.1, 10.6, 13.4, 12.0, 22.4, 12.9]
+Con INICIO_MUSICA = 4726/30 s (157,5333) y `golpe()` salen los frames del plan: 3 · 82 · 179 · 257 · 332 · 400 · 562 · 658 · 733 · 834 (planos de 82 · 97 · 78 · 75 · 68 · 162 · 96 · 75 · 101 f).
+Sonoridad por tramos (ebur128, `medidas/lufs-rangos-cancion.txt`): apertura −11,7 · hook −10,9 · paseo −10,9 · mitad −10,2 · bloque 5 −12,7 · CTA −12,3 LUFS; picos +1,0 · +2,3 · +2,7 · +0,6 · +2,3 · +0,5 dBFS.
+La canción mide −11,4 LUFS en su meseta y sus picos pasan de 0 dBFS: se BAJA (−3,3 · −4,1 · −3,5 dB).

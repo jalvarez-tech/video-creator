@@ -1,0 +1,85 @@
+{
+  "n": "083",
+  "origen": "074",
+  "v": "V64",
+  "angulo": "«Las buenas inversiones empiezan con buenas decisiones» → las zonas sociales del edificio",
+  "cancion": "Some Say",
+  "T1": 208,
+  "T2": 261,
+  "T3": 303,
+  "B": 486,
+  "dbMinRecorrido": 10,
+  "rapidos": [
+    {
+      "id": "c03-gimnasio",
+      "clip": "zs01",
+      "desde": 0.3,
+      "que": "el gimnasio: la torre de dominadas y el banco, y el barrido a las elípticas y trotadoras",
+      "porque": "El gimnasio del edificio (lo más vistoso de las zonas sociales, antes del segundo 10): la torre de dominadas y el barrido a las máquinas. Primer plano rápido: quien solo mira diez segundos ya ve qué trae el edificio."
+    },
+    {
+      "id": "c04-plantas",
+      "clip": "dr01",
+      "desde": 1.0,
+      "que": "el edificio entre las plantas de monstera, con el cielo nublado",
+      "porque": "El edificio entre las plantas (el entorno, antes del segundo 10): segundo plano rápido; con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "recorrido": [
+    {
+      "id": "c06-pesas",
+      "clip": "zs02",
+      "desde": 2.0,
+      "que": "los discos de pesas, las mancuernas y el banco rojo; pasa a las bicicletas",
+      "porque": "Las pesas y el banco rojo (cómo se usa): la sala de pesas del gimnasio, tras la mitad que habla de amenidades."
+    },
+    {
+      "id": "c07-cardio",
+      "clip": "zs03",
+      "desde": 0.3,
+      "que": "las trotadoras y las elípticas frente al espejo con las mancuernas",
+      "porque": "Las trotadoras y las elípticas (cómo se usa, al detalle): el cardio frente al espejo."
+    },
+    {
+      "id": "c08-torre",
+      "clip": "dr07",
+      "desde": 1.5,
+      "que": "las cicas y el follaje en primer plano, con la torre al fondo",
+      "porque": "De las máquinas al edificio (el entorno): las cicas y la torre vuelven a mostrar dónde está todo esto; prepara la fachada."
+    },
+    {
+      "id": "c09-fachada",
+      "clip": "dr03",
+      "desde": 0.5,
+      "que": "la fachada de voladizos oscuros con el sol de frente, con las jardineras abajo",
+      "porque": "El edificio entero al sol (el clímax de esta pieza): la fachada que contiene todo lo anterior; el plano más largo del recorrido y el último antes del CTA."
+    }
+  ],
+  "lugares": {
+    "hook": "TERRAZA-PASILLO-CAMINANDO",
+    "mitad": "GIMNASIO-SALA-CAMINANDO",
+    "cta": "LOUNGE-GRADAS-SENTADA"
+  },
+  "cta": {
+    "regex": "go living suites",
+    "accion": "«conoce esto y mucho más en Go Living Suites»"
+  },
+  "prohibido": "\\bpot\\b|cumple|a salvo|permitid|legal|licencia|autoriz|normativ|sin riesgo|garantiz|valoriz|rentabilidad",
+  "porConfirmar": [
+    {
+      "toma": "mitad",
+      "s": 1.2,
+      "texto": "«estratégica» (MD09, {hora}, dentro de «Una ubicación estratégica», que entra en el f321): whisper la oye con confianza 0,24 («estrategica», «técnica» según el corte)."
+    },
+    {
+      "toma": "cta",
+      "s": 0.63,
+      "texto": "«esto» (CT12, {hora}): whisper oye «eso» (0,03-0,34); el guion dice «esto»."
+    },
+    {
+      "toma": "cta",
+      "s": 2.23,
+      "texto": "«Go Living Suites» (CT12, {hora}): whisper oye «Goblin en Suiz», «Governing suits»…; el anuncio dice «Go Living Suites». Es el nombre propio del edificio."
+    }
+  ]
+}

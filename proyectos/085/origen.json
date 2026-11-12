@@ -1,0 +1,457 @@
+{
+ "origen": "076",
+ "cortes": [
+  {
+   "id": "c01-edificio",
+   "bloque": 1,
+   "tipo": "video",
+   "src": "recorrido-076/dr10.mp4",
+   "desde": 4.066666666666666,
+   "en": 0,
+   "dur": 87,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.08
+   },
+   "reason": "El edificio visto desde la acera, entre sus plantas (la calma): la torre con su entrada de vidrio y el jardín vertical. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de tranquilidad."
+  },
+  {
+   "id": "c02-hook",
+   "bloque": 2,
+   "tipo": "video",
+   "src": "recorrido-076/hk02.mp4",
+   "audio": "recorrido-076/hk02-voz.wav",
+   "voz": {
+    "s0": 1.62,
+    "s1": 3.97,
+    "lufs": -15,
+    "dice": "Una buena inversión empieza por la tranquilidad."
+   },
+   "desde": 1.2,
+   "en": 87,
+   "dur": 101,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "disolver",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La suite, con Isabella que viene del fondo del pasillo (la promesa): dice «una buena inversión empieza por la tranquilidad». Entra disolviendo desde el exterior; la música ya está abajo."
+  },
+  {
+   "id": "c03-gimnasio",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-076/zs01.mp4",
+   "desde": 3.5,
+   "en": 188,
+   "dur": 66,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El gimnasio (una zona social del edificio): las elípticas y las trotadoras con la luz de la ventana; el golpe del paseo abre el descubrimiento y el hook ya prometió tranquilidad: lo que hay alrededor de la suite."
+  },
+  {
+   "id": "c04-tienda",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-076/zs05.mp4",
+   "desde": 4.3,
+   "en": 254,
+   "dur": 63,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "La tienda del edificio (otra zona social, para el día a día del huésped): el mostrador con luz cálida y el muro verde; viene tras el gimnasio y antes del segundo vistazo al gimnasio."
+  },
+  {
+   "id": "c05-bicicletas",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-076/zs02.mp4",
+   "desde": 5.5,
+   "en": 317,
+   "dur": 74,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El gimnasio otra vez, ahora con las bicicletas al fondo (cierra el paseo por las zonas sociales con una mirada amplia antes de volver a Isabella)."
+  },
+  {
+   "id": "c06-mitad",
+   "bloque": 4,
+   "tipo": "video",
+   "src": "recorrido-076/md04.mp4",
+   "audio": "recorrido-076/md04-voz.wav",
+   "voz": {
+    "s0": 0.58,
+    "s1": 4.28,
+    "lufs": -15,
+    "dice": "Invierte en una suite con vocación turística y ubicación estratégica."
+   },
+   "desde": 0,
+   "en": 391,
+   "dur": 142,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Junto al ventanal (el porqué, dicho): Isabella se acerca y dice «invierte en una suite con vocación turística y ubicación estratégica». Entra a corte desde el gimnasio."
+  },
+  {
+   "id": "c07-cama",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-076/rc11.mp4",
+   "desde": 0.2,
+   "en": 533,
+   "dur": 77,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.08
+   },
+   "reason": "La cama y la consola del televisor (cómo se vive): de la cama king a la repisa con la planta; lo que se encuentra el huésped al entrar a su habitación. Entra a corte en el golpe más fuerte de la rejilla."
+  },
+  {
+   "id": "c08-repisa",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-076/rc08.mp4",
+   "desde": 4.3,
+   "en": 610,
+   "dur": 66,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La repisa con la planta y la cortina (cómo se vive, al detalle): luz cálida y un rincón sereno junto al ventanal que anuncia la vista; el paseo se acerca a la ventana."
+  },
+  {
+   "id": "c09-vista",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-076/rc07.mp4",
+   "desde": 2.7,
+   "en": 676,
+   "dur": 106,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La ciudad desde el ventanal (la vista, el clímax): de la cama sube hasta la ventana con El Poblado y las montañas al fondo; lo que se ve desde el piso 9. El plano más largo del bloque."
+  },
+  {
+   "id": "c10-cta",
+   "bloque": 6,
+   "tipo": "video",
+   "src": "recorrido-076/ct06.mp4",
+   "audio": "recorrido-076/ct06-voz.wav",
+   "voz": {
+    "s0": 0.45,
+    "s1": 3.22,
+    "lufs": -15,
+    "dice": "Agenda una visita y descubre su potencial de inversión."
+   },
+   "desde": 0.03333333333333333,
+   "en": 782,
+   "dur": 116,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Primer plano de Isabella (la invitación): «agenda una visita y descubre su potencial de inversión»: una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  {
+   "id": "c11-cierre",
+   "bloque": 6,
+   "tipo": "foto",
+   "src": "recorrido-076/cierre-oscuro.png",
+   "en": 898,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "reason": "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga."
+  }
+ ],
+ "GOLPE": {
+  "e0": {
+   "t": 147.778,
+   "db": 18.5
+  },
+  "hook": {
+   "t": 150.567,
+   "db": 18.8
+  },
+  "paseo1": {
+   "t": 153.944,
+   "db": 17.8
+  },
+  "paseo2": {
+   "t": 156.15,
+   "db": 13.2
+  },
+  "paseo3": {
+   "t": 158.239,
+   "db": 13.4
+  },
+  "mitad": {
+   "t": 160.712,
+   "db": 16
+  },
+  "alcoba": {
+   "t": 165.441,
+   "db": 23.4
+  },
+  "alcoba2": {
+   "t": 168.006,
+   "db": 11.3
+  },
+  "vista": {
+   "t": 170.219,
+   "db": 10.5
+  },
+  "cta": {
+   "t": 173.741,
+   "db": 9.6
+  }
+ },
+ "INICIO_MUSICA": 147.73333333333332,
+ "FIN_MUSICA": 956,
+ "DURACION": 958,
+ "DECAE": {
+  "t": 180,
+  "lufsAntes": -15.3,
+  "lufs5s": -22.5,
+  "lufs10s": -70
+ },
+ "audio": {
+  "LUFS_TRAMO": {
+   "apertura": -15.1,
+   "paseo": -14.7,
+   "bloque5": -16.1
+  },
+  "LUFS_CANCION_EN_VOZ": {
+   "c02-hook": -14.2,
+   "c06-mitad": -13.8,
+   "c10-cta": -14.4
+  },
+  "PICO_TRAMO": {
+   "apertura": -1.3,
+   "paseo": -0.1,
+   "bloque5": -1.3
+  },
+  "OBJETIVO_MUSICA": {
+   "apertura": -15.2,
+   "paseo": -15.9,
+   "bloque5": -16.1
+  },
+  "FADE_OUT": {
+   "hook": 10,
+   "mitad": 10,
+   "cta": 10
+  },
+  "FADE_IN": {
+   "hook": 15,
+   "mitad": 22
+  },
+  "RETRASO": 6,
+  "LUFS_MESETA": -14.9
+ },
+ "subs": [
+  {
+   "id": "h01",
+   "hasta": 176,
+   "trozos": [
+    {
+     "desde": 99,
+     "texto": "Una buena inversión"
+    },
+    {
+     "desde": 132,
+     "texto": "empieza por la"
+    },
+    {
+     "desde": 146,
+     "texto": "tranquilidad.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "m01",
+   "hasta": 482,
+   "trozos": [
+    {
+     "desde": 406,
+     "texto": "Invierte en una suite"
+    },
+    {
+     "desde": 451,
+     "texto": "con vocación turística"
+    }
+   ]
+  },
+  {
+   "id": "m02",
+   "hasta": 523,
+   "trozos": [
+    {
+     "desde": 482,
+     "texto": "y ubicación"
+    },
+    {
+     "desde": 501,
+     "texto": "estratégica.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "c01",
+   "hasta": 848,
+   "trozos": [
+    {
+     "desde": 794,
+     "texto": "Agenda una visita"
+    },
+    {
+     "desde": 828,
+     "texto": "y descubre su"
+    }
+   ]
+  },
+  {
+   "id": "c02",
+   "hasta": 881,
+   "trozos": [
+    {
+     "desde": 848,
+     "texto": "potencial",
+     "estilo": "acento"
+    },
+    {
+     "desde": 857,
+     "texto": "de inversión."
+    }
+   ]
+  }
+ ]
+}

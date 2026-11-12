@@ -1,0 +1,467 @@
+{
+ "origen": "073",
+ "cortes": [
+  {
+   "id": "c01-edificio",
+   "bloque": 1,
+   "tipo": "video",
+   "src": "recorrido-073/dr09.mp4",
+   "desde": 2,
+   "en": 0,
+   "dur": 93,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El edificio visto desde el suelo (la promesa): la torre entre las palmas, con el cielo de Medellín detrás. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de quien vive lejos."
+  },
+  {
+   "id": "c02-hook",
+   "bloque": 2,
+   "tipo": "video",
+   "src": "recorrido-073/hk10.mp4",
+   "audio": "recorrido-073/hk10-voz.wav",
+   "voz": {
+    "s0": 0.57,
+    "s1": 3.31,
+    "lufs": -15,
+    "dice": "¿Vives fuera de Colombia y quieres invertir en Medellín?"
+   },
+   "desde": 0,
+   "en": 93,
+   "dur": 112,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La terraza del edificio (la pregunta a quien vive lejos): Isabella, rodeada de plantas, pregunta «¿vives fuera de Colombia y quieres invertir en Medellín?». Entra a corte desde el exterior; la música baja tras el golpe."
+  },
+  {
+   "id": "c03-umbral",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-073/rc03.mp4",
+   "desde": 0.6,
+   "en": 205,
+   "dur": 110,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.08
+   },
+   "reason": "El pasillo de la entrada (el umbral): del espejo a la habitación, con la cama y el ventanal al fondo; es lo primero que ve quien llega, y el golpe del paseo abre el descubrimiento."
+  },
+  {
+   "id": "c04-tv",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-073/rc11.mp4",
+   "desde": 3,
+   "en": 315,
+   "dur": 114,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.06
+   },
+   "reason": "El mueble de TV y el escritorio (lo práctico, al detalle): la pantalla, el escritorio y la silla; lo que quien administra a distancia da por hecho que está."
+  },
+  {
+   "id": "c05-habitacion",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-073/rc04.mp4",
+   "desde": 3.8,
+   "en": 429,
+   "dur": 68,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.08
+   },
+   "reason": "La habitación en abierto (lo que se recibe): la cama, el sofá y la ciudad por el ventanal en un solo plano; cierra el paseo antes de que Isabella explique qué es lo que se compra."
+  },
+  {
+   "id": "c06-mitad",
+   "bloque": 4,
+   "tipo": "video",
+   "src": "recorrido-073/md01.mp4",
+   "audio": "recorrido-073/md01-voz.wav",
+   "voz": {
+    "s0": 0.88,
+    "s1": 5.4,
+    "lufs": -15,
+    "dice": "Una suite hotelera, con matrícula independiente, en edificios con reconocimiento."
+   },
+   "desde": 0.4666666666666667,
+   "en": 497,
+   "dur": 173,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "disolver",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Junto al ventanal (lo que se compra, dicho): Isabella, al fondo de la suite y acercándose, dice «una suite hotelera, con matrícula independiente, en edificios con reconocimiento». Entra disolviendo desde el escritorio."
+  },
+  {
+   "id": "c07-cama",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-073/rc06.mp4",
+   "desde": 4.5,
+   "en": 670,
+   "dur": 88,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "disolver",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.14
+   },
+   "reason": "La cama y el sofá (cómo se vive): la cámara avanza sobre la colcha beige hacia el cabecero; lo que se encuentra el huésped al entrar a su habitación. La disolvencia sale de Isabella y acaba en el golpe."
+  },
+  {
+   "id": "c08-cabecero",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-073/rc05.mp4",
+   "desde": 3.6,
+   "en": 758,
+   "dur": 114,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.08
+   },
+   "reason": "El cabecero con los cuadros (cómo se vive, al detalle): la cama king, las lámparas colgantes y los cuadros; un cuarto de hotel pensado para quedarse varios días."
+  },
+  {
+   "id": "c09-vista",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-073/rc07.mp4",
+   "desde": 1.5,
+   "en": 872,
+   "dur": 142,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.05
+   },
+   "reason": "La ciudad desde el ventanal (la vista, el clímax): de la cama sube despacio hasta la ventana con El Poblado y las montañas al fondo; lo que se ve desde el piso 9. El plano más largo del bloque."
+  },
+  {
+   "id": "c10-cta",
+   "bloque": 6,
+   "tipo": "video",
+   "src": "recorrido-073/ct10.mp4",
+   "audio": "recorrido-073/ct10-voz.wav",
+   "voz": {
+    "s0": 0.62,
+    "s1": 4.85,
+    "lufs": -15,
+    "dice": "Haz clic en el enlace y recibe más información sobre Go Living Suites en Medellín."
+   },
+   "desde": 0.2,
+   "en": 1014,
+   "dur": 155,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "El lounge del edificio (la invitación): Isabella, sentada en el sofá de cuero, dice «haz clic en el enlace y recibe más información sobre Go Living Suites en Medellín»: una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  {
+   "id": "c11-cierre",
+   "bloque": 6,
+   "tipo": "foto",
+   "src": "recorrido-073/cierre-oscuro.png",
+   "en": 1169,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "reason": "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga."
+  }
+ ],
+ "GOLPE": {
+  "e0": {
+   "t": 259.21,
+   "db": 22.2
+  },
+  "hook": {
+   "t": 262.216,
+   "db": 22.8
+  },
+  "paseo1": {
+   "t": 265.931,
+   "db": 9
+  },
+  "paseo2": {
+   "t": 269.617,
+   "db": 21.5
+  },
+  "paseo3": {
+   "t": 273.414,
+   "db": 10.7
+  },
+  "mitad": {
+   "t": 275.695,
+   "db": 10.4
+  },
+  "alcoba": {
+   "t": 281.451,
+   "db": 9.3
+  },
+  "alcoba2": {
+   "t": 284.389,
+   "db": 25.1
+  },
+  "vista": {
+   "t": 288.183,
+   "db": 10.3
+  },
+  "cta": {
+   "t": 292.919,
+   "db": 10.6
+  }
+ },
+ "INICIO_MUSICA": 259.1666666666667,
+ "FIN_MUSICA": 1227,
+ "DURACION": 1229,
+ "DECAE": {
+  "t": 294.75,
+  "lufsAntes": -17.4,
+  "lufs5s": -41.5,
+  "lufs10s": -70
+ },
+ "audio": {
+  "LUFS_TRAMO": {
+   "apertura": -12.5,
+   "paseo": -17.4,
+   "bloque5": -15.6
+  },
+  "LUFS_CANCION_EN_VOZ": {
+   "c02-hook": -11.8,
+   "c06-mitad": -16.6,
+   "c10-cta": -17.4
+  },
+  "PICO_TRAMO": {
+   "apertura": 0.4,
+   "paseo": -2.9,
+   "bloque5": -1.2
+  },
+  "OBJETIVO_MUSICA": {
+   "apertura": -15,
+   "paseo": -16,
+   "bloque5": -16
+  },
+  "FADE_OUT": {
+   "hook": 10,
+   "mitad": 10,
+   "cta": 10
+  },
+  "FADE_IN": {
+   "hook": 10,
+   "mitad": 20
+  },
+  "RETRASO": 0,
+  "LUFS_MESETA": -15.9
+ },
+ "subs": [
+  {
+   "id": "h01",
+   "hasta": 196,
+   "trozos": [
+    {
+     "desde": 110,
+     "texto": "¿Vives fuera de Colombia"
+    },
+    {
+     "desde": 141,
+     "texto": "y quieres invertir"
+    },
+    {
+     "desde": 168,
+     "texto": "en Medellín?",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "m01",
+   "hasta": 587,
+   "trozos": [
+    {
+     "desde": 509,
+     "texto": "Una suite hotelera, con"
+    },
+    {
+     "desde": 547,
+     "texto": "matrícula",
+     "estilo": "acento"
+    },
+    {
+     "desde": 565,
+     "texto": "independiente,"
+    }
+   ]
+  },
+  {
+   "id": "m02",
+   "hasta": 650,
+   "trozos": [
+    {
+     "desde": 587,
+     "texto": "en edificios"
+    },
+    {
+     "desde": 612,
+     "texto": "con reconocimiento."
+    }
+   ]
+  },
+  {
+   "id": "c01",
+   "hasta": 1095,
+   "trozos": [
+    {
+     "desde": 1026,
+     "texto": "Haz clic en el enlace"
+    },
+    {
+     "desde": 1063,
+     "texto": "y recibe más información"
+    }
+   ]
+  },
+  {
+   "id": "c02",
+   "hasta": 1158,
+   "trozos": [
+    {
+     "desde": 1095,
+     "texto": "sobre"
+    },
+    {
+     "desde": 1108,
+     "texto": "Go Living Suites",
+     "estilo": "acento"
+    },
+    {
+     "desde": 1130,
+     "texto": "en Medellín."
+    }
+   ]
+  }
+ ]
+}

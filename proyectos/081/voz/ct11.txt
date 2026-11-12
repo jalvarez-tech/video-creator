@@ -1,0 +1,4 @@
+# CT11 (IMG_5034). La voz arranca a 0,76 s y acaba a 4,38 s (perfil de energía; `limites-voz.py` daba 3,37 s y cortaba la cola). Whisper oyó «déjate» con confianza 0,05.
+# POR CONFIRMAR AL OÍDO: «déjate» (whisper 0,05; en cortes aislados oye «hasta»).
+Descubre esta suite / en El Poblado
+y déjate asombrar / **por la ubicación.**

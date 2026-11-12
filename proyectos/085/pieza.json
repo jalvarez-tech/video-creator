@@ -1,0 +1,84 @@
+{
+  "n": "085",
+  "origen": "076",
+  "v": "V66",
+  "angulo": "«Una buena inversión empieza por la tranquilidad» → una suite con ubicación estratégica y vocación turística",
+  "cancion": "Luxury, Elegance, Refined",
+  "T1": 188,
+  "T2": 254,
+  "T3": 317,
+  "B": 463,
+  "dbMinRecorrido": 10,
+  "rapidos": [
+    {
+      "id": "c03-gimnasio",
+      "clip": "zs01",
+      "desde": 3.5,
+      "que": "el gimnasio con las elípticas y las trotadoras bajo las vigas oscuras",
+      "porque": "El gimnasio del edificio (lo más vistoso, antes del segundo 10): las máquinas bajo las vigas. Primer plano rápido: quien solo mira diez segundos ya ve qué trae el edificio."
+    },
+    {
+      "id": "c04-cama",
+      "clip": "rc11",
+      "desde": 0.2,
+      "que": "desde la cama hacia la consola del televisor y el escritorio",
+      "porque": "De la cama a la consola del televisor (la suite, antes del segundo 10): segundo plano rápido; con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "recorrido": [
+    {
+      "id": "c06-tienda",
+      "clip": "zs05",
+      "desde": 4.3,
+      "que": "el interior de la tienda del edificio, ya dentro y sin el toldo (solo el interior)",
+      "porque": "La tienda del edificio, solo su interior (zona social): empieza donde ya no se lee la marca de terceros; abre el recorrido tras la mitad."
+    },
+    {
+      "id": "c07-bicicletas",
+      "clip": "zs02",
+      "desde": 5.5,
+      "que": "el banco rojo y las bicicletas del gimnasio",
+      "porque": "El gimnasio de lado (zona social, al detalle): el banco rojo y las bicicletas; cierra el paseo por el edificio antes de subir a la suite."
+    },
+    {
+      "id": "c08-repisa",
+      "clip": "rc08",
+      "desde": 4.3,
+      "que": "la repisa con la planta y la cortina gris",
+      "porque": "De fuera a dentro (la suite): la repisa con la planta y la cortina, junto al ventanal; prepara la vista."
+    },
+    {
+      "id": "c09-vista",
+      "clip": "rc07",
+      "desde": 2.7,
+      "que": "de la cama sube hasta el ventanal con la ciudad y las montañas de El Poblado al fondo",
+      "porque": "La ciudad desde el ventanal (la vista, el clímax): el plano más largo del recorrido y el último antes del CTA."
+    }
+  ],
+  "lugares": {
+    "hook": "SUITE-PASILLO-CAMINANDO",
+    "mitad": "SUITE-VENTANAL-DE-PIE",
+    "cta": "SUITE-TV-PRIMER-PLANO"
+  },
+  "cta": {
+    "regex": "agenda una visita y descubre su potencial de inversi[oó]n",
+    "accion": "agendar una visita"
+  },
+  "prohibido": "cumple|a salvo|permitid|legal|licencia|autoriz|normativ|sin riesgo|garantiz|segur[oa]\\b",
+  "porConfirmar": [
+    {
+      "toma": "hook",
+      "texto": "La interjección RECORTADA al principio de HK02 (1,22-1,53 s de la toma, antes del primer plano de esta pieza): whisper la oye «Hoy,» (0,81) y, cortando desde 1,215 s, «Hoy, una buena inversión…». Se quita porque el catálogo da la frase sin ella y el hueco de −60 dB que la separa de «una» (1,57-1,61 s) permite un corte limpio; si Isabella dijo otra cosa y se la quiere oír, hay que cambiar `VENTANA_VOZ` de `normalizar.mjs`."
+    },
+    {
+      "toma": "mitad",
+      "s": 3.13,
+      "texto": "«ubicación» y «estratégica» (MD04, {hora}): whisper las oye «y ubicaciones estratégicas» (plural) y «en la educación estratégica» en cortes distintos; la lectura es «ubicación estratégica» (el anuncio la usa: «a unos metros de la Avenida El Poblado»)."
+    },
+    {
+      "toma": "cta",
+      "s": 0.43,
+      "texto": "«Agenda» y «una» (CT06, {hora}): whisper oye «Ag» (0,36) y «una» (0,56); la «A» es muy suave (−57 → −40 dB en 20 ms). Sin ella sería «genda una visita»."
+    }
+  ]
+}

@@ -1,0 +1,457 @@
+{
+ "origen": "071",
+ "cortes": [
+  {
+   "id": "c01-edificio",
+   "bloque": 1,
+   "tipo": "video",
+   "src": "recorrido-071/dr08.mp4",
+   "desde": 0.5,
+   "en": 0,
+   "dur": 86,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El edificio visto desde el suelo (la promesa): la torre entre las plantas y el cielo. Sale SIN TEXTO NI VOZ: el frame 0 es la miniatura limpia y el hook habla de que la inversión no sea otro trabajo."
+  },
+  {
+   "id": "c02-hook",
+   "bloque": 2,
+   "tipo": "video",
+   "src": "recorrido-071/hk08.mp4",
+   "audio": "recorrido-071/hk08-voz.wav",
+   "voz": {
+    "s0": 0.9,
+    "s1": 4.26,
+    "lufs": -15,
+    "dice": "Tu inversión no debería convertirse en otro trabajo."
+   },
+   "desde": 0.43333333333333335,
+   "en": 86,
+   "dur": 121,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "disolver",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "La suite con el ventanal y la ciudad detrás (la promesa): Isabella, de pie frente a la ventana, dice «tu inversión no debería convertirse en otro trabajo». Entra disolviendo desde el exterior; la música ya está abajo."
+  },
+  {
+   "id": "c03-cama-escritorio",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-071/rc09.mp4",
+   "desde": 2.8,
+   "en": 207,
+   "dur": 69,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.06
+   },
+   "reason": "De la cama al escritorio (lo que ya está puesto): el borde de la colcha lleva la mirada al escritorio con su silla; el golpe del paseo abre el descubrimiento de una suite lista para trabajar o recibir."
+  },
+  {
+   "id": "c04-escritorio-tv",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-071/rc03.mp4",
+   "desde": 2.2,
+   "en": 276,
+   "dur": 93,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El escritorio y el televisor (lo que ya está puesto, al detalle): la mesa de trabajo, la silla y la pantalla; todo el equipamiento de la suite a la vista."
+  },
+  {
+   "id": "c05-mueble",
+   "bloque": 3,
+   "tipo": "video",
+   "src": "recorrido-071/rc08.mp4",
+   "desde": 2.1,
+   "en": 369,
+   "dur": 88,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0
+   },
+   "reason": "El mueble de la pared con su planta y su cortina (lo que ya está puesto, el ambiente): la repisa, la escultura y la luz del ventanal; cierra el paseo por lo equipado antes de volver con Isabella."
+  },
+  {
+   "id": "c06-mitad",
+   "bloque": 4,
+   "tipo": "video",
+   "src": "recorrido-071/md06.mp4",
+   "audio": "recorrido-071/md06-voz.wav",
+   "voz": {
+    "s0": 0.53,
+    "s1": 4.1,
+    "lufs": -15,
+    "dice": "Una suite hotelera con operadores turísticos listos para ti."
+   },
+   "desde": 0,
+   "en": 457,
+   "dur": 135,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "Frente al ventanal (el valor, dicho): Isabella, de pie con la ciudad detrás, dice «una suite hotelera con operadores turísticos listos para ti». Entra a corte desde el mueble."
+  },
+  {
+   "id": "c07-cabecero",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-071/rc05.mp4",
+   "desde": 5,
+   "en": 592,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.1
+   },
+   "reason": "La cama y su cabecero (cómo se vive): la cama king con los cuadros y las lámparas colgantes; lo que se encuentra el huésped al llegar. Entra a corte en el golpe, sobre la última palabra de Isabella ya dicha."
+  },
+  {
+   "id": "c08-ventana",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-071/rc10.mp4",
+   "desde": 0,
+   "en": 652,
+   "dur": 65,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.3,
+    "whites": -0.15,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.08
+   },
+   "reason": "De la cama a la ventana (cómo se vive, hacia la vista): de la almohada y la colcha a la ventana con la ciudad; el paso de lo equipado a lo que se ve desde el piso 9."
+  },
+  {
+   "id": "c09-vista",
+   "bloque": 5,
+   "tipo": "video",
+   "src": "recorrido-071/rc13.mp4",
+   "desde": 2,
+   "en": 717,
+   "dur": 73,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.1,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.35,
+    "whites": -0.2,
+    "temperature": 0.03,
+    "saturation": 1.1,
+    "vibrance": 0,
+    "exposure": -0.1
+   },
+   "reason": "La ciudad desde el ventanal (la vista, el clímax): las nubes, las montañas y los árboles de El Poblado desde el piso 9. El plano más largo del bloque."
+  },
+  {
+   "id": "c10-cta",
+   "bloque": 6,
+   "tipo": "video",
+   "src": "recorrido-071/ct09.mp4",
+   "audio": "recorrido-071/ct09-voz.wav",
+   "voz": {
+    "s0": 0.58,
+    "s1": 2.96,
+    "lufs": -15,
+    "dice": "Hablemos y conoce tus opciones de inversión."
+   },
+   "desde": 0.16666666666666666,
+   "en": 790,
+   "dur": 100,
+   "zoom": [
+    1,
+    1.04
+   ],
+   "entra": "corte",
+   "color": {
+    "contrast": 1.04,
+    "blacks": -0.06,
+    "shadows": 0.08,
+    "highlights": -0.2,
+    "whites": -0.05,
+    "temperature": 0.03,
+    "saturation": 1.04,
+    "vibrance": 0
+   },
+   "reason": "El escritorio de la suite (la invitación): Isabella, sentada, dice «hablemos y conoce tus opciones de inversión»: una sola acción. Tras su última palabra funde a negro y entra la tarjeta del cierre."
+  },
+  {
+   "id": "c11-cierre",
+   "bloque": 6,
+   "tipo": "foto",
+   "src": "recorrido-071/cierre-oscuro.png",
+   "en": 890,
+   "dur": 60,
+   "zoom": [
+    1,
+    1
+   ],
+   "entra": "corte",
+   "reason": "Cierre: la imagen de Isabella ya ha fundido a negro y no se congela; una tarjeta de fondo oscuro sostiene el logo y la web mientras la música se apaga."
+  }
+ ],
+ "GOLPE": {
+  "e0": {
+   "t": 178.043,
+   "db": 10.2
+  },
+  "hook": {
+   "t": 180.82,
+   "db": 11.5
+  },
+  "paseo1": {
+   "t": 184.846,
+   "db": 11.6
+  },
+  "paseo2": {
+   "t": 187.159,
+   "db": 10.8
+  },
+  "paseo3": {
+   "t": 190.23,
+   "db": 14.7
+  },
+  "mitad": {
+   "t": 193.193,
+   "db": 13.3
+  },
+  "alcoba": {
+   "t": 197.681,
+   "db": 11.4
+  },
+  "alcoba2": {
+   "t": 199.681,
+   "db": 13.5
+  },
+  "vista": {
+   "t": 201.859,
+   "db": 10.4
+  },
+  "cta": {
+   "t": 204.287,
+   "db": 13.6
+  }
+ },
+ "INICIO_MUSICA": 178,
+ "FIN_MUSICA": 948,
+ "DURACION": 950,
+ "DECAE": {
+  "t": 207.5,
+  "lufsAntes": -13.2,
+  "lufs5s": -23.8,
+  "lufs10s": -70
+ },
+ "audio": {
+  "LUFS_TRAMO": {
+   "apertura": -13.3,
+   "paseo": -13.7,
+   "bloque5": -13.2
+  },
+  "LUFS_CANCION_EN_VOZ": {
+   "c02-hook": -13,
+   "c06-mitad": -12.8,
+   "c10-cta": -15
+  },
+  "PICO_TRAMO": {
+   "apertura": -2.4,
+   "paseo": -2.9,
+   "bloque5": -2.7
+  },
+  "OBJETIVO_MUSICA": {
+   "apertura": -15,
+   "paseo": -15,
+   "bloque5": -15
+  },
+  "FADE_OUT": {
+   "hook": 10,
+   "mitad": 10,
+   "cta": 10
+  },
+  "FADE_IN": {
+   "hook": 15,
+   "mitad": 22
+  },
+  "RETRASO": 0,
+  "LUFS_MESETA": -13.7
+ },
+ "subs": [
+  {
+   "id": "h01",
+   "hasta": 136,
+   "trozos": [
+    {
+     "desde": 100,
+     "texto": "Tu inversión"
+    },
+    {
+     "desde": 123,
+     "texto": "no debería"
+    }
+   ]
+  },
+  {
+   "id": "h02",
+   "hasta": 204,
+   "trozos": [
+    {
+     "desde": 136,
+     "texto": "convertirse en"
+    },
+    {
+     "desde": 157,
+     "texto": "otro trabajo.",
+     "estilo": "acento"
+    }
+   ]
+  },
+  {
+   "id": "m01",
+   "hasta": 515,
+   "trozos": [
+    {
+     "desde": 472,
+     "texto": "Una suite hotelera con"
+    }
+   ]
+  },
+  {
+   "id": "m02",
+   "hasta": 584,
+   "trozos": [
+    {
+     "desde": 515,
+     "texto": "operadores",
+     "estilo": "acento"
+    },
+    {
+     "desde": 530,
+     "texto": "turísticos"
+    },
+    {
+     "desde": 551,
+     "texto": "listos para ti."
+    }
+   ]
+  },
+  {
+   "id": "c01",
+   "hasta": 877,
+   "trozos": [
+    {
+     "desde": 802,
+     "texto": "Hablemos y conoce tus"
+    },
+    {
+     "desde": 841,
+     "texto": "opciones",
+     "estilo": "acento"
+    },
+    {
+     "desde": 855,
+     "texto": "de inversión."
+    }
+   ]
+  }
+ ]
+}

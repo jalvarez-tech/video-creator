@@ -1,0 +1,103 @@
+{
+  "n": "082",
+  "origen": "073",
+  "v": "V63",
+  "angulo": "«¿Vives fuera de Colombia y quieres invertir en Medellín?» → una suite hotelera con matrícula independiente",
+  "cancion": "Chillin' (Chillstep Mix)",
+  "T1": 205,
+  "T2": 253,
+  "T3": 315,
+  "B": 486,
+  "rapidos": [
+    {
+      "id": "c03-fachada",
+      "clip": "dr02",
+      "desde": 1.0,
+      "que": "la fachada oscura de voladizos con el destello del sol, inclinando hacia la entrada de vidrio",
+      "porque": "El edificio con el sol de frente (lo más vistoso, antes del segundo 10): para quien vive fuera, lo primero es ver qué edificio es. Primer plano rápido: quien solo mira diez segundos ya ve qué se vende."
+    },
+    {
+      "id": "c04-ventana",
+      "clip": "rc10",
+      "desde": 0,
+      "que": "de la cama sube al ventanal con la ciudad y las montañas de El Poblado",
+      "porque": "De la cama a la ciudad (lo que se recibe, antes del segundo 10): la vista de la suite en dos segundos. Segundo plano rápido; con él se cumplen los diez segundos y vuelve Isabella."
+    }
+  ],
+  "recorrido": [
+    {
+      "id": "c06-puerta",
+      "clip": "rc12",
+      "desde": 1.0,
+      "que": "una mano abre la puerta con la tarjeta y la cámara entra al pasillo de la cocineta",
+      "porque": "La puerta (el umbral): una mano abre y la cámara entra; es el puente humano que abre el recorrido tras la mitad."
+    },
+    {
+      "id": "c07-cocineta",
+      "clip": "rc02",
+      "desde": 0.6,
+      "que": "la cocineta con el microondas, la nevera, la cafetera y la estufa",
+      "porque": "La cocineta (lo práctico): todo puesto para quien llega; viene tras la puerta, en el orden del pasillo."
+    },
+    {
+      "id": "c08-umbral",
+      "clip": "rc03",
+      "desde": 0.6,
+      "que": "del espejo de la entrada a una panorámica del escritorio y el televisor",
+      "porque": "El pasillo hacia la habitación (lo que sigue): del espejo de la entrada a la panorámica del escritorio y el televisor."
+    },
+    {
+      "id": "c09-tv",
+      "clip": "rc11",
+      "desde": 3.0,
+      "que": "del televisor y el escritorio con la silla azul, con la cama al fondo",
+      "porque": "El televisor y el escritorio (lo práctico, al detalle): la mesa de trabajo y la pantalla de la suite."
+    },
+    {
+      "id": "c10-cama",
+      "clip": "rc06",
+      "desde": 4.5,
+      "que": "la cama king y, al fondo, el sofá gris con el aire acondicionado",
+      "porque": "La cama y el sofá (cómo se vive): el descanso de la suite; prepara la subida al ventanal."
+    },
+    {
+      "id": "c11-vista",
+      "clip": "rc07",
+      "desde": 1.5,
+      "que": "de la cama sube hasta el ventanal con la ciudad y las montañas de El Poblado al fondo",
+      "porque": "La ciudad desde el ventanal (la vista, el clímax): el plano más largo del recorrido y el último antes del CTA."
+    }
+  ],
+  "lugares": {
+    "hook": "TERRAZA-DE-PIE",
+    "mitad": "SUITE-VENTANAL-ACERCANDOSE",
+    "cta": "LOUNGE-SOFA-SENTADA"
+  },
+  "cta": {
+    "regex": "go living suites en medell[ií]n",
+    "accion": "pedir más información por el enlace sobre Go Living Suites"
+  },
+  "porConfirmar": [
+    {
+      "toma": "hook",
+      "s": 0.57,
+      "texto": "«vives» (HK10, {hora}): whisper oye «Vivo» en la toma entera (confianza 0,16-0,14); «¿Vives fuera de Colombia…?» es la lectura por gramática y por la pregunta que sigue. Y «Medellín» (0,36)."
+    },
+    {
+      "toma": "mitad",
+      "s": 3.47,
+      "texto": "«en edificios con reconocimiento» (MD01, {hora}): una afirmación de Isabella que el anuncio no recoge; hay que confirmarla con el usuario además de oírla. Y «matrícula independiente» (consta en el anuncio)."
+    },
+    {
+      "toma": "cta",
+      "s": 0.6,
+      "texto": "«Haz» (CT10, {hora}): whisper la oye con confianza 0,14 (es la sílaba suelta de 0,62-0,74 s, antes del cierre de la «c»)."
+    },
+    {
+      "toma": "cta",
+      "s": 3.33,
+      "texto": "«Go Living Suites» (CT10, {hora}): whisper oye «StatSuite» (0,04); el anuncio dice «Go Living Suites»."
+    }
+  ],
+  "dbMinRecorrido": 9
+}

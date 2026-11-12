@@ -1,0 +1,5 @@
+# HK05 (IMG_4956), usada como MITAD. La voz arranca a 0,39 s y acaba a 4,10 s (perfil de energía; limites-voz.py la daba hasta 3,73 s y dejaba fuera la cola de «establecida»). Whisper oye «Descubró Nezit en un edificio con operación hotelera establecida».
+# Arranques de sílaba medidos: Descubre 0,395 · en (tras una pausa de 0,17 s) 1,23 · con 2,06 · operación 2,275 · hotelera 2,75 · establecida 3,345 (tras una pausa de 0,14 s).
+# POR CONFIRMAR AL OÍDO: «Descubre una suite» (whisper oye «Descubro en EZID», confianzas 0,31-0,58: «una suite» va muy rápido) y «hotelera» (whisper 0,51).
+Descubre una suite / en un edificio
+con operación / hotelera / **establecida.**
