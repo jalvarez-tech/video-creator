@@ -1,0 +1,40 @@
+{
+  "inicio": 6.066666666666666,
+  "fuente": "musica-adagio-pieza-2.wav",
+  "apertura": {
+    "desde": 6.167,
+    "hasta": 9.333,
+    "lufs": -15.6,
+    "pico": -6.1
+  },
+  "paseo": {
+    "desde": 12.633,
+    "hasta": 16.367,
+    "lufs": -15.7,
+    "pico": -4.8
+  },
+  "bloque5": {
+    "desde": 23.233,
+    "hasta": 40.4,
+    "lufs": -17.1,
+    "pico": -4.9
+  },
+  "c02-hook": {
+    "desde": 9.737,
+    "hasta": 11.827,
+    "lufs": -15.3,
+    "pico": -7.4
+  },
+  "c05-mitad": {
+    "desde": 16.837,
+    "hasta": 22.807,
+    "lufs": -14.7,
+    "pico": -4.8
+  },
+  "c11-cta": {
+    "desde": 40.857,
+    "hasta": 42.117,
+    "lufs": -23,
+    "pico": -8.9
+  }
+}

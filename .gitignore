@@ -179,3 +179,6 @@ proyectos/*/hf/snapshots/
 **/.trashed-*
 # Los .gitkeep sujetan carpetas vacías; siempre entran.
 !**/.gitkeep
+remotion/public/recorrido-088/
+remotion/public/recorrido-089/
+remotion/public/recorrido-090/

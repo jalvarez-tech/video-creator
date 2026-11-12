@@ -1,0 +1,2 @@
+# CT03 (IMG_5180). La voz arranca a 0,68 s y acaba a 2,16 s (perfil de energía). Whisper oye la frase entera con confianza alta.
+Conoce / la experiencia / completa.

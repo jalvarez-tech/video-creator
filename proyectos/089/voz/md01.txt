@@ -1,0 +1,4 @@
+# MD01 (IMG_5170). La voz arranca a 0,57 s y acaba a 6,54 s (perfil de energía). Whisper oye «Los grandes ventanales, el deque panorámico y el pato interior…» (deck / patio); el texto es el del guion.
+Los grandes / ventanales,
+el deck panorámico / y el patio interior
+acercan la naturaleza / a cada momento / del día.

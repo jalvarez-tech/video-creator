@@ -1,0 +1,4 @@
+# HK04 (IMG_5181). La voz arranca a 0,61 s y acaba a 3,33 s (perfil de energía, banda de voz). Whisper oye «Y si tus mejores reuniones empezarán con esta vista.».
+# POR CONFIRMAR AL OÍDO: «empezaran» (subjuntivo, lo correcto tras «Y si…») o «empezarán» (whisper, dos de tres pasadas); no se distinguen por las sílabas.
+Y si tus mejores / reuniones
+empezaran / con esta vista.
