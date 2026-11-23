@@ -190,3 +190,19 @@ proyectos/*/hf/snapshots/
 remotion/public/recorrido-088/
 remotion/public/recorrido-089/
 remotion/public/recorrido-090/
+# 097-106 · Fundación MAS: material con menores (y la foto de grupo); nunca entra en git.
+remotion/public/mas-097/
+remotion/public/mas-098/
+remotion/public/mas-099/
+remotion/public/mas-100/
+remotion/public/mas-101/
+remotion/public/mas-106/
+# Y sus TEXTOS de material: las transcripciones, los mapas y el análisis nombran a niñas y citan lo que dicen, y el
+# repo es público. Viven en el SSD del usuario (`MAS/material-097/`, copiados y verificados el 2026-11-23); en git solo
+# quedan las referencias de marca (logos, QR, letras) que usan las recetas.
+proyectos/097/material/*
+!proyectos/097/material/referencias/
+# El cartel de la campaña lleva la foto de una niña: tampoco entra (está en el SSD; el código solo lo cita).
+proyectos/097/material/referencias/estrellitas-2026.jpg
+proyectos/09[7-9]/material/palabras-*.json
+proyectos/10[0-9]/material/palabras-*.json

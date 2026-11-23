@@ -1,0 +1,153 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "archivos/whisper/ggml-small.bin",
+		"language": "es",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:29,740"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 29740
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:30,000",
+				"to": "00:00:59,960"
+			},
+			"offsets": {
+				"from": 30000,
+				"to": 59960
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:00,000",
+				"to": "00:01:26,920"
+			},
+			"offsets": {
+				"from": 60000,
+				"to": 86920
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:26,920",
+				"to": "00:01:56,900"
+			},
+			"offsets": {
+				"from": 86920,
+				"to": 116900
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:56,920",
+				"to": "00:02:26,880"
+			},
+			"offsets": {
+				"from": 116920,
+				"to": 146880
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:26,920",
+				"to": "00:02:46,880"
+			},
+			"offsets": {
+				"from": 146920,
+				"to": 166880
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:46,880",
+				"to": "00:03:06,840"
+			},
+			"offsets": {
+				"from": 166880,
+				"to": 186840
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:06,840",
+				"to": "00:03:26,800"
+			},
+			"offsets": {
+				"from": 186840,
+				"to": 206800
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:26,800",
+				"to": "00:03:46,760"
+			},
+			"offsets": {
+				"from": 206800,
+				"to": 226760
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:46,760",
+				"to": "00:04:06,720"
+			},
+			"offsets": {
+				"from": 226760,
+				"to": 246720
+			},
+			"text": " [Música de cierre]"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:06,720",
+				"to": "00:04:26,680"
+			},
+			"offsets": {
+				"from": 246720,
+				"to": 266680
+			},
+			"text": " [Música de cierre]"
+		}
+	]
+}
